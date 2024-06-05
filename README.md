@@ -8,6 +8,12 @@
 npm install
 ```
 
-2. Run VScode extension debugger (F5).
+2. Build the extension with:
 
-3. In VScode command palette run ">Open drag and drop editor".
+```bash
+npm build
+```
+
+3. Run VScode extension debugger (F5).
+
+4. In VScode command palette run ">Open drag and drop editor".
