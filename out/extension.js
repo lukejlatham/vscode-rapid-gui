@@ -51,7 +51,6 @@ function getWebviewContent(scriptUri, styleUri) {
     </head>
     <body>
         <div id="editor" class="editor"></div>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/interact.js/1.10.11/interact.min.js"></script>
         <script src="${scriptUri}"></script>
     </body>
     </html>`;
