@@ -1,0 +1,11 @@
+/* src/components/NodeTree/NodeTreeRepresentation.css */
+
+.node-tree-representation-container {
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
+
+.node-tree-representation {
+  margin-top: 10px;
+}

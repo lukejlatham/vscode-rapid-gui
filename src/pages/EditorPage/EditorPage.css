@@ -1,0 +1,15 @@
+/* src/pages/EditorPage/EditorPage.css */
+
+/* src/pages/EditorPage/EditorPage.css */
+
+.editor-page {
+  display: flex;
+  height: 100vh;
+}
+
+.editor-section {
+  flex: 1;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+  overflow-y: auto;
+}

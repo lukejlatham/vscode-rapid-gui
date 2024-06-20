@@ -1,0 +1,56 @@
+/* src/components/CraftEditor/CraftEditor.css */
+
+:root {
+  --background-color: #f0f0f0;
+  --box-background-color: #fff;
+  --box-border-color: #ddd;
+  --box-shadow-color: rgba(0, 0, 0, 0.1);
+  --box-padding: 1.25rem;
+  --box-margin: 0.625rem;
+}
+
+.craft-editor {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh;
+  background-color: var(--background-color);
+}
+
+.editor-container {
+  display: flex;
+  width: 90%;
+  max-width: 75rem; /* 1200px */
+  margin-top: 1.25rem; /* 20px */
+}
+
+.editor-section {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.editor-box,
+.node-tree-box {
+  display: flex;
+  flex-direction: column;
+  padding: var(--box-padding);
+  background-color: var(--box-background-color);
+  border: 1px solid var(--box-border-color);
+  box-shadow: 0 0 0.625rem var(--box-shadow-color);
+  margin: var(--box-margin);
+  flex: 1;
+}
+
+.node-tree-box {
+  overflow-y: auto;
+  max-height: 80vh; /* Adjust based on your layout needs */
+}
+
+.additional-box {
+  padding: var(--box-padding);
+  background-color: var(--box-background-color);
+  border: 1px solid var(--box-border-color);
+  box-shadow: 0 0 0.625rem var(--box-shadow-color);
+  margin-top: 1.25rem; /* 20px */
+}

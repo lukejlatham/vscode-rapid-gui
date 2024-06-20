@@ -1,0 +1,18 @@
+/* src/components/NodeTree/NodeTree.css */
+
+.node-tree-container {
+  height: 100%;
+  max-height: 400px; /* Adjust based on your layout needs */
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  padding: 10px;
+  background-color: #fff;
+}
+
+.node-tree-content {
+  white-space: pre-wrap; /* Preserve whitespace formatting */
+}
+
+.node-tree-representation {
+  margin-top: 20px;
+}
