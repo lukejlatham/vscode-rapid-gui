@@ -7,11 +7,18 @@ export function activate(context: vscode.ExtensionContext) {
         'testWebview', // Identifies the type of the webview. Used internally
         'Test Webview', // Title of the panel displayed to the user
         vscode.ViewColumn.One, // Editor column to show the new webview panel in
-        {} // Webview options. More on these later.
+        {} // Webview options
       );
 
       panel.webview.html = getWebviewContent();
     })
+  );
+
+  context.subscriptions.push(
+    vscode.window.registerWebviewViewProvider(
+      'vscodeTest2View',
+      new TestViewProvider(context)
+    )
   );
 }
 
@@ -28,6 +35,18 @@ function getWebviewContent() {
       <p>This is your webview content.</p>
     </body>
     </html>`;
+}
+
+class TestViewProvider implements vscode.WebviewViewProvider {
+  constructor(private readonly context: vscode.ExtensionContext) {}
+
+  resolveWebviewView(webviewView: vscode.WebviewView) {
+    webviewView.webview.options = {
+      enableScripts: true,
+    };
+
+    webviewView.webview.html = getWebviewContent();
+  }
 }
 
 export function deactivate() {}

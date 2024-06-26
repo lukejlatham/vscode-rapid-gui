@@ -9,14 +9,29 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
-
-    "contributes": {
+  "activationEvents": [
+    "onView:vscodeTest2Sidebar"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "vscodeTest2Sidebar",
+          "title": "Test Sidebar",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "vscodeTest2Sidebar": [
+        {
+          "id": "vscodeTest2View",
+          "name": "Test View"
+        }
+      ]
+    },
     "commands": [
-      {
-        "command": "vscode-test-2.helloWorld",
-        "title": "Hello World"
-      },
       {
         "command": "vscode-test-2.openWebView",
         "title": "Open WebView"

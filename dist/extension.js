@@ -46,10 +46,16 @@ function activate(context) {
         vscode.ViewColumn.One,
         // Editor column to show the new webview panel in
         {}
-        // Webview options. More on these later.
+        // Webview options
       );
       panel.webview.html = getWebviewContent();
     })
+  );
+  context.subscriptions.push(
+    vscode.window.registerWebviewViewProvider(
+      "vscodeTest2View",
+      new TestViewProvider(context)
+    )
   );
 }
 function getWebviewContent() {
@@ -66,6 +72,17 @@ function getWebviewContent() {
     </body>
     </html>`;
 }
+var TestViewProvider = class {
+  constructor(context) {
+    this.context = context;
+  }
+  resolveWebviewView(webviewView) {
+    webviewView.webview.options = {
+      enableScripts: true
+    };
+    webviewView.webview.html = getWebviewContent();
+  }
+};
 function deactivate() {
 }
 // Annotate the CommonJS export names for ESM import in node:
