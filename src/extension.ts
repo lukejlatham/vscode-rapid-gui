@@ -54,16 +54,82 @@ class TestViewProvider implements vscode.TreeDataProvider<TreeItem> {
   }
 
   getChildren(element?: TreeItem): Thenable<TreeItem[]> {
-    return Promise.resolve(this.getMockData());
+    if (element) {
+      return Promise.resolve(this.getMockData(element.label));
+    } else {
+      // Return the parent items
+      return Promise.resolve([
+        new TreeItem('Create New Project', vscode.TreeItemCollapsibleState.Collapsed),
+        new TreeItem('Recent Projects', vscode.TreeItemCollapsibleState.Collapsed),
+        new TreeItem('Settings', vscode.TreeItemCollapsibleState.Collapsed)
+      ]);
+    }
   }
 
-  private getMockData(): TreeItem[] {
-    const item = new TreeItem('Open Home Page', vscode.TreeItemCollapsibleState.None, {
-      command: 'vscode-test-2.openWebView',
-      title: 'Open Home Page',
-      arguments: []
-    });
-    return [item];
+  private getMockData(section: string): TreeItem[] {
+    switch (section) {
+      case 'Create New Project':
+        return [
+          new TreeItem('Create from Scratch', vscode.TreeItemCollapsibleState.None, {
+            command: 'vscode-test-2.openWebView',
+            title: 'Create from Scratch',
+            arguments: []
+          }),
+          new TreeItem('Create from Sketch', vscode.TreeItemCollapsibleState.None, {
+            command: 'vscode-test-2.openWebView',
+            title: 'Create from Sketch',
+            arguments: []
+          }),
+          new TreeItem('Create from Prompt', vscode.TreeItemCollapsibleState.None, {
+            command: 'vscode-test-2.openWebView',
+            title: 'Create from Prompt',
+            arguments: []
+          }),
+          new TreeItem('Create from Template', vscode.TreeItemCollapsibleState.None, {
+            command: 'vscode-test-2.openWebView',
+            title: 'Create from Template',
+            arguments: []
+          })
+        ];
+      case 'Recent Projects':
+        return [
+          new TreeItem('my-issues.github-issues', vscode.TreeItemCollapsibleState.None, {
+            command: 'vscode-test-2.openWebView',
+            title: 'my-issues.github-issues',
+            arguments: []
+          }),
+          new TreeItem('fortune500.ipynb', vscode.TreeItemCollapsibleState.None, {
+            command: 'vscode-test-2.openWebView',
+            title: 'fortune500.ipynb',
+            arguments: []
+          }),
+          new TreeItem('sample.ipynb', vscode.TreeItemCollapsibleState.None, {
+            command: 'vscode-test-2.openWebView',
+            title: 'sample.ipynb',
+            arguments: []
+          }),
+          new TreeItem('playground.ipynb', vscode.TreeItemCollapsibleState.None, {
+            command: 'vscode-test-2.openWebView',
+            title: 'playground.ipynb',
+            arguments: []
+          })
+        ];
+      case 'Settings':
+        return [
+          new TreeItem('What\'s New', vscode.TreeItemCollapsibleState.None, {
+            command: 'vscode-test-2.openWebView',
+            title: 'What\'s New',
+            arguments: []
+          }),
+          new TreeItem('Extension Documentation', vscode.TreeItemCollapsibleState.None, {
+            command: 'vscode-test-2.openWebView',
+            title: 'Extension Documentation',
+            arguments: []
+          })
+        ];
+      default:
+        return [];
+    }
   }
 
   refresh(): void {
