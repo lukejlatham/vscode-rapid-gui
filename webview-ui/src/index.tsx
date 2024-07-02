@@ -1,14 +1,14 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./App";
-import { FluentProvider, teamsDarkTheme } from '@fluentui/react-components';
-
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './assets/styles/global.css';
+import App from './App';
 
 ReactDOM.render(
   <React.StrictMode>
-    <FluentProvider theme={teamsDarkTheme}>
-      <App />
-    </FluentProvider>
+    <App />
   </React.StrictMode>,
-  document.getElementById("root")
+  document.getElementById('root')
 );
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
