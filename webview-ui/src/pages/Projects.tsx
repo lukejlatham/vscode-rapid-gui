@@ -16,11 +16,15 @@ import {
 
 
 const useStyles = makeStyles({
+    // container: {
+    //     gap: "20px",
+    //     display: "flex",
+    //     flexDirection: "row",
+    //     alignItems: "center"
+    // },
     container: {
-        gap: "20px",
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center"
+        display: "grid",
+        gridTemplateColumns: "10% 90%",
     },
     text: {
         fontSize: "20px",
@@ -107,7 +111,6 @@ const Projects: React.FC = () => {
                 <DataGrid items={items} columns={columns} style={{ minWidth: "550px" }} getRowId={(item) => item.name}>
                     <DataGridHeader>
                         <DataGridRow
-                            
                         >
                             {({ renderHeaderCell }) => (
                                 <DataGridHeaderCell>{renderHeaderCell()}</DataGridHeaderCell>
