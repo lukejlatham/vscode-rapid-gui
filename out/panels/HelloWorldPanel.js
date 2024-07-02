@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.HelloWorldPanel = void 0;
 const vscode_1 = require("vscode");
-const getUri_1 = require("../utilities/getUri");
 const getNonce_1 = require("../utilities/getNonce");
 /**
  * This class manages the state and behavior of HelloWorld webview panels.
@@ -24,6 +23,7 @@ class HelloWorldPanel {
     constructor(panel, extensionUri) {
         this._disposables = [];
         this._panel = panel;
+        console.log("HelloWorldPanel constructor called");
         // Set an event listener to listen for when the panel is disposed (i.e. when the user closes
         // the panel or when the panel is closed programmatically)
         this._panel.onDidDispose(() => this.dispose(), null, this._disposables);
@@ -39,6 +39,7 @@ class HelloWorldPanel {
      * @param extensionUri The URI of the directory containing the extension.
      */
     static render(extensionUri) {
+        console.log("Rendering HelloWorldPanel", HelloWorldPanel.currentPanel ? "Reusing existing panel" : "Creating new panel");
         if (HelloWorldPanel.currentPanel) {
             // If the webview panel already exists reveal it
             HelloWorldPanel.currentPanel._panel.reveal(vscode_1.ViewColumn.One);
@@ -66,6 +67,7 @@ class HelloWorldPanel {
      * Cleans up and disposes of webview resources when the webview panel is closed.
      */
     dispose() {
+        console.log("Disposing HelloWorldPanel and its resources");
         HelloWorldPanel.currentPanel = undefined;
         // Dispose of the current webview panel
         this._panel.dispose();
@@ -89,23 +91,19 @@ class HelloWorldPanel {
      * rendered within the webview panel
      */
     _getWebviewContent(webview, extensionUri) {
+        console.log("Setting HTML content for the webview");
         // The CSS file from the React build output
-        const stylesUri = (0, getUri_1.getUri)(webview, extensionUri, [
-            "webview-ui",
-            "build",
-            "static",
-            "css",
-            "main.css",
-        ]);
+        console.debug("Getting CSS URI");
+        const stylesUri = webview.asWebviewUri(vscode_1.Uri.joinPath(extensionUri, "webview-ui", "build", "static", "css", "main.css"));
+        console.debug("CSS URI obtained:", stylesUri.toString());
         // The JS file from the React build output
-        const scriptUri = (0, getUri_1.getUri)(webview, extensionUri, [
-            "webview-ui",
-            "build",
-            "static",
-            "js",
-            "main.js",
-        ]);
+        console.debug("Getting JS URI");
+        const scriptUri = webview.asWebviewUri(vscode_1.Uri.joinPath(extensionUri, "webview-ui", "build", "static", "js", "main.js"));
+        console.debug("JS URI obtained:", scriptUri.toString());
+        console.log("Styles URI:", stylesUri.toString());
+        console.log("Script URI:", scriptUri.toString());
         const nonce = (0, getNonce_1.getNonce)();
+        console.debug("Nonce generated:", nonce);
         // Tip: Install the es6-string-html VS Code extension to enable code highlighting below
         return /*html*/ `
       <!DOCTYPE html>
@@ -114,7 +112,12 @@ class HelloWorldPanel {
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
           <meta name="theme-color" content="#000000">
-          <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource}; script-src 'nonce-${nonce}';">
+          <meta http-equiv="Content-Security-Policy" content="
+            default-src 'none'; 
+            img-src https: vscode-resource:; 
+            script-src 'nonce-${nonce}' vscode-resource:; 
+            style-src 'unsafe-inline' vscode-resource:;
+          ">
           <link rel="stylesheet" type="text/css" href="${stylesUri}">
           <title>Hello World</title>
         </head>
@@ -128,10 +131,9 @@ class HelloWorldPanel {
     }
     /**
      * Sets up an event listener to listen for messages passed from the webview context and
-     * executes code based on the message that is recieved.
+     * executes code based on the message that is received.
      *
      * @param webview A reference to the extension webview
-     * @param context A reference to the extension context
      */
     _setWebviewMessageListener(webview) {
         webview.onDidReceiveMessage((message) => {
