@@ -39,6 +39,8 @@
     "vscode-test": "^1.5.0"
   },
   "dependencies": {
-    "all": "^0.0.0"
+    "all": "^0.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   }
 }

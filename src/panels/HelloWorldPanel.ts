@@ -25,6 +25,8 @@ export class HelloWorldPanel {
    */
   private constructor(panel: WebviewPanel, extensionUri: Uri) {
     this._panel = panel;
+    console.log("HelloWorldPanel constructor called");
+
 
     // Set an event listener to listen for when the panel is disposed (i.e. when the user closes
     // the panel or when the panel is closed programmatically)
@@ -44,6 +46,8 @@ export class HelloWorldPanel {
    * @param extensionUri The URI of the directory containing the extension.
    */
   public static render(extensionUri: Uri) {
+    console.log("Rendering HelloWorldPanel", HelloWorldPanel.currentPanel ? "Reusing existing panel" : "Creating new panel");
+
     if (HelloWorldPanel.currentPanel) {
       // If the webview panel already exists reveal it
       HelloWorldPanel.currentPanel._panel.reveal(ViewColumn.One);
@@ -73,6 +77,8 @@ export class HelloWorldPanel {
    * Cleans up and disposes of webview resources when the webview panel is closed.
    */
   public dispose() {
+    console.log("Disposing HelloWorldPanel and its resources");
+
     HelloWorldPanel.currentPanel = undefined;
 
     // Dispose of the current webview panel
@@ -99,7 +105,10 @@ export class HelloWorldPanel {
    * rendered within the webview panel
    */
   private _getWebviewContent(webview: Webview, extensionUri: Uri) {
+    console.log("Setting HTML content for the webview");
+
     // The CSS file from the React build output
+    console.debug("Getting CSS URI");
     const stylesUri = getUri(webview, extensionUri, [
       "webview-ui",
       "build",
@@ -107,7 +116,10 @@ export class HelloWorldPanel {
       "css",
       "main.css",
     ]);
+    console.debug("CSS URI obtained:", stylesUri.toString());
+
     // The JS file from the React build output
+    console.debug("Getting JS URI");
     const scriptUri = getUri(webview, extensionUri, [
       "webview-ui",
       "build",
@@ -115,30 +127,42 @@ export class HelloWorldPanel {
       "js",
       "main.js",
     ]);
+    console.debug("JS URI obtained:", scriptUri.toString());
+
+    console.log("Styles URI:", stylesUri.toString());
+    console.log("Script URI:", scriptUri.toString());
 
     const nonce = getNonce();
+    console.debug("Nonce generated:", nonce);
+// Tip: Install the es6-string-html VS Code extension to enable code highlighting below
+// Assuming 'webview' is your instance of the Webview class and 'extensionUri' is the URI of your extension's root directory
 
-    // Tip: Install the es6-string-html VS Code extension to enable code highlighting below
-    return /*html*/ `
-      <!DOCTYPE html>
-      <html lang="en">
-        <head>
-          <meta charset="utf-8">
-          <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
-          <meta name="theme-color" content="#000000">
-          <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource}; script-src 'nonce-${nonce}';">
-          <link rel="stylesheet" type="text/css" href="${stylesUri}">
-          <title>Hello World</title>
-        </head>
-        <body>
-          <noscript>You need to enable JavaScript to run this app.</noscript>
-          <div id="root"></div>
-          <script nonce="${nonce}" src="${scriptUri}"></script>
-        </body>
-      </html>
-    `;
-  }
 
+// Update your HTML content with the correct CSP
+console.debug("Generating HTML content");
+return /*html*/ `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+  <meta name="theme-color" content="#000000">
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'none'; 
+    img-src https: vscode-resource:; 
+    script-src 'nonce-${nonce}' vscode-resource:; 
+    style-src 'unsafe-inline' https: vscode-resource:;
+    ">
+  <link rel="stylesheet" type="text/css" href="${stylesUri}">
+  <title>Hello World</title>
+</head>
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
+  <script nonce="${nonce}" src="${scriptUri}"></script>
+</body>
+</html>
+`;}
   /**
    * Sets up an event listener to listen for messages passed from the webview context and
    * executes code based on the message that is recieved.
@@ -147,6 +171,7 @@ export class HelloWorldPanel {
    * @param context A reference to the extension context
    */
   private _setWebviewMessageListener(webview: Webview) {
+
     webview.onDidReceiveMessage(
       (message: any) => {
         const command = message.command;
