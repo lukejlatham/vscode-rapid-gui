@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   NavDrawer,
   NavDrawerHeader,
@@ -7,9 +8,7 @@ import {
   NavDivider,
   Hamburger,
 } from '@fluentui/react-nav-preview';
-import {  Tooltip,
-  makeStyles,}
-  from '@fluentui/react-components'
+import { Tooltip, makeStyles } from '@fluentui/react-components';
 import {
   Board20Filled,
   Board20Regular,
@@ -38,6 +37,7 @@ const Deleted = bundleIcon(Delete20Filled, Delete20Regular);
 const NavBar: React.FC = () => {
   const styles = useStyles();
   const [isOpen, setIsOpen] = React.useState(true);
+  const navigate = useNavigate();
 
   const renderHamburgerWithToolTip = () => (
     <Tooltip content="Navigation" relationship="label">
@@ -45,21 +45,49 @@ const NavBar: React.FC = () => {
     </Tooltip>
   );
 
+  const handleNavigation = (
+    e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement, MouseEvent>,
+    path: string
+  ) => {
+    e.preventDefault();
+    navigate(path);
+  };
+
   return (
     <div className={styles.root}>
       <NavDrawer open={isOpen} type="inline">
         <NavDrawerHeader>{renderHamburgerWithToolTip()}</NavDrawerHeader>
         <NavDrawerBody>
-          <NavItem href="/" icon={<Dashboard />} value="1">
+          <NavItem
+            href="/"
+            icon={<Dashboard />}
+            value="1"
+            onClick={(e) => handleNavigation(e, '/')}
+          >
             Home
           </NavItem>
-          <NavItem href="/templates" icon={<Templates />} value="2">
+          <NavItem
+            href="/templates"
+            icon={<Templates />}
+            value="2"
+            onClick={(e) => handleNavigation(e, '/templates')}
+          >
             Templates
           </NavItem>
-          <NavItem href="/my-projects" icon={<Projects />} value="3">
+          <NavItem
+            href="/my-projects"
+            icon={<Projects />}
+            value="3"
+            onClick={(e) => handleNavigation(e, '/my-projects')}
+          >
             My Projects
           </NavItem>
-          <NavItem href="/deleted" icon={<Deleted />} value="4">
+          <NavItem
+            href="/deleted"
+            icon={<Deleted />}
+            value="4"
+            onClick={(e) => handleNavigation(e, '/deleted')}
+          >
             Deleted
           </NavItem>
           <NavDivider />
