@@ -15,7 +15,7 @@ const App: React.FC = () => {
           <Route path="/templates" element={<Templates />} />
             <Route path=":templateId" element={<Templates />} />
           <Route path="/projects" element={<Projects />} />
-          <Route path="/edit" element={<EditingInterface />} />
+          {/* <Route path="/edit" element={<EditingInterface />} /> */}
             {/* <Route path=":projectId" element={<Projects />} /> */}
           <Route path="/deleted" element={<Deleted />} />
         </Routes>
