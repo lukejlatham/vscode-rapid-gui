@@ -1,12 +1,15 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import AppRoutes from './routes/AppRoutes';
+import { FluentProvider, teamsDarkTheme } from '@fluentui/react-components';
 
 const App: React.FC = () => {
   return (
-    <Router>
-      <AppRoutes />
-    </Router>
+    <FluentProvider theme={teamsDarkTheme}>
+      <Router>
+        <AppRoutes />
+      </Router>
+    </FluentProvider>
   );
 };
 
