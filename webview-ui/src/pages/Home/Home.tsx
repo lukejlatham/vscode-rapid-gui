@@ -1,7 +1,18 @@
 import React from 'react';
-import { Text, LargeTitle, Title2, Body2, Subtitle1, makeStyles, Card, CardHeader, CardPreview, CardFooter } from '@fluentui/react-components';
+import {
+    Text, LargeTitle, Body2, makeStyles, Card, CardHeader, CardPreview, CardFooter, Dialog,
+    DialogTrigger,
+    DialogSurface,
+    DialogTitle,
+    DialogContent,
+    DialogBody,
+    DialogActions,
+    Button
+} from '@fluentui/react-components';
+import { DrawImageRegular, TextAddRegular, CursorHoverRegular } from '@fluentui/react-icons';
 import { Link } from 'react-router-dom';
 import Projects from '../Projects/Projects';
+
 
 const useStyles = makeStyles({
     newProjectButton: {
@@ -51,12 +62,31 @@ const useStyles = makeStyles({
 
 const Home: React.FC = () => {
     const styles = useStyles();
+    const [open, setOpen] = React.useState(false);
     return (
         <>
             <div>
                 <LargeTitle>Welcome to UI Studio</LargeTitle>
                 <br />
-                <Link to="/" className={styles.newProjectButton}>+ Start New Project</Link>
+                {/* <Link to="/" className={styles.newProjectButton}>+ Start New Project</Link> */}
+                <Dialog open={open} onOpenChange={(event, data) => setOpen(data.open)}>
+                    <DialogTrigger disableButtonEnhancement>
+                        <Button appearance='subtle'>+ Start New Project</Button>
+                    </DialogTrigger>
+                    <DialogSurface>
+                        <DialogBody>
+                            <DialogTitle>New Project</DialogTitle>
+                            <DialogContent>
+                                Choose how you would like to begin your project
+                            </DialogContent>
+                            <DialogActions fluid>
+                                    <Button appearance="secondary" icon={<CursorHoverRegular/>}>Scratch</Button>
+                                    <Button appearance="secondary" icon={<TextAddRegular/>}>Prompt</Button>
+                                    <Button appearance="secondary" icon={<DrawImageRegular/>}>Sketch</Button>
+                            </DialogActions>
+                        </DialogBody>
+                    </DialogSurface>
+                </Dialog>
             </div>
             <div>
                 <br />
