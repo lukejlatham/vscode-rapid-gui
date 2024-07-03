@@ -8,10 +8,31 @@
   },
   "main": "./out/extension.js",
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "UIStudio",
+          "title": "UI Studio",
+          "icon": "assets/small-duck.svg"
+        }
+      ]
+    },
+    "views": {
+      "UIStudio": [ 
+        {
+          "id": "sidebar.showSideBar",
+          "name": "Sidebar Panel"
+        }
+      ]
+    },
     "commands": [
       {
         "command": "hello-world.showHelloWorld",
         "title": "Hello World (React + CRA): Show"
+      },
+      {
+        "command": "sidebar.showSideBar",
+        "title": "Show Side Bar"
       }
     ]
   },
@@ -29,7 +50,7 @@
   "devDependencies": {
     "@types/glob": "^7.1.3",
     "@types/node": "^12.11.7",
-    "@types/vscode": "^1.46.0",
+    "@types/vscode": "^1.90.0",
     "@typescript-eslint/eslint-plugin": "^4.14.1",
     "@typescript-eslint/parser": "^4.14.1",
     "eslint": "^7.19.0",
@@ -39,6 +60,7 @@
     "vscode-test": "^1.5.0"
   },
   "dependencies": {
+    "@vscode/webview-ui-toolkit": "^1.4.0",
     "all": "^0.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"

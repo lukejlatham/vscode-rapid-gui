@@ -1,15 +1,28 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.activate = void 0;
-const vscode_1 = require("vscode");
+exports.deactivate = exports.activate = void 0;
+const vscode = require("vscode");
 const HelloWorldPanel_1 = require("./panels/HelloWorldPanel");
+const SideBarProvider_1 = require("./panels/SideBarProvider");
 function activate(context) {
-    // Create the show hello world command
-    const showHelloWorldCommand = vscode_1.commands.registerCommand("hello-world.showHelloWorld", () => {
+    // Existing HelloWorldPanel command
+    const showHelloWorldCommand = vscode.commands.registerCommand('hello-world.showHelloWorld', () => {
         HelloWorldPanel_1.HelloWorldPanel.render(context.extensionUri);
     });
-    // Add command to the extension context
+    // Add command to the extension context for HelloWorldPanel
     context.subscriptions.push(showHelloWorldCommand);
+    // Register the provider for a Webview View
+    const sideBarDisposable = vscode.window.registerWebviewViewProvider(SideBarProvider_1.SideBarProvider.viewType, // Use the static property for consistency
+    new SideBarProvider_1.SideBarProvider(context.extensionUri));
+    context.subscriptions.push(sideBarDisposable);
+    // Register the command to show the SideBar View
+    const showSideBarViewCommand = vscode.commands.registerCommand('sidebar.showSideBar', () => {
+        // This will show the view in the activity bar
+        vscode.commands.executeCommand('workbench.view.extension.UIStudio');
+    });
+    context.subscriptions.push(showSideBarViewCommand);
 }
 exports.activate = activate;
+function deactivate() { }
+exports.deactivate = deactivate;
 //# sourceMappingURL=extension.js.map
