@@ -5,7 +5,8 @@ import {
   WebviewView,
   WebviewViewProvider,
   WebviewViewResolveContext,
-  window
+  window,
+  commands
 } from "vscode";
 
 export class SideBarProvider implements WebviewViewProvider {
@@ -27,47 +28,50 @@ export class SideBarProvider implements WebviewViewProvider {
     this._setWebviewMessageListener(webviewView);
   }
 
-  private _getWebviewContent(webview: Webview): string {
-    const nonce = this.getNonce();
+ private _getWebviewContent(webview: Webview): string {
+  const nonce = this.getNonce();
 
-    return `
-      <!DOCTYPE html>
-      <html lang="en">
-      <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Side Bar View</title>
-        <style>
-          body {
-            font-family: Arial, sans-serif;
-            padding: 10px;
-          }
-        </style>
-      </head>
-      <body>
-        <h1>Side Bar View</h1>
-        <p>This is a basic sidebar webview.</p>
-        <button onclick="sendMessage()">Send Message</button>
-        <script nonce="${nonce}">
-          const vscode = acquireVsCodeApi();
-          function sendMessage() {
-            vscode.postMessage({ command: 'alert', text: 'Hello from the sidebar!' });
-          }
-        </script>
-      </body>
-      </html>
-    `;
-  }
+  return `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Side Bar View</title>
+      <style>
+        body {
+          font-family: Arial, sans-serif;
+          padding: 10px;
+        }
+      </style>
+    </head>
+    <body>
+      <h1>Side Bar View</h1>
+      <p>Template sidebar webview.</p>
+      <button onclick="sendMessage()">Open things</button>
+      <script nonce="${nonce}">
+        const vscode = acquireVsCodeApi();
+        function sendMessage() {
+          vscode.postMessage({ command: 'helloWorld' });
+        }
+      </script>
+    </body>
+    </html>
+  `;
+}
 
-  private _setWebviewMessageListener(webviewView: WebviewView) {
-    webviewView.webview.onDidReceiveMessage((message) => {
-      switch (message.command) {
-        case 'alert':
-          window.showInformationMessage(message.text);
-          break;
-      }
-    });
-  }
+
+private _setWebviewMessageListener(webviewView: WebviewView) {
+  webviewView.webview.onDidReceiveMessage((message) => {
+    switch (message.command) {
+      case 'helloWorld':
+        // Execute the hello-world.showHelloWorld command
+        commands.executeCommand('hello-world.showHelloWorld');
+        break;
+    }
+  });
+}
+
 
   private getNonce() {
     let text = '';
