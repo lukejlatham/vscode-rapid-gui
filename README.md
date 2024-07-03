@@ -35,3 +35,13 @@ Once the sample is open inside VS Code you can run the extension by doing the fo
 
 1. Press `F5` to open a new Extension Development Host window
 2. Inside the host window, open the command palette (`Ctrl+Shift+P` or `Cmd+Shift+P` on Mac) and type `Hello World (React + CRA): Show`
+
+
+```bash
+# If webview does not render when running extension:
+- npm run build:webview
+- npm run compile
+
+# To see dev tools:
+- >Developer : Open Webview Developer Tools
+```
