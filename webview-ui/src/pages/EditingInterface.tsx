@@ -1,6 +1,6 @@
 import React from 'react';
 import { Editor, Frame, Element } from '@craftjs/core';
-import { Toolbox } from '../components/Toolbox';
+import { Toolbox } from '../components/ToolBox';
 import { Text } from '../components/Text';
 import { Button } from '../components/Button';
 import { Container } from '../components/Container';

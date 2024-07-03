@@ -1,4 +1,3 @@
-// Container.tsx
 import React from 'react';
 import { useNode } from '@craftjs/core';
 
@@ -9,9 +8,9 @@ interface ContainerProps {
 }
 
 export const Container: React.FC<ContainerProps> = ({ children, ...props }) => {
-  const { connectors: { drag } } = useNode();
+  const { connectors: { connect, drag } } = useNode();
   return (
-    <div ref={(ref: HTMLDivElement | null) => ref && drag(ref)} {...props}>
+    <div ref={ref => ref && connect(drag(ref))} {...props}>
       {children}
     </div>
   );

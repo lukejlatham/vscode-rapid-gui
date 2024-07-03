@@ -8,8 +8,8 @@ const NavBar: React.FC = () => {
     return (
         <ul className="navbar">
             <li>
-                <Link to="/projects">
-                <Button appearance="primary" icon={<AddFilled/>}>New Project</Button>
+                <Link to="/new-project">
+                    <Button appearance="primary" icon={<AddFilled/>}>New Project</Button>
                 </Link>
             </li>
             <li>
