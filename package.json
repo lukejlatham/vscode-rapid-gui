@@ -20,8 +20,8 @@
     "views": {
       "UIStudio": [
         {
-          "type": "webview",
-          "id": "sidebarView",
+          "type": "tree",
+          "id": "sideBarButtons",
           "name": "UI Studio"
         },
         {
@@ -39,6 +39,22 @@
       {
         "command": "sidebar.showSideBar",
         "title": "Show Side Bar"
+      },
+      {
+        "command": "extension.createProjectFromScratch",
+        "title": "Create Project from Scratch"
+      },
+      {
+        "command": "extension.createProjectFromTemplate",
+        "title": "Create Project from Template"
+      },
+      {
+        "command": "extension.createProjectFromSketch",
+        "title": "Create Project from Sketch"
+      },
+      {
+        "command": "extension.createProjectFromText",
+        "title": "Create Project from Text"
       }
     ]
   },
