@@ -22,7 +22,12 @@
         {
           "type": "webview",
           "id": "sidebarView",
-          "name": "Side Bar View"
+          "name": "UI Studio"
+        },
+        {
+          "type": "tree",
+          "id": "sideBarTree",
+          "name": "Recent Projects"
         }
       ]
     },

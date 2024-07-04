@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { MainWebviewPanel } from './panels/MainWebviewPanel';
 import { SideBarProvider } from './panels/SideBarPanel/SideBarProvider';
+import { RecentProjectsTreeViewProvider } from './panels/SideBarPanel/RecentProjectsTreeviewProvider';
 
 export function activate(context: vscode.ExtensionContext) {
   const showHelloWorldCommand = vscode.commands.registerCommand('mainWebviewPanel.showMainWebviewPanel', () => {
@@ -17,7 +18,9 @@ export function activate(context: vscode.ExtensionContext) {
       sideBarProvider
     )
   );
-
+  // Register the tree view provider
+  const recentProjectsTreeViewProvider = new RecentProjectsTreeViewProvider(context);
+  vscode.window.createTreeView('sideBarTree', { treeDataProvider: recentProjectsTreeViewProvider });
 }
 
 export function deactivate() {}
