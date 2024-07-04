@@ -52,7 +52,7 @@ export class SideBarProvider implements WebviewViewProvider {
       <script nonce="${nonce}">
         const vscode = acquireVsCodeApi();
         function sendMessage() {
-          vscode.postMessage({ command: 'helloWorld' });
+          vscode.postMessage({ command: 'Open Main' });
         }
       </script>
     </body>
@@ -64,9 +64,9 @@ export class SideBarProvider implements WebviewViewProvider {
 private _setWebviewMessageListener(webviewView: WebviewView) {
   webviewView.webview.onDidReceiveMessage((message) => {
     switch (message.command) {
-      case 'helloWorld':
+      case 'Open Main':
         // Execute the hello-world.showHelloWorld command
-        commands.executeCommand('hello-world.showHelloWorld');
+        commands.executeCommand('mainWebviewPanel.showMainWebviewPanel');
         break;
     }
   });

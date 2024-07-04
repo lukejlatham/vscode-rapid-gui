@@ -2,14 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deactivate = exports.activate = void 0;
 const vscode = require("vscode");
-const HelloWorldPanel_1 = require("./panels/HelloWorldPanel");
+const MainWebviewPanel_1 = require("./panels/MainWebviewPanel");
 const SideBarProvider_1 = require("./panels/SideBarPanel/SideBarProvider");
 function activate(context) {
-    // Existing HelloWorldPanel command
-    const showHelloWorldCommand = vscode.commands.registerCommand('hello-world.showHelloWorld', () => {
-        HelloWorldPanel_1.HelloWorldPanel.render(context.extensionUri);
+    const showHelloWorldCommand = vscode.commands.registerCommand('mainWebviewPanel.showMainWebviewPanel', () => {
+        MainWebviewPanel_1.MainWebviewPanel.render(context.extensionUri);
     });
-    // Add command to the extension context for HelloWorldPanel
     context.subscriptions.push(showHelloWorldCommand);
     const sideBarProvider = new SideBarProvider_1.SideBarProvider(context.extensionUri);
     context.subscriptions.push(vscode.window.registerWebviewViewProvider(SideBarProvider_1.SideBarProvider.viewType, sideBarProvider));

@@ -36,7 +36,7 @@ class SideBarProvider {
       <script nonce="${nonce}">
         const vscode = acquireVsCodeApi();
         function sendMessage() {
-          vscode.postMessage({ command: 'helloWorld' });
+          vscode.postMessage({ command: 'Open Main' });
         }
       </script>
     </body>
@@ -46,9 +46,9 @@ class SideBarProvider {
     _setWebviewMessageListener(webviewView) {
         webviewView.webview.onDidReceiveMessage((message) => {
             switch (message.command) {
-                case 'helloWorld':
+                case 'Open Main':
                     // Execute the hello-world.showHelloWorld command
-                    vscode_1.commands.executeCommand('hello-world.showHelloWorld');
+                    vscode_1.commands.executeCommand('mainWebviewPanel.showMainWebviewPanel');
                     break;
             }
         });

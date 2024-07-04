@@ -3,30 +3,28 @@ import { getUri } from "../utilities/getUri";
 import { getNonce } from "../utilities/getNonce";
 
 /**
- * This class manages the state and behavior of HelloWorld webview panels.
+ * This class manages the state and behavior of main webview panels.
  *
  * It contains all the data and methods for:
  *
- * - Creating and rendering HelloWorld webview panels
+ * - Creating and rendering Main webview panels
  * - Properly cleaning up and disposing of webview resources when the panel is closed
  * - Setting the HTML (and by proxy CSS/JavaScript) content of the webview panel
  * - Setting message listeners so data can be passed between the webview and extension
  */
-export class HelloWorldPanel {
-  public static currentPanel: HelloWorldPanel | undefined;
+export class MainWebviewPanel {
+  public static currentPanel: MainWebviewPanel | undefined;
   private readonly _panel: WebviewPanel;
   private _disposables: Disposable[] = [];
 
   /**
-   * The HelloWorldPanel class private constructor (called only from the render method).
+   * The Main class private constructor (called only from the render method).
    *
    * @param panel A reference to the webview panel
    * @param extensionUri The URI of the directory containing the extension
    */
   private constructor(panel: WebviewPanel, extensionUri: Uri) {
     this._panel = panel;
-    console.log("HelloWorldPanel constructor called");
-
     // Set an event listener to listen for when the panel is disposed (i.e. when the user closes
     // the panel or when the panel is closed programmatically)
     this._panel.onDidDispose(() => this.dispose(), null, this._disposables);
@@ -45,18 +43,16 @@ export class HelloWorldPanel {
    * @param extensionUri The URI of the directory containing the extension.
    */
   public static render(extensionUri: Uri) {
-    console.log("Rendering HelloWorldPanel", HelloWorldPanel.currentPanel ? "Reusing existing panel" : "Creating new panel");
-
-    if (HelloWorldPanel.currentPanel) {
+    if (MainWebviewPanel.currentPanel) {
       // If the webview panel already exists reveal it
-      HelloWorldPanel.currentPanel._panel.reveal(ViewColumn.One);
+      MainWebviewPanel.currentPanel._panel.reveal(ViewColumn.One);
     } else {
       // If a webview panel does not already exist create and show a new one
       const panel = window.createWebviewPanel(
         // Panel view type
-        "showHelloWorld",
+        "showMainWebviewPanel",
         // Panel title
-        "Hello World",
+        "UI Studio",
         // The editor column the panel should be displayed in
         ViewColumn.One,
         // Extra panel configurations
@@ -68,7 +64,7 @@ export class HelloWorldPanel {
         }
       );
 
-      HelloWorldPanel.currentPanel = new HelloWorldPanel(panel, extensionUri);
+      MainWebviewPanel.currentPanel = new MainWebviewPanel(panel, extensionUri);
     }
   }
 
@@ -76,9 +72,7 @@ export class HelloWorldPanel {
    * Cleans up and disposes of webview resources when the webview panel is closed.
    */
   public dispose() {
-    console.log("Disposing HelloWorldPanel and its resources");
-
-    HelloWorldPanel.currentPanel = undefined;
+    MainWebviewPanel.currentPanel = undefined;
 
     // Dispose of the current webview panel
     this._panel.dispose();
@@ -104,21 +98,12 @@ export class HelloWorldPanel {
    * rendered within the webview panel
    */
   private _getWebviewContent(webview: Webview, extensionUri: Uri) {
-    console.log("Setting HTML content for the webview");
 
     // The CSS file from the React build output
-    console.debug("Getting CSS URI");
     const stylesUri = webview.asWebviewUri(Uri.joinPath(extensionUri, "webview-ui", "build", "static", "css", "main.css"));
-    console.debug("CSS URI obtained:", stylesUri.toString());
 
     // The JS file from the React build output
-    console.debug("Getting JS URI");
     const scriptUri = webview.asWebviewUri(Uri.joinPath(extensionUri, "webview-ui", "build", "static", "js", "main.js"));
-    console.debug("JS URI obtained:", scriptUri.toString());
-
-    console.log("Styles URI:", stylesUri.toString());
-    console.log("Script URI:", scriptUri.toString());
-
     const nonce = getNonce();
     console.debug("Nonce generated:", nonce);
 

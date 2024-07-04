@@ -28,8 +28,8 @@
     },
     "commands": [
       {
-        "command": "hello-world.showHelloWorld",
-        "title": "Hello World (React + CRA): Show"
+        "command": "mainWebviewPanel.showMainWebviewPanel",
+        "title": "Open UI Studio"
       },
       {
         "command": "sidebar.showSideBar",
