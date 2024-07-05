@@ -20,20 +20,41 @@
     "views": {
       "UIStudio": [
         {
-          "type": "webview",
-          "id": "sidebarView",
-          "name": "Side Bar View"
+          "type": "tree",
+          "id": "sideBarButtons",
+          "name": "UI Studio"
+        },
+        {
+          "type": "tree",
+          "id": "sideBarTree",
+          "name": "Recent Projects"
         }
       ]
     },
     "commands": [
       {
-        "command": "hello-world.showHelloWorld",
-        "title": "Hello World (React + CRA): Show"
+        "command": "mainWebviewPanel.showMainWebviewPanel",
+        "title": "Open UI Studio"
       },
       {
         "command": "sidebar.showSideBar",
         "title": "Show Side Bar"
+      },
+      {
+        "command": "extension.createProjectFromScratch",
+        "title": "Create Project from Scratch"
+      },
+      {
+        "command": "extension.createProjectFromTemplate",
+        "title": "Create Project from Template"
+      },
+      {
+        "command": "extension.createProjectFromSketch",
+        "title": "Create Project from Sketch"
+      },
+      {
+        "command": "extension.createProjectFromText",
+        "title": "Create Project from Text"
       }
     ]
   },

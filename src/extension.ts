@@ -1,25 +1,84 @@
 import * as vscode from 'vscode';
-import { HelloWorldPanel } from './panels/HelloWorldPanel';
-import { SideBarProvider } from './panels/SideBarPanel/SideBarProvider';
+import { MainWebviewPanel } from './panels/MainWebviewPanel';
+import { RecentProjectsTreeViewProvider } from './panels/SideBarPanel/RecentProjectsTreeviewProvider';
 
 export function activate(context: vscode.ExtensionContext) {
-  // Existing HelloWorldPanel command
-  const showHelloWorldCommand = vscode.commands.registerCommand('hello-world.showHelloWorld', () => {
-    HelloWorldPanel.render(context.extensionUri);
+  const showHelloWorldCommand = vscode.commands.registerCommand('mainWebviewPanel.showMainWebviewPanel', () => {
+    MainWebviewPanel.render(context.extensionUri);
   });
 
-  // Add command to the extension context for HelloWorldPanel
   context.subscriptions.push(showHelloWorldCommand);
 
-    const sideBarProvider = new SideBarProvider(context.extensionUri);
+  // Register the commands for buttons
+  context.subscriptions.push(
+    vscode.commands.registerCommand('extension.createProjectFromScratch', () => {
+      vscode.commands.executeCommand('mainWebviewPanel.showMainWebviewPanel');
+    })
+  );
 
   context.subscriptions.push(
-    vscode.window.registerWebviewViewProvider(
-      SideBarProvider.viewType,
-      sideBarProvider
-    )
+    vscode.commands.registerCommand('extension.createProjectFromTemplate', () => {
+      vscode.commands.executeCommand('mainWebviewPanel.showMainWebviewPanel');
+    })
   );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand('extension.createProjectFromSketch', () => {
+      vscode.commands.executeCommand('mainWebviewPanel.showMainWebviewPanel');
+    })
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand('extension.createProjectFromText', () => {
+      vscode.commands.executeCommand('mainWebviewPanel.showMainWebviewPanel');
+    })
+  );
+
+
+  // Register the custom view with buttons
+  const buttonTreeViewProvider = new ButtonTreeViewProvider();
+  vscode.window.registerTreeDataProvider('sideBarButtons', buttonTreeViewProvider);
+
+  // Register the tree view provider
+  const recentProjectsTreeViewProvider = new RecentProjectsTreeViewProvider(context);
+  vscode.window.createTreeView('sideBarTree', { treeDataProvider: recentProjectsTreeViewProvider });
 
 }
 
 export function deactivate() {}
+
+class ButtonTreeViewProvider implements vscode.TreeDataProvider<ButtonItem> {
+  constructor() {}
+
+  getTreeItem(element: ButtonItem): vscode.TreeItem {
+    return element;
+  }
+
+  getChildren(element?: ButtonItem): vscode.ProviderResult<ButtonItem[]> {
+    if (!element) {
+      return [
+        new ButtonItem('Create Project from Scratch', 'extension.createProjectFromScratch'),
+        new ButtonItem('Create Project from Template', 'extension.createProjectFromTemplate'),
+        new ButtonItem('Create Project from Sketch', 'extension.createProjectFromSketch'),
+        new ButtonItem('Create Project from Text', 'extension.createProjectFromText')
+      ];
+    }
+    return [];
+  }
+}
+
+class ButtonItem extends vscode.TreeItem {
+  constructor(
+    public readonly label: string,
+    private commandId: string
+  ) {
+    super(label, vscode.TreeItemCollapsibleState.None);
+    this.command = {
+      command: this.commandId,
+      title: this.label,
+      tooltip: this.label
+    };
+    this.contextValue = 'buttonItem';
+    this.iconPath = new vscode.ThemeIcon('play-circle');
+  }
+}
