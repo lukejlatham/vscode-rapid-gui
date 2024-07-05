@@ -1,17 +1,11 @@
 import React from 'react';
 import {
-    Text, LargeTitle, Body2, makeStyles, Card, CardHeader, CardPreview, CardFooter, Dialog,
-    DialogTrigger,
-    DialogSurface,
-    DialogTitle,
-    DialogContent,
-    DialogBody,
-    DialogActions,
-    Button
+ LargeTitle, Body2, makeStyles, tokens, Button
 } from '@fluentui/react-components';
-import { DrawImageRegular, TextAddRegular, CursorHoverRegular } from '@fluentui/react-icons';
-import { Link } from 'react-router-dom';
+
 import Projects from '../Projects/Projects';
+import { StartProjectDialog } from '../../components/NavBar/StartProjectDialog';
+import TemplatesGrid from '../../components/TemplatesGrid';
 
 
 const useStyles = makeStyles({
@@ -40,7 +34,7 @@ const useStyles = makeStyles({
     web_card: {
         width: "280px",
         height: "250px",
-        background: "F35325"
+        color: tokens.colorNeutralForeground2
     },
     mobile_card: {
         width: "170px",
@@ -59,60 +53,19 @@ const useStyles = makeStyles({
     },
 });
 
-
 const Home: React.FC = () => {
     const styles = useStyles();
-    const [open, setOpen] = React.useState(false);
     return (
         <>
-            <div>
-                <LargeTitle>Welcome to UI Studio</LargeTitle>
-                <br />
-                {/* <Link to="/" className={styles.newProjectButton}>+ Start New Project</Link> */}
-                <Dialog open={open} onOpenChange={(event, data) => setOpen(data.open)}>
-                    <DialogTrigger disableButtonEnhancement>
-                        <Button appearance='subtle'>+ Start New Project</Button>
-                    </DialogTrigger>
-                    <DialogSurface>
-                        <DialogBody>
-                            <DialogTitle>New Project</DialogTitle>
-                            <DialogContent>
-                                Choose how you would like to begin your project
-                            </DialogContent>
-                            <DialogActions fluid>
-                                    <Button appearance="secondary" icon={<CursorHoverRegular/>}>Scratch</Button>
-                                    <Button appearance="secondary" icon={<TextAddRegular/>}>Prompt</Button>
-                                    <Button appearance="secondary" icon={<DrawImageRegular/>}>Sketch</Button>
-                            </DialogActions>
-                        </DialogBody>
-                    </DialogSurface>
-                </Dialog>
+
+            <LargeTitle>Welcome to UI Studio</LargeTitle>
+            <div style={{ paddingTop: "10px" }}>
+                <Button appearance='primary'>Upload Sketch</Button>
+                <StartProjectDialog />
             </div>
-            <div>
-                <br />
+            <div style={{ paddingTop: "20px" }}>
                 <Body2>Recent Templates</Body2>
-                <div className={styles.templateContainer}>
-                    <Link to="/templates" className={styles.card_link}>
-                        <Card className={styles.web_card} appearance='filled'>
-                            <CardHeader header={<Body2>Web App</Body2>} description={<Text className={styles.newProjectButton}>1920 x 1080 px</Text>} />
-                        </Card>
-                    </Link>
-                    <Link to="/templates" className={styles.card_link}>
-                        <Card className={styles.mobile_card} appearance='filled-alternative'>
-                            <CardHeader header={<Body2>Mobile</Body2>} description={<Text className={styles.newProjectButton}>1920 x 1080 px</Text>} />
-                        </Card>
-                    </Link>
-                    <Link to="/templates" className={styles.card_link}>
-                        <Card className={styles.square_card} appearance='filled-alternative'>
-                            <CardHeader header={<Body2>Square</Body2>} description={<Text className={styles.newProjectButton}>1920 x 1080 px</Text>} />
-                        </Card>
-                    </Link>
-                    <Link to="/templates" className={styles.card_link}>
-                        <Card className={styles.landscape_card} appearance='filled-alternative'>
-                            <CardHeader header={<Body2>Landscape</Body2>} description={<Text className={styles.newProjectButton}>1920 x 1080 px</Text>} />
-                        </Card>
-                    </Link>
-                </div>
+                <TemplatesGrid />
             </div>
             <div className={styles.projectsContainer}><Projects /></div>
         </>
