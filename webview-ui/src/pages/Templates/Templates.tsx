@@ -1,9 +1,10 @@
 import React from 'react';
+import ComponentLibrary from '../EditingInterface/EditingInterface';
 
 const Templates: React.FC = () => {
     return (
         <div>
-            <h1>Templaaates</h1>
+            <ComponentLibrary/>
         </div>
     );
 };
