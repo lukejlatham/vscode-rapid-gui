@@ -1,6 +1,6 @@
 import React from 'react';
 import {
- LargeTitle, Body2, makeStyles, Button
+ LargeTitle, Body2, makeStyles,
 } from '@fluentui/react-components';
 
 import Projects from '../Projects/Projects';

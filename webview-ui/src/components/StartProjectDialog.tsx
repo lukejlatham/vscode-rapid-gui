@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Dialog, DialogTrigger, DialogSurface, DialogBody, DialogTitle, DialogContent, DialogActions, Button } from '@fluentui/react-components';
-import { DrawImageRegular, TextAddRegular, CursorHoverRegular } from '@fluentui/react-icons';
+import { DrawImageRegular, TextAddRegular, Camera24Regular } from '@fluentui/react-icons';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -19,9 +19,9 @@ export const StartProjectDialog: React.FC = () => {
                         Choose how you would like to begin your project
                     </DialogContent>
                     <DialogActions fluid>
-                        <Button onClick={() => navigate("/editing-interface")} appearance="secondary" icon={<CursorHoverRegular />}>Scratch</Button>
+                        <Button onClick={() => navigate("/editing-interface")} appearance="secondary" icon={<DrawImageRegular />}>Scratch</Button>
                         <Button onClick={() => navigate("/editing-interface")} appearance="secondary" icon={<TextAddRegular />}>Prompt</Button>
-                        <Button onClick={() => navigate("/editing-interface")} appearance="secondary" icon={<DrawImageRegular />}>Sketch</Button>
+                        <Button onClick={() => navigate("/editing-interface")} appearance="secondary" icon={<Camera24Regular />}>Sketch</Button>
                     </DialogActions>
                 </DialogBody>
             </DialogSurface>
