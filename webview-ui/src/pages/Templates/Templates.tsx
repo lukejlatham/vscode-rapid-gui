@@ -1,5 +1,5 @@
 import React from 'react';
-import ComponentLibrary from '../EditingInterface/EditingInterface';
+import ComponentLibrary from '../../components/ComponentLibrary';
 
 const Templates: React.FC = () => {
     return (
