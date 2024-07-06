@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import NavBar from '../components/NavBar/NavBar';
 import { makeStyles, shorthands } from '@fluentui/react-components';
 
@@ -20,10 +20,13 @@ const useStyles = makeStyles({
 
 const MainLayout: React.FC = () => {
   const classes = useStyles();
+  const location = useLocation();
+  const shouldRenderNavBar = location.pathname !== '/editing-interface';
+
 
   return (
     <div className={classes.mainLayout}>
-      <NavBar />
+      {shouldRenderNavBar && <NavBar />}
       <main className={classes.content}>
         <Outlet />
       </main>
