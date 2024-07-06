@@ -22,6 +22,9 @@ import {
     ArrowLeft24Filled,
     ArrowLeft24Regular
 } from '@fluentui/react-icons';
+import { Element, useEditor } from "@craftjs/core";
+import { Text } from "./user/Text";
+import { Container } from "./user/Container";
 
 const useStyles = makeStyles({
     component: {
@@ -36,8 +39,9 @@ const useStyles = makeStyles({
         display: 'flex',
         flexDirection: 'column',
         height: '100vh',
-        borderRight: '1px solid #e0e0e0',
+        borderRight: '1px solid #FFFFFF',
         paddingRight: '30px',
+        gap: '10px',
     },
     header: {
         paddingTop: '10px',
@@ -45,7 +49,14 @@ const useStyles = makeStyles({
         justifyContent: 'space-around',
         alignItems: 'center',
     },
-
+    invisibleButton: {
+        backgroundColor: 'inherit',
+        border: 'none',
+        padding: 0,
+        margin: 0,
+        cursor: 'pointer',
+        // color: 'inherit'
+    }
 });
 
 const ButtonIcon = bundleIcon(Button20Filled, Button20Regular);
@@ -59,6 +70,7 @@ const BackButtonIcon = bundleIcon(ArrowLeft24Filled, ArrowLeft24Regular);
 const ComponentLibrary: React.FC = () => {
     const styles = useStyles();
     const navigate = useNavigate();
+    const { connectors, query } = useEditor();
 
     return (
         <>
@@ -75,8 +87,8 @@ const ComponentLibrary: React.FC = () => {
                 <div style={{ paddingTop: "20px" }}>
                     <SearchBox placeholder="Search components" />
                 </div>
-                <div style={{ paddingTop: "20px" }}><Subtitle2>Component Library</Subtitle2></div>
-                <div className={styles.component}>
+                <div style={{ paddingTop: "20px"}}><Subtitle2>Component Library</Subtitle2></div>
+                {/* <div className={styles.component}>
                     <ButtonIcon />
                     <Label>Button</Label>
                 </div>
@@ -91,17 +103,23 @@ const ComponentLibrary: React.FC = () => {
                 <div className={styles.component}>
                     <IconIcon />
                     <Label>Icon</Label>
-                </div>
-                <div className={styles.component}>
-                    <TextIcon />
-                    <Label>Text</Label>
-                </div>
+                </div> */}
+                <Button icon={<ButtonIcon />} appearance='subtle'>Button</Button>
+                <Button icon={<LabelIcon />} appearance='subtle'>Label</Button>
+                <Button icon={<ImageIcon />} appearance='subtle'>Image</Button>
+                <Button icon={<IconIcon />} appearance='subtle'>Icon</Button>
+                <Button appearance='subtle' icon={<TextIcon />} ref={ref => {
+                    if (ref !== null) {
+                        connectors.create(ref, <Text fontSize="small" text="Hi world" />);
+                    }
+                }}>Text</Button>
                 <div>
-                <Divider />
-                <div className={styles.component}>
-                    <CanvasIcon />
-                    <Label>Canvas</Label>
-                </div>
+                    <Divider />
+                    <Button icon={<CanvasIcon />} appearance='subtle' ref={ref => {
+                    if (ref !== null) {
+                        connectors.create(ref, <Element is={Container} padding={20} canvas />);
+                    }
+                }}>Canvas</Button>
                 </div>
             </div>
         </>
