@@ -1,6 +1,7 @@
 import React, { useState, useEffect, HTMLAttributes } from 'react';
 import { useNode } from "@craftjs/core";
-import { Slider, FormControl, FormLabel } from '@material-ui/core';
+import { Slider, Label } from '@fluentui/react';
+import { Card } from '@fluentui/react-components';
 import '@material-ui/core/styles';
 import ContentEditable from 'react-contenteditable';
 
@@ -58,17 +59,17 @@ export const TextSettings: React.FC<TextSettingsProps> = ({ fontSize, textAlign 
 
   return (
     <div>
-      <FormControl>
-        <FormLabel>Font Size</FormLabel>
+      <Card>
+        <Label>Font Size</Label>
         <Slider
           value={parseInt(fontSize)}
           onChange={(_, value) => setProp((props: any) => props.fontSize = `${value}px`)}
           min={8}
           max={100}
         />
-      </FormControl>
-      <FormControl>
-        <FormLabel>Text Align</FormLabel>
+      </Card>
+      <Card>
+        <Label>Text Align</Label>
         <select
           value={textAlign}
           onChange={(e) => setProp((props: any) => props.textAlign = e.target.value)}
@@ -77,7 +78,7 @@ export const TextSettings: React.FC<TextSettingsProps> = ({ fontSize, textAlign 
           <option value="center">Center</option>
           <option value="right">Right</option>
         </select>
-      </FormControl>
+      </Card>
     </div>
   );
 };
