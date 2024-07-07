@@ -9,7 +9,7 @@ interface CanvasProps {
     height?: string | number;
     width?: string | number;
     appearance?: "filled" | "filled-alternative" | "outline" | "subtle" | undefined;
-    children: ReactNode;
+    children?: ReactNode;
 }
 
 export const Canvas: FC<CanvasProps> = ({ background = 'white', padding = 0, height = '100px', width = "100px", children, appearance }) => {
