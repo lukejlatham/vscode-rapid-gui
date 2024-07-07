@@ -18,6 +18,7 @@ const useStyles = makeStyles({
     },
 });
 
+
 const EditingInterface: React.FC = () => {
     const classes = useStyles();
     return (
@@ -26,7 +27,7 @@ const EditingInterface: React.FC = () => {
                 <ComponentLibrary />
                 <div className={classes.content}>
                     <Frame>
-                        <Element is={Container} padding={5} background="#fffff" canvas>
+                        <Element is={Container} padding={5} background="none" height="100%" width="80vw" appearance='subtle' canvas>
                             <Text fontSize="small" text="Hi world!" />
                         </Element>
                     </Frame>
