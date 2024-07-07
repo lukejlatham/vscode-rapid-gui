@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
-import { Card, Slider } from '@fluentui/react-components';
+import { Card, Slider, Label, Field } from '@fluentui/react-components';
 import { useNode } from "@craftjs/core";
-import { FormControl, FormLabel } from '@material-ui/core';
 import ColorPicker from 'material-ui-color-picker';
 import { noWrap } from '@fluentui/react';
 
@@ -41,8 +40,7 @@ export const ContainerSettings: FC<ContainerSettingsProps> = () => {
     
     return (
         <div>
-          <FormControl fullWidth={true} margin="normal" component="fieldset">
-            <FormLabel component="legend">Background</FormLabel>
+          <Field label='Background'>
             <ColorPicker
               name="background-color"
               value={background}
@@ -50,16 +48,15 @@ export const ContainerSettings: FC<ContainerSettingsProps> = () => {
                 setProp((props) => (props.background = color), 500);
               }}
             />
-          </FormControl>
-          <FormControl fullWidth={true} margin="normal" component="fieldset">
-            <FormLabel component="legend">Padding</FormLabel>
+          </Field>
+          <Field label='Padding'>
             <Slider
               defaultValue={padding}
               onChange={(_, value) =>
                 setProp((props) => (props.padding = typeof value === 'number' ? value : padding), 500)
               }
             />
-          </FormControl>
+          </Field>
         </div>
       );
     };
