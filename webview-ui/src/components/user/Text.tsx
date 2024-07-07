@@ -2,17 +2,17 @@ import React, { useState, useEffect, HTMLAttributes } from 'react';
 import { useNode } from "@craftjs/core";
 import { Slider, Label } from '@fluentui/react';
 import { Card } from '@fluentui/react-components';
-import '@material-ui/core/styles';
 import ContentEditable from 'react-contenteditable';
 
 interface TextProps extends HTMLAttributes<HTMLDivElement> {
-  text: string;
+  text?: string;
   fontSize: string;
   textAlign: string;
   craft?: any;
+  color?: string;
 }
 
-export const Text: React.FC<TextProps> & { craft?: any } = ({ text, fontSize, textAlign, ...props }) => {
+export const Text: React.FC<TextProps> & { craft?: any } = ({ text = "", fontSize, textAlign, color, ...props }) => {
   const { 
     connectors: { connect, drag },
     selected,
@@ -43,7 +43,7 @@ export const Text: React.FC<TextProps> & { craft?: any } = ({ text, fontSize, te
             return { ...props, text: e.target.value.replace(/<\/?[^>]+(>|$)/g, '') };
           })
         }
-        style={{ fontSize: `${fontSize}px`, textAlign: textAlign }}
+        style={{ fontSize: `${fontSize}px`, textAlign: textAlign, color: selected ? "blue" : "black"}}
       />
     </div>
   );

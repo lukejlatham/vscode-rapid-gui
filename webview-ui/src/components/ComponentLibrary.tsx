@@ -109,7 +109,7 @@ const ComponentLibrary: React.FC = () => {
                 <Button icon={<IconIcon />} appearance='subtle'>Icon</Button>
                 <Button appearance='subtle' icon={<TextIcon />} ref={ref => {
                     if (ref !== null) {
-                        connectors.create(ref, <Text fontSize="small" text="Hi world" />);
+                        connectors.create(ref, <Text fontSize="small" textAlign='left'/>);
                     }
                 }}>Text</Button>
                 <div>

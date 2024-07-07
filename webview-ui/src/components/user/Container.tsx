@@ -1,8 +1,6 @@
 import React, { FC } from 'react';
 import { Card, Slider, Label, Field } from '@fluentui/react-components';
 import { useNode } from "@craftjs/core";
-import ColorPicker from 'material-ui-color-picker';
-import { noWrap } from '@fluentui/react';
 
 interface ContainerProps {
     children: React.ReactNode;
@@ -17,15 +15,17 @@ export const Container: FC<ContainerProps> & { craft?: any } = ({ children, back
     const { connectors: { connect, drag }, } = useNode();
     
     return (
-        <Card
-            {...props}
-            ref={(ref) => ref && connect(drag(ref))}
-            style={{ background: background, padding: padding }}
-        >
-            {children}
+        <Card appearance='filled' ref={(ref: HTMLDivElement | null) => {
+            if (ref) {
+                connect(drag(ref));
+            }
+        }} style={{ height: "100%", width: "80vw" }}>
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+                {children}
+            </div>
         </Card>
     );
-};
+}
 
 interface ContainerSettingsProps {
     background: string;
@@ -41,19 +41,18 @@ export const ContainerSettings: FC<ContainerSettingsProps> = () => {
     return (
         <div>
           <Field label='Background'>
-            <ColorPicker
+            {/* <ColorPicker
               name="background-color"
               value={background}
               onChange={(color) => {
                 setProp((props) => (props.background = color), 500);
-              }}
-            />
+              }} */}
           </Field>
           <Field label='Padding'>
             <Slider
               defaultValue={padding}
               onChange={(_, value) =>
-                setProp((props) => (props.padding = typeof value === 'number' ? value : padding), 500)
+                setProp((props: { padding: any; }) => (props.padding = typeof value === 'number' ? value : padding), 500)
               }
             />
           </Field>
