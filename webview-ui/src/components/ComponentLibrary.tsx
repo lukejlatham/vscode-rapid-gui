@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-    Label,
     makeStyles,
     Subtitle2,
     Title3,
@@ -24,7 +23,7 @@ import {
 } from '@fluentui/react-icons';
 import { Element, useEditor } from "@craftjs/core";
 import { Text } from "./user/Text";
-import { Container } from "./user/Container";
+import { Canvas } from "./user/Canvas";
 
 const useStyles = makeStyles({
     component: {
@@ -117,7 +116,7 @@ const ComponentLibrary: React.FC = () => {
                     <Divider />
                     <Button icon={<CanvasIcon />} appearance='subtle' ref={ref => {
                     if (ref !== null) {
-                        connectors.create(ref, <Element is={Container} padding={20} canvas />);
+                        connectors.create(ref, <Element is={Canvas} padding={20} canvas />);
                     }
                 }}>Canvas</Button>
                 </div>
