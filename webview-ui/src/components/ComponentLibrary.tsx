@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
     makeStyles,
@@ -24,6 +24,7 @@ import {
 import { Element, useEditor } from "@craftjs/core";
 import { Text } from "./user/Text";
 import { Canvas } from "./user/Canvas";
+// import empty from "../data/empty.json";
 
 const useStyles = makeStyles({
     component: {
@@ -69,7 +70,25 @@ const BackButtonIcon = bundleIcon(ArrowLeft24Filled, ArrowLeft24Regular);
 const ComponentLibrary: React.FC = () => {
     const styles = useStyles();
     const navigate = useNavigate();
-    const { connectors, query } = useEditor();
+    const [isSaved, setIsSaved] = useState(false);
+    const { actions, canUndo, canRedo, connectors, query } = useEditor((_, query) => ({
+        canUndo: query.history.canUndo(),
+        canRedo: query.history.canRedo(),
+    }));
+
+    const handleSave = () => {
+        const serializedData = query.serialize();
+        console.log(serializedData);
+        setIsSaved(true);
+    };
+
+    const handleUndo = () => {
+        actions.history.undo()
+    }
+
+    const handleRedo = () => {
+        actions.history.redo()
+    }
 
     return (
         <>
@@ -87,22 +106,6 @@ const ComponentLibrary: React.FC = () => {
                     <SearchBox placeholder="Search components" />
                 </div>
                 <div style={{ paddingTop: "20px"}}><Subtitle2>Component Library</Subtitle2></div>
-                {/* <div className={styles.component}>
-                    <ButtonIcon />
-                    <Label>Button</Label>
-                </div>
-                <div className={styles.component}>
-                    <LabelIcon />
-                    <Label>Label</Label>
-                </div>
-                <div className={styles.component}>
-                    <ImageIcon />
-                    <Label>Image</Label>
-                </div>
-                <div className={styles.component}>
-                    <IconIcon />
-                    <Label>Icon</Label>
-                </div> */}
                 <Button icon={<ButtonIcon />} appearance='subtle'>Button</Button>
                 <Button icon={<LabelIcon />} appearance='subtle'>Label</Button>
                 <Button icon={<ImageIcon />} appearance='subtle'>Image</Button>
@@ -115,11 +118,17 @@ const ComponentLibrary: React.FC = () => {
                 <div>
                     <Divider />
                     <Button icon={<CanvasIcon />} appearance='subtle' ref={ref => {
-                    if (ref !== null) {
-                        connectors.create(ref, <Element is={Canvas} padding={20} canvas />);
-                    }
-                }}>Canvas</Button>
+                        if (ref !== null) {
+                            connectors.create(ref, <Element is={Canvas} padding={20} canvas />);
+                        }
+                    }}>Canvas</Button>
                 </div>
+                <Button appearance='subtle' onClick={handleSave}>Save</Button> 
+                {isSaved}
+                <Button appearance='subtle' onClick={handleRedo}>Redo</Button>
+                {canRedo}
+                <Button appearance='subtle' onClick={handleUndo}>Undo</Button>
+                {canUndo}
             </div>
         </>
     );
