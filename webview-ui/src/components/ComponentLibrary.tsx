@@ -23,8 +23,10 @@ import {
 } from '@fluentui/react-icons';
 import { Element, useEditor } from "@craftjs/core";
 import { Label, LabelDefaultProps } from './user/Label';
-import { Canvas } from "./user/Canvas";
+import { Container } from './user/Container';
 import { Button as UserButton, ButtonDefaultProps } from "./user/Button";
+import { Rows } from './user/Rows';
+import { Columns } from './user/Columns';
 
 const useStyles = makeStyles({
     component: {
@@ -115,9 +117,19 @@ const ComponentLibrary: React.FC = () => {
                     <Divider />
                     <Button icon={<CanvasIcon />} appearance='subtle' ref={ref => {
                         if (ref !== null) {
-                            connectors.create(ref, <Element is={Canvas} padding={20} canvas />);
+                            connectors.create(ref, <Element is={Container} padding={20} canvas />);
                         }
-                    }}>Canvas</Button>
+                    }}>Container</Button>
+                    <Button icon={<CanvasIcon />} appearance='subtle' ref={ref => {
+                        if (ref !== null) {
+                            connectors.create(ref, <Rows/>);
+                        }
+                    }}>Rows</Button>
+                    <Button icon={<CanvasIcon />} appearance='subtle' ref={ref => {
+                        if (ref !== null) {
+                            connectors.create(ref, <Columns/>);
+                        }
+                    }}>Columns</Button>
                 </div>
             </div>
         </>
