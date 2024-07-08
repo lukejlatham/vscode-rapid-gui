@@ -24,7 +24,7 @@ import {
 import { Element, useEditor } from "@craftjs/core";
 import { Text } from "./user/Text";
 import { Canvas } from "./user/Canvas";
-// import empty from "../data/empty.json";
+import testJSON from "../data/testKnownState.json";
 
 const useStyles = makeStyles({
     component: {
@@ -82,6 +82,12 @@ const ComponentLibrary: React.FC = () => {
         setIsSaved(true);
     };
 
+    const handleLoad = () => {
+        console.log("Deserializing JSON:", testJSON as any);
+        actions.deserialize(testJSON as any);
+    };
+
+
     const handleUndo = () => {
         actions.history.undo()
     }
@@ -129,6 +135,7 @@ const ComponentLibrary: React.FC = () => {
                 {canRedo}
                 <Button appearance='subtle' onClick={handleUndo}>Undo</Button>
                 {canUndo}
+                <Button appearance='subtle' onClick={handleLoad}>Load</Button>
             </div>
         </>
     );

@@ -1,0 +1,56 @@
+{
+  "ROOT": {
+    "type": { "resolvedName": "Container" },
+    "isCanvas": true,
+    "props": {},
+    "displayName": "Container",
+    "custom": {},
+    "hidden": false,
+    "nodes": ["DkhD7O-eKO", "ZTzFRdfgbQ"],
+    "linkedNodes": {}
+  },
+  "DkhD7O-eKO": {
+    "type": { "resolvedName": "Canvas" },
+    "isCanvas": true,
+    "props": { "padding": 20, "width": "556px", "height": "533px" },
+    "displayName": "Canvas",
+    "custom": {},
+    "parent": "ROOT",
+    "hidden": false,
+    "nodes": ["21OLE2OPsd", "HQLSvbYl3o"],
+    "linkedNodes": {}
+  },
+  "ZTzFRdfgbQ": {
+    "type": { "resolvedName": "Canvas" },
+    "isCanvas": true,
+    "props": { "padding": 20, "width": "645px", "height": "27px" },
+    "displayName": "Canvas",
+    "custom": {},
+    "parent": "ROOT",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "21OLE2OPsd": {
+    "type": { "resolvedName": "Text" },
+    "isCanvas": false,
+    "props": { "fontSize": "small", "text": "Hi world" },
+    "displayName": "Text",
+    "custom": {},
+    "parent": "DkhD7O-eKO",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "HQLSvbYl3o": {
+    "type": { "resolvedName": "Canvas" },
+    "isCanvas": true,
+    "props": { "padding": 20 },
+    "displayName": "Canvas",
+    "custom": {},
+    "parent": "DkhD7O-eKO",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  }
+}
