@@ -24,7 +24,7 @@ import {
 import { Element, useEditor } from "@craftjs/core";
 import { Label, LabelDefaultProps } from './user/Label';
 import { Canvas } from "./user/Canvas";
-import { Button as UserButton } from "./user/Button";
+import { Button as UserButton, ButtonDefaultProps } from "./user/Button";
 
 const useStyles = makeStyles({
     component: {
@@ -87,54 +87,37 @@ const ComponentLibrary: React.FC = () => {
                 <div style={{ paddingTop: "20px" }}>
                     <SearchBox placeholder="Search components" />
                 </div>
-                <div style={{ paddingTop: "20px"}}><Subtitle2>Component Library</Subtitle2></div>
-                {/* <div className={styles.component}>
-                    <ButtonIcon />
-                    <Label>Button</Label>
-                </div>
-                <div className={styles.component}>
-                    <LabelIcon />
-                    <Label>Label</Label>
-                </div>
-                <div className={styles.component}>
-                    <ImageIcon />
-                    <Label>Image</Label>
-                </div>
-                <div className={styles.component}>
-                    <IconIcon />
-                    <Label>Icon</Label>
-                </div> */}
+                <div style={{ paddingTop: "20px" }}><Subtitle2>Component Library</Subtitle2></div>
                 <Button icon={<ButtonIcon />} appearance='subtle' ref={ref => {
                     if (ref !== null) {
-                        connectors.create(ref, <UserButton>Button</UserButton>);
+                        connectors.create(ref, <UserButton 
+                            {...ButtonDefaultProps}/>);
                     }
                 }}>Button</Button>
-                <Button icon={<LabelIcon />} appearance='subtle'>Label</Button>
                 <Button icon={<ImageIcon />} appearance='subtle'>Image</Button>
-                <Button icon={<IconIcon />} appearance='subtle'>Icon</Button>
-                <Button 
-  appearance='subtle' 
-  icon={<TextIcon />} 
-  ref={ref => {
-    if (ref !== null) {
-      connectors.create(ref, 
-        <Label 
-          {...LabelDefaultProps}
-          text="Hi"
-        />
-      );
-    }
-  }}
->
-  Text
-</Button>
+                <Button
+                    appearance='subtle'
+                    icon={<LabelIcon />}
+                    ref={ref => {
+                        if (ref !== null) {
+                            connectors.create(ref,
+                                <Label
+                                    {...LabelDefaultProps}
+                                    text="Hi"
+                                />
+                            );
+                        }
+                    }}
+                >
+                    Label
+                </Button>
                 <div>
                     <Divider />
                     <Button icon={<CanvasIcon />} appearance='subtle' ref={ref => {
-                    if (ref !== null) {
-                        connectors.create(ref, <Element is={Canvas} padding={20} canvas />);
-                    }
-                }}>Canvas</Button>
+                        if (ref !== null) {
+                            connectors.create(ref, <Element is={Canvas} padding={20} canvas />);
+                        }
+                    }}>Canvas</Button>
                 </div>
             </div>
         </>

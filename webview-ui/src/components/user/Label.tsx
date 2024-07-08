@@ -6,7 +6,6 @@ interface LabelProps {
   text: string;
   fontSize: number;
   color: string;
-  className?: string;
   userEditable?: boolean;
 }
 
@@ -14,7 +13,7 @@ interface ContentEditableEvent {
   target: { value: string };
 }
 
-export const Label: UserComponent<LabelProps> = ({ text, fontSize, color, className, userEditable = true }) => {
+export const Label: UserComponent<LabelProps> = ({ text, fontSize, color, userEditable = true }) => {
   const {
     connectors: { connect, drag },
     selected,
@@ -58,10 +57,9 @@ export const Label: UserComponent<LabelProps> = ({ text, fontSize, color, classN
           }
           tagName="p"
           style={style}
-          className={className}
         />
       ) : (
-        <p className={className} style={style}>{text}</p>
+        <p style={style}>{text}</p>
       )}
     </div>
   );
