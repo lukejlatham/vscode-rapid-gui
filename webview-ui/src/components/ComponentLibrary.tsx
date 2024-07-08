@@ -24,7 +24,7 @@ import {
 import { Element, useEditor } from "@craftjs/core";
 import { Text } from "./user/Text";
 import { Canvas } from "./user/Canvas";
-import empty from "../data/empty.json";
+// import empty from "../data/empty.json";
 
 const useStyles = makeStyles({
     component: {
@@ -124,8 +124,8 @@ const ComponentLibrary: React.FC = () => {
                 </div>
                 <Button appearance='subtle' onClick={handleSave}>Save</Button> 
                 {isSaved}
-                <Button appearance='subtle' onClick={handleUndo}>Redo</Button>
-                {canUndo}
+                <Button appearance='subtle' onClick={handleRedo}>Redo</Button>
+                {canRedo}
                 <Button appearance='subtle' onClick={handleUndo}>Undo</Button>
                 {canUndo}
             </div>
