@@ -11,21 +11,17 @@ import {
 import {
     Image24Regular,
     TextboxRegular,
-    Square24Regular,
     bundleIcon,
     Button20Regular,
     Button20Filled,
     TextT24Regular,
-    ImageCircle24Filled,
-    ImageCircle24Regular,
     ArrowLeft24Filled,
     ArrowLeft24Regular,
     LayoutRowTwoRegular,
     LayoutColumnTwoRegular
 } from '@fluentui/react-icons';
-import { Element, useEditor } from "@craftjs/core";
+import { useEditor } from "@craftjs/core";
 import { Label, LabelDefaultProps } from './user/Label';
-import { Container } from './user/Container';
 import { Button as UserButton, ButtonDefaultProps } from "./user/Button";
 import { Rows } from './user/Rows';
 import { Columns } from './user/Columns';
@@ -58,9 +54,7 @@ const useStyles = makeStyles({
 const ButtonIcon = bundleIcon(Button20Filled, Button20Regular);
 const LabelIcon = bundleIcon(TextT24Regular, TextT24Regular);
 const ImageIcon = bundleIcon(Image24Regular, Image24Regular);
-const IconIcon = bundleIcon(ImageCircle24Filled, ImageCircle24Regular);
 const TextIcon = bundleIcon(TextboxRegular, TextboxRegular);
-const CanvasIcon = bundleIcon(Square24Regular, Square24Regular);
 const BackButtonIcon = bundleIcon(ArrowLeft24Filled, ArrowLeft24Regular);
 
 const ComponentLibrary: React.FC = () => {

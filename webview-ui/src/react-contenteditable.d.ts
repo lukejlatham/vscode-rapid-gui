@@ -1,9 +1,14 @@
 declare module 'react-contenteditable' {
   import React from 'react';
+
+  interface ContentEditableEvent {
+	target: { value: string };
+  }
+
   interface ContentEditableProps {
 	html: string;
 	disabled?: boolean;
-	onChange?: (e: React.SyntheticEvent) => void;
+	onChange?: (e: ContentEditableEvent) => void;
 	tagName?: string;
 	className?: string;
 	style?: React.CSSProperties;
