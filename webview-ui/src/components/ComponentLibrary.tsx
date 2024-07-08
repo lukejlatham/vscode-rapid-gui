@@ -22,7 +22,7 @@ import {
     ArrowLeft24Regular
 } from '@fluentui/react-icons';
 import { Element, useEditor } from "@craftjs/core";
-import { Text } from "./user/Text";
+import { Label, LabelDefaultProps } from './user/Label';
 import { Canvas } from "./user/Canvas";
 import { Button as UserButton } from "./user/Button";
 
@@ -112,11 +112,22 @@ const ComponentLibrary: React.FC = () => {
                 <Button icon={<LabelIcon />} appearance='subtle'>Label</Button>
                 <Button icon={<ImageIcon />} appearance='subtle'>Image</Button>
                 <Button icon={<IconIcon />} appearance='subtle'>Icon</Button>
-                <Button appearance='subtle' icon={<TextIcon />} ref={ref => {
-                    if (ref !== null) {
-                        connectors.create(ref, <Text fontSize="small" text="Hi world" />);
-                    }
-                }}>Text</Button>
+                <Button 
+  appearance='subtle' 
+  icon={<TextIcon />} 
+  ref={ref => {
+    if (ref !== null) {
+      connectors.create(ref, 
+        <Label 
+          {...LabelDefaultProps}
+          text="Hi"
+        />
+      );
+    }
+  }}
+>
+  Text
+</Button>
                 <div>
                     <Divider />
                     <Button icon={<CanvasIcon />} appearance='subtle' ref={ref => {

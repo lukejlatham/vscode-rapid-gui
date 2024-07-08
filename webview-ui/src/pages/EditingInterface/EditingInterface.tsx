@@ -1,7 +1,7 @@
 import React from 'react';
 import ComponentLibrary from "../../components/ComponentLibrary";
 import { Editor, Frame, Element } from "@craftjs/core";
-import { Text } from "../../components/user/Text";
+import { Label } from "../../components/user/Label";
 import { Canvas } from "../../components/user/Canvas";
 import { Container } from '../../components/user/Container';
 import { Button } from '../../components/user/Button';
@@ -24,7 +24,7 @@ const useStyles = makeStyles({
 const EditingInterface: React.FC = () => {
     const classes = useStyles();
     return (
-        <Editor resolver={{ Text, Canvas, Container, Button }}>
+        <Editor resolver={{ Label, Canvas, Container, Button }}>
             <div className={classes.mainLayout}>
                 <ComponentLibrary />
                 <div className={classes.content}>
