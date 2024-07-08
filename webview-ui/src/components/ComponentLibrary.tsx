@@ -77,7 +77,8 @@ const ComponentLibrary: React.FC = () => {
     }));
 
     const handleSave = () => {
-        query.serialize()
+        const serializedData = query.serialize();
+        console.log(serializedData);
         setIsSaved(true);
     };
 
