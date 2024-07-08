@@ -24,6 +24,7 @@ import {
 import { Element, useEditor } from "@craftjs/core";
 import { Text } from "./user/Text";
 import { Canvas } from "./user/Canvas";
+import { Button as UserButton } from "./user/Button";
 
 const useStyles = makeStyles({
     component: {
@@ -103,7 +104,11 @@ const ComponentLibrary: React.FC = () => {
                     <IconIcon />
                     <Label>Icon</Label>
                 </div> */}
-                <Button icon={<ButtonIcon />} appearance='subtle'>Button</Button>
+                <Button icon={<ButtonIcon />} appearance='subtle' ref={ref => {
+                    if (ref !== null) {
+                        connectors.create(ref, <UserButton>Button</UserButton>);
+                    }
+                }}>Button</Button>
                 <Button icon={<LabelIcon />} appearance='subtle'>Label</Button>
                 <Button icon={<ImageIcon />} appearance='subtle'>Image</Button>
                 <Button icon={<IconIcon />} appearance='subtle'>Icon</Button>

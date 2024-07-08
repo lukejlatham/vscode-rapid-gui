@@ -4,6 +4,7 @@ import { Editor, Frame, Element } from "@craftjs/core";
 import { Text } from "../../components/user/Text";
 import { Canvas } from "../../components/user/Canvas";
 import { Container } from '../../components/user/Container';
+import { Button } from '../../components/user/Button';
 import { makeStyles, shorthands } from '@fluentui/react-components';
 
 
@@ -23,7 +24,7 @@ const useStyles = makeStyles({
 const EditingInterface: React.FC = () => {
     const classes = useStyles();
     return (
-        <Editor resolver={{ Text, Canvas, Container }}>
+        <Editor resolver={{ Text, Canvas, Container, Button }}>
             <div className={classes.mainLayout}>
                 <ComponentLibrary />
                 <div className={classes.content}>
