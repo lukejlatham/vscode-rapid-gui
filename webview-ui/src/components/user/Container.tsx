@@ -16,7 +16,7 @@ export const Container: FC<ContainerProps> = ({ children }) => {
             if (ref) {
                 connect(drag(ref));
             }
-        }} style={{ height: "100%", width: "80vw" }}>
+        }} style={{ height: "100%", width: "60vw" }}>
             <div style={{ display: 'flex', flexDirection: 'row' }}>
                 {children}
             </div>

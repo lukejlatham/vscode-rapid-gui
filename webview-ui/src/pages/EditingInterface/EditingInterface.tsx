@@ -6,6 +6,7 @@ import { Canvas } from "../../components/user/Canvas";
 import { Container } from '../../components/user/Container';
 import { Button } from '../../components/user/Button';
 import { makeStyles, shorthands } from '@fluentui/react-components';
+import PropertyInspector from '../../components/PropertyInspector';
 
 
 const useStyles = makeStyles({
@@ -14,8 +15,12 @@ const useStyles = makeStyles({
         flexDirection: 'row',
         height: '100vh',
     },
-    content: {
-        flexGrow: 1, /* Take up remaining space */
+    canvas: {
+        flexGrow: 2, /* Take up remaining space */
+        ...shorthands.padding('20px'),
+    },
+    propertyInspector: {
+        flexGrow: 1,
         ...shorthands.padding('20px'),
     },
 });
@@ -27,12 +32,15 @@ const EditingInterface: React.FC = () => {
         <Editor resolver={{ Label, Canvas, Container, Button }}>
             <div className={classes.mainLayout}>
                 <ComponentLibrary />
-                <div className={classes.content}>
+                <div className={classes.canvas}>
                     <Frame>
                         <Element is={Container} canvas>
                             {/* <Text fontSize="small" text="Hi world!" /> */}
                         </Element>
                     </Frame>
+                </div>
+                <div className={classes.propertyInspector}>
+                    <PropertyInspector />
                 </div>
             </div>
         </Editor>
