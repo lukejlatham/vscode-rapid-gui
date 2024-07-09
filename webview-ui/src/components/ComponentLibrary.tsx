@@ -29,7 +29,7 @@ import { Label, LabelDefaultProps } from './user/Label';
 import { Button as UserButton, ButtonDefaultProps } from "./user/Button";
 import { Rows } from './user/Rows';
 import { Columns } from './user/Columns';
-import testJSON from '../data/testKnownState.json';
+import testJSON from '../data/empty.json';
 
 const useStyles = makeStyles({
     component: {
@@ -78,8 +78,8 @@ const ComponentLibrary: React.FC = () => {
     };
 
     const handleLoad = () => {
-        console.log("Deserializing JSON:", testJSON as any);
-        actions.deserialize(testJSON as any);
+        console.log("Deserializing JSON:", JSON.stringify(testJSON));
+        actions.deserialize(JSON.stringify(testJSON));
     };
 
 
