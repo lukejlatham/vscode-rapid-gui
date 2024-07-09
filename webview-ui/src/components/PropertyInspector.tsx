@@ -1,5 +1,6 @@
+import React from "react";
 import { useEditor } from "@craftjs/core";
-import { Subtitle1 } from "@fluentui/react-components";
+import { Subtitle2, Divider } from "@fluentui/react-components";
 
 export const PropertyInspector: React.FC = () => {
     const { actions, selected, isEnabled } = useEditor((state, query) => {
@@ -27,7 +28,10 @@ export const PropertyInspector: React.FC = () => {
     return (
         selected ? (
         <div style={{padding: '10px', border: '1px solid #FFFFFF', borderRadius: '10px'}}>
-            <Subtitle1>Property Inspector</Subtitle1>
+            <div style={{ paddingTop: "5px", paddingBottom: '10px', textAlign: "center"}}><Subtitle2>Property inspector</Subtitle2></div>
+                {/* <div style={{display:"grid", gridTemplateColumns: 'auto auto'}}> */}
+                <Divider style={{flexGrow: "0"}}/>
+            {selected.settings && React.createElement(selected.settings)}
         </div>
         ) : null
     );

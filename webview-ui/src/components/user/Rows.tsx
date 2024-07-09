@@ -1,7 +1,8 @@
 import React, { ReactNode } from "react";
 import { Element, useNode, useEditor, UserComponent } from "@craftjs/core";
 import { Container } from "./Container";
-import {Body1Stronger} from '@fluentui/react-components';
+import { Body1Stronger } from '@fluentui/react-components';
+import { Label, Input } from "@fluentui/react-components";
 
 interface RowProps {
   children?: ReactNode;
@@ -19,12 +20,10 @@ export const Row: UserComponent<RowProps> = ({ children, ...props }) => {
         children
       ) : (
         <div style={{
-            margin: '0.25rem',
-            padding: '1rem',
-            // fontStyle: 'italic', // Equivalent to italic in Tailwind CSS
-            // color: 'white', // Equivalent to Body1Stronger-gray-600 in Tailwind CSS
-            backgroundColor: '#494B52'
-          }}>
+          margin: '0.25rem',
+          padding: '1rem',
+          backgroundColor: '#494B52'
+        }}>
           <Body1Stronger>Empty row</Body1Stronger>
         </div>
       )}
@@ -39,27 +38,29 @@ interface RowsProps {
 }
 
 export const Rows: UserComponent<RowsProps> = ({ numberOfRows = 2, gap = 0, children }) => {
-    const { enabled } = useEditor((state) => ({
-      enabled: state.options.enabled,
-    }));
-  
-    return (
-        <Container
-        style={{
-          borderStyle: 'dashed', // Equivalent to outline-dashed in Tailwind CSS
-          outlineWidth: '0.5px', // Equivalent to outline-1 in Tailwind CSS
-          outlineColor: '#059669', // Equivalent to outline-green-600 in Tailwind CSS
-          gap: `${gap}px`, // Assuming `gap` is a variable holding a numeric value
-          ...(enabled ? { ':hover': { borderTopWidth: '8px', borderTopColor: '#60A5FA' } } : {})
-        }}
-      >
-        {children ??
-          Array.from({ length: numberOfRows }, (_, id) => (
-            <Element is={Row} id={`row-${id}`} canvas key={id} />
-          ))}
-      </Container>
-    );
-  };
+  const { enabled } = useEditor((state) => ({
+    enabled: state.options.enabled,
+  }));
+
+  return (
+    <Container
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        // borderStyle: 'dashed', // Equivalent to outline-dashed in Tailwind CSS
+        // outlineWidth: '0.5px', // Equivalent to outline-1 in Tailwind CSS
+        // outlineColor: '#059669', // Equivalent to outline-green-600 in Tailwind CSS
+        gap: `${gap}px`, // Assuming `gap` is a variable holding a numeric value
+        ...(enabled ? { ':hover': { borderTopWidth: '8px', borderTopColor: '#60A5FA' } } : {})
+      }}
+    >
+      {children ??
+        Array.from({ length: numberOfRows }, (_, id) => (
+          <Element is={Row} id={`row-${id}`} canvas key={id} />
+        ))}
+    </Container>
+  );
+};
 
 const RowsSettings: React.FC = () => {
   const {
@@ -70,12 +71,12 @@ const RowsSettings: React.FC = () => {
   }));
 
   return (
-    <>
-      <label>
-        Number of rows
-        <input
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', padding: '5px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+        <Label>Number of rows</Label>
+        <Input
           type="number"
-          defaultValue={props.numberOfRows}
+          defaultValue={props.numberOfRows?.toString()}
           step={1}
           min={1}
           max={10}
@@ -83,21 +84,21 @@ const RowsSettings: React.FC = () => {
             setProp((props: RowsProps) => (props.numberOfRows = parseInt(e.target.value, 10)), 1000);
           }}
         />
-      </label>
-      <label>
-        Gap
-        <input
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+        <Label>Gap</Label>
+        <Input
           type="number"
-          defaultValue={props.gap}
+          defaultValue={props.gap?.toString()}
           step={1}
           min={0}
-          max={10}
+          max={20}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setProp((props: RowsProps) => (props.gap = parseInt(e.target.value, 10)), 1000);
           }}
         />
-      </label>
-    </>
+      </div>
+    </div>
   );
 };
 

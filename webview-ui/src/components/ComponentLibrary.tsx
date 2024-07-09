@@ -125,7 +125,6 @@ const ComponentLibrary: React.FC = () => {
                             connectors.create(ref,
                                 <Label
                                     {...LabelDefaultProps}
-                                    text="Hi"
                                 />
                             );
                         }
