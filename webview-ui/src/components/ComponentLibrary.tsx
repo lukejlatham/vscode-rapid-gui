@@ -18,7 +18,11 @@ import {
     ArrowLeft24Filled,
     ArrowLeft24Regular,
     LayoutRowTwoRegular,
-    LayoutColumnTwoRegular
+    LayoutColumnTwoRegular,
+    ArrowHookUpLeft24Regular,
+    ArrowHookUpRight24Regular,
+    DocumentSave24Regular,
+    Folder24Regular
 } from '@fluentui/react-icons';
 import { useEditor } from "@craftjs/core";
 import { Label, LabelDefaultProps } from './user/Label';
@@ -143,6 +147,17 @@ const ComponentLibrary: React.FC = () => {
                         }
                     }}>Columns</Button>
                 {/* </div> */}
+                <div style={{ paddingTop: "20px", textAlign: "center"}}><Subtitle2>Project Management</Subtitle2></div>
+                <Divider style={{flexGrow: "0"}}></Divider>
+                {/* <div style={{display:"grid", gridTemplateColumns: 'auto auto'}}> */}
+                <Button icon={<DocumentSave24Regular />} appearance='outline' onClick={handleSave}>Save</Button>
+                {isSaved}
+                <Button icon={<Folder24Regular />} appearance='outline' onClick={handleLoad}>Load</Button>
+                {canUndo}
+                <Button icon={<ArrowHookUpRight24Regular />} appearance='outline' onClick={handleRedo}>Redo</Button>
+                {canRedo}
+                <Button icon={<ArrowHookUpLeft24Regular />} appearance='outline' onClick={handleUndo}>Undo</Button>
+                {canUndo}
             </div>
         </>
     );
