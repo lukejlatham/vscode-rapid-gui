@@ -38,7 +38,7 @@ const convertToCraftJsNodes = (node: UiNode, parentId: string | null = null): Cr
 
   const craftNode: CraftNode = {
     type: { resolvedName: type },
-    isCanvas: ['Container', 'Canvas'].includes(type),
+    isCanvas: ['Container', 'Row', 'Column'].includes(type),
     props: { id: node[type].id },
     displayName: type,
     custom: {},

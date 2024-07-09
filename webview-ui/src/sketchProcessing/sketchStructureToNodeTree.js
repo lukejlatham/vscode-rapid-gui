@@ -36,7 +36,7 @@ var convertToCraftJsNodes = function (node, parentId) {
     var childNodes = children.map(function (child) { return convertToCraftJsNodes(child, nodeId); });
     var craftNode = {
         type: { resolvedName: type },
-        isCanvas: ['Container', 'Canvas'].includes(type),
+        isCanvas: ['Container', 'Row', 'Column'].includes(type),
         props: { id: node[type].id },
         displayName: type,
         custom: {},
