@@ -12,20 +12,22 @@ import PropertyInspector from '../../components/PropertyInspector';
 const useStyles = makeStyles({
     mainLayout: {
         display: 'flex',
-        height: '100vh',
+        height: '95vh',
         width: '95vw', // Ensure it takes the full width of the window
     },
     componentLibrary: {
         flex: '0 0 200px', // Fixed width for the component library
         display: 'flex',
         flexDirection: 'column',
-        ...shorthands.padding('20px'),
+        height: '100%',
+        ...shorthands.padding('0px'),
     },
     canvas: {
         flexGrow: 1, // Take up remaining space
         display: 'flex',
         flexDirection: 'column',
-        ...shorthands.padding('20px'),
+        borderRadius: '3px',
+        ...shorthands.padding('10px'),
         background: '#333', // Just to visualize the area
         overflow: 'none'
     },
@@ -33,7 +35,7 @@ const useStyles = makeStyles({
         flex: '0 0 200px', // Fixed width for the property inspector
         display: 'flex',
         flexDirection: 'column',
-        ...shorthands.padding('20px'),
+        ...shorthands.padding('10px'),
     },
 });
 

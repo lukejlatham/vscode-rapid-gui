@@ -44,7 +44,7 @@ const useStyles = makeStyles({
         display: 'flex',
         flexDirection: 'column',
         height: '100vh',
-        borderRight: '1px solid #3C3E44',
+        
         paddingRight: '20px',
         gap: '10px'
     },
