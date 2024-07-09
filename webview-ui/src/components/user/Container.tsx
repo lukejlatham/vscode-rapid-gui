@@ -1,27 +1,33 @@
-import React, { ReactNode, FC } from 'react';
-import { Card } from '@fluentui/react-components';
 import { useNode } from "@craftjs/core";
+import React, { ReactNode } from "react";
 
 interface ContainerProps {
-    children: ReactNode;
-    // height?: string | number;
-    // width?: string | number;
+  children?: ReactNode;
+  [key: string]: any;
 }
 
-export const Container: FC<ContainerProps> = ({ children }) => {
-    const { connectors: { connect, drag } } = useNode();
+export const Container: React.FC<ContainerProps> = ({ children, ...props }) => {
+  const {
+    connectors: { connect, drag },
+  } = useNode();
 
-    return (
-        <Card appearance='filled' ref={(ref: HTMLDivElement | null) => {
-            if (ref) {
-                connect(drag(ref));
-            }
-        }} style={{ height: "100%", width: "80vw" }}>
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
-                {children}
-            </div>
-        </Card>
-    );
-}
-
-// height="100%" width="80vw"
+  return (
+    <div className="" {...props} ref={(ref) => ref && connect(drag(ref))}>
+      {children ? (
+        children
+      ) : (
+        <div style={{
+            textAlign: 'center',
+            fontStyle: 'italic',
+            padding: '1rem', // Using equivalent of p-4 (adjust as needed)
+            backgroundColor: 'rgba(255, 242, 153, 1)', // Using equivalent of bg-yellow-100
+            outlineWidth: '1px', // Using equivalent of outline-1
+            outlineStyle: 'dashed', // Using equivalent of outline-dashed
+            outlineColor: 'rgba(255, 193, 7, 1)' // Using equivalent of outline-amber-400
+          }}>
+          Empty container
+        </div>
+      )}
+    </div>
+  );
+};

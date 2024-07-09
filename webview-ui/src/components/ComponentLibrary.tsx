@@ -10,21 +10,21 @@ import {
 } from "@fluentui/react-components";
 import {
     Image24Regular,
-    TextAlignLeft20Filled,
-    Square24Regular,
+    TextboxRegular,
     bundleIcon,
     Button20Regular,
     Button20Filled,
     TextT24Regular,
-    ImageCircle24Filled,
-    ImageCircle24Regular,
     ArrowLeft24Filled,
-    ArrowLeft24Regular
+    ArrowLeft24Regular,
+    LayoutRowTwoRegular,
+    LayoutColumnTwoRegular
 } from '@fluentui/react-icons';
-import { Element, useEditor } from "@craftjs/core";
-import { Text } from "./user/Text";
-import { Canvas } from "./user/Canvas";
-import testJSON from "../data/testKnownState.json";
+import { useEditor } from "@craftjs/core";
+import { Label, LabelDefaultProps } from './user/Label';
+import { Button as UserButton, ButtonDefaultProps } from "./user/Button";
+import { Rows } from './user/Rows';
+import { Columns } from './user/Columns';
 
 const useStyles = makeStyles({
     component: {
@@ -39,9 +39,9 @@ const useStyles = makeStyles({
         display: 'flex',
         flexDirection: 'column',
         height: '100vh',
-        borderRight: '1px solid #FFFFFF',
-        paddingRight: '30px',
-        gap: '10px',
+        borderRight: '1px solid #3C3E44',
+        paddingRight: '20px',
+        gap: '10px'
     },
     header: {
         paddingTop: '10px',
@@ -49,22 +49,12 @@ const useStyles = makeStyles({
         justifyContent: 'space-around',
         alignItems: 'center',
     },
-    invisibleButton: {
-        backgroundColor: 'inherit',
-        border: 'none',
-        padding: 0,
-        margin: 0,
-        cursor: 'pointer',
-        // color: 'inherit'
-    }
 });
 
 const ButtonIcon = bundleIcon(Button20Filled, Button20Regular);
 const LabelIcon = bundleIcon(TextT24Regular, TextT24Regular);
 const ImageIcon = bundleIcon(Image24Regular, Image24Regular);
-const IconIcon = bundleIcon(ImageCircle24Filled, ImageCircle24Regular);
-const TextIcon = bundleIcon(TextAlignLeft20Filled, TextAlignLeft20Filled);
-const CanvasIcon = bundleIcon(Square24Regular, Square24Regular);
+const TextIcon = bundleIcon(TextboxRegular, TextboxRegular);
 const BackButtonIcon = bundleIcon(ArrowLeft24Filled, ArrowLeft24Regular);
 
 const ComponentLibrary: React.FC = () => {
@@ -101,7 +91,7 @@ const ComponentLibrary: React.FC = () => {
             <div className={styles.root}>
                 <div className={styles.header}>
                     <Button
-                        appearance="subtle"
+                        appearance="outline"
                         aria-label="Close"
                         icon={<BackButtonIcon />}
                         onClick={() => navigate(-1)}
@@ -111,31 +101,47 @@ const ComponentLibrary: React.FC = () => {
                 <div style={{ paddingTop: "20px" }}>
                     <SearchBox placeholder="Search components" />
                 </div>
-                <div style={{ paddingTop: "20px"}}><Subtitle2>Component Library</Subtitle2></div>
-                <Button icon={<ButtonIcon />} appearance='subtle'>Button</Button>
-                <Button icon={<LabelIcon />} appearance='subtle'>Label</Button>
-                <Button icon={<ImageIcon />} appearance='subtle'>Image</Button>
-                <Button icon={<IconIcon />} appearance='subtle'>Icon</Button>
-                <Button appearance='subtle' icon={<TextIcon />} ref={ref => {
+                <div style={{ paddingTop: "20px", textAlign: "center"}}><Subtitle2>Component Library</Subtitle2></div>
+                {/* <div style={{display:"grid", gridTemplateColumns: 'auto auto'}}> */}
+                <Divider style={{flexGrow: "0"}}/>
+                <Button icon={<ButtonIcon />} appearance='outline' ref={ref => {
                     if (ref !== null) {
-                        connectors.create(ref, <Text fontSize="small" text="Hi world" />);
+                        connectors.create(ref, <UserButton 
+                            {...ButtonDefaultProps}/>);
                     }
-                }}>Text</Button>
-                <div>
-                    <Divider />
-                    <Button icon={<CanvasIcon />} appearance='subtle' ref={ref => {
+                }}>Button</Button>
+                <Button icon={<ImageIcon />} appearance='outline'>Image</Button>
+                <Button icon={<TextIcon />} appearance='outline'>TextBox</Button>
+                <Button
+                    appearance='outline'
+                    icon={<LabelIcon />}
+                    ref={ref => {
                         if (ref !== null) {
-                            connectors.create(ref, <Element is={Canvas} padding={20} canvas />);
+                            connectors.create(ref,
+                                <Label
+                                    {...LabelDefaultProps}
+                                    text="Hi"
+                                />
+                            );
                         }
-                    }}>Canvas</Button>
-                </div>
-                <Button appearance='subtle' onClick={handleSave}>Save</Button> 
-                {isSaved}
-                <Button appearance='subtle' onClick={handleRedo}>Redo</Button>
-                {canRedo}
-                <Button appearance='subtle' onClick={handleUndo}>Undo</Button>
-                {canUndo}
-                <Button appearance='subtle' onClick={handleLoad}>Load</Button>
+                    }}
+                >
+                    Label
+                </Button>
+                {/* </div> */}
+                    <Divider style={{flexGrow: "0"}}>Layout</Divider>
+                    {/* <div style={{display:"grid", gridTemplateColumns: 'auto auto'}}> */}
+                    <Button icon={<LayoutRowTwoRegular />} appearance='outline' ref={ref => {
+                        if (ref !== null) {
+                            connectors.create(ref, <Rows/>);
+                        }
+                    }}>Rows</Button>
+                    <Button icon={<LayoutColumnTwoRegular />} appearance='outline' ref={ref => {
+                        if (ref !== null) {
+                            connectors.create(ref, <Columns/>);
+                        }
+                    }}>Columns</Button>
+                {/* </div> */}
             </div>
         </>
     );
