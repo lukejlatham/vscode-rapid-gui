@@ -25,6 +25,7 @@ import { Label, LabelDefaultProps } from './user/Label';
 import { Button as UserButton, ButtonDefaultProps } from "./user/Button";
 import { Rows } from './user/Rows';
 import { Columns } from './user/Columns';
+import testJSON from '../data/testKnownState.json';
 
 const useStyles = makeStyles({
     component: {

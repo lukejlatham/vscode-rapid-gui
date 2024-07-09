@@ -6,7 +6,7 @@ import {
     NodeId,
     Resolver,
   } from "@craftjs/core";
-  import { Text } from "../components/user/Text";
+  // import { Text } from "../components/user/Text";
   import _ from "lodash";
   import React from "react";
   import ReactDOMServer from "react-dom/server";
@@ -19,7 +19,7 @@ import {
   export type SerializedNodeWithId = SerializedNode & { id: string };
   
   const RESOLVERS: Resolver = {
-    Text,
+    // Text,
   };
   
   export const getNodeById = (nodes: SerializedNodeWithId[], id: NodeId) => {
