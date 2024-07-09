@@ -1,32 +1,64 @@
-// import axios from 'axios';
-// import * as dotenv from 'dotenv';
-// import * as fs from 'fs';
-// import * as path from 'path';
+import axios from 'axios';
+import * as dotenv from 'dotenv';
+import * as fs from 'fs';
+import * as path from 'path';
 
-// dotenv.config();
+dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
 
-// const AZURE_OPENAI_API_KEY = process.env.GPT4O_API_KEY;
-// const AZURE_OPENAI_API_ENDPOINT = process.env.GPT4O_DEPLOYMENT_ENDPOINT;
-// const AZURE_OPENAI_API_MODEL = process.env.GPT4O_DEPLOYMENT_NAME;
-// const DVLA_API_KEY = process.env.DVLA_API_KEY;
+const AZURE_OPENAI_API_KEY = process.env.AZURE_OPENAI_API_KEY;
+const AZURE_OPENAI_API_ENDPOINT = process.env.AZURE_OPENAI_API_ENDPOINT;
+const AZURE_OPENAI_API_MODEL = process.env.GPT4O_DEPLOYMENT_NAME;
 
-// async function callOpenAI(text: any) {
-//     const response = await axios.post(
-//         `${AZURE_OPENAI_API_ENDPOINT}/openai/deployments/${AZURE_OPENAI_API_MODEL}/chat/completions?api-version=2024-02-01`,
-//         {
-//             model: AZURE_OPENAI_API_MODEL,
-//             messages: text,
-//             temperature: 0.0
-//         },
-//         {
-//             headers: {
-//                 'Content-Type': 'application/json',
-//                 'api-key': AZURE_OPENAI_API_KEY
-//             }
-//         }
-//     );
-//     return response.data.choices[0].message.content;
-// }
+console.log("AZURE_OPENAI_API_KEY:", AZURE_OPENAI_API_KEY);
+console.log("AZURE_OPENAI_API_ENDPOINT:", AZURE_OPENAI_API_ENDPOINT);
+console.log("AZURE_OPENAI_API_MODEL:", AZURE_OPENAI_API_MODEL);
+
+if (!AZURE_OPENAI_API_KEY || !AZURE_OPENAI_API_ENDPOINT || !AZURE_OPENAI_API_MODEL) {
+    console.error('One or more environment variables are missing. Please check your .env file.');
+    process.exit(1);
+}
+
+async function callOpenAI(text:any) {
+    try {
+        const response = await axios.post(
+            `${AZURE_OPENAI_API_ENDPOINT}/openai/deployments/${AZURE_OPENAI_API_MODEL}/chat/completions?api-version=2024-02-01`,
+            {
+                messages: text,
+                temperature: 0.0
+            },
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'api-key': AZURE_OPENAI_API_KEY
+                }
+            }
+        );
+        return response.data.choices[0].message.content;
+    } catch (error) {
+        console.error('Error in callOpenAI:', error);
+        throw error;
+    }
+}
+
+// Send a test message and log the result
+async function sendTestMessage() {
+    const testMessages = [
+        { role: "system", content: "You are a helpful assistant." },
+        { role: "user", content: "Tell me a joke." }
+    ];
+
+    try {
+        const result = await callOpenAI(testMessages);
+        console.log("Response from OpenAI:", result);
+    } catch (error) {
+        console.error("Error calling OpenAI:", error);
+    }
+}
+
+// Run the test
+sendTestMessage();
+
+
 
 // function encodeImage(imagePath: string) {
 //     const image = fs.readFileSync(imagePath);
