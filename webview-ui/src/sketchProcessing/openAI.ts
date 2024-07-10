@@ -100,3 +100,5 @@
 //     const advertDescription = await callOpenAI(advertMessages);
 //     console.log(advertDescription);
 // })();
+
+export {};
