@@ -1,4 +1,4 @@
-import { useNode } from "@craftjs/core";
+import { useNode, UserComponent } from "@craftjs/core";
 import React, { ReactNode } from "react";
 import { Text } from "@fluentui/react-components";
 import { ArrowCircleDownFilled } from "@fluentui/react-icons";
@@ -8,7 +8,7 @@ interface ContainerProps {
   [key: string]: any;
 }
 
-export const Container: React.FC<ContainerProps> = ({ children, ...props }) => {
+export const Container: UserComponent<ContainerProps> = ({ children, ...props }) => {
   const {
     connectors: { connect, drag },
   } = useNode();
@@ -18,12 +18,15 @@ export const Container: React.FC<ContainerProps> = ({ children, ...props }) => {
       {children ? (
         children
       ) : (
-
-          <div style={{display: 'flex', justifyContent: 'center', borderStyle: 'dashed', outlineWidth: '1px', outlineColor: '#676767', padding: '40px', borderRadius: '10px'}}>
-            <ArrowCircleDownFilled style={{fontSize: '21px', paddingRight: '5px'}} />
-            <Text style={{textAlign: 'center'}}>Drop components here</Text>
-          </div>
+        <div style={{ display: 'flex', justifyContent: 'center', borderStyle: 'dashed', outlineWidth: '1px', outlineColor: '#676767', padding: '40px', borderRadius: '10px' }}>
+          <ArrowCircleDownFilled style={{ fontSize: '21px', paddingRight: '5px' }} />
+          <Text style={{ textAlign: 'center' }}>Drop components here</Text>
+        </div>
       )}
     </div>
   );
+};
+
+Container.craft = {
+  displayName: "Container",
 };

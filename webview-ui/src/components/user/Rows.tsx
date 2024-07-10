@@ -31,6 +31,10 @@ export const Row: UserComponent<RowProps> = ({ children, ...props }) => {
   );
 };
 
+Row.craft = {
+  displayName: "Row",
+};
+
 interface RowsProps {
   numberOfRows?: number;
   gap?: number;
@@ -108,6 +112,7 @@ export const RowsDefaultProps: RowsProps = {
 };
 
 (Rows as any).craft = {
+  displayName: "Rows",
   props: RowsDefaultProps,
   related: {
     settings: RowsSettings,
