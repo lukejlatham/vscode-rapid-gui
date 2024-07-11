@@ -1,6 +1,6 @@
 import React from "react";
 import { useNode, UserComponent } from "@craftjs/core";
-import { Input, Label } from "@fluentui/react-components";
+import { Input, Label, Radio, RadioGroup } from "@fluentui/react-components";
 
 interface ButtonProps {
     backgroundColor: string;
@@ -10,19 +10,22 @@ interface ButtonProps {
     width: number;
     height: number;
     text: string;
+    alignment: "left" | "center" | "right";
 }
 
-export const Button: UserComponent<ButtonProps> = ({ backgroundColor, fontSize, borderRadius, text, fontColor, width, height }) => {
+export const Button: UserComponent<ButtonProps> = ({ backgroundColor, fontSize, borderRadius, text, fontColor, width, height, alignment }) => {
     const { connectors: { connect, drag } } = useNode();
 
     return (
-        <button ref={(ref: HTMLButtonElement | null) => {
+        <div style={{display: "flex", justifyContent: alignment}}>
+            <button ref={(ref: HTMLButtonElement | null) => {
             if (ref) {
                 connect(drag(ref));
             }
         }} style={{ padding: "10px", color: fontColor, border: 'none', backgroundColor, fontSize: `${fontSize}px`, borderRadius: `${borderRadius}px`, width: `${width}px`, height: `${height}px` }}>
             {text}
         </button>
+        </div>
     );
 }
 
@@ -106,6 +109,20 @@ const ButtonSettings: React.FC = () => {
                     }}
                 />
             </Label>
+            <Label>
+                Alignment
+                <RadioGroup
+                    defaultValue={props.alignment}
+                    layout="horizontal-stacked"
+                    onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
+                        setProp((props: ButtonProps) => (props.alignment = data.value as 'left' | 'center' | 'right'), 1000);
+                      }}
+                >
+                    <Radio key="left" label="Left" value="left" />
+                    <Radio key="center" label="Center" value="center" />
+                    <Radio key="right" label="Right" value="right" />
+                </RadioGroup>
+            </Label>
         </div>
     );
 };
@@ -117,7 +134,8 @@ export const ButtonDefaultProps: ButtonProps = {
     borderRadius: 4,
     text: "New Button",
     width: 150,
-    height: 80
+    height: 50,
+    alignment: "left"
 };
 
 Button.craft = {
