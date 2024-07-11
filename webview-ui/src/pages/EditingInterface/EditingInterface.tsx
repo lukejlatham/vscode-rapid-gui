@@ -7,6 +7,7 @@ import { Button } from '../../components/user/Button';
 import { makeStyles, shorthands } from '@fluentui/react-components';
 import { Rows, Row } from '../../components/user/Rows';
 import { Columns, Column } from '../../components/user/Columns';
+import { TextBox } from '../../components/user/TextBox';
 import PropertyInspector from '../../components/PropertyInspector';
 
 const useStyles = makeStyles({
@@ -28,7 +29,7 @@ const useStyles = makeStyles({
         flexDirection: 'column',
         borderRadius: '3px',
         ...shorthands.padding('10px'),
-        background: 'white', // Just to visualize the area
+        background: '#333', // Just to visualize the area
         overflow: 'none'
     },
     propertyInspector: {
@@ -42,7 +43,7 @@ const useStyles = makeStyles({
 const EditingInterface: React.FC = () => {
     const classes = useStyles();
     return (
-        <Editor resolver={{ Label, Container, Button, Rows, Row, Column, Columns }}>
+        <Editor resolver={{ Label, Container, Button, Rows, Row, Column, Columns, TextBox }}>
             <div className={classes.mainLayout}>
                 <div className={classes.componentLibrary}>
                     <ComponentLibrary />

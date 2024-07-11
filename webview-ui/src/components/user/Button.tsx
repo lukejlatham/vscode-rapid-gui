@@ -52,6 +52,7 @@ const ButtonSettings: React.FC = () => {
             Border Radius
             <Input
                 type="number"
+                min={0}
                 defaultValue={props.borderRadius.toString()} // Convert the number to a string
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     setProp((props: ButtonProps) => (props.borderRadius = parseInt(e.target.value, 10)), 1000);

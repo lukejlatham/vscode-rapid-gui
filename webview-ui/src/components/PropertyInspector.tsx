@@ -64,7 +64,7 @@ export const PropertyInspector: React.FC = () => {
   });
 
   return selected ? (
-    <div style={{ padding: '10px', border: '2px solid #333', borderRadius: '10px' }}>
+    <div style={{ padding: '10px', border: '1px solid #FFFFFF', borderRadius: '10px' }}>
       <div style={{ paddingTop: "5px", paddingBottom: '10px', textAlign: "center" }}>
         <Subtitle2>Property inspector</Subtitle2>
       </div>

@@ -29,6 +29,7 @@ import { Label, LabelDefaultProps } from './user/Label';
 import { Button as UserButton, ButtonDefaultProps } from "./user/Button";
 import { Rows } from './user/Rows';
 import { Columns } from './user/Columns';
+import { TextBox, TextboxDefaultProps } from './user/TextBox';
 import testJSON from '../data/testKnownState.json';
 
 const useStyles = makeStyles({
@@ -44,7 +45,7 @@ const useStyles = makeStyles({
         display: 'flex',
         flexDirection: 'column',
         height: '100vh',
-        
+
         paddingRight: '20px',
         gap: '10px'
     },
@@ -106,17 +107,26 @@ const ComponentLibrary: React.FC = () => {
                 <div style={{ paddingTop: "20px" }}>
                     <SearchBox placeholder="Search components" />
                 </div>
-                <div style={{ paddingTop: "20px", textAlign: "center"}}><Subtitle2>Component Library</Subtitle2></div>
+                <div style={{ paddingTop: "20px", textAlign: "center" }}><Subtitle2>Component Library</Subtitle2></div>
                 {/* <div style={{display:"grid", gridTemplateColumns: 'auto auto'}}> */}
-                <Divider style={{flexGrow: "0"}}/>
+                <Divider style={{ flexGrow: "0" }} />
                 <Button icon={<ButtonIcon />} appearance='outline' ref={ref => {
                     if (ref !== null) {
-                        connectors.create(ref, <UserButton 
-                            {...ButtonDefaultProps}/>);
+                        connectors.create(ref, <UserButton
+                            {...ButtonDefaultProps} />);
                     }
                 }}>Button</Button>
                 <Button icon={<ImageIcon />} appearance='outline'>Image</Button>
-                <Button icon={<TextIcon />} appearance='outline'>TextBox</Button>
+                <Button icon={<TextIcon />} appearance='outline'
+                    ref={ref => {
+                        if (ref !== null) {
+                            connectors.create(ref,
+                                <TextBox
+                                    {...TextboxDefaultProps}
+                                />
+                            );
+                        }
+                    }}>TextBox</Button>
                 <Button
                     appearance='outline'
                     icon={<LabelIcon />}
@@ -133,21 +143,21 @@ const ComponentLibrary: React.FC = () => {
                     Label
                 </Button>
                 {/* </div> */}
-                    <Divider style={{flexGrow: "0"}}>Layout</Divider>
-                    {/* <div style={{display:"grid", gridTemplateColumns: 'auto auto'}}> */}
-                    <Button icon={<LayoutRowTwoRegular />} appearance='outline' ref={ref => {
-                        if (ref !== null) {
-                            connectors.create(ref, <Rows/>);
-                        }
-                    }}>Rows</Button>
-                    <Button icon={<LayoutColumnTwoRegular />} appearance='outline' ref={ref => {
-                        if (ref !== null) {
-                            connectors.create(ref, <Columns/>);
-                        }
-                    }}>Columns</Button>
+                <Divider style={{ flexGrow: "0" }}>Layout</Divider>
+                {/* <div style={{display:"grid", gridTemplateColumns: 'auto auto'}}> */}
+                <Button icon={<LayoutRowTwoRegular />} appearance='outline' ref={ref => {
+                    if (ref !== null) {
+                        connectors.create(ref, <Rows />);
+                    }
+                }}>Rows</Button>
+                <Button icon={<LayoutColumnTwoRegular />} appearance='outline' ref={ref => {
+                    if (ref !== null) {
+                        connectors.create(ref, <Columns />);
+                    }
+                }}>Columns</Button>
                 {/* </div> */}
-                <div style={{ paddingTop: "20px", textAlign: "center"}}><Subtitle2>Project Management</Subtitle2></div>
-                <Divider style={{flexGrow: "0"}}></Divider>
+                <div style={{ paddingTop: "20px", textAlign: "center" }}><Subtitle2>Project Management</Subtitle2></div>
+                <Divider style={{ flexGrow: "0" }}></Divider>
                 {/* <div style={{display:"grid", gridTemplateColumns: 'auto auto'}}> */}
                 <Button icon={<DocumentSave24Regular />} appearance='outline' onClick={handleSave}>Save</Button>
                 {isSaved}
