@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
     makeStyles,
@@ -20,16 +20,15 @@ import {
     LayoutRowTwoRegular,
     LayoutColumnTwoRegular,
     ArrowHookUpLeft24Regular,
-    ArrowHookUpRight24Regular,
-    DocumentSave24Regular,
-    Folder24Regular
+    ArrowHookUpRight24Regular
 } from '@fluentui/react-icons';
 import { useEditor } from "@craftjs/core";
 import { Label, LabelDefaultProps } from './user/Label';
 import { Button as UserButton, ButtonDefaultProps } from "./user/Button";
 import { Rows } from './user/Rows';
 import { Columns } from './user/Columns';
-import testJSON from '../data/testKnownState.json';
+import SaveButton from './SaveButton';
+import LoadButton from './LoadButton';
 
 const useStyles = makeStyles({
     component: {
@@ -65,23 +64,10 @@ const BackButtonIcon = bundleIcon(ArrowLeft24Filled, ArrowLeft24Regular);
 const ComponentLibrary: React.FC = () => {
     const styles = useStyles();
     const navigate = useNavigate();
-    const [isSaved, setIsSaved] = useState(false);
-    const { actions, canUndo, canRedo, connectors, query } = useEditor((_, query) => ({
+    const { actions, canUndo, canRedo, connectors } = useEditor((_, query) => ({
         canUndo: query.history.canUndo(),
         canRedo: query.history.canRedo(),
     }));
-
-    const handleSave = () => {
-        const serializedData = query.serialize();
-        console.log(serializedData);
-        setIsSaved(true);
-    };
-
-    const handleLoad = () => {
-        console.log("Deserializing JSON:", JSON.stringify(testJSON));
-        actions.deserialize(JSON.stringify(testJSON));
-    };
-
 
     const handleUndo = () => {
         actions.history.undo()
@@ -107,7 +93,6 @@ const ComponentLibrary: React.FC = () => {
                     <SearchBox placeholder="Search components" />
                 </div>
                 <div style={{ paddingTop: "20px", textAlign: "center"}}><Subtitle2>Component Library</Subtitle2></div>
-                {/* <div style={{display:"grid", gridTemplateColumns: 'auto auto'}}> */}
                 <Divider style={{flexGrow: "0"}}/>
                 <Button icon={<ButtonIcon />} appearance='outline' ref={ref => {
                     if (ref !== null) {
@@ -132,27 +117,21 @@ const ComponentLibrary: React.FC = () => {
                 >
                     Label
                 </Button>
-                {/* </div> */}
-                    <Divider style={{flexGrow: "0"}}>Layout</Divider>
-                    {/* <div style={{display:"grid", gridTemplateColumns: 'auto auto'}}> */}
-                    <Button icon={<LayoutRowTwoRegular />} appearance='outline' ref={ref => {
-                        if (ref !== null) {
-                            connectors.create(ref, <Rows/>);
-                        }
-                    }}>Rows</Button>
-                    <Button icon={<LayoutColumnTwoRegular />} appearance='outline' ref={ref => {
-                        if (ref !== null) {
-                            connectors.create(ref, <Columns/>);
-                        }
-                    }}>Columns</Button>
-                {/* </div> */}
+                <Divider style={{flexGrow: "0"}}>Layout</Divider>
+                <Button icon={<LayoutRowTwoRegular />} appearance='outline' ref={ref => {
+                    if (ref !== null) {
+                        connectors.create(ref, <Rows/>);
+                    }
+                }}>Rows</Button>
+                <Button icon={<LayoutColumnTwoRegular />} appearance='outline' ref={ref => {
+                    if (ref !== null) {
+                        connectors.create(ref, <Columns/>);
+                    }
+                }}>Columns</Button>
                 <div style={{ paddingTop: "20px", textAlign: "center"}}><Subtitle2>Project Management</Subtitle2></div>
                 <Divider style={{flexGrow: "0"}}></Divider>
-                {/* <div style={{display:"grid", gridTemplateColumns: 'auto auto'}}> */}
-                <Button icon={<DocumentSave24Regular />} appearance='outline' onClick={handleSave}>Save</Button>
-                {isSaved}
-                <Button icon={<Folder24Regular />} appearance='outline' onClick={handleLoad}>Load</Button>
-                {canUndo}
+                <SaveButton />
+                <LoadButton />
                 <Button icon={<ArrowHookUpRight24Regular />} appearance='outline' onClick={handleRedo}>Redo</Button>
                 {canRedo}
                 <Button icon={<ArrowHookUpLeft24Regular />} appearance='outline' onClick={handleUndo}>Undo</Button>
