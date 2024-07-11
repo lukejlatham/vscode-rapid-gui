@@ -87,10 +87,10 @@ function extractLayout(userDescription) {
                                 { role: "user", content: userDescription },
                             ],
                             response_model: {
-                                schema: editorObjectSchemas_1.RootSchema,
+                                schema: editorObjectSchemas_1.HierarchySchema,
                                 name: "Layout",
                             },
-                            max_retries: 4,
+                            max_retries: 1,
                         })];
                 case 2:
                     layout = _a.sent();
@@ -105,7 +105,7 @@ function extractLayout(userDescription) {
     });
 }
 // Example usage
-var userDescription = "Create a layout with a main container. Inside, add two columns. In the first column, put a label. In the second column, add a button. Below the columns, add two rows, each with a button inside.";
+var userDescription = "Create a layout for a simple settings page.";
 extractLayout(userDescription)
     .then(function (layout) { return console.log("Extracted layout:", JSON.stringify(layout, null, 2)); })
     .catch(function (error) { return console.error("Error extracting layout:", error); });

@@ -2,7 +2,7 @@ import Instructor from "@instructor-ai/instructor";
 import { AzureOpenAI } from "openai";
 import * as dotenv from "dotenv";
 
-import { RootSchema } from "./editorObjectSchemas";
+import { HierarchySchema } from "./editorObjectSchemas";
 
 // Load environment variables from .env file
 dotenv.config();
@@ -52,7 +52,7 @@ async function extractLayout(userDescription: string) {
         { role: "user", content: userDescription },
       ],
       response_model: {
-        schema: RootSchema,
+        schema: HierarchySchema,
         name: "Layout",
       },
       max_retries: 1,
@@ -65,8 +65,7 @@ async function extractLayout(userDescription: string) {
 }
 
 // Example usage
-const userDescription =
-  "Create a layout with a main container. Inside, add two columns. In the first column, put a label. In the second column, add a button. Below the columns, add two rows, each with a button inside.";
+const userDescription = "Create a layout for a simple settings page.";
 
 extractLayout(userDescription)
   .then((layout) => console.log("Extracted layout:", JSON.stringify(layout, null, 2)))
