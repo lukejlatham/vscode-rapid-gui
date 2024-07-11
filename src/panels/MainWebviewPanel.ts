@@ -10,6 +10,7 @@ import {
 import { getUri } from "../utilities/getUri";
 import { getNonce } from "../utilities/getNonce";
 import { getAzureOpenaiApiKeys } from "../utilities/azureApiKeyStorage";
+import { handleFileSave, handleFileLoad } from "../utilities/projectSaveUtilities";
 
 export class MainWebviewPanel {
   public static currentPanel: MainWebviewPanel | undefined;
@@ -152,6 +153,12 @@ export class MainWebviewPanel {
             const secrets = await getAzureOpenaiApiKeys(this._context);
             webview.postMessage({ command: "setAzureApiKeys", ...secrets });
             window.showInformationMessage("Azure API keys received.");
+            return;
+          case "saveFile":
+            await handleFileSave(message.content, this._context);
+            return;
+          case "loadFile":
+            await handleFileLoad(this._context, webview);
             return;
         }
       },
