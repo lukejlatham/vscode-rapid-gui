@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import { ExtensionContext } from "vscode";
 import { MainWebviewPanel } from "./panels/MainWebviewPanel";
 import { RecentProjectsTreeViewProvider } from "./panels/SideBarPanel/RecentProjectsTreeviewProvider";
 import { getAzureOpenaiApiKeys } from "./utilities/azureApiKeyStorage";
@@ -7,7 +8,7 @@ export function activate(context: vscode.ExtensionContext) {
   // Command to show the main webview panel
   context.subscriptions.push(
     vscode.commands.registerCommand("mainWebviewPanel.showMainWebviewPanel", () => {
-      MainWebviewPanel.render(context.extensionUri);
+      MainWebviewPanel.render(context.extensionUri, context);
     })
   );
 
@@ -36,14 +37,16 @@ export function activate(context: vscode.ExtensionContext) {
     })
   );
 
-  // Command to test API keys
   context.subscriptions.push(
     vscode.commands.registerCommand("extension.testApiKeysCommand", async () => {
-      MainWebviewPanel.render(context.extensionUri);
+      MainWebviewPanel.render(context.extensionUri, context);
 
       if (MainWebviewPanel.currentPanel) {
         const secrets = await getAzureOpenaiApiKeys(context);
-        MainWebviewPanel.currentPanel.postMessage({ command: "setAzureApiKeys", ...secrets });
+        MainWebviewPanel.currentPanel.postMessage({
+          command: "setAzureApiKeys",
+          ...secrets,
+        });
         vscode.window.showInformationMessage("Testing API keys: " + JSON.stringify(secrets));
       } else {
         vscode.window.showErrorMessage("Failed to open the webview panel.");
@@ -51,7 +54,6 @@ export function activate(context: vscode.ExtensionContext) {
     })
   );
 
-  // Command to store secrets
   context.subscriptions.push(
     vscode.commands.registerCommand("extension.getAzureApiKeys", async () => {
       const apiKey = await vscode.window.showInputBox({
@@ -68,6 +70,7 @@ export function activate(context: vscode.ExtensionContext) {
         await context.secrets.store("AZURE_OPENAI_API_KEY", apiKey);
         await context.secrets.store("AZURE_OPENAI_API_ENDPOINT", apiEndpoint);
         await context.secrets.store("GPT4O_DEPLOYMENT_NAME", deploymentName);
+
         vscode.window.showInformationMessage("Added API keys to storage.");
       }
     })

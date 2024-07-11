@@ -11,73 +11,41 @@ import { getUri } from "../utilities/getUri";
 import { getNonce } from "../utilities/getNonce";
 import { getAzureOpenaiApiKeys } from "../utilities/azureApiKeyStorage";
 
-/**
- * This class manages the state and behavior of main webview panels.
- *
- * It contains all the data and methods for:
- *
- * - Creating and rendering Main webview panels
- * - Properly cleaning up and disposing of webview resources when the panel is closed
- * - Setting the HTML (and by proxy CSS/JavaScript) content of the webview panel
- * - Setting message listeners so data can be passed between the webview and extension
- */
 export class MainWebviewPanel {
   public static currentPanel: MainWebviewPanel | undefined;
   private readonly _panel: WebviewPanel;
-  private readonly _context!: ExtensionContext; // Use non-null assertion operator
+  private readonly _context: ExtensionContext;
   private _disposables: Disposable[] = [];
+  private static allowedUrls: Set<string> = new Set();
 
-  /**
-   * The Main class private constructor (called only from the render method).
-   *
-   * @param panel A reference to the webview panel
-   * @param extensionUri The URI of the directory containing the extension
-   */
-  private constructor(panel: WebviewPanel, extensionUri: Uri) {
+  private constructor(panel: WebviewPanel, extensionUri: Uri, context: ExtensionContext) {
     this._panel = panel;
+    this._context = context;
+
     // Set an event listener to listen for when the panel is disposed (i.e. when the user closes
     // the panel or when the panel is closed programmatically)
     this._panel.onDidDispose(() => this.dispose(), null, this._disposables);
 
-    // Set the HTML content for the webview panel
-    this._panel.webview.html = this._getWebviewContent(this._panel.webview, extensionUri);
+    // Fetch the API endpoint and set the HTML content for the webview panel
+    this._setWebviewContent(extensionUri);
 
     // Set an event listener to listen for messages passed from the webview context
     this._setWebviewMessageListener(this._panel.webview);
   }
 
-  /**
-   * Renders the current webview panel if it exists otherwise a new webview panel
-   * will be created and displayed.
-   *
-   * @param extensionUri The URI of the directory containing the extension.
-   */
-  public static render(extensionUri: Uri) {
+  public static render(extensionUri: Uri, context: ExtensionContext) {
     if (MainWebviewPanel.currentPanel) {
-      // If the webview panel already exists reveal it
       MainWebviewPanel.currentPanel._panel.reveal(ViewColumn.One);
     } else {
-      // If a webview panel does not already exist create and show a new one
-      const panel = window.createWebviewPanel(
-        // Panel view type
-        "showMainWebviewPanel",
-        // Panel title
-        "UI Studio",
-        // The editor column the panel should be displayed in
-        ViewColumn.One,
-        // Extra panel configurations
-        {
-          // Enable JavaScript in the webview
-          enableScripts: true,
-          // Restrict the webview to only load resources from the `out` and `webview-ui/build` directories
-          localResourceRoots: [
-            Uri.joinPath(extensionUri, "out"),
-            Uri.joinPath(extensionUri, "webview-ui/build"),
-          ],
-        }
-      );
+      const panel = window.createWebviewPanel("showMainWebviewPanel", "UI Studio", ViewColumn.One, {
+        enableScripts: true,
+        localResourceRoots: [
+          Uri.joinPath(extensionUri, "out"),
+          Uri.joinPath(extensionUri, "webview-ui/build"),
+        ],
+      });
 
-      MainWebviewPanel.currentPanel = new MainWebviewPanel(panel, extensionUri);
+      MainWebviewPanel.currentPanel = new MainWebviewPanel(panel, extensionUri, context);
     }
   }
 
@@ -100,6 +68,32 @@ export class MainWebviewPanel {
   }
 
   /**
+   * Adds a URL to the allowed list for sending/receiving messages.
+   * @param url The URL to allow.
+   */
+  public static allowUrl(url: string) {
+    MainWebviewPanel.allowedUrls.add(url);
+  }
+
+  /**
+   * Fetches the API endpoint from secrets and sets the HTML content for the webview panel.
+   *
+   * @param extensionUri The URI of the directory containing the extension
+   */
+  private async _setWebviewContent(extensionUri: Uri) {
+    const apiEndpoint = (await this._context.secrets.get("AZURE_OPENAI_API_ENDPOINT")) || "";
+    MainWebviewPanel.allowUrl(apiEndpoint);
+    const connectSrcUrls = Array.from(MainWebviewPanel.allowedUrls).join(" ");
+    window.showInformationMessage(`API endpoint: ${apiEndpoint}`);
+    window.showInformationMessage(`Connect src URLs: ${connectSrcUrls}`);
+    this._panel.webview.html = this._getWebviewContent(
+      this._panel.webview,
+      extensionUri,
+      connectSrcUrls
+    );
+  }
+
+  /**
    * Defines and returns the HTML that should be rendered within the webview panel.
    *
    * @remarks This is also the place where references to the React webview build files
@@ -107,10 +101,11 @@ export class MainWebviewPanel {
    *
    * @param webview A reference to the extension webview
    * @param extensionUri The URI of the directory containing the extension
+   * @param connectSrcUrls The URLs allowed for connect-src in CSP
    * @returns A template string literal containing the HTML that should be
    * rendered within the webview panel
    */
-  private _getWebviewContent(webview: Webview, extensionUri: Uri) {
+  private _getWebviewContent(webview: Webview, extensionUri: Uri, connectSrcUrls: string): string {
     // The CSS file from the React build output
     const stylesUri = webview.asWebviewUri(
       Uri.joinPath(extensionUri, "webview-ui", "build", "static", "css", "main.css")
@@ -121,10 +116,8 @@ export class MainWebviewPanel {
       Uri.joinPath(extensionUri, "webview-ui", "build", "static", "js", "main.js")
     );
     const nonce = getNonce();
-    console.debug("Nonce generated:", nonce);
 
-    // Tip: Install the es6-string-html VS Code extension to enable code highlighting below
-    return /*html*/ `
+    return /* html */ `
       <!DOCTYPE html>
       <html lang="en">
         <head>
@@ -136,6 +129,7 @@ export class MainWebviewPanel {
             img-src https: vscode-resource:; 
             script-src 'nonce-${nonce}' vscode-resource:; 
             style-src 'unsafe-inline' vscode-resource:;
+            connect-src ${connectSrcUrls};
           ">
           <link rel="stylesheet" type="text/css" href="${stylesUri}">
           <title>Hello World</title>
@@ -167,7 +161,7 @@ export class MainWebviewPanel {
           case "getAzureKeys":
             const secrets = await getAzureOpenaiApiKeys(this._context);
             webview.postMessage({ command: "setAzureApiKeys", ...secrets });
-            window.showInformationMessage("Azure API keys recieved.");
+            window.showInformationMessage("Azure API keys received.");
             return;
         }
       },
