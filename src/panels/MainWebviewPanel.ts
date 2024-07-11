@@ -1,6 +1,15 @@
-import { Disposable, Webview, WebviewPanel, window, Uri, ViewColumn } from "vscode";
+import {
+  Disposable,
+  Webview,
+  WebviewPanel,
+  window,
+  Uri,
+  ViewColumn,
+  ExtensionContext,
+} from "vscode";
 import { getUri } from "../utilities/getUri";
 import { getNonce } from "../utilities/getNonce";
+import { getAzureOpenaiApiKeys } from "../utilities/AzureApiKeyStorage";
 
 /**
  * This class manages the state and behavior of main webview panels.
@@ -15,6 +24,7 @@ import { getNonce } from "../utilities/getNonce";
 export class MainWebviewPanel {
   public static currentPanel: MainWebviewPanel | undefined;
   private readonly _panel: WebviewPanel;
+  private readonly _context!: ExtensionContext; // Use non-null assertion operator
   private _disposables: Disposable[] = [];
 
   /**
@@ -60,7 +70,10 @@ export class MainWebviewPanel {
           // Enable JavaScript in the webview
           enableScripts: true,
           // Restrict the webview to only load resources from the `out` and `webview-ui/build` directories
-          localResourceRoots: [Uri.joinPath(extensionUri, "out"), Uri.joinPath(extensionUri, "webview-ui/build")],
+          localResourceRoots: [
+            Uri.joinPath(extensionUri, "out"),
+            Uri.joinPath(extensionUri, "webview-ui/build"),
+          ],
         }
       );
 
@@ -98,12 +111,15 @@ export class MainWebviewPanel {
    * rendered within the webview panel
    */
   private _getWebviewContent(webview: Webview, extensionUri: Uri) {
-
     // The CSS file from the React build output
-    const stylesUri = webview.asWebviewUri(Uri.joinPath(extensionUri, "webview-ui", "build", "static", "css", "main.css"));
+    const stylesUri = webview.asWebviewUri(
+      Uri.joinPath(extensionUri, "webview-ui", "build", "static", "css", "main.css")
+    );
 
     // The JS file from the React build output
-    const scriptUri = webview.asWebviewUri(Uri.joinPath(extensionUri, "webview-ui", "build", "static", "js", "main.js"));
+    const scriptUri = webview.asWebviewUri(
+      Uri.joinPath(extensionUri, "webview-ui", "build", "static", "js", "main.js")
+    );
     const nonce = getNonce();
     console.debug("Nonce generated:", nonce);
 
@@ -141,17 +157,18 @@ export class MainWebviewPanel {
    */
   private _setWebviewMessageListener(webview: Webview) {
     webview.onDidReceiveMessage(
-      (message: any) => {
+      async (message: any) => {
         const command = message.command;
-        const text = message.text;
 
         switch (command) {
           case "hello":
-            // Code that should run in response to the hello message command
-            window.showInformationMessage(text);
+            window.showInformationMessage(message.text);
             return;
-          // Add more switch case statements here as more webview message commands
-          // are created within the webview context (i.e. inside media/main.js)
+          case "getAzureKeys":
+            const secrets = await getAzureOpenaiApiKeys(this._context);
+            webview.postMessage({ command: "setAzureApiKeys", ...secrets });
+            window.showInformationMessage("Azure API keys sent to webview.");
+            return;
         }
       },
       undefined,
