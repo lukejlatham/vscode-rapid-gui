@@ -2,7 +2,12 @@ import * as vscode from "vscode";
 import { ExtensionContext } from "vscode";
 import { MainWebviewPanel } from "./panels/MainWebviewPanel";
 import { RecentProjectsTreeViewProvider } from "./panels/SideBarPanel/RecentProjectsTreeviewProvider";
-import { getAzureOpenaiApiKeys } from "./utilities/azureApiKeyStorage";
+import {
+  getAzureOpenaiApiKeys,
+  getAzureOpenaiApiEndpoint,
+  getAzureOpenaiApiKey,
+  getGpt4oDeploymentName,
+} from "./utilities/azureApiKeyStorage";
 
 export function activate(context: vscode.ExtensionContext) {
   // Command to show the main webview panel
@@ -55,25 +60,21 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand("extension.getAzureApiKeys", async () => {
-      const apiKey = await vscode.window.showInputBox({
-        prompt: "Enter your AZURE_OPENAI_API_KEY",
-      });
-      const apiEndpoint = await vscode.window.showInputBox({
-        prompt: "Enter your AZURE_OPENAI_API_ENDPOINT",
-      });
-      const deploymentName = await vscode.window.showInputBox({
-        prompt: "Enter your GPT4O_DEPLOYMENT_NAME",
-      });
+    vscode.commands.registerCommand("extension.getAzureOpenaiApiKey", () =>
+      getAzureOpenaiApiKey(context)
+    )
+  );
 
-      if (apiKey && apiEndpoint && deploymentName) {
-        await context.secrets.store("AZURE_OPENAI_API_KEY", apiKey);
-        await context.secrets.store("AZURE_OPENAI_API_ENDPOINT", apiEndpoint);
-        await context.secrets.store("GPT4O_DEPLOYMENT_NAME", deploymentName);
+  context.subscriptions.push(
+    vscode.commands.registerCommand("extension.getAzureOpenaiApiEndpoint", () =>
+      getAzureOpenaiApiEndpoint(context)
+    )
+  );
 
-        vscode.window.showInformationMessage("Added API keys to storage.");
-      }
-    })
+  context.subscriptions.push(
+    vscode.commands.registerCommand("extension.getGpt4oDeploymentName", () =>
+      getGpt4oDeploymentName(context)
+    )
   );
 
   // Register the custom view with buttons

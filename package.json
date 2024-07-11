@@ -38,11 +38,7 @@
       },
       {
         "command": "extension.testApiKeysCommand",
-        "title": "Test API Keys Command"
-      },
-      {
-        "command": "extension.getAzureApiKeys",
-        "title": "get API Keys"
+        "title": "Show current set API Keys stored in extension secrets"
       },
       {
         "command": "sidebar.showSideBar",
@@ -63,6 +59,18 @@
       {
         "command": "extension.createProjectFromText",
         "title": "Create Project from Text"
+      },
+      {
+        "command": "extension.getAzureOpenaiApiKey",
+        "title": "Get Azure OpenAI API Key"
+      },
+      {
+        "command": "extension.getAzureOpenaiApiEndpoint",
+        "title": "Get Azure OpenAI API Endpoint"
+      },
+      {
+        "command": "extension.getGpt4oDeploymentName",
+        "title": "Get GPT-4 Deployment Name"
       }
     ]
   },

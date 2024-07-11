@@ -66,15 +66,6 @@ export class MainWebviewPanel {
       }
     }
   }
-
-  /**
-   * Adds a URL to the allowed list for sending/receiving messages.
-   * @param url The URL to allow.
-   */
-  public static allowUrl(url: string) {
-    MainWebviewPanel.allowedUrls.add(url);
-  }
-
   /**
    * Fetches the API endpoint from secrets and sets the HTML content for the webview panel.
    *
@@ -82,8 +73,7 @@ export class MainWebviewPanel {
    */
   private async _setWebviewContent(extensionUri: Uri) {
     const apiEndpoint = (await this._context.secrets.get("AZURE_OPENAI_API_ENDPOINT")) || "";
-    MainWebviewPanel.allowUrl(apiEndpoint);
-    const connectSrcUrls = Array.from(MainWebviewPanel.allowedUrls).join(" ");
+    const connectSrcUrls = apiEndpoint;
     window.showInformationMessage(`API endpoint: ${apiEndpoint}`);
     window.showInformationMessage(`Connect src URLs: ${connectSrcUrls}`);
     this._panel.webview.html = this._getWebviewContent(
