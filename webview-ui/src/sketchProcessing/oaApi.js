@@ -38,8 +38,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var instructor_1 = require("@instructor-ai/instructor");
 var openai_1 = require("openai");
-var zod_1 = require("zod");
 var dotenv = require("dotenv");
+var editorObjectSchemas_1 = require("./editorObjectSchemas");
 // Load environment variables from .env file
 dotenv.config();
 if (!process.env.AZURE_OPENAI_API_KEY) {
@@ -58,17 +58,10 @@ console.log("AZURE_OPENAI_API_ENDPOINT:", AZURE_OPENAI_API_ENDPOINT);
 console.log("AZURE_OPENAI_API_KEY:", AZURE_OPENAI_API_KEY);
 console.log("GPT4O_DEPLOYMENT_NAME:", GPT4O_DEPLOYMENT_NAME);
 console.log("Full URL:", "".concat(AZURE_OPENAI_API_ENDPOINT, "/openai/deployments/").concat(GPT4O_DEPLOYMENT_NAME, "/chat/completions?api-version=2024-02-01"));
-// Define the UserSchema using Zod
-var UserSchema = zod_1.z.object({
-    age: zod_1.z.number(),
-    name: zod_1.z.string().refine(function (name) { return name.includes(" "); }, {
-        message: "Name must contain a space",
-    }),
-});
-// Create a function to set up the Azure OpenAI client and extract user information
-function extractUser() {
+// Create a function to set up the Azure OpenAI client and extract layout information
+function extractLayout(userDescription) {
     return __awaiter(this, void 0, void 0, function () {
-        var client, instructor, user, error_1;
+        var client, instructor, layout, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -86,19 +79,25 @@ function extractUser() {
                     _a.trys.push([1, 3, , 4]);
                     return [4 /*yield*/, instructor.chat.completions.create({
                             model: GPT4O_DEPLOYMENT_NAME,
-                            messages: [{ role: "user", content: "Jason Liu is 30 years old" }],
+                            messages: [
+                                {
+                                    role: "system",
+                                    content: "You are a layout generator. Your task is to create a JSON object representing a layout based on the user's description. Use the following element types: Container, Columns, Column, Rows, Row, Label, and Button. Each element should have a 'type' property and a 'children' property (except for Label and Button). The 'children' property should be an object where keys are unique identifiers and values are child elements.",
+                                },
+                                { role: "user", content: userDescription },
+                            ],
                             response_model: {
-                                schema: UserSchema,
-                                name: "User",
+                                schema: editorObjectSchemas_1.RootSchema,
+                                name: "Layout",
                             },
                             max_retries: 4,
                         })];
                 case 2:
-                    user = _a.sent();
-                    return [2 /*return*/, user];
+                    layout = _a.sent();
+                    return [2 /*return*/, layout];
                 case 3:
                     error_1 = _a.sent();
-                    console.error("Error extracting user:", error_1);
+                    console.error("Error extracting layout:", error_1);
                     throw error_1;
                 case 4: return [2 /*return*/];
             }
@@ -106,6 +105,7 @@ function extractUser() {
     });
 }
 // Example usage
-extractUser()
-    .then(function (user) { return console.log("Extracted user:", user); })
-    .catch(function (error) { return console.error("Error extracting user:", error); });
+var userDescription = "Create a layout with a main container. Inside, add two columns. In the first column, put a label. In the second column, add a button. Below the columns, add two rows, each with a button inside.";
+extractLayout(userDescription)
+    .then(function (layout) { return console.log("Extracted layout:", JSON.stringify(layout, null, 2)); })
+    .catch(function (error) { return console.error("Error extracting layout:", error); });
