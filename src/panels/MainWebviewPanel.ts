@@ -9,7 +9,7 @@ import {
 } from "vscode";
 import { getUri } from "../utilities/getUri";
 import { getNonce } from "../utilities/getNonce";
-import { getAzureOpenaiApiKeys } from "../utilities/AzureApiKeyStorage";
+import { getAzureOpenaiApiKeys } from "../utilities/azureApiKeyStorage";
 
 /**
  * This class manages the state and behavior of main webview panels.
@@ -167,12 +167,16 @@ export class MainWebviewPanel {
           case "getAzureKeys":
             const secrets = await getAzureOpenaiApiKeys(this._context);
             webview.postMessage({ command: "setAzureApiKeys", ...secrets });
-            window.showInformationMessage("Azure API keys sent to webview.");
+            window.showInformationMessage("Azure API keys recieved.");
             return;
         }
       },
       undefined,
       this._disposables
     );
+  }
+
+  public postMessage(message: any) {
+    this._panel.webview.postMessage(message);
   }
 }

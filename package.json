@@ -37,6 +37,14 @@
         "title": "Open UI Studio"
       },
       {
+        "command": "extension.testApiKeysCommand",
+        "title": "Test API Keys Command"
+      },
+      {
+        "command": "extension.getAzureApiKeys",
+        "title": "get API Keys"
+      },
+      {
         "command": "sidebar.showSideBar",
         "title": "Show Side Bar"
       },
