@@ -28,7 +28,7 @@ const useStyles = makeStyles({
         flexDirection: 'column',
         borderRadius: '3px',
         ...shorthands.padding('10px'),
-        background: '#333', // Just to visualize the area
+        background: 'white', // Just to visualize the area
         overflow: 'none'
     },
     propertyInspector: {
