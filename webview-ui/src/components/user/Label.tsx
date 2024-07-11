@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNode, UserComponent } from "@craftjs/core";
 import ContentEditable from "react-contenteditable";
+import { Label as FLabel, Input } from "@fluentui/react-components";
 
 interface LabelProps {
   text: string;
@@ -70,44 +71,51 @@ const LabelSettings: React.FC = () => {
     actions: { setProp },
     fontSize,
     color,
+    text
   } = useNode((node) => ({
     fontSize: node.data.props.fontSize,
     color: node.data.props.color,
+    text: node.data.props.text,
   }));
 
   return (
-    <div>
-      <label>
-        Font size
-        <input
-          type="range"
-          defaultValue={fontSize}
-          step={1}
-          min={1}
-          max={50}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setProp((props: LabelProps) => (props.fontSize = parseInt(e.target.value, 10)), 1000);
-          }}
-        />
-      </label>
-      <label>
-        Color
-        <input
-          type="color"
-          defaultValue={color}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setProp((props: LabelProps) => (props.color = e.target.value), 1000);
-          }}
-        />
-      </label>
+    <div style={{display: 'flex', flexDirection: 'column', gap: '10px', padding: '5px'}}>
+      <FLabel>
+                Font Size
+                <Input
+                    type="number"
+                    value={fontSize.toString()} // Convert the number to a string
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        setProp((props: LabelProps) => (props.fontSize = parseInt(e.target.value, 10)), 1000);
+                    }}
+                />
+            </FLabel>
+            <FLabel>
+                Color
+                <input
+                    style={{ width: "100%", borderRadius: "4px", height: "35px"}}
+                    type="color"
+                    defaultValue={color}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProp((props: LabelProps) => props.color = e.target.value)} />
+            </FLabel>
+            <FLabel>
+            Text
+            <Input
+                type="text"
+                defaultValue={text}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setProp((props: LabelProps) => (props.text = e.target.value), 1000);
+                }}
+            />
+            </FLabel>
     </div>
   );
 };
 
 export const LabelDefaultProps: LabelProps = {
-  text: "Hi",
+  text: "New Label",
   fontSize: 20,
-  color: "#000000", // Black
+  color: "#FFFFF",
   userEditable: true,
 };
 

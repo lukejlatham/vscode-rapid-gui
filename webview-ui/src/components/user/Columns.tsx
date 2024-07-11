@@ -2,6 +2,7 @@ import React, { ReactNode } from "react";
 import { Element, useNode, useEditor, UserComponent } from "@craftjs/core";
 import { Container } from "./Container";
 import {Body1Stronger} from '@fluentui/react-components';
+import { Label, Input } from "@fluentui/react-components";
 
 
 const EmptyColumn: React.FC = () => {
@@ -55,9 +56,9 @@ export const Columns: UserComponent<ColumnsProps> = ({ numberOfCols = 2, gap = 0
       display: 'flex',
       flexDirection: 'row',
       gap: `${gap}px`,
-      borderStyle: 'dashed',
-      outlineWidth: '0.5px',
-      outlineColor: 'rgba(0, 150, 136, 0.5)', // Equivalent to outline-teal-300 in Tailwind CSS
+      // borderStyle: 'dashed',
+      // outlineWidth: '0.5px',
+      // outlineColor: 'rgba(0, 150, 136, 0.5)', // Equivalent to outline-teal-300 in Tailwind CSS
       ...(enabled ? { ':hover': { borderTopWidth: '8px', borderTopColor: '#60A5FA' } } : {})
     }}
   >
@@ -86,11 +87,12 @@ const ColumnsSettings: React.FC = () => {
   }));
 
   return (
-    <>
-      <label>
-        <input
+    <div style={{display: 'flex', flexDirection: 'column', gap: '15px', padding: '5px'}}>
+      <div style={{display: 'flex', flexDirection: 'column', gap: '5px'}}>
+        <Label>Number of columns</Label>
+        <Input
           type="number"
-          defaultValue={props.numberOfCols}
+          defaultValue={props.numberOfCols?.toString()}
           step={1}
           min={1}
           max={10}
@@ -98,20 +100,21 @@ const ColumnsSettings: React.FC = () => {
             setProp((props: ColumnsProps) => (props.numberOfCols = parseInt(e.target.value, 10)), 1000);
           }}
         />
-      </label>
-      <label>
-        <input
+      </div>
+      <div style={{display: 'flex', flexDirection: 'column', gap: '5px'}}>
+        <Label>Gap</Label>
+        <Input
           type="number"
-          defaultValue={props.gap}
+          defaultValue={props.gap?.toString()}
           step={1}
           min={0}
-          max={10}
+          max={20}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setProp((props: ColumnsProps) => (props.gap = parseInt(e.target.value, 10)), 1000);
           }}
         />
-      </label>
-    </>
+      </div>
+    </div>
   );
 };
 
