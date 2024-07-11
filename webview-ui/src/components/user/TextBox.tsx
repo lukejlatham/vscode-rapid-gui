@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNode, UserComponent } from '@craftjs/core';
-import { Label, Input } from '@fluentui/react-components';
+import { Label, Input, Radio, RadioGroup } from '@fluentui/react-components';
 
 interface TextBoxProps {
     text: string;
@@ -11,9 +11,10 @@ interface TextBoxProps {
     borderRadius: number;
     rows: number;
     cols: number;
+    alignment: "left" | "center" | "right";
 }
 
-export const TextBox: UserComponent<TextBoxProps> = ({ text, fontSize, fontColor, placeholder, cols, rows, backgroundColor, borderRadius }) => {
+export const TextBox: UserComponent<TextBoxProps> = ({ text, fontSize, fontColor, placeholder, cols, rows, backgroundColor, borderRadius, alignment}) => {
     const {
         connectors: { connect, drag },
         selected,
@@ -31,7 +32,7 @@ export const TextBox: UserComponent<TextBoxProps> = ({ text, fontSize, fontColor
     };
 
     return (
-        <div ref={(ref: HTMLDivElement | null) => ref && connect(drag(ref))}>
+        <div ref={(ref: HTMLDivElement | null) => ref && connect(drag(ref))} style={{display: "flex", justifyContent: alignment}}>
             <textarea placeholder={placeholder} cols={cols} rows={rows} style={style}>
                 {text}
             </textarea>
@@ -117,6 +118,20 @@ const TextBoxSettings: React.FC = () => {
                 }}
             />
             </Label>
+            <Label>
+                Alignment
+                <RadioGroup
+                    defaultValue={props.alignment}
+                    layout="horizontal-stacked"
+                    onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
+                        setProp((props: TextBoxProps) => (props.alignment = data.value as 'left' | 'center' | 'right'), 1000);
+                      }}
+                >
+                    <Radio key="left" label="Left" value="left" />
+                    <Radio key="center" label="Center" value="center" />
+                    <Radio key="right" label="Right" value="right" />
+                </RadioGroup>
+            </Label>
         </div>
     );
 }
@@ -129,7 +144,8 @@ export const TextboxDefaultProps: TextBoxProps = {
     placeholder: 'Placeholder...',
     rows: 5,
     cols: 20,
-    borderRadius: 5
+    borderRadius: 5,
+    alignment: "left"
 }
 
 TextBox.craft = {
