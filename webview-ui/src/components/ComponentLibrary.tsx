@@ -30,6 +30,7 @@ import { Button as UserButton, ButtonDefaultProps } from "./user/Button";
 import { Rows } from './user/Rows';
 import { Columns } from './user/Columns';
 import { TextBox, TextboxDefaultProps } from './user/TextBox';
+import { Image, ImageDefaultProps } from './user/Image';
 import testJSON from '../data/testKnownState.json';
 
 const useStyles = makeStyles({
@@ -116,7 +117,16 @@ const ComponentLibrary: React.FC = () => {
                             {...ButtonDefaultProps} />);
                     }
                 }}>Button</Button>
-                <Button icon={<ImageIcon />} appearance='outline'>Image</Button>
+                <Button icon={<ImageIcon />} appearance='outline'
+                    ref={ref => {
+                        if (ref !== null) {
+                            connectors.create(ref,
+                                <Image
+                                    {...ImageDefaultProps}
+                                />
+                            );
+                        }
+                    }}>Image</Button>
                 <Button icon={<TextIcon />} appearance='outline'
                     ref={ref => {
                         if (ref !== null) {

@@ -8,6 +8,7 @@ import { makeStyles, shorthands } from '@fluentui/react-components';
 import { Rows, Row } from '../../components/user/Rows';
 import { Columns, Column } from '../../components/user/Columns';
 import { TextBox } from '../../components/user/TextBox';
+import { Image } from '../../components/user/Image';
 import PropertyInspector from '../../components/PropertyInspector';
 
 const useStyles = makeStyles({
@@ -43,7 +44,7 @@ const useStyles = makeStyles({
 const EditingInterface: React.FC = () => {
     const classes = useStyles();
     return (
-        <Editor resolver={{ Label, Container, Button, Rows, Row, Column, Columns, TextBox }}>
+        <Editor resolver={{ Label, Container, Button, Rows, Row, Column, Columns, TextBox, Image }}>
             <div className={classes.mainLayout}>
                 <div className={classes.componentLibrary}>
                     <ComponentLibrary />
