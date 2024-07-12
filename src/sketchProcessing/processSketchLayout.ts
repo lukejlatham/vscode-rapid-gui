@@ -6,7 +6,9 @@ import * as vscode from "vscode";
 
 // Create a function to set up the Azure OpenAI client and extract layout information
 async function getUIDescription(sketchAsUrl: string, context: vscode.ExtensionContext) {
+  console.log("Processing sketch:", sketchAsUrl);
   const { apiKey, apiEndpoint, deploymentName } = await getAzureOpenaiApiKeys(context);
+  console.log("Azure OpenAI API keys:", apiKey, apiEndpoint, deploymentName);
 
   const AZURE_OPENAI_API_ENDPOINT = apiEndpoint || "";
   const AZURE_OPENAI_API_KEY = apiKey || "";
@@ -59,26 +61,10 @@ async function getUIDescription(sketchAsUrl: string, context: vscode.ExtensionCo
   }
 }
 
-function encodeImage(file: File): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const result = reader.result as string;
-      const base64 = result.split(",")[1]; // Remove the data URL prefix
-      resolve(base64);
-    };
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
-
-export async function processSketch(file: File, context: vscode.ExtensionContext) {
+export async function processSketch(sketchAsUrl: string, context: vscode.ExtensionContext) {
   try {
-    const sketchAsUrl = await encodeImage(file);
-    // Assuming you want to check for an empty string or a specific format
-    if (!sketchAsUrl) {
-      throw new Error("Error encoding image: The result is empty.");
-    }
+    console.log("Sketch encoded as URL:", sketchAsUrl);
+    console.log("Processing sketch layout...");
     const description = await getUIDescription(sketchAsUrl, context);
     return description;
   } catch (error) {
