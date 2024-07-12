@@ -1,83 +1,60 @@
 {
-  "Container": {
-    "id": "container1",
-    "children": [
-      {
-        "Menu": {
-          "id": "menu1",
-          "children": [
-            { "Form": { "id": "form1" } },
-            { "Form": { "id": "form2" } },
-            { "Form": { "id": "form3" } },
-            { "Form": { "id": "form4" } }
-          ]
-        }
+  "nodes": [
+    {
+      "id": "container1",
+      "type": {
+        "resolvedName": "Container"
       },
-      {
-        "Column": {
-          "id": "column1",
-          "children": [
-            {
-              "Row": {
-                "id": "row1",
-                "children": [
-                  { "TextBox": { "id": "textbox1" } }
-                ]
-              }
-            },
-            {
-              "Row": {
-                "id": "row2",
-                "children": [
-                  { "TextBox": { "id": "textbox2" } }
-                ]
-              }
-            },
-            {
-              "Row": {
-                "id": "row3",
-                "children": [
-                  { "TextBox": { "id": "textbox3" } }
-                ]
-              }
-            },
-            {
-              "Row": {
-                "id": "row4",
-                "children": [
-                  { "TextBox": { "id": "textbox4" } }
-                ]
-              }
-            },
-            {
-              "Row": {
-                "id": "row5",
-                "children": [
-                  { "TextBox": { "id": "textbox5" } }
-                ]
-              }
-            }
-          ]
-        }
+      "children": ["columns1"]
+    },
+    {
+      "id": "columns1",
+      "type": {
+        "resolvedName": "Columns"
       },
-      {
-        "Row": {
-          "id": "row6",
-          "children": [
-            { "Label": { "id": "label1" } },
-            { "Picture": { "id": "picture1" } }
-          ]
-        }
+      "children": ["column1", "column2"]
+    },
+    {
+      "id": "column1",
+      "type": {
+        "resolvedName": "Column"
       },
-      {
-        "Row": {
-          "id": "row7",
-          "children": [
-            { "Label": { "id": "label2" } },
-            { "Button": { "id": "button1" } }
-          ]
-        }
-      }
-    ]
-  }
+      "children": ["label1", "label2"]
+    },
+    {
+      "id": "column2",
+      "type": {
+        "resolvedName": "Column"
+      },
+      "children": ["button1", "button2"]
+    },
+    {
+      "id": "label1",
+      "type": {
+        "resolvedName": "Label"
+      },
+      "children": []
+    },
+    {
+      "id": "label2",
+      "type": {
+        "resolvedName": "Label"
+      },
+      "children": []
+    },
+    {
+      "id": "button1",
+      "type": {
+        "resolvedName": "Button"
+      },
+      "children": []
+    },
+    {
+      "id": "button2",
+      "type": {
+        "resolvedName": "Button"
+      },
+      "children": []
+    }
+  ]
 }

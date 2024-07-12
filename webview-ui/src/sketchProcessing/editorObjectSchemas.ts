@@ -11,7 +11,7 @@ const NodeSchema = z.object({
   id: z
     .string()
     .describe(
-      "Unique identifier for the node - format can be type and number (e.g. button1). Must be unique within the tree"
+      "Unique identifier for the node - format can be type and number (e.g. button1) but first node is always called ROOT. Must be unique within the tree"
     ),
   type: NodeTypePropsSchema,
   children: z
