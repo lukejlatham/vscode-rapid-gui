@@ -47,7 +47,7 @@ async function getUIDescription(base64Image: string, context: vscode.ExtensionCo
       max_retries: 1,
     });
 
-    return JSON.stringify(layout);
+    return layout;
   } catch (error) {
     console.error("Error extracting layout:", error);
     throw error;
