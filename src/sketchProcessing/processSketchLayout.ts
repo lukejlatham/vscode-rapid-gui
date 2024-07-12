@@ -5,7 +5,7 @@ import { hierarchySchema } from "./editorObjectSchemas";
 import * as vscode from "vscode";
 
 // Create a function to set up the Azure OpenAI client and extract layout information
-async function getUIDescription(base64Image: string, context: vscode.ExtensionContext) {
+async function getUIDescription(sketchAsUrl: string, context: vscode.ExtensionContext) {
   const { apiKey, apiEndpoint, deploymentName } = await getAzureOpenaiApiKeys(context);
 
   const AZURE_OPENAI_API_ENDPOINT = apiEndpoint || "";
@@ -17,7 +17,6 @@ async function getUIDescription(base64Image: string, context: vscode.ExtensionCo
     baseURL: `${AZURE_OPENAI_API_ENDPOINT}/openai/deployments/${GPT4O_DEPLOYMENT_NAME}`,
     apiKey: AZURE_OPENAI_API_KEY,
   });
-
   const instructor = Instructor({
     client: client,
     mode: "TOOLS",
@@ -30,13 +29,19 @@ async function getUIDescription(base64Image: string, context: vscode.ExtensionCo
         {
           role: "system",
           content:
-            "You are a layout generator. Your task is to create a JSON object representing a layout based on the provided sketch. Use the following element types: Container, Columns, Column, Rows, Row, Label, and Button. Each element should have a 'type' property and a 'children' property (except for Label and Button). The 'children' property should be an object where keys are unique identifiers and values are child elements.",
+            "You are a layout generator. You create JSON objects representing a UI layout from sketches. Use the following element types: Container, Columns, Column, Rows, Row, Label, and Button. Each element should have a 'type' property and a 'children' property (except for Label and Button). The 'children' property should be an object where keys are unique identifiers and values are child elements.",
         },
         {
           role: "user",
           content: [
-            { type: "text", text: "What is the layout of this UI sketch?" },
-            { type: "image_url", image_url: { url: `data:image/png;base64,${base64Image}` } },
+            {
+              type: "image_url",
+              image_url: { url: `data:image/png;base64,${sketchAsUrl}` },
+            },
+            {
+              type: "text",
+              text: "Create a layout from this sketch.",
+            },
           ],
         },
       ],
@@ -47,16 +52,34 @@ async function getUIDescription(base64Image: string, context: vscode.ExtensionCo
       max_retries: 1,
     });
 
-    return layout;
+    return JSON.stringify(layout);
   } catch (error) {
     console.error("Error extracting layout:", error);
     throw error;
   }
 }
-// Function to handle sketch upload
-export async function handleSketchUpload(sketch: string, context: vscode.ExtensionContext) {
+
+function encodeImage(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const result = reader.result as string;
+      const base64 = result.split(",")[1]; // Remove the data URL prefix
+      resolve(base64);
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+export async function processSketch(file: File, context: vscode.ExtensionContext) {
   try {
-    const description = await getUIDescription(sketch, context);
+    const sketchAsUrl = await encodeImage(file);
+    // Assuming you want to check for an empty string or a specific format
+    if (!sketchAsUrl) {
+      throw new Error("Error encoding image: The result is empty.");
+    }
+    const description = await getUIDescription(sketchAsUrl, context);
     return description;
   } catch (error) {
     console.error("Error processing sketch upload:", error);

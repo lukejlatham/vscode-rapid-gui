@@ -86,13 +86,11 @@
     "lint": "eslint src --ext ts"
   },
   "devDependencies": {
-    "@types/glob": "^7.1.3",
     "@types/node": "^12.11.7",
     "@types/vscode": "^1.90.0",
     "@typescript-eslint/eslint-plugin": "^4.14.1",
     "@typescript-eslint/parser": "^4.14.1",
     "eslint": "^7.19.0",
-    "glob": "^7.1.6",
     "prettier": "^2.2.1",
     "typescript": "^4.9.5",
     "vscode-test": "^1.5.0"
@@ -102,15 +100,13 @@
     "@instructor-ai/instructor": "^1.5.0",
     "@vscode/webview-ui-toolkit": "^1.4.0",
     "axios": "^1.7.2",
-    "dotenv": "^16.4.5",
-    "dotenv-esbuild": "^1.1.0",
     "esbuild": "^0.23.0",
     "esbuild-plugin-env": "^1.1.1",
     "form-data": "^4.0.0",
-    "openai": "^4.52.4",
+    "openai": "^4.52.7",
     "react": "^18.3.1",
     "react-contenteditable": "^3.3.7",
     "react-dom": "^18.3.1",
-    "zod": "^3.22.4"
+    "zod": "^3.23.8"
   }
 }
