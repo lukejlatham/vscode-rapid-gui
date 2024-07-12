@@ -1,5 +1,4 @@
 import * as vscode from "vscode";
-import { ExtensionContext } from "vscode";
 import { MainWebviewPanel } from "./panels/MainWebviewPanel";
 import { RecentProjectsTreeViewProvider } from "./panels/SideBarPanel/RecentProjectsTreeviewProvider";
 import {

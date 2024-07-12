@@ -8,9 +8,9 @@ const CameraIcon = bundleIcon(Camera24Filled, Camera24Regular);
 const ImageUploadButton: React.FC = () => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-    const handleButtonClick = () => {
+    function handleButtonClick() {
         setIsDialogOpen(true);
-    };
+    }
 
     return (
         <>

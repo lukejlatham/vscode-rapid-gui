@@ -125,5 +125,4 @@ const simplifiedNodes: SimplifiedNode[] = [
   },
 ];
 
-const fullNodes = convertToFullVersion(simplifiedNodes);
-console.log(fullNodes);
+export const fullNodes = convertToFullVersion(simplifiedNodes);

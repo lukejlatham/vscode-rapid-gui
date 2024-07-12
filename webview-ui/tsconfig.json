@@ -22,6 +22,11 @@
     "strictPropertyInitialization": false
   },
   "include": [
-    "src"
+    "src",
+    "../src/backend/sketchProcessing/editorObjectSchemas.ts",
+    "../src/backend/sketchProcessing/layoutCraftTreeConverter.ts",
+    "../src/backend/sketchProcessing/oaApi.ts",
+    "../src/backend/sketchProcessing/sketchStructureToNodeTree.ts",
+    "../src/backend/sketchProcessing/sketchUpload.ts"
   ]
 }

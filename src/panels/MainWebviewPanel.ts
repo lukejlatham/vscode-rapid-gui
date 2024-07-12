@@ -11,6 +11,7 @@ import { getUri } from "../utilities/getUri";
 import { getNonce } from "../utilities/getNonce";
 import { getAzureOpenaiApiKeys } from "../utilities/azureApiKeyStorage";
 import { handleFileSave, handleFileLoad } from "../utilities/projectSaveUtilities";
+import { handleSketchUpload } from "../sketchProcessing/processSketchLayout";
 
 export class MainWebviewPanel {
   public static currentPanel: MainWebviewPanel | undefined;
@@ -159,6 +160,10 @@ export class MainWebviewPanel {
             return;
           case "loadFile":
             await handleFileLoad(this._context, webview);
+            return;
+          case "processSketchLayout":
+            const description = await handleSketchUpload(message.content, this._context);
+            webview.postMessage({ command: "sketchProcessed", description });
             return;
         }
       },

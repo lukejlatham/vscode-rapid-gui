@@ -6,7 +6,7 @@ import {
 import Projects from '../Projects/Projects';
 import { StartProjectDialog } from '../../components/StartProjectDialog';
 import TemplatesGrid from '../../components/TemplatesGrid';
-import ImageUploadButton from '../../components/ImageUploadButton';
+import ImageUploadButton from '../../components/ImageUpload/ImageUploadButton';
 
 
 const useStyles = makeStyles({

@@ -2,18 +2,18 @@ import { z } from "zod";
 
 // Define the schema for node properties
 // Define the schema for the type of a node
-const NodeTypePropsSchema = z.object({
+const nodeTypePropsSchema = z.object({
   resolvedName: z.enum(["Container", "Column", "Row", "Columns", "Rows", "Label", "Button"]),
 });
 
 // Define the schema for a single node
-const NodeSchema = z.object({
+const nodeSchema = z.object({
   id: z
     .string()
     .describe(
       "Unique identifier for the node - format can be type and number (e.g. button1) but first node is always called ROOT. Must be unique within the tree"
     ),
-  type: NodeTypePropsSchema,
+  type: nodeTypePropsSchema,
   children: z
     .array(z.string())
     .describe(
@@ -22,10 +22,10 @@ const NodeSchema = z.object({
 });
 
 // Define the schema for the entire hierarchy
-const HierarchySchema = z.object({
+const hierarchySchema = z.object({
   nodes: z
-    .array(NodeSchema)
+    .array(nodeSchema)
     .describe("List of all nodes in the tree, describing the overall layout of the UI"),
 });
 
-export { HierarchySchema };
+export { hierarchySchema };

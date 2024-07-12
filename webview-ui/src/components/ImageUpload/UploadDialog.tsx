@@ -1,7 +1,7 @@
-import React, { useState, useRef } from 'react';
-import { Dialog, DialogSurface, DialogBody, DialogTitle, DialogContent, DialogActions, Button, Input, Spinner } from '@fluentui/react-components';
+import React, { useState, useRef, useEffect } from 'react';
+import { Dialog, DialogSurface, DialogBody, DialogTitle, DialogContent, DialogActions, Button, Spinner } from '@fluentui/react-components';
 import { Camera24Regular } from '@fluentui/react-icons';
-import { handleSketchUpload } from '../sketchProcessing/sketchUpload'; // Adjust the path as needed
+import { handleSketchUpload } from './handleSketchUpload';
 
 interface UploadDialogProps {
     isOpen: boolean;
@@ -9,13 +9,27 @@ interface UploadDialogProps {
 }
 
 export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose }) => {
-    const [apiKey, setApiKey] = useState<string>('');
-    const [endpoint, setEndpoint] = useState<string>('');
-    const [model, setModel] = useState<string>('');
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
-    const [uiDescription, setUIDescription] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
+    const [uiDescription, setUIDescription] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+    useEffect(() => {
+        const handleMessage = (event: { data: any; }) => {
+            const message = event.data;
+
+            if (message.command === 'sketchProcessed') {
+                setUIDescription(message.description);
+                setLoading(false);
+            }
+        };
+
+        window.addEventListener('message', handleMessage);
+
+        return () => {
+            window.removeEventListener('message', handleMessage);
+        };
+    }, []);
 
     const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -23,14 +37,12 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose }) =
     };
 
     const handleProcessSketch = async () => {
-        if (selectedImage && apiKey && endpoint && model) {
+        if (selectedImage) {
             setLoading(true);
             try {
-                const description = await handleSketchUpload(selectedImage, apiKey, endpoint, model);
-                setUIDescription(description);
+                await handleSketchUpload(selectedImage);
             } catch (error) {
                 console.error('Error uploading image:', error);
-            } finally {
                 setLoading(false);
             }
         }
@@ -38,9 +50,6 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose }) =
 
     const handleClose = () => {
         // Reset state when the dialog is closed
-        setApiKey('');
-        setEndpoint('');
-        setModel('');
         setSelectedImage(null);
         setUIDescription(null);
         setLoading(false);
@@ -54,11 +63,6 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose }) =
                     <DialogTitle>Start Project From Sketch</DialogTitle>
                     <DialogContent>
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <div style={{ flex: 1, marginRight: '1rem' }}>
-                                <Input placeholder="API Key" onChange={(e) => setApiKey(e.target.value)} value={apiKey} />
-                                <Input placeholder="API Endpoint" onChange={(e) => setEndpoint(e.target.value)} value={endpoint} />
-                                <Input placeholder="API Model" onChange={(e) => setModel(e.target.value)} value={model} />
-                            </div>
                             <div style={{ flex: 1 }}>
                                 <input type="file" accept="image/*" onChange={handleImageUpload} style={{ display: 'none' }} ref={fileInputRef} />
                                 {selectedImage && <p>Uploaded: {selectedImage.name}</p>}
