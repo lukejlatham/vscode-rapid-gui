@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useNode, UserComponent } from "@craftjs/core";
 import ContentEditable from "react-contenteditable";
-import { Label as FLabel, Input } from "@fluentui/react-components";
+import { Label as FLabel, Input, RadioGroup, Radio } from "@fluentui/react-components";
 
 interface LabelProps {
   text: string;
   fontSize: number;
   color: string;
   userEditable?: boolean;
+  textAlign: 'left' | 'center' | 'right' | 'justify';
 }
 
 interface ContentEditableEvent {
   target: { value: string };
 }
 
-export const Label: UserComponent<LabelProps> = ({ text, fontSize, color, userEditable = true }) => {
+export const Label: UserComponent<LabelProps> = ({ text, fontSize, color, textAlign,userEditable = true }) => {
   const {
     connectors: { connect, drag },
     selected,
@@ -38,6 +39,7 @@ export const Label: UserComponent<LabelProps> = ({ text, fontSize, color, userEd
   const style = {
     fontSize: `${fontSize}px`,
     color: color,
+    textAlign: textAlign,
   };
 
   return (
@@ -71,11 +73,13 @@ const LabelSettings: React.FC = () => {
     actions: { setProp },
     fontSize,
     color,
-    text
+    text,
+    textAlign,
   } = useNode((node) => ({
     fontSize: node.data.props.fontSize,
     color: node.data.props.color,
     text: node.data.props.text,
+    textAlign: node.data.props.textAlign,
   }));
 
   return (
@@ -83,6 +87,7 @@ const LabelSettings: React.FC = () => {
       <FLabel>
                 Font Size
                 <Input
+                    style={{ width: "100%" }}
                     type="number"
                     value={fontSize.toString()} // Convert the number to a string
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -100,20 +105,35 @@ const LabelSettings: React.FC = () => {
             </FLabel>
             <FLabel>
             Text
+            <br />
             <Input
                 type="text"
+                style={{ width: "100%" }}
                 defaultValue={text}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     setProp((props: LabelProps) => (props.text = e.target.value), 1000);
                 }}
             />
             </FLabel>
+            <FLabel>
+              Alignment
+              <RadioGroup defaultValue={textAlign} layout="horizontal-stacked"
+             onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
+              setProp((props: LabelProps) => (props.textAlign = data.value as 'left' | 'center' | 'right' | 'justify'), 1000);
+            }}>
+                <Radio value="left" label="Left" />
+                <Radio value="center" label="Center" />
+                <Radio value="right" label="Right" />
+                <Radio value="justify" label="Justify" />
+              </RadioGroup>
+              </FLabel>
     </div>
   );
 };
 
 export const LabelDefaultProps: LabelProps = {
   text: "New Label",
+  textAlign: 'left',
   fontSize: 20,
   color: "#FFFFF",
   userEditable: true,
