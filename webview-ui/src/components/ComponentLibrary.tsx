@@ -80,10 +80,11 @@ const ComponentLibrary: React.FC = () => {
         canRedo: query.history.canRedo(),
     }));
 
-    const toasterId = useId("toaster");
-    const { dispatchToast } = useToastController(toasterId);
-    const notifySuccess = () =>
-        dispatchToast(
+    const saveToaster = useId("save-toaster");
+    const { dispatchToast: dispatchSaveToast } = useToastController(saveToaster);
+    
+    const notifySaveSuccess = () =>
+        dispatchSaveToast(
             <Toast>
                 <ToastTitle>Project Saved Successfully</ToastTitle>
             </Toast>,
@@ -94,7 +95,7 @@ const ComponentLibrary: React.FC = () => {
         const serializedData = query.serialize();
         console.log(serializedData);
         setIsSaved(true);
-        notifySuccess();
+        notifySaveSuccess();
     };
 
     const handleLoad = () => {
@@ -187,7 +188,7 @@ const ComponentLibrary: React.FC = () => {
                 <div style={{ paddingTop: "20px", textAlign: "center" }}><Subtitle2>Project Management</Subtitle2></div>
                 <Divider style={{ flexGrow: "0" }}></Divider>
                 {/* <div style={{display:"grid", gridTemplateColumns: 'auto auto'}}> */}
-                <Toaster id={toasterId} />
+                <Toaster id={saveToaster} />
                 <Button icon={<DocumentSave24Regular />} appearance='outline' onClick={handleSave}>Save</Button>
                 {isSaved}
                 <Button icon={<Folder24Regular />} appearance='outline' onClick={handleLoad}>Load</Button>
@@ -197,13 +198,12 @@ const ComponentLibrary: React.FC = () => {
                 <Button icon={<ArrowHookUpLeft24Regular />} appearance='outline' onClick={handleUndo}>Undo</Button>
                 {canUndo}
                 <Toaster
-                    toasterId={toasterId}
+                    toasterId={saveToaster}
                     position="bottom-end"
                     pauseOnHover
                     pauseOnWindowBlur
-                    timeout={3000}
+                    timeout={500}
                 />
-                <Button onClick={notifySuccess}>Make toast</Button>
             </div>
         </>
     );
