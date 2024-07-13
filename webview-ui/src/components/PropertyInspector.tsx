@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useEditor } from "@craftjs/core";
 import { Subtitle2, Divider, Button, Tooltip } from "@fluentui/react-components";
-import { Delete24Regular, PaintBrush24Regular, PaintBrushArrowDown24Regular } from "@fluentui/react-icons";
+import { Delete24Regular, PaintBrush24Regular, PaintBrushArrowDown24Regular, Dismiss20Regular } from "@fluentui/react-icons";
 
 export const PropertyInspector: React.FC = () => {
   const [copiedSettings, setCopiedSettings] = useState<{ props: Record<string, any>, displayName: string } | null>(null);
@@ -81,10 +81,15 @@ export const PropertyInspector: React.FC = () => {
     }
   };
 
+  const handleClose = () => {
+    actions.clearEvents();
+  };
+
   return selected ? (
     <div style={{ padding: '10px', border: '1px solid #666666', borderRadius: '10px' }}>
-      <div style={{ paddingTop: "5px", paddingBottom: '10px', textAlign: "center" }}>
+      <div style={{ display: 'flex', paddingTop: "5px", paddingBottom: '10px', textAlign: "center", gap: '10px', alignItems: 'center', justifyContent: 'center'}}>
         <Subtitle2>Property inspector</Subtitle2>
+        <Button icon={<Dismiss20Regular/>} appearance="transparent" onClick={handleClose} />
       </div>
       <Divider style={{ flexGrow: "0" }} />
       {selected.settings && React.createElement(selected.settings)}
