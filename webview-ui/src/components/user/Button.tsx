@@ -1,6 +1,6 @@
 import React from "react";
 import { useNode, UserComponent } from "@craftjs/core";
-import { Input, Label, Radio, RadioGroup } from "@fluentui/react-components";
+import { Input, Label, SpinButton, Radio, RadioGroup, SpinButtonChangeEvent, SpinButtonOnChangeData } from "@fluentui/react-components";
 
 interface ButtonProps {
     backgroundColor: string;
@@ -17,14 +17,14 @@ export const Button: UserComponent<ButtonProps> = ({ backgroundColor, fontSize, 
     const { connectors: { connect, drag } } = useNode();
 
     return (
-        <div style={{display: "flex", justifyContent: alignment}}>
+        <div style={{ display: "flex", justifyContent: alignment }}>
             <button ref={(ref: HTMLButtonElement | null) => {
-            if (ref) {
-                connect(drag(ref));
-            }
-        }} style={{ padding: "10px", color: fontColor, border: 'none', backgroundColor, fontSize: `${fontSize}px`, borderRadius: `${borderRadius}px`, width: `${width}px`, height: `${height}px` }}>
-            {text}
-        </button>
+                if (ref) {
+                    connect(drag(ref));
+                }
+            }} style={{ padding: "10px", color: fontColor, border: 'none', backgroundColor, fontSize: `${fontSize}px`, borderRadius: `${borderRadius}px`, width: `${width}px`, height: `${height}px` }}>
+                {text}
+            </button>
         </div>
     );
 }
@@ -54,54 +54,59 @@ const ButtonSettings: React.FC = () => {
             </Label>
             <Label>
                 Font Size
-                <Input
-                    type="number"
-                    value={props.fontSize.toString()} // Convert the number to a string
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        setProp((props: ButtonProps) => (props.fontSize = parseInt(e.target.value, 10)), 1000);
+                <SpinButton
+                    style={{ width: "95%" }}
+                    defaultValue={props.fontSize}
+                    onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
+                        const fontSize = data.value ? data.value : 0;
+                        setProp((props: ButtonProps) => props.height = fontSize, 1000);
                     }}
                 />
             </Label>
             <Label>
                 Border Radius
-                <Input
-                    type="number"
+                <SpinButton
+                    style={{ width: "95%" }}
                     min={0}
-                    defaultValue={props.borderRadius.toString()} // Convert the number to a string
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        setProp((props: ButtonProps) => (props.borderRadius = parseInt(e.target.value, 10)), 1000);
+                    defaultValue={props.borderRadius}
+                    onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
+                        const borderRadius = data.value ? data.value : 0;
+                        setProp((props: ButtonProps) => props.height = borderRadius, 1000);
                     }}
                 />
             </Label>
             <Label>
                 Width
-                <Input
-                    style={{ width: "100%"}}
-                    type="number"
+                <SpinButton
+                    style={{ width: "95%" }}
                     min={0}
                     max={900}
-                    defaultValue={props.width.toString()} // Convert the number to a string
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        setProp((props: ButtonProps) => (props.width = parseInt(e.target.value, 10)), 1000);
+                    step={10}
+                    defaultValue={props.width}
+                    onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
+                        const width = data.value ? data.value : 0;
+                        setProp((props: ButtonProps) => props.height = width, 1000);
                     }}
                 />
-                </Label>
+            </Label>
             <Label>
                 Height
-                <Input
-                    style={{ width: "100%"}}
-                    type="number"
+                <SpinButton
+                    style={{ width: "95%" }}
                     min={0}
                     max={800}
-                    defaultValue={props.height.toString()} // Convert the number to a string
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        setProp((props: ButtonProps) => (props.height = parseInt(e.target.value, 10)), 1000);
+                    step={10}
+                    defaultValue={props.height}
+                    onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
+                        const height = data.value ? data.value : 0;
+                        setProp((props: ButtonProps) => props.height = height, 1000);
                     }}
                 />
             </Label>
             <Label>
                 Text
                 <Input
+                    style={{ width: "100" }}
                     type="text"
                     defaultValue={props.text}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,7 +121,7 @@ const ButtonSettings: React.FC = () => {
                     layout="horizontal-stacked"
                     onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
                         setProp((props: ButtonProps) => (props.alignment = data.value as 'left' | 'center' | 'right'), 1000);
-                      }}
+                    }}
                 >
                     <Radio key="left" label="Left" value="left" />
                     <Radio key="center" label="Center" value="center" />

@@ -1,5 +1,5 @@
 import React, { ReactNode, FC } from 'react';
-import { Card, Input, Label } from '@fluentui/react-components';
+import { Card, Label, SpinButton, SpinButtonChangeEvent, SpinButtonOnChangeData } from '@fluentui/react-components';
 import { useNode, UserComponent } from "@craftjs/core";
 
 interface BackgroundProps {
@@ -42,27 +42,29 @@ const BackgroundSettings: FC = () => {
             </Label>
             <Label>
                 Width
-                <Input
-                    style={{ width: "100%"}}
-                    type="number"
+                <SpinButton
+                style={{ width: "95%"}}
+                    defaultValue={props.width}
                     min={0}
                     max={100}
-                    defaultValue={props.width.toString()} // Convert the number to a string
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        setProp((props: BackgroundProps) => (props.width = parseInt(e.target.value, 10)), 1000);
+                    step={10}
+                    onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
+                        const width = data.value ? data.value : 0;
+                        setProp((props: BackgroundProps) => props.width = width, 1000);
                     }}
                 />
-                </Label>
+            </Label>
             <Label>
                 Height
-                <Input
-                    style={{ width: "100%"}}
-                    type="number"
+                <SpinButton
+                style={{ width: "95%"}}
+                    defaultValue={props.height}
                     min={0}
                     max={200}
-                    defaultValue={props.height.toString()} // Convert the number to a string
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        setProp((props: BackgroundProps) => (props.height = parseInt(e.target.value, 10)), 1000);
+                    step={10}
+                    onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
+                        const height = data.value ? data.value : 0;
+                        setProp((props: BackgroundProps) => props.height = height, 1000);
                     }}
                 />
             </Label>

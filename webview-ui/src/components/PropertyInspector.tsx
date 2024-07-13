@@ -108,7 +108,6 @@ export const PropertyInspector: React.FC = () => {
         <Button
           appearance='secondary'
           style={{ width: "30%" }}
-          //size="small"
           icon={<PaintBrushArrowDown24Regular />}
           onClick={handlePaste}
           disabled={!copiedSettings || !selected.props || selected.displayName !== copiedSettings.displayName}
@@ -117,7 +116,6 @@ export const PropertyInspector: React.FC = () => {
         <Button
           appearance='primary'
           style={{ width: "30%" }}
-          //size="small"
           icon={<Delete24Regular />}
           onClick={() => {
             actions.delete(selected.id);
