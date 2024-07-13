@@ -18,7 +18,6 @@ const LoadButton: React.FC = () => {
             const message = event.data;
 
             if (message.command === 'loadFile') {
-                console.log("Deserializing JSON:", JSON.stringify(message.data));
                 actions.deserialize(JSON.stringify(message.data));
             }
         };

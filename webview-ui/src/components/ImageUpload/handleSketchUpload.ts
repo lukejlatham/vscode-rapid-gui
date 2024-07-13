@@ -21,8 +21,6 @@ export async function handleSketchUpload(file: File): Promise<void> {
       command: "processSketchLayout",
       content: base64Image,
     });
-    console.log("Sketch uploaded successfully");
-    console.log("Base64 image:", base64Image);
   } catch (error) {
     console.error("Error processing sketch upload:", error);
   }

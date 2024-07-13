@@ -6,9 +6,7 @@ import * as vscode from "vscode";
 
 // Create a function to set up the Azure OpenAI client and extract layout information
 async function getUIDescription(sketchAsUrl: string, context: vscode.ExtensionContext) {
-  console.log("Processing sketch:", sketchAsUrl);
   const { apiKey, apiEndpoint, deploymentName } = await getAzureOpenaiApiKeys(context);
-  console.log("Azure OpenAI API keys:", apiKey, apiEndpoint, deploymentName);
 
   const AZURE_OPENAI_API_ENDPOINT = apiEndpoint || "";
   const AZURE_OPENAI_API_KEY = apiKey || "";
@@ -63,12 +61,9 @@ async function getUIDescription(sketchAsUrl: string, context: vscode.ExtensionCo
 
 export async function processSketch(sketchAsUrl: string, context: vscode.ExtensionContext) {
   try {
-    console.log("Sketch encoded as URL:", sketchAsUrl);
-    console.log("Processing sketch layout...");
     const description = await getUIDescription(sketchAsUrl, context);
     return description;
   } catch (error) {
-    console.error("Error processing sketch upload:", error);
     throw error;
   }
 }

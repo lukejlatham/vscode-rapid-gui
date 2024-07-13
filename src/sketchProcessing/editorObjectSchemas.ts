@@ -8,24 +8,14 @@ const nodeTypePropsSchema = z.object({
 
 // Define the schema for a single node
 const nodeSchema = z.object({
-  id: z
-    .string()
-    .describe(
-      "Unique identifier for the node - format can be type and number (e.g. button1) but first node is always called ROOT. Must be unique within the tree"
-    ),
+  id: z.string(),
   type: nodeTypePropsSchema,
-  children: z
-    .array(z.string())
-    .describe(
-      "List of child node IDs - empty if no children (labels and buttons cannot have children)"
-    ),
+  children: z.array(z.string()),
 });
 
 // Define the schema for the entire hierarchy
 const hierarchySchema = z.object({
-  nodes: z
-    .array(nodeSchema)
-    .describe("List of all nodes in the tree, describing the overall layout of the UI"),
+  nodes: z.array(nodeSchema),
 });
 
 export { hierarchySchema };
