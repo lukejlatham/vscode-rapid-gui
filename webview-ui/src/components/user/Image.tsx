@@ -8,9 +8,10 @@ interface ImageProps {
   alt: string;
   width: number;
   height: number;
+  alignment: "left" | "center" | "right";
 }
 
-export const Image: UserComponent<ImageProps> = ({ src, alt, width, height }) => {
+export const Image: UserComponent<ImageProps> = ({ src, alt, width, height, alignment }) => {
   const {
     connectors: { connect, drag },
     selected,
@@ -21,6 +22,7 @@ export const Image: UserComponent<ImageProps> = ({ src, alt, width, height }) =>
   }));
 
   return (
+    <div style={{ display: "flex", justifyContent: alignment }}>
     <img
       ref={(ref) => ref && connect(drag(ref))}
       src={src}
@@ -28,30 +30,23 @@ export const Image: UserComponent<ImageProps> = ({ src, alt, width, height }) =>
       width={width}
       height={height}
     />
+    </div>
   );
 };
 
 const ImageSettings: React.FC = () => {
-  const {
-    actions: { setProp },
-    src,
-    alt,
-    width,
-    height,
-  } = useNode((node) => ({
-    src: node.data.props.src,
-    alt: node.data.props.alt,
-    width: node.data.props.width,
-    height: node.data.props.height,
-  }));
+    const { actions: { setProp }, props } = useNode(node => ({
+        props: node.data.props as ImageProps
+    }));
 
   return (
     <>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', padding: '5px' }}>
       <Label>
         Source
         <Input
           type="text"
-          defaultValue={src}
+          defaultValue={props.src}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setProp((props: ImageProps) => (props.src = e.target.value), 1000);
           }}
@@ -61,7 +56,7 @@ const ImageSettings: React.FC = () => {
         Alt
         <Input
           type="text"
-          defaultValue={alt}
+          defaultValue={props.alt}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setProp((props: ImageProps) => (props.alt = e.target.value), 1000);
           }}
@@ -71,7 +66,7 @@ const ImageSettings: React.FC = () => {
       Width
         <Input
           type="number"
-          defaultValue={width}
+          defaultValue={props.width.toString()}
           min="1"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setProp((props: ImageProps) => (props.width = parseInt(e.target.value, 10)), 1000);
@@ -82,13 +77,28 @@ const ImageSettings: React.FC = () => {
         Height
         <Input
           type="number"
-          defaultValue={height}
+          defaultValue={props.height.toString()}
           min="1"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setProp((props: ImageProps) => (props.height = parseInt(e.target.value, 10)), 1000);
           }}
         />
       </Label>
+      <Label>
+                Alignment
+                <RadioGroup
+                    defaultValue={props.alignment}
+                    layout="horizontal-stacked"
+                    onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
+                        setProp((props: ImageProps) => (props.alignment = data.value as 'left' | 'center' | 'right'), 1000);
+                      }}
+                >
+                    <Radio key="left" label="Left" value="left" />
+                    <Radio key="center" label="Center" value="center" />
+                    <Radio key="right" label="Right" value="right" />
+                </RadioGroup>
+            </Label>
+            </div>
     </>
   );
 };
@@ -98,6 +108,7 @@ export const ImageDefaultProps: ImageProps = {
   alt: "New image",
   width: 480,
   height: 320,
+    alignment: "center",
 };
 
 (Image as any).craft = {
