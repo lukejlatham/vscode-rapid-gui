@@ -2,6 +2,13 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
     makeStyles,
+    useId,
+    Toaster,
+    useToastController,
+    ToastTitle,
+    Toast,
+    ToastIntent,
+    ToastBody,
     Subtitle2,
     Title3,
     Button,
@@ -73,10 +80,21 @@ const ComponentLibrary: React.FC = () => {
         canRedo: query.history.canRedo(),
     }));
 
+    const toasterId = useId("toaster");
+    const { dispatchToast } = useToastController(toasterId);
+    const notifySuccess = () =>
+        dispatchToast(
+            <Toast>
+                <ToastTitle>Project Saved Successfully</ToastTitle>
+            </Toast>,
+            { intent: "success" }
+        );
+
     const handleSave = () => {
         const serializedData = query.serialize();
         console.log(serializedData);
         setIsSaved(true);
+        notifySuccess();
     };
 
     const handleLoad = () => {
@@ -169,6 +187,7 @@ const ComponentLibrary: React.FC = () => {
                 <div style={{ paddingTop: "20px", textAlign: "center" }}><Subtitle2>Project Management</Subtitle2></div>
                 <Divider style={{ flexGrow: "0" }}></Divider>
                 {/* <div style={{display:"grid", gridTemplateColumns: 'auto auto'}}> */}
+                <Toaster id={toasterId} />
                 <Button icon={<DocumentSave24Regular />} appearance='outline' onClick={handleSave}>Save</Button>
                 {isSaved}
                 <Button icon={<Folder24Regular />} appearance='outline' onClick={handleLoad}>Load</Button>
@@ -177,6 +196,14 @@ const ComponentLibrary: React.FC = () => {
                 {canRedo}
                 <Button icon={<ArrowHookUpLeft24Regular />} appearance='outline' onClick={handleUndo}>Undo</Button>
                 {canUndo}
+                <Toaster
+                    toasterId={toasterId}
+                    position="bottom-end"
+                    pauseOnHover
+                    pauseOnWindowBlur
+                    timeout={3000}
+                />
+                <Button onClick={notifySuccess}>Make toast</Button>
             </div>
         </>
     );
