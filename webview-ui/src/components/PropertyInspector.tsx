@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import { useEditor } from "@craftjs/core";
-import { Subtitle2, Divider, Button } from "@fluentui/react-components";
-import { Delete24Regular, Copy24Regular, ClipboardPaste24Regular } from "@fluentui/react-icons";
-
+import { Subtitle2, Divider, Button, Tooltip } from "@fluentui/react-components";
+import { Delete24Regular, PaintBrush24Regular, PaintBrushArrowDown24Regular } from "@fluentui/react-icons";
 
 export const PropertyInspector: React.FC = () => {
   const [copiedSettings, setCopiedSettings] = useState<{ props: Record<string, any>, displayName: string } | null>(null);
   const { actions, selected } = useEditor((state, query) => {
     const currentNodeId = query.getEvent("selected").last();
-
 
     let selected;
 
@@ -66,7 +64,7 @@ export const PropertyInspector: React.FC = () => {
       isEnabled: state.options.enabled,
     };
   });
-  
+
   const handleCopy = () => {
     if (selected && selected.props) {
       setCopiedSettings({ props: selected.props, displayName: selected.displayName });
@@ -90,28 +88,31 @@ export const PropertyInspector: React.FC = () => {
       </div>
       <Divider style={{ flexGrow: "0" }} />
       {selected.settings && React.createElement(selected.settings)}
-      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', paddingTop: '10px', paddingBottom: '10px' }}>
-      <Button
-          appearance='secondary'
-          style={{ width: "95%" }}
-          icon={<Copy24Regular />}
-          onClick={handleCopy}
-          disabled={!selected.props}
-        >
-          Copy Settings
-        </Button>
+      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', paddingTop: '10px', paddingBottom: '10px', gap: '5px' }}>
+        <Tooltip content="Copy Format" relationship="label">
+          <Button
+            appearance='secondary'
+            style={{ width: "30%" }}
+            //size="small"
+            icon={<PaintBrush24Regular />}
+            onClick={handleCopy}
+            disabled={!selected.props}
+          />
+        </Tooltip>
+        <Tooltip content="Paste Format" relationship="label">
         <Button
           appearance='secondary'
-          style={{ width: "95%" }}
-          icon={<ClipboardPaste24Regular />}
+          style={{ width: "30%" }}
+          //size="small"
+          icon={<PaintBrushArrowDown24Regular />}
           onClick={handlePaste}
           disabled={!copiedSettings || !selected.props || selected.displayName !== copiedSettings.displayName}
-        >
-          Paste Settings
-        </Button>
+        />
+        </Tooltip>
         <Button
           appearance='primary'
-          style={{ width: "95%" }}
+          style={{ width: "30%" }}
+          //size="small"
           icon={<Delete24Regular />}
           onClick={() => {
             actions.delete(selected.id);
