@@ -58,7 +58,7 @@ async function getUIDescription(sketchAsUrl: string, context: vscode.ExtensionCo
         schema: hierarchySchema,
         name: "Layout",
       },
-      max_retries: 1,
+      max_retries: 0,
     });
 
     return JSON.stringify(layout);
