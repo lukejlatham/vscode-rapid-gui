@@ -25,6 +25,7 @@ async function getUIDescription(sketchAsUrl: string, context: vscode.ExtensionCo
     baseURL: `${AZURE_OPENAI_API_ENDPOINT}/openai/deployments/${GPT4O_DEPLOYMENT_NAME}`,
     apiKey: AZURE_OPENAI_API_KEY,
   });
+
   const instructor = Instructor({
     client: client,
     mode: "TOOLS",
@@ -46,6 +47,10 @@ async function getUIDescription(sketchAsUrl: string, context: vscode.ExtensionCo
               type: "text",
               text: "Create a layout from this sketch.",
             },
+            {
+              type: "image_url",
+              image_url: { url: `data:image/png;base64,${sketchAsUrl}`, detail: "auto" },
+            },
           ],
         },
       ],
@@ -58,7 +63,6 @@ async function getUIDescription(sketchAsUrl: string, context: vscode.ExtensionCo
 
     return JSON.stringify(layout);
   } catch (error) {
-    console.error("Error extracting layout:", error);
     throw error;
   }
 }
