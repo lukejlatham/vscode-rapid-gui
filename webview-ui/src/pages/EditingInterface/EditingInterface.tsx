@@ -9,6 +9,7 @@ import { Rows, Row } from '../../components/user/Rows';
 import { Columns, Column } from '../../components/user/Columns';
 import { TextBox } from '../../components/user/TextBox';
 import { Image } from '../../components/user/Image';
+import { Background, BackgroundDefaultProps } from '../../components/user/Background';
 import PropertyInspector from '../../components/PropertyInspector';
 
 const useStyles = makeStyles({
@@ -44,15 +45,17 @@ const useStyles = makeStyles({
 const EditingInterface: React.FC = () => {
     const classes = useStyles();
     return (
-        <Editor resolver={{ Label, Container, Button, Rows, Row, Column, Columns, TextBox, Image }}>
+        <Editor resolver={{ Background, Label, Container, Button, Rows, Row, Column, Columns, TextBox, Image }}>
             <div className={classes.mainLayout}>
                 <div className={classes.componentLibrary}>
                     <ComponentLibrary />
                 </div>
-                <div className={classes.canvas}>
+                <div>
                     <Frame>
+                        <Element is={Background} id="background" {...BackgroundDefaultProps}>
                         <Element is={Container} id="root" canvas>
                             {/* Your editable components go here */}
+                        </Element>
                         </Element>
                     </Frame>
                 </div>
