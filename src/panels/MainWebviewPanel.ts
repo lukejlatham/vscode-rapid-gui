@@ -162,10 +162,10 @@ export class MainWebviewPanel {
             await handleFileLoad(this._context, webview);
             return;
           case "processSketchLayout":
+            window.showInformationMessage("Processing sketch...");
             const description = await processSketch(message.content, this._context);
-            window.showInformationMessage(message.content);
+            window.showInformationMessage("Sketch processed.");
             webview.postMessage({ command: "sketchProcessed", description });
-            window.showInformationMessage("Sketch processed call made.");
             return;
         }
       },

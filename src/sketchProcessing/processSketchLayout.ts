@@ -12,6 +12,14 @@ async function getUIDescription(sketchAsUrl: string, context: vscode.ExtensionCo
   const AZURE_OPENAI_API_KEY = apiKey || "";
   const GPT4O_DEPLOYMENT_NAME = deploymentName || "";
 
+  console.log("Azure OpenAI API endpoint:", AZURE_OPENAI_API_ENDPOINT);
+  console.log("Azure OpenAI API key:", AZURE_OPENAI_API_KEY);
+  console.log("GPT-4-OpenAI deployment name:", GPT4O_DEPLOYMENT_NAME);
+  console.log(
+    "full client url:",
+    `${AZURE_OPENAI_API_ENDPOINT}/openai/deployments/${GPT4O_DEPLOYMENT_NAME}`
+  );
+
   const client = new AzureOpenAI({
     apiVersion: "2024-06-01",
     baseURL: `${AZURE_OPENAI_API_ENDPOINT}/openai/deployments/${GPT4O_DEPLOYMENT_NAME}`,
@@ -34,10 +42,6 @@ async function getUIDescription(sketchAsUrl: string, context: vscode.ExtensionCo
         {
           role: "user",
           content: [
-            {
-              type: "image_url",
-              image_url: { url: `data:image/png;base64,${sketchAsUrl}` },
-            },
             {
               type: "text",
               text: "Create a layout from this sketch.",
