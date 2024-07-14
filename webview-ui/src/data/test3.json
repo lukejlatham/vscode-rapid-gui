@@ -30,7 +30,7 @@
     },
     "isCanvas": true,
     "props": {
-      "numberOfRows": 3,
+      "numberOfRows": 4,
       "gap": 0
     },
     "displayName": "Rows",
@@ -40,7 +40,8 @@
     "linkedNodes": {
       "row-0": "Row1",
       "row-1": "Row2",
-      "row-2": "Row3"
+      "row-2": "Row3",
+      "row-3": "Row4"
     },
     "parent": "ContainerID"
   },
@@ -95,7 +96,16 @@
       "resolvedName": "Button"
     },
     "isCanvas": false,
-    "props": {},
+    "props": {
+      "backgroundColor": "#0047AB",
+      "fontColor": "white",
+      "fontSize": 20,
+      "borderRadius": 4,
+      "text": "New Button",
+      "width": 150,
+      "height": 50,
+      "alignment": "centre"
+    },
     "displayName": "Button",
     "custom": {},
     "hidden": false,
@@ -120,7 +130,16 @@
       "resolvedName": "Button"
     },
     "isCanvas": false,
-    "props": {},
+    "props": {
+      "backgroundColor": "#0047AB",
+      "fontColor": "white",
+      "fontSize": 20,
+      "borderRadius": 4,
+      "text": "New Button",
+      "width": 150,
+      "height": 50,
+      "alignment": "centre"
+    },
     "displayName": "Button",
     "custom": {},
     "hidden": false,
@@ -145,7 +164,16 @@
       "resolvedName": "Button"
     },
     "isCanvas": false,
-    "props": {},
+    "props": {
+      "backgroundColor": "#0047AB",
+      "fontColor": "white",
+      "fontSize": 20,
+      "borderRadius": 4,
+      "text": "New Button",
+      "width": 150,
+      "height": 50,
+      "alignment": "centre"
+    },
     "displayName": "Button",
     "custom": {},
     "hidden": false,
@@ -170,7 +198,16 @@
       "resolvedName": "Button"
     },
     "isCanvas": false,
-    "props": {},
+    "props": {
+      "backgroundColor": "#0047AB",
+      "fontColor": "white",
+      "fontSize": 20,
+      "borderRadius": 4,
+      "text": "New Button",
+      "width": 150,
+      "height": 50,
+      "alignment": "centre"
+    },
     "displayName": "Button",
     "custom": {},
     "hidden": false,
@@ -195,7 +232,16 @@
       "resolvedName": "Button"
     },
     "isCanvas": false,
-    "props": {},
+    "props": {
+      "backgroundColor": "#0047AB",
+      "fontColor": "white",
+      "fontSize": 20,
+      "borderRadius": 4,
+      "text": "New Button",
+      "width": 150,
+      "height": 50,
+      "alignment": "centre"
+    },
     "displayName": "Button",
     "custom": {},
     "hidden": false,
@@ -243,16 +289,26 @@
     "displayName": "Column",
     "custom": {},
     "hidden": false,
-    "nodes": ["Label1"],
+    "nodes": ["Textbox1"],
     "linkedNodes": {}
   },
-  "Label1": {
+  "Textbox1": {
     "type": {
-      "resolvedName": "Label"
+      "resolvedName": "Textbox"
     },
     "isCanvas": false,
-    "props": {},
-    "displayName": "Label",
+    "props": {
+      "text": "",
+      "fontSize": 16,
+      "fontColor": "black",
+      "backgroundColor": "white",
+      "placeholder": "Placeholder...",
+      "rows": 5,
+      "cols": 20,
+      "borderRadius": 5,
+      "alignment": "centre"
+    },
+    "displayName": "Textbox",
     "custom": {},
     "hidden": false,
     "nodes": [],
@@ -276,7 +332,13 @@
       "resolvedName": "Image"
     },
     "isCanvas": false,
-    "props": {},
+    "props": {
+      "src": "https://photographylife.com/wp-content/uploads/2023/05/Nikon-Z8-Official-Samples-00002.jpg",
+      "alt": "New image",
+      "width": 480,
+      "height": 320,
+      "alignment": "center"
+    },
     "displayName": "Image",
     "custom": {},
     "hidden": false,
@@ -302,7 +364,7 @@
     },
     "isCanvas": true,
     "props": {
-      "numberOfCols": 2,
+      "numberOfCols": 1,
       "gap": 0
     },
     "displayName": "Columns",
@@ -310,8 +372,7 @@
     "hidden": false,
     "nodes": [],
     "linkedNodes": {
-      "column-0": "Column8",
-      "column-1": "Column9"
+      "column-0": "Column8"
     },
     "parent": "Row3"
   },
@@ -324,21 +385,62 @@
     "displayName": "Column",
     "custom": {},
     "hidden": false,
-    "nodes": ["Textbox1"],
+    "nodes": ["Textbox2"],
     "linkedNodes": {}
   },
-  "Textbox1": {
+  "Textbox2": {
     "type": {
       "resolvedName": "Textbox"
     },
     "isCanvas": false,
-    "props": {},
+    "props": {
+      "text": "",
+      "fontSize": 16,
+      "fontColor": "black",
+      "backgroundColor": "white",
+      "placeholder": "Placeholder...",
+      "rows": 5,
+      "cols": 20,
+      "borderRadius": 5,
+      "alignment": "centre"
+    },
     "displayName": "Textbox",
     "custom": {},
     "hidden": false,
     "nodes": [],
     "linkedNodes": {},
     "parent": "Column8"
+  },
+  "Row4": {
+    "type": {
+      "resolvedName": "Row"
+    },
+    "isCanvas": true,
+    "props": {},
+    "displayName": "Row",
+    "custom": {},
+    "hidden": false,
+    "nodes": ["Columns4"],
+    "linkedNodes": {}
+  },
+  "Columns4": {
+    "type": {
+      "resolvedName": "Columns"
+    },
+    "isCanvas": true,
+    "props": {
+      "numberOfCols": 2,
+      "gap": 0
+    },
+    "displayName": "Columns",
+    "custom": {},
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {
+      "column-0": "Column9",
+      "column-1": "Column10"
+    },
+    "parent": "Row4"
   },
   "Column9": {
     "type": {
@@ -349,20 +451,65 @@
     "displayName": "Column",
     "custom": {},
     "hidden": false,
-    "nodes": ["Label2"],
+    "nodes": ["Textbox3"],
     "linkedNodes": {}
   },
-  "Label2": {
+  "Textbox3": {
     "type": {
-      "resolvedName": "Label"
+      "resolvedName": "Textbox"
     },
     "isCanvas": false,
-    "props": {},
-    "displayName": "Label",
+    "props": {
+      "text": "",
+      "fontSize": 16,
+      "fontColor": "black",
+      "backgroundColor": "white",
+      "placeholder": "Placeholder...",
+      "rows": 5,
+      "cols": 20,
+      "borderRadius": 5,
+      "alignment": "centre"
+    },
+    "displayName": "Textbox",
     "custom": {},
     "hidden": false,
     "nodes": [],
     "linkedNodes": {},
     "parent": "Column9"
+  },
+  "Column10": {
+    "type": {
+      "resolvedName": "Column"
+    },
+    "isCanvas": true,
+    "props": {},
+    "displayName": "Column",
+    "custom": {},
+    "hidden": false,
+    "nodes": ["Textbox4"],
+    "linkedNodes": {}
+  },
+  "Textbox4": {
+    "type": {
+      "resolvedName": "Textbox"
+    },
+    "isCanvas": false,
+    "props": {
+      "text": "",
+      "fontSize": 16,
+      "fontColor": "black",
+      "backgroundColor": "white",
+      "placeholder": "Placeholder...",
+      "rows": 5,
+      "cols": 20,
+      "borderRadius": 5,
+      "alignment": "centre"
+    },
+    "displayName": "Textbox",
+    "custom": {},
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {},
+    "parent": "Column10"
   }
 }
