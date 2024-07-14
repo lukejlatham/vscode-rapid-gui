@@ -38,7 +38,7 @@ import { Rows } from './user/Rows';
 import { Columns } from './user/Columns';
 import { TextBox, TextboxDefaultProps } from './user/TextBox';
 import { Image, ImageDefaultProps } from './user/Image';
-import testJSON from '../data/testKnownState.json';
+import testJSON from '../data/test3.json';
 
 const useStyles = makeStyles({
     component: {

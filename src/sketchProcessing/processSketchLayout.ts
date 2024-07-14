@@ -1,10 +1,10 @@
 import Instructor from "@instructor-ai/instructor";
 import { AzureOpenAI } from "openai";
 import { getAzureOpenaiApiKeys } from "../utilities/azureApiKeyStorage";
-import { hierarchySchema } from "./editorObjectSchemas";
+import { layoutSchema, uiExample, uiFinisher, uiPrompt } from "./editorObjectSchemas";
+import { convertToFullVersion } from "./layoutCraftTreeConverter";
 import * as vscode from "vscode";
 
-// Create a function to set up the Azure OpenAI client and extract layout information
 async function getUIDescription(sketchAsUrl: string, context: vscode.ExtensionContext) {
   const { apiKey, apiEndpoint, deploymentName } = await getAzureOpenaiApiKeys(context);
 
@@ -29,6 +29,7 @@ async function getUIDescription(sketchAsUrl: string, context: vscode.ExtensionCo
   const instructor = Instructor({
     client: client,
     mode: "TOOLS",
+    debug: true,
   });
 
   try {
@@ -37,15 +38,14 @@ async function getUIDescription(sketchAsUrl: string, context: vscode.ExtensionCo
       messages: [
         {
           role: "system",
-          content:
-            "You are a layout generator. You create JSON objects representing a UI layout from sketches. Use the following element types: Container, Columns, Column, Rows, Row, Label, and Button. Each element should have a 'type' property and a 'children' property (except for Label and Button). The 'children' property should be an object where keys are unique identifiers and values are child elements.",
+          content: `${uiPrompt}\n\n${uiExample}\n\n${uiFinisher}`,
         },
         {
           role: "user",
           content: [
             {
               type: "text",
-              text: "Create a layout from this sketch.",
+              text: "Create a UI layout from this sketch.",
             },
             {
               type: "image_url",
@@ -55,10 +55,10 @@ async function getUIDescription(sketchAsUrl: string, context: vscode.ExtensionCo
         },
       ],
       response_model: {
-        schema: hierarchySchema,
+        schema: layoutSchema,
         name: "Layout",
       },
-      max_retries: 0,
+      max_retries: 2,
     });
 
     return JSON.stringify(layout);
@@ -69,9 +69,23 @@ async function getUIDescription(sketchAsUrl: string, context: vscode.ExtensionCo
 
 export async function processSketch(sketchAsUrl: string, context: vscode.ExtensionContext) {
   try {
-    const description = await getUIDescription(sketchAsUrl, context);
-    return description;
+    const layoutResponse = await getUIDescription(sketchAsUrl, context);
+    const layoutData = JSON.parse(layoutResponse);
+    const nodes = layoutData.nodes;
+
+    nodes.forEach((node: any) => {
+      if (!Array.isArray(node.nodes)) {
+        node.nodes = [];
+      }
+    });
+
+    const fullNodeTree = await convertToFullVersion(nodes);
+
+    const fullDescription = JSON.stringify(fullNodeTree, null, 2);
+
+    return fullDescription;
   } catch (error) {
+    console.error("Error processing sketch:", error);
     throw error;
   }
 }

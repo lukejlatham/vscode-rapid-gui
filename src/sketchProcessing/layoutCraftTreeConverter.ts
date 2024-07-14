@@ -1,11 +1,22 @@
-type NodeType = "Container" | "Columns" | "Column" | "Rows" | "Row" | "Label" | "Button";
+type NodeType =
+  | "Background"
+  | "Container"
+  | "Columns"
+  | "Column"
+  | "Rows"
+  | "Row"
+  | "Label"
+  | "Button"
+  | "Image"
+  | "Textbox";
 
 interface SimplifiedNode {
   id: string;
-  type: {
-    resolvedName: NodeType;
-  };
-  children: string[];
+  type: NodeType;
+  nodes: string[];
+  linked_nodes?: { [key: string]: string };
+  numberOfRows?: number;
+  numberOfCols?: number;
 }
 
 interface FullNode {
@@ -26,105 +37,115 @@ interface FullNodes {
   [key: string]: FullNode;
 }
 
-const convertToFullVersion = (simplifiedNodes: SimplifiedNode[]): FullNodes => {
+export async function convertToFullVersion(simplifiedNodes: SimplifiedNode[]): Promise<FullNodes> {
   const fullNodes: FullNodes = {};
 
   const createFullNode = (node: SimplifiedNode, parentId?: string): FullNode => {
-    const isCanvas = ["Container", "Columns", "Column", "Rows", "Row"].includes(
-      node.type.resolvedName
-    );
-    const props = node.type.resolvedName === "Columns" ? { numberOfCols: 2, gap: 0 } : {};
+    const isCanvas = ["Container", "Columns", "Column", "Rows", "Row"].includes(node.type);
+
+    let props: any = {};
+    if (node.type === "Columns" && node.linked_nodes) {
+      props = { numberOfCols: Object.keys(node.linked_nodes).length, gap: 0 };
+    } else if (node.type === "Rows" && node.numberOfRows !== undefined) {
+      props = { numberOfRows: node.numberOfRows, gap: 0 };
+    }
 
     const fullNode: FullNode = {
-      type: node.type,
+      type: { resolvedName: node.type },
       isCanvas: isCanvas,
       props: props,
-      displayName: node.type.resolvedName,
+      displayName: node.type,
       custom: {},
       hidden: false,
-      nodes: node.children,
-      linkedNodes: {},
+      nodes: node.nodes,
+      linkedNodes: node.linked_nodes || {},
       ...(parentId && { parent: parentId }),
     };
 
     return fullNode;
   };
 
-  simplifiedNodes.forEach((node) => {
+  for (const node of simplifiedNodes) {
     fullNodes[node.id] = createFullNode(node);
-  });
+  }
 
-  simplifiedNodes.forEach((node) => {
-    node.children.forEach((childId) => {
+  for (const node of simplifiedNodes) {
+    for (const childId of node.nodes) {
       if (fullNodes[childId]) {
         fullNodes[childId].parent = node.id;
       }
-    });
-  });
+    }
+  }
 
   return fullNodes;
-};
+}
 
-// Example usage:
+// Example usage
 const simplifiedNodes: SimplifiedNode[] = [
+  { id: "ROOT", type: "Background", nodes: ["ContainerID"] },
+  { id: "ContainerID", type: "Container", nodes: ["Rows1"] },
   {
-    id: "container_root",
-    type: { resolvedName: "Container" },
-    children: ["row_header", "columns_body", "row_footer"],
+    id: "Rows1",
+    type: "Rows",
+    numberOfRows: 3,
+    nodes: [],
+    linked_nodes: { "row-0": "Row1", "row-1": "Row2", "row-2": "Row3" },
   },
+  { id: "Row1", type: "Row", nodes: ["Columns1"] },
   {
-    id: "row_header",
-    type: { resolvedName: "Row" },
-    children: ["label_home", "button_1", "button_2", "button_3", "button_4"],
+    id: "Columns1",
+    type: "Columns",
+    nodes: [],
+    linked_nodes: {
+      "column-0": "Column1",
+      "column-1": "Column2",
+      "column-2": "Column3",
+      "column-3": "Column4",
+      "column-4": "Column5",
+    },
   },
-  { id: "label_home", type: { resolvedName: "Label" }, children: [] },
-  { id: "button_1", type: { resolvedName: "Button" }, children: [] },
-  { id: "button_2", type: { resolvedName: "Button" }, children: [] },
-  { id: "button_3", type: { resolvedName: "Button" }, children: [] },
-  { id: "button_4", type: { resolvedName: "Button" }, children: [] },
+  { id: "Column1", type: "Column", nodes: ["Button1"] },
+  { id: "Button1", type: "Button", nodes: [] },
+  { id: "Column2", type: "Column", nodes: ["Button2"] },
+  { id: "Button2", type: "Button", nodes: [] },
+  { id: "Column3", type: "Column", nodes: ["Button3"] },
+  { id: "Button3", type: "Button", nodes: [] },
+  { id: "Column4", type: "Column", nodes: ["Button4"] },
+  { id: "Button4", type: "Button", nodes: [] },
+  { id: "Column5", type: "Column", nodes: ["Button5"] },
+  { id: "Button5", type: "Button", nodes: [] },
+  { id: "Row2", type: "Row", nodes: ["Columns2"] },
   {
-    id: "columns_body",
-    type: { resolvedName: "Columns" },
-    children: ["column_left", "column_right"],
+    id: "Columns2",
+    type: "Columns",
+    nodes: [],
+    linked_nodes: { "column-0": "Column6", "column-1": "Column7" },
   },
+  { id: "Column6", type: "Column", nodes: ["Textbox1"] },
+  { id: "Textbox1", type: "Textbox", nodes: [] },
+  { id: "Column7", type: "Column", nodes: ["Image1"] },
+  { id: "Image1", type: "Image", nodes: [] },
+  { id: "Row3", type: "Row", nodes: ["Columns3"] },
   {
-    id: "column_left",
-    type: { resolvedName: "Column" },
-    children: ["label_1", "label_2", "label_3", "label_4", "label_5"],
+    id: "Columns3",
+    type: "Columns",
+    nodes: [],
+    linked_nodes: {
+      "column-0": "Column8",
+      "column-1": "Column9",
+      "column-2": "Column10",
+      "column-3": "Column11",
+      "column-4": "Column12",
+    },
   },
-  { id: "label_1", type: { resolvedName: "Label" }, children: [] },
-  { id: "label_2", type: { resolvedName: "Label" }, children: [] },
-  { id: "label_3", type: { resolvedName: "Label" }, children: [] },
-  { id: "label_4", type: { resolvedName: "Label" }, children: [] },
-  { id: "label_5", type: { resolvedName: "Label" }, children: [] },
-  {
-    id: "column_right",
-    type: { resolvedName: "Column" },
-    children: ["label_step1", "container_image", "label_possible", "container_possible_image"],
-  },
-  { id: "label_step1", type: { resolvedName: "Label" }, children: [] },
-  { id: "container_image", type: { resolvedName: "Container" }, children: [] },
-  { id: "label_possible", type: { resolvedName: "Label" }, children: [] },
-  { id: "container_possible_image", type: { resolvedName: "Container" }, children: [] },
-  {
-    id: "row_footer",
-    type: { resolvedName: "Row" },
-    children: [
-      "button_search",
-      "button_circle1",
-      "button_circle2",
-      "button_circle3",
-      "label_contact",
-    ],
-  },
-  { id: "button_search", type: { resolvedName: "Button" }, children: [] },
-  { id: "button_circle1", type: { resolvedName: "Button" }, children: [] },
-  { id: "button_circle2", type: { resolvedName: "Button" }, children: [] },
-  { id: "button_circle3", type: { resolvedName: "Button" }, children: [] },
-  { id: "label_contact", type: { resolvedName: "Label" }, children: [] },
+  { id: "Column8", type: "Column", nodes: ["Textbox2"] },
+  { id: "Textbox2", type: "Textbox", nodes: [] },
+  { id: "Column9", type: "Column", nodes: ["Image2"] },
+  { id: "Image2", type: "Image", nodes: [] },
+  { id: "Column10", type: "Column", nodes: ["Textbox3"] },
+  { id: "Textbox3", type: "Textbox", nodes: [] },
+  { id: "Column11", type: "Column", nodes: ["Button6"] },
+  { id: "Button6", type: "Button", nodes: [] },
+  { id: "Column12", type: "Column", nodes: ["Label1"] },
+  { id: "Label1", type: "Label", nodes: [] },
 ];
-
-const result = convertToFullVersion(simplifiedNodes);
-console.log(result);
-
-export { convertToFullVersion, SimplifiedNode, FullNode, FullNodes };
