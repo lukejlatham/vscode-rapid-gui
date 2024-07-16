@@ -21,10 +21,11 @@ This folder contains the core functionality for processing sketches and converti
 
 1. `_setWebviewMessageListener` in `MainWebviewPanel.ts` recieves `processSketchLayout` message with base64 encoded image
 2. `processSketch` function in `processSketchLayout.ts` is called
-3. The sketch is sent via instructor (https://js.useinstructor.com) variant of Azure OpenAI API to generate a UI layout
+3. The sketch is sent via instructor (https://js.useinstructor.com) variant of Azure OpenAI API to generate a JSON UI layout
    -  https://platform.openai.com/docs/guides/vision?lang=curl 
    -  Instructor uses in-built openai tools to generate based on schemas in `editorObjectSchemas.ts`
-   -  It also validates results against these schemas and retries
+   -  It validates results against these schemas and retries if incorrect
+   -  It also gives meta cost in tokens in reponse (around 1000-2000 is normal for now, if it gets 10x higher you have likely sent image as text)
 4. The validated layout is converted to a full node tree using `layoutCraftTreeConverter.ts`
 5. The resulting full description is returned as a JSON string and `sketchProcessed` message posted to webview
 
@@ -42,4 +43,5 @@ This folder contains the core functionality for processing sketches and converti
 6. Add styling manipulation as seperate step - might require editor updates?
 7. Apply fluent ui rules to intial description: https://en.wikipedia.org/wiki/Fluent_Design_System
 8. Update components to say what its doing at each stage (e.g. generating design, refining design, generating layout etc)
+9. Process uploaded image before sending to avoid sending large files
 
