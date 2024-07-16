@@ -38,6 +38,8 @@ import { Rows } from './user/Rows';
 import { Columns } from './user/Columns';
 import { TextBox, TextboxDefaultProps } from './user/TextBox';
 import { Image, ImageDefaultProps } from './user/Image';
+import  SaveButton from './SaveButton';
+import LoadButton from './LoadButton';
 import testJSON from '../data/test3.json';
 
 const useStyles = makeStyles({
@@ -90,19 +92,6 @@ const ComponentLibrary: React.FC = () => {
             </Toast>,
             { intent: "success" }
         );
-
-    const handleSave = () => {
-        const serializedData = query.serialize();
-        console.log(serializedData);
-        setIsSaved(true);
-        notifySaveSuccess();
-    };
-
-    const handleLoad = () => {
-        console.log("Deserializing JSON:", JSON.stringify(testJSON));
-        actions.deserialize(JSON.stringify(testJSON));
-    };
-
 
     const handleUndo = () => {
         actions.history.undo()
@@ -189,10 +178,8 @@ const ComponentLibrary: React.FC = () => {
                 <Divider style={{ flexGrow: "0" }}></Divider>
                 {/* <div style={{display:"grid", gridTemplateColumns: 'auto auto'}}> */}
                 <Toaster id={saveToaster} />
-                <Button icon={<DocumentSave24Regular />} appearance='outline' onClick={handleSave}>Save</Button>
-                {isSaved}
-                <Button icon={<Folder24Regular />} appearance='outline' onClick={handleLoad}>Load</Button>
-                {canUndo}
+                <SaveButton />
+                <LoadButton />
                 <Button icon={<ArrowHookUpRight24Regular />} appearance='outline' onClick={handleRedo}>Redo</Button>
                 {canRedo}
                 <Button icon={<ArrowHookUpLeft24Regular />} appearance='outline' onClick={handleUndo}>Undo</Button>
