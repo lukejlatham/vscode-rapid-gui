@@ -84,7 +84,7 @@
       "resolvedName": "Column"
     },
     "isCanvas": true,
-    "props": {},
+    "props": { "style": { "gridColumn": "span 2" } },
     "displayName": "Column",
     "custom": {},
     "hidden": false,
@@ -118,7 +118,7 @@
       "resolvedName": "Column"
     },
     "isCanvas": true,
-    "props": {},
+    "props": { "style": { "gridColumn": "span 2" } },
     "displayName": "Column",
     "custom": {},
     "hidden": false,
@@ -152,7 +152,7 @@
       "resolvedName": "Column"
     },
     "isCanvas": true,
-    "props": {},
+    "props": { "style": { "gridColumn": "span 2" } },
     "displayName": "Column",
     "custom": {},
     "hidden": false,
@@ -186,7 +186,7 @@
       "resolvedName": "Column"
     },
     "isCanvas": true,
-    "props": {},
+    "props": { "style": { "gridColumn": "span 2" } },
     "displayName": "Column",
     "custom": {},
     "hidden": false,
@@ -220,7 +220,7 @@
       "resolvedName": "Column"
     },
     "isCanvas": true,
-    "props": {},
+    "props": { "style": { "gridColumn": "span 2" } },
     "displayName": "Column",
     "custom": {},
     "hidden": false,
@@ -285,7 +285,7 @@
       "resolvedName": "Column"
     },
     "isCanvas": true,
-    "props": {},
+    "props": { "style": { "gridColumn": "span 2" } },
     "displayName": "Column",
     "custom": {},
     "hidden": false,
@@ -320,7 +320,7 @@
       "resolvedName": "Column"
     },
     "isCanvas": true,
-    "props": {},
+    "props": { "style": { "gridColumn": "span 2" } },
     "displayName": "Column",
     "custom": {},
     "hidden": false,
@@ -381,7 +381,7 @@
       "resolvedName": "Column"
     },
     "isCanvas": true,
-    "props": {},
+    "props": { "style": { "gridColumn": "span 2" } },
     "displayName": "Column",
     "custom": {},
     "hidden": false,
@@ -447,7 +447,7 @@
       "resolvedName": "Column"
     },
     "isCanvas": true,
-    "props": {},
+    "props": { "style": { "gridColumn": "span 2" } },
     "displayName": "Column",
     "custom": {},
     "hidden": false,
@@ -482,7 +482,7 @@
       "resolvedName": "Column"
     },
     "isCanvas": true,
-    "props": {},
+    "props": { "style": { "gridColumn": "span 2" } },
     "displayName": "Column",
     "custom": {},
     "hidden": false,
