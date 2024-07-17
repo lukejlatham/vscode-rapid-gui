@@ -11,6 +11,21 @@ import { TextBox } from '../../components/user/TextBox';
 import { Image } from '../../components/user/Image';
 import { Background, BackgroundDefaultProps } from '../../components/user/Background';
 import PropertyInspector from '../../components/PropertyInspector';
+import { vscode } from '../../utilities/vscode';
+import path from 'path';
+import * as fs from 'fs';
+import { useLocation } from 'react-router-dom';
+
+const projectDir = path.join(vscode.getState()?.workspace?.uri.fsPath, "projects");
+
+const loadProject = (projectName: string) => {
+    const projectPath = path.join(projectDir, projectName, 'empty.json');
+    if (fs.existsSync(projectPath)) {
+        const data = fs.readFileSync(projectPath, 'utf8');
+        return JSON.parse(data);
+    }
+    return null;
+};
 
 const useStyles = makeStyles({
     mainLayout: {
@@ -43,6 +58,20 @@ const useStyles = makeStyles({
 });
 
 const EditingInterface: React.FC = () => {
+    const {state } = useLocation();
+    const projectName = state?.projectName;
+    const [initialData, setInitialData] = React.useState(null);
+    const { actions, query } = useEditor();
+
+    React.useEffect(() => {
+        if (projectName) {
+            const data = loadProject(projectName);
+            if (data) {
+                setInitialData(data);
+            }
+        }
+    }, [projectName]);
+    
     const classes = useStyles();
     return (
         <Editor resolver={{ Background, Label, Container, Button, Rows, Row, Column, Columns, TextBox, Image }}>

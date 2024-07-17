@@ -41,6 +41,9 @@ import { Image, ImageDefaultProps } from './user/Image';
 import  SaveButton from './SaveButton';
 import LoadButton from './LoadButton';
 import testJSON from '../data/test3.json';
+import { fstat } from 'fs';
+import { vscode } from '../utilities/vscode';
+import path from 'path';
 
 const useStyles = makeStyles({
     component: {
@@ -67,6 +70,15 @@ const useStyles = makeStyles({
     },
 });
 
+const projectDir = path.join(vscode.getState()?.workspace?.uri.fsPath, "projects");
+
+const saveProject = (projectName: string, editorState: any) => {
+    const projectPath = path.join(projectDir, projectName, 'empty.json');
+    const nodeTree = editorState.query.serialize();
+    fs.writeFileSync(projectPath, JSON.stringify(nodeTree, null, 2));
+    vscode.postMessage({ type: 'save', payload: { projectName, nodeTree } });
+}
+
 const ButtonIcon = bundleIcon(Button20Filled, Button20Regular);
 const LabelIcon = bundleIcon(TextT24Regular, TextT24Regular);
 const ImageIcon = bundleIcon(Image24Regular, Image24Regular);
@@ -76,22 +88,21 @@ const BackButtonIcon = bundleIcon(ArrowLeft24Filled, ArrowLeft24Regular);
 const ComponentLibrary: React.FC = () => {
     const styles = useStyles();
     const navigate = useNavigate();
-    const [isSaved, setIsSaved] = useState(false);
     const { actions, canUndo, canRedo, connectors, query } = useEditor((_, query) => ({
         canUndo: query.history.canUndo(),
         canRedo: query.history.canRedo(),
     }));
 
-    const saveToaster = useId("save-toaster");
-    const { dispatchToast: dispatchSaveToast } = useToastController(saveToaster);
+    // const saveToaster = useId("save-toaster");
+    // const { dispatchToast: dispatchSaveToast } = useToastController(saveToaster);
     
-    const notifySaveSuccess = () =>
-        dispatchSaveToast(
-            <Toast>
-                <ToastTitle>Project Saved Successfully</ToastTitle>
-            </Toast>,
-            { intent: "success" }
-        );
+    // const notifySaveSuccess = () =>
+    //     dispatchSaveToast(
+    //         <Toast>
+    //             <ToastTitle>Project Saved Successfully</ToastTitle>
+    //         </Toast>,
+    //         { intent: "success" }
+    //     );
 
     const handleUndo = () => {
         actions.history.undo()
@@ -100,6 +111,13 @@ const ComponentLibrary: React.FC = () => {
     const handleRedo = () => {
         actions.history.redo()
     }
+
+    const handleSaveProject = () => {
+        const projectName = vscode.getState()?.projectName;
+        if (projectName) {
+            saveProject(projectName, query);
+        }
+    };
 
     return (
         <>
@@ -177,7 +195,8 @@ const ComponentLibrary: React.FC = () => {
                 <div style={{ paddingTop: "20px", textAlign: "center" }}><Subtitle2>Project Management</Subtitle2></div>
                 <Divider style={{ flexGrow: "0" }}></Divider>
                 {/* <div style={{display:"grid", gridTemplateColumns: 'auto auto'}}> */}
-                <Toaster id={saveToaster} />
+                {/* <Toaster id={saveToaster} /> */}
+                <Button onClick={handleSaveProject} icon={<DocumentSave24Regular />}>Save Project</Button>
                 <SaveButton />
                 <LoadButton />
                 <Button icon={<ArrowHookUpRight24Regular />} appearance='outline' onClick={handleRedo}>Redo</Button>
