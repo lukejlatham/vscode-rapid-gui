@@ -12,6 +12,7 @@ import { getNonce } from "../utilities/getNonce";
 import { getAzureOpenaiApiKeys } from "../utilities/azureApiKeyStorage";
 import { handleFileSave, handleFileLoad } from "../utilities/projectSaveUtilities";
 import { processSketch } from "../sketchProcessing/processSketchLayout";
+import { processMessages } from "../copilot";
 
 export class MainWebviewPanel {
   public static currentPanel: MainWebviewPanel | undefined;
@@ -165,10 +166,9 @@ export class MainWebviewPanel {
             webview.postMessage({ command: "sketchProcessed", description });
             return;
           case "aiUserMessage":
-            window.showInformationMessage(message.content);
-            setTimeout(() => {
-              webview.postMessage({ command: "aiCopilotMessage", content: "Hello from Copilot!" });
-            }, 2000);
+            window.showInformationMessage("Processing messages...");
+            const copilotResponse = await processMessages(message.content, this._context);
+            webview.postMessage({ command: "aiCopilotMessage", content: copilotResponse });
             return;
         }
       },

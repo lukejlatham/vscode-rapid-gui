@@ -10,7 +10,7 @@ export const UserMessageComponent: React.FC<{ message: Message }> = ({ message }
 
   return (
     <UserMessage {...userMessageState} className={`${styles.message} ${styles.userMessage}`}>
-      <div>{message.text} </div>
+      <div>{message.content}</div>
     </UserMessage>
   );
 };
@@ -21,7 +21,7 @@ export const CopilotMessageComponent: React.FC<{ message: Message }> = ({ messag
 
   return (
     <CopilotMessage {...copilotMessageState} className={`${styles.message} ${styles.copilotMessage}`}>
-      <div>{message.text}</div>
+      <div>{message.content}</div>
     </CopilotMessage>
   );
 };

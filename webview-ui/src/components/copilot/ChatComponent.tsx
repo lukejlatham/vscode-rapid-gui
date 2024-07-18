@@ -13,8 +13,8 @@ import { vscode } from "../../utilities/vscode";
 import { useEditor } from "@craftjs/core";
 
 export type Message = {
-  type: "user" | "copilot" | "loading";
-  text: string;
+  role: "system" | "user" | "assistant" | "loading";
+  content: string;
 };
 
 const ChatComponent: React.FC = () => {
@@ -31,15 +31,16 @@ const ChatComponent: React.FC = () => {
 
   const handleSendMessage = () => {
     if (newMessage.trim() !== "") {
-      setMessages([
-        ...messages,
-        { type: "user", text: newMessage },
-        { type: "loading", text: "Loading..." },
-      ]);
+      const userMessage: Message = { role: "user", content: newMessage };
+      const loadingMessage: Message = { role: "loading", content: "Loading..." };
+
+      setMessages((prevMessages) => [...prevMessages, userMessage, loadingMessage]);
+
+      const messagesToSend = [...messages, userMessage].filter((msg) => msg.role !== "loading");
 
       vscode.postMessage({
         command: "aiUserMessage",
-        content: newMessage,
+        content: JSON.stringify(messagesToSend),
       });
 
       setNewMessage("");
@@ -52,9 +53,10 @@ const ChatComponent: React.FC = () => {
 
       if (message.command === "aiCopilotMessage") {
         setMessages((prevMessages) => {
-          // Remove the last loading message and add the actual Copilot message
-          const updatedMessages = prevMessages.filter((msg) => msg.type !== "loading");
-          return [...updatedMessages, { type: "copilot", text: message.content }];
+          const updatedMessages = prevMessages.filter((msg) => msg.role !== "loading");
+          const copilotMessage: Message = { role: "assistant", content: message.content };
+
+          return [...updatedMessages, copilotMessage];
         });
       }
     };
@@ -64,22 +66,16 @@ const ChatComponent: React.FC = () => {
     return () => {
       window.removeEventListener("message", handleMessage);
     };
-  }, []);
+  }, [messages]);
 
   return (
     <div className={styles.chatContainer}>
       <CopilotChat {...chatState} ref={chatRef} className={styles.messageList}>
         {messages.map((message, index) => {
-          if (message.type === "user") {
+          if (message.role === "user") {
             return <UserMessageComponent key={index} message={message} />;
-          } else if (message.type === "copilot") {
+          } else if (message.role === "assistant" || message.role === "loading") {
             return <CopilotMessageComponent key={index} message={message} />;
-          } else {
-            return (
-              <div key={index} className={styles.copilotMessage}>
-                {message.text}
-              </div>
-            );
           }
         })}
       </CopilotChat>
