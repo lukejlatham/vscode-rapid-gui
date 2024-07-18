@@ -11,6 +11,7 @@ import { TextBox } from '../../components/user/TextBox';
 import { Image } from '../../components/user/Image';
 import { Background, BackgroundDefaultProps } from '../../components/user/Background';
 import PropertyInspector from '../../components/PropertyInspector';
+import AiChat from '../../components/copilot/ChatComponent';
 
 const useStyles = makeStyles({
     mainLayout: {
@@ -61,6 +62,8 @@ const EditingInterface: React.FC = () => {
                 </div>
                 <div className={classes.propertyInspector}>
                     <PropertyInspector />
+                    <AiChat />
+
                 </div>
             </div>
         </Editor>

@@ -13,7 +13,8 @@ import {
     Title3,
     Button,
     SearchBox,
-    Divider
+    Divider,
+    Card
 } from "@fluentui/react-components";
 import {
     Image24Regular,
