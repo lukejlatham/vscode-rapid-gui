@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   CopilotChat,
   CopilotChatProps,
@@ -13,7 +13,7 @@ import { vscode } from "../../utilities/vscode";
 import { useEditor } from "@craftjs/core";
 
 export type Message = {
-  type: "user" | "copilot";
+  type: "user" | "copilot" | "loading";
   text: string;
 };
 
@@ -31,15 +31,40 @@ const ChatComponent: React.FC = () => {
 
   const handleSendMessage = () => {
     if (newMessage.trim() !== "") {
-      setMessages([...messages, { type: "user", text: newMessage }]);
+      setMessages([
+        ...messages,
+        { type: "user", text: newMessage },
+        { type: "loading", text: "Loading..." },
+      ]);
 
       vscode.postMessage({
-        command: "aiMessage",
+        command: "aiUserMessage",
         content: newMessage,
       });
+
       setNewMessage("");
     }
   };
+
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      const message = event.data;
+
+      if (message.command === "aiCopilotMessage") {
+        setMessages((prevMessages) => {
+          // Remove the last loading message and add the actual Copilot message
+          const updatedMessages = prevMessages.filter((msg) => msg.type !== "loading");
+          return [...updatedMessages, { type: "copilot", text: message.content }];
+        });
+      }
+    };
+
+    window.addEventListener("message", handleMessage);
+
+    return () => {
+      window.removeEventListener("message", handleMessage);
+    };
+  }, []);
 
   return (
     <div className={styles.chatContainer}>
@@ -47,8 +72,14 @@ const ChatComponent: React.FC = () => {
         {messages.map((message, index) => {
           if (message.type === "user") {
             return <UserMessageComponent key={index} message={message} />;
-          } else {
+          } else if (message.type === "copilot") {
             return <CopilotMessageComponent key={index} message={message} />;
+          } else {
+            return (
+              <div key={index} className={styles.copilotMessage}>
+                {message.text}
+              </div>
+            );
           }
         })}
       </CopilotChat>

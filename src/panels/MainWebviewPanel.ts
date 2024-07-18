@@ -164,8 +164,11 @@ export class MainWebviewPanel {
             window.showInformationMessage("Sketch processed.");
             webview.postMessage({ command: "sketchProcessed", description });
             return;
-          case "aiMessage":
+          case "aiUserMessage":
             window.showInformationMessage(message.content);
+            setTimeout(() => {
+              webview.postMessage({ command: "aiCopilotMessage", content: "Hello from Copilot!" });
+            }, 2000);
             return;
         }
       },
