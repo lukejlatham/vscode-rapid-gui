@@ -59,7 +59,7 @@ const ButtonSettings: React.FC = () => {
                     defaultValue={props.fontSize}
                     onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
                         const fontSize = data.value ? data.value : 0;
-                        setProp((props: ButtonProps) => props.height = fontSize, 1000);
+                        setProp((props: ButtonProps) => props.fontSize = fontSize, 1000);
                     }}
                 />
             </Label>
@@ -71,7 +71,7 @@ const ButtonSettings: React.FC = () => {
                     defaultValue={props.borderRadius}
                     onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
                         const borderRadius = data.value ? data.value : 0;
-                        setProp((props: ButtonProps) => props.height = borderRadius, 1000);
+                        setProp((props: ButtonProps) => props.borderRadius = borderRadius, 1000);
                     }}
                 />
             </Label>
@@ -85,7 +85,7 @@ const ButtonSettings: React.FC = () => {
                     defaultValue={props.width}
                     onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
                         const width = data.value ? data.value : 0;
-                        setProp((props: ButtonProps) => props.height = width, 1000);
+                        setProp((props: ButtonProps) => props.width = width, 1000);
                     }}
                 />
             </Label>
