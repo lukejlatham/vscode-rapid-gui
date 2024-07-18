@@ -2,10 +2,11 @@ import Instructor from "@instructor-ai/instructor";
 import { AzureOpenAI } from "openai";
 import { getAzureOpenaiApiKeys } from "../utilities/azureApiKeyStorage";
 import { layoutSchema, uiExample, uiFinisher, uiPrompt } from "./editorObjectSchemas";
-import { convertToFullVersion } from "./layoutCraftTreeConverter";
+import { convertToFullVersion } from "./index";
 import * as vscode from "vscode";
+import { getTextualDescription } from "./textualDescription";
 
-async function getUIDescription(sketchAsUrl: string, context: vscode.ExtensionContext) {
+async function getSimpleNodeTree(sketchAsUrl: string, context: vscode.ExtensionContext) {
   const { apiKey, apiEndpoint, deploymentName } = await getAzureOpenaiApiKeys(context);
 
   const AZURE_OPENAI_API_ENDPOINT = apiEndpoint || "";
@@ -69,7 +70,8 @@ async function getUIDescription(sketchAsUrl: string, context: vscode.ExtensionCo
 
 export async function processSketch(sketchAsUrl: string, context: vscode.ExtensionContext) {
   try {
-    const layoutResponse = await getUIDescription(sketchAsUrl, context);
+    const textualDescription = await getTextualDescription(sketchAsUrl, context);
+    const layoutResponse = await getSimpleNodeTree(sketchAsUrl, context);
     const layoutData = JSON.parse(layoutResponse);
     const nodes = layoutData.nodes;
 
