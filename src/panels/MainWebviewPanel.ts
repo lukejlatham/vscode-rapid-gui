@@ -147,9 +147,6 @@ export class MainWebviewPanel {
         const command = message.command;
 
         switch (command) {
-          case "hello":
-            window.showInformationMessage(message.text);
-            return;
           case "getAzureKeys":
             const secrets = await getAzureOpenaiApiKeys(this._context);
             webview.postMessage({ command: "setAzureApiKeys", ...secrets });
@@ -166,6 +163,9 @@ export class MainWebviewPanel {
             const description = await processSketch(message.content, this._context);
             window.showInformationMessage("Sketch processed.");
             webview.postMessage({ command: "sketchProcessed", description });
+            return;
+          case "aiMessage":
+            window.showInformationMessage(message.content);
             return;
         }
       },
