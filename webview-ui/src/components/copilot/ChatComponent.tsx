@@ -5,6 +5,7 @@ import {
   CopilotChatState,
   useCopilotChat_unstable,
 } from '@fluentui-copilot/react-copilot-chat';
+import { Button, Input} from '@fluentui/react-components';
 import { UserMessageComponent, CopilotMessageComponent } from './MessageComponents';
 import useChatStyles from './ChatStyles';
 
@@ -41,15 +42,15 @@ const ChatComponent: React.FC = () => {
         })}
       </CopilotChat>
       <div className={styles.inputContainer}>
-        <input
+        <Input
           type="text"
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
           className={styles.input}
         />
-        <button onClick={handleSendMessage} className={styles.button}>
+        <Button onClick={handleSendMessage} appearance='outline'>
           Send
-        </button>
+        </Button>
       </div>
     </div>
   );
