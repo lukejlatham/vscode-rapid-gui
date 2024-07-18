@@ -1,6 +1,6 @@
 ## Copilot Flow
 
-1. `ChatComponent.tsx` posts `aiUserMessage` when a message is sent.
+1. `ChatComponent.tsx` posts `aiUserMessage` when user message is sent.
    
 2. `MainWebViewPanel.ts` receives the message and calls `processCopilotMessages` in `index.ts`.
 
