@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import {
   CopilotChat,
   CopilotChatProps,
@@ -32,7 +32,7 @@ const ChatComponent: React.FC = () => {
 
   const serializedData = query.serialize();
 
-  const handleSendMessage = () => {
+  const handleSendMessage = useCallback(() => {
     if (newMessage.trim() !== "") {
       const userMessage: ChatMessage = { role: "user", content: newMessage };
 
@@ -48,17 +48,14 @@ const ChatComponent: React.FC = () => {
 
       setNewMessage("");
     }
-  };
+  }, [newMessage, messages]);
 
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
       const message = event.data;
 
       if (message.command === "aiCopilotMessage") {
-        setMessages((prevMessages) => {
-          const updatedMessages: ChatMessage[] = JSON.parse(message.content);
-          return updatedMessages;
-        });
+        setMessages((prevMessages) => JSON.parse(message.content));
         setIsLoading(false);
         setToolCallMessage(null);
       }
@@ -75,18 +72,23 @@ const ChatComponent: React.FC = () => {
     };
   }, []);
 
+  const renderMessage = useCallback((message: ChatMessage, index: number) => {
+    switch (message.role) {
+      case "user":
+        return <UserMessageComponent key={index} message={message} />;
+      case "assistant":
+        return <CopilotMessageComponent key={index} message={message} />;
+      case "tool":
+        return <CopilotMessageComponent key={index} message={message} />;
+      default:
+        return null;
+    }
+  }, []);
+
   return (
     <div className={styles.chatContainer}>
       <CopilotChat {...chatState} ref={chatRef} className={styles.messageList}>
-        {messages.map((message, index) => {
-          if (message.role === "user") {
-            return <UserMessageComponent key={index} message={message} />;
-          } else if (message.role === "assistant") {
-            return <CopilotMessageComponent key={index} message={message} />;
-          } else if (message.role === "tool") {
-            return <div key={index}>{message.content}</div>;
-          }
-        })}
+        {messages.map(renderMessage)}
         {toolCallMessage && <div>{toolCallMessage}</div>}
         {isLoading && <div>Loading...</div>}
       </CopilotChat>
