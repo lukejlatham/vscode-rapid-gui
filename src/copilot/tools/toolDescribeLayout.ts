@@ -5,8 +5,11 @@ const getLayoutDescriptionToolJson = {
   type: "function",
   function: {
     name: "getLayoutDescription",
-    description: "Gives the layout of the current UI as a json tree",
-    parameters: {},
+    description: "Get a description of the current UI layout",
+    parameters: {
+      type: "object",
+      properties: {},
+    },
   },
 };
 

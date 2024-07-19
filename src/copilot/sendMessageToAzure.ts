@@ -1,5 +1,5 @@
 import { AzureOpenAI } from "openai";
-import { getDescriptionTool, getLayoutDescriptionToolJson } from "./toolDescribeLayout";
+import { getDescriptionTool } from "./tools/toolDescribeLayout";
 import { ChatMessage } from "./index";
 import { MainWebviewPanel } from "../panels/MainWebviewPanel";
 
