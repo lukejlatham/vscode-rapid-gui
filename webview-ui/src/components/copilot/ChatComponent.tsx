@@ -11,6 +11,7 @@ import { UserMessageComponent, CopilotMessageComponent } from "./MessageComponen
 import useChatStyles from "./ChatStyles";
 import { vscode } from "../../utilities/vscode";
 import { useEditor } from "@craftjs/core";
+import { convertToSimplifiedVersion } from "./getUiLayout";
 
 type ChatMessage = {
   role: "user" | "assistant" | "tool" | "system";
@@ -19,18 +20,35 @@ type ChatMessage = {
 };
 
 const ChatComponent: React.FC = () => {
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const { query } = useEditor();
+
+  const serializedData = query.serialize();
+
+  const fullNodes = JSON.parse(serializedData);
+
+  console.log("IN CHAT COMPONENT: Full nodes", fullNodes);
+
+  const simplifiedNodes = convertToSimplifiedVersion(fullNodes);
+
+  console.log("IN CHAT COMPONENT: Simplified nodes", simplifiedNodes);
+  
+  // TODO: currently the baseSystemMessage is sent an empty {} object as the uiLayout, instead of the actual layout when the chat is opened.
+  const uiLayout = JSON.stringify(simplifiedNodes, null, 2);
+
+  console.log("IN CHAT COMPONENT: UI Layout", uiLayout);
+
+  const baseSystemMessage: ChatMessage[] = [{ role: "system", content: `You are a very knowledgeable ui designer who is helping a user refine their project. Keep your responses to less than 50 words.\n\n The user's current layout expressed as a JSON tree is: ${uiLayout}` }];
+
+  const [messages, setMessages] = useState<ChatMessage[]>(baseSystemMessage);
   const [newMessage, setNewMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [toolCallMessage, setToolCallMessage] = useState<string | null>(null);
   const chatRef = useRef<HTMLDivElement>(null);
   const styles = useChatStyles();
-  const { query } = useEditor();
 
   const chatProps: CopilotChatProps = {};
   const chatState: CopilotChatState = useCopilotChat_unstable(chatProps, chatRef);
 
-  const serializedData = query.serialize();
 
   const handleSendMessage = useCallback(() => {
     if (newMessage.trim() !== "") {
@@ -40,6 +58,8 @@ const ChatComponent: React.FC = () => {
       setIsLoading(true);
 
       const messagesToSend = [...messages, userMessage];
+
+      console.log("Sending messages to AI Copilot", messagesToSend);
 
       vscode.postMessage({
         command: "aiUserMessage",

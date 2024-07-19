@@ -1,9 +1,6 @@
 import { ChatMessage } from "./index";
 
 function formatMessages(conversationHistory: string): ChatMessage[] {
-  const systemPrompt =
-    "You are a very knowledgeable ui designer who is helping a user refine their project. Keep your responses to less than 50 words.";
-
   let parsedConversationHistory: ChatMessage[];
 
   try {
@@ -14,11 +11,6 @@ function formatMessages(conversationHistory: string): ChatMessage[] {
   } catch (error) {
     throw new Error("Invalid conversation history format ");
   }
-
-  parsedConversationHistory.unshift({
-    role: "system",
-    content: systemPrompt,
-  });
 
   return parsedConversationHistory;
 }
