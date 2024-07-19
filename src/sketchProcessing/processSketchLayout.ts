@@ -6,7 +6,7 @@ import { convertToFullVersion } from "./index";
 import * as vscode from "vscode";
 import { getTextualDescription } from "./textualDescription";
 
-async function getSimpleNodeTree(sketchAsUrl: string, context: vscode.ExtensionContext) {
+async function getSimpleNodeTree(sketchAsUrl: string, textualDescription: string, context: vscode.ExtensionContext) {
   const { apiKey, apiEndpoint, deploymentName } = await getAzureOpenaiApiKeys(context);
 
   const AZURE_OPENAI_API_ENDPOINT = apiEndpoint || "";
@@ -46,7 +46,7 @@ async function getSimpleNodeTree(sketchAsUrl: string, context: vscode.ExtensionC
           content: [
             {
               type: "text",
-              text: "Create a UI layout from this sketch.",
+              text: `Create a UI layout from this sketch and the following textual description: ${textualDescription}.`,
             },
             {
               type: "image_url",
@@ -71,7 +71,9 @@ async function getSimpleNodeTree(sketchAsUrl: string, context: vscode.ExtensionC
 export async function processSketch(sketchAsUrl: string, context: vscode.ExtensionContext) {
   try {
     const textualDescription = await getTextualDescription(sketchAsUrl, context);
-    const layoutResponse = await getSimpleNodeTree(sketchAsUrl, context);
+    console.log("Textual Description:", textualDescription);
+    const layoutResponse = await getSimpleNodeTree(sketchAsUrl, textualDescription, context);
+    console.log("Layout Response:", layoutResponse);
     const layoutData = JSON.parse(layoutResponse);
     const nodes = layoutData.nodes;
 

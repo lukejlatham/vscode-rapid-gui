@@ -112,7 +112,7 @@ layoutSchema.superRefine((data, ctx) => {
 
 // Prompt and example
 const uiPrompt: string =
-  "Please generate a JSON representation of a UI component tree following these rules: 1. Root Node (Background) - ID: ROOT - Type: Background - Contains one Container node. 2. Container Node - ID: ContainerID - Type: Container - Contains one Rows node. 3. Rows Node - Type: Rows - ID follows the pattern Rows<number>, e.g., Rows1 - Contains 1 to 5 Row nodes, referenced by linked_nodes. - Each Row node's ID follows the pattern row-<number>, e.g., row-0, row-1, etc. 4. Row Node - Type: Row - ID follows the pattern Row<number>, e.g., Row1 - Contains one Columns node. 5. Columns Node - Type: Columns - ID follows the pattern Columns<number>, e.g., Columns1 - Contains 1 to 5 Column nodes, referenced by linked_nodes. - Each Column node's ID follows the pattern column-<number>, e.g., column-0, column-1, etc. 6. Column Node - Type: Column - ID follows the pattern Column<number>, e.g., Column1 - Contains one of the following element types: Button, Image, Textbox, or Label. - Each element's ID follows the pattern <type><number>, e.g., Button1, Image2. 7. Element Nodes - Types: Button, Image, Textbox, Label - Each element has an ID following the pattern <type><number>, e.g., Button1, Image2. Here is an example structure: ";
+  `Please generate a JSON representation of a UI component tree following these rules: 1. Root Node (Background) - ID: ROOT - Type: Background - Contains one Container node. 2. Container Node - ID: ContainerID - Type: Container - Contains one Rows node. 3. Rows Node - Type: Rows - ID follows the pattern Rows<number>, e.g., Rows1 - Contains 1 to 5 Row nodes, referenced by linked_nodes. - Each Row node's ID follows the pattern row-<number>, e.g., row-0, row-1, etc. 4. Row Node - Type: Row - ID follows the pattern Row<number>, e.g., Row1 - Contains one Columns node. 5. Columns Node - Type: Columns - ID follows the pattern Columns<number>, e.g., Columns1 - Contains 1 to 5 Column nodes, referenced by linked_nodes. - Each Column node's ID follows the pattern column-<number>, e.g., column-0, column-1, etc. 6. Column Node - Type: Column - ID follows the pattern Column<number>, e.g., Column1 - Contains one of the following element types: Button, Image, Textbox, or Label. - Each element's ID follows the pattern <type><number>, e.g., Button1, Image2. 7. Element Nodes - Types: Button, Image, Textbox, Label - Each element has an ID following the pattern <type><number>, e.g., Button1, Image2. Here is an example structure: `;
 
 const uiExample = JSON.stringify({
   nodes: [
@@ -236,6 +236,6 @@ const uiExample = JSON.stringify({
 });
 
 const uiFinisher: string =
-  "Ensure the generated JSON follows these rules, including unique IDs for each node and correct nesting of elements.";
+  "Ensure the generated JSON follows these rules, including unique IDs for each node and correct nesting of elements. Ensure the elements present in the JSON match those present in the textual description.";
 
 export { uiPrompt, uiExample, uiFinisher };
