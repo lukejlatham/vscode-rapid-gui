@@ -12,14 +12,17 @@ import useChatStyles from "./ChatStyles";
 import { vscode } from "../../utilities/vscode";
 import { useEditor } from "@craftjs/core";
 
-export type Message = {
-  role: "system" | "user" | "assistant" | "loading";
+type ChatMessage = {
+  role: "user" | "assistant" | "tool" | "system";
+  tool_call_id?: string;
   content: string;
 };
 
 const ChatComponent: React.FC = () => {
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [newMessage, setNewMessage] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [toolCallMessage, setToolCallMessage] = useState<string | null>(null);
   const chatRef = useRef<HTMLDivElement>(null);
   const styles = useChatStyles();
   const { query } = useEditor();
@@ -31,12 +34,12 @@ const ChatComponent: React.FC = () => {
 
   const handleSendMessage = () => {
     if (newMessage.trim() !== "") {
-      const userMessage: Message = { role: "user", content: newMessage };
-      const loadingMessage: Message = { role: "loading", content: "Loading..." };
+      const userMessage: ChatMessage = { role: "user", content: newMessage };
 
-      setMessages((prevMessages) => [...prevMessages, userMessage, loadingMessage]);
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
+      setIsLoading(true);
 
-      const messagesToSend = [...messages, userMessage].filter((msg) => msg.role !== "loading");
+      const messagesToSend = [...messages, userMessage];
 
       vscode.postMessage({
         command: "aiUserMessage",
@@ -53,11 +56,15 @@ const ChatComponent: React.FC = () => {
 
       if (message.command === "aiCopilotMessage") {
         setMessages((prevMessages) => {
-          const updatedMessages = prevMessages.filter((msg) => msg.role !== "loading");
-          const copilotMessage: Message = { role: "assistant", content: message.content };
-
-          return [...updatedMessages, copilotMessage];
+          const updatedMessages: ChatMessage[] = JSON.parse(message.content);
+          return updatedMessages;
         });
+        setIsLoading(false);
+        setToolCallMessage(null);
+      }
+
+      if (message.command === "aiCopilotToolCall") {
+        setToolCallMessage(message.content);
       }
     };
 
@@ -66,7 +73,7 @@ const ChatComponent: React.FC = () => {
     return () => {
       window.removeEventListener("message", handleMessage);
     };
-  }, [messages]);
+  }, []);
 
   return (
     <div className={styles.chatContainer}>
@@ -74,10 +81,14 @@ const ChatComponent: React.FC = () => {
         {messages.map((message, index) => {
           if (message.role === "user") {
             return <UserMessageComponent key={index} message={message} />;
-          } else if (message.role === "assistant" || message.role === "loading") {
+          } else if (message.role === "assistant") {
             return <CopilotMessageComponent key={index} message={message} />;
+          } else if (message.role === "tool") {
+            return <div key={index}>{message.content}</div>;
           }
         })}
+        {toolCallMessage && <div>{toolCallMessage}</div>}
+        {isLoading && <div>Loading...</div>}
       </CopilotChat>
       <div className={styles.inputContainer}>
         <Input
@@ -95,3 +106,4 @@ const ChatComponent: React.FC = () => {
 };
 
 export default ChatComponent;
+export type { ChatMessage };

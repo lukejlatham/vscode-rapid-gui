@@ -1,35 +1,34 @@
 import { getAzureOpenaiApiKeys } from "../utilities/azureApiKeyStorage";
 import * as vscode from "vscode";
 import { formatMessages } from "./messageFormatting";
-import { sendMessageToAzure } from "./sendMessageToAzure";
-import { extractContent } from "./extractContent";
+import { postMessagesToAzure } from "./sendMessageToAzure";
+import { ChatCompletionMessageParam } from "openai/resources";
 
-type Message = {
-  role: "system" | "user" | "assistant";
-  content: string;
-};
+type ChatMessage = ChatCompletionMessageParam;
 
 async function processCopilotMessages(
   messages: string,
   context: vscode.ExtensionContext
 ): Promise<string> {
   const { apiKey, apiEndpoint, deploymentName } = await getAzureOpenaiApiKeys(context);
-  console.log("messages sent to azure openai:", messages);
 
-  const formattedMessages: Message[] = formatMessages(messages);
-  const rawAzureResponse = await sendMessageToAzure(
+  if (apiKey === undefined || apiEndpoint === undefined || deploymentName === undefined) {
+    throw new Error("One or more required Azure OpenAI API keys or endpoints are undefined.");
+  }
+
+  const formattedMessages: ChatMessage[] = formatMessages(messages);
+
+  const newMessages = await postMessagesToAzure(
     formattedMessages,
-    apiKey,
     apiEndpoint,
+    apiKey,
     deploymentName
   );
-  console.log("response from azure openai:", rawAzureResponse);
 
-  const copilotResponse = extractContent(rawAzureResponse);
+  const stringifiedMessages = JSON.stringify(newMessages);
 
-  console.log("final response:", copilotResponse);
-
-  return copilotResponse;
+  return stringifiedMessages;
 }
 
 export { processCopilotMessages };
+export type { ChatMessage };

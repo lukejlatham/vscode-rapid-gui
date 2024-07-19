@@ -1,10 +1,11 @@
 import React from 'react';
 import { UserMessage, CopilotMessage } from '@fluentui-copilot/react-copilot-chat';
-import { Message } from './ChatComponent';
+import { ChatMessage } from './ChatComponent';
 import { useUserMessageState, useCopilotMessageState } from './hooks';
 import useChatStyles from './ChatStyles';
 
-export const UserMessageComponent: React.FC<{ message: Message }> = ({ message }) => {
+
+export const UserMessageComponent: React.FC<{ message: ChatMessage }> = ({ message }) => {
   const userMessageState = useUserMessageState();
   const styles = useChatStyles();
 
@@ -15,7 +16,7 @@ export const UserMessageComponent: React.FC<{ message: Message }> = ({ message }
   );
 };
 
-export const CopilotMessageComponent: React.FC<{ message: Message }> = ({ message }) => {
+export const CopilotMessageComponent: React.FC<{ message: ChatMessage }> = ({ message }) => {
   const copilotMessageState = useCopilotMessageState();
   const styles = useChatStyles();
 

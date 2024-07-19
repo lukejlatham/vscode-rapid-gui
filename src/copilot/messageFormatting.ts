@@ -1,24 +1,26 @@
-type Message = {
-  role: "system" | "user" | "assistant";
-  content: string;
-};
+import { ChatMessage } from "./index";
 
-export function formatMessages(conversationHistory: string): Message[] {
-  let parsedConversationHistory: Message[];
+function formatMessages(conversationHistory: string): ChatMessage[] {
+  const systemPrompt =
+    "You are a very knowledgeable ui designer who is helping a user refine their project.";
+
+  let parsedConversationHistory: ChatMessage[];
+
   try {
     parsedConversationHistory = JSON.parse(conversationHistory);
     if (!Array.isArray(parsedConversationHistory)) {
       throw new Error("Parsed conversation history is not an array");
     }
   } catch (error) {
-    throw new Error("Invalid conversation history format: " + error.message);
+    throw new Error("Invalid conversation history format ");
   }
 
-  // Add the system message at the start of the conversation history
   parsedConversationHistory.unshift({
     role: "system",
-    content: "You are a helpful assistant.",
+    content: systemPrompt,
   });
 
   return parsedConversationHistory;
 }
+
+export { formatMessages };

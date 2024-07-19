@@ -167,8 +167,8 @@ export class MainWebviewPanel {
             return;
           case "aiUserMessage":
             window.showInformationMessage("Processing messages...");
-            const copilotResponse = await processCopilotMessages(message.content, this._context);
-            webview.postMessage({ command: "aiCopilotMessage", content: copilotResponse });
+            const updatedMessages = await processCopilotMessages(message.content, this._context);
+            webview.postMessage({ command: "aiCopilotMessage", content: updatedMessages });
             return;
         }
       },
