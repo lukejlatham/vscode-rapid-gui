@@ -99,13 +99,7 @@ async function postMessagesToAzure(
   apiKey: string,
   deploymentName: string
 ): Promise<ChatMessage[]> {
-  console.log("In postMessagesToAzure");
-  console.log("Messages: ", messages);
-  console.log("API Endpoint: ", apiEndpoint);
-  console.log("API Key: ", apiKey);
-  console.log("Deployment Name: ", deploymentName);
   const client = initializeClient(apiKey, apiEndpoint, deploymentName);
-  console.log("Client initialized", client);
 
   try {
     const processedResponse = await sendMessage(client, messages, deploymentName);

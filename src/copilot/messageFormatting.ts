@@ -2,7 +2,7 @@ import { ChatMessage } from "./index";
 
 function formatMessages(conversationHistory: string): ChatMessage[] {
   const systemPrompt =
-    "You are a very knowledgeable ui designer who is helping a user refine their project.";
+    "You are a very knowledgeable ui designer who is helping a user refine their project. Keep your responses to less than 50 words.";
 
   let parsedConversationHistory: ChatMessage[];
 
