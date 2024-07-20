@@ -1,8 +1,8 @@
 import React from 'react';
 import { UserMessage, CopilotMessage } from '@fluentui-copilot/react-copilot-chat';
-import { ChatMessage } from './ChatComponent';
+import { ChatMessage } from '../../pages/EditingInterface/RightSidebar/ChatComponent';
 import { useUserMessageState, useCopilotMessageState } from './hooks';
-import useChatStyles from './ChatStyles';
+import useChatStyles from '../../pages/EditingInterface/RightSidebar/ChatStyles';
 
 
 export const UserMessageComponent: React.FC<{ message: ChatMessage }> = ({ message }) => {

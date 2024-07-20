@@ -4,10 +4,8 @@ const useChatStyles = makeStyles({
   chatContainer: {
     display: "flex",
     flexDirection: "column",
-    height: "100vh",
-    padding: "20px",
+    height: "100%",
     gap: "10px",
-    overflow: "scroll",
   },
   messageList: {
     flex: 1,
@@ -16,13 +14,11 @@ const useChatStyles = makeStyles({
   },
   inputContainer: {
     display: "flex",
-    padding: "10px",
-    alignItems: "left",
+    alignItems: "center",
   },
   input: {
     flex: 1,
     marginRight: "10px",
-    padding: "5px",
   },
   button: {
     padding: "5px 10px",
@@ -32,11 +28,13 @@ const useChatStyles = makeStyles({
   message: {},
   userMessage: {
     alignSelf: "flex-end",
-    font: "Segoe UI",
+    padding: "10px",
+    borderRadius: "10px",
   },
   copilotMessage: {
     alignSelf: "flex-start",
-    font: "Segoe UI",
+    padding: "10px",
+    borderRadius: "10px",
   },
 });
 

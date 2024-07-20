@@ -7,11 +7,11 @@ import {
 } from "@fluentui-copilot/react-copilot-chat";
 import { Send24Regular } from "@fluentui/react-icons";
 import { Button, Input } from "@fluentui/react-components";
-import { UserMessageComponent, CopilotMessageComponent } from "./MessageComponents";
+import { UserMessageComponent, CopilotMessageComponent } from "../../../Features/copilot/MessageComponents";
 import useChatStyles from "./ChatStyles";
-import { vscode } from "../../utilities/vscode";
+import { vscode } from "../../../utilities/vscode";
 import { useEditor } from "@craftjs/core";
-import { convertToSimplifiedVersion } from "./getUiLayout";
+import { convertToSimplifiedVersion } from "../../../Features/copilot/getUiLayout";
 
 type ChatMessage = {
   role: "user" | "assistant" | "tool" | "system";

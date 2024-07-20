@@ -1,15 +1,13 @@
 import React, { ReactNode, FC } from 'react';
-import { Card, Label, SpinButton, SpinButtonChangeEvent, SpinButtonOnChangeData } from '@fluentui/react-components';
+import { Card, Label } from '@fluentui/react-components';
 import { useNode, UserComponent } from "@craftjs/core";
 
 interface BackgroundProps {
     children?: ReactNode;
     backgroundColor: string;
-    width: number;
-    height: number;
 }
 
-export const Background: UserComponent<BackgroundProps> = ({ children, backgroundColor, width, height }) => {
+export const Background: UserComponent<BackgroundProps> = ({ children, backgroundColor }) => {
     const { connectors: { connect, drag } } = useNode();
 
     return (
@@ -17,7 +15,7 @@ export const Background: UserComponent<BackgroundProps> = ({ children, backgroun
             if (ref) {
                 connect(drag(ref));
             }
-        }} style={{ background: backgroundColor, width: `${width}vw`, height: `${height}%` }}>
+        }} style={{ background: backgroundColor, width: '100%', height: '100%' }}>
             <div>
                 {children}
             </div>
@@ -40,41 +38,12 @@ const BackgroundSettings: FC = () => {
                     defaultValue={props.backgroundColor}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProp((props: BackgroundProps) => props.backgroundColor = e.target.value)} />
             </Label>
-            <Label>
-                Width
-                <SpinButton
-                style={{ width: "95%"}}
-                    defaultValue={props.width}
-                    min={0}
-                    max={100}
-                    step={10}
-                    onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
-                        const width = data.value ? data.value : 0;
-                        setProp((props: BackgroundProps) => props.width = width, 1000);
-                    }}
-                />
-            </Label>
-            <Label>
-                Height
-                <SpinButton
-                style={{ width: "95%"}}
-                    defaultValue={props.height}
-                    min={0}
-                    max={200}
-                    step={10}
-                    onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
-                        const height = data.value ? data.value : 0;
-                        setProp((props: BackgroundProps) => props.height = height, 1000);
-                    }}
-                />
-            </Label>
         </div>
     );
 };
+
 export const BackgroundDefaultProps: BackgroundProps = {
     backgroundColor: '#333',
-    height: 100,
-    width: 60
 }
 
 Background.craft = {
