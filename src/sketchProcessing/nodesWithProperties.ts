@@ -1,4 +1,8 @@
+import Instructor from "@instructor-ai/instructor";
 import { z } from "zod";
+import { AzureOpenAI } from "openai";
+import { getAzureOpenaiApiKeys } from "../utilities/azureApiKeyStorage";
+import * as vscode from 'vscode';
 
 // Define the schema for button properties
 const buttonPropsSchema = z.object({
@@ -70,12 +74,12 @@ const elementSchema = z.object({
     ])
 });
 
-const layoutSchema = z.object({
+const responseSchema = z.object({
     nodes: z.array(elementSchema)
-  });
+});
 
 
-const Example = JSON.stringify({
+const example = JSON.stringify({
     nodes: [
         {
             id: "Button1",
@@ -126,3 +130,59 @@ const Example = JSON.stringify({
         }
     ]
 });
+
+const prompt: string = `Generate a JSON object that contains a list of nodes with their properties based on the textual description given and the sketch. Ensure that the nodes in your response match all of those present in the description and sketch. This is the textual description: }`;
+
+export async function getNodesWithProperties(sketchAsUrl: string, textualDescription: string, context: vscode.ExtensionContext) {
+    const { apiKey, apiEndpoint, deploymentName } = await getAzureOpenaiApiKeys(context);
+
+    const AZURE_OPENAI_API_ENDPOINT = apiEndpoint || "";
+    const AZURE_OPENAI_API_KEY = apiKey || "";
+    const GPT4O_DEPLOYMENT_NAME = deploymentName || "";
+
+    const client = new AzureOpenAI({
+        apiVersion: "2024-06-01",
+        baseURL: `${AZURE_OPENAI_API_ENDPOINT}/openai/deployments/${GPT4O_DEPLOYMENT_NAME}`,
+        apiKey: AZURE_OPENAI_API_KEY,
+    });
+
+    const instructor = Instructor({
+        client: client,
+        mode: "TOOLS",
+        debug: true,
+    });
+
+    try {
+        const properties = await instructor.chat.completions.create({
+            model: GPT4O_DEPLOYMENT_NAME,
+            messages: [
+                {
+                    role: "system",
+                    content: `${prompt}\n\n${textualDescription}\n\n This is an example of the expected response: ${example}`,
+                },
+                {
+                    role: "user",
+                    content: [
+                        {
+                            type: "text",
+                            text: `Create a JSON object that contains a list of nodes with their properties based on the textual description given and the sketch.`,
+                        },
+                        {
+                            type: "image_url",
+                            image_url: { url: `data:image/png;base64,${sketchAsUrl}`, detail: "auto" },
+                        },
+                    ],
+                },
+            ],
+            response_model: {
+                schema: responseSchema,
+                name: "nodesWithProperties",
+            },
+            max_retries: 2,
+        });
+
+        return JSON.stringify(properties);
+    } catch (error) {
+        throw error;
+    }
+}
