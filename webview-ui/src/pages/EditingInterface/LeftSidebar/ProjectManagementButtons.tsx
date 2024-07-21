@@ -1,8 +1,8 @@
 import React from 'react';
 import { Subtitle2, Divider, Button } from "@fluentui/react-components";
 import { ArrowHookUpLeft24Regular, ArrowHookUpRight24Regular } from '@fluentui/react-icons';
-import SaveButton from '../../../components/SaveButton';
-import LoadButton from '../../../components/LoadButton';
+import SaveButton from './SaveButton';
+import LoadButton from './LoadButton';
 import { useEditor } from "@craftjs/core";
 
 const ProjectManagement: React.FC<{ classes: any, }> = ({ classes }) => {

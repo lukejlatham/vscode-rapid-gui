@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react';
 import { Editor } from "@craftjs/core";
 import { Label } from "../../components/user/Label";
 import { Container } from '../../components/user/Container';
@@ -12,8 +11,6 @@ import { Background } from '../../components/user/Background';
 import RightSidebar from './RightSidebar/RightSidebar';
 import Canvas from './Canvas';
 import LeftSidebar from './LeftSidebar/LeftSidebar';
-import { vscode } from '../../utilities/vscode';
-import { useLoadAndSaveUtilities } from './loadAndSaveUtilities';
 
 const useStyles = makeStyles({
     mainLayout: {
@@ -46,32 +43,6 @@ const useStyles = makeStyles({
 
 const EditingInterface: React.FC = () => {
     const classes = useStyles();
-    const { deserializeNodes, serializeNodes } = useLoadAndSaveUtilities();
-
-    useEffect(() => {
-        const handleMessage = (event: MessageEvent) => {
-            const message = event.data;
-
-            switch (message.command) {
-                case 'loadTree':
-                    deserializeNodes(message.data);
-                    vscode.postMessage({ command: 'treeLoaded', success: true });
-                    break;
-                case 'sendTree':
-                    const serializedNodes = serializeNodes();
-                    vscode.postMessage({ command: 'treeData', data: serializedNodes });
-                    break;
-                default:
-                    break;
-            }
-        };
-
-        window.addEventListener('message', handleMessage);
-
-        return () => {
-            window.removeEventListener('message', handleMessage);
-        };
-    }, [deserializeNodes, serializeNodes]);
 
     return (
         <Editor resolver={{ Background, Label, Container, Button, Rows, Row, Column, Columns, TextBox, Image }}>
