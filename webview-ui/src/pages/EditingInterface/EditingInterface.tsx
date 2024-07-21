@@ -11,6 +11,7 @@ import { Background } from '../../components/user/Background';
 import RightSidebar from './RightSidebar/RightSidebar';
 import Canvas from './Canvas';
 import LeftSidebar from './LeftSidebar/LeftSidebar';
+import LeftSidebarProps from './LeftSidebar/LeftSidebar';
 
 const useStyles = makeStyles({
     mainLayout: {
