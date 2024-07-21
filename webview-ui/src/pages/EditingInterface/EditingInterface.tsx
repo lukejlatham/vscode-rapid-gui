@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Editor } from "@craftjs/core";
 import { Label } from "../../components/user/Label";
 import { Container } from '../../components/user/Container';
 import { Button } from '../../components/user/Button';
-import { makeStyles, shorthands } from '@fluentui/react-components';
+import { makeStyles } from '@fluentui/react-components';
 import { Rows, Row } from '../../components/user/Rows';
 import { Columns, Column } from '../../components/user/Columns';
 import { TextBox } from '../../components/user/TextBox';
@@ -12,6 +12,7 @@ import { Background } from '../../components/user/Background';
 import RightSidebar from './RightSidebar/RightSidebar';
 import Canvas from './Canvas';
 import LeftSidebar from './LeftSidebar/LeftSidebar';
+import { useLoadAndSaveUtilities } from './loadAndSaveUtilities';
 
 const useStyles = makeStyles({
     mainLayout: {
@@ -35,16 +36,44 @@ const useStyles = makeStyles({
         overflow: 'hidden', // Prevent overflow
     },
     rightSidebar: {
-        flex: '0 0 400', // Fixed width for the sidebar
+        flex: '0 0 400px', // Fixed width for the sidebar
         display: 'flex',
         flexDirection: 'column',
         height: '100%',
     },
 });
 
-
 const EditingInterface: React.FC = () => {
     const classes = useStyles();
+    const { deserializeNodes, serializeNodes } = useLoadAndSaveUtilities();
+
+    useEffect(() => {
+        const vscode = acquireVsCodeApi();
+
+        const handleMessage = (event: MessageEvent) => {
+            const message = event.data;
+
+            switch (message.command) {
+                case 'loadTree':
+                    deserializeNodes(message.data);
+                    vscode.postMessage({ command: 'treeLoaded', success: true });
+                    break;
+                case 'sendTree':
+                    const serializedNodes = serializeNodes();
+                    vscode.postMessage({ command: 'treeData', data: serializedNodes });
+                    break;
+                default:
+                    break;
+            }
+        };
+
+        window.addEventListener('message', handleMessage);
+
+        return () => {
+            window.removeEventListener('message', handleMessage);
+        };
+    }, [deserializeNodes, serializeNodes]);
+
     return (
         <Editor resolver={{ Background, Label, Container, Button, Rows, Row, Column, Columns, TextBox, Image }}>
             <div className={classes.mainLayout}>
