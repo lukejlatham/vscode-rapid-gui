@@ -12,6 +12,7 @@ import { getNonce } from "../utilities/getNonce";
 import { getAzureOpenaiApiKeys } from "../utilities/azureApiKeyStorage";
 import { handleFileSave, handleFileLoad } from "../utilities/projectSaveUtilities";
 import { processSketch } from "../sketchProcessing/processSketchLayout";
+import { processCopilotMessages } from "../copilot";
 
 export class MainWebviewPanel {
   public static currentPanel: MainWebviewPanel | undefined;
@@ -74,10 +75,10 @@ export class MainWebviewPanel {
    * @param extensionUri The URI of the directory containing the extension
    */
   private async _setWebviewContent(extensionUri: Uri) {
-    const apiEndpoint = (await this._context.secrets.get("AZURE_OPENAI_API_ENDPOINT")) || "";
-    const connectSrcUrls = apiEndpoint;
-    window.showInformationMessage(`API endpoint: ${apiEndpoint}`);
-    window.showInformationMessage(`Connect src URLs: ${connectSrcUrls}`);
+    // const apiEndpoint = (await this._context.secrets.get("AZURE_OPENAI_API_ENDPOINT")) || "";
+    // const connectSrcUrls = apiEndpoint;
+
+    const connectSrcUrls = ""; // If we need to add URLs, we can add them here
     this._panel.webview.html = this._getWebviewContent(
       this._panel.webview,
       extensionUri,
@@ -147,9 +148,6 @@ export class MainWebviewPanel {
         const command = message.command;
 
         switch (command) {
-          case "hello":
-            window.showInformationMessage(message.text);
-            return;
           case "getAzureKeys":
             const secrets = await getAzureOpenaiApiKeys(this._context);
             webview.postMessage({ command: "setAzureApiKeys", ...secrets });
@@ -162,10 +160,12 @@ export class MainWebviewPanel {
             await handleFileLoad(this._context, webview);
             return;
           case "processSketchLayout":
-            window.showInformationMessage("Processing sketch...");
             const description = await processSketch(message.content, this._context);
-            window.showInformationMessage("Sketch processed.");
             webview.postMessage({ command: "sketchProcessed", description });
+            return;
+          case "aiUserMessage":
+            const updatedMessages = await processCopilotMessages(message.content, this._context);
+            webview.postMessage({ command: "aiCopilotMessage", content: updatedMessages });
             return;
         }
       },

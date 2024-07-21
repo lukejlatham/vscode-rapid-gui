@@ -1,7 +1,35 @@
 import React, { useState } from "react";
 import { useEditor } from "@craftjs/core";
-import { Subtitle2, Divider, Button, Tooltip } from "@fluentui/react-components";
+import { Subtitle2, Divider, Button, Tooltip, makeStyles, shorthands } from "@fluentui/react-components";
 import { Delete24Regular, PaintBrush24Regular, PaintBrushArrowDown24Regular, Dismiss20Regular } from "@fluentui/react-icons";
+
+const useStyles = makeStyles({
+  propertyInspector: {
+    padding: '10px',
+    border: '1px solid #666666',
+    borderRadius: '10px',
+  },
+  header: {
+    display: 'flex',
+    paddingTop: "5px",
+    paddingBottom: '10px',
+    textAlign: "center",
+    gap: '10px',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonGroup: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingTop: '10px',
+    paddingBottom: '10px',
+    gap: '5px',
+  },
+  button: {
+    width: "30%",
+  },
+});
 
 export const PropertyInspector: React.FC = () => {
   const [copiedSettings, setCopiedSettings] = useState<{ props: Record<string, any>, displayName: string } | null>(null);
@@ -65,6 +93,8 @@ export const PropertyInspector: React.FC = () => {
     };
   });
 
+  const classes = useStyles();
+
   const handleCopy = () => {
     if (selected && selected.props) {
       setCopiedSettings({ props: selected.props, displayName: selected.displayName });
@@ -86,36 +116,35 @@ export const PropertyInspector: React.FC = () => {
   };
 
   return selected ? (
-    <div style={{ padding: '10px', border: '1px solid #666666', borderRadius: '10px' }}>
-      <div style={{ display: 'flex', paddingTop: "5px", paddingBottom: '10px', textAlign: "center", gap: '10px', alignItems: 'center', justifyContent: 'center'}}>
+    <div className={classes.propertyInspector}>
+      <div className={classes.header}>
         <Subtitle2>Property inspector</Subtitle2>
-        <Button icon={<Dismiss20Regular/>} appearance="transparent" onClick={handleClose} />
+        <Button icon={<Dismiss20Regular />} appearance="transparent" onClick={handleClose} />
       </div>
       <Divider style={{ flexGrow: "0" }} />
       {selected.settings && React.createElement(selected.settings)}
-      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', paddingTop: '10px', paddingBottom: '10px', gap: '5px' }}>
+      <div className={classes.buttonGroup}>
         <Tooltip content="Copy Format" relationship="label">
           <Button
             appearance='secondary'
-            style={{ width: "30%" }}
-            //size="small"
+            className={classes.button}
             icon={<PaintBrush24Regular />}
             onClick={handleCopy}
             disabled={!selected.props}
           />
         </Tooltip>
         <Tooltip content="Paste Format" relationship="label">
-        <Button
-          appearance='secondary'
-          style={{ width: "30%" }}
-          icon={<PaintBrushArrowDown24Regular />}
-          onClick={handlePaste}
-          disabled={!copiedSettings || !selected.props || selected.displayName !== copiedSettings.displayName}
-        />
+          <Button
+            appearance='secondary'
+            className={classes.button}
+            icon={<PaintBrushArrowDown24Regular />}
+            onClick={handlePaste}
+            disabled={!copiedSettings || !selected.props || selected.displayName !== copiedSettings.displayName}
+          />
         </Tooltip>
         <Button
           appearance='primary'
-          style={{ width: "30%" }}
+          className={classes.button}
           icon={<Delete24Regular />}
           onClick={() => {
             actions.delete(selected.id);

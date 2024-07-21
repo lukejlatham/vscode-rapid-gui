@@ -1,66 +1,89 @@
-import React from 'react';
-import ComponentLibrary from "../../components/ComponentLibrary";
-import { Editor, Frame, Element } from "@craftjs/core";
+import React, { useEffect } from 'react';
+import { Editor } from "@craftjs/core";
 import { Label } from "../../components/user/Label";
 import { Container } from '../../components/user/Container';
 import { Button } from '../../components/user/Button';
-import { makeStyles, shorthands } from '@fluentui/react-components';
+import { makeStyles } from '@fluentui/react-components';
 import { Rows, Row } from '../../components/user/Rows';
 import { Columns, Column } from '../../components/user/Columns';
 import { TextBox } from '../../components/user/TextBox';
 import { Image } from '../../components/user/Image';
-import { Background, BackgroundDefaultProps } from '../../components/user/Background';
-import PropertyInspector from '../../components/PropertyInspector';
+import { Background } from '../../components/user/Background';
+import RightSidebar from './RightSidebar/RightSidebar';
+import Canvas from './Canvas';
+import LeftSidebar from './LeftSidebar/LeftSidebar';
+import { vscode } from '../../utilities/vscode';
+import { useLoadAndSaveUtilities } from './loadAndSaveUtilities';
 
 const useStyles = makeStyles({
     mainLayout: {
         display: 'flex',
-        height: '95vh',
-        width: '95vw', // Ensure it takes the full width of the window
+        height: '100vh',
+        width: '97vw', // Ensure it takes the full width of the window
+        gap: '10px',
+        alignSelf: 'center',
     },
-    componentLibrary: {
+    leftSidebar: {
         flex: '0 0 200px', // Fixed width for the component library
         display: 'flex',
         flexDirection: 'column',
         height: '100%',
-        ...shorthands.padding('0px'),
     },
     canvas: {
-        flexGrow: 1, // Take up remaining space
+        flexGrow: 1, // Allow the canvas to grow and shrink as needed
         display: 'flex',
         flexDirection: 'column',
         borderRadius: '3px',
-        ...shorthands.padding('10px'),
-        background: '#333', // Just to visualize the area
-        overflow: 'none'
+        overflow: 'hidden', // Prevent overflow
     },
-    propertyInspector: {
-        flex: '0 0 200px', // Fixed width for the property inspector
+    rightSidebar: {
+        flex: '0 0 400px', // Fixed width for the sidebar
         display: 'flex',
         flexDirection: 'column',
-        ...shorthands.padding('10px'),
+        height: '100%',
     },
 });
 
 const EditingInterface: React.FC = () => {
     const classes = useStyles();
+    const { deserializeNodes, serializeNodes } = useLoadAndSaveUtilities();
+
+    useEffect(() => {
+        const handleMessage = (event: MessageEvent) => {
+            const message = event.data;
+
+            switch (message.command) {
+                case 'loadTree':
+                    deserializeNodes(message.data);
+                    vscode.postMessage({ command: 'treeLoaded', success: true });
+                    break;
+                case 'sendTree':
+                    const serializedNodes = serializeNodes();
+                    vscode.postMessage({ command: 'treeData', data: serializedNodes });
+                    break;
+                default:
+                    break;
+            }
+        };
+
+        window.addEventListener('message', handleMessage);
+
+        return () => {
+            window.removeEventListener('message', handleMessage);
+        };
+    }, [deserializeNodes, serializeNodes]);
+
     return (
         <Editor resolver={{ Background, Label, Container, Button, Rows, Row, Column, Columns, TextBox, Image }}>
             <div className={classes.mainLayout}>
-                <div className={classes.componentLibrary}>
-                    <ComponentLibrary />
+                <div className={classes.leftSidebar}>
+                    <LeftSidebar classes={classes} />
                 </div>
-                <div>
-                    <Frame>
-                        <Element is={Background} id="background" {...BackgroundDefaultProps}>
-                        <Element is={Container} id="root" canvas>
-                            {/* Your editable components go here */}
-                        </Element>
-                        </Element>
-                    </Frame>
+                <div className={classes.canvas}>
+                    <Canvas classes={classes} />
                 </div>
-                <div className={classes.propertyInspector}>
-                    <PropertyInspector />
+                <div className={classes.rightSidebar}>
+                    <RightSidebar classes={classes} />
                 </div>
             </div>
         </Editor>

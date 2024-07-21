@@ -7,6 +7,7 @@ const useStyles = makeStyles({
   mainLayout: {
     display: 'flex',
     height: '100vh',
+    width: '100vw', // Ensure it takes the full width of the window
   },
   content: {
     flexGrow: 1, /* Take up remaining space */
@@ -22,7 +23,6 @@ const MainLayout: React.FC = () => {
   const classes = useStyles();
   const location = useLocation();
   const shouldRenderNavBar = location.pathname !== '/editing-interface';
-
 
   return (
     <div className={classes.mainLayout}>
