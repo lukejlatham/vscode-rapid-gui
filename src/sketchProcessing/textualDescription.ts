@@ -83,15 +83,13 @@ export async function getTextualDescription(sketchAsUrl: string, context: vscode
       messages: [
         {
           role: "system",
-          content: `Give a textual description of the UI layout in the sketch based
+          content: `Give a bullet point description of the UI layout in the sketch based
                      on these elements: ${elements}. Start by describing the general layout in 
                      terms of the columns and rows present in the sketch. Then, individually 
                      describe each element present in each column and row. When describing the 
                      elements, include the type of element and any relevant properties such as 
-                     color, font color, text, border radius, width, height, alignment, and any 
-                     other relevant properties. If there are multiple elements of the same type,
-                      make sure you describe them all separately. Make sure your response follows the
-                      structure in this example:`,
+                     color, font color, text, border radius, width, height, alignment. If there are multiple elements of the same type,
+                      make sure you describe them all separately. Keep your answer concise`,
         },
         {
           role: "user",
