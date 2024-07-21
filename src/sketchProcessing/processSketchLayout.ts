@@ -6,18 +6,20 @@ import { getNodesWithProperties } from "./nodesWithProperties";
 
 export async function processSketch(sketchAsUrl: string, context: vscode.ExtensionContext) {
   try {
-
     // getting a textual description of the sketch
     const textualDescription = await getTextualDescription(sketchAsUrl, context);
     console.log("Textual Description:", textualDescription);
-
 
     // getting a simple node tree from the sketch and the textual description
     const simpleNodeTree = await getSimpleNodeTree(sketchAsUrl, textualDescription, context);
     console.log("Layout Response:", simpleNodeTree);
 
     // getting the properties of each node in the layout
-    const nodesWithProperties = await getNodesWithProperties(sketchAsUrl, textualDescription, context);
+    const nodesWithProperties = await getNodesWithProperties(
+      simpleNodeTree,
+      textualDescription,
+      context
+    );
     console.log("Nodes with Properties:", nodesWithProperties);
 
     const layoutData = JSON.parse(simpleNodeTree);
