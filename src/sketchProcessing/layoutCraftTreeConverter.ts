@@ -7,14 +7,14 @@ const TextboxDefaultProps = {
   rows: 5,
   cols: 20,
   borderRadius: 5,
-  alignment: "center", // corrected spelling
+  alignment: "center",
 };
 
 const LabelDefaultProps = {
   text: "New Label",
   textAlign: "left",
   fontSize: 20,
-  color: "#FFFFFF", // corrected hex color
+  color: "#FFFFFF",
   userEditable: true,
 };
 
@@ -26,7 +26,7 @@ const ButtonDefaultProps = {
   text: "New Button",
   width: 150,
   height: 50,
-  alignment: "center", // corrected spelling
+  alignment: "center",
 };
 
 const ImageDefaultProps = {
@@ -76,7 +76,15 @@ interface FullNodes {
   [key: string]: FullNode;
 }
 
-export async function convertToFullVersion(simplifiedNodes: SimplifiedNode[]): Promise<FullNodes> {
+interface NodeProperties {
+  id: string;
+  props: any;
+}
+
+export async function convertToFullVersion(
+  simplifiedNodes: SimplifiedNode[],
+  customProps: NodeProperties[]
+): Promise<FullNodes> {
   const fullNodes: FullNodes = {};
 
   const createFullNode = (node: SimplifiedNode, parentId?: string): FullNode => {
@@ -95,6 +103,12 @@ export async function convertToFullVersion(simplifiedNodes: SimplifiedNode[]): P
       props = { ...ButtonDefaultProps };
     } else if (node.type === "Image") {
       props = { ...ImageDefaultProps };
+    }
+
+    // Overwrite default props with custom props if a match is found
+    const customProp = customProps.find((cp) => cp.id === node.id);
+    if (customProp) {
+      props = { ...props, ...customProp.props };
     }
 
     const fullNode: FullNode = {

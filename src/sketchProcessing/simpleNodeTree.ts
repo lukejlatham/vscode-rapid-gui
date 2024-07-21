@@ -5,7 +5,6 @@ import { layoutSchema, uiExample, uiFinisher, uiPrompt } from "./editorObjectSch
 import * as vscode from "vscode";
 
 export async function getSimpleNodeTree(
-  sketchAsUrl: string,
   textualDescription: string,
   context: vscode.ExtensionContext
 ) {

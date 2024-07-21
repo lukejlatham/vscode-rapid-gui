@@ -11,7 +11,7 @@ export async function processSketch(sketchAsUrl: string, context: vscode.Extensi
     console.log("Textual Description:", textualDescription);
 
     // getting a simple node tree from the sketch and the textual description
-    const simpleNodeTree = await getSimpleNodeTree(sketchAsUrl, textualDescription, context);
+    const simpleNodeTree = await getSimpleNodeTree(textualDescription, context);
     console.log("Layout Response:", simpleNodeTree);
 
     // getting the properties of each node in the layout
@@ -31,7 +31,7 @@ export async function processSketch(sketchAsUrl: string, context: vscode.Extensi
       }
     });
 
-    const fullNodeTree = await convertToFullVersion(nodes);
+    const fullNodeTree = await convertToFullVersion(nodes, JSON.parse(nodesWithProperties).nodes);
 
     const fullDescription = JSON.stringify(fullNodeTree, null, 2);
 
