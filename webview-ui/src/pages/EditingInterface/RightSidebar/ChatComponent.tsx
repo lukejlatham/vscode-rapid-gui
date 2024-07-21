@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import {
   CopilotChat,
   CopilotChatProps,
@@ -9,88 +9,35 @@ import { Send24Regular } from "@fluentui/react-icons";
 import { Button, Input } from "@fluentui/react-components";
 import { UserMessageComponent, CopilotMessageComponent } from "../../../Features/copilot/MessageComponents";
 import useChatStyles from "./ChatStyles";
-import { vscode } from "../../../utilities/vscode";
 import { useEditor } from "@craftjs/core";
-import { convertToSimplifiedVersion } from "../../../Features/copilot/getUiLayout";
-
-type ChatMessage = {
-  role: "user" | "assistant" | "tool" | "system";
-  tool_call_id?: string;
-  content: string;
-};
+import useChatMessages, { ChatMessage } from "../../../Features/copilot/useChatMessages";
+import useChatEventHandlers from "../../../Features/copilot/useChatEventHandlers";
+import initializeChat from "../../../Features/copilot/initializeChat";
 
 const ChatComponent: React.FC = () => {
   const { query } = useEditor();
 
-  const serializedData = query.serialize();
+  const baseSystemMessage = initializeChat(query);
 
-  const fullNodes = JSON.parse(serializedData);
-
-  console.log("IN CHAT COMPONENT: Full nodes", fullNodes);
-
-  const simplifiedNodes = convertToSimplifiedVersion(fullNodes);
-
-  console.log("IN CHAT COMPONENT: Simplified nodes", simplifiedNodes);
+  const {
+    messages,
+    newMessage,
+    isLoading,
+    setNewMessage,
+    handleSendMessage,
+    setMessages,
+    setIsLoading,
+  } = useChatMessages(baseSystemMessage);
   
-  // TODO: currently the baseSystemMessage is sent an empty {} object as the uiLayout, instead of the actual layout when the chat is opened.
-  const uiLayout = JSON.stringify(simplifiedNodes, null, 2);
-
-  console.log("IN CHAT COMPONENT: UI Layout", uiLayout);
-
-  const baseSystemMessage: ChatMessage[] = [{ role: "system", content: `You are a very knowledgeable ui designer who is helping a user refine their project. Keep your responses to less than 50 words.\n\n The user's current layout expressed as a JSON tree is: ${uiLayout}` }];
-
-  const [messages, setMessages] = useState<ChatMessage[]>(baseSystemMessage);
-  const [newMessage, setNewMessage] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [toolCallMessage, setToolCallMessage] = useState<string | null>(null);
+
+  useChatEventHandlers(setMessages, setIsLoading, setToolCallMessage);
+
   const chatRef = useRef<HTMLDivElement>(null);
   const styles = useChatStyles();
 
   const chatProps: CopilotChatProps = {};
   const chatState: CopilotChatState = useCopilotChat_unstable(chatProps, chatRef);
-
-
-  const handleSendMessage = useCallback(() => {
-    if (newMessage.trim() !== "") {
-      const userMessage: ChatMessage = { role: "user", content: newMessage };
-
-      setMessages((prevMessages) => [...prevMessages, userMessage]);
-      setIsLoading(true);
-
-      const messagesToSend = [...messages, userMessage];
-
-      console.log("Sending messages to AI Copilot", messagesToSend);
-
-      vscode.postMessage({
-        command: "aiUserMessage",
-        content: JSON.stringify(messagesToSend),
-      });
-
-      setNewMessage("");
-    }
-  }, [newMessage, messages]);
-
-  useEffect(() => {
-    const handleMessage = (event: MessageEvent) => {
-      const message = event.data;
-
-      if (message.command === "aiCopilotMessage") {
-        setMessages((prevMessages) => JSON.parse(message.content));
-        setIsLoading(false);
-        setToolCallMessage(null);
-      }
-
-      if (message.command === "aiCopilotToolCall") {
-        setToolCallMessage(message.content);
-      }
-    };
-
-    window.addEventListener("message", handleMessage);
-
-    return () => {
-      window.removeEventListener("message", handleMessage);
-    };
-  }, []);
 
   const renderMessage = useCallback((message: ChatMessage, index: number) => {
     switch (message.role) {
