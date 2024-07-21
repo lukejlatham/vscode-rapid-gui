@@ -3,67 +3,113 @@ import { Link } from 'react-router-dom';
 import { Card, CardHeader, Text, Body2, makeStyles, tokens } from '@fluentui/react-components';
 
 const useStyles = makeStyles({
-    web_card: {
-        width: "280px",
-        height: "250px",
-        color: tokens.colorNeutralForeground2
+  cardLink: {
+    textDecoration: 'none',
+  },
+  newProjectButton: {
+    color: tokens.colorNeutralForeground1,
+  },
+  templateContainer: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: '20px',
+    paddingTop: '20px',
+  },
+  webAppCard: {
+    width: '280px',
+    height: '250px',
+    color: tokens.colorNeutralForeground2,
+    background: tokens.colorNeutralBackground1,
+    transition: 'transform 0.2s',
+    ':hover': {
+      transform: 'scale(1.05)',
+    string: 'hover',
     },
-    mobile_card: {
-        width: "170px",
-        height: "250px",
-        background: "3A3D41"
+  },
+  borderBoxed: {
+    border: '2px dashed #d6d6d6',
+    borderRadius: '1px',
+    padding: '90px',
+    paddingRight: '50px',
+    margin: '5px',
     },
-    square_card: {
-        width: "250px",
-        height: "250px",
-        background: "3A3D41"
+  mobileCard: {
+    width: '170px',
+    height: '250px',
+    color: tokens.colorNeutralForeground2,
+    background: tokens.colorNeutralBackground1,
+    transition: 'transform 0.2s',
+    ':hover': {
+      transform: 'scale(1.05)',
+    string: 'hover',
     },
-    landscape_card: {
-        width: "300px",
-        height: "250px",
-        background: "3A3D41"
+  },
+  squareCard: {
+    width: '250px',
+    height: '250px',
+    color: tokens.colorNeutralForeground2,
+    background: tokens.colorNeutralBackground1,
+    transition: 'transform 0.2s',
+    ':hover': {
+      transform: 'scale(1.05)',
+    string: 'hover',
     },
-    card_link: {
-        textDecoration: "none",
+  },
+  landscapeCard: {
+    width: '300px',
+    height: '250px',
+    color: tokens.colorNeutralForeground2,
+    background: tokens.colorNeutralBackground1,
+    transition: 'transform 0.2s',
+    ':hover': {
+      transform: 'scale(1.05)',
+    string: 'hover',
     },
-    newProjectButton: {
-        color: "#8F8F8F",
-        textDecoration: "none",
-    },
-    templateContainer: {
-        paddingTop: "20px",
-        display: "flex",
-        flexDirection: "row",
-        flexWrap: "wrap",
-        gap: "10px",
-    },
+  },
+  textContainer: {
+    bottom: '4px',
+    left: '10px',
+    color: '#8F8F8F',
+    position: 'absolute',
+  },
+  title: {
+    fontSize: '16px',
+    color: '#FFFFFF',
+    paddingInlineStart: '5px',
+  },
+  description: {
+    fontSize: '14px',
+    color: '#8F8F8F',
+    paddingInlineStart: '5px',
+  },
 });
 
+const templates = [
+  { name: 'Web App', size: '1920 x 1080 px', className: 'webAppCard' },
+  { name: 'Mobile', size: '1080 x 1920 px', className: 'mobileCard' },
+  { name: 'Square', size: '1080 x 1080 px', className: 'squareCard' },
+  { name: 'Landscape', size: '1920 x 1080 px', className: 'landscapeCard' },
+];
 
-export default function TemplatesGrid() {
-    const styles = useStyles();
-    return (
-        <div className={styles.templateContainer}>
-            <Link to="/templates" className={styles.card_link}>
-                <Card className={styles.web_card} appearance='filled'>
-                    <CardHeader header={<Body2>Web App</Body2>} description={<Text className={styles.newProjectButton}>1920 x 1080 px</Text>} />
-                </Card>
-            </Link>
-            <Link to="/templates" className={styles.card_link}>
-                <Card className={styles.mobile_card} appearance='filled-alternative'>
-                    <CardHeader header={<Body2>Mobile</Body2>} description={<Text className={styles.newProjectButton}>1920 x 1080 px</Text>} />
-                </Card>
-            </Link>
-            <Link to="/templates" className={styles.card_link}>
-                <Card className={styles.square_card} appearance='filled-alternative'>
-                    <CardHeader header={<Body2>Square</Body2>} description={<Text className={styles.newProjectButton}>1920 x 1080 px</Text>} />
-                </Card>
-            </Link>
-            <Link to="/templates" className={styles.card_link}>
-                <Card className={styles.landscape_card} appearance='filled-alternative'>
-                    <CardHeader header={<Body2>Landscape</Body2>} description={<Text className={styles.newProjectButton}>1920 x 1080 px</Text>} />
-                </Card>
-            </Link>
-        </div>
-    )
-};
+const TemplatesGrid: React.FC = () => {
+  const styles = useStyles();
+  return (
+    <div className={styles.templateContainer}>
+      {templates.map((template) => (
+        <Link to="/templates" key={template.name} className={styles.cardLink}>
+          <Card className={`${styles[template.className as keyof typeof styles]}`} appearance='filled'>
+          <div className={styles.borderBoxed}></div>
+            <div className={styles.textContainer}>
+              <Body2 className={styles.title}>{template.name}</Body2>
+              <div>
+              <Text className={styles.description}>{template.size}</Text>
+              </div>
+            </div>
+          </Card>
+        </Link>
+        ))}
+    </div>
+    );
+}
+
+export default TemplatesGrid;
