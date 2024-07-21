@@ -12,6 +12,7 @@ import { Background } from '../../components/user/Background';
 import RightSidebar from './RightSidebar/RightSidebar';
 import Canvas from './Canvas';
 import LeftSidebar from './LeftSidebar/LeftSidebar';
+import { vscode } from '../../utilities/vscode';
 import { useLoadAndSaveUtilities } from './loadAndSaveUtilities';
 
 const useStyles = makeStyles({
@@ -48,8 +49,6 @@ const EditingInterface: React.FC = () => {
     const { deserializeNodes, serializeNodes } = useLoadAndSaveUtilities();
 
     useEffect(() => {
-        const vscode = acquireVsCodeApi();
-
         const handleMessage = (event: MessageEvent) => {
             const message = event.data;
 
