@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Dialog, DialogSurface, DialogBody, DialogTitle, DialogContent, DialogActions, Button, Spinner } from '@fluentui/react-components';
 import { Camera24Regular } from '@fluentui/react-icons';
 import { handleSketchUpload } from './handleSketchUpload';
@@ -13,6 +14,7 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose }) =
     const [loading, setLoading] = useState<boolean>(false);
     const [uiDescription, setUIDescription] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const handleMessage = (event: { data: any; }) => {
@@ -21,6 +23,17 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose }) =
             if (message.command === 'sketchProcessed') {
                 setUIDescription(message.description);
                 setLoading(false);
+
+                console.log('Received UI JSON:', message.description);   
+
+                // Navigate to the editing interface
+                navigate('/editing-interface');
+
+                // Post the node tree message after a short delay to ensure the page has loaded
+                setTimeout(() => {
+                    window.postMessage({ command: 'loadTree', data: message.description }, '*');
+                    console.log('Posted node tree message');
+                }, 1000); // Adjust the delay if necessary
             }
         };
 
@@ -29,7 +42,7 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose }) =
         return () => {
             window.removeEventListener('message', handleMessage);
         };
-    }, []);
+    }, [navigate]);
 
     const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];

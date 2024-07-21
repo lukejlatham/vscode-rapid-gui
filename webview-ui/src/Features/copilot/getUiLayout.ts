@@ -8,7 +8,7 @@ type NodeType =
   | "Label"
   | "Button"
   | "Image"
-  | "Textbox";
+  | "TextBox";
 
 interface SimplifiedNode {
   id: string;

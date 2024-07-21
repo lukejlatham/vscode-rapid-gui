@@ -47,7 +47,7 @@ type NodeType =
   | "Label"
   | "Button"
   | "Image"
-  | "Textbox";
+  | "TextBox";
 
 interface SimplifiedNode {
   id: string;
@@ -87,7 +87,7 @@ export async function convertToFullVersion(simplifiedNodes: SimplifiedNode[]): P
       props = { numberOfCols: node.numberOfCols, gap: 0 };
     } else if (node.type === "Rows" && node.numberOfRows !== undefined) {
       props = { numberOfRows: node.numberOfRows, gap: 0 };
-    } else if (node.type === "Textbox") {
+    } else if (node.type === "TextBox") {
       props = { ...TextboxDefaultProps };
     } else if (node.type === "Label") {
       props = { ...LabelDefaultProps };

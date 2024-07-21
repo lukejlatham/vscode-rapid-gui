@@ -56,7 +56,7 @@ const columnsPropsSchema = z.object({
 });
 
 // Define base element types
-const baseElementTypes = ["Button", "Image", "Textbox", "Label", "Rows", "Columns"] as const;
+const baseElementTypes = ["Button", "Image", "TextBox", "Label", "Rows", "Columns"] as const;
 const elementIDPattern = new RegExp(`(${baseElementTypes.join("|")})\\d+`);
 const elementID = z.string().regex(elementIDPattern);
 

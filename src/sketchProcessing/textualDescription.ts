@@ -28,7 +28,7 @@ import * as path from "path";
 //     console.log(base64String);
 // }
 
-const elements = ["Button", "Label", "Image", "Textbox", "Columns", "Column", "Rows", "Row"];
+const elements = ["Button", "Label", "Image", "TextBox", "Columns", "Column", "Rows", "Row"];
 // const example = `
 // Here is a detailed description of the layout based on the given elements:
 // General Layout:
@@ -45,7 +45,7 @@ const elements = ["Button", "Label", "Image", "Textbox", "Columns", "Column", "R
 // Font color: Black
 // Alignment: Left-aligned
 
-// Textbox:
+// TextBox:
 // Positioned directly below the Label, centered horizontally.
 // Border: Solid line, indicating the boundary of the textbox.
 // Alignment: Centered horizontally

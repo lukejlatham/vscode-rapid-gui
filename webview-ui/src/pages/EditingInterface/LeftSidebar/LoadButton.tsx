@@ -310,14 +310,14 @@ const test = {
     "custom": {},
     "hidden": false,
     "nodes": [
-      "Textbox1"
+      "TextBox1"
     ],
     "linkedNodes": {},
     "parent": "Columns2"
   },
-  "Textbox1": {
+  "TextBox1": {
     "type": {
-      "resolvedName": "Textbox"
+      "resolvedName": "TextBox"
     },
     "isCanvas": false,
     "props": {
@@ -331,7 +331,7 @@ const test = {
       "borderRadius": 5,
       "alignment": "center"
     },
-    "displayName": "Textbox",
+    "displayName": "TextBox",
     "custom": {},
     "hidden": false,
     "nodes": [],
@@ -348,14 +348,14 @@ const test = {
     "custom": {},
     "hidden": false,
     "nodes": [
-      "Textbox2"
+      "TextBox2"
     ],
     "linkedNodes": {},
     "parent": "Columns2"
   },
-  "Textbox2": {
+  "TextBox2": {
     "type": {
-      "resolvedName": "Textbox"
+      "resolvedName": "TextBox"
     },
     "isCanvas": false,
     "props": {
@@ -369,7 +369,7 @@ const test = {
       "borderRadius": 5,
       "alignment": "center"
     },
-    "displayName": "Textbox",
+    "displayName": "TextBox",
     "custom": {},
     "hidden": false,
     "nodes": [],
@@ -451,14 +451,14 @@ const test = {
     "custom": {},
     "hidden": false,
     "nodes": [
-      "Textbox3"
+      "TextBox3"
     ],
     "linkedNodes": {},
     "parent": "Columns3"
   },
-  "Textbox3": {
+  "TextBox3": {
     "type": {
-      "resolvedName": "Textbox"
+      "resolvedName": "TextBox"
     },
     "isCanvas": false,
     "props": {
@@ -472,7 +472,7 @@ const test = {
       "borderRadius": 5,
       "alignment": "center"
     },
-    "displayName": "Textbox",
+    "displayName": "TextBox",
     "custom": {},
     "hidden": false,
     "nodes": [],
@@ -554,14 +554,14 @@ const test = {
     "custom": {},
     "hidden": false,
     "nodes": [
-      "Textbox4"
+      "TextBox4"
     ],
     "linkedNodes": {},
     "parent": "Columns4"
   },
-  "Textbox4": {
+  "TextBox4": {
     "type": {
-      "resolvedName": "Textbox"
+      "resolvedName": "TextBox"
     },
     "isCanvas": false,
     "props": {
@@ -575,7 +575,7 @@ const test = {
       "borderRadius": 5,
       "alignment": "center"
     },
-    "displayName": "Textbox",
+    "displayName": "TextBox",
     "custom": {},
     "hidden": false,
     "nodes": [],
@@ -657,14 +657,14 @@ const test = {
     "custom": {},
     "hidden": false,
     "nodes": [
-      "Textbox5"
+      "TextBox5"
     ],
     "linkedNodes": {},
     "parent": "Columns5"
   },
-  "Textbox5": {
+  "TextBox5": {
     "type": {
-      "resolvedName": "Textbox"
+      "resolvedName": "TextBox"
     },
     "isCanvas": false,
     "props": {
@@ -678,7 +678,7 @@ const test = {
       "borderRadius": 5,
       "alignment": "center"
     },
-    "displayName": "Textbox",
+    "displayName": "TextBox",
     "custom": {},
     "hidden": false,
     "nodes": [],
