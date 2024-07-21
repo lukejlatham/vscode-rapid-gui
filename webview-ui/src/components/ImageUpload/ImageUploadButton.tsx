@@ -14,7 +14,7 @@ const ImageUploadButton: React.FC = () => {
 
     return (
         <>
-            <Button onClick={handleButtonClick} appearance='primary' icon={<CameraIcon />}>Upload Sketch</Button>
+            <Button size='large' onClick={handleButtonClick} appearance='primary' icon={<CameraIcon />}>Upload Sketch</Button>
             <UploadDialog isOpen={isDialogOpen} onClose={() => setIsDialogOpen(false)} />
         </>
     );

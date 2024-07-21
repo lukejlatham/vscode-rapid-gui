@@ -10,7 +10,7 @@ export const StartProjectDialog: React.FC = () => {
     return (
         <Dialog open={open} onOpenChange={(event, data) => setOpen(data.open)}>
             <DialogTrigger disableButtonEnhancement>
-                <Button appearance='subtle'>+ Start New Project</Button>
+                <Button size='large' appearance='subtle'>+ Start New Project</Button>
             </DialogTrigger>
             <DialogSurface>
                 <DialogBody>
