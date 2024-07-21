@@ -1,7 +1,7 @@
 import { Button } from "@fluentui/react-components";
 import { DocumentSave24Regular } from '@fluentui/react-icons';
 import { useEditor } from "@craftjs/core";
-import { vscode } from '../utilities/vscode';
+import { vscode } from '../../../utilities/vscode';
 
 const SaveButton: React.FC = () => {
     const { query } = useEditor();
