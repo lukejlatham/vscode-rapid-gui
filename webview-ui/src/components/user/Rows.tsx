@@ -15,16 +15,23 @@ export const Row: UserComponent<RowProps> = ({ children, ...props }) => {
   } = useNode();
 
   return (
-    <div {...props} ref={(ref) => ref && connect(ref)} className="flex flex-col">
+    <div {...props} ref={(ref) => ref && connect(ref)}       style={{
+        display: 'flex',
+        flexDirection: 'column',
+        flexGrow: 1,
+        ...props.style
+      }}>
       {children ? (
         children
       ) : (
         <div style={{
+          padding: '1rem', 
+          backgroundColor: '#494B52',
+                  flexGrow: 1,
           margin: '0.25rem',
-          padding: '1rem',
-          backgroundColor: '#494B52'
+
         }}>
-          <Body1Stronger>Empty row</Body1Stronger>
+          <Body1Stronger>Empty column</Body1Stronger>
         </div>
       )}
     </div>
@@ -51,6 +58,7 @@ export const Rows: UserComponent<RowsProps> = ({ numberOfRows = 2, gap = 0, chil
       style={{
         display: 'flex',
         flexDirection: 'column',
+        flexGrow: '1',
         // borderStyle: 'dashed', // Equivalent to outline-dashed in Tailwind CSS
         // outlineWidth: '0.5px', // Equivalent to outline-1 in Tailwind CSS
         // outlineColor: '#059669', // Equivalent to outline-green-600 in Tailwind CSS
@@ -75,7 +83,7 @@ const RowsSettings: React.FC = () => {
   }));
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', padding: '5px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', padding: '5px', flexGrow: 1}}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
         <Label>Number of rows</Label>
         <Input

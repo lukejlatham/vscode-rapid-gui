@@ -4,19 +4,6 @@ import { Container } from "./Container";
 import {Body1Stronger} from '@fluentui/react-components';
 import { Label, Input } from "@fluentui/react-components";
 
-
-const EmptyColumn: React.FC = () => {
-  return (
-    <div style={{
-        margin: '0.25rem', 
-        padding: '1rem', // Equivalent to p-4 in Tailwind CSS (adjust as needed)
-        // fontStyle: 'italic', // Equivalent to italic in Tailwind CSS
-        // color: 'white', // Equivalent to text-gray-600 in Tailwind CSS
-        backgroundColor: '#3C3E44' // Equivalent to bg-teal-100 in Tailwind CSS
-      }}><Body1Stronger>Empty column</Body1Stronger></div>
-  );
-};
-
 interface ColumnProps {
   children?: ReactNode;
   className?: string;
@@ -30,13 +17,27 @@ export const Column: UserComponent<ColumnProps> = ({ children, className, ...pro
 
   return (
     <div {...props} ref={(ref) => ref && connect(ref)} style={{
-    width: '100%', // Equivalent to w-full in Tailwind CSS
+      display: 'flex',
+      flexDirection: 'row',
+      flexGrow: 1,
+      
     ...props.style // Spread other styles passed via props
   }}>
-      {children ? <React.Fragment>{children}</React.Fragment> : <EmptyColumn />}
-    </div>
-  );
-};
+      
+      {children ? (
+        children
+      ) : (
+        <div style={{
+          padding: '1rem',
+          backgroundColor: '#494B52',
+                  flexGrow: 1,
+          margin: '0.25rem',
+        }}>
+          <Body1Stronger>Empty column</Body1Stronger>
+        </div>
+      )}
+    </div>);
+}
 
 interface ColumnsProps {
   numberOfCols?: number;
@@ -55,6 +56,7 @@ export const Columns: UserComponent<ColumnsProps> = ({ numberOfCols = 2, gap = 0
     style={{
       display: 'flex',
       flexDirection: 'row',
+      flexGrow: 1,
       gap: `${gap}px`,
       // borderStyle: 'dashed',
       // outlineWidth: '0.5px',
@@ -69,9 +71,6 @@ export const Columns: UserComponent<ColumnsProps> = ({ numberOfCols = 2, gap = 0
             id={`column-${id}`}
             canvas
             key={id}
-            style={{
-                gridColumn: `span ${colSpanWidth}`, // Equivalent to col-span-${Math.floor(10 / numberOfCols)} in Tailwind CSS
-              }}
           />
         ))}
     </Container>

@@ -1,6 +1,7 @@
 import React, { ReactNode, FC } from 'react';
 import { Card, Label } from '@fluentui/react-components';
 import { useNode, UserComponent } from "@craftjs/core";
+import './Background.css';
 
 interface BackgroundProps {
     children?: ReactNode;
@@ -11,14 +12,17 @@ export const Background: UserComponent<BackgroundProps> = ({ children, backgroun
     const { connectors: { connect, drag } } = useNode();
 
     return (
-        <Card appearance='filled' ref={(ref: HTMLDivElement | null) => {
-            if (ref) {
-                connect(drag(ref));
-            }
-        }} style={{ background: backgroundColor, width: '100%', height: '100%' }}>
-            <div>
-                {children}
-            </div>
+        <Card 
+            appearance='filled' 
+            ref={(ref: HTMLDivElement | null) => {
+                if (ref) {
+                    connect(drag(ref));
+                }
+            }} 
+            className="background"
+            style={{ background: backgroundColor }}
+        >
+            {children}
         </Card>
     );
 }
@@ -29,11 +33,11 @@ const BackgroundSettings: FC = () => {
     }));
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', padding: '5px' }}>
+        <div className="settings-container">
             <Label>
                 Background Color
                 <input
-                    style={{ width: "100%", borderRadius: "4px", height: "35px" }}
+                    className="input"
                     type="color"
                     defaultValue={props.backgroundColor}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProp((props: BackgroundProps) => props.backgroundColor = e.target.value)} />

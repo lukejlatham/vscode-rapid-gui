@@ -2,6 +2,7 @@ import { useNode, UserComponent } from "@craftjs/core";
 import React, { ReactNode } from "react";
 import { Text } from "@fluentui/react-components";
 import { ArrowCircleDownFilled } from "@fluentui/react-icons";
+import './container.css'; // Import the CSS file
 
 interface ContainerProps {
   children?: ReactNode;
@@ -14,13 +15,13 @@ export const Container: UserComponent<ContainerProps> = ({ children, ...props })
   } = useNode();
 
   return (
-    <div className=""  {...props} ref={(ref) => ref && connect(drag(ref))}>
+    <div {...props} ref={(ref) => ref && connect(drag(ref))} className="container">
       {children ? (
         children
       ) : (
-        <div style={{ display: 'flex', justifyContent: 'center', borderStyle: 'dashed', outlineWidth: '1px', outlineColor: '#676767', padding: '40px', borderRadius: '10px' }}>
-          <ArrowCircleDownFilled style={{ fontSize: '21px', paddingRight: '5px' }} />
-          <Text style={{ textAlign: 'center' }}>Drop components here</Text>
+        <div className="container-empty">
+          <ArrowCircleDownFilled className="arrow-icon" />
+          <Text className="text-center">Drop components here</Text>
         </div>
       )}
     </div>
