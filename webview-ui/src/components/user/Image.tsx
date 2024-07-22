@@ -1,6 +1,6 @@
 import React from "react";
 import { useNode, UserComponent } from "@craftjs/core";
-import { Input, Label, Radio, RadioGroup, makeStyles } from "@fluentui/react-components";
+import { Input, Label, Radio, RadioGroup, makeStyles, SpinButton, SpinButtonChangeEvent, SpinButtonOnChangeData } from "@fluentui/react-components";
 
 interface ImageProps {
   src: string;
@@ -28,6 +28,12 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     gap: '10px',
     padding: '5px',
+  },
+  textInput: {
+    width: "100%",
+  },
+  spinButton: {
+    width: "95%",
   }
 });
 
@@ -66,6 +72,7 @@ const ImageSettings: React.FC = () => {
       <Label>
         Source
         <Input
+          className={classes.textInput}
           type="text"
           defaultValue={props.src}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,6 +83,7 @@ const ImageSettings: React.FC = () => {
       <Label>
         Alt
         <Input
+          className={classes.textInput}
           type="text"
           defaultValue={props.alt}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -85,23 +93,29 @@ const ImageSettings: React.FC = () => {
       </Label>
       <Label>
         Width
-        <Input
-          type="number"
-          defaultValue={props.width.toString()}
-          min="1"
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setProp((props: ImageProps) => (props.width = parseInt(e.target.value, 10)), 1000);
+        <SpinButton
+          className={classes.spinButton}
+          min={1}
+          max={500}
+          step={5}
+          defaultValue={props.width}
+          onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
+            const width = data.value ? data.value : 0;
+            setProp((props: ImageProps) => props.width = width, 1000);
           }}
         />
       </Label>
       <Label>
         Height
-        <Input
-          type="number"
-          defaultValue={props.height.toString()}
-          min="1"
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setProp((props: ImageProps) => (props.height = parseInt(e.target.value, 10)), 1000);
+        <SpinButton
+          className={classes.spinButton}
+          min={1}
+          max={500}
+          step={5}
+          defaultValue={props.height}
+          onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
+            const height = data.value ? data.value : 0;
+            setProp((props: ImageProps) => props.height = height, 1000);
           }}
         />
       </Label>
