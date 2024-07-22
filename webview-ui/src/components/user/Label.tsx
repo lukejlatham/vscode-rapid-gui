@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNode, UserComponent } from "@craftjs/core";
 import ContentEditable from "react-contenteditable";
-import { Label as FLabel, Input, RadioGroup, Radio } from "@fluentui/react-components";
+import { Label as FLabel, Input, RadioGroup, Radio, makeStyles } from "@fluentui/react-components";
 
 interface LabelProps {
   text: string;
@@ -15,7 +15,45 @@ interface ContentEditableEvent {
   target: { value: string };
 }
 
-export const Label: UserComponent<LabelProps> = ({ text, fontSize, color, textAlign,userEditable = true }) => {
+const useStyles = makeStyles({
+  labelContainer: {
+    cursor: "pointer",
+  },
+  labelContent: {
+    margin: 0,
+  },
+  alignLeft: {
+    textAlign: "left",
+  },
+  alignCenter: {
+    textAlign: "center",
+  },
+  alignRight: {
+    textAlign: "right",
+  },
+  alignJustify: {
+    textAlign: "justify",
+  },
+  settingsContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px',
+    padding: '5px',
+  },
+  numberInput: {
+    width: "100%",
+  },
+  colorInput: {
+    width: "100%",
+    borderRadius: "4px",
+    height: "35px",
+  },
+  textInput: {
+    width: "100%",
+  },
+});
+
+export const Label: UserComponent<LabelProps> = ({ text, fontSize, color, textAlign, userEditable = true }) => {
   const {
     connectors: { connect, drag },
     selected,
@@ -36,15 +74,12 @@ export const Label: UserComponent<LabelProps> = ({ text, fontSize, color, textAl
     }
   }, [selected, userEditable]);
 
-  const style = {
-    fontSize: `${fontSize}px`,
-    color: color,
-    textAlign: textAlign,
-  };
+  const classes = useStyles();
 
   return (
     <div
       ref={(ref: HTMLDivElement | null) => ref && connect(drag(ref))}
+      className={classes.labelContainer}
       onClick={() => selected && userEditable && setEditable(true)}
     >
       {userEditable ? (
@@ -59,10 +94,24 @@ export const Label: UserComponent<LabelProps> = ({ text, fontSize, color, textAl
             )
           }
           tagName="p"
-          style={style}
+          className={`${classes.labelContent} ${
+            textAlign === 'left' ? classes.alignLeft :
+            textAlign === 'center' ? classes.alignCenter :
+            textAlign === 'right' ? classes.alignRight :
+            classes.alignJustify}`}
+          style={{ fontSize: `${fontSize}px`, color: color }}
         />
       ) : (
-        <p style={style}>{text}</p>
+        <p
+          className={`${classes.labelContent} ${
+            textAlign === 'left' ? classes.alignLeft :
+            textAlign === 'center' ? classes.alignCenter :
+            textAlign === 'right' ? classes.alignRight :
+            classes.alignJustify}`}
+          style={{ fontSize: `${fontSize}px`, color: color }}
+        >
+          {text}
+        </p>
       )}
     </div>
   );
@@ -82,51 +131,55 @@ const LabelSettings: React.FC = () => {
     textAlign: node.data.props.textAlign,
   }));
 
+  const classes = useStyles();
+
   return (
-    <div style={{display: 'flex', flexDirection: 'column', gap: '10px', padding: '5px'}}>
+    <div className={classes.settingsContainer}>
       <FLabel>
-                Font Size
-                <Input
-                    style={{ width: "100%" }}
-                    type="number"
-                    value={fontSize.toString()} // Convert the number to a string
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        setProp((props: LabelProps) => (props.fontSize = parseInt(e.target.value, 10)), 1000);
-                    }}
-                />
-            </FLabel>
-            <FLabel>
-                Color
-                <input
-                    style={{ width: "100%", borderRadius: "4px", height: "35px"}}
-                    type="color"
-                    defaultValue={color}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProp((props: LabelProps) => props.color = e.target.value)} />
-            </FLabel>
-            <FLabel>
-            Text
-            <br />
-            <Input
-                type="text"
-                style={{ width: "100%" }}
-                defaultValue={text}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    setProp((props: LabelProps) => (props.text = e.target.value), 1000);
-                }}
-            />
-            </FLabel>
-            <FLabel>
-              Alignment
-              <RadioGroup defaultValue={textAlign} layout="horizontal-stacked"
-             onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
-              setProp((props: LabelProps) => (props.textAlign = data.value as 'left' | 'center' | 'right' | 'justify'), 1000);
-            }}>
-                <Radio value="left" label="Left" />
-                <Radio value="center" label="Center" />
-                <Radio value="right" label="Right" />
-                <Radio value="justify" label="Justify" />
-              </RadioGroup>
-              </FLabel>
+        Font Size
+        <Input
+          className={classes.numberInput}
+          type="number"
+          value={fontSize.toString()} // Convert the number to a string
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setProp((props: LabelProps) => (props.fontSize = parseInt(e.target.value, 10)), 1000);
+          }}
+        />
+      </FLabel>
+      <FLabel>
+        Color
+        <input
+          className={classes.colorInput}
+          type="color"
+          defaultValue={color}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProp((props: LabelProps) => props.color = e.target.value)} />
+      </FLabel>
+      <FLabel>
+        Text
+        <Input
+          className={classes.textInput}
+          type="text"
+          defaultValue={text}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setProp((props: LabelProps) => (props.text = e.target.value), 1000);
+          }}
+        />
+      </FLabel>
+      <FLabel>
+        Alignment
+        <RadioGroup
+          defaultValue={textAlign}
+          layout="horizontal-stacked"
+          onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
+            setProp((props: LabelProps) => (props.textAlign = data.value as 'left' | 'center' | 'right' | 'justify'), 1000);
+          }}
+        >
+          <Radio value="left" label="Left" />
+          <Radio value="center" label="Center" />
+          <Radio value="right" label="Right" />
+          <Radio value="justify" label="Justify" />
+        </RadioGroup>
+      </FLabel>
     </div>
   );
 };
@@ -139,7 +192,7 @@ export const LabelDefaultProps: LabelProps = {
   userEditable: true,
 };
 
-Label.craft = {
+(Label as any).craft = {
   props: LabelDefaultProps,
   related: {
     settings: LabelSettings,

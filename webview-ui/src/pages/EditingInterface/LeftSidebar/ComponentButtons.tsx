@@ -5,7 +5,7 @@ import { Label, LabelDefaultProps } from '../../../components/user/Label';
 import { Button as UserButton, ButtonDefaultProps } from "../../../components/user/Button";
 import { Rows } from '../../../components/user/Rows';
 import { Columns } from '../../../components/user/Columns';
-import { TextBox, TextboxDefaultProps } from '../../../components/user/TextBox';
+import { TextBox, TextBoxDefaultProps } from '../../../components/user/TextBox';
 import { Image, ImageDefaultProps } from '../../../components/user/Image';
 import {
     Image24Regular,
@@ -40,7 +40,7 @@ const ComponentButtons: React.FC<{ classes: any }> = ({ classes }) => {
             }}>Image</Button>
             <Button icon={<TextIcon />} appearance='outline' ref={ref => {
                 if (ref !== null) {
-                    connectors.create(ref, <TextBox {...TextboxDefaultProps} />);
+                    connectors.create(ref, <TextBox {...TextBoxDefaultProps} />);
                 }
             }}>TextBox</Button>
             <Button

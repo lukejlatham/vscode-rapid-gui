@@ -1,6 +1,6 @@
 import React from "react";
 import { useNode, UserComponent } from "@craftjs/core";
-import { Input, Label, SpinButton, Radio, RadioGroup, SpinButtonChangeEvent, SpinButtonOnChangeData } from "@fluentui/react-components";
+import { Input, Label, SpinButton, Radio, RadioGroup, SpinButtonChangeEvent, SpinButtonOnChangeData, makeStyles } from "@fluentui/react-components";
 
 interface ButtonProps {
     backgroundColor: string;
@@ -13,16 +13,63 @@ interface ButtonProps {
     alignment: "left" | "center" | "right";
 }
 
+const useStyles = makeStyles({
+    container: {
+        display: "flex",
+    },
+    justifyLeft: {
+        justifyContent: "flex-start",
+    },
+    justifyCenter: {
+        justifyContent: "center",
+    },
+    justifyRight: {
+        justifyContent: "flex-end",
+    },
+    button: {
+        border: "none",
+    },
+    settingsContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '10px',
+        padding: '5px',
+    },
+    colorInput: {
+        width: "100%",
+        borderRadius: "4px",
+        height: "35px",
+    },
+    spinButton: {
+        width: "95%",
+    },
+    textInput: {
+        width: "100%",
+    },
+});
+
 export const Button: UserComponent<ButtonProps> = ({ backgroundColor, fontSize, borderRadius, text, fontColor, width, height, alignment }) => {
     const { connectors: { connect, drag } } = useNode();
+    const classes = useStyles();
 
     return (
-        <div style={{ display: "flex", justifyContent: alignment }}>
-            <button ref={(ref: HTMLButtonElement | null) => {
-                if (ref) {
-                    connect(drag(ref));
-                }
-            }} style={{ padding: "10px", color: fontColor, border: 'none', backgroundColor, fontSize: `${fontSize}px`, borderRadius: `${borderRadius}px`, width: `${width}px`, height: `${height}px` }}>
+        <div className={`${classes.container} ${alignment === "left" ? classes.justifyLeft : alignment === "center" ? classes.justifyCenter : classes.justifyRight}`}>
+            <button
+                ref={(ref: HTMLButtonElement | null) => {
+                    if (ref) {
+                        connect(drag(ref));
+                    }
+                }}
+                className={classes.button}
+                style={{
+                    color: fontColor,
+                    backgroundColor,
+                    fontSize: `${fontSize}px`,
+                    borderRadius: `${borderRadius}px`,
+                    width: `${width}%`,
+                    height: `${height}%`,
+                }}
+            >
                 {text}
             </button>
         </div>
@@ -33,13 +80,14 @@ const ButtonSettings: React.FC = () => {
     const { actions: { setProp }, props } = useNode(node => ({
         props: node.data.props as ButtonProps
     }));
+    const classes = useStyles();
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', padding: '5px' }}>
+        <div className={classes.settingsContainer}>
             <Label>
                 Font Color
                 <input
-                    style={{ width: "100%", borderRadius: "4px", height: "35px" }}
+                    className={classes.colorInput}
                     type="color"
                     defaultValue={props.fontColor}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProp((props: ButtonProps) => props.fontColor = e.target.value)} />
@@ -47,7 +95,7 @@ const ButtonSettings: React.FC = () => {
             <Label>
                 Background Color
                 <input
-                    style={{ width: "100%", borderRadius: "4px", height: "35px" }}
+                    className={classes.colorInput}
                     type="color"
                     defaultValue={props.backgroundColor}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProp((props: ButtonProps) => props.backgroundColor = e.target.value)} />
@@ -55,7 +103,7 @@ const ButtonSettings: React.FC = () => {
             <Label>
                 Font Size
                 <SpinButton
-                    style={{ width: "95%" }}
+                    className={classes.spinButton}
                     defaultValue={props.fontSize}
                     onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
                         const fontSize = data.value ? data.value : 0;
@@ -66,7 +114,7 @@ const ButtonSettings: React.FC = () => {
             <Label>
                 Border Radius
                 <SpinButton
-                    style={{ width: "95%" }}
+                    className={classes.spinButton}
                     min={0}
                     defaultValue={props.borderRadius}
                     onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
@@ -78,10 +126,10 @@ const ButtonSettings: React.FC = () => {
             <Label>
                 Width
                 <SpinButton
-                    style={{ width: "95%" }}
-                    min={0}
-                    max={900}
-                    step={10}
+                    className={classes.spinButton}
+                    min={1}
+                    max={100}
+                    step={5}
                     defaultValue={props.width}
                     onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
                         const width = data.value ? data.value : 0;
@@ -92,10 +140,10 @@ const ButtonSettings: React.FC = () => {
             <Label>
                 Height
                 <SpinButton
-                    style={{ width: "95%" }}
-                    min={0}
-                    max={800}
-                    step={10}
+                    className={classes.spinButton}
+                    min={1}
+                    max={100}
+                    step={5}
                     defaultValue={props.height}
                     onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
                         const height = data.value ? data.value : 0;
@@ -106,7 +154,7 @@ const ButtonSettings: React.FC = () => {
             <Label>
                 Text
                 <Input
-                    style={{ width: "100" }}
+                    className={classes.textInput}
                     type="text"
                     defaultValue={props.text}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -138,12 +186,12 @@ export const ButtonDefaultProps: ButtonProps = {
     fontSize: 20,
     borderRadius: 4,
     text: "New Button",
-    width: 150,
-    height: 50,
+    width: 50,
+    height: 100,
     alignment: "left"
 };
 
-Button.craft = {
+(Button as any).craft = {
     props: ButtonDefaultProps,
     related: {
         settings: ButtonSettings

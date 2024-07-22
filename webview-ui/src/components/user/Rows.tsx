@@ -1,18 +1,41 @@
 import React, { ReactNode } from "react";
-import { Element, useNode, useEditor, UserComponent } from "@craftjs/core";
+import { useNode, UserComponent, Element, useEditor } from "@craftjs/core";
+import { Body1Stronger, makeStyles, Label, Input } from '@fluentui/react-components';
 import { Container } from "./Container";
-import { Body1Stronger } from '@fluentui/react-components';
-import { Label, Input } from "@fluentui/react-components";
 
 interface RowProps {
   children?: ReactNode;
   [key: string]: any;
 }
 
+const useStyles = makeStyles({
+  row: {
+    margin: '0.25rem',
+    padding: '1rem',
+    backgroundColor: '#494B52',
+  },
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  settingsContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '15px',
+    padding: '5px',
+  },
+  inputContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '5px',
+  },
+});
+
 export const Row: UserComponent<RowProps> = ({ children, ...props }) => {
   const {
     connectors: { connect },
   } = useNode();
+  const classes = useStyles();
 
   return (
     <div {...props} ref={(ref) => ref && connect(ref)}       style={{
@@ -52,6 +75,7 @@ export const Rows: UserComponent<RowsProps> = ({ numberOfRows = 2, gap = 0, chil
   const { enabled } = useEditor((state) => ({
     enabled: state.options.enabled,
   }));
+  const classes = useStyles();
 
   return (
     <Container
@@ -81,10 +105,11 @@ const RowsSettings: React.FC = () => {
   } = useNode((node) => ({
     props: node.data.props as RowsProps,
   }));
+  const classes = useStyles();
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', padding: '5px', flexGrow: 1}}>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+    <div className={classes.settingsContainer}>
+      <div className={classes.inputContainer}>
         <Label>Number of rows</Label>
         <Input
           type="number"
@@ -97,7 +122,7 @@ const RowsSettings: React.FC = () => {
           }}
         />
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+      <div className={classes.inputContainer}>
         <Label>Gap</Label>
         <Input
           type="number"
