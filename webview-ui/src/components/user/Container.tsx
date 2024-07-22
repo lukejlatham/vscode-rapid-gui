@@ -1,6 +1,6 @@
 import { useNode, UserComponent } from "@craftjs/core";
 import React, { ReactNode } from "react";
-import { Text } from "@fluentui/react-components";
+import { Text, makeStyles } from "@fluentui/react-components";
 import { ArrowCircleDownFilled } from "@fluentui/react-icons";
 
 interface ContainerProps {
@@ -8,19 +8,37 @@ interface ContainerProps {
   [key: string]: any;
 }
 
+const useStyles = makeStyles({
+  container: {
+    display: "flex",
+    justifyContent: "center",
+    padding: "40px",
+    borderRadius: "10px",
+    border: "2px dashed #676767",
+  },
+  icon: {
+    fontSize: "21px",
+    paddingRight: "5px",
+  },
+  text: {
+    fontSize: "14px",
+  },
+});
+
 export const Container: UserComponent<ContainerProps> = ({ children, ...props }) => {
   const {
     connectors: { connect, drag },
   } = useNode();
+  const classes = useStyles();
 
   return (
-    <div className=""  {...props} ref={(ref) => ref && connect(drag(ref))}>
+    <div {...props} ref={(ref) => ref && connect(drag(ref))}>
       {children ? (
         children
       ) : (
-        <div style={{ display: 'flex', justifyContent: 'center', borderStyle: 'dashed', outlineWidth: '1px', outlineColor: '#676767', padding: '40px', borderRadius: '10px' }}>
-          <ArrowCircleDownFilled style={{ fontSize: '21px', paddingRight: '5px' }} />
-          <Text style={{ textAlign: 'center' }}>Drop components here</Text>
+        <div className={classes.container}>
+          <ArrowCircleDownFilled className={classes.icon} />
+          <Text className={classes.text}>Drop components here</Text>
         </div>
       )}
     </div>

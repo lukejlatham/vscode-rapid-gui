@@ -1,7 +1,6 @@
 import React from "react";
 import { useNode, UserComponent } from "@craftjs/core";
-import { Input, Label, Radio, RadioGroup } from "@fluentui/react-components";
-
+import { Input, Label, Radio, RadioGroup, makeStyles } from "@fluentui/react-components";
 
 interface ImageProps {
   src: string;
@@ -11,37 +10,59 @@ interface ImageProps {
   alignment: "left" | "center" | "right";
 }
 
+const useStyles = makeStyles({
+  container: {
+    display: "flex",
+  },
+  justifyLeft: {
+    justifyContent: "flex-start",
+  },
+  justifyCenter: {
+    justifyContent: "center",
+  },
+  justifyRight: {
+    justifyContent: "flex-end",
+  },
+  settingsContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px',
+    padding: '5px',
+  }
+});
+
 export const Image: UserComponent<ImageProps> = ({ src, alt, width, height, alignment }) => {
   const {
     connectors: { connect, drag },
-    selected,
-    actions: { setProp },
   } = useNode((state) => ({
     selected: state.events.selected,
     dragged: state.events.dragged,
   }));
 
+  const classes = useStyles();
+
   return (
-    <div style={{ display: "flex", justifyContent: alignment }}>
-    <img
-      ref={(ref) => ref && connect(drag(ref))}
-      src={src}
-      alt={alt}
-      width={width}
-      height={height}
-    />
+    <div className={`${classes.container} ${alignment === "left" ? classes.justifyLeft : alignment === "center" ? classes.justifyCenter : classes.justifyRight}`}>
+      <img
+        ref={(ref) => ref && connect(drag(ref))}
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+      />
     </div>
   );
 };
 
 const ImageSettings: React.FC = () => {
-    const { actions: { setProp }, props } = useNode(node => ({
-        props: node.data.props as ImageProps
-    }));
+  const { actions: { setProp }, props } = useNode(node => ({
+    props: node.data.props as ImageProps
+  }));
+
+  const classes = useStyles();
 
   return (
-    <>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', padding: '5px' }}>
+    <div className={classes.settingsContainer}>
       <Label>
         Source
         <Input
@@ -63,7 +84,7 @@ const ImageSettings: React.FC = () => {
         />
       </Label>
       <Label>
-      Width
+        Width
         <Input
           type="number"
           defaultValue={props.width.toString()}
@@ -85,21 +106,20 @@ const ImageSettings: React.FC = () => {
         />
       </Label>
       <Label>
-                Alignment
-                <RadioGroup
-                    defaultValue={props.alignment}
-                    layout="horizontal-stacked"
-                    onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
-                        setProp((props: ImageProps) => (props.alignment = data.value as 'left' | 'center' | 'right'), 1000);
-                      }}
-                >
-                    <Radio key="left" label="Left" value="left" />
-                    <Radio key="center" label="Center" value="center" />
-                    <Radio key="right" label="Right" value="right" />
-                </RadioGroup>
-            </Label>
-            </div>
-    </>
+        Alignment
+        <RadioGroup
+          defaultValue={props.alignment}
+          layout="horizontal-stacked"
+          onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
+            setProp((props: ImageProps) => (props.alignment = data.value as 'left' | 'center' | 'right'), 1000);
+          }}
+        >
+          <Radio key="left" label="Left" value="left" />
+          <Radio key="center" label="Center" value="center" />
+          <Radio key="right" label="Right" value="right" />
+        </RadioGroup>
+      </Label>
+    </div>
   );
 };
 
@@ -108,7 +128,7 @@ export const ImageDefaultProps: ImageProps = {
   alt: "New image",
   width: 480,
   height: 320,
-    alignment: "center",
+  alignment: "center",
 };
 
 (Image as any).craft = {
