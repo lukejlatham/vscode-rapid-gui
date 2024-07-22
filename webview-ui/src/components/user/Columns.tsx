@@ -11,13 +11,15 @@ interface ColumnProps {
 
 const useStyles = makeStyles({
   column: {
-    margin: "0.25rem",
-    padding: "1rem",
-    backgroundColor: "#3C3E44",
-  },
-  container: {
     display: "flex",
     flexDirection: "row",
+    flexGrow: 1,
+  },
+  emptyColumn: {
+    flexGrow: 1,
+    margin: "0.25rem",
+    padding: "1rem",
+    backgroundColor: "#494B52",
   },
   settingsContainer: {
     display: 'flex',
@@ -32,10 +34,6 @@ const useStyles = makeStyles({
   }
 });
 
-const EmptyColumn: React.FC = () => {
-  const classes = useStyles();
-  return <div className={classes.column}></div>;
-};
 
 export const Column: UserComponent<ColumnProps> = ({ children, className, ...props }) => {
   const {
@@ -45,31 +43,17 @@ export const Column: UserComponent<ColumnProps> = ({ children, className, ...pro
 
   return (
     <div {...props} ref={(ref) => ref && connect(ref)} style={{
-      display: 'flex',
-      flexDirection: 'row',
-      flexGrow: 1,
-      
     ...props.style // Spread other styles passed via props
-  }}>
-      
+  }}
+  className={classes.column}>
       {children ? (
         children
       ) : (
-        <div style={{
-          padding: '1rem',
-          backgroundColor: '#494B52',
-                  flexGrow: 1,
-          margin: '0.25rem',
-        }}>
+        <div className={classes.emptyColumn}>
           <Body1Stronger>Empty column</Body1Stronger>
         </div>
       )}
     </div>);
-}
-    <div {...props} ref={(ref) => ref && connect(ref)}>
-      {children ? <React.Fragment>{children}</React.Fragment> : <EmptyColumn />}
-    </div>
-  );
 };
 
 interface ColumnsProps {
@@ -86,16 +70,10 @@ export const Columns: UserComponent<ColumnsProps> = ({ numberOfCols = 2, gap = 0
   const classes = useStyles();
 
   return (
-    <Container className={classes.container} style={{ gap: `${gap}px` }}>
     <Container
+    className={classes.column}
     style={{
-      display: 'flex',
-      flexDirection: 'row',
-      flexGrow: 1,
       gap: `${gap}px`,
-      // borderStyle: 'dashed',
-      // outlineWidth: '0.5px',
-      // outlineColor: 'rgba(0, 150, 136, 0.5)', // Equivalent to outline-teal-300 in Tailwind CSS
       ...(enabled ? { ':hover': { borderTopWidth: '8px', borderTopColor: '#60A5FA' } } : {})
     }}
   >

@@ -1,7 +1,6 @@
 import React, { ReactNode, FC } from 'react';
 import { Card, Label, makeStyles } from '@fluentui/react-components';
 import { useNode, UserComponent } from "@craftjs/core";
-import './Background.css';
 
 interface BackgroundProps {
     children?: ReactNode;
