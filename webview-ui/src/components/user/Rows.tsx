@@ -31,7 +31,7 @@ export const Row: UserComponent<RowProps> = ({ children, ...props }) => {
           margin: '0.25rem',
 
         }}>
-          <Body1Stronger>Empty column</Body1Stronger>
+          <Body1Stronger>Empty rows</Body1Stronger>
         </div>
       )}
     </div>
