@@ -15,7 +15,7 @@ export const Row: UserComponent<RowProps> = ({ children, ...props }) => {
   } = useNode();
 
   return (
-    <div {...props} ref={(ref) => ref && connect(ref)} className="flex flex-col">
+    <div {...props} ref={(ref) => ref && connect(ref)}>
       {children ? (
         children
       ) : (
@@ -24,7 +24,7 @@ export const Row: UserComponent<RowProps> = ({ children, ...props }) => {
           padding: '1rem',
           backgroundColor: '#494B52'
         }}>
-          <Body1Stronger>Empty row</Body1Stronger>
+          <Body1Stronger></Body1Stronger>
         </div>
       )}
     </div>
@@ -51,11 +51,7 @@ export const Rows: UserComponent<RowsProps> = ({ numberOfRows = 2, gap = 0, chil
       style={{
         display: 'flex',
         flexDirection: 'column',
-        // borderStyle: 'dashed', // Equivalent to outline-dashed in Tailwind CSS
-        // outlineWidth: '0.5px', // Equivalent to outline-1 in Tailwind CSS
-        // outlineColor: '#059669', // Equivalent to outline-green-600 in Tailwind CSS
-        gap: `${gap}px`, // Assuming `gap` is a variable holding a numeric value
-        ...(enabled ? { ':hover': { borderTopWidth: '8px', borderTopColor: '#60A5FA' } } : {})
+        gap: `${gap}px`,
       }}
     >
       {children ??

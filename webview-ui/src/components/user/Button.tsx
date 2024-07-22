@@ -1,6 +1,7 @@
 import React from "react";
 import { useNode, UserComponent } from "@craftjs/core";
 import { Input, Label, SpinButton, Radio, RadioGroup, SpinButtonChangeEvent, SpinButtonOnChangeData } from "@fluentui/react-components";
+import "./Button.css";
 
 interface ButtonProps {
     backgroundColor: string;
@@ -17,12 +18,23 @@ export const Button: UserComponent<ButtonProps> = ({ backgroundColor, fontSize, 
     const { connectors: { connect, drag } } = useNode();
 
     return (
-        <div style={{ display: "flex", justifyContent: alignment }}>
-            <button ref={(ref: HTMLButtonElement | null) => {
-                if (ref) {
-                    connect(drag(ref));
-                }
-            }} style={{ padding: "10px", color: fontColor, border: 'none', backgroundColor, fontSize: `${fontSize}px`, borderRadius: `${borderRadius}px`, width: `${width}px`, height: `${height}px` }}>
+        <div className={`element-container align-${alignment}`}>
+            <button
+                ref={(ref: HTMLButtonElement | null) => {
+                    if (ref) {
+                        connect(drag(ref));
+                    }
+                }}
+                className="custom-button"
+                style={{
+                    color: fontColor,
+                    backgroundColor,
+                    fontSize: `${fontSize}px`,
+                    borderRadius: `${borderRadius}px`,
+                    width: `${width}%`,
+                    height: `${height}%`,
+                }}
+            >
                 {text}
             </button>
         </div>
@@ -35,11 +47,11 @@ const ButtonSettings: React.FC = () => {
     }));
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', padding: '5px' }}>
+        <div className="settings-container">
             <Label>
                 Font Color
                 <input
-                    style={{ width: "100%", borderRadius: "4px", height: "35px" }}
+                    className="color-input"
                     type="color"
                     defaultValue={props.fontColor}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProp((props: ButtonProps) => props.fontColor = e.target.value)} />
@@ -47,7 +59,7 @@ const ButtonSettings: React.FC = () => {
             <Label>
                 Background Color
                 <input
-                    style={{ width: "100%", borderRadius: "4px", height: "35px" }}
+                    className="color-input"
                     type="color"
                     defaultValue={props.backgroundColor}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProp((props: ButtonProps) => props.backgroundColor = e.target.value)} />
@@ -55,7 +67,7 @@ const ButtonSettings: React.FC = () => {
             <Label>
                 Font Size
                 <SpinButton
-                    style={{ width: "95%" }}
+                    className="spin-button"
                     defaultValue={props.fontSize}
                     onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
                         const fontSize = data.value ? data.value : 0;
@@ -66,7 +78,7 @@ const ButtonSettings: React.FC = () => {
             <Label>
                 Border Radius
                 <SpinButton
-                    style={{ width: "95%" }}
+                    className="spin-button"
                     min={0}
                     defaultValue={props.borderRadius}
                     onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
@@ -78,10 +90,10 @@ const ButtonSettings: React.FC = () => {
             <Label>
                 Width
                 <SpinButton
-                    style={{ width: "95%" }}
-                    min={0}
-                    max={900}
-                    step={10}
+                    className="spin-button"
+                    min={1}
+                    max={100}
+                    step={5}
                     defaultValue={props.width}
                     onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
                         const width = data.value ? data.value : 0;
@@ -92,10 +104,10 @@ const ButtonSettings: React.FC = () => {
             <Label>
                 Height
                 <SpinButton
-                    style={{ width: "95%" }}
-                    min={0}
-                    max={800}
-                    step={10}
+                    className="spin-button"
+                    min={1}
+                    max={100}
+                    step={5}
                     defaultValue={props.height}
                     onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
                         const height = data.value ? data.value : 0;
@@ -106,7 +118,7 @@ const ButtonSettings: React.FC = () => {
             <Label>
                 Text
                 <Input
-                    style={{ width: "100" }}
+                    className="text-input"
                     type="text"
                     defaultValue={props.text}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -138,8 +150,8 @@ export const ButtonDefaultProps: ButtonProps = {
     fontSize: 20,
     borderRadius: 4,
     text: "New Button",
-    width: 150,
-    height: 50,
+    width: 50,
+    height: 100,
     alignment: "left"
 };
 

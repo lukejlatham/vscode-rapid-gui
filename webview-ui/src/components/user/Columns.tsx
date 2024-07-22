@@ -13,7 +13,7 @@ const EmptyColumn: React.FC = () => {
         // fontStyle: 'italic', // Equivalent to italic in Tailwind CSS
         // color: 'white', // Equivalent to text-gray-600 in Tailwind CSS
         backgroundColor: '#3C3E44' // Equivalent to bg-teal-100 in Tailwind CSS
-      }}><Body1Stronger>Empty column</Body1Stronger></div>
+      }}><Body1Stronger></Body1Stronger></div>
   );
 };
 
@@ -30,7 +30,7 @@ export const Column: UserComponent<ColumnProps> = ({ children, className, ...pro
 
   return (
     <div {...props} ref={(ref) => ref && connect(ref)} style={{
-    width: '100%', // Equivalent to w-full in Tailwind CSS
+    width: '100%',
     ...props.style // Spread other styles passed via props
   }}>
       {children ? <React.Fragment>{children}</React.Fragment> : <EmptyColumn />}
@@ -56,10 +56,6 @@ export const Columns: UserComponent<ColumnsProps> = ({ numberOfCols = 2, gap = 0
       display: 'flex',
       flexDirection: 'row',
       gap: `${gap}px`,
-      // borderStyle: 'dashed',
-      // outlineWidth: '0.5px',
-      // outlineColor: 'rgba(0, 150, 136, 0.5)', // Equivalent to outline-teal-300 in Tailwind CSS
-      ...(enabled ? { ':hover': { borderTopWidth: '8px', borderTopColor: '#60A5FA' } } : {})
     }}
   >
       {children ??
