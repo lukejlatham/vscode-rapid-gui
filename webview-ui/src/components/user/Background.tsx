@@ -9,8 +9,21 @@ interface BackgroundProps {
 
 const useStyles = makeStyles({
     background: {
+        display: 'grid',
+        gridTemplateColumns: 'repeat(3, 1fr)',
+        gridTemplateRows: 'repeat(3, 1fr)',
         width: '100%',
         height: '100%',
+        gap: '0px',
+    },
+    gridCell: {
+        border: '1px dashed #666666',
+        // minHeight: '100px', // Adjust this height as needed
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '10px',
+        // backgroundColor: 'transparent',
     },
     settingsContainer: {
         display: 'flex',
@@ -25,7 +38,7 @@ const useStyles = makeStyles({
     },
 });
 
-export const Background: UserComponent<BackgroundProps> = ({ children, backgroundColor }) => {
+export const Background: UserComponent<BackgroundProps> = ({ backgroundColor }) => {
     const { connectors: { connect, drag } } = useNode();
     const classes = useStyles();
 
@@ -34,13 +47,15 @@ export const Background: UserComponent<BackgroundProps> = ({ children, backgroun
             if (ref) {
                 connect(drag(ref));
             }
-        }} className={classes.background} style={{ background: backgroundColor}}>
-            <div>
-                {children}
-            </div>
+        }} className={classes.background} style={{ backgroundColor }}>
+            {[...Array(9)].map((_, index) => (
+                <div key={index} className={classes.gridCell}>
+                    {/* Empty grid cell */}
+                </div>
+            ))}
         </Card>
     );
-}
+};
 
 const BackgroundSettings: FC = () => {
     const { actions: { setProp }, props } = useNode(node => ({
@@ -63,8 +78,10 @@ const BackgroundSettings: FC = () => {
     );
 };
 
+
+
 export const BackgroundDefaultProps: BackgroundProps = {
-    backgroundColor: '#333',
+    backgroundColor: '#292929',
 }
 
 Background.craft = {
