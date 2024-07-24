@@ -1,28 +1,27 @@
-import React, { ReactNode, FC } from 'react';
-import { Card, Label, makeStyles, Button, Input } from '@fluentui/react-components';
+import React, {FC} from 'react';
+import { Card, makeStyles, Input, Label } from '@fluentui/react-components';
 import { useNode, UserComponent, Element } from "@craftjs/core";
+import GridLayout, { Layout } from 'react-grid-layout';
 import { Container } from './Container';
+import "react-grid-layout/css/styles.css";
+import "react-resizable/css/styles.css";
 
 interface BackgroundProps {
     backgroundColor: string;
     rows: number;
     columns: number;
-    // children?: ReactNode;
 }
 
 const useStyles = makeStyles({
     background: {
-        display: 'grid',
         width: '100%',
         height: '100%',
-        gap: '0px',
     },
     gridCell: {
         border: '1px dashed #666666',
         display: 'flex',
-        alignItems: 'center',
         justifyContent: 'center',
-        padding: '10px',
+        alignItems: 'center',
     },
     settingsContainer: {
         display: 'flex',
@@ -35,29 +34,49 @@ const useStyles = makeStyles({
         borderRadius: "4px",
         height: "35px",
     },
-    inputContainer: {
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '5px',
-      }
 });
 
 export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, rows, columns }) => {
     const { connectors: { connect, drag } } = useNode();
     const classes = useStyles();
 
-    const gridTemplateColumns = `repeat(${columns}, 1fr)`;
-    const gridTemplateRows = `repeat(${rows}, 1fr)`;
+    const layout: Layout[] = Array.from({ length: rows * columns }, (_, i) => ({
+        i: `cell-${i}`,
+        x: i % columns,
+        y: Math.floor(i / columns),
+        w: 1,
+        h: 1,
+    }));
 
     return (
-        <Card appearance='filled' ref={(ref: HTMLDivElement | null) => {
-            if (ref) {
-                connect(drag(ref));
-            }
-        }} className={classes.background} style={{ backgroundColor, gridTemplateColumns, gridTemplateRows }}>
-            {[...Array(rows * columns)].map((_, index) => (
-                <Element key={index} is={Container} id={`container-${index}`} canvas className={classes.gridCell} />
-            ))}
+        <Card
+            appearance='filled'
+            ref={(ref: HTMLDivElement | null) => ref && connect(drag(ref))}
+            className={classes.background}
+            style={{ backgroundColor }}
+        >
+            <GridLayout
+                className="layout"
+                layout={layout}
+                cols={columns}
+                rowHeight={150}
+                width={600}
+                maxRows={rows}
+                isResizable={true}
+                isDraggable={true}
+                compactType={'horizontal'}
+                preventCollision={false}
+            >
+                {layout.map(item => (
+                    <div key={item.i} className={classes.gridCell}>
+                        <Element
+                            id={item.i}
+                            is={Container}
+                            canvas
+                        />
+                    </div>
+                ))}
+            </GridLayout>
         </Card>
     );
 };
@@ -83,7 +102,7 @@ const BackgroundSettings: FC = () => {
             <Label>
                 Number of Columns
                 <Input
-                    
+
                     type="number"
                     defaultValue={props.columns?.toString()}
                     step={1}

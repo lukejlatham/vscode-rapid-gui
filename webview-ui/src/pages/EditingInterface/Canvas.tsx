@@ -57,7 +57,7 @@ const Canvas: React.FC<{ classes: any }> = ({ classes }) => {
         <div className={classes.canvas}>
             <Frame>
                 <Element is={Background} id="background" {...BackgroundDefaultProps} canvas>
-                    <Container id="container" canvas />
+                    {/* <Container id="container" canvas /> */}
                 </Element>
             </Frame>
         </div>
