@@ -17,6 +17,7 @@ import {
     LayoutRowTwoRegular,
     LayoutColumnTwoRegular,
 } from '@fluentui/react-icons';
+import { Container } from '../../../components/user';
 
 const ButtonIcon = bundleIcon(Button20Filled, Button20Regular);
 const LabelIcon = bundleIcon(TextT24Regular, TextT24Regular);
@@ -65,6 +66,12 @@ const ComponentButtons: React.FC<{ classes: any }> = ({ classes }) => {
                     connectors.create(ref, <Columns />);
                 }
             }}>Columns</Button>
+            <Button icon={<ButtonIcon />} appearance='outline' ref={ref => {
+                if (ref !== null) {
+                    connectors.create(ref, <Container />);
+                }
+            }
+            }>Container</Button>
         </>
     );
 };

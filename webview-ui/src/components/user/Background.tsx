@@ -1,29 +1,30 @@
-import React, { ReactNode, FC } from 'react';
-import { Card, Label, makeStyles, Button, Input } from '@fluentui/react-components';
-import { useNode, UserComponent, Element } from "@craftjs/core";
+import React, {useState} from 'react';
+import { Card, makeStyles } from '@fluentui/react-components';
+import { useNode, UserComponent, Element, useEditor } from "@craftjs/core";
+import { Input, Label } from '@fluentui/react-components';
 import { Container } from './Container';
+import 'react-grid-layout/css/styles.css';
+import 'react-resizable/css/styles.css';
+import { Responsive, WidthProvider } from 'react-grid-layout';
+
+const ResponsiveGridLayout = WidthProvider(Responsive);
+
 
 interface BackgroundProps {
-    backgroundColor: string;
-    rows: number;
-    columns: number;
-    // children?: ReactNode;
+  backgroundColor: string;
+  rows: number;
+  columns: number;
 }
 
 const useStyles = makeStyles({
-    background: {
-        display: 'grid',
-        width: '100%',
-        height: '100%',
-        gap: '0px',
-    },
-    gridCell: {
-        border: '1px dashed #666666',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '10px',
-    },
+  background: {
+    width: '100%',
+    height: '100%',
+    border: '1px solid #ccc',
+  },
+  gridItem: {
+    border: '1px dashed #666666',
+  },
     settingsContainer: {
         display: 'flex',
         flexDirection: 'column',
@@ -31,39 +32,75 @@ const useStyles = makeStyles({
         padding: '5px',
     },
     colorInput: {
-        width: "100%",
-        borderRadius: "4px",
-        height: "35px",
+        width: '100%',
+        height: '30px',
+        padding: '5px',
+        borderRadius: '5px',
+        border: '1px solid #ccc',
     },
-    inputContainer: {
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '5px',
-      }
+    gridCell: {
+        border: '1px solid #ccc',
+        borderRadius: '5px',
+    },
+    grid: {
+        border: '1px solid #ccc',
+    },
 });
 
+
 export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, rows, columns }) => {
-    const { connectors: { connect, drag } } = useNode();
-    const classes = useStyles();
+  const { connectors: { connect, drag }, id } = useNode();
+  const classes = useStyles();
 
-    const gridTemplateColumns = `repeat(${columns}, 1fr)`;
-    const gridTemplateRows = `repeat(${rows}, 1fr)`;
+  const { children } = useEditor((state) => ({
+    children: state.nodes[id].data.nodes, 
+  }));
 
-    return (
-        <Card appearance='filled' ref={(ref: HTMLDivElement | null) => {
-            if (ref) {
-                connect(drag(ref));
-            }
-        }} className={classes.background} style={{ backgroundColor, gridTemplateColumns, gridTemplateRows }}>
-            {[...Array(rows * columns)].map((_, index) => (
-                <Element key={index} is={Container} id={`container-${index}`} canvas className={classes.gridCell} />
-            ))}
-        </Card>
-    );
+  const gridItemProps = {
+    w: 1,
+    h: 1,
+    maxW: columns,
+    maxH: rows,
+    minW: 1,
+    minH: 1,
+  };
+
+  return (
+    <Card
+      appearance='filled'
+      ref={(ref: HTMLDivElement | null) => {
+        if (ref) {
+          connect(drag(ref));
+        }
+      }}
+      className={classes.background}
+      style={{ backgroundColor }}
+    >
+      <ResponsiveGridLayout {...gridItemProps}
+        cols={{ lg: columns, md: columns, sm: columns, xs: columns, xxs: columns }}
+        rowHeight={200}
+
+        className="interactive-grid"     
+        isDraggable={true}
+        isResizable={true}
+        resizeHandles={["se", "sw", "ne", "nw", "n", "e", "s", "w"]}
+        maxRows={rows}
+        isBounded={true}
+      >
+        {children.map((id) => (
+          <div key={id} className={classes.grid} >
+            <Element is={Container} id={id} canvas className={classes.gridCell} />
+          </div>
+        ))}
+      </ResponsiveGridLayout>
+    </Card>
+  );
 };
 
+export default Background;
 
-const BackgroundSettings: FC = () => {
+
+const BackgroundSettings: React.FC = () => {
     const { actions: { setProp }, props } = useNode(node => ({
         props: node.data.props as BackgroundProps
     }));

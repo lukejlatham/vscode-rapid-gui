@@ -12,17 +12,16 @@ interface ContainerProps {
 const useStyles = makeStyles({
   container: {
     display: "flex",
-    flex: 1
+    flex: 1,
+    width: "100%",
+    height: "100%",
   },
   containerEmpty: {
     display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: "10px",
-    padding: "40px",
+    flex: 1,
     border: "2px dashed #ccc",
     width: "100%",
+    height: "100%",
   },
   icon: {
     fontSize: "21px",
