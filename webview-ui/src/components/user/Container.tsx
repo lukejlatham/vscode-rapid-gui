@@ -11,14 +11,11 @@ interface ContainerProps {
 
 const useStyles = makeStyles({
   container: {
-    display: "flex",
-    flex: 1,
     width: "100%",
     height: "100%",
   },
   containerEmpty: {
-    display: "flex",
-    flex: 1,
+
     border: "2px dashed #ccc",
     width: "100%",
     height: "100%",

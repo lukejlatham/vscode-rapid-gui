@@ -5,14 +5,13 @@ import { Input, Label, Radio, RadioGroup, makeStyles } from "@fluentui/react-com
 interface ImageProps {
   src: string;
   alt: string;
-  width: number;
-  height: number;
   alignment: "left" | "center" | "right";
 }
 
 const useStyles = makeStyles({
   container: {
     display: "flex",
+    scale: 1,
   },
   justifyLeft: {
     justifyContent: "flex-start",
@@ -28,10 +27,14 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     gap: '10px',
     padding: '5px',
-  }
+  },
+  image: {
+    Height: "100%",
+    Width: "100%",
+  },
 });
 
-export const Image: UserComponent<ImageProps> = ({ src, alt, width, height, alignment }) => {
+export const Image: UserComponent<ImageProps> = ({ src, alt, alignment }) => {
   const {
     connectors: { connect, drag },
   } = useNode((state) => ({
@@ -47,8 +50,8 @@ export const Image: UserComponent<ImageProps> = ({ src, alt, width, height, alig
         ref={(ref) => ref && connect(drag(ref))}
         src={src}
         alt={alt}
-        width={width}
-        height={height}
+        className={classes.image}
+
       />
     </div>
   );
@@ -84,28 +87,6 @@ const ImageSettings: React.FC = () => {
         />
       </Label>
       <Label>
-        Width
-        <Input
-          type="number"
-          defaultValue={props.width.toString()}
-          min="1"
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setProp((props: ImageProps) => (props.width = parseInt(e.target.value, 10)), 1000);
-          }}
-        />
-      </Label>
-      <Label>
-        Height
-        <Input
-          type="number"
-          defaultValue={props.height.toString()}
-          min="1"
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setProp((props: ImageProps) => (props.height = parseInt(e.target.value, 10)), 1000);
-          }}
-        />
-      </Label>
-      <Label>
         Alignment
         <RadioGroup
           defaultValue={props.alignment}
@@ -126,8 +107,6 @@ const ImageSettings: React.FC = () => {
 export const ImageDefaultProps: ImageProps = {
   src: "https://photographylife.com/wp-content/uploads/2023/05/Nikon-Z8-Official-Samples-00002.jpg",
   alt: "New image",
-  width: 480,
-  height: 320,
   alignment: "center",
 };
 
