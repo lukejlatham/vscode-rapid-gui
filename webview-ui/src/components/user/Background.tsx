@@ -16,12 +16,14 @@ const useStyles = makeStyles({
     background: {
         width: '100%',
         height: '100%',
+        position: 'relative',
     },
     gridCell: {
         border: '1px dashed #666666',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        overflow: 'hidden',
     },
     settingsContainer: {
         display: 'flex',
@@ -48,6 +50,10 @@ export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, ro
         h: 1,
     }));
 
+    const calculateWidth = (cols: number) => {
+        return cols * 150 + (cols - 1) * 10;
+    };
+
     return (
         <Card
             appearance='filled'
@@ -60,7 +66,7 @@ export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, ro
                 layout={layout}
                 cols={columns}
                 rowHeight={150}
-                width={600}
+                width={calculateWidth(columns)}
                 maxRows={rows}
                 isResizable={true}
                 isDraggable={true}
