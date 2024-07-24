@@ -53,7 +53,6 @@ export const Button: UserComponent<ButtonProps> = ({ backgroundColor, fontSize, 
     const classes = useStyles();
 
     return (
-        <div className={`${classes.container} ${alignment === "left" ? classes.justifyLeft : alignment === "center" ? classes.justifyCenter : classes.justifyRight}`}>
             <button
                 ref={(ref: HTMLButtonElement | null) => {
                     if (ref) {
@@ -72,7 +71,6 @@ export const Button: UserComponent<ButtonProps> = ({ backgroundColor, fontSize, 
             >
                 {text}
             </button>
-        </div>
     );
 }
 

@@ -19,9 +19,8 @@ const useStyles = makeStyles({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: "10px",
     padding: "40px",
-    border: "2px dashed #ccc",
+    border: "1px dashed #ccc",
     width: "100%",
   },
   icon: {
@@ -45,8 +44,8 @@ export const Container: UserComponent<ContainerProps> = ({ children, ...props })
         children
       ) : (
         <div className={classes.containerEmpty}>
-          <ArrowCircleDownFilled className={classes.icon} />
-          <Text className={classes.text}>Drop components here</Text>
+          {/* <ArrowCircleDownFilled className={classes.icon} />
+          <Text className={classes.text}>Drop components here</Text> */}
         </div>
       )}
     </div>

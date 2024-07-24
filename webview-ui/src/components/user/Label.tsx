@@ -8,6 +8,8 @@ interface LabelProps {
   fontSize: number;
   color: string;
   userEditable?: boolean;
+  width: number;
+  height: number;
   textAlign: 'left' | 'center' | 'right' | 'justify';
 }
 
@@ -53,7 +55,7 @@ const useStyles = makeStyles({
   },
 });
 
-export const Label: UserComponent<LabelProps> = ({ text, fontSize, color, textAlign, userEditable = true }) => {
+export const Label: UserComponent<LabelProps> = ({ text, fontSize, color, textAlign, userEditable = true, height, width }) => {
   const {
     connectors: { connect, drag },
     selected,
@@ -190,6 +192,8 @@ export const LabelDefaultProps: LabelProps = {
   fontSize: 20,
   color: "#FFFFF",
   userEditable: true,
+  width: 100,
+  height: 100,
 };
 
 (Label as any).craft = {
