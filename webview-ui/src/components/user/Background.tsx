@@ -1,10 +1,11 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import { Card, makeStyles, Input, Label } from '@fluentui/react-components';
 import { useNode, UserComponent, Element } from "@craftjs/core";
 import GridLayout, { Layout } from 'react-grid-layout';
 import { Container } from './Container';
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
+import { set } from 'lodash';
 
 interface BackgroundProps {
     backgroundColor: string;
@@ -28,7 +29,7 @@ const useStyles = makeStyles({
     settingsContainer: {
         display: 'flex',
         flexDirection: 'column',
-        gap: '10px',
+        gap: '5px',
         padding: '5px',
     },
     colorInput: {
@@ -45,19 +46,26 @@ const useStyles = makeStyles({
 });
 
 export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, rows, columns }) => {
-    const { connectors: { connect, drag } } = useNode();
+    const { connectors: { connect, drag }, setProp } = useNode();
     const classes = useStyles();
-    const [items, setItems] = useState(
-        Array.from({ length: rows * columns }, (_, i) => ({
+    const [items, setItems] = useState<Layout[]>([]);
+
+    const [newCounter, setNewCounter] = useState(rows * columns);
+
+    useEffect(() => {
+        const newItems = Array.from({ length: rows * columns }, (_, i) => ({
             i: i.toString(),
             x: i % columns,
             y: Math.floor(i / columns),
             w: 1,
             h: 1,
-        }))
-    );
-
-    const [newCounter, setNewCounter] = useState(rows * columns);
+        }));
+        setItems(newItems);
+        setProp((props: Partial<BackgroundProps>) => {
+            props.rows = rows;
+            props.columns = columns;
+        });
+    }, [rows, columns, setProp]);
 
     const onRemoveItem = (i: string) => {
         setItems(items.filter((item) => item.i !== i));
@@ -124,21 +132,6 @@ const BackgroundSettings: FC = () => {
     }));
 
     const classes = useStyles();
-    const [newCounter, setNewCounter] = useState(props.rows * props.columns);
-
-    const onAddItem = () => {
-        const newItem = {
-            i: `cell-${newCounter}`,
-            x: newCounter % props.columns,
-            y: Math.floor(newCounter / props.columns),
-            w: 1,
-            h: 1,
-        };
-        setProp((props: BackgroundProps) => {
-            props.rows = props.rows + 1; //props.items.push(newItem);
-        });
-        setNewCounter(newCounter + 1);
-    };
 
     return (
         <div className={classes.settingsContainer}>
@@ -177,7 +170,6 @@ const BackgroundSettings: FC = () => {
                     }}
                 />
             </Label>
-            <button onClick={onAddItem}>Add Cell</button>
         </div>
     );
 };
