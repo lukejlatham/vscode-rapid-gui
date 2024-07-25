@@ -4,7 +4,7 @@ import { getTextualDescription } from "./textualDescription";
 import { getSimpleNodeTree } from "./simpleNodeTree";
 import { getNodesWithProperties } from "./nodesWithProperties";
 
-export async function processSketch(sketchAsUrl: string, context: vscode.ExtensionContext) {
+async function processSketch(sketchAsUrl: string, context: vscode.ExtensionContext) {
   try {
     // getting a textual description of the sketch
     const textualDescription = await getTextualDescription(sketchAsUrl, context);
@@ -41,3 +41,5 @@ export async function processSketch(sketchAsUrl: string, context: vscode.Extensi
     throw error;
   }
 }
+
+export {};

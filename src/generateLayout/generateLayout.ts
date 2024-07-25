@@ -2,17 +2,21 @@ import * as vscode from "vscode";
 import { getAzureOpenaiApiKeys } from "../utilities/azureApiKeyStorage";
 import { getLayout } from "./getLayout";
 
-async function processSketch(sketchUrl: string, context: vscode.ExtensionContext) {
+async function processSketch(sketch: string, context: vscode.ExtensionContext) {
   try {
+    console.log("Running processSketch function from generateLayout.ts");
+
     const { apiKey, apiEndpoint, deploymentName } = await getAzureOpenaiApiKeys(context);
+
+    console.log("Azure OpenAI API Keys:", apiKey, apiEndpoint, deploymentName);
 
     const layout = await getLayout(
       apiEndpoint,
       apiKey,
       deploymentName,
       "sketch",
-      undefined, // textualDescription is undefined
-      sketchUrl // sketch URL
+      undefined,
+      sketch
     );
 
     console.log("Layout Response:", layout);
@@ -24,10 +28,7 @@ async function processSketch(sketchUrl: string, context: vscode.ExtensionContext
   }
 }
 
-async function processTextDescription(
-  textualDescription: string,
-  context: vscode.ExtensionContext
-) {
+async function processTextDescription(textDescription: string, context: vscode.ExtensionContext) {
   try {
     const { apiKey, apiEndpoint, deploymentName } = await getAzureOpenaiApiKeys(context);
 
@@ -36,7 +37,7 @@ async function processTextDescription(
       apiKey,
       deploymentName,
       "text",
-      textualDescription,
+      textDescription,
       undefined
     );
 

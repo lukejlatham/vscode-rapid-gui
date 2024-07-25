@@ -11,7 +11,7 @@ import { getUri } from "../utilities/getUri";
 import { getNonce } from "../utilities/getNonce";
 import { getAzureOpenaiApiKeys } from "../utilities/azureApiKeyStorage";
 import { handleFileSave, handleFileLoad } from "../utilities/projectSaveUtilities";
-import { processSketch } from "../sketchProcessing/processSketchLayout";
+import { processSketch, processTextDescription } from "../generateLayout/generateLayout";
 import { processCopilotMessages } from "../copilot";
 
 export class MainWebviewPanel {
@@ -159,9 +159,13 @@ export class MainWebviewPanel {
           case "loadFile":
             await handleFileLoad(this._context, webview);
             return;
-          case "processSketchLayout":
-            const description = await processSketch(message.content, this._context);
-            webview.postMessage({ command: "sketchProcessed", description });
+          case "processSketch":
+            const sketchDescription = await processSketch(message.content, this._context);
+            webview.postMessage({ command: "sketchProcessed", sketchDescription });
+            return;
+          case "processTextDescription":
+            const textDescription = await processTextDescription(message.content, this._context);
+            webview.postMessage({ command: "textProcessed", textDescription });
             return;
           case "aiUserMessage":
             const updatedMessages = await processCopilotMessages(message.content, this._context);

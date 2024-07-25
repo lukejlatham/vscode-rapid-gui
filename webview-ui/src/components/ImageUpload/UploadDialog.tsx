@@ -30,10 +30,10 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose }) =
                 navigate('/editing-interface');
 
                 // Post the node tree message after a short delay to ensure the page has loaded
-                setTimeout(() => {
-                    window.postMessage({ command: 'loadTree', data: message.description }, '*');
-                    console.log('Posted node tree message');
-                }, 1000); // Adjust the delay if necessary
+                // setTimeout(() => {
+                //     window.postMessage({ command: 'loadTree', data: message.description }, '*');
+                //     console.log('Posted node tree message');
+                // }, 1000); // Adjust the delay if necessary
             }
         };
 

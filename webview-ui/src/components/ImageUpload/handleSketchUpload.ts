@@ -1,12 +1,11 @@
 import { vscode } from "../../utilities/vscode";
 
-// handleUploadLogic.ts
-export function encodeImage(file: File): Promise<string> {
+function encodeImage(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onloadend = () => {
       const result = reader.result as string;
-      const base64 = result.split(",")[1]; // Remove the data URL prefix
+      const base64 = result.split(",")[1];
       resolve(base64);
     };
     reader.onerror = reject;
@@ -14,14 +13,23 @@ export function encodeImage(file: File): Promise<string> {
   });
 }
 
-export async function handleSketchUpload(file: File): Promise<void> {
+async function handleSketchUpload(file: File): Promise<void> {
   try {
-    const base64Image = await encodeImage(file);
+    console.log("Uploading sketch:", file);
+
+    const base64ImageString = await encodeImage(file);
+
+    console.log("Encoded image:");
+
     vscode.postMessage({
-      command: "processSketchLayout",
-      content: base64Image,
+      command: "processSketch",
+      content: base64ImageString,
     });
+
+    console.log("Posted message to VS Code:");
   } catch (error) {
     console.error("Error processing sketch upload:", error);
   }
 }
+
+export { handleSketchUpload };

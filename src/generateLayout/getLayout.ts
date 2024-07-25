@@ -1,7 +1,6 @@
 import { AzureOpenAI } from "openai";
 import Instructor from "@instructor-ai/instructor";
 import { z } from "zod";
-import { getAzureOpenaiApiKeys } from "../utilities/azureApiKeyStorage";
 
 const elements = ["Button", "Label", "Image", "TextBox"];
 
@@ -84,17 +83,17 @@ const systemMessage = {
   content: `You are a UI designer who creates perfect designs from a given sketch or description of a UI. You create your designs in terms of sections, each section containing elements like buttons, labels, images, and textboxes.\n An example of an output is ${exampleOutput}.`,
 };
 
-const textMessage = (textualDescription: string) => ({
+const textMessage = (textDescription: string) => ({
   role: "user",
   content: [
     {
       type: "text",
-      text: `Create a UI layout from the following textual description: ${textualDescription}`,
+      text: `Create a UI layout from the following textual description: ${textDescription}`,
     },
   ],
 });
 
-const sketchMessage = (sketchUrl: string) => ({
+const sketchMessage = (sketch: string) => ({
   role: "user",
   content: [
     {
@@ -102,8 +101,8 @@ const sketchMessage = (sketchUrl: string) => ({
       text: "Create a UI layout from this sketch: ",
     },
     {
-      type: "image",
-      url: sketchUrl,
+      type: "image_url",
+      image_url: { url: `data:image/png;base64,${sketch}`, detail: "auto" },
     },
   ],
 });
@@ -116,6 +115,8 @@ async function getLayout(
   textDescription?: string,
   sketchUrl?: string
 ) {
+  console.log("Running get layout function from getLayout.ts");
+
   if (!textDescription && !sketchUrl) {
     throw new Error("No textual description or sketch provided.");
   }
@@ -132,12 +133,14 @@ async function getLayout(
     debug: true,
   });
 
-  const messages = [
-    systemMessage,
-    contentType === "text" ? textMessage(textDescription!) : sketchMessage(sketchUrl!),
-  ];
+  const userMessage =
+    contentType === "text" ? textMessage(textDescription!) : sketchMessage(sketchUrl!);
+
+  const messages = [systemMessage, userMessage];
 
   try {
+    console.log("Sending messages to instructor:", messages);
+
     const layout = await instructor.chat.completions.create({
       model: GPT4O_DEPLOYMENT_NAME,
       messages: messages,
