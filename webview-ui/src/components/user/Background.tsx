@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useState} from 'react';
 import { Card, makeStyles, Input, Label } from '@fluentui/react-components';
 import { useNode, UserComponent, Element } from "@craftjs/core";
 import GridLayout, { Layout } from 'react-grid-layout';
@@ -36,23 +36,60 @@ const useStyles = makeStyles({
         borderRadius: "4px",
         height: "35px",
     },
+    removeButton: {
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        cursor: 'pointer',
+    },
 });
 
 export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, rows, columns }) => {
     const { connectors: { connect, drag } } = useNode();
     const classes = useStyles();
+    const [items, setItems] = useState(
+        Array.from({ length: rows * columns }, (_, i) => ({
+            i: i.toString(),
+            x: i % columns,
+            y: Math.floor(i / columns),
+            w: 1,
+            h: 1,
+        }))
+    );
 
-    const layout: Layout[] = Array.from({ length: rows * columns }, (_, i) => ({
-        i: `cell-${i}`,
-        x: i % columns,
-        y: Math.floor(i / columns),
-        w: 1,
-        h: 1,
-    }));
+    const [newCounter, setNewCounter] = useState(rows * columns);
+
+    const onRemoveItem = (i: string) => {
+        setItems(items.filter((item) => item.i !== i));
+    };
+
+    const onLayoutChange = (layout: Layout[]) => {
+        setItems(layout.map((l) => ({
+            i: l.i,
+            x: l.x,
+            y: l.y,
+            w: l.w,
+            h: l.h,
+        })));
+    };
 
     const calculateWidth = (cols: number) => {
         return cols * 150 + (cols - 1) * 10;
     };
+
+    const createElement = (el: Layout) => {
+        return (
+            <div key={el.i} data-grid={el} className={classes.gridCell}>
+                <Container id={el.i} />
+                <span
+                    className={classes.removeButton}
+                    onClick={() => onRemoveItem(el.i)}
+                >
+                    x 
+                </span>
+            </div>
+        );
+    }
 
     return (
         <Card
@@ -63,7 +100,7 @@ export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, ro
         >
             <GridLayout
                 className="layout"
-                layout={layout}
+                layout={items}
                 cols={columns}
                 rowHeight={150}
                 width={calculateWidth(columns)}
@@ -72,20 +109,13 @@ export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, ro
                 isDraggable={true}
                 compactType={'horizontal'}
                 preventCollision={false}
+                onLayoutChange={onLayoutChange}
             >
-                {layout.map(item => (
-                    <div key={item.i} className={classes.gridCell}>
-                        <Element
-                            id={item.i}
-                            is={Container}
-                            canvas
-                        />
-                    </div>
-                ))}
+                {items.map((el) => createElement(el))}
             </GridLayout>
         </Card>
     );
-};
+}
 
 
 const BackgroundSettings: FC = () => {
@@ -94,6 +124,21 @@ const BackgroundSettings: FC = () => {
     }));
 
     const classes = useStyles();
+    const [newCounter, setNewCounter] = useState(props.rows * props.columns);
+
+    const onAddItem = () => {
+        const newItem = {
+            i: `cell-${newCounter}`,
+            x: newCounter % props.columns,
+            y: Math.floor(newCounter / props.columns),
+            w: 1,
+            h: 1,
+        };
+        setProp((props: BackgroundProps) => {
+            props.rows = props.rows + 1; //props.items.push(newItem);
+        });
+        setNewCounter(newCounter + 1);
+    };
 
     return (
         <div className={classes.settingsContainer}>
@@ -132,6 +177,7 @@ const BackgroundSettings: FC = () => {
                     }}
                 />
             </Label>
+            <button onClick={onAddItem}>Add Cell</button>
         </div>
     );
 };
