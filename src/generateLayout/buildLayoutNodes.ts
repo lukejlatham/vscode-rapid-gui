@@ -1,3 +1,5 @@
+import { string } from "zod";
+
 // Sample input data
 const input = `{
   "sections": [
@@ -200,9 +202,17 @@ function generateSectionLayout(sections: Section[]): { [key: string]: NodeSectio
 }
 
 // Main function to generate the node tree
-function main(input) {
-  const sections = removeMetadata(input);
+function buildLayoutNodes(rawLayoutResponse: string) {
+  console.log("Received UI JSON:", rawLayoutResponse);
+
+  const sections = removeMetadata(rawLayoutResponse);
+
+  console.log("Sections:", sections);
+
   const layoutDimensions = getLayoutDimensions(sections);
+
+  console.log("Layout Dimensions:", layoutDimensions);
+
   const backgroundNode = createNodeTreeRoot(
     layoutDimensions.rows,
     layoutDimensions.columns,
@@ -211,17 +221,18 @@ function main(input) {
   );
   const sectionLayout = generateSectionLayout(sections);
 
-  // Adding section nodes to the background node
   backgroundNode.nodes = layoutDimensions.ids;
 
-  // Creating final output structure
   const output = {
     ROOT: backgroundNode,
     ...sectionLayout,
   };
 
-  return output;
+  const stringifiedOutput = JSON.stringify(output, null, 2);
+
+  console.log("Node Tree:", stringifiedOutput);
+
+  return stringifiedOutput;
 }
 
-// Output the result
-console.log(JSON.stringify(main(input), null, 2));
+export { buildLayoutNodes };

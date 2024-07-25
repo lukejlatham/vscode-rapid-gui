@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import { getAzureOpenaiApiKeys } from "../utilities/azureApiKeyStorage";
-import { getLayout } from "./getLayout";
+import { getLayout } from "./getLayoutOpenai";
+import { buildLayoutNodes } from "./buildLayoutNodes";
 
 async function processSketch(sketch: string, context: vscode.ExtensionContext) {
   try {
@@ -15,7 +16,11 @@ async function processSketch(sketch: string, context: vscode.ExtensionContext) {
       sketch
     );
 
-    console.log(" generateLayout.ts - Layout Response:", layout);
+    console.log("processSketch in generateLayout.ts - Layout Response:", layout);
+
+    const layoutNodes = buildLayoutNodes(layout);
+
+    console.log(" processSketch in generateLayout.ts - Built Layout Nodes:", layoutNodes);
 
     return layout;
   } catch (error) {
@@ -37,7 +42,11 @@ async function processTextDescription(textDescription: string, context: vscode.E
       undefined
     );
 
-    console.log("Processed text:", layout);
+    console.log("processText in generateLayout.ts - Layout Response:", layout);
+
+    const layoutNodes = buildLayoutNodes(layout);
+
+    console.log("processText in generateLayout.ts - Built Layout Nodes:", layoutNodes);
 
     return layout;
   } catch (error) {

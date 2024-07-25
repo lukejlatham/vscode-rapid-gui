@@ -1,0 +1,95 @@
+{
+  "ROOT": {
+    "type": {
+      "resolvedName": "Background"
+    },
+    "isCanvas": false,
+    "props": {
+      "backgroundColor": "#333",
+      "id": "background",
+      "rows": 10,
+      "columns": 10
+    },
+    "displayName": "Background",
+    "custom": {},
+    "hidden": false,
+    "nodes": ["Header", "Sidebar", "MainContent", "Footer"],
+    "linkedNodes": {}
+  },
+  "Header": {
+    "type": {
+      "resolvedName": "Container"
+    },
+    "isCanvas": true,
+    "props": {
+      "id": "Header",
+      "x": 0,
+      "y": 0,
+      "w": 10,
+      "h": 1
+    },
+    "displayName": "Container",
+    "custom": {},
+    "parent": "ROOT",
+    "hidden": false,
+    "nodes": ["homeButton", "navButton1", "navButton2", "navButton3", "navButton4"],
+    "linkedNodes": {}
+  },
+  "Sidebar": {
+    "type": {
+      "resolvedName": "Container"
+    },
+    "isCanvas": true,
+    "props": {
+      "id": "Sidebar",
+      "x": 0,
+      "y": 1,
+      "w": 2,
+      "h": 8
+    },
+    "displayName": "Container",
+    "custom": {},
+    "parent": "ROOT",
+    "hidden": false,
+    "nodes": ["option1Label", "option2Label", "option3Label", "option4Label", "option5Label"],
+    "linkedNodes": {}
+  },
+  "MainContent": {
+    "type": {
+      "resolvedName": "Container"
+    },
+    "isCanvas": true,
+    "props": {
+      "id": "MainContent",
+      "x": 2,
+      "y": 1,
+      "w": 8,
+      "h": 8
+    },
+    "displayName": "Container",
+    "custom": {},
+    "parent": "ROOT",
+    "hidden": false,
+    "nodes": ["step1Label", "step1Image", "possibleLabel", "possibleDropdown"],
+    "linkedNodes": {}
+  },
+  "Footer": {
+    "type": {
+      "resolvedName": "Container"
+    },
+    "isCanvas": true,
+    "props": {
+      "id": "Footer",
+      "x": 0,
+      "y": 9,
+      "w": 10,
+      "h": 1
+    },
+    "displayName": "Container",
+    "custom": {},
+    "parent": "ROOT",
+    "hidden": false,
+    "nodes": ["searchTextBox", "footerButton1", "footerButton2", "footerButton3", "contactLabel"],
+    "linkedNodes": {}
+  }
+}
