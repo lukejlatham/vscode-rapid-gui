@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useMemo, useState} from 'react';
+import React, {FC, useEffect, useRef, useState} from 'react';
 import { Card, makeStyles, Input, Label } from '@fluentui/react-components';
 import { useNode, UserComponent, Element } from "@craftjs/core";
 import GridLayout, { Layout } from 'react-grid-layout';
@@ -17,6 +17,7 @@ const useStyles = makeStyles({
         width: '100%',
         height: '100%',
         position: 'relative',
+        overflow: 'hidden',
     },
     gridCell: {
         border: '1px dashed #666666',
@@ -53,7 +54,15 @@ const useStyles = makeStyles({
 export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, rows, columns }) => {
     const { connectors: { connect, drag } } = useNode();
     const classes = useStyles();
+    const backgroundRef = useRef<HTMLDivElement | null>(null);
     const [items, setItems] = useState<Layout[]>([]);
+    const [width, setWidth] = useState(0);
+
+    useEffect(() => {
+        if (backgroundRef.current) {
+            setWidth(backgroundRef.current.offsetWidth);
+        }
+    }, [columns, rows, backgroundRef]);
 
     useEffect(() => {
         const newItems = Array.from({ length: rows * columns }, (_, i) => ({
@@ -83,9 +92,7 @@ export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, ro
         })));
     };
 
-    const calculateWidth = (cols: number) => {
-        return cols * 150 + (cols - 1) * 10;
-    };
+    // Remove the unused calculateWidth function
 
     const createElement = (el: Layout) => {
         return (
@@ -107,7 +114,12 @@ export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, ro
     return (
         <Card
             appearance='filled'
-            ref={(ref: HTMLDivElement | null) => ref && connect(drag(ref))}
+            ref={(ref: HTMLDivElement | null) => {
+                if (ref) {
+                    connect(drag(ref));
+                    backgroundRef.current = ref;
+                }
+            }}
             className={classes.background}
             style={{ backgroundColor }}
         >
@@ -116,7 +128,7 @@ export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, ro
                 layout={items}
                 cols={columns}
                 rowHeight={150}
-                width={calculateWidth(columns)}
+                width={width}
                 maxRows={rows}
                 isResizable={true}
                 isDraggable={true}
