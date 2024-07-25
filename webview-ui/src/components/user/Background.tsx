@@ -5,7 +5,6 @@ import GridLayout, { Layout } from 'react-grid-layout';
 import { Container } from './Container';
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
-import { set } from 'lodash';
 
 interface BackgroundProps {
     backgroundColor: string;
@@ -46,11 +45,9 @@ const useStyles = makeStyles({
 });
 
 export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, rows, columns }) => {
-    const { connectors: { connect, drag }, setProp } = useNode();
+    const { connectors: { connect, drag } } = useNode();
     const classes = useStyles();
     const [items, setItems] = useState<Layout[]>([]);
-
-    const [newCounter, setNewCounter] = useState(rows * columns);
 
     useEffect(() => {
         const newItems = Array.from({ length: rows * columns }, (_, i) => ({
@@ -61,11 +58,8 @@ export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, ro
             h: 1,
         }));
         setItems(newItems);
-        setProp((props: Partial<BackgroundProps>) => {
-            props.rows = rows;
-            props.columns = columns;
-        });
-    }, [rows, columns, setProp]);
+    }
+    , [rows, columns]);
 
     const onRemoveItem = (i: string) => {
         setItems(items.filter((item) => item.i !== i));
@@ -88,16 +82,16 @@ export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, ro
     const createElement = (el: Layout) => {
         return (
             <div key={el.i} data-grid={el} className={classes.gridCell}>
-                <Container id={el.i} />
+                <Element id={el.i} is={Container} canvas/>
                 <span
                     className={classes.removeButton}
                     onClick={() => onRemoveItem(el.i)}
                 >
-                    x 
+                    x
                 </span>
             </div>
         );
-    }
+    };
 
     return (
         <Card
