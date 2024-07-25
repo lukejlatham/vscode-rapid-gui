@@ -215,9 +215,7 @@ function buildLayoutNodes(rawLayoutResponse: string) {
     ...sectionLayout,
   };
 
-  const stringifiedOutput = JSON.stringify(output, null, 2);
-
-  return stringifiedOutput;
+  return output;
 }
 
 export { buildLayoutNodes };

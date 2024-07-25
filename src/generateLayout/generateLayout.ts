@@ -2,6 +2,7 @@ import * as vscode from "vscode";
 import { getAzureOpenaiApiKeys } from "../utilities/azureApiKeyStorage";
 import { getLayout } from "./getLayoutOpenai";
 import { buildLayoutNodes } from "./buildLayoutNodes";
+import { buildChildNodes } from "./buildChildNodes";
 
 async function processSketch(sketch: string, context: vscode.ExtensionContext) {
   try {
@@ -20,7 +21,13 @@ async function processSketch(sketch: string, context: vscode.ExtensionContext) {
 
     const layoutNodes = buildLayoutNodes(layout);
 
-    console.log(" processSketch in generateLayout.ts - Built Layout Nodes:", layoutNodes);
+    const childNodes = buildChildNodes(layout);
+
+    const fullNodes = { ...layoutNodes, ...childNodes };
+
+    const stringifiedNodes = JSON.stringify(fullNodes, null, 2);
+
+    console.log("processText in generateLayout.ts - Full Nodes:", stringifiedNodes);
 
     return layout;
   } catch (error) {
@@ -46,7 +53,13 @@ async function processTextDescription(textDescription: string, context: vscode.E
 
     const layoutNodes = buildLayoutNodes(layout);
 
-    console.log("processText in generateLayout.ts - Built Layout Nodes:", layoutNodes);
+    const childNodes = buildChildNodes(layout);
+
+    const fullNodes = { ...layoutNodes, ...childNodes };
+
+    const stringifiedNodes = JSON.stringify(fullNodes, null, 2);
+
+    console.log("processText in generateLayout.ts - Built Layout Nodes:", stringifiedNodes);
 
     return layout;
   } catch (error) {
