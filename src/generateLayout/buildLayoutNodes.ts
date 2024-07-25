@@ -1,5 +1,3 @@
-import { string } from "zod";
-
 // Sample input data
 const input = `{
   "sections": [
@@ -64,13 +62,6 @@ const input = `{
   "_meta": { "usage": { "completion_tokens": 295, "prompt_tokens": 1461, "total_tokens": 1756 } }
 }`;
 
-// Parsing input JSON data
-function removeMetadata(jsonData) {
-  const parsedData = JSON.parse(jsonData);
-  return parsedData.sections;
-}
-
-// Section interface
 interface Section {
   id: string;
   name: string;
@@ -81,14 +72,50 @@ interface Section {
   children: Array<{ type: string; name: string }>;
 }
 
-// LayoutDimensions interface
 interface LayoutDimensions {
   rows: number;
   columns: number;
   ids: string[];
 }
+interface NodeTreeRoot {
+  type: { resolvedName: string };
+  isCanvas: boolean;
+  props: {
+    backgroundColor: string;
+    id: string;
+    rows: number;
+    columns: number;
+  };
+  displayName: string;
+  custom: object;
+  hidden: boolean;
+  nodes: string[];
+  linkedNodes: { [key: string]: string };
+}
 
-// Getting layout dimensions
+interface NodeSection {
+  type: { resolvedName: string };
+  isCanvas: boolean;
+  props: {
+    id: string;
+    x: number;
+    y: number;
+    w: number;
+    h: number;
+  };
+  displayName: string;
+  custom: object;
+  parent: string;
+  hidden: boolean;
+  nodes: string[];
+  linkedNodes: object;
+}
+
+function removeMetadata(jsonData: string): Section[] {
+  const parsedData = JSON.parse(jsonData);
+  return parsedData.sections;
+}
+
 function getLayoutDimensions(sections: Section[]): LayoutDimensions {
   let maxX = 0;
   let maxY = 0;
@@ -112,30 +139,17 @@ function getLayoutDimensions(sections: Section[]): LayoutDimensions {
   return { rows: maxY, columns: maxX, ids };
 }
 
-// NodeTreeItem interface
-interface NodeTreeRoot {
-  type: { resolvedName: string };
-  isCanvas: boolean;
-  props: {
-    backgroundColor: string;
-    id: string;
-    rows: number;
-    columns: number;
-  };
-  displayName: string;
-  custom: object;
-  hidden: boolean;
-  nodes: string[];
-  linkedNodes: object;
-}
-
-// Creating node tree root
 function createNodeTreeRoot(
   rows: number,
   columns: number,
   backgroundColor: string,
-  linkedNodes: object
+  ids: string[]
 ): NodeTreeRoot {
+  const linkedNodes = ids.reduce((acc, id) => {
+    acc[id] = id;
+    return acc;
+  }, {});
+
   return {
     type: { resolvedName: "Background" },
     isCanvas: false,
@@ -153,26 +167,6 @@ function createNodeTreeRoot(
   };
 }
 
-// Node interface
-interface NodeSection {
-  type: { resolvedName: string };
-  isCanvas: boolean;
-  props: {
-    id: string;
-    x: number;
-    y: number;
-    w: number;
-    h: number;
-  };
-  displayName: string;
-  custom: object;
-  parent: string;
-  hidden: boolean;
-  nodes: string[];
-  linkedNodes: object;
-}
-
-// Generating section layout
 function generateSectionLayout(sections: Section[]): { [key: string]: NodeSection } {
   const layout: { [key: string]: NodeSection } = {};
 
@@ -201,23 +195,16 @@ function generateSectionLayout(sections: Section[]): { [key: string]: NodeSectio
   return layout;
 }
 
-// Main function to generate the node tree
 function buildLayoutNodes(rawLayoutResponse: string) {
-  console.log("Received UI JSON:", rawLayoutResponse);
-
   const sections = removeMetadata(rawLayoutResponse);
 
-  console.log("Sections:", sections);
-
   const layoutDimensions = getLayoutDimensions(sections);
-
-  console.log("Layout Dimensions:", layoutDimensions);
 
   const backgroundNode = createNodeTreeRoot(
     layoutDimensions.rows,
     layoutDimensions.columns,
     "#333",
-    {}
+    layoutDimensions.ids
   );
   const sectionLayout = generateSectionLayout(sections);
 
@@ -229,8 +216,6 @@ function buildLayoutNodes(rawLayoutResponse: string) {
   };
 
   const stringifiedOutput = JSON.stringify(output, null, 2);
-
-  console.log("Node Tree:", stringifiedOutput);
 
   return stringifiedOutput;
 }
