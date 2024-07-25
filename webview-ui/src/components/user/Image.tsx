@@ -32,30 +32,28 @@ const useStyles = makeStyles({
 });
 
 export const Image: UserComponent<ImageProps> = ({ src, alt, width, height, alignment }) => {
-  const {
-    connectors: { connect, drag },
-  } = useNode((state) => ({
-    selected: state.events.selected,
-    dragged: state.events.dragged,
-  }));
+  const { connectors: { connect, drag } } = useNode();
 
   const classes = useStyles();
 
   return (
-    // <div className={`${classes.container} ${alignment === "left" ? classes.justifyLeft : alignment === "center" ? classes.justifyCenter : classes.justifyRight}`}>
+    <div ref={(ref: HTMLImageElement | null) => {
+      if (ref) {
+          connect(drag(ref));
+      }
+  }}className={`${classes.container} ${alignment === "left" ? classes.justifyLeft : alignment === "center" ? classes.justifyCenter : classes.justifyRight}`}>
       <img
-        ref={(ref) => ref && connect(drag(ref))}
         src={src}
         alt={alt}
         style={{ width: `${width}%`, height: `${height}%` }}
       />
-    // {/* </div> */}
+     </div>
   );
 };
 
 const ImageSettings: React.FC = () => {
-  const { actions: { setProp }, props } = useNode(node => ({
-    props: node.data.props as ImageProps
+  const { actions: { setProp }, props } = useNode((node) => ({
+    props: node.data.props
   }));
 
   const classes = useStyles();
@@ -66,7 +64,7 @@ const ImageSettings: React.FC = () => {
         Source
         <Input
           type="text"
-          defaultValue={props.src}
+          value={props.src}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setProp((props: ImageProps) => (props.src = e.target.value), 1000);
           }}
@@ -76,7 +74,7 @@ const ImageSettings: React.FC = () => {
         Alt
         <Input
           type="text"
-          defaultValue={props.alt}
+          value={props.alt}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setProp((props: ImageProps) => (props.alt = e.target.value), 1000);
           }}
@@ -86,7 +84,7 @@ const ImageSettings: React.FC = () => {
         Width
         <Input
           type="number"
-          defaultValue={props.width.toString()}
+          value={props.width.toString()}
           min="1"
           max="100"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -98,7 +96,7 @@ const ImageSettings: React.FC = () => {
         Height
         <Input
           type="number"
-          defaultValue={props.height.toString()}
+          value={props.height.toString()}
           min="1"
           max="100"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -109,7 +107,7 @@ const ImageSettings: React.FC = () => {
       <Label>
         Alignment
         <RadioGroup
-          defaultValue={props.alignment}
+          value={props.alignment}
           layout="horizontal-stacked"
           onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
             setProp((props: ImageProps) => (props.alignment = data.value as 'left' | 'center' | 'right'), 1000);
@@ -127,12 +125,12 @@ const ImageSettings: React.FC = () => {
 export const ImageDefaultProps: ImageProps = {
   src: "https://photographylife.com/wp-content/uploads/2023/05/Nikon-Z8-Official-Samples-00002.jpg",
   alt: "New image",
-  width: 100,
-  height: 100,
+  width: 50,
+  height: 50,
   alignment: "center",
 };
 
-(Image as any).craft = {
+Image.craft = {
   props: ImageDefaultProps,
   related: {
     settings: ImageSettings,

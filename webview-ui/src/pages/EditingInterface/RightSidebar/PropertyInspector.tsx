@@ -34,10 +34,14 @@ const useStyles = makeStyles({
 export const PropertyInspector: React.FC = () => {
   const [copiedSettings, setCopiedSettings] = useState<{ props: Record<string, any>, displayName: string } | null>(null);
   const { actions, selected } = useEditor((state, query) => {
-    const currentNodeId = query.getEvent("selected").last();
+    const selectedArray = Array.from(state.events.selected);
+  const [currentNodeId] = selectedArray;
+
+
 
     if (currentNodeId) {
       const node = state.nodes[currentNodeId];
+      console.log(node);
       return {
         selected: {
           id: currentNodeId,
@@ -51,8 +55,11 @@ export const PropertyInspector: React.FC = () => {
       };
     }
 
+
     return { selected: null, isEnabled: false };
   });
+
+  console.log(selected);
 
 
   const classes = useStyles();
@@ -80,7 +87,7 @@ export const PropertyInspector: React.FC = () => {
   return selected ? (
     <div className={classes.propertyInspector}>
       <div className={classes.header}>
-        <Subtitle2>Property inspector</Subtitle2>
+        <Subtitle2>{selected.name}-{selected.id}</Subtitle2>
         <Button icon={<Dismiss20Regular />} appearance="transparent" onClick={handleClose} />
       </div>
       <Divider style={{ flexGrow: "0" }} />
