@@ -48,6 +48,8 @@ export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, ro
         y: Math.floor(i / columns),
         w: 1,
         h: 1,
+        maxH: rows,
+        maxW: columns,
     }));
 
     const calculateWidth = (cols: number) => {
@@ -67,7 +69,7 @@ export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, ro
                 cols={columns}
                 rowHeight={150}
                 width={calculateWidth(columns)}
-                maxRows={rows}
+                maxRows={rows - 1}
                 isResizable={true}
                 isDraggable={true}
                 compactType={'horizontal'}

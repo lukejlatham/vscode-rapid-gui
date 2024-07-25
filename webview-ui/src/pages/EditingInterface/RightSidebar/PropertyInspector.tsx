@@ -36,62 +36,24 @@ export const PropertyInspector: React.FC = () => {
   const { actions, selected } = useEditor((state, query) => {
     const currentNodeId = query.getEvent("selected").last();
 
-    let selected;
-
     if (currentNodeId) {
       const node = state.nodes[currentNodeId];
-      const displayName = node.data.displayName;
-
-      // Check if the selected node is a Row
-      if (displayName === "Row") {
-        const parentNodeId = node.data.parent;
-        if (parentNodeId) {
-          const parentNode = state.nodes[parentNodeId];
-
-          // If the parent is Rows, select the parent instead
-          if (parentNode && parentNode.data.displayName === "Rows") {
-            selected = {
-              id: parentNodeId,
-              name: parentNode.data.name,
-              settings: parentNode.related?.settings,
-              isDeletable: query.node(parentNodeId).isDeletable(),
-            };
-          }
-        }
-      } else if (displayName === "Column") { // Check if the selected node is a Column
-        const parentNodeId = node.data.parent;
-        if (parentNodeId) {
-          const parentNode = state.nodes[parentNodeId];
-
-          // If the parent is Columns, select the parent instead
-          if (parentNode && parentNode.data.displayName === "Columns") {
-            selected = {
-              id: parentNodeId,
-              name: parentNode.data.name,
-              settings: parentNode.related?.settings,
-              isDeletable: query.node(parentNodeId).isDeletable(),
-            };
-          }
-        }
-      }
-      else if (displayName !== "Container") {
-        // If the selected node is not a Container, select it
-        selected = {
+      return {
+        selected: {
           id: currentNodeId,
           name: node.data.name,
           settings: node.related?.settings,
           props: node.data.props,
           displayName: node.data.displayName,
           isDeletable: query.node(currentNodeId).isDeletable(),
-        };
-      }
+        },
+        isEnabled: state.options.enabled,
+      };
     }
 
-    return {
-      selected,
-      isEnabled: state.options.enabled,
-    };
+    return { selected: null, isEnabled: false };
   });
+
 
   const classes = useStyles();
 
@@ -149,6 +111,7 @@ export const PropertyInspector: React.FC = () => {
           onClick={() => {
             actions.delete(selected.id);
           }}
+          disabled={!selected.isDeletable}
         >
           Delete
         </Button>
