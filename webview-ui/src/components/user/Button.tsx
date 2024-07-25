@@ -28,6 +28,8 @@ const useStyles = makeStyles({
     },
     button: {
         border: "none",
+        textAlign: "center",
+        display: "inline-block",
     },
     settingsContainer: {
         display: 'flex',
@@ -65,8 +67,8 @@ export const Button: UserComponent<ButtonProps> = ({ backgroundColor, fontSize, 
                     backgroundColor,
                     fontSize: `${fontSize}px`,
                     borderRadius: `${borderRadius}px`,
-                    width: `${width}%`,
-                    height: `${height}%`,
+                    width: `${width}px`,
+                    height: `${height}px`,
                 }}
             >
                 {text}
@@ -184,8 +186,8 @@ export const ButtonDefaultProps: ButtonProps = {
     fontSize: 20,
     borderRadius: 4,
     text: "New Button",
-    width: 50,
-    height: 100,
+    width: 150,
+    height: 50,
     alignment: "left"
 };
 
