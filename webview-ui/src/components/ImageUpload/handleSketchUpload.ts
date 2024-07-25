@@ -20,7 +20,7 @@ export async function handleSketchUpload(file: File): Promise<void> {
     vscode.postMessage({
       command: "processSketchLayout",
       content: base64Image,
-    });
+    })
   } catch (error) {
     console.error("Error processing sketch upload:", error);
   }
