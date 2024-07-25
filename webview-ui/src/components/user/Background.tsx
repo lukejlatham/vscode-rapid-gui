@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect, useMemo, useState} from 'react';
 import { Card, makeStyles, Input, Label } from '@fluentui/react-components';
 import { useNode, UserComponent, Element } from "@craftjs/core";
 import GridLayout, { Layout } from 'react-grid-layout';
@@ -41,6 +41,12 @@ const useStyles = makeStyles({
         top: 0,
         right: 0,
         cursor: 'pointer',
+        // background: 'red',
+        color: 'white',
+        border: 'none',
+        padding: '2px 6px',
+        fontSize: '16px',
+        lineHeight: '16px',
     },
 });
 
@@ -61,8 +67,10 @@ export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, ro
     }
     , [rows, columns]);
 
+// make sure to try to add it to craft js the properties of each of the grids, how would it work?
+
     const onRemoveItem = (i: string) => {
-        setItems(items.filter((item) => item.i !== i));
+        setItems(prevItems => prevItems.filter((item) => item.i !== i));
     };
 
     const onLayoutChange = (layout: Layout[]) => {
@@ -85,7 +93,10 @@ export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, ro
                 <Element id={el.i} is={Container} canvas/>
                 <span
                     className={classes.removeButton}
-                    onClick={() => onRemoveItem(el.i)}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onRemoveItem(el.i);
+                    }}
                 >
                     x
                 </span>
