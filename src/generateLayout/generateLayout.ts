@@ -4,11 +4,7 @@ import { getLayout } from "./getLayout";
 
 async function processSketch(sketch: string, context: vscode.ExtensionContext) {
   try {
-    console.log("Running processSketch function from generateLayout.ts");
-
     const { apiKey, apiEndpoint, deploymentName } = await getAzureOpenaiApiKeys(context);
-
-    console.log("Azure OpenAI API Keys:", apiKey, apiEndpoint, deploymentName);
 
     const layout = await getLayout(
       apiEndpoint,
@@ -19,7 +15,7 @@ async function processSketch(sketch: string, context: vscode.ExtensionContext) {
       sketch
     );
 
-    console.log("Layout Response:", layout);
+    console.log(" generateLayout.ts - Layout Response:", layout);
 
     return layout;
   } catch (error) {

@@ -139,8 +139,6 @@ async function getLayout(
   const messages = [systemMessage, userMessage];
 
   try {
-    console.log("Sending messages to instructor:", messages);
-
     const layout = await instructor.chat.completions.create({
       model: GPT4O_DEPLOYMENT_NAME,
       messages: messages,
