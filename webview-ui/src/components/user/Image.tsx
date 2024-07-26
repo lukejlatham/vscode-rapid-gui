@@ -136,7 +136,6 @@ const ImageSettings: React.FC = () => {
           ) : tooltip.type === "spinButton" ? (<SpinButton
             className={styles.spinButton}
             defaultValue={props[tooltip.propKey] as number}
-            step={5}
             onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
               const value = data.value ? data.value : 0;
               setProp((props: ImageProps) => {

@@ -152,7 +152,6 @@ const ButtonSettings: React.FC = () => {
                         <SpinButton
                             className={styles.spinButton}
                             defaultValue={props[tooltip.propKey] as number}
-                            step={5}
                             onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
                                 const value = data.value ? data.value : 0;
                                 setProp((props: ButtonProps) => {
