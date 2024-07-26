@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNode, UserComponent } from '@craftjs/core';
-import { Label, Input, Radio, RadioGroup, makeStyles, SpinButton, SpinButtonChangeEvent, SpinButtonOnChangeData, Tooltip, useId, mergeClasses, tokens } from '@fluentui/react-components';
+import { Label, Input, Radio, RadioGroup, makeStyles, SpinButton, SpinButtonChangeEvent, SpinButtonOnChangeData, Tooltip, useId, tokens, mergeClasses } from '@fluentui/react-components';
 import { Info16Regular } from "@fluentui/react-icons";
 
 interface TextBoxProps {
@@ -110,8 +110,8 @@ const TextBoxSettings: React.FC = () => {
         { label: "Font Size", content: "Adjust the size of the text.", propKey: "fontSize", type: "spinButton" },
         { label: "Font Color", content: "Change the text color.", propKey: "fontColor", type: "color" },
         { label: "Background Color", content: "Change the color of the box.", propKey: "backgroundColor", type: "color" },
-        { label: "Placeholder", content: "Edit the text that appears before a user inputs text", propKey: "placeholder", type: "text" },
-        { label: "Border Radius", content: "Adjust how rounded the corners of the textbox are", propKey: "borderRadius", type: "spinButton" },
+        { label: "Placeholder", content: "Edit the text that appears before a user inputs text.", propKey: "placeholder", type: "text" },
+        { label: "Border Radius", content: "Adjust how rounded the corners of the textbox are.", propKey: "borderRadius", type: "spinButton" },
         { label: "Rows", content: "Adjust the number of rows in your textbox.", propKey: "rows", type: "spinButton" },
         { label: "Columns", content: "Adjust the number of columns in your textbox.", propKey: "cols", type: "spinButton" },
         { label: "Alignment", content: "Set the alignment of the Texbox.", propKey: "alignment", type: "alignment" },
@@ -137,15 +137,15 @@ const TextBoxSettings: React.FC = () => {
                         >
                             <Info16Regular
                                 tabIndex={0}
-                                className={visibleTooltip === tooltip.propKey ? styles.visible : undefined}
+                                className={mergeClasses(visibleTooltip === tooltip.propKey ? styles.visible : undefined)}
                             />
                         </Tooltip>
                     </div>
                     {tooltip.type === "spinButton" ? (
                         <SpinButton
                             className={styles.spinButton}
-                            type="number"
                             defaultValue={props[tooltip.propKey] as number}
+                            step={5}
                             onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
                                 const value = data.value ? data.value : 0;
                                 setProp((props: TextBoxProps) => {
