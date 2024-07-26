@@ -1,0 +1,56 @@
+interface NodeProps {
+  id: string;
+  x?: number;
+  y?: number;
+  w?: number;
+  h?: number;
+  [key: string]: any;
+}
+
+interface NodeItem {
+  type: { resolvedName: string };
+  isCanvas: boolean;
+  props: NodeProps;
+  displayName: string;
+  custom: Record<string, any>;
+  hidden: boolean;
+  nodes: string[];
+  linkedNodes: Record<string, string>;
+  parent?: string;
+}
+
+interface ExtractedData {
+  type: string;
+  size?: { x: number; y: number; w: number; h: number };
+  children: { [key: string]: string };
+}
+
+function extractSections(data: Record<string, NodeItem>): Record<string, ExtractedData> {
+  const result: Record<string, ExtractedData> = {};
+
+  for (const key in data) {
+    const node = data[key];
+    if (node.isCanvas) {
+      const size =
+        node.props.x !== undefined &&
+        node.props.y !== undefined &&
+        node.props.w !== undefined &&
+        node.props.h !== undefined
+          ? { x: node.props.x, y: node.props.y, w: node.props.w, h: node.props.h }
+          : undefined;
+
+      const children: { [key: string]: string } = {};
+      node.nodes.forEach((childKey) => {
+        children[childKey] = data[childKey].type.resolvedName;
+      });
+
+      result[key] = {
+        type: node.type.resolvedName,
+        size,
+        children,
+      };
+    }
+  }
+
+  return result;
+}
