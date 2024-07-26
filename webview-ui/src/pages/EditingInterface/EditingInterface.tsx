@@ -34,7 +34,7 @@ const useStyles = makeStyles({
         overflow: 'hidden', // Prevent overflow
     },
     rightSidebar: {
-        flex: '0 0 400px', // Fixed width for the sidebar
+        flex: '0 0 200px', // Fixed width for the sidebar
         display: 'flex',
         flexDirection: 'column',
         height: '100%',
