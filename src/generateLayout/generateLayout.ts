@@ -4,7 +4,11 @@ import { getLayout } from "./getLayoutOpenai";
 import { buildLayoutNodes } from "./buildLayoutNodes";
 import { buildChildNodes } from "./buildChildNodes";
 
-async function processSketch(sketch: string, context: vscode.ExtensionContext) {
+async function processSketch(
+  sketch: string,
+  context: vscode.ExtensionContext,
+  webview: vscode.Webview
+) {
   try {
     const { apiKey, apiEndpoint, deploymentName } = await getAzureOpenaiApiKeys(context);
 
@@ -36,7 +40,11 @@ async function processSketch(sketch: string, context: vscode.ExtensionContext) {
   }
 }
 
-async function processTextDescription(textDescription: string, context: vscode.ExtensionContext) {
+async function processTextDescription(
+  textDescription: string,
+  context: vscode.ExtensionContext,
+  webview: vscode.Webview
+) {
   try {
     const { apiKey, apiEndpoint, deploymentName } = await getAzureOpenaiApiKeys(context);
 
@@ -49,11 +57,13 @@ async function processTextDescription(textDescription: string, context: vscode.E
       undefined
     );
 
-    console.log("processText in generateLayout.ts - Layout Response:", layout);
-
     const layoutNodes = buildLayoutNodes(layout);
 
+    webview.postMessage({ command: "processingStage", stage: "Generating layout" });
+
     const childNodes = buildChildNodes(layout);
+
+    webview.postMessage({ command: "processingStage", stage: "Refining properties" });
 
     const fullNodes = { ...layoutNodes, ...childNodes };
 
@@ -64,6 +74,7 @@ async function processTextDescription(textDescription: string, context: vscode.E
     return layout;
   } catch (error) {
     console.error("Error processing text description:", error);
+    webview.postMessage({ command: "processingStage", stage: "Error occurred during processing" });
     throw error;
   }
 }

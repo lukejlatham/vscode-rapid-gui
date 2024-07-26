@@ -160,13 +160,18 @@ export class MainWebviewPanel {
             await handleFileLoad(this._context, webview);
             return;
           case "processSketch":
-            const sketchDescription = await processSketch(message.content, this._context);
+            const sketchDescription = await processSketch(message.content, this._context, webview);
             webview.postMessage({ command: "sketchProcessed", sketchDescription });
             return;
-          case "processTextDescription":
-            const textDescription = await processTextDescription(message.content, this._context);
-            webview.postMessage({ command: "textProcessed", textDescription });
+          case "ProcessTextDescription":
+            const textDescription = await processTextDescription(
+              message.content,
+              this._context,
+              webview
+            );
+            webview.postMessage({ command: "textDescriptionProcessed", textDescription });
             return;
+
           case "aiUserMessage":
             const updatedMessages = await processCopilotMessages(message.content, this._context);
             webview.postMessage({ command: "aiCopilotMessage", content: updatedMessages });

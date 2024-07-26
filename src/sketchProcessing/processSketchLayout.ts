@@ -4,17 +4,21 @@ import { getTextualDescription } from "./textualDescription";
 import { getSimpleNodeTree } from "./simpleNodeTree";
 import { getNodesWithProperties } from "./nodesWithProperties";
 
-async function processSketch(sketchAsUrl: string, context: vscode.ExtensionContext) {
+export async function processSketch(
+  sketchAsUrl: string,
+  context: vscode.ExtensionContext,
+  webview: vscode.Webview
+) {
   try {
-    // getting a textual description of the sketch
+    webview.postMessage({ command: "processingStage", stage: "Generating layout" });
     const textualDescription = await getTextualDescription(sketchAsUrl, context);
     console.log("Textual Description:", textualDescription);
 
-    // getting a simple node tree from the sketch and the textual description
+    webview.postMessage({ command: "processingStage", stage: "Refining properties" });
     const simpleNodeTree = await getSimpleNodeTree(textualDescription, context);
     console.log("Layout Response:", simpleNodeTree);
 
-    // getting the properties of each node in the layout
+    webview.postMessage({ command: "processingStage", stage: "Finalizing" });
     const nodesWithProperties = await getNodesWithProperties(
       simpleNodeTree,
       textualDescription,
@@ -22,6 +26,7 @@ async function processSketch(sketchAsUrl: string, context: vscode.ExtensionConte
     );
     console.log("Nodes with Properties:", nodesWithProperties);
 
+    webview.postMessage({ command: "processingStage", stage: "Finalizing" });
     const layoutData = JSON.parse(simpleNodeTree);
     const nodes = layoutData.nodes;
 
@@ -38,8 +43,7 @@ async function processSketch(sketchAsUrl: string, context: vscode.ExtensionConte
     return fullDescription;
   } catch (error) {
     console.error("Error processing sketch:", error);
+    webview.postMessage({ command: "processingStage", stage: "Error occurred during processing" });
     throw error;
   }
 }
-
-export {};
