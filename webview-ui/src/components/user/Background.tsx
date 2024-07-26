@@ -1,7 +1,8 @@
-import React, {FC, useEffect, useRef, useState} from 'react';
+import React, {FC, useEffect, useMemo, useRef, useState} from 'react';
 import { Card, makeStyles, Input, Label } from '@fluentui/react-components';
 import { useNode, UserComponent, Element } from "@craftjs/core";
-import GridLayout, { Layout } from 'react-grid-layout';
+// import GridLayout, { Layout } from 'react-grid-layout';
+import Responsive, { Layout, WidthProvider } from 'react-grid-layout';
 import { Container } from './Container';
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
@@ -56,13 +57,8 @@ export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, ro
     const classes = useStyles();
     const backgroundRef = useRef<HTMLDivElement | null>(null);
     const [items, setItems] = useState<Layout[]>([]);
-    const [width, setWidth] = useState(0);
 
-    useEffect(() => {
-        if (backgroundRef.current) {
-            setWidth(backgroundRef.current.offsetWidth);
-        }
-    }, [columns, rows, backgroundRef]);
+    const ReactiveGridLayout = useMemo(() => WidthProvider(Responsive), []);
 
     useEffect(() => {
         const newItems = Array.from({ length: rows * columns }, (_, i) => ({
@@ -71,6 +67,8 @@ export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, ro
             y: Math.floor(i / columns),
             w: 1,
             h: 1,
+            maxH: columns, 
+            maxW: rows,
         }));
         setItems(newItems);
     }
@@ -89,6 +87,8 @@ export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, ro
             y: l.y,
             w: l.w,
             h: l.h,
+            maxH: columns,
+            maxW: rows,
         })));
     };
 
@@ -109,7 +109,9 @@ export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, ro
                 </span>
             </div>
         );
-    };
+    }
+
+    const memoizedItems = useMemo(() => items.map(el => createElement(el)), [items]);
 
     return (
         <Card
@@ -123,12 +125,11 @@ export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, ro
             className={classes.background}
             style={{ backgroundColor }}
         >
-            <GridLayout
+            <ReactiveGridLayout
                 className="layout"
                 layout={items}
                 cols={columns}
                 rowHeight={150}
-                width={width}
                 maxRows={rows}
                 isResizable={true}
                 isDraggable={true}
@@ -136,8 +137,8 @@ export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, ro
                 preventCollision={false}
                 onLayoutChange={onLayoutChange}
             >
-                {items.map((el) => createElement(el))}
-            </GridLayout>
+                {memoizedItems}
+            </ReactiveGridLayout>
         </Card>
     );
 }
