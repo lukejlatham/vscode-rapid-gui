@@ -26,6 +26,10 @@ const useStyles = makeStyles({
         justifyContent: 'center',
         alignItems: 'center',
         overflow: 'hidden',
+        position: 'relative',
+        // '&:hover $removeButton': {
+        //     display: 'block',
+        // },
     },
     settingsContainer: {
         display: 'flex',
@@ -43,12 +47,12 @@ const useStyles = makeStyles({
         top: 0,
         right: 0,
         cursor: 'pointer',
-        // background: 'red',
         color: 'white',
         border: 'none',
         padding: '2px 6px',
         fontSize: '16px',
         lineHeight: '16px',
+        // display: 'none',
     },
 });
 
@@ -103,6 +107,7 @@ export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, ro
         })));
     };
 
+
     // Remove the unused calculateWidth function
 
     const createElement = (el: Layout) => {
@@ -149,6 +154,7 @@ export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, ro
                 compactType={'horizontal'}
                 preventCollision={false}
                 onLayoutChange={onLayoutChange}
+                resizeHandles={['se', 'sw', 'ne', 'nw']}
             >
                 {memoizedItems}
             </ReactiveGridLayout>
