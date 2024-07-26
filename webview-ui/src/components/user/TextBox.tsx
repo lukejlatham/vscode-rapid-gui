@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNode, UserComponent } from '@craftjs/core';
-import { Label, Input, Radio, RadioGroup, makeStyles } from '@fluentui/react-components';
+import { Label, Input, Radio, RadioGroup, makeStyles, SpinButton, SpinButtonChangeEvent, SpinButtonOnChangeData, Tooltip, useId, mergeClasses, tokens } from '@fluentui/react-components';
+import { Info16Regular } from "@fluentui/react-icons";
 
 interface TextBoxProps {
     text: string;
@@ -13,6 +14,12 @@ interface TextBoxProps {
     cols: number;
     alignment: "left" | "center" | "right";
 }
+type TooltipConfig = {
+    label: string;
+    content: string;
+    propKey: keyof TextBoxProps;
+    type: 'color' | 'spinButton' | 'text' | 'alignment';
+};
 
 const useStyles = makeStyles({
     container: {
@@ -41,12 +48,23 @@ const useStyles = makeStyles({
         borderRadius: "4px",
         height: "35px",
     },
-    numberInput: {
+    textInput: {
         width: "100%",
+    },
+    spinButton: {
+        width: "95%",
+    },
+    visible: {
+        color: tokens.colorNeutralForeground2BrandSelected,
+    },
+    label: {
+        display: "flex",
+        flexDirection: "row",
+        columnGap: tokens.spacingVerticalS,
     },
 });
 
-export const TextBox: UserComponent<TextBoxProps> = ({ text, fontSize, fontColor, placeholder, cols, rows, backgroundColor, borderRadius, alignment}) => {
+export const TextBox: UserComponent<TextBoxProps> = ({ text, fontSize, fontColor, placeholder, cols, rows, backgroundColor, borderRadius, alignment }) => {
     const {
         connectors: { connect, drag },
     } = useNode((node) => ({
@@ -54,18 +72,18 @@ export const TextBox: UserComponent<TextBoxProps> = ({ text, fontSize, fontColor
         dragged: node.events.dragged
     }));
 
-    const classes = useStyles();
+    const styles = useStyles();
 
     return (
         <div
             ref={(ref: HTMLDivElement | null) => ref && connect(drag(ref))}
-            className={`${classes.container} ${alignment === "left" ? classes.justifyLeft : alignment === "center" ? classes.justifyCenter : classes.justifyRight}`}
+            className={`${styles.container} ${alignment === "left" ? styles.justifyLeft : alignment === "center" ? styles.justifyCenter : styles.justifyRight}`}
         >
             <textarea
                 placeholder={placeholder}
                 cols={cols}
                 rows={rows}
-                className={classes.textBox}
+                className={styles.textBox}
                 style={{
                     fontSize: `${fontSize}px`,
                     color: fontColor,
@@ -84,100 +102,94 @@ const TextBoxSettings: React.FC = () => {
         props: node.data.props as TextBoxProps
     }));
 
-    const classes = useStyles();
+    const styles = useStyles();
+    const contentId = useId("content");
+    const [visibleTooltip, setVisibleTooltip] = useState<string | null>(null);
+
+    const tooltips: TooltipConfig[] = [
+        { label: "Font Size", content: "Adjust the size of the text.", propKey: "fontSize", type: "spinButton" },
+        { label: "Font Color", content: "Change the text color.", propKey: "fontColor", type: "color" },
+        { label: "Background Color", content: "Change the color of the box.", propKey: "backgroundColor", type: "color" },
+        { label: "Placeholder", content: "Edit the text that appears before a user inputs text", propKey: "placeholder", type: "text" },
+        { label: "Border Radius", content: "Adjust how rounded the corners of the textbox are", propKey: "borderRadius", type: "spinButton" },
+        { label: "Rows", content: "Adjust the number of rows in your textbox.", propKey: "rows", type: "spinButton" },
+        { label: "Columns", content: "Adjust the number of columns in your textbox.", propKey: "cols", type: "spinButton" },
+        { label: "Alignment", content: "Set the alignment of the Texbox.", propKey: "alignment", type: "alignment" },
+    ];
 
     return (
-        <div className={classes.settingsContainer}>
-            <Label>
-                Font Color
-                <input
-                    className={classes.colorInput}
-                    type="color"
-                    defaultValue={props.fontColor}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProp((props: TextBoxProps) => props.fontColor = e.target.value)} />
-            </Label>
-            <Label>
-                Background Color
-                <input
-                    className={classes.colorInput}
-                    type="color"
-                    defaultValue={props.backgroundColor}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProp((props: TextBoxProps) => props.backgroundColor = e.target.value)} />
-            </Label>
-            <Label>
-                Font Size
-                <Input
-                    className={classes.numberInput}
-                    type="number"
-                    value={props.fontSize.toString()} // Convert the number to a string
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        setProp((props: TextBoxProps) => (props.fontSize = parseInt(e.target.value, 10)), 1000);
-                    }}
-                />
-            </Label>
-            <Label>
-                Placeholder
-                <Input
-                    className={classes.numberInput}
-                    type="text"
-                    defaultValue={props.placeholder}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        setProp((props: TextBoxProps) => (props.placeholder = e.target.value), 1000);
-                    }}
-                />
-            </Label>
-            <Label>
-                Border Radius
-                <Input
-                    className={classes.numberInput}
-                    type="number"
-                    min={0}
-                    defaultValue={props.borderRadius.toString()} // Convert the number to a string
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        setProp((props: TextBoxProps) => (props.borderRadius = parseInt(e.target.value, 10)), 1000);
-                    }}
-                />
-            </Label>
-            <Label>
-                Rows
-                <Input
-                    className={classes.numberInput}
-                    type="number"
-                    min={0}
-                    max={43}
-                    defaultValue={props.rows.toString()} // Convert the number to a string
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        setProp((props: TextBoxProps) => (props.rows = parseInt(e.target.value, 10)), 1000);
-                    }}
-                />
-            </Label>
-            <Label>
-                Columns
-                <Input
-                    className={classes.numberInput}
-                    type="number"
-                    min={0}
-                    max={100}
-                    defaultValue={props.cols.toString()} // Convert the number to a string
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        setProp((props: TextBoxProps) => (props.cols = parseInt(e.target.value, 10)), 1000);
-                    }}
-                />
-            </Label>
-            <Label>
-                Alignment
-                <RadioGroup
-                    defaultValue={props.alignment}
-                    layout="horizontal-stacked"
-                    onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
-                        setProp((props: TextBoxProps) => (props.alignment = data.value as 'left' | 'center' | 'right'), 1000);
-                      }}
-                >
-                    <Radio key="left" label="Left" value="left" />
-                    <Radio key="center" label="Center" value="center" />
-                    <Radio key="right" label="Right" value="right" />
-                </RadioGroup>
-            </Label>
+        <div className={styles.settingsContainer}>
+            {tooltips.map((tooltip, index) => (
+                <div key={index}>
+                    <div aria-owns={visibleTooltip === tooltip.propKey ? contentId : undefined} className={styles.label}>
+                        <Label>
+                            {tooltip.label}
+                        </Label>
+                        <Tooltip
+                            content={{
+                                children: tooltip.content,
+                                id: contentId,
+                            }}
+                            positioning="above-start"
+                            withArrow
+                            relationship="label"
+                            onVisibleChange={(e, data) => setVisibleTooltip(data.visible ? tooltip.propKey : null)}
+                        >
+                            <Info16Regular
+                                tabIndex={0}
+                                className={visibleTooltip === tooltip.propKey ? styles.visible : undefined}
+                            />
+                        </Tooltip>
+                    </div>
+                    {tooltip.type === "spinButton" ? (
+                        <SpinButton
+                            className={styles.spinButton}
+                            type="number"
+                            defaultValue={props[tooltip.propKey] as number}
+                            onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
+                                const value = data.value ? data.value : 0;
+                                setProp((props: TextBoxProps) => {
+                                    (props[tooltip.propKey] as number) = value;
+                                }, 1000);
+                            }}
+                        />
+                    ) : tooltip.type === "color" ? (
+                        <input
+                            className={styles.colorInput}
+                            type="color"
+                            defaultValue={props[tooltip.propKey] as string}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProp((props: TextBoxProps) => {
+                                (props[tooltip.propKey] as string) = e.target.value;
+                            })}
+                        />
+                    ) : tooltip.type === "text" ? (
+                        <Input
+                            className={styles.textInput}
+                            type="text"
+                            defaultValue={props[tooltip.propKey] as string}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                setProp((props: TextBoxProps) => {
+                                    (props[tooltip.propKey] as string) = e.target.value;
+                                }, 1000);
+                            }}
+                        />
+                    ) : tooltip.type === "alignment" && (
+                        <RadioGroup
+                            defaultValue={props[tooltip.propKey] as string}
+                            layout="horizontal-stacked"
+                            onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
+                                setProp((props: TextBoxProps) => {
+                                    (props[tooltip.propKey] as 'left' | 'center' | 'right') = data.value as 'left' | 'center' | 'right';
+                                }, 1000);
+                            }}
+                        >
+                            <Radio key="left" label="Left" value="left" />
+                            <Radio key="center" label="Center" value="center" />
+                            <Radio key="right" label="Right" value="right" />
+                        </RadioGroup>
+                    )}
+                </div>
+            ))}
         </div>
     );
 }
