@@ -16,7 +16,7 @@ const useStyles = makeStyles({
     mainLayout: {
         display: 'flex',
         height: '100vh',
-        width: '97vw', // Ensure it takes the full width of the window
+        width: '100vw', // Ensure it takes the full width of the window
         gap: '10px',
         alignSelf: 'center',
     },

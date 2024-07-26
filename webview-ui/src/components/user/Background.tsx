@@ -18,7 +18,7 @@ const useStyles = makeStyles({
         width: '100%',
         height: '100%',
         position: 'relative',
-        overflow: 'hidden',
+        overflow: 'auto',
     },
     gridCell: {
         border: '1px dashed #666666',
