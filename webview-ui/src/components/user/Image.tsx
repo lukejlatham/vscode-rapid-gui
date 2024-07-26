@@ -42,15 +42,14 @@ export const Image: UserComponent<ImageProps> = ({ src, alt, width, height, alig
   const classes = useStyles();
 
   return (
-    <div className={`${classes.container} ${alignment === "left" ? classes.justifyLeft : alignment === "center" ? classes.justifyCenter : classes.justifyRight}`}>
+    // <div className={`${classes.container} ${alignment === "left" ? classes.justifyLeft : alignment === "center" ? classes.justifyCenter : classes.justifyRight}`}>
       <img
         ref={(ref) => ref && connect(drag(ref))}
         src={src}
         alt={alt}
-        width={width}
-        height={height}
+        style={{ width: `${width}%`, height: `${height}%` }}
       />
-    </div>
+    // {/* </div> */}
   );
 };
 
@@ -89,6 +88,7 @@ const ImageSettings: React.FC = () => {
           type="number"
           defaultValue={props.width.toString()}
           min="1"
+          max="100"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setProp((props: ImageProps) => (props.width = parseInt(e.target.value, 10)), 1000);
           }}
@@ -100,6 +100,7 @@ const ImageSettings: React.FC = () => {
           type="number"
           defaultValue={props.height.toString()}
           min="1"
+          max="100"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setProp((props: ImageProps) => (props.height = parseInt(e.target.value, 10)), 1000);
           }}
@@ -126,8 +127,8 @@ const ImageSettings: React.FC = () => {
 export const ImageDefaultProps: ImageProps = {
   src: "https://photographylife.com/wp-content/uploads/2023/05/Nikon-Z8-Official-Samples-00002.jpg",
   alt: "New image",
-  width: 480,
-  height: 320,
+  width: 100,
+  height: 100,
   alignment: "center",
 };
 

@@ -16,7 +16,7 @@ const useStyles = makeStyles({
     mainLayout: {
         display: 'flex',
         height: '100vh',
-        width: '97vw', // Ensure it takes the full width of the window
+        width: '100vw', // Ensure it takes the full width of the window
         gap: '10px',
         alignSelf: 'center',
     },
@@ -34,7 +34,7 @@ const useStyles = makeStyles({
         overflow: 'hidden', // Prevent overflow
     },
     rightSidebar: {
-        flex: '0 0 400px', // Fixed width for the sidebar
+        flex: '0 0 200px', // Fixed width for the sidebar
         display: 'flex',
         flexDirection: 'column',
         height: '100%',
