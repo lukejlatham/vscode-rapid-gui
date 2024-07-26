@@ -1,7 +1,7 @@
-import React, {FC, useEffect, useRef, useState} from 'react';
+import React, {FC, useEffect, useRef, useState, useMemo} from 'react';
 import { Card, makeStyles, Input, Label } from '@fluentui/react-components';
 import { useNode, UserComponent, Element } from "@craftjs/core";
-import GridLayout, { Layout } from 'react-grid-layout';
+import Responsive, { Layout, WidthProvider } from 'react-grid-layout';
 import { Container } from './Container';
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
@@ -51,18 +51,13 @@ const useStyles = makeStyles({
     },
 });
 
-export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, rows, columns }) => {
+ export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, rows, columns }) => {
     const { connectors: { connect, drag } } = useNode();
     const classes = useStyles();
     const backgroundRef = useRef<HTMLDivElement | null>(null);
     const [items, setItems] = useState<Layout[]>([]);
-    const [width, setWidth] = useState(0);
 
-    useEffect(() => {
-        if (backgroundRef.current) {
-            setWidth(backgroundRef.current.offsetWidth);
-        }
-    }, [columns, rows, backgroundRef]);
+    const ReactiveGridLayout = useMemo(() => WidthProvider(Responsive), []);
 
     useEffect(() => {
         const newItems = Array.from({ length: rows * columns }, (_, i) => ({
@@ -71,12 +66,11 @@ export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, ro
             y: Math.floor(i / columns),
             w: 1,
             h: 1,
+            maxH: columns,
+            maxW: rows
         }));
         setItems(newItems);
-    }
-    , [rows, columns]);
-
-// make sure to try to add it to craft js the properties of each of the grids, how would it work?
+    }, [rows, columns]);
 
     const onRemoveItem = (i: string) => {
         setItems(prevItems => prevItems.filter((item) => item.i !== i));
@@ -89,27 +83,27 @@ export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, ro
             y: l.y,
             w: l.w,
             h: l.h,
+            maxH: columns,
+            maxW: rows
         })));
     };
 
-    // Remove the unused calculateWidth function
+    const createElement = (el: Layout) => (
+        <div key={el.i} data-grid={el} className={classes.gridCell}>
+            <Element id={el.i} is={Container} canvas />
+            <span
+                className={classes.removeButton}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    onRemoveItem(el.i);
+                }}
+            >
+                x
+            </span>
+        </div>
+    );
 
-    const createElement = (el: Layout) => {
-        return (
-            <div key={el.i} data-grid={el} className={classes.gridCell}>
-                <Element id={el.i} is={Container} canvas/>
-                <span
-                    className={classes.removeButton}
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        onRemoveItem(el.i);
-                    }}
-                >
-                    x
-                </span>
-            </div>
-        );
-    };
+    const memoizedItems = useMemo(() => items.map(el => createElement(el)), [items]);
 
     return (
         <Card
@@ -123,26 +117,23 @@ export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, ro
             className={classes.background}
             style={{ backgroundColor }}
         >
-            <GridLayout
+            <ReactiveGridLayout
                 className="layout"
                 layout={items}
-                cols={columns}
                 rowHeight={150}
-                width={width}
                 maxRows={rows}
                 isResizable={true}
                 isDraggable={true}
                 compactType={'horizontal'}
                 preventCollision={false}
                 onLayoutChange={onLayoutChange}
+                cols={columns}
             >
-                {items.map((el) => createElement(el))}
-            </GridLayout>
+                {memoizedItems}
+            </ReactiveGridLayout>
         </Card>
     );
-}
-
-
+};
 const BackgroundSettings: FC = () => {
     const { actions: { setProp }, props } = useNode(node => ({
         props: node.data.props as BackgroundProps
