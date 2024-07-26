@@ -52,27 +52,38 @@ const useStyles = makeStyles({
     },
 });
 
+const ReactiveGridLayout = WidthProvider(Responsive);
+
 export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, rows, columns }) => {
     const { connectors: { connect, drag } } = useNode();
     const classes = useStyles();
     const backgroundRef = useRef<HTMLDivElement | null>(null);
     const [items, setItems] = useState<Layout[]>([]);
-
-    const ReactiveGridLayout = useMemo(() => WidthProvider(Responsive), []);
+    const [containerHeight, setContainerHeight] = useState(0);
 
     useEffect(() => {
-        const newItems = Array.from({ length: rows * columns }, (_, i) => ({
+        const updateContainerHeight = () => {
+            if (backgroundRef.current) {
+                setContainerHeight(backgroundRef.current.clientHeight);
+            }
+        };
+        window.addEventListener('resize', updateContainerHeight);
+        updateContainerHeight();
+
+        return () => window.removeEventListener('resize', updateContainerHeight);
+    }, []);
+
+    useEffect(() => {
+        setItems(Array.from({ length: rows * columns }, (_, i) => ({
             i: i.toString(),
             x: i % columns,
             y: Math.floor(i / columns),
             w: 1,
             h: 1,
-            maxH: columns, 
+            maxH: columns,
             maxW: rows,
-        }));
-        setItems(newItems);
-    }
-    , [rows, columns]);
+        })));
+    }, [rows, columns]);
 
 // make sure to try to add it to craft js the properties of each of the grids, how would it work?
 
@@ -113,6 +124,8 @@ export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, ro
 
     const memoizedItems = useMemo(() => items.map(el => createElement(el)), [items]);
 
+    const rowHeight = containerHeight / rows;
+
     return (
         <Card
             appearance='filled'
@@ -129,7 +142,7 @@ export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, ro
                 className="layout"
                 layout={items}
                 cols={columns}
-                rowHeight={150}
+                rowHeight={rowHeight}
                 maxRows={rows}
                 isResizable={true}
                 isDraggable={true}
