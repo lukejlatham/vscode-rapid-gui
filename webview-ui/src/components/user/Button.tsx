@@ -1,6 +1,6 @@
 import React from "react";
 import { useNode, UserComponent } from "@craftjs/core";
-import { Input, Label, SpinButton, Radio, RadioGroup, SpinButtonChangeEvent, SpinButtonOnChangeData, makeStyles, Tooltip, TooltipProps, useId, mergeClasses, tokens } from "@fluentui/react-components";
+import { Input, Label, SpinButton, Radio, RadioGroup, SpinButtonChangeEvent, SpinButtonOnChangeData, makeStyles, Tooltip, useId, mergeClasses, tokens } from "@fluentui/react-components";
 import { Info16Regular } from "@fluentui/react-icons";
 
 interface ButtonProps {
@@ -101,14 +101,14 @@ const ButtonSettings: React.FC = () => {
     const [visibleTooltip, setVisibleTooltip] = React.useState<string | null>(null);
 
     const tooltips: TooltipConfig[] = [
-        { label: "Font Color", content: "This is the color of the text on the button.", propKey: "fontColor", type: "color" },
-        { label: "Background Color", content: "This is the color of the button.", propKey: "backgroundColor", type: "color" },
-        { label: "Font Size", content: "This is the size of the text on the button.", propKey: "fontSize", type: "spinButton" },
-        { label: "Border Radius", content: "This is how rounded the corners of the button are.", propKey: "borderRadius", type: "spinButton" },
-        { label: "Width", content: "This is how wide the button is.", propKey: "width", type: "spinButton" },
-        { label: "Height", content: "This is how tall the button is.", propKey: "height", type: "spinButton" },
-        { label: "Text", content: "This is the text that appears in the button.", propKey: "text", type: "text" },
-        { label: "Alignment", content: "This is how you want your button to be aligned.", propKey: "alignment", type: "alignment" },
+        { label: "Font Color", content: "Changed the color of the text on the button.", propKey: "fontColor", type: "color" },
+        { label: "Background Color", content: "Changedthe color of the button.", propKey: "backgroundColor", type: "color" },
+        { label: "Font Size", content: "Adjust the size of the text on the button.", propKey: "fontSize", type: "spinButton" },
+        { label: "Border Radius", content: "Adjust how rounded the corners of the button are.", propKey: "borderRadius", type: "spinButton" },
+        { label: "Width", content: "Set how wide the button is.", propKey: "width", type: "spinButton" },
+        { label: "Height", content: "Set how tall the button is.", propKey: "height", type: "spinButton" },
+        { label: "Text", content: "Edit the text that appears in the button.", propKey: "text", type: "text" },
+        { label: "Alignment", content: "Set how you want the button to be aligned.", propKey: "alignment", type: "alignment" },
     ];
 
     const handleVisibilityChange = (tooltipKey: string, isVisible: boolean) => {
