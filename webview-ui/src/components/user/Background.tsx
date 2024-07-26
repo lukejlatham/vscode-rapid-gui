@@ -134,6 +134,7 @@ const useStyles = makeStyles({
         </Card>
     );
 };
+
 const BackgroundSettings: FC = () => {
     const { actions: { setProp }, props } = useNode(node => ({
         props: node.data.props as BackgroundProps
