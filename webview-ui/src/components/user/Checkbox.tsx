@@ -223,7 +223,7 @@ const defaultOptionLabels = (count: number) =>
     Array.from({ length: count }, (_, i) => `Option ${i + 1}`);
 
 export const CheckboxDefaultProps: CheckboxProps = {
-    label: 'Radio Buttons',
+    label: 'Checkboxes',
     numberOfBoxes: 2,
     optionLabels: ['Option 1', 'Option 2'],
     fontSize: 14,
