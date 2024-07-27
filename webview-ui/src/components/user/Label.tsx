@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNode, UserComponent } from "@craftjs/core";
 import ContentEditable from "react-contenteditable";
-import { Label as FLabel, Input, RadioGroup, Radio, makeStyles } from "@fluentui/react-components";
+import { Label as FLabel, Input, RadioGroup, Radio, makeStyles, Tooltip, useId, mergeClasses, tokens } from "@fluentui/react-components";
+import { Info16Regular } from "@fluentui/react-icons";
 
 interface LabelProps {
   text: string;
@@ -53,6 +54,14 @@ const useStyles = makeStyles({
   textInput: {
     width: "100%",
   },
+  visible: {
+    color: tokens.colorNeutralForeground2BrandSelected,
+  },
+  label: {
+    display: "flex",
+    flexDirection: "row",
+    columnGap: tokens.spacingVerticalS,
+  },
 });
 
 export const Label: UserComponent<LabelProps> = ({ text, fontSize, color, textAlign, userEditable = true, height, width }) => {
@@ -76,12 +85,12 @@ export const Label: UserComponent<LabelProps> = ({ text, fontSize, color, textAl
     }
   }, [selected, userEditable]);
 
-  const classes = useStyles();
+  const styles = useStyles();
 
   return (
     <div
       ref={(ref: HTMLDivElement | null) => ref && connect(drag(ref))}
-      className={classes.labelContainer}
+      className={styles.labelContainer}
       onClick={() => selected && userEditable && setEditable(true)}
     >
       {userEditable ? (
@@ -96,20 +105,18 @@ export const Label: UserComponent<LabelProps> = ({ text, fontSize, color, textAl
             )
           }
           tagName="p"
-          className={`${classes.labelContent} ${
-            textAlign === 'left' ? classes.alignLeft :
-            textAlign === 'center' ? classes.alignCenter :
-            textAlign === 'right' ? classes.alignRight :
-            classes.alignJustify}`}
+          className={`${styles.labelContent} ${textAlign === 'left' ? styles.alignLeft :
+            textAlign === 'center' ? styles.alignCenter :
+              textAlign === 'right' ? styles.alignRight :
+                styles.alignJustify}`}
           style={{ fontSize: `${fontSize}px`, color: color }}
         />
       ) : (
         <p
-          className={`${classes.labelContent} ${
-            textAlign === 'left' ? classes.alignLeft :
-            textAlign === 'center' ? classes.alignCenter :
-            textAlign === 'right' ? classes.alignRight :
-            classes.alignJustify}`}
+          className={`${styles.labelContent} ${textAlign === 'left' ? styles.alignLeft :
+            textAlign === 'center' ? styles.alignCenter :
+              textAlign === 'right' ? styles.alignRight :
+                styles.alignJustify}`}
           style={{ fontSize: `${fontSize}px`, color: color }}
         >
           {text}
@@ -133,55 +140,79 @@ const LabelSettings: React.FC = () => {
     textAlign: node.data.props.textAlign,
   }));
 
-  const classes = useStyles();
+  const styles = useStyles();
+  const contentId = useId("content");
+  const [visibleTooltip, setVisibleTooltip] = useState<string | null>(null);
+
+  const tooltips = [
+    { label: "Font Size", content: "Adjust the size of the text.", propKey: "fontSize" },
+    { label: "Color", content: "Change the text color of the label.", propKey: "color" },
+    { label: "Text", content: "Edit the text of the label.", propKey: "text" },
+    { label: "Alignment", content: "Set the text alignment.", propKey: "textAlign" },
+  ];
 
   return (
-    <div className={classes.settingsContainer}>
-      <FLabel>
-        Font Size
-        <Input
-          className={classes.numberInput}
-          type="number"
-          value={fontSize.toString()} // Convert the number to a string
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setProp((props: LabelProps) => (props.fontSize = parseInt(e.target.value, 10)), 1000);
-          }}
-        />
-      </FLabel>
-      <FLabel>
-        Color
-        <input
-          className={classes.colorInput}
-          type="color"
-          defaultValue={color}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProp((props: LabelProps) => props.color = e.target.value)} />
-      </FLabel>
-      <FLabel>
-        Text
-        <Input
-          className={classes.textInput}
-          type="text"
-          defaultValue={text}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setProp((props: LabelProps) => (props.text = e.target.value), 1000);
-          }}
-        />
-      </FLabel>
-      <FLabel>
-        Alignment
-        <RadioGroup
-          defaultValue={textAlign}
-          layout="horizontal-stacked"
-          onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
-            setProp((props: LabelProps) => (props.textAlign = data.value as 'left' | 'center' | 'right' | 'justify'), 1000);
-          }}
-        >
-          <Radio value="left" label="Left" />
-          <Radio value="center" label="Center" />
-          <Radio value="right" label="Right" />
-          <Radio value="justify" label="Justify" />
-        </RadioGroup>
-      </FLabel>
+    <div className={styles.settingsContainer}>
+      {tooltips.map((tooltip, index) => (
+        <div key={index}>
+          <div aria-owns={visibleTooltip === tooltip.propKey ? contentId : undefined} className={styles.label}>
+        <FLabel>
+          {tooltip.label}
+          </FLabel>
+          <Tooltip
+            content={tooltip.content}
+            positioning="above-start"
+            withArrow
+            relationship="label" 
+            onVisibleChange={(e, data) => setVisibleTooltip(data.visible ? tooltip.propKey : null)}
+          >
+            <Info16Regular
+              tabIndex={0}
+              className={visibleTooltip === tooltip.propKey ? styles.visible : undefined}
+            />
+          </Tooltip>
+        </div>
+          {tooltip.propKey === "fontSize" ? (
+            <Input
+              className={styles.numberInput}
+              type="number"
+              value={fontSize.toString()}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setProp((props: LabelProps) => (props.fontSize = parseInt(e.target.value, 10)), 1000);
+              }}
+            />
+          ) : tooltip.propKey === "color" ? (
+            <input
+              className={styles.colorInput}
+              type="color"
+              defaultValue={color}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProp((props: LabelProps) => props.color = e.target.value)}
+            />
+          ) : tooltip.propKey === "text" ? (
+            <Input
+              className={styles.textInput}
+              type="text"
+              defaultValue={text}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setProp((props: LabelProps) => (props.text = e.target.value), 1000);
+              }}
+            />
+          ) : tooltip.propKey === "textAlign" && (
+            <RadioGroup
+              defaultValue={textAlign}
+              layout="horizontal-stacked"
+              onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
+                setProp((props: LabelProps) => (props.textAlign = data.value as 'left' | 'center' | 'right' | 'justify'), 1000);
+              }}
+            >
+              <Radio value="left" label="Left" />
+              <Radio value="center" label="Center" />
+              <Radio value="right" label="Right" />
+              <Radio value="justify" label="Justify" />
+            </RadioGroup>
+          )}
+        </div>
+      ))}
     </div>
   );
 };
@@ -190,7 +221,7 @@ export const LabelDefaultProps: LabelProps = {
   text: "New Label",
   textAlign: 'left',
   fontSize: 20,
-  color: "#FFFFF",
+  color: "#000000",
   userEditable: true,
   width: 100,
   height: 100,
