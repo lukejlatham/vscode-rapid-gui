@@ -8,6 +8,7 @@ import { Columns } from '../../../components/user/Columns';
 import { TextBox, TextBoxDefaultProps } from '../../../components/user/TextBox';
 import { Image, ImageDefaultProps } from '../../../components/user/Image';
 import { UserInput, InputDefaultProps } from '../../../components/user/Input';
+import { RadioButton, RadioButtonDefaultProps } from '../../../components/user/RadioButton';
 import {
     Image24Regular,
     TextboxRegular,
@@ -18,7 +19,8 @@ import {
     LayoutRowTwoRegular,
     LayoutColumnTwoRegular,
     Password24Regular,
-    Password24Filled
+    Password24Filled,
+    RadioButtonFilled
 } from '@fluentui/react-icons';
 
 const ButtonIcon = bundleIcon(Button20Filled, Button20Regular);
@@ -57,6 +59,11 @@ const ComponentButtons: React.FC<{ classes: any }> = ({ classes }) => {
                     connectors.create(ref, <UserInput {...InputDefaultProps} />);
                 }
             }}>Input</Button>
+            <Button icon={<RadioButtonFilled />} size='large' appearance='outline' ref={ref => {
+                if (ref !== null) {
+                    connectors.create(ref, <RadioButton {...RadioButtonDefaultProps} />);
+                }
+            }}>Radio Buttons</Button>
             <Divider className={classes.divider}> Layout </Divider>
             <Button icon={<LayoutRowTwoRegular />} size='large' appearance='outline' ref={ref => {
                 if (ref !== null) {

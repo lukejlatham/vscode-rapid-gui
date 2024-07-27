@@ -9,6 +9,7 @@ import { TextBox } from '../../components/user/TextBox';
 import { Image } from '../../components/user/Image';
 import { Background } from '../../components/user/Background';
 import { UserInput } from "../../components/user/Input";
+import { RadioButton } from "../../components/user/RadioButton";
 import RightSidebar from './RightSidebar/RightSidebar';
 import Canvas from './Canvas';
 import LeftSidebar from './LeftSidebar/LeftSidebar';
@@ -46,7 +47,7 @@ const EditingInterface: React.FC = () => {
     const classes = useStyles();
 
     return (
-        <Editor resolver={{ Background, Label, Container, Button, Rows, Row, Column, Columns, TextBox, Image, UserInput }}>
+        <Editor resolver={{ Background, Label, Container, Button, Rows, Row, Column, Columns, TextBox, Image, UserInput, RadioButton }}>
             <div className={classes.mainLayout}>
                 <div className={classes.leftSidebar}>
                     <LeftSidebar classes={classes} />
