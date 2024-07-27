@@ -1,10 +1,7 @@
 import { Editor } from "@craftjs/core";
 import { Label } from "../../components/user/Label";
-import { Container } from '../../components/user/Container';
 import { Button } from '../../components/user/Button';
 import { makeStyles } from '@fluentui/react-components';
-import { Rows, Row } from '../../components/user/Rows';
-import { Columns, Column } from '../../components/user/Columns';
 import { TextBox } from '../../components/user/TextBox';
 import { Image } from '../../components/user/Image';
 import { Background } from '../../components/user/Background';
@@ -14,6 +11,8 @@ import { Checkbox } from "../../components/user/Checkbox";
 import RightSidebar from './RightSidebar/RightSidebar';
 import Canvas from './Canvas';
 import LeftSidebar from './LeftSidebar/LeftSidebar';
+import { GridCell } from "../../components/user/GridCell";
+import { GridCellContents } from "../../components/user/GridCellContents";
 
 const useStyles = makeStyles({
     mainLayout: {
@@ -48,7 +47,7 @@ const EditingInterface: React.FC = () => {
     const classes = useStyles();
 
     return (
-        <Editor resolver={{ Background, Label, Container, Button, Rows, Row, Column, Columns, TextBox, Image, UserInput, RadioButton, Checkbox }}>
+        <Editor resolver={{ Background, Label, Button, TextBox, Image, UserInput, RadioButton, Checkbox, GridCell, GridCellContents }}>
             <div className={classes.mainLayout}>
                 <div className={classes.leftSidebar}>
                     <LeftSidebar classes={classes} />

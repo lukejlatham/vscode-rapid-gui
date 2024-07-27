@@ -1,9 +1,8 @@
 import React, {FC, useEffect, useMemo, useRef, useState} from 'react';
 import { Card, makeStyles, Input, Label } from '@fluentui/react-components';
-import { useNode, UserComponent, Element } from "@craftjs/core";
-// import GridLayout, { Layout } from 'react-grid-layout';
+import { useNode, UserComponent } from "@craftjs/core";
+import { GridCell } from './GridCell';
 import Responsive, { Layout, WidthProvider } from 'react-grid-layout';
-import { Container } from './Container';
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 
@@ -43,18 +42,19 @@ const useStyles = makeStyles({
         height: "35px",
     },
     removeButton: {
-        position: 'absolute',
-        top: 0,
-        right: 0,
-        cursor: 'pointer',
-        color: 'white',
-        border: 'none',
-        padding: '2px 6px',
-        fontSize: '16px',
-        lineHeight: '16px',
-        // display: 'none',
-    },
-});
+            position: 'absolute',
+            top: '10px',
+            right: '10px', // Adjust this value to move it slightly to the left
+            cursor: 'pointer',
+            color: 'white',
+            border: 'none',
+            padding: '2px 6px',
+            fontSize: '16px',
+            lineHeight: '16px',
+            borderRadius: '8px', // Add this for the curved corners
+            backgroundColor: 'red', // Optional: Add a background color for better visibility
+        },
+    });
 
 const ReactiveGridLayout = WidthProvider(Responsive);
 
@@ -107,25 +107,25 @@ export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, ro
         })));
     };
 
-
     // Remove the unused calculateWidth function
 
     const createElement = (el: Layout) => {
         return (
             <div key={el.i} data-grid={el} className={classes.gridCell}>
-                <Element id={el.i} is={Container} canvas/>
-                <span
-                    className={classes.removeButton}
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        onRemoveItem(el.i);
-                    }}
-                >
-                    x
+                <GridCell id={el.i} x={el.x} y={el.y} w={el.w} h={el.h} />
+                <span>
+                    <button className={classes.removeButton}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            onRemoveItem(el.i);
+                        }}
+                    >
+                        Remove
+                    </button>
                 </span>
             </div>
         );
-    }
+    };
 
     const memoizedItems = useMemo(() => items.map(el => createElement(el)), [items]);
 

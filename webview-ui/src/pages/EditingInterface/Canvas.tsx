@@ -1,7 +1,6 @@
 import React from 'react';
-import { Frame, Element } from "@craftjs/core";
+import { Frame } from "@craftjs/core";
 import { Background, BackgroundDefaultProps } from '../../components/user/Background';
-import { Container } from '../../components/user/Container';
 import { useEffect } from 'react';
 import { useEditor } from '@craftjs/core';
 import { vscode } from '../../utilities/vscode';
@@ -59,8 +58,7 @@ const Canvas: React.FC<{ classes: any }> = ({ classes }) => {
     return (
         <div className={classes.canvas}>
             <Frame>
-                <Element is={Background} id="background" {...BackgroundDefaultProps} canvas>
-                </Element>
+                <Background {...BackgroundDefaultProps} />
             </Frame>
         </div>
     );
