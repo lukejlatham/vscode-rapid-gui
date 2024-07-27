@@ -232,7 +232,7 @@ export const CheckboxDefaultProps: CheckboxProps = {
 };
 
 Checkbox.craft = {
-    displayName: 'Radio Button',
+    displayName: 'Checkbox',
     props: CheckboxDefaultProps,
     related: {
         settings: CheckboxSettings,

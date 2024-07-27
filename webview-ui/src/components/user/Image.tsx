@@ -72,7 +72,7 @@ export const Image: UserComponent<ImageProps> = ({ src, alt, width, height, alig
         alt={alt}
         style={{ width: `${width}%`, height: `${height}%` }}
       />
-    // {/* </div> */}
+    </div>
   );
 };
 

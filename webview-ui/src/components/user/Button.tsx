@@ -90,6 +90,7 @@ export const Button: UserComponent<ButtonProps> = ({ backgroundColor, fontSize, 
             >
                 {text}
             </button>
+        </div>
     );
 }
 

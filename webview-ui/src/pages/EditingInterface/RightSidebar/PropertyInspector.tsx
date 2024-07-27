@@ -87,7 +87,7 @@ export const PropertyInspector: React.FC = () => {
   return selected ? (
     <div className={classes.propertyInspector}>
       <div className={classes.header}>
-        <Subtitle2>{selected.name}-{selected.id}</Subtitle2>
+        <Subtitle2>{selected.displayName}-{selected.id}</Subtitle2>
         <Button icon={<Dismiss20Regular />} appearance="transparent" onClick={handleClose} />
       </div>
       <Divider style={{ flexGrow: "0" }} />
