@@ -61,7 +61,6 @@ const input = `{
   ],
   "_meta": { "usage": { "completion_tokens": 295, "prompt_tokens": 1461, "total_tokens": 1756 } }
 }`;
-
 // Default properties
 const TextboxDefaultProps = {
   text: "",
@@ -139,7 +138,7 @@ function generateChildNodes(sections) {
         props: defaultProps,
         displayName: child.type,
         custom: {},
-        parent: section.id,
+        parent: section.id + "Contents",
         hidden: false,
         nodes: [],
         linkedNodes: {},
@@ -159,7 +158,6 @@ function buildChildNodes(input) {
 
   return childNodes;
 }
-
 // Output the result
 console.log(JSON.stringify(buildChildNodes(input), null, 2));
 
