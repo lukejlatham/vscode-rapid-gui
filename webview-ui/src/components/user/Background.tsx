@@ -6,6 +6,7 @@ import { GridCell } from './GridCell';
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import { useNode } from '@craftjs/core';
+import { max } from 'lodash';
 
 const useStyles = makeStyles({
   background: {
@@ -103,6 +104,7 @@ export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgr
   const ResponsiveGridLayout = useMemo(() => WidthProvider(Responsive), []);
   const backgroundRef = useRef<HTMLDivElement>(null);
   const classes = useStyles();
+  //TODO: UPDATE TO INTIALISE WITH 3X3 GRIDCELLS
   const [items, setItems] = useState<Layout[]>(initialLayout);
   const [backgroundColor, setBackgroundColor] = useState(initialBackgroundColor);
   const [rows, setRows] = useState(initialRows);
@@ -122,7 +124,7 @@ export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgr
 
     return () => window.removeEventListener('resize', updateContainerHeight);
   }, []);
-
+// TODO:  UPDATE THIS FUCTION TO NOT EXCEED THE MAXIMUM ROWS AND COLUMNS AND ADD RIGHT TO LEFT
   const addItem = () => {
     setProp((props: BackgroundProps) => {
       const newItem = {
@@ -131,6 +133,8 @@ export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgr
         y: 0,
         w: 1,
         h: 1,
+        maxW: rows,
+        maxH: columns
       };
       props.layout = [...props.layout, newItem];
       setItems(props.layout);
