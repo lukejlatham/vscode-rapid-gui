@@ -1,100 +1,150 @@
 {
   "ROOT": {
-    "type": {
-      "resolvedName": "Background"
-    },
+    "type": { "resolvedName": "Background" },
     "isCanvas": false,
     "props": {
-      "backgroundColor": "#333",
-      "id": "background",
-      "rows": 10,
+      "backgroundColor": "#292929",
+      "layout": [
+        {
+          "w": 10,
+          "h": 1,
+          "x": 0,
+          "y": 0,
+          "i": "0",
+          "moved": false,
+          "static": false,
+          "maxW": 10,
+          "maxH": 11
+        },
+        {
+          "w": 2,
+          "h": 9,
+          "x": 0,
+          "y": 1,
+          "i": "1",
+          "moved": false,
+          "static": false,
+          "maxW": 10,
+          "maxH": 11
+        },
+        {
+          "w": 8,
+          "h": 7,
+          "x": 2,
+          "y": 1,
+          "i": "2",
+          "moved": false,
+          "static": false,
+          "maxW": 10,
+          "maxH": 11
+        },
+        {
+          "w": 10,
+          "h": 1,
+          "x": 0,
+          "y": 10,
+          "i": "3",
+          "moved": false,
+          "static": false,
+          "maxW": 10,
+          "maxH": 11
+        }
+      ],
+      "rows": 11,
       "columns": 10
     },
-    "displayName": "Background",
+    "displayName": "Fw",
     "custom": {},
     "hidden": false,
     "nodes": ["Header", "Sidebar", "MainContent", "Footer"],
-    "linkedNodes": {
-      "Header": "Header",
-      "Sidebar": "Sidebar",
-      "MainContent": "MainContent",
-      "Footer": "Footer"
-    }
+    "linkedNodes": { "0": "Header", "1": "Sidebar", "2": "MainContent", "3": "Footer" }
   },
   "Header": {
-    "type": {
-      "resolvedName": "Container"
-    },
-    "isCanvas": true,
-    "props": {
-      "id": "Header",
-      "x": 0,
-      "y": 0,
-      "w": 10,
-      "h": 2
-    },
-    "displayName": "Container",
+    "type": { "resolvedName": "GridCell" },
+    "isCanvas": false,
+    "props": {},
+    "displayName": "GridCell",
     "custom": {},
     "parent": "ROOT",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": { "GridCellContents": "HeaderContents" }
+  },
+  "HeaderContents": {
+    "type": { "resolvedName": "GridCellContents" },
+    "isCanvas": true,
+    "props": {},
+    "displayName": "GridCellContents",
+    "custom": {},
+    "parent": "Header",
     "hidden": false,
     "nodes": ["homeButton", "navButton1", "navButton2", "navButton3"],
     "linkedNodes": {}
   },
   "Sidebar": {
-    "type": {
-      "resolvedName": "Container"
-    },
-    "isCanvas": true,
-    "props": {
-      "id": "Sidebar",
-      "x": 0,
-      "y": 2,
-      "w": 3,
-      "h": 7
-    },
-    "displayName": "Container",
+    "type": { "resolvedName": "GridCell" },
+    "isCanvas": false,
+    "props": {},
+    "displayName": "GridCell",
     "custom": {},
     "parent": "ROOT",
     "hidden": false,
-    "nodes": ["sidebarLabel1", "sidebarLabel2", "sidebarLabel3", "sidebarLabel4", "sidebarLabel5"],
+    "nodes": [],
+    "linkedNodes": { "GridCellContents": "SidebarContents" }
+  },
+  "SidebarContents": {
+    "type": { "resolvedName": "GridCellContents" },
+    "isCanvas": true,
+    "props": {},
+    "displayName": "GridCellContents",
+    "custom": {},
+    "parent": "Sidebar",
+    "hidden": false,
+    "nodes": ["sidebarLabel1", "sidebarLabel2", "sidebarLabel3", "sidebarLabel4"],
     "linkedNodes": {}
   },
   "MainContent": {
-    "type": {
-      "resolvedName": "Container"
-    },
-    "isCanvas": true,
-    "props": {
-      "id": "MainContent",
-      "x": 3,
-      "y": 2,
-      "w": 7,
-      "h": 7
-    },
-    "displayName": "Container",
+    "type": { "resolvedName": "GridCell" },
+    "isCanvas": false,
+    "props": {},
+    "displayName": "GridCell",
     "custom": {},
     "parent": "ROOT",
     "hidden": false,
-    "nodes": ["stepLabel", "mainImage", "possibleTextbox"],
+    "nodes": [],
+    "linkedNodes": { "GridCellContents": "MainContentContents" }
+  },
+  "MainContentContents": {
+    "type": { "resolvedName": "GridCellContents" },
+    "isCanvas": true,
+    "props": {},
+    "displayName": "GridCellContents",
+    "custom": {},
+    "parent": "MainContent",
+    "hidden": false,
+    "nodes": ["stepLabel", "mainImage", "possibleLabel", "mainTextBox"],
     "linkedNodes": {}
   },
   "Footer": {
-    "type": {
-      "resolvedName": "Container"
-    },
-    "isCanvas": true,
-    "props": {
-      "id": "Footer",
-      "x": 0,
-      "y": 9,
-      "w": 10,
-      "h": 1
-    },
-    "displayName": "Container",
+    "type": { "resolvedName": "GridCell" },
+    "isCanvas": false,
+    "props": {},
+    "displayName": "GridCell",
     "custom": {},
     "parent": "ROOT",
     "hidden": false,
-    "nodes": ["searchBox", "circleButton1", "circleButton2", "circleButton3", "contactLabel"],
+    "nodes": [],
+    "linkedNodes": { "GridCellContents": "FooterContents" }
+  },
+  "FooterContents": {
+    "type": { "resolvedName": "GridCellContents" },
+    "isCanvas": true,
+    "props": {},
+    "displayName": "GridCellContents",
+    "custom": {},
+    "parent": "Footer",
+    "hidden": false,
+    "nodes": ["searchButton", "contactLabel", "footerButton1", "footerButton2", "footerButton3"],
     "linkedNodes": {}
   }
 }

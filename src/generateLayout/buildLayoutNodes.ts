@@ -82,7 +82,17 @@ interface NodeTreeRoot {
   isCanvas: boolean;
   props: {
     backgroundColor: string;
-    id: string;
+    layout: Array<{
+      w: number;
+      h: number;
+      x: number;
+      y: number;
+      i: string;
+      moved: boolean;
+      static: boolean;
+      maxW?: number;
+      maxH?: number;
+    }>;
     rows: number;
     columns: number;
   };
@@ -96,13 +106,7 @@ interface NodeTreeRoot {
 interface NodeSection {
   type: { resolvedName: string };
   isCanvas: boolean;
-  props: {
-    id: string;
-    x: number;
-    y: number;
-    w: number;
-    h: number;
-  };
+  props: {};
   displayName: string;
   custom: object;
   parent: string;
@@ -143,10 +147,21 @@ function createNodeTreeRoot(
   rows: number,
   columns: number,
   backgroundColor: string,
-  ids: string[]
+  ids: string[],
+  layout: Array<{
+    w: number;
+    h: number;
+    x: number;
+    y: number;
+    i: string;
+    moved: boolean;
+    static: boolean;
+    maxW?: number;
+    maxH?: number;
+  }>
 ): NodeTreeRoot {
-  const linkedNodes = ids.reduce((acc, id) => {
-    acc[id] = id;
+  const linkedNodes = ids.reduce((acc, id, index) => {
+    acc[String(index)] = id;
     return acc;
   }, {});
 
@@ -155,11 +170,11 @@ function createNodeTreeRoot(
     isCanvas: false,
     props: {
       backgroundColor: backgroundColor,
-      id: "background",
+      layout: layout,
       rows: rows,
       columns: columns,
     },
-    displayName: "Background",
+    displayName: "Fw",
     custom: {},
     hidden: false,
     nodes: [],
@@ -172,24 +187,32 @@ function generateSectionLayout(sections: Section[]): { [key: string]: NodeSectio
 
   sections.forEach((section) => {
     const node: NodeSection = {
-      type: { resolvedName: "Container" },
-      isCanvas: true,
-      props: {
-        id: section.id,
-        x: section.xPosition,
-        y: section.yPosition,
-        w: section.width,
-        h: section.height,
-      },
-      displayName: "Container",
+      type: { resolvedName: "GridCell" },
+      isCanvas: false,
+      props: {},
+      displayName: "GridCell",
       custom: {},
       parent: "ROOT",
+      hidden: false,
+      nodes: [],
+      linkedNodes: { GridCellContents: section.id + "Contents" },
+    };
+
+    layout[section.id] = node;
+
+    const contentNode: NodeSection = {
+      type: { resolvedName: "GridCellContents" },
+      isCanvas: true,
+      props: {},
+      displayName: "GridCellContents",
+      custom: {},
+      parent: section.id,
       hidden: false,
       nodes: section.children.map((child) => child.name),
       linkedNodes: {},
     };
 
-    layout[section.id] = node;
+    layout[section.id + "Contents"] = contentNode;
   });
 
   return layout;
@@ -200,12 +223,26 @@ function buildLayoutNodes(rawLayoutResponse: string) {
 
   const layoutDimensions = getLayoutDimensions(sections);
 
+  const layout = sections.map((section, index) => ({
+    w: section.width,
+    h: section.height,
+    x: section.xPosition,
+    y: section.yPosition,
+    i: String(index),
+    moved: false,
+    static: false,
+    maxW: layoutDimensions.columns,
+    maxH: layoutDimensions.rows,
+  }));
+
   const backgroundNode = createNodeTreeRoot(
     layoutDimensions.rows,
     layoutDimensions.columns,
-    "#333",
-    layoutDimensions.ids
+    "#292929",
+    layoutDimensions.ids,
+    layout
   );
+
   const sectionLayout = generateSectionLayout(sections);
 
   backgroundNode.nodes = layoutDimensions.ids;
@@ -219,3 +256,5 @@ function buildLayoutNodes(rawLayoutResponse: string) {
 }
 
 export { buildLayoutNodes };
+
+console.log(JSON.stringify(buildLayoutNodes(input)));
