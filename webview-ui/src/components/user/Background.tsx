@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useMemo, useState, useRef } from 'react';
 import { Card, makeStyles, Input, Label } from '@fluentui/react-components';
 import Responsive, { Layout, WidthProvider } from 'react-grid-layout';
+import { Element } from '@craftjs/core';
 import { GridCell } from './GridCell';
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
@@ -35,25 +36,59 @@ const useStyles = makeStyles({
   },
   settingsContainer: {
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'row',
     gap: '10px',
-    padding: '5px',
-    marginBottom: '10px', // Added margin to separate settings from the grid
+    padding: '10px',
+    marginBottom: '15px', // Increased margin for better separation
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center', // Ensures all items are vertically centered
+    borderRadius: '8px', // Adds slight rounding to the container edges
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', // Adds a subtle shadow for depth
   },
   colorInput: {
-    width: "100%",
-    borderRadius: "4px",
-    height: "35px",
+    display: 'flex',
+    borderRadius: '4px',
+    height: '40px', // Slightly increased height for better accessibility
+    padding: '0 10px', // Added padding for better input visibility
+    border: '1px solid #ccc', // Added border for better visibility
+    boxSizing: 'border-box', // Ensures padding is included in total height
   },
   addButton: {
-    padding: '10px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: '10px 20px', // Added horizontal padding for better click area
     borderRadius: '5px',
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#28a745', // Used a standard green color
     color: 'white',
     border: 'none',
     cursor: 'pointer',
-    marginTop: '10px', // Added margin to separate the button from the inputs
-  }
+    transition: 'background-color 0.3s', // Added transition for smooth hover effect
+  },
+  addButtonHover: {
+    backgroundColor: '#218838', // Darker green for hover effect
+  },
+  lockedButton: {
+    display: 'flex',
+    borderRadius: '5px',
+    padding: '10px 20px', // Added horizontal padding for better click area
+    color: 'white',
+    border: 'none',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s', // Added transition for smooth hover effect
+  },
+  lockedButtonHover: {
+    backgroundColor: '#45a049', // Darker green for hover effect
+  },
+  rowInput: {
+    display: 'flex',
+    borderRadius: '4px',
+    height: '40px', // Slightly increased height for better accessibility
+    padding: '0 10px', // Added padding for better input visibility
+    border: '1px solid #ccc', // Added border for better visibility
+    boxSizing: 'border-box', // Ensures padding is included in total height
+  },
 });
 
 interface BackgroundProps {
@@ -72,6 +107,7 @@ export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgr
   const [rows, setRows] = useState(initialRows);
   const [columns, setColumns] = useState(initialColumns);
   const [containerHeight, setContainerHeight] = useState(0);
+  const [lockedGrid, setLockedGrid] = useState(false);
 
   useEffect(() => {
     const updateContainerHeight = () => {
@@ -104,13 +140,16 @@ export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgr
     setItems(layout);
   };
 
+  const setLocked = () => {
+    setLockedGrid(!lockedGrid);
+  }
+
   const rowHeight = containerHeight / rows;
 
   return (
     <>
       <div className={classes.settingsContainer}>
         <Label>
-          Background Color
           <input
             className={classes.colorInput}
             type="color"
@@ -120,6 +159,7 @@ export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgr
         <Label>
           Rows
           <Input
+          className='rows'
             type="number"
             value={rows.toString()}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRows(parseInt(e.target.value, 10))}
@@ -136,6 +176,9 @@ export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgr
         <button onClick={addItem} className={classes.addButton}>
           Add Item
         </button>
+        <button onClick={setLocked} className={classes.lockedButton}>
+          {lockedGrid ? 'Unlock Grid' : 'Lock Grid'}
+        </button>
       </div>
       <Card
         appearance='filled'
@@ -149,8 +192,8 @@ export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgr
           cols={columns}
           rowHeight={rowHeight}
           maxRows={rows}
-          isResizable={true}
-          isDraggable={true}
+          isResizable={lockedGrid ? false : true}
+          isDraggable={lockedGrid ? false : true}
           preventCollision={false}
           compactType={null}
           onLayoutChange={onLayoutChange}
@@ -158,17 +201,20 @@ export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgr
         >
           {items.map((item) => (
             <div key={item.i} data-grid={item} className={classes.gridCell}>
-              <GridCell />
-              <button
-                className={classes.removeButton}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onRemoveItem(item.i);
-                }}
-              >
-                X
-              </button>
+              <Element id={item.i} is={GridCell} />
+             {!lockedGrid && (
+        <button
+          className={classes.removeButton}
+          onClick={(e) => {
+            e.stopPropagation();
+            onRemoveItem(item.i);
+          }}
+        >
+          Remove
+        </button>
+      )}
             </div>
+            
           ))}
         </ResponsiveGridLayout>
       </Card>
