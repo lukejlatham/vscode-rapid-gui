@@ -1,24 +1,36 @@
 import React from 'react';
-import { Frame, Element } from "@craftjs/core";
+import { Frame } from "@craftjs/core";
 import { Background, BackgroundDefaultProps } from '../../components/user/Background';
-import { Container } from '../../components/user/Container';
 import { useEffect } from 'react';
 import { useEditor } from '@craftjs/core';
 import { vscode } from '../../utilities/vscode';
+import { makeStyles } from '@fluentui/react-components';
+
+const useStyles = makeStyles({
+    canvas: {
+        width: '100%',
+        height: '100%',
+        overflow: 'auto',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+});
 
 const Canvas: React.FC<{ classes: any }> = ({ classes }) => {
+    const styles = useStyles();
 
-   const { query, actions } = useEditor();
+    const { query, actions } = useEditor();
 
     useEffect(() => {
 
-    const deserializeNodes = (serializedNodes: string) => {
-        actions.deserialize(serializedNodes);
-    };
+        const deserializeNodes = (serializedNodes: string) => {
+            actions.deserialize(serializedNodes);
+        };
 
-    const serializeNodes = () => {
-        return query.serialize();
-    };
+        const serializeNodes = () => {
+            return query.serialize();
+        };
         const handleMessage = (event: MessageEvent) => {
             const message = event.data;
 
@@ -43,15 +55,10 @@ const Canvas: React.FC<{ classes: any }> = ({ classes }) => {
         };
     }, [query, actions]);
 
-
     return (
         <div className={classes.canvas}>
             <Frame>
-                <Element is={Background} id="background" {...BackgroundDefaultProps}>
-                    <Element is={Container} id="root" canvas>
-                        {/* Your editable components go here */}
-                    </Element>
-                </Element>
+                <Background {...BackgroundDefaultProps} />
             </Frame>
         </div>
     );

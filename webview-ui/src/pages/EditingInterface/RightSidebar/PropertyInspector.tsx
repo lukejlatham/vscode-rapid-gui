@@ -34,64 +34,33 @@ const useStyles = makeStyles({
 export const PropertyInspector: React.FC = () => {
   const [copiedSettings, setCopiedSettings] = useState<{ props: Record<string, any>, displayName: string } | null>(null);
   const { actions, selected } = useEditor((state, query) => {
-    const currentNodeId = query.getEvent("selected").last();
+    const selectedArray = Array.from(state.events.selected);
+    const [currentNodeId] = selectedArray;
 
-    let selected;
+
 
     if (currentNodeId) {
       const node = state.nodes[currentNodeId];
-      const displayName = node.data.displayName;
-
-      // Check if the selected node is a Row
-      if (displayName === "Row") {
-        const parentNodeId = node.data.parent;
-        if (parentNodeId) {
-          const parentNode = state.nodes[parentNodeId];
-
-          // If the parent is Rows, select the parent instead
-          if (parentNode && parentNode.data.displayName === "Rows") {
-            selected = {
-              id: parentNodeId,
-              name: parentNode.data.name,
-              settings: parentNode.related?.settings,
-              isDeletable: query.node(parentNodeId).isDeletable(),
-            };
-          }
-        }
-      } else if (displayName === "Column") { // Check if the selected node is a Column
-        const parentNodeId = node.data.parent;
-        if (parentNodeId) {
-          const parentNode = state.nodes[parentNodeId];
-
-          // If the parent is Columns, select the parent instead
-          if (parentNode && parentNode.data.displayName === "Columns") {
-            selected = {
-              id: parentNodeId,
-              name: parentNode.data.name,
-              settings: parentNode.related?.settings,
-              isDeletable: query.node(parentNodeId).isDeletable(),
-            };
-          }
-        }
-      }
-      else if (displayName !== "Container") {
-        // If the selected node is not a Container, select it
-        selected = {
+      console.log(node);
+      return {
+        selected: {
           id: currentNodeId,
           name: node.data.name,
           settings: node.related?.settings,
           props: node.data.props,
           displayName: node.data.displayName,
           isDeletable: query.node(currentNodeId).isDeletable(),
-        };
-      }
+        },
+        isEnabled: state.options.enabled,
+      };
     }
 
-    return {
-      selected,
-      isEnabled: state.options.enabled,
-    };
+
+    return { selected: null, isEnabled: false };
   });
+
+  console.log(selected);
+
 
   const classes = useStyles();
 
@@ -118,7 +87,7 @@ export const PropertyInspector: React.FC = () => {
   return selected ? (
     <div className={classes.propertyInspector}>
       <div className={classes.header}>
-        <Subtitle2>Property inspector</Subtitle2>
+        <Subtitle2>{selected.displayName}-{selected.id}</Subtitle2>
         <Button icon={<Dismiss20Regular />} appearance="transparent" onClick={handleClose} />
       </div>
       <Divider style={{ flexGrow: "0" }} />
@@ -149,6 +118,7 @@ export const PropertyInspector: React.FC = () => {
           onClick={() => {
             actions.delete(selected.id);
           }}
+          disabled={!selected.isDeletable}
         >
           Delete
         </Button>

@@ -1,6 +1,7 @@
 import React from "react";
 import { useNode, UserComponent } from "@craftjs/core";
-import { Input, Label, SpinButton, Radio, RadioGroup, SpinButtonChangeEvent, SpinButtonOnChangeData, makeStyles } from "@fluentui/react-components";
+import { Input, Label, SpinButton, Radio, RadioGroup, SpinButtonChangeEvent, SpinButtonOnChangeData, makeStyles, Tooltip, useId, mergeClasses, tokens } from "@fluentui/react-components";
+import { Info16Regular } from "@fluentui/react-icons";
 
 interface ButtonProps {
     backgroundColor: string;
@@ -12,6 +13,13 @@ interface ButtonProps {
     text: string;
     alignment: "left" | "center" | "right";
 }
+
+type TooltipConfig = {
+    label: string;
+    content: string;
+    propKey: keyof ButtonProps;
+    type: 'color' | 'spinButton' | 'text' | 'alignment';
+};
 
 const useStyles = makeStyles({
     container: {
@@ -28,6 +36,8 @@ const useStyles = makeStyles({
     },
     button: {
         border: "none",
+        textAlign: "center",
+        display: "inline-block",
     },
     settingsContainer: {
         display: 'flex',
@@ -46,28 +56,36 @@ const useStyles = makeStyles({
     textInput: {
         width: "100%",
     },
+    visible: {
+        color: tokens.colorNeutralForeground2BrandSelected,
+    },
+    label: {
+        display: "flex",
+        flexDirection: "row",
+        columnGap: tokens.spacingVerticalS,
+    },
 });
 
 export const Button: UserComponent<ButtonProps> = ({ backgroundColor, fontSize, borderRadius, text, fontColor, width, height, alignment }) => {
     const { connectors: { connect, drag } } = useNode();
-    const classes = useStyles();
+    const styles = useStyles();
 
     return (
-        <div className={`${classes.container} ${alignment === "left" ? classes.justifyLeft : alignment === "center" ? classes.justifyCenter : classes.justifyRight}`}>
+        <div className={`${styles.container} ${alignment === "left" ? styles.justifyLeft : alignment === "center" ? styles.justifyCenter : styles.justifyRight}`}>
             <button
                 ref={(ref: HTMLButtonElement | null) => {
                     if (ref) {
                         connect(drag(ref));
                     }
                 }}
-                className={classes.button}
+                className={styles.button}
                 style={{
                     color: fontColor,
                     backgroundColor,
                     fontSize: `${fontSize}px`,
                     borderRadius: `${borderRadius}px`,
-                    width: `${width}%`,
-                    height: `${height}%`,
+                    width: `${width}px`,
+                    height: `${height}px`,
                 }}
             >
                 {text}
@@ -80,102 +98,97 @@ const ButtonSettings: React.FC = () => {
     const { actions: { setProp }, props } = useNode(node => ({
         props: node.data.props as ButtonProps
     }));
-    const classes = useStyles();
+    const styles = useStyles();
+    const contentId = useId("content");
+    const [visibleTooltip, setVisibleTooltip] = React.useState<string | null>(null);
+
+    const tooltips: TooltipConfig[] = [
+        { label: "Font Color", content: "Changed the color of the text on the button.", propKey: "fontColor", type: "color" },
+        { label: "Background Color", content: "Changedthe color of the button.", propKey: "backgroundColor", type: "color" },
+        { label: "Font Size", content: "Adjust the size of the text on the button.", propKey: "fontSize", type: "spinButton" },
+        { label: "Border Radius", content: "Adjust how rounded the corners of the button are.", propKey: "borderRadius", type: "spinButton" },
+        { label: "Width", content: "Set how wide the button is.", propKey: "width", type: "spinButton" },
+        { label: "Height", content: "Set how tall the button is.", propKey: "height", type: "spinButton" },
+        { label: "Text", content: "Edit the text that appears in the button.", propKey: "text", type: "text" },
+        { label: "Alignment", content: "Set how you want the button to be aligned.", propKey: "alignment", type: "alignment" },
+    ];
+
+    const handleVisibilityChange = (tooltipKey: string, isVisible: boolean) => {
+        setVisibleTooltip(isVisible ? tooltipKey : null);
+    };
 
     return (
-        <div className={classes.settingsContainer}>
-            <Label>
-                Font Color
-                <input
-                    className={classes.colorInput}
-                    type="color"
-                    defaultValue={props.fontColor}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProp((props: ButtonProps) => props.fontColor = e.target.value)} />
-            </Label>
-            <Label>
-                Background Color
-                <input
-                    className={classes.colorInput}
-                    type="color"
-                    defaultValue={props.backgroundColor}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProp((props: ButtonProps) => props.backgroundColor = e.target.value)} />
-            </Label>
-            <Label>
-                Font Size
-                <SpinButton
-                    className={classes.spinButton}
-                    defaultValue={props.fontSize}
-                    onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
-                        const fontSize = data.value ? data.value : 0;
-                        setProp((props: ButtonProps) => props.fontSize = fontSize, 1000);
-                    }}
-                />
-            </Label>
-            <Label>
-                Border Radius
-                <SpinButton
-                    className={classes.spinButton}
-                    min={0}
-                    defaultValue={props.borderRadius}
-                    onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
-                        const borderRadius = data.value ? data.value : 0;
-                        setProp((props: ButtonProps) => props.borderRadius = borderRadius, 1000);
-                    }}
-                />
-            </Label>
-            <Label>
-                Width
-                <SpinButton
-                    className={classes.spinButton}
-                    min={1}
-                    max={100}
-                    step={5}
-                    defaultValue={props.width}
-                    onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
-                        const width = data.value ? data.value : 0;
-                        setProp((props: ButtonProps) => props.width = width, 1000);
-                    }}
-                />
-            </Label>
-            <Label>
-                Height
-                <SpinButton
-                    className={classes.spinButton}
-                    min={1}
-                    max={100}
-                    step={5}
-                    defaultValue={props.height}
-                    onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
-                        const height = data.value ? data.value : 0;
-                        setProp((props: ButtonProps) => props.height = height, 1000);
-                    }}
-                />
-            </Label>
-            <Label>
-                Text
-                <Input
-                    className={classes.textInput}
-                    type="text"
-                    defaultValue={props.text}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        setProp((props: ButtonProps) => (props.text = e.target.value), 1000);
-                    }}
-                />
-            </Label>
-            <Label>
-                Alignment
-                <RadioGroup
-                    defaultValue={props.alignment}
-                    layout="horizontal-stacked"
-                    onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
-                        setProp((props: ButtonProps) => (props.alignment = data.value as 'left' | 'center' | 'right'), 1000);
-                    }}
-                >
-                    <Radio key="left" label="Left" value="left" />
-                    <Radio key="center" label="Center" value="center" />
-                    <Radio key="right" label="Right" value="right" />
-                </RadioGroup>
-            </Label>
+        <div className={styles.settingsContainer}>
+            {tooltips.map((tooltip, index) => (
+                <div key={index}>
+                    <div aria-owns={visibleTooltip === tooltip.propKey ? contentId : undefined} className={styles.label}>
+                        <Label>
+                            {tooltip.label}
+                        </Label>
+                        <Tooltip
+                            content={{
+                                children: tooltip.content,
+                                id: contentId,
+                            }}
+                            positioning="above-start"
+                            withArrow
+                            relationship="label"
+                            onVisibleChange={(e, data) => handleVisibilityChange(tooltip.propKey, data.visible)}
+                        >
+                            <Info16Regular
+                                tabIndex={0}
+                                className={mergeClasses(visibleTooltip === tooltip.propKey && styles.visible)}
+                            />
+                        </Tooltip>
+                    </div>
+                    {tooltip.type === "color" ? (
+                        <input
+                            className={styles.colorInput}
+                            type="color"
+                            defaultValue={props[tooltip.propKey] as string}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProp((props: ButtonProps) => {
+                                (props[tooltip.propKey] as string) = e.target.value;
+                            })}
+                        />
+                    ) : tooltip.type === "spinButton" ? (
+                        <SpinButton
+                            className={styles.spinButton}
+                            defaultValue={props[tooltip.propKey] as number}
+                            onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
+                                const value = data.value ? data.value : 0;
+                                setProp((props: ButtonProps) => {
+                                    (props[tooltip.propKey] as number) = value;
+                                }, 1000);
+                            }}
+                        />
+                    ) : tooltip.type === "text" ? (
+                        <Input
+                            className={styles.textInput}
+                            type="text"
+                            defaultValue={props[tooltip.propKey] as string}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                setProp((props: ButtonProps) => {
+                                    (props[tooltip.propKey] as string) = e.target.value;
+                                }, 1000);
+                            }}
+                        />
+                    ) : tooltip.type === "alignment" && (
+                        <RadioGroup
+                            defaultValue={props[tooltip.propKey] as string}
+                            layout="horizontal-stacked"
+                            onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
+                                setProp((props: ButtonProps) => {
+                                    (props[tooltip.propKey] as 'left' | 'center' | 'right') = data.value as 'left' | 'center' | 'right';
+                                }, 1000);
+                            }}
+                        >
+                            <Radio key="left" label="Left" value="left" />
+                            <Radio key="center" label="Center" value="center" />
+                            <Radio key="right" label="Right" value="right" />
+                        </RadioGroup>
+                    )}
+                </div>
+            ))}
         </div>
     );
 };
@@ -186,8 +199,8 @@ export const ButtonDefaultProps: ButtonProps = {
     fontSize: 20,
     borderRadius: 4,
     text: "New Button",
-    width: 50,
-    height: 100,
+    width: 150,
+    height: 50,
     alignment: "left"
 };
 
