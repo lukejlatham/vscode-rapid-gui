@@ -69,7 +69,7 @@ const useStyles = makeStyles({
     transition: 'background-color 0.3s', // Added transition for smooth hover effect
   },
   addButtonHover: {
-    backgroundColor: '#218838', // Darker green for hover effect
+    backgroundColor: '#218838', 
   },
   lockedButton: {
     display: 'flex',
@@ -238,7 +238,7 @@ export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgr
           {items.map((item) => (
             <div key={item.i} data-grid={item} className={classes.gridCell}>
               <Element id={item.i} is={GridCell} />
-             {!lockedGrid && (
+             {lockedGrid && (
         <button
           className={classes.removeButton}
           onClick={(e) => {
