@@ -88,14 +88,17 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose }) =
         setLoading(false);
         setCurrentStage(PROCESSING_STAGES.length);
 
-        console.log('Received UI JSON:', message.description);
+        console.log('Received UI JSON:', message.content);
+        console.log('Navigating to editing interface...');
+        console.log('RECEIVED UI DESCRIPTION:', message.content);
 
         navigate('/editing-interface');
 
         setTimeout(() => {
-          window.postMessage({ command: 'loadTree', data: message.description }, '*');
-          console.log('Posted node tree message');
-        }, 1000);
+          window.postMessage({ command: 'loadTree', data: message.content });
+          console.log('Posted node tree message:', message.content);
+
+        }, 500);
       }
     };
 

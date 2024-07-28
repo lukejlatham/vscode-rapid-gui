@@ -31,9 +31,9 @@ async function processSketch(
 
     const stringifiedNodes = JSON.stringify(fullNodes, null, 2);
 
-    console.log("processText in generateLayout.ts - Full Nodes:", stringifiedNodes);
+    console.log("processSketch in generateLayout.ts - Full Nodes:", stringifiedNodes);
 
-    return layout;
+    return stringifiedNodes;
   } catch (error) {
     console.error("Error processing sketch:", error);
     throw error;
@@ -71,7 +71,7 @@ async function processTextDescription(
 
     console.log("processText in generateLayout.ts - Built Layout Nodes:", stringifiedNodes);
 
-    return layout;
+    return stringifiedNodes;
   } catch (error) {
     console.error("Error processing text description:", error);
     webview.postMessage({ command: "processingStage", stage: "Error occurred during processing" });
