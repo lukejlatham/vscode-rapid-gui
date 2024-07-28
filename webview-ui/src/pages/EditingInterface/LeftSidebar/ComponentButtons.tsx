@@ -8,6 +8,7 @@ import { Image, ImageDefaultProps } from '../../../components/user/Image';
 import { UserInput, InputDefaultProps } from '../../../components/user/Input';
 import { RadioButton, RadioButtonDefaultProps } from '../../../components/user/RadioButton';
 import { Checkbox, CheckboxDefaultProps } from '../../../components/user/Checkbox';
+import { Icon, IconDefaultProps } from '../../../components/user/Icon';
 import {
     Image24Regular,
     TextboxRegular,
@@ -21,7 +22,8 @@ import {
     Password24Filled,
     RadioButtonFilled,
     CheckboxCheckedFilled,
-    CheckboxCheckedRegular
+    CheckboxCheckedRegular,
+    EmojiRegular
 } from '@fluentui/react-icons';
 
 const ButtonIcon = bundleIcon(Button20Filled, Button20Regular);
@@ -71,6 +73,11 @@ const ComponentButtons: React.FC<{ classes: any }> = ({ classes }) => {
                     connectors.create(ref, <Checkbox {...CheckboxDefaultProps} />);
                 }
             }}>Checkbox</Button>
+            <Button icon={<EmojiRegular />} size='large' appearance='outline' ref={ref => {
+                if (ref !== null) {
+                    connectors.create(ref, <Icon {...IconDefaultProps} />);
+                }
+            }}>Icon</Button>
             <Divider className={classes.divider}> Layout </Divider>
         </>
     );
