@@ -1,9 +1,9 @@
-import {  useNode, UserComponent } from "@craftjs/core";
-import { ReactNode } from "react";
+import React from 'react';
+import { useNode, UserComponent } from "@craftjs/core";
 import { makeStyles } from "@fluentui/react-components";
 
 interface ContainerProps {
-  children?: ReactNode;
+  children?: React.ReactNode;
 }
 
 const useStyles = makeStyles({
@@ -24,7 +24,7 @@ const useStyles = makeStyles({
   propsDisplay: {
     position: "absolute",
     bottom: "5px",
-    left: "5px",
+    right: "5px",
     backgroundColor: "rgba(255, 255, 255, 0.7)",
     padding: "2px 5px",
     fontSize: "12px",
@@ -33,10 +33,10 @@ const useStyles = makeStyles({
 });
 
 export const GridCellContents: UserComponent<ContainerProps> = ({ children }) => {
-    const  { connectors: { connect, drag }  } = useNode();
-    const classes = useStyles();
+  const { connectors: { connect, drag } } = useNode();
+  const classes = useStyles();
+
   return (
-    
     <div ref={(ref) => ref && connect(drag(ref))} className={classes.container}>
       {children ? (
         children
@@ -45,8 +45,7 @@ export const GridCellContents: UserComponent<ContainerProps> = ({ children }) =>
           {/* Optional empty state content */}
         </div>
       )}
-      <div className={classes.propsDisplay}>
-      </div>
+
     </div>
   );
 };
@@ -54,8 +53,9 @@ export const GridCellContents: UserComponent<ContainerProps> = ({ children }) =>
 GridCellContents.craft = {
   displayName: "GridCellContents",
   props: {
-    children: []
-  },
-  related: {
+    children: [],
+
   },
 };
+
+export default GridCellContents;

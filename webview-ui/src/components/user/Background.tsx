@@ -1,227 +1,186 @@
-import React, {FC, useEffect, useMemo, useRef, useState} from 'react';
+import React, { FC, useEffect, useMemo, useState, useRef } from 'react';
 import { Card, makeStyles, Input, Label } from '@fluentui/react-components';
-import { useNode, UserComponent } from "@craftjs/core";
-import { GridCell } from './GridCell';
 import Responsive, { Layout, WidthProvider } from 'react-grid-layout';
+import { GridCell } from './GridCell';
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 
-interface BackgroundProps {
-    backgroundColor: string;
-    rows: number;
-    columns: number;
-}
-
 const useStyles = makeStyles({
-    background: {
-        width: '100%',
-        height: '100%',
-        position: 'relative',
-        overflow: 'auto',
-    },
-    gridCell: {
-        border: '1px dashed #666666',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        overflow: 'hidden',
-        position: 'relative',
-        // '&:hover $removeButton': {
-        //     display: 'block',
-        // },
-    },
-    settingsContainer: {
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '5px',
-        padding: '5px',
-    },
-    colorInput: {
-        width: "100%",
-        borderRadius: "4px",
-        height: "35px",
-    },
-    removeButton: {
-            position: 'absolute',
-            top: '10px',
-            right: '10px', // Adjust this value to move it slightly to the left
-            cursor: 'pointer',
-            color: 'white',
-            border: 'none',
-            padding: '2px 6px',
-            fontSize: '16px',
-            lineHeight: '16px',
-            borderRadius: '8px', // Add this for the curved corners
-            backgroundColor: 'red', // Optional: Add a background color for better visibility
-        },
-    });
+  background: {
+    width: '100%',
+    height: '100%',
+    position: 'relative',
+    overflow: 'auto',
+  },
+  gridCell: {
+    border: '1px dashed #666666',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
+    position: 'relative',
+  },
+  removeButton: {
+    position: 'absolute',
+    top: '10px',
+    right: '10px',
+    cursor: 'pointer',
+    color: 'white',
+    border: 'none',
+    padding: '2px 6px',
+    fontSize: '16px',
+    lineHeight: '16px',
+    borderRadius: '8px',
+    backgroundColor: 'red',
+  },
+  settingsContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px',
+    padding: '5px',
+    marginBottom: '10px', // Added margin to separate settings from the grid
+  },
+  colorInput: {
+    width: "100%",
+    borderRadius: "4px",
+    height: "35px",
+  },
+  addButton: {
+    padding: '10px',
+    borderRadius: '5px',
+    backgroundColor: '#4CAF50',
+    color: 'white',
+    border: 'none',
+    cursor: 'pointer',
+    marginTop: '10px', // Added margin to separate the button from the inputs
+  }
+});
 
-const ReactiveGridLayout = WidthProvider(Responsive);
-
-export const Background: UserComponent<BackgroundProps> = ({ backgroundColor, rows, columns }) => {
-    const { connectors: { connect, drag } } = useNode();
-    const classes = useStyles();
-    const backgroundRef = useRef<HTMLDivElement | null>(null);
-    const [items, setItems] = useState<Layout[]>([]);
-    const [containerHeight, setContainerHeight] = useState(0);
-
-    useEffect(() => {
-        const updateContainerHeight = () => {
-            if (backgroundRef.current) {
-                setContainerHeight(backgroundRef.current.clientHeight);
-            }
-        };
-        window.addEventListener('resize', updateContainerHeight);
-        updateContainerHeight();
-
-        return () => window.removeEventListener('resize', updateContainerHeight);
-    }, []);
-
-    useEffect(() => {
-        setItems(Array.from({ length: rows * columns }, (_, i) => ({
-            i: i.toString(),
-            x: i % columns,
-            y: Math.floor(i / columns),
-            w: 1,
-            h: 1,
-            maxH: columns,
-            maxW: rows,
-        })));
-    }, [rows, columns]);
-
-// make sure to try to add it to craft js the properties of each of the grids, how would it work?
-
-    const onRemoveItem = (i: string) => {
-        setItems(prevItems => prevItems.filter((item) => item.i !== i));
-    };
-
-    const onLayoutChange = (layout: Layout[]) => {
-        setItems(layout.map((l) => ({
-            i: l.i,
-            x: l.x,
-            y: l.y,
-            w: l.w,
-            h: l.h,
-            maxH: columns,
-            maxW: rows,
-        })));
-    };
-
-    // Remove the unused calculateWidth function
-
-    const createElement = (el: Layout) => {
-        return (
-            <div key={el.i} data-grid={el} className={classes.gridCell}>
-                <GridCell id={el.i} x={el.x} y={el.y} w={el.w} h={el.h} />
-                <span>
-                    <button className={classes.removeButton}
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            onRemoveItem(el.i);
-                        }}
-                    >
-                        Remove
-                    </button>
-                </span>
-            </div>
-        );
-    };
-
-    const memoizedItems = useMemo(() => items.map(el => createElement(el)), [items]);
-
-    const rowHeight = containerHeight / rows;
-
-    return (
-        <Card
-            appearance='filled'
-            ref={(ref: HTMLDivElement | null) => {
-                if (ref) {
-                    connect(drag(ref));
-                    backgroundRef.current = ref;
-                }
-            }}
-            className={classes.background}
-            style={{ backgroundColor }}
-        >
-            <ReactiveGridLayout
-                className="layout"
-                layout={items}
-                cols={columns}
-                rowHeight={rowHeight}
-                maxRows={rows}
-                isResizable={true}
-                isDraggable={true}
-                compactType={'horizontal'}
-                preventCollision={false}
-                onLayoutChange={onLayoutChange}
-                resizeHandles={['se', 'sw', 'ne', 'nw']}
-            >
-                {memoizedItems}
-            </ReactiveGridLayout>
-        </Card>
-    );
+interface BackgroundProps {
+  backgroundColor: string;
+  layout: Layout[];
+  rows: number;
+  columns: number;
 }
 
+export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgroundColor, layout: initialLayout, rows: initialRows, columns: initialColumns }) => {
+  const ResponsiveGridLayout = useMemo(() => WidthProvider(Responsive), []);
+  const backgroundRef = useRef<HTMLDivElement>(null);
+  const classes = useStyles();
+  const [items, setItems] = useState<Layout[]>(initialLayout);
+  const [backgroundColor, setBackgroundColor] = useState(initialBackgroundColor);
+  const [rows, setRows] = useState(initialRows);
+  const [columns, setColumns] = useState(initialColumns);
+  const [containerHeight, setContainerHeight] = useState(0);
 
-const BackgroundSettings: FC = () => {
-    const { actions: { setProp }, props } = useNode(node => ({
-        props: node.data.props as BackgroundProps
-    }));
+  useEffect(() => {
+    const updateContainerHeight = () => {
+      if (backgroundRef.current) {
+        setContainerHeight(backgroundRef.current.clientHeight);
+      }
+    };
+    window.addEventListener('resize', updateContainerHeight);
+    updateContainerHeight();
 
-    const classes = useStyles();
+    return () => window.removeEventListener('resize', updateContainerHeight);
+  }, []);
 
-    return (
-        <div className={classes.settingsContainer}>
-            <Label>
-                Background Color
-                <input
-                    className={classes.colorInput}
-                    type="color"
-                    defaultValue={props.backgroundColor}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProp((props: BackgroundProps) => props.backgroundColor = e.target.value)} />
-            </Label>
-            <Label>
-                Number of Columns
-                <Input
+  const addItem = () => {
+    const newItem = {
+      i: (items.length > 0 ? (parseInt(items[items.length - 1].i) + 1).toString() : '0'),
+      x: 0,
+      y: 0,
+      w: 1,
+      h: 1,
+    };
+    setItems([...items, newItem]);
+  };
 
-                    type="number"
-                    defaultValue={props.columns?.toString()}
-                    step={1}
-                    min={1}
-                    max={10}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        setProp((props: BackgroundProps) => props.columns = parseInt(e.target.value, 10));
-                    }}
-                />
-            </Label>
-            <Label>
-                Number of Rows
-                <Input
-                    type="number"
-                    defaultValue={props.rows?.toString()}
-                    step={1}
-                    min={1}
-                    max={10}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        setProp((props: BackgroundProps) => props.rows = parseInt(e.target.value, 10));
-                    }}
-                />
-            </Label>
-        </div>
-    );
+  const onRemoveItem = (i: string) => {
+    setItems((prevItems) => prevItems.filter((item) => item.i !== i));
+  };
+
+  const onLayoutChange = (layout: Layout[]) => {
+    setItems(layout);
+  };
+
+  const rowHeight = containerHeight / rows;
+
+  return (
+    <>
+      <div className={classes.settingsContainer}>
+        <Label>
+          Background Color
+          <input
+            className={classes.colorInput}
+            type="color"
+            value={backgroundColor}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBackgroundColor(e.target.value)} />
+        </Label>
+        <Label>
+          Rows
+          <Input
+            type="number"
+            value={rows.toString()}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRows(parseInt(e.target.value, 10))}
+          />
+        </Label>
+        <Label>
+          Columns
+          <Input
+            type="number"
+            value={columns.toString()}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setColumns(parseInt(e.target.value, 10))}
+          />
+        </Label>
+        <button onClick={addItem} className={classes.addButton}>
+          Add Item
+        </button>
+      </div>
+      <Card
+        appearance='filled'
+        ref={backgroundRef}
+        className={classes.background}
+        style={{ backgroundColor }}
+      >
+        <ResponsiveGridLayout
+          className="layout"
+          layout={items}
+          cols={columns}
+          rowHeight={rowHeight}
+          maxRows={rows}
+          isResizable={true}
+          isDraggable={true}
+          preventCollision={false}
+          compactType={null}
+          onLayoutChange={onLayoutChange}
+          resizeHandles={['se', 'sw', 'ne', 'nw']}
+        >
+          {items.map((item) => (
+            <div key={item.i} data-grid={item} className={classes.gridCell}>
+              <GridCell />
+              <button
+                className={classes.removeButton}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onRemoveItem(item.i);
+                }}
+              >
+                X
+              </button>
+            </div>
+          ))}
+        </ResponsiveGridLayout>
+      </Card>
+    </>
+  );
 };
-
 
 export const BackgroundDefaultProps: BackgroundProps = {
-    backgroundColor: '#292929',
-    rows: 3,
-    columns: 3,
-}
-
-Background.craft = {
-    displayName: "Background",
-    props: BackgroundDefaultProps,
-    related: {
-        settings: BackgroundSettings
-    }
+  backgroundColor: '#292929',
+  layout: [{ i: '0', x: 0, y: 0, w: 1, h: 1 }],
+  rows: 3,
+  columns: 3,
 };
+
+export default Background;
