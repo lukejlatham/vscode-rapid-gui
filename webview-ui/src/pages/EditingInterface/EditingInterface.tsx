@@ -14,6 +14,7 @@ import Canvas from './Canvas';
 import LeftSidebar from './LeftSidebar/LeftSidebar';
 import { GridCell } from "../../components/user/GridCell";
 import { GridCellContents } from "../../components/user/GridCellContents";
+import { EditBackgroundButton } from "../../components/EditBackgroundButton";
 
 const useStyles = makeStyles({
     mainLayout: {
@@ -48,7 +49,7 @@ const EditingInterface: React.FC = () => {
     const classes = useStyles();
 
     return (
-        <Editor resolver={{ Background, Label, Button, TextBox, Image, UserInput, RadioButton, Checkbox, GridCell, GridCellContents, Icon }}>
+        <Editor resolver={{ Background, Label, Button, TextBox, Image, UserInput, RadioButton, Checkbox, GridCell, GridCellContents, Icon, EditBackgroundButton }}>
             <div className={classes.mainLayout}>
                 <div className={classes.leftSidebar}>
                     <LeftSidebar classes={classes} />

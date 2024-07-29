@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useEditor } from "@craftjs/core";
 import { Subtitle2, Divider, Button, Tooltip, makeStyles, shorthands } from "@fluentui/react-components";
 import { Delete24Regular, PaintBrush24Regular, PaintBrushArrowDown24Regular, Dismiss20Regular } from "@fluentui/react-icons";
+import { BackgroundSettings } from "../../../components/EditBackgroundButton";
+
 
 const useStyles = makeStyles({
   propertyInspector: {
@@ -37,11 +39,9 @@ export const PropertyInspector: React.FC = () => {
     const selectedArray = Array.from(state.events.selected);
     const [currentNodeId] = selectedArray;
 
-
-
     if (currentNodeId) {
       const node = state.nodes[currentNodeId];
-      console.log(node);
+      // console.log(node);
       return {
         selected: {
           id: currentNodeId,
@@ -53,7 +53,21 @@ export const PropertyInspector: React.FC = () => {
         },
         isEnabled: state.options.enabled,
       };
-    }
+    }     
+  //   else if (currentNodeId === 'ROOT') {
+  //     const node = state.nodes[currentNodeId];
+  //     console.log(node);
+  //     return {
+  //       selected: {
+  //         id: currentNodeId,
+  //         name: node.data.name,
+  //         settings: BackgroundSettings,
+  //         props: node.data.props,
+  //         displayName: node.data.displayName,
+  //         isDeletable: query.node(currentNodeId).isDeletable(),
+  //       },
+  //   }
+  // }
 
 
     return { selected: null, isEnabled: false };
