@@ -23,7 +23,7 @@ export interface ButtonProps {
     text: string;
     alignment: "left" | "center" | "right";
     displayName?: string;
-    icon?: keyof typeof VsIcons;
+    icon?: keyof typeof VscIcons;
     iconPosition?: "left" | "right";
     iconColor?: string;
     bordercolor?: string;
@@ -85,7 +85,7 @@ export interface LabelProps {
     width: number;
     height: number;
     textAlign: 'left' | 'center' | 'right' | 'justify';
-    icon?: keyof typeof VsIcons;
+    icon?: keyof typeof VscIcons;
     iconPosition?: 'left' | 'right';
     iconColor?: string;
     hyperlink?: string;
@@ -139,7 +139,7 @@ export interface IconProps {
     hyperlink?: string;
 }
 
-export type InputTooltipConfig = {
+export type TooltipConfigIcon = {
     label: string;
     content: string;
     propKey: keyof IconProps;

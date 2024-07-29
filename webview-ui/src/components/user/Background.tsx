@@ -7,7 +7,6 @@ import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import { useNode } from '@craftjs/core';
 import { EditBackgroundButton } from '../EditBackgroundButton';
-import { max } from 'lodash';
 import { BackgroundProps } from '../../../../types';
 
 const useStyles = makeStyles({

@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { useNode, UserComponent, Element } from "@craftjs/core";
+import React from 'react';
+import { UserComponent, Element } from "@craftjs/core";
 import { GridCellContents } from "./GridCellContents";
 import {ContainerProps} from '../../../../types';
 
