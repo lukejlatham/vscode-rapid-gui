@@ -11,10 +11,11 @@ import {
     DialogActions,
     makeStyles,
     tokens,
-    mergeClasses
+    mergeClasses,
+    SearchBox,
 } from '@fluentui/react-components';
 import { EmojiEditRegular } from '@fluentui/react-icons';
-import * as VsIcons from "react-icons/vsc"; // Import all icons from Material Design
+import * as VscIcons from "react-icons/vsc"; // Import all icons from Material Design
 
 const useStyles = makeStyles({
     settingsContainer: {
@@ -44,32 +45,26 @@ const useStyles = makeStyles({
         '&:hover': {
             backgroundColor: tokens.colorNeutralBackground1Hover,
         },
-        // '&:active': {
-        //     backgroundColor: tokens.colorNeutralBackground1Pressed,
-        // },
     },
     selectedIconButton: {
         backgroundColor: tokens.colorBrandBackground,
         color: tokens.colorNeutralForegroundOnBrand,
     },
     dialogButton: {
-        // width: '100%',
         marginTop: '10px',
         height: '100%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        // border: `1px solid ${tokens.colorNeutralStroke1}`,
-        // borderRadius: tokens.borderRadiusMedium,
-        // cursor: 'pointer',
-        // '&:hover': {
-        //     backgroundColor: tokens.colorNeutralBackground1Hover,
-        // },
     },
+    searchbox: {
+        width: '100%',
+        marginBottom: '10px',
+    }
 });
 
 interface IconProps {
-    selectedIcon: keyof typeof VsIcons;
+    selectedIcon: keyof typeof VscIcons;
 }
 
 export const Icon: UserComponent<IconProps> = ({ selectedIcon }) => {
@@ -78,8 +73,8 @@ export const Icon: UserComponent<IconProps> = ({ selectedIcon }) => {
         dragged: state.events.dragged,
     }));
 
-    // Fetch the icon component from VsIcons, defaulting to null if not found
-    const IconComponent = VsIcons[selectedIcon] as React.ComponentType<any> | undefined;
+    // Fetch the icon component from VscIcons, defaulting to null if not found
+    const IconComponent = VscIcons[selectedIcon] as React.ComponentType<any> | undefined;
 
     if (!IconComponent) {
         console.warn(`Icon component for ${String(selectedIcon)} is not a valid React component.`);
@@ -104,9 +99,10 @@ const IconSettings: React.FC = () => {
     const styles = useStyles();
 
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedIcon, setSelectedIcon] = useState<keyof typeof VsIcons>(props.selectedIcon);
+    const [selectedIcon, setSelectedIcon] = useState<keyof typeof VscIcons>(props.selectedIcon);
+    const [searchQuery, setSearchQuery] = useState("");
 
-    const handleIconClick = (icon: keyof typeof VsIcons) => {
+    const handleIconClick = (icon: keyof typeof VscIcons) => {
         setSelectedIcon(icon);
     };
 
@@ -115,7 +111,18 @@ const IconSettings: React.FC = () => {
             props.selectedIcon = selectedIcon;
         });
         setIsOpen(false);
+        console.log(searchQuery);
+        setSearchQuery("");
+        console.log(searchQuery);
     };
+
+    const handleSearchChange = (event: any, data: any) => {
+        setSearchQuery(data.value || "");
+    };
+
+    const filteredIcons = Object.keys(VscIcons).filter(icon =>
+        icon.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
     return (
         <div className={styles.settingsContainer}>
@@ -130,17 +137,22 @@ const IconSettings: React.FC = () => {
                     <DialogBody>
                         <DialogTitle>Select an Icon</DialogTitle>
                         <DialogContent>
+                        <SearchBox
+                                className={styles.searchbox}
+                                size='large'
+                                placeholder="Search icons..."
+                                onChange={handleSearchChange}
+                            />
                             <div className={styles.iconGrid}>
-                                {Object.keys(VsIcons).map((icon) => {
-                                    const IconComponent = VsIcons[icon as keyof typeof VsIcons];
-
+                                {filteredIcons.map((icon) => {
+                                    const IconComponent = VscIcons[icon as keyof typeof VscIcons];
                                     if (IconComponent && typeof IconComponent === 'function') {
                                         return (
                                             <Button
                                                 size='large'
                                                 key={icon}
                                                 className={mergeClasses(styles.iconButton, selectedIcon === icon ? styles.selectedIconButton : '')}
-                                                onClick={() => handleIconClick(icon as keyof typeof VsIcons)}
+                                                onClick={() => handleIconClick(icon as keyof typeof VscIcons)}
                                             >
                                                 <IconComponent />
                                                 {icon.split('Vsc').join('')}
