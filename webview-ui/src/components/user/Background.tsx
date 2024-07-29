@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useMemo, useState, useRef } from 'react';
-import { Card, makeStyles, Input, Label } from '@fluentui/react-components';
+import { Card, makeStyles, Input, Label, Button } from '@fluentui/react-components';
 import Responsive, { Layout, WidthProvider } from 'react-grid-layout';
 import { Element } from '@craftjs/core';
 import { GridCell } from './GridCell';
@@ -211,12 +211,12 @@ export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgr
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleColumnsChange(parseInt(e.target.value, 10))}
           />
         </Label>
-        <button onClick={addItem} className={classes.addButton}>
+        <Button size='small' onClick={addItem} className={classes.addButton}>
           Add Item
-        </button>
-        <button onClick={handleLockedGrid} className={classes.lockedButton}>
+        </Button>
+        <Button size='small' onClick={handleLockedGrid} className={classes.lockedButton}>
           {lockedGrid ? 'Unlock Grid' : 'Lock Grid'}
-        </button>
+        </Button>
       </div>
       <Card
         appearance='filled'
