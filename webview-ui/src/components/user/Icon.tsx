@@ -14,7 +14,7 @@ import {
     mergeClasses
 } from '@fluentui/react-components';
 import { EmojiEditRegular } from '@fluentui/react-icons';
-import * as FaIcons from "react-icons/fa"; // Import all icons from Material Design
+import * as VsIcons from "react-icons/vsc"; // Import all icons from Material Design
 
 const useStyles = makeStyles({
     settingsContainer: {
@@ -69,7 +69,7 @@ const useStyles = makeStyles({
 });
 
 interface IconProps {
-    selectedIcon: keyof typeof FaIcons;
+    selectedIcon: keyof typeof VsIcons;
 }
 
 export const Icon: UserComponent<IconProps> = ({ selectedIcon }) => {
@@ -78,8 +78,8 @@ export const Icon: UserComponent<IconProps> = ({ selectedIcon }) => {
         dragged: state.events.dragged,
     }));
 
-    // Fetch the icon component from FaIcons, defaulting to null if not found
-    const IconComponent = FaIcons[selectedIcon] as React.ComponentType<any> | undefined;
+    // Fetch the icon component from VsIcons, defaulting to null if not found
+    const IconComponent = VsIcons[selectedIcon] as React.ComponentType<any> | undefined;
 
     if (!IconComponent) {
         console.warn(`Icon component for ${String(selectedIcon)} is not a valid React component.`);
@@ -104,9 +104,9 @@ const IconSettings: React.FC = () => {
     const styles = useStyles();
 
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedIcon, setSelectedIcon] = useState<keyof typeof FaIcons>(props.selectedIcon);
+    const [selectedIcon, setSelectedIcon] = useState<keyof typeof VsIcons>(props.selectedIcon);
 
-    const handleIconClick = (icon: keyof typeof FaIcons) => {
+    const handleIconClick = (icon: keyof typeof VsIcons) => {
         setSelectedIcon(icon);
     };
 
@@ -131,8 +131,8 @@ const IconSettings: React.FC = () => {
                         <DialogTitle>Select an Icon</DialogTitle>
                         <DialogContent>
                             <div className={styles.iconGrid}>
-                                {Object.keys(FaIcons).map((icon) => {
-                                    const IconComponent = FaIcons[icon as keyof typeof FaIcons];
+                                {Object.keys(VsIcons).map((icon) => {
+                                    const IconComponent = VsIcons[icon as keyof typeof VsIcons];
 
                                     if (IconComponent && typeof IconComponent === 'function') {
                                         return (
@@ -140,9 +140,10 @@ const IconSettings: React.FC = () => {
                                                 size='large'
                                                 key={icon}
                                                 className={mergeClasses(styles.iconButton, selectedIcon === icon ? styles.selectedIconButton : '')}
-                                                onClick={() => handleIconClick(icon as keyof typeof FaIcons)}
+                                                onClick={() => handleIconClick(icon as keyof typeof VsIcons)}
                                             >
                                                 <IconComponent />
+                                                {icon.split('Vsc').join('')}
                                             </Button>
                                         );
                                     }
@@ -165,7 +166,7 @@ const IconSettings: React.FC = () => {
 }
 
 export const IconDefaultProps: IconProps = {
-    selectedIcon: "FaHome", // Replace with a default Material Design icon name
+    selectedIcon: "VscHome", // Replace with a default Material Design icon name
 };
 
 Icon.craft = {

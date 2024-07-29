@@ -41,7 +41,6 @@ export const EditBackgroundButton: UserComponent<EditBackgroundButtonProps> = ({
 
     const value = query.node(nodeId).get().data.props.backgroundColor;
 
-
     return (
         <Button
             ref={(ref: HTMLButtonElement | null) => {
@@ -57,7 +56,6 @@ export const EditBackgroundButton: UserComponent<EditBackgroundButtonProps> = ({
 
 export const BackgroundSettings: React.FC = () => {
     const { query, actions: { setProp } } = useEditor();
-
     const props = query.node("ROOT").get().data.props as BackgroundProps;
 
     const nodeID = query.node('ROOT').get().id;
@@ -78,9 +76,6 @@ export const BackgroundSettings: React.FC = () => {
             <SpinButton
                 className={styles.spinButton}
                 defaultValue={props.rows}
-                min={1}
-                max={100}
-                step={1}
                 onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
                     const value = data.value ? data.value : 0;
                     setProp(nodeID, (props: BackgroundProps) => {
