@@ -8,11 +8,13 @@ import { Background } from '../../components/user/Background';
 import { UserInput } from "../../components/user/Input";
 import { RadioButton } from "../../components/user/RadioButton";
 import { Checkbox } from "../../components/user/Checkbox";
+import { Icon } from "../../components/user/Icon";
 import RightSidebar from './RightSidebar/RightSidebar';
 import Canvas from './Canvas';
 import LeftSidebar from './LeftSidebar/LeftSidebar';
 import { GridCell } from "../../components/user/GridCell";
 import { GridCellContents } from "../../components/user/GridCellContents";
+import { EditBackgroundButton } from "../../components/EditBackgroundButton";
 
 const useStyles = makeStyles({
     mainLayout: {
@@ -47,7 +49,7 @@ const EditingInterface: React.FC = () => {
     const classes = useStyles();
 
     return (
-        <Editor resolver={{ Background, Label, Button, TextBox, Image, UserInput, RadioButton, Checkbox, GridCell, GridCellContents }}>
+        <Editor resolver={{ Background, Label, Button, TextBox, Image, UserInput, RadioButton, Checkbox, GridCell, GridCellContents, Icon, EditBackgroundButton }}>
             <div className={classes.mainLayout}>
                 <div className={classes.leftSidebar}>
                     <LeftSidebar classes={classes} />

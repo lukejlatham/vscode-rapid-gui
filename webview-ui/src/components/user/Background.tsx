@@ -6,6 +6,7 @@ import { GridCell } from './GridCell';
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import { useNode } from '@craftjs/core';
+import { EditBackgroundButton } from '../EditBackgroundButton';
 import { max } from 'lodash';
 
 const useStyles = makeStyles({
@@ -93,7 +94,7 @@ const useStyles = makeStyles({
   },
 });
 
-interface BackgroundProps {
+export interface BackgroundProps {
   backgroundColor: string;
   layout: Layout[];
   rows: number;
@@ -185,6 +186,7 @@ export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgr
   return (
     <>
       <div className={classes.settingsContainer}>
+        <EditBackgroundButton nodeId="ROOT"/>
         <Label>
           <input
             className={classes.colorInput}
@@ -264,5 +266,6 @@ export const BackgroundDefaultProps: BackgroundProps = {
   rows: 3,
   columns: 3,
 };
+
 
 export default Background;
