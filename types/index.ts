@@ -45,3 +45,52 @@ export type TooltipConfigCheckbox = {
     propKey: keyof CheckboxProps;
     type: 'color' | 'spinButton' | 'text' | 'options' | 'direction';
 };
+
+export interface ContainerProps {
+    children?: React.ReactNode;
+  }
+
+export interface InputProps {
+    fontSize: number;
+    fontColor: string;
+    backgroundColor: string;
+    placeholder: string;
+    borderRadius: number;
+}
+
+export type TooltipConfigInput = {
+    label: string;
+    content: string;
+    propKey: keyof InputProps;
+    type: 'color' | 'spinButton' | 'text' | 'alignment';
+};
+
+export interface LabelProps {
+    text: string;
+    fontSize: number;
+    color: string;
+    userEditable?: boolean;
+    width: number;
+    height: number;
+    textAlign: 'left' | 'center' | 'right' | 'justify';
+  }
+  
+export interface ContentEditableEvent {
+    target: { value: string };
+  }
+
+export interface RadioButtonProps {
+    label: string;
+    numberOfButtons: number;
+    optionLabels: string[];
+    fontSize: number;
+    fontColor: string;
+    direction: "row" | "column";
+}
+
+export type TooltipConfigRadio = {
+    label: string;
+    content: string;
+    propKey: keyof RadioButtonProps;
+    type: 'color' | 'spinButton' | 'text' | 'options' | 'direction';
+};

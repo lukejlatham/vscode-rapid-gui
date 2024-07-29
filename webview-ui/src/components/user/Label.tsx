@@ -3,20 +3,7 @@ import { useNode, UserComponent } from "@craftjs/core";
 import ContentEditable from "react-contenteditable";
 import { Label as FLabel, Input, RadioGroup, Radio, makeStyles, Tooltip, useId, mergeClasses, tokens } from "@fluentui/react-components";
 import { Info16Regular } from "@fluentui/react-icons";
-
-interface LabelProps {
-  text: string;
-  fontSize: number;
-  color: string;
-  userEditable?: boolean;
-  width: number;
-  height: number;
-  textAlign: 'left' | 'center' | 'right' | 'justify';
-}
-
-interface ContentEditableEvent {
-  target: { value: string };
-}
+import { LabelProps, ContentEditableEvent } from "../../../../types";
 
 const useStyles = makeStyles({
   labelContainer: {

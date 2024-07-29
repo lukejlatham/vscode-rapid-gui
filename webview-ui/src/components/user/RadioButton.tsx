@@ -2,22 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useNode, UserComponent } from '@craftjs/core';
 import { Label, Input, SpinButton, Tooltip, useId, mergeClasses, SpinButtonChangeEvent, SpinButtonOnChangeData, makeStyles, tokens, RadioGroup, Radio } from '@fluentui/react-components';
 import { Info16Regular } from "@fluentui/react-icons";
-
-interface RadioButtonProps {
-    label: string;
-    numberOfButtons: number;
-    optionLabels: string[];
-    fontSize: number;
-    fontColor: string;
-    direction: "row" | "column";
-}
-
-type TooltipConfig = {
-    label: string;
-    content: string;
-    propKey: keyof RadioButtonProps;
-    type: 'color' | 'spinButton' | 'text' | 'options' | 'direction';
-};
+import { TooltipConfigRadio, RadioButtonProps } from '../../../../types';
 
 const useStyles = makeStyles({
     settingsContainer: {
@@ -105,7 +90,7 @@ export const RadioButtonSettings: React.FC = () => {
     const contentId = useId('content');
     const [visibleTooltip, setVisibleTooltip] = useState<string | null>(null);
 
-    const tooltips: TooltipConfig[] = [
+    const tooltips: TooltipConfigRadio[] = [
         { label: "Label", content: "Edit the label for the radio buttons.", propKey: "label", type: "text" },
         { label: "Number of Buttons", content: "Adjust the number of buttons to display.", propKey: "numberOfButtons", type: "spinButton" },
         { label: "Button Labels", content: "Edit the label for each radio button option.", propKey: "optionLabels", type: "options" },

@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNode, UserComponent, Element } from "@craftjs/core";
 import { GridCellContents } from "./GridCellContents";
-
-interface ContainerProps {
-}
+import {ContainerProps} from '../../../../types';
 
 export const GridCell: UserComponent<ContainerProps> = () => {
 
