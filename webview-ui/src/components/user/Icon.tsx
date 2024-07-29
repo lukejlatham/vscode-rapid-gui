@@ -152,7 +152,6 @@ const IconSettings: React.FC = () => {
                                                 onClick={() => handleIconClick(icon as keyof typeof VscIcons)}
                                             >
                                                 <IconComponent />
-                                                {icon.split('Vsc').join('')}
                                             </Button>
                                         );
                                     }
