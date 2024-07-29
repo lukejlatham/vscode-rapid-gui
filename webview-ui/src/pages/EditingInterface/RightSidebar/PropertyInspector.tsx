@@ -7,6 +7,7 @@ import { BackgroundSettings } from "../../../components/user/Settings/Background
 
 const useStyles = makeStyles({
   propertyInspector: {
+    margin: '10px',
     padding: '10px',
     border: '1px solid #666666',
     borderRadius: '10px',
