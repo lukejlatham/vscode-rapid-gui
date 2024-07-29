@@ -85,6 +85,13 @@ export interface LabelProps {
     width: number;
     height: number;
     textAlign: 'left' | 'center' | 'right' | 'justify';
+    icon?: keyof typeof VsIcons;
+    iconPosition?: 'left' | 'right';
+    iconColor?: string;
+    hyperlink?: string;
+    bold?: boolean;
+    italic?: boolean;
+    underline?: boolean;
   }
   
 export interface ContentEditableEvent {
@@ -127,6 +134,9 @@ export type TooltipConfigText = {
 
 export interface IconProps {
     selectedIcon: keyof typeof VsIcons;
+    iconSize?: number;
+    iconColor?: string;
+    hyperlink?: string;
 }
 
 export interface ImageProps {
@@ -150,4 +160,16 @@ export interface CardContainerProps {
     bordercolor: string;
     padding: number;
     shadow: boolean;
+}
+
+export interface TextProps {
+    text: string;
+    fontSize: number;
+    fontColor: string;
+    textAlign: 'left' | 'center' | 'right' | 'justify';
+    bold?: boolean;
+    italic?: boolean;
+    underline?: boolean;
+    hyperlink?: string;
+    placeholder?: string;
 }
