@@ -1,0 +1,471 @@
+{
+  "ROOT": {
+    "type": {
+      "resolvedName": "Background"
+    },
+    "isCanvas": false,
+    "props": {
+      "backgroundColor": "#333",
+      "id": "background",
+      "rows": 10,
+      "columns": 10
+    },
+    "displayName": "Background",
+    "custom": {},
+    "hidden": false,
+    "nodes": ["Header", "Sidebar", "MainContent", "Footer"],
+    "linkedNodes": {
+      "Header": "Header",
+      "Sidebar": "Sidebar",
+      "MainContent": "MainContent",
+      "Footer": "Footer"
+    }
+  },
+  "Header": {
+    "type": {
+      "resolvedName": "Container"
+    },
+    "isCanvas": true,
+    "props": {
+      "id": "Header",
+      "x": 0,
+      "y": 0,
+      "w": 10,
+      "h": 1
+    },
+    "displayName": "Container",
+    "custom": {},
+    "parent": "ROOT",
+    "hidden": false,
+    "nodes": ["homeButton", "headerButton1", "headerButton2", "headerButton3"],
+    "linkedNodes": {}
+  },
+  "Sidebar": {
+    "type": {
+      "resolvedName": "Container"
+    },
+    "isCanvas": true,
+    "props": {
+      "id": "Sidebar",
+      "x": 0,
+      "y": 1,
+      "w": 2,
+      "h": 9
+    },
+    "displayName": "Container",
+    "custom": {},
+    "parent": "ROOT",
+    "hidden": false,
+    "nodes": ["sidebarLabel1", "sidebarLabel2", "sidebarLabel3", "sidebarLabel4", "sidebarLabel5"],
+    "linkedNodes": {}
+  },
+  "MainContent": {
+    "type": {
+      "resolvedName": "Container"
+    },
+    "isCanvas": true,
+    "props": {
+      "id": "MainContent",
+      "x": 2,
+      "y": 1,
+      "w": 8,
+      "h": 8
+    },
+    "displayName": "Container",
+    "custom": {},
+    "parent": "ROOT",
+    "hidden": false,
+    "nodes": ["stepLabel", "stepImage", "possibleLabel", "possibleTextBox"],
+    "linkedNodes": {}
+  },
+  "Footer": {
+    "type": {
+      "resolvedName": "Container"
+    },
+    "isCanvas": true,
+    "props": {
+      "id": "Footer",
+      "x": 0,
+      "y": 9,
+      "w": 10,
+      "h": 1
+    },
+    "displayName": "Container",
+    "custom": {},
+    "parent": "ROOT",
+    "hidden": false,
+    "nodes": ["searchBox", "footerButton1", "footerButton2", "footerButton3", "contactLabel"],
+    "linkedNodes": {}
+  },
+  "homeButton": {
+    "type": {
+      "resolvedName": "Button"
+    },
+    "isCanvas": false,
+    "props": {
+      "backgroundColor": "#0047AB",
+      "fontColor": "white",
+      "fontSize": 20,
+      "borderRadius": 4,
+      "text": "New Button",
+      "width": 150,
+      "height": 50,
+      "alignment": "center"
+    },
+    "displayName": "Button",
+    "custom": {},
+    "parent": "Header",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "headerButton1": {
+    "type": {
+      "resolvedName": "Button"
+    },
+    "isCanvas": false,
+    "props": {
+      "backgroundColor": "#0047AB",
+      "fontColor": "white",
+      "fontSize": 20,
+      "borderRadius": 4,
+      "text": "New Button",
+      "width": 150,
+      "height": 50,
+      "alignment": "center"
+    },
+    "displayName": "Button",
+    "custom": {},
+    "parent": "Header",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "headerButton2": {
+    "type": {
+      "resolvedName": "Button"
+    },
+    "isCanvas": false,
+    "props": {
+      "backgroundColor": "#0047AB",
+      "fontColor": "white",
+      "fontSize": 20,
+      "borderRadius": 4,
+      "text": "New Button",
+      "width": 150,
+      "height": 50,
+      "alignment": "center"
+    },
+    "displayName": "Button",
+    "custom": {},
+    "parent": "Header",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "headerButton3": {
+    "type": {
+      "resolvedName": "Button"
+    },
+    "isCanvas": false,
+    "props": {
+      "backgroundColor": "#0047AB",
+      "fontColor": "white",
+      "fontSize": 20,
+      "borderRadius": 4,
+      "text": "New Button",
+      "width": 150,
+      "height": 50,
+      "alignment": "center"
+    },
+    "displayName": "Button",
+    "custom": {},
+    "parent": "Header",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "sidebarLabel1": {
+    "type": {
+      "resolvedName": "Label"
+    },
+    "isCanvas": false,
+    "props": {
+      "text": "New Label",
+      "textAlign": "left",
+      "fontSize": 20,
+      "color": "#FFFFFF",
+      "userEditable": true
+    },
+    "displayName": "Label",
+    "custom": {},
+    "parent": "Sidebar",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "sidebarLabel2": {
+    "type": {
+      "resolvedName": "Label"
+    },
+    "isCanvas": false,
+    "props": {
+      "text": "New Label",
+      "textAlign": "left",
+      "fontSize": 20,
+      "color": "#FFFFFF",
+      "userEditable": true
+    },
+    "displayName": "Label",
+    "custom": {},
+    "parent": "Sidebar",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "sidebarLabel3": {
+    "type": {
+      "resolvedName": "Label"
+    },
+    "isCanvas": false,
+    "props": {
+      "text": "New Label",
+      "textAlign": "left",
+      "fontSize": 20,
+      "color": "#FFFFFF",
+      "userEditable": true
+    },
+    "displayName": "Label",
+    "custom": {},
+    "parent": "Sidebar",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "sidebarLabel4": {
+    "type": {
+      "resolvedName": "Label"
+    },
+    "isCanvas": false,
+    "props": {
+      "text": "New Label",
+      "textAlign": "left",
+      "fontSize": 20,
+      "color": "#FFFFFF",
+      "userEditable": true
+    },
+    "displayName": "Label",
+    "custom": {},
+    "parent": "Sidebar",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "sidebarLabel5": {
+    "type": {
+      "resolvedName": "Label"
+    },
+    "isCanvas": false,
+    "props": {
+      "text": "New Label",
+      "textAlign": "left",
+      "fontSize": 20,
+      "color": "#FFFFFF",
+      "userEditable": true
+    },
+    "displayName": "Label",
+    "custom": {},
+    "parent": "Sidebar",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "stepLabel": {
+    "type": {
+      "resolvedName": "Label"
+    },
+    "isCanvas": false,
+    "props": {
+      "text": "New Label",
+      "textAlign": "left",
+      "fontSize": 20,
+      "color": "#FFFFFF",
+      "userEditable": true
+    },
+    "displayName": "Label",
+    "custom": {},
+    "parent": "MainContent",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "stepImage": {
+    "type": {
+      "resolvedName": "Image"
+    },
+    "isCanvas": false,
+    "props": {
+      "src": "https://photographylife.com/wp-content/uploads/2023/05/Nikon-Z8-Official-Samples-00002.jpg",
+      "alt": "New image",
+      "width": 480,
+      "height": 320,
+      "alignment": "center"
+    },
+    "displayName": "Image",
+    "custom": {},
+    "parent": "MainContent",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "possibleLabel": {
+    "type": {
+      "resolvedName": "Label"
+    },
+    "isCanvas": false,
+    "props": {
+      "text": "New Label",
+      "textAlign": "left",
+      "fontSize": 20,
+      "color": "#FFFFFF",
+      "userEditable": true
+    },
+    "displayName": "Label",
+    "custom": {},
+    "parent": "MainContent",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "possibleTextBox": {
+    "type": {
+      "resolvedName": "TextBox"
+    },
+    "isCanvas": false,
+    "props": {
+      "text": "",
+      "fontSize": 16,
+      "fontColor": "black",
+      "backgroundColor": "white",
+      "placeholder": "Placeholder...",
+      "rows": 5,
+      "cols": 20,
+      "borderRadius": 5,
+      "alignment": "center"
+    },
+    "displayName": "TextBox",
+    "custom": {},
+    "parent": "MainContent",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "searchBox": {
+    "type": {
+      "resolvedName": "TextBox"
+    },
+    "isCanvas": false,
+    "props": {
+      "text": "",
+      "fontSize": 16,
+      "fontColor": "black",
+      "backgroundColor": "white",
+      "placeholder": "Placeholder...",
+      "rows": 5,
+      "cols": 20,
+      "borderRadius": 5,
+      "alignment": "center"
+    },
+    "displayName": "TextBox",
+    "custom": {},
+    "parent": "Footer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "footerButton1": {
+    "type": {
+      "resolvedName": "Button"
+    },
+    "isCanvas": false,
+    "props": {
+      "backgroundColor": "#0047AB",
+      "fontColor": "white",
+      "fontSize": 20,
+      "borderRadius": 4,
+      "text": "New Button",
+      "width": 150,
+      "height": 50,
+      "alignment": "center"
+    },
+    "displayName": "Button",
+    "custom": {},
+    "parent": "Footer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "footerButton2": {
+    "type": {
+      "resolvedName": "Button"
+    },
+    "isCanvas": false,
+    "props": {
+      "backgroundColor": "#0047AB",
+      "fontColor": "white",
+      "fontSize": 20,
+      "borderRadius": 4,
+      "text": "New Button",
+      "width": 150,
+      "height": 50,
+      "alignment": "center"
+    },
+    "displayName": "Button",
+    "custom": {},
+    "parent": "Footer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "footerButton3": {
+    "type": {
+      "resolvedName": "Button"
+    },
+    "isCanvas": false,
+    "props": {
+      "backgroundColor": "#0047AB",
+      "fontColor": "white",
+      "fontSize": 20,
+      "borderRadius": 4,
+      "text": "New Button",
+      "width": 150,
+      "height": 50,
+      "alignment": "center"
+    },
+    "displayName": "Button",
+    "custom": {},
+    "parent": "Footer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "contactLabel": {
+    "type": {
+      "resolvedName": "Label"
+    },
+    "isCanvas": false,
+    "props": {
+      "text": "New Label",
+      "textAlign": "left",
+      "fontSize": 20,
+      "color": "#FFFFFF",
+      "userEditable": true
+    },
+    "displayName": "Label",
+    "custom": {},
+    "parent": "Footer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  }
+}

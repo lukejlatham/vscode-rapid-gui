@@ -15,9 +15,8 @@ import useChatEventHandlers from "../../../Features/copilot/useChatEventHandlers
 import initializeChat from "../../../Features/copilot/initializeChat";
 
 const ChatComponent: React.FC = () => {
-  const { query } = useEditor();
 
-  const baseSystemMessage = initializeChat(query);
+  const baseSystemMessage = initializeChat();
 
   const {
     messages,

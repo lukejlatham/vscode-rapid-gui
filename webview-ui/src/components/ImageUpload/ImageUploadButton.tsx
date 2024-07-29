@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '@fluentui/react-components';
 import { Camera24Filled, Camera24Regular, bundleIcon } from '@fluentui/react-icons';
-import { UploadDialog } from './UploadDialog'; // Import the UploadDialog component
+import { UploadDialog } from './UploadDialog'; 
 
 const CameraIcon = bundleIcon(Camera24Filled, Camera24Regular);
 

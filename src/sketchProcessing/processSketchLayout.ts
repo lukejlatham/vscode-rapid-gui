@@ -1,10 +1,14 @@
 import { convertToFullVersion } from "./layoutCraftTreeConverter";
-import * as vscode from "vscode"; 
+import * as vscode from "vscode";
 import { getTextualDescription } from "./textualDescription";
 import { getSimpleNodeTree } from "./simpleNodeTree";
 import { getNodesWithProperties } from "./nodesWithProperties";
 
-export async function processSketch(sketchAsUrl: string, context: vscode.ExtensionContext, webview: vscode.Webview) {
+export async function processSketch(
+  sketchAsUrl: string,
+  context: vscode.ExtensionContext,
+  webview: vscode.Webview
+) {
   try {
     webview.postMessage({ command: "processingStage", stage: "Generating layout" });
     const textualDescription = await getTextualDescription(sketchAsUrl, context);
