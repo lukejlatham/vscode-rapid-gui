@@ -1,6 +1,6 @@
 //types
 import { Layout } from 'react-grid-layout';
-import * as VsIcons from "react-icons/vsc";
+import * as VscIcons from "react-icons/vsc";
  
 export interface BackgroundProps {
     backgroundColor: string;
@@ -133,7 +133,7 @@ export type TooltipConfigText = {
 };
 
 export interface IconProps {
-    selectedIcon: keyof typeof VsIcons;
+    selectedIcon: keyof typeof VscIcons;
     iconSize?: number;
     iconColor?: string;
     hyperlink?: string;
