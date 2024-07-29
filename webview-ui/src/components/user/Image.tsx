@@ -118,8 +118,8 @@ const ImageSettings: React.FC = () => {
 export const ImageDefaultProps: ImageProps = {
   src: "https://photographylife.com/wp-content/uploads/2023/05/Nikon-Z8-Official-Samples-00002.jpg",
   alt: "New image",
-  width: "100%",
-  height: "100%",
+  width: 100,
+  height: 100,
   alignment: "center",
 };
 
