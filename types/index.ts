@@ -88,7 +88,7 @@ export interface ContentEditableEvent {
   }
 
 export interface RadioButtonProps {
-    label: string;
+    header: string;
     numberOfButtons: number;
     optionLabels: string[];
     fontSize: number;
