@@ -2,24 +2,7 @@ import React from "react";
 import { useNode, UserComponent } from "@craftjs/core";
 import { Input, Label, SpinButton, Radio, RadioGroup, SpinButtonChangeEvent, SpinButtonOnChangeData, makeStyles, Tooltip, useId, mergeClasses, tokens } from "@fluentui/react-components";
 import { Info16Regular } from "@fluentui/react-icons";
-
-interface ButtonProps {
-    backgroundColor: string;
-    fontSize: number;
-    fontColor: string;
-    borderRadius: number;
-    width: number;
-    height: number;
-    text: string;
-    alignment: "left" | "center" | "right";
-}
-
-type TooltipConfig = {
-    label: string;
-    content: string;
-    propKey: keyof ButtonProps;
-    type: 'color' | 'spinButton' | 'text' | 'alignment';
-};
+import { ButtonProps, TooltipConfig } from '../../../../types';
 
 const useStyles = makeStyles({
     container: {

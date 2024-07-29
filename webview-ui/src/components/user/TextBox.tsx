@@ -2,24 +2,7 @@ import React, { useState } from 'react';
 import { useNode, UserComponent } from '@craftjs/core';
 import { Label, Input, Radio, RadioGroup, makeStyles, SpinButton, SpinButtonChangeEvent, SpinButtonOnChangeData, Tooltip, useId, tokens, mergeClasses } from '@fluentui/react-components';
 import { Info16Regular } from "@fluentui/react-icons";
-
-interface TextBoxProps {
-    text: string;
-    fontSize: number;
-    fontColor: string;
-    backgroundColor: string;
-    placeholder: string;
-    borderRadius: number;
-    rows: number;
-    cols: number;
-    alignment: "left" | "center" | "right";
-}
-type TooltipConfig = {
-    label: string;
-    content: string;
-    propKey: keyof TextBoxProps;
-    type: 'color' | 'spinButton' | 'text' | 'alignment';
-};
+import {TooltipConfigText, TextBoxProps} from '../../../../types';
 
 const useStyles = makeStyles({
     container: {
@@ -65,7 +48,7 @@ const useStyles = makeStyles({
     },
 });
 
-export const TextBox: UserComponent<TextBoxProps> = ({ text, fontSize, fontColor, placeholder, cols, rows, backgroundColor, borderRadius, alignment }) => {
+export const TextBox: UserComponent<TextBoxProps> = ({ text, fontSize, fontColor, placeholder, height, width, backgroundColor, borderRadius, alignment }) => {
     const {
         connectors: { connect, drag },
     } = useNode((node) => ({
@@ -82,8 +65,6 @@ export const TextBox: UserComponent<TextBoxProps> = ({ text, fontSize, fontColor
         >
             <textarea
                 placeholder={placeholder}
-                cols={cols}
-                rows={rows}
                 className={styles.textBox}
                 style={{
                     fontSize: `${fontSize}px`,
@@ -107,14 +88,14 @@ const TextBoxSettings: React.FC = () => {
     const contentId = useId("content");
     const [visibleTooltip, setVisibleTooltip] = useState<string | null>(null);
 
-    const tooltips: TooltipConfig[] = [
+    const tooltips: TooltipConfigText[] = [
         { label: "Font Size", content: "Adjust the size of the text.", propKey: "fontSize", type: "spinButton" },
         { label: "Font Color", content: "Change the text color.", propKey: "fontColor", type: "color" },
         { label: "Background Color", content: "Change the color of the box.", propKey: "backgroundColor", type: "color" },
         { label: "Placeholder", content: "Edit the text that appears before a user inputs text.", propKey: "placeholder", type: "text" },
         { label: "Border Radius", content: "Adjust how rounded the corners of the textbox are.", propKey: "borderRadius", type: "spinButton" },
-        { label: "Rows", content: "Adjust the number of rows in your textbox.", propKey: "rows", type: "spinButton" },
-        { label: "Columns", content: "Adjust the number of columns in your textbox.", propKey: "cols", type: "spinButton" },
+        { label: "Height", content: "Adjust the number of height of your textbox", propKey: "height", type: "spinButton" },
+        { label: "Width", content: "Adjust the number of width in your textbox.", propKey: "width", type: "spinButton" },
         { label: "Alignment", content: "Set the alignment of the Texbox.", propKey: "alignment", type: "alignment" },
     ];
 
@@ -200,8 +181,8 @@ export const TextBoxDefaultProps: TextBoxProps = {
     fontColor: 'black',
     backgroundColor: 'white',
     placeholder: 'Placeholder...',
-    rows: 5,
-    cols: 20,
+    height: 100,
+    width: 200,
     borderRadius: 5,
     alignment: "left"
 }

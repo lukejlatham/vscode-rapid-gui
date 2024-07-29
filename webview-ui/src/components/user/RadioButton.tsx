@@ -2,22 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useNode, UserComponent } from '@craftjs/core';
 import { Label, Input, SpinButton, Tooltip, useId, mergeClasses, SpinButtonChangeEvent, SpinButtonOnChangeData, makeStyles, tokens, RadioGroup, Radio } from '@fluentui/react-components';
 import { Info16Regular } from "@fluentui/react-icons";
-
-interface RadioButtonProps {
-    label: string;
-    numberOfButtons: number;
-    optionLabels: string[];
-    fontSize: number;
-    fontColor: string;
-    direction: "row" | "column";
-}
-
-type TooltipConfig = {
-    label: string;
-    content: string;
-    propKey: keyof RadioButtonProps;
-    type: 'color' | 'spinButton' | 'text' | 'options' | 'direction';
-};
+import { TooltipConfigRadio, RadioButtonProps } from '../../../../types';
 
 const useStyles = makeStyles({
     settingsContainer: {
@@ -59,7 +44,7 @@ const useStyles = makeStyles({
 
 
 
-export const RadioButton: UserComponent<RadioButtonProps> = ({ label, numberOfButtons, optionLabels, fontSize, fontColor, direction }) => {
+export const RadioButton: UserComponent<RadioButtonProps> = ({ header, numberOfButtons, optionLabels, fontSize, fontColor, direction }) => {
     const { connectors: { connect, drag } } = useNode();
     const [selectedButton, setSelectedButton] = useState<number>(0);
 
@@ -77,7 +62,7 @@ export const RadioButton: UserComponent<RadioButtonProps> = ({ label, numberOfBu
                 }
             }}
         >
-            <label style={{ fontSize: `${fontSize}px`, color: fontColor }}>{label}</label>
+            <label style={{ fontSize: `${fontSize}px`, color: fontColor }}>{header}</label>
             <div className={styles.radioButtons} style={{flexDirection: direction}}>
                 {optionLabels.map((optionLabel, index) => (
                     <div key={index}>
@@ -105,8 +90,8 @@ export const RadioButtonSettings: React.FC = () => {
     const contentId = useId('content');
     const [visibleTooltip, setVisibleTooltip] = useState<string | null>(null);
 
-    const tooltips: TooltipConfig[] = [
-        { label: "Label", content: "Edit the label for the radio buttons.", propKey: "label", type: "text" },
+    const tooltips: TooltipConfigRadio[] = [
+        { label: "Label", content: "Edit the label for the radio buttons.", propKey: "header", type: "text" },
         { label: "Number of Buttons", content: "Adjust the number of buttons to display.", propKey: "numberOfButtons", type: "spinButton" },
         { label: "Button Labels", content: "Edit the label for each radio button option.", propKey: "optionLabels", type: "options" },
         { label: "Font Size", content: "Adjust the font size of the text.", propKey: "fontSize", type: "spinButton" },
@@ -233,7 +218,7 @@ const defaultOptionLabels = (count: number) =>
     Array.from({ length: count }, (_, i) => `Option ${i + 1}`);
 
 export const RadioButtonDefaultProps: RadioButtonProps = {
-    label: 'Radio Buttons',
+    header: 'Radio Buttons',
     numberOfButtons: 2,
     optionLabels: ['Option 1', 'Option 2'],
     fontSize: 14,

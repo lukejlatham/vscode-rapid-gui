@@ -1,14 +1,7 @@
 import React from "react";
 import { useNode, UserComponent } from "@craftjs/core";
 import { Input, Label, Radio, RadioGroup, makeStyles } from "@fluentui/react-components";
-
-interface ImageProps {
-  src: string;
-  alt: string;
-  width: number;
-  height: number;
-  alignment: "left" | "center" | "right";
-}
+import { ImageProps } from "../../../../types";
 
 const useStyles = makeStyles({
   container: {
@@ -125,8 +118,8 @@ const ImageSettings: React.FC = () => {
 export const ImageDefaultProps: ImageProps = {
   src: "https://photographylife.com/wp-content/uploads/2023/05/Nikon-Z8-Official-Samples-00002.jpg",
   alt: "New image",
-  width: 50,
-  height: 50,
+  width: 100,
+  height: 100,
   alignment: "center",
 };
 

@@ -2,22 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useNode, UserComponent } from '@craftjs/core';
 import { Label, Input, SpinButton, Tooltip, useId, mergeClasses, SpinButtonChangeEvent, SpinButtonOnChangeData, makeStyles, tokens, RadioGroup, Radio } from '@fluentui/react-components';
 import { Info16Regular } from "@fluentui/react-icons";
-
-interface CheckboxProps {
-    label: string;
-    optionLabels: string[];
-    numberOfBoxes: number;
-    fontSize: number;
-    fontColor: string;
-    direction: "row" | "column";
-}
-
-type TooltipConfig = {
-    label: string;
-    content: string;
-    propKey: keyof CheckboxProps;
-    type: 'color' | 'spinButton' | 'text' | 'options' | 'direction';
-};
+import {TooltipConfigCheckbox, CheckboxProps } from '../../../../types';
 
 const useStyles = makeStyles({
     settingsContainer: {
@@ -57,7 +42,7 @@ const useStyles = makeStyles({
     },
 });
 
-export const Checkbox: UserComponent<CheckboxProps> = ({ label, optionLabels, numberOfBoxes, fontSize, fontColor, direction }) => {
+export const Checkbox: UserComponent<CheckboxProps> = ({ header, optionLabels, numberOfBoxes, fontSize, fontColor, direction }) => {
     const { connectors: { connect, drag } } = useNode((state) => ({
         selected: state.events.selected,
         dragged: state.events.dragged,
@@ -73,7 +58,7 @@ export const Checkbox: UserComponent<CheckboxProps> = ({ label, optionLabels, nu
                 }
             }}
         >
-            <label style={{ fontSize: fontSize, color: fontColor }}>{label}</label>
+            <label style={{ fontSize: fontSize, color: fontColor }}>{header}</label>
             <div className={styles.checkboxes} style={{flexDirection: direction}}>
                 {optionLabels.map((optionLabel, index) => (
                     <div key={index}>
@@ -95,8 +80,8 @@ export const CheckboxSettings: React.FC = () => {
     const contentId = useId('content');
     const [visibleTooltip, setVisibleTooltip] = useState<string | null>(null);
 
-    const tooltips: TooltipConfig[] = [
-        { label: "Label", content: "Edit the label for the checkboxes.", propKey: "label", type: "text" },
+    const tooltips: TooltipConfigCheckbox[] = [
+        { label: "Label", content: "Edit the label for the checkboxes.", propKey: "header", type: "text" },
         { label: "Number of Options", content: "Adjust the number of checkboxes to display.", propKey: "numberOfBoxes", type: "spinButton" },
         { label: "Checkbox Labels", content: "Edit the label for each checkbox.", propKey: "optionLabels", type: "options" },
         { label: "Font Size", content: "Adjust the font size of the text.", propKey: "fontSize", type: "spinButton" },
@@ -223,7 +208,7 @@ const defaultOptionLabels = (count: number) =>
     Array.from({ length: count }, (_, i) => `Option ${i + 1}`);
 
 export const CheckboxDefaultProps: CheckboxProps = {
-    label: 'Checkboxes',
+    header: 'Checkboxes',
     numberOfBoxes: 2,
     optionLabels: ['Option 1', 'Option 2'],
     fontSize: 14,
