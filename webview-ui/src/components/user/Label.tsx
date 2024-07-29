@@ -51,7 +51,7 @@ const useStyles = makeStyles({
   },
 });
 
-export const Label: UserComponent<LabelProps> = ({ text, fontSize, color, textAlign, userEditable = true, height, width }) => {
+export const Label: UserComponent<LabelProps> = ({ text, fontSize, fontcolor, textAlign, userEditable = true, height, width }) => {
   const {
     connectors: { connect, drag },
     selected,
@@ -96,7 +96,7 @@ export const Label: UserComponent<LabelProps> = ({ text, fontSize, color, textAl
             textAlign === 'center' ? styles.alignCenter :
               textAlign === 'right' ? styles.alignRight :
                 styles.alignJustify}`}
-          style={{ fontSize: `${fontSize}px`, color: color }}
+          style={{ fontSize: `${fontSize}px`, color: fontcolor }}
         />
       ) : (
         <p
@@ -104,7 +104,7 @@ export const Label: UserComponent<LabelProps> = ({ text, fontSize, color, textAl
             textAlign === 'center' ? styles.alignCenter :
               textAlign === 'right' ? styles.alignRight :
                 styles.alignJustify}`}
-          style={{ fontSize: `${fontSize}px`, color: color }}
+          style={{ fontSize: `${fontSize}px`, color: fontcolor }}
         >
           {text}
         </p>
@@ -117,12 +117,12 @@ const LabelSettings: React.FC = () => {
   const {
     actions: { setProp },
     fontSize,
-    color,
+    fontcolor,
     text,
     textAlign,
   } = useNode((node) => ({
     fontSize: node.data.props.fontSize,
-    color: node.data.props.color,
+    fontcolor: node.data.props.fontcolor,
     text: node.data.props.text,
     textAlign: node.data.props.textAlign,
   }));
@@ -133,7 +133,7 @@ const LabelSettings: React.FC = () => {
 
   const tooltips = [
     { label: "Font Size", content: "Adjust the size of the text.", propKey: "fontSize" },
-    { label: "Color", content: "Change the text color of the label.", propKey: "color" },
+    { label: "Font Color", content: "Change the text color of the label.", propKey: "fontcolor" },
     { label: "Text", content: "Edit the text of the label.", propKey: "text" },
     { label: "Alignment", content: "Set the text alignment.", propKey: "textAlign" },
   ];
@@ -168,12 +168,12 @@ const LabelSettings: React.FC = () => {
                 setProp((props: LabelProps) => (props.fontSize = parseInt(e.target.value, 10)), 1000);
               }}
             />
-          ) : tooltip.propKey === "color" ? (
+          ) : tooltip.propKey === "fontcolor" ? (
             <input
               className={styles.colorInput}
-              type="color"
-              defaultValue={color}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProp((props: LabelProps) => props.color = e.target.value)}
+              type="fontcolor"
+              defaultValue={fontcolor}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProp((props: LabelProps) => props.fontcolor = e.target.value)}
             />
           ) : tooltip.propKey === "text" ? (
             <Input
@@ -208,7 +208,7 @@ export const LabelDefaultProps: LabelProps = {
   text: "New Label",
   textAlign: 'left',
   fontSize: 20,
-  color: "#000000",
+  fontcolor: "#000000",
   userEditable: true,
   width: 100,
   height: 100,

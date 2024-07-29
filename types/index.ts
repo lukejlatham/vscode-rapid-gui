@@ -80,7 +80,7 @@ export type TooltipConfigInput = {
 export interface LabelProps {
     text: string;
     fontSize: number;
-    color: string;
+    fontcolor: string;
     userEditable?: boolean;
     width: number;
     height: number;
@@ -114,8 +114,8 @@ export interface TextBoxProps {
     backgroundColor: string;
     placeholder: string;
     borderRadius: number;
-    rows: number;
-    cols: number;
+    height: number;   //change to % after
+    width: number;   //change to % after
     alignment: "left" | "center" | "right";
 }
 export type TooltipConfigText = {
@@ -132,9 +132,9 @@ export interface IconProps {
 export interface ImageProps {
     src: string;
     alt: string;
-    width: number;
-    height: number;
-    alignment: "left" | "center" | "right";
+    width: number;     //change to % after
+    height: number;    //change to % after
+    alignment?: "left" | "center" | "right";
   }
   
 export interface CardContainerProps {

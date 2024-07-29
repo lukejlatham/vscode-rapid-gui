@@ -48,7 +48,7 @@ const useStyles = makeStyles({
     },
 });
 
-export const TextBox: UserComponent<TextBoxProps> = ({ text, fontSize, fontColor, placeholder, cols, rows, backgroundColor, borderRadius, alignment }) => {
+export const TextBox: UserComponent<TextBoxProps> = ({ text, fontSize, fontColor, placeholder, height, width, backgroundColor, borderRadius, alignment }) => {
     const {
         connectors: { connect, drag },
     } = useNode((node) => ({
@@ -65,8 +65,6 @@ export const TextBox: UserComponent<TextBoxProps> = ({ text, fontSize, fontColor
         >
             <textarea
                 placeholder={placeholder}
-                cols={cols}
-                rows={rows}
                 className={styles.textBox}
                 style={{
                     fontSize: `${fontSize}px`,
@@ -96,8 +94,8 @@ const TextBoxSettings: React.FC = () => {
         { label: "Background Color", content: "Change the color of the box.", propKey: "backgroundColor", type: "color" },
         { label: "Placeholder", content: "Edit the text that appears before a user inputs text.", propKey: "placeholder", type: "text" },
         { label: "Border Radius", content: "Adjust how rounded the corners of the textbox are.", propKey: "borderRadius", type: "spinButton" },
-        { label: "Rows", content: "Adjust the number of rows in your textbox.", propKey: "rows", type: "spinButton" },
-        { label: "Columns", content: "Adjust the number of columns in your textbox.", propKey: "cols", type: "spinButton" },
+        { label: "Height", content: "Adjust the number of height of your textbox", propKey: "height", type: "spinButton" },
+        { label: "Width", content: "Adjust the number of width in your textbox.", propKey: "width", type: "spinButton" },
         { label: "Alignment", content: "Set the alignment of the Texbox.", propKey: "alignment", type: "alignment" },
     ];
 
@@ -183,8 +181,8 @@ export const TextBoxDefaultProps: TextBoxProps = {
     fontColor: 'black',
     backgroundColor: 'white',
     placeholder: 'Placeholder...',
-    rows: 5,
-    cols: 20,
+    height: 100,
+    width: 200,
     borderRadius: 5,
     alignment: "left"
 }
