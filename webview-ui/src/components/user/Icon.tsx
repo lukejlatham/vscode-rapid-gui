@@ -15,6 +15,7 @@ import {
 } from '@fluentui/react-components';
 import { EmojiEditRegular } from '@fluentui/react-icons';
 import * as VsIcons from "react-icons/vsc"; // Import all icons from Material Design
+import { IconProps } from '../../../../types';
 
 const useStyles = makeStyles({
     settingsContainer: {
@@ -67,10 +68,6 @@ const useStyles = makeStyles({
         // },
     },
 });
-
-interface IconProps {
-    selectedIcon: keyof typeof VsIcons;
-}
 
 export const Icon: UserComponent<IconProps> = ({ selectedIcon }) => {
     const { connectors: { connect, drag } } = useNode((state) => ({

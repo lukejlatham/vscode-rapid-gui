@@ -2,24 +2,7 @@ import React, { useState } from 'react';
 import { useNode, UserComponent } from '@craftjs/core';
 import { Label, Input, Radio, RadioGroup, makeStyles, SpinButton, SpinButtonChangeEvent, SpinButtonOnChangeData, Tooltip, useId, tokens, mergeClasses } from '@fluentui/react-components';
 import { Info16Regular } from "@fluentui/react-icons";
-
-interface TextBoxProps {
-    text: string;
-    fontSize: number;
-    fontColor: string;
-    backgroundColor: string;
-    placeholder: string;
-    borderRadius: number;
-    rows: number;
-    cols: number;
-    alignment: "left" | "center" | "right";
-}
-type TooltipConfig = {
-    label: string;
-    content: string;
-    propKey: keyof TextBoxProps;
-    type: 'color' | 'spinButton' | 'text' | 'alignment';
-};
+import {TooltipConfigText, TextBoxProps} from '../../../../types';
 
 const useStyles = makeStyles({
     container: {
@@ -107,7 +90,7 @@ const TextBoxSettings: React.FC = () => {
     const contentId = useId("content");
     const [visibleTooltip, setVisibleTooltip] = useState<string | null>(null);
 
-    const tooltips: TooltipConfig[] = [
+    const tooltips: TooltipConfigText[] = [
         { label: "Font Size", content: "Adjust the size of the text.", propKey: "fontSize", type: "spinButton" },
         { label: "Font Color", content: "Change the text color.", propKey: "fontColor", type: "color" },
         { label: "Background Color", content: "Change the color of the box.", propKey: "backgroundColor", type: "color" },

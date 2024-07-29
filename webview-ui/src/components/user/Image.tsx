@@ -1,14 +1,7 @@
 import React from "react";
 import { useNode, UserComponent } from "@craftjs/core";
 import { Input, Label, Radio, RadioGroup, makeStyles } from "@fluentui/react-components";
-
-interface ImageProps {
-  src: string;
-  alt: string;
-  width: number;
-  height: number;
-  alignment: "left" | "center" | "right";
-}
+import { ImageProps } from "../../../../types";
 
 const useStyles = makeStyles({
   container: {
