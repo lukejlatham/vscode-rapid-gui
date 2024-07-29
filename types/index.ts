@@ -139,6 +139,13 @@ export interface IconProps {
     hyperlink?: string;
 }
 
+export type InputTooltipConfig = {
+    label: string;
+    content: string;
+    propKey: keyof IconProps;
+    type: 'color' | 'spinButton' | 'text';
+};
+
 export interface ImageProps {
     src: string;
     alt: string;
