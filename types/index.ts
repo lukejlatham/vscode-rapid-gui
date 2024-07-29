@@ -22,6 +22,13 @@ export interface ButtonProps {
     height: number;
     text: string;
     alignment: "left" | "center" | "right";
+    displayName?: string;
+    icon?: keyof typeof VsIcons;
+    iconPosition?: "left" | "right";
+    iconColor?: string;
+    bordercolor?: string;
+    shadow?: boolean;
+    hyperlink?: string;
 }
 
 export type TooltipConfig = {
@@ -32,7 +39,7 @@ export type TooltipConfig = {
 };
 
 export interface CheckboxProps {
-    label: string;
+    header: string;
     optionLabels: string[];
     numberOfBoxes: number;
     fontSize: number;
