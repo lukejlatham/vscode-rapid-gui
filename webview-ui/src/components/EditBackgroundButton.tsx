@@ -1,11 +1,7 @@
 import React from 'react';
 import { Button, Input, Label, makeStyles, SpinButton, tokens, SpinButtonChangeEvent, SpinButtonOnChangeData } from '@fluentui/react-components';
 import { useEditor, UserComponent, useNode } from '@craftjs/core';
-import { BackgroundProps } from './user/Background';
-
-interface EditBackgroundButtonProps {
-    nodeId: string;
-}
+import { BackgroundProps, EditBackgroundButtonProps } from '../../../types';
 
 const useStyles = makeStyles({
     settingsContainer: {

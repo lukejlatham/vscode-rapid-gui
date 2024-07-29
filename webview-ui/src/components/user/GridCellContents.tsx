@@ -1,10 +1,7 @@
 import React from 'react';
 import { useNode, UserComponent } from "@craftjs/core";
 import { makeStyles } from "@fluentui/react-components";
-
-interface ContainerProps {
-  children?: React.ReactNode;
-}
+import { ContainerProps } from '../../../../types';
 
 const useStyles = makeStyles({
   container: {
