@@ -56,6 +56,10 @@ export type TooltipConfigCheckbox = {
 
 export interface ContainerProps {
     children?: React.ReactNode;
+    flexDirection?: "row" | "column";
+    justifyContent?: "flex-start" | "center" | "flex-end" | "space-between" | "space-around";
+    alignItems?: "flex-start" | "center" | "flex-end";
+    gap?: number;
   }
 
 export interface InputProps {
@@ -133,3 +137,17 @@ export interface ImageProps {
     alignment: "left" | "center" | "right";
   }
   
+export interface CardContainerProps {
+    color: string;
+    height: number;
+    width: number;
+    flexDirection?: "row" | "column";
+    justifyContent?: "flex-start" | "center" | "flex-end" | "space-between" | "space-around";
+    alignItems?: "flex-start" | "center" | "flex-end";
+    gap?: number;
+    backgroundColor: string;
+    borderRadius: number;
+    bordercolor: string;
+    padding: number;
+    shadow: boolean;
+}
