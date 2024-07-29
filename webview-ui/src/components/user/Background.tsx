@@ -8,6 +8,7 @@ import "react-resizable/css/styles.css";
 import { useNode } from '@craftjs/core';
 import { EditBackgroundButton } from '../EditBackgroundButton';
 import { max } from 'lodash';
+import { BackgroundProps } from '../../../../types';
 
 const useStyles = makeStyles({
   background: {
@@ -93,13 +94,6 @@ const useStyles = makeStyles({
     boxSizing: 'border-box', // Ensures padding is included in total height
   },
 });
-
-export interface BackgroundProps {
-  backgroundColor: string;
-  layout: Layout[];
-  rows: number;
-  columns: number;
-}
 
 export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgroundColor, layout: initialLayout, rows: initialRows, columns: initialColumns }) => {
   const ResponsiveGridLayout = useMemo(() => WidthProvider(Responsive), []);

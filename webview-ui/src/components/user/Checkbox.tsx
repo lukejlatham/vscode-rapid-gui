@@ -2,22 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useNode, UserComponent } from '@craftjs/core';
 import { Label, Input, SpinButton, Tooltip, useId, mergeClasses, SpinButtonChangeEvent, SpinButtonOnChangeData, makeStyles, tokens, RadioGroup, Radio } from '@fluentui/react-components';
 import { Info16Regular } from "@fluentui/react-icons";
-
-interface CheckboxProps {
-    label: string;
-    optionLabels: string[];
-    numberOfBoxes: number;
-    fontSize: number;
-    fontColor: string;
-    direction: "row" | "column";
-}
-
-type TooltipConfig = {
-    label: string;
-    content: string;
-    propKey: keyof CheckboxProps;
-    type: 'color' | 'spinButton' | 'text' | 'options' | 'direction';
-};
+import {TooltipConfigCheckbox, CheckboxProps } from '../../../../types';
 
 const useStyles = makeStyles({
     settingsContainer: {
@@ -95,7 +80,7 @@ export const CheckboxSettings: React.FC = () => {
     const contentId = useId('content');
     const [visibleTooltip, setVisibleTooltip] = useState<string | null>(null);
 
-    const tooltips: TooltipConfig[] = [
+    const tooltips: TooltipConfigCheckbox[] = [
         { label: "Label", content: "Edit the label for the checkboxes.", propKey: "label", type: "text" },
         { label: "Number of Options", content: "Adjust the number of checkboxes to display.", propKey: "numberOfBoxes", type: "spinButton" },
         { label: "Checkbox Labels", content: "Edit the label for each checkbox.", propKey: "optionLabels", type: "options" },
