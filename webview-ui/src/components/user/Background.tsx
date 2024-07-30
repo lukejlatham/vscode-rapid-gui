@@ -6,7 +6,6 @@ import { GridCell } from './GridCell';
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import { useNode } from '@craftjs/core';
-import { EditBackgroundButton } from '../EditBackgroundButton';
 import { BackgroundProps } from '../../../../types';
 import { DeleteRegular } from '@fluentui/react-icons';
 
@@ -25,74 +24,13 @@ const useStyles = makeStyles({
     overflow: 'hidden',
     position: 'relative',
   },
-  removeButton: {
-    position: 'absolute',
-    left: '45%',
-    bottom: '10px',
-  },
-  settingsContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    gap: '10px',
-    padding: '10px',
-    marginBottom: '15px', // Increased margin for better separation
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center', // Ensures all items are vertically centered
-    borderRadius: '8px', // Adds slight rounding to the container edges
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', // Adds a subtle shadow for depth
-  },
-  colorInput: {
-    display: 'flex',
-    borderRadius: '4px',
-    height: '40px', // Slightly increased height for better accessibility
-    padding: '0 10px', // Added padding for better input visibility
-    border: '1px solid #ccc', // Added border for better visibility
-    boxSizing: 'border-box', // Ensures padding is included in total height
-  },
-  addButton: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: '10px 20px', // Added horizontal padding for better click area
-    borderRadius: '5px',
-    backgroundColor: '#28a745', // Used a standard green color
-    color: 'white',
-    border: 'none',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s', // Added transition for smooth hover effect
-  },
-  addButtonHover: {
-    backgroundColor: '#218838', 
-  },
-  lockedButton: {
-    display: 'flex',
-    borderRadius: '5px',
-    padding: '10px 20px', // Added horizontal padding for better click area
-    color: 'white',
-    border: 'none',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s', // Added transition for smooth hover effect
-  },
-  lockedButtonHover: {
-    backgroundColor: '#45a049', // Darker green for hover effect
-  },
-  rowInput: {
-    display: 'flex',
-    borderRadius: '4px',
-    height: '40px', // Slightly increased height for better accessibility
-    padding: '0 10px', // Added padding for better input visibility
-    border: '1px solid #ccc', // Added border for better visibility
-    boxSizing: 'border-box', // Ensures padding is included in total height
-  },
 });
 
 export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgroundColor, layout: initialLayout, rows: initialRows, columns: initialColumns, lockedGrid: initialGridLocked }) => {
   const ResponsiveGridLayout = useMemo(() => WidthProvider(Responsive), []);
   const backgroundRef = useRef<HTMLDivElement>(null);
-  const classes = useStyles();
+  const styles = useStyles();
   const [containerHeight, setContainerHeight] = useState(0);
-  // const [lockedGrid, setLockedGrid] = useState(false);
   const { actions:{setProp} } = useNode();
 
   useEffect(() => {
@@ -108,39 +46,9 @@ export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgr
   }, []);
 // TODO:  UPDATE THIS FUCTION TO NOT EXCEED THE MAXIMUM ROWS AND COLUMNS AND ADD RIGHT TO LEFT
 
-  const onRemoveItem = (i: string) => {
-    setProp((props: BackgroundProps) => {
-      props.layout = props.layout.filter((item) => item.i !== i);
-    });
-  };
-
   const onLayoutChange = (layout: Layout[]) => {
     setProp((props: BackgroundProps) => {
       props.layout = layout;
-    });
-  };
-
-  const handleBackgroundColorChange = (color: string) => {
-    setProp((props: BackgroundProps) => {
-      props.backgroundColor = color;
-    });
-  };
-
-  const handleRowsChange = (newRows: number) => {
-    setProp((props: BackgroundProps) => {
-      props.rows = newRows;
-    });
-  };
-
-  const handleColumnsChange = (newColumns: number) => {
-    setProp((props: BackgroundProps) => {
-      props.columns = newColumns;
-    });
-  };
-
-  const handleLockedGrid = () => {
-    setProp((props: BackgroundProps) => {
-      props.lockedGrid = !props.lockedGrid;
     });
   };
 
@@ -148,43 +56,10 @@ export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgr
 
   return (
     <>
-      <div className={classes.settingsContainer}>
-        {/* <EditBackgroundButton nodeId="ROOT"/> */}
-        <Label>
-          <input
-            className={classes.colorInput}
-            type="color"
-            value={initialBackgroundColor}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleBackgroundColorChange(e.target.value)} />
-        </Label>
-        <Label>
-          Rows
-          <Input
-          className='rows'
-            type="number"
-            value={initialRows.toString()}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleRowsChange(parseInt(e.target.value, 10))}
-          />
-        </Label>
-        <Label>
-          Columns
-          <Input
-            type="number"
-            value={initialColumns.toString()}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleColumnsChange(parseInt(e.target.value, 10))}
-          />
-        </Label>
-        {/* <Button size='small' onClick={addItem} className={classes.addButton}>
-          Add Item
-        </Button> */}
-        <Button size='small' onClick={handleLockedGrid} className={classes.lockedButton}>
-          {initialGridLocked ? 'Unlock Grid' : 'Lock Grid'}
-        </Button>
-      </div>
       <Card
         appearance='filled'
         ref={backgroundRef}
-        className={classes.background}
+        className={styles.background}
         style={{ backgroundColor: initialBackgroundColor }}
       >
         <ResponsiveGridLayout
@@ -201,20 +76,9 @@ export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgr
           resizeHandles={['se', 'sw', 'ne', 'nw']}
         >
           {initialLayout.map((item) => (
-            <div key={item.i} data-grid={item} className={classes.gridCell}>
+            <div key={item.i} data-grid={item} className={styles.gridCell}>
               <Element id={item.i} is={GridCell} custom={{id: item.i}} canvas/>
-             {!initialGridLocked && (
-        <Button
-          className={classes.removeButton}
-          icon={<DeleteRegular />}
-          onClick={(e) => {
-            e.stopPropagation();
-            onRemoveItem(item.i);
-          }}
-        />
-      )}
             </div>
-            
           ))}
         </ResponsiveGridLayout>
       </Card>

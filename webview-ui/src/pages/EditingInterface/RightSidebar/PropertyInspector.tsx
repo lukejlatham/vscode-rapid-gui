@@ -86,13 +86,14 @@ export const PropertyInspector: React.FC = () => {
   return selected ? (
     <div className={classes.propertyInspector}>
       <div className={classes.header}>
-        <Subtitle2>{selected.displayName}-{selected.id}</Subtitle2>
+        <Subtitle2>{selected.displayName}</Subtitle2>
         <Button icon={<Dismiss20Regular />} appearance="transparent" onClick={handleClose} />
       </div>
       <Divider style={{ flexGrow: "0" }} />
       {selected.settings && React.createElement(selected.settings)}
       {(selected.displayName === 'Background') ? <BackgroundSettings /> : null}
-      <div className={classes.buttonGroup}>
+      
+      {(selected.displayName !== 'GridCell' && selected.displayName !== 'Background') ? (<div className={classes.buttonGroup}>
         <Tooltip content="Copy Format" relationship="label">
           <Button
             appearance='secondary'
@@ -111,7 +112,7 @@ export const PropertyInspector: React.FC = () => {
             disabled={!copiedSettings || !selected.props || selected.displayName !== copiedSettings.displayName}
           />
         </Tooltip>
-        {(selected.displayName !== 'GridCell') ? <Button
+         <Button
           appearance='primary'
           className={classes.button}
           icon={<Delete24Regular />}
@@ -121,8 +122,8 @@ export const PropertyInspector: React.FC = () => {
           disabled={!selected.isDeletable}
         >
           Delete
-        </Button> : null}
-      </div>
+        </Button>
+      </div>): null}
     </div>
   ) : null;
 };

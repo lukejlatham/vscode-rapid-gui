@@ -34,4 +34,10 @@ export const usePropertyInspectorStyles = makeStyles({
         flexDirection: "column",
         gap: "5px",
     },
+    addAndLockButtons: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginTop: "10px",
+    },
 });

@@ -86,6 +86,7 @@ export const BackgroundSettings: React.FC = () => {
                     )}
                 </div>
             ))}
+            <div className={styles.addAndLockButtons}>
             <Button
                 // add tooltip to explain this button
                 icon={props.lockedGrid ? <LockClosedRegular /> : <LockOpenRegular />}
@@ -112,6 +113,7 @@ export const BackgroundSettings: React.FC = () => {
             >
                 Add Item
             </Button>
+            </div>
         </div>
 
     )

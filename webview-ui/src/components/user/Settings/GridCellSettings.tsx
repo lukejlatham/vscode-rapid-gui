@@ -1,9 +1,16 @@
 import React from 'react';
 import { useEditor, useNode } from '@craftjs/core';
 import { BackgroundProps } from '../../../../../types';
-import { SpinButton, SpinButtonChangeEvent, SpinButtonOnChangeData, Label, Input, Button, useId, Tooltip, mergeClasses } from '@fluentui/react-components';
-import { Info16Regular } from '@fluentui/react-icons';
+import { makeStyles, Button } from '@fluentui/react-components';
+import { Delete24Regular } from '@fluentui/react-icons';
 import { usePropertyInspectorStyles } from '../../../hooks/usePropertyInspectorStyles';
+
+
+const useStyles = makeStyles({
+    deleteButton: {
+        marginTop: '10px',
+    }
+});
 
 export const GridCellSettings: React.FC = () => {
     const { gridCell } = useNode((node) => ({
@@ -18,15 +25,20 @@ export const GridCellSettings: React.FC = () => {
     const handleRemoveItem = (i: string) => {
         setProp('ROOT', (props: BackgroundProps) => {
             console.log(props.layout)
-          props.layout = props.layout.filter((item) => item.i !== i);
+            props.layout = props.layout.filter((item) => item.i !== i);
         });
-      };
+    };
 
     const styles = usePropertyInspectorStyles();
+    const styles2 = useStyles();
 
     return (
         <div className={styles.settingsContainer}>
             <Button
+                size='large'
+                className={styles2.deleteButton}
+                appearance='primary'
+                icon={<Delete24Regular />}
                 onClick={() => handleRemoveItem(gridCellId)}
             >
                 Delete
