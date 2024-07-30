@@ -98,7 +98,6 @@ export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgr
   const ResponsiveGridLayout = useMemo(() => WidthProvider(Responsive), []);
   const backgroundRef = useRef<HTMLDivElement>(null);
   const classes = useStyles();
-  //TODO: UPDATE TO INTIALISE WITH 3X3 GRIDCELLS
   const [items, setItems] = useState<Layout[]>(initialLayout);
   const [backgroundColor, setBackgroundColor] = useState(initialBackgroundColor);
   const [rows, setRows] = useState(initialRows);
@@ -255,8 +254,15 @@ export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgr
 
 export const BackgroundDefaultProps: BackgroundProps = {
   backgroundColor: '#292929',
-  layout: [{ i: '0', x: 0, y: 0, w: 1, h: 1 }],
-  rows: 3,
+  layout: [
+    { i: '0', x: 0, y: 0, w: 1, h: 1 },
+    { i: '1', x: 1, y: 0, w: 1, h: 1 },
+    { i: '2', x: 2, y: 0, w: 1, h: 1 },
+    { i: '3', x: 0, y: 1, w: 1, h: 1 },
+    { i: '4', x: 1, y: 1, w: 1, h: 1 },
+    { i: '5', x: 2, y: 1, w: 1, h: 1 },
+  ],
+  rows: 2,
   columns: 3,
 };
 
