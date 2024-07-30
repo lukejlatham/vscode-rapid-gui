@@ -3,6 +3,8 @@ import { useEditor } from "@craftjs/core";
 import { Subtitle2, Divider, Button, Tooltip, makeStyles } from "@fluentui/react-components";
 import { Delete24Regular, PaintBrush24Regular, PaintBrushArrowDown24Regular, Dismiss20Regular } from "@fluentui/react-icons";
 import { BackgroundSettings } from "../../../components/user/Settings/BackgroundSettings";
+import { stat } from "fs";
+import { string } from "zod";
 
 
 const useStyles = makeStyles({
@@ -36,41 +38,23 @@ const useStyles = makeStyles({
 
 export const PropertyInspector: React.FC = () => {
   const [copiedSettings, setCopiedSettings] = useState<{ props: Record<string, any>, displayName: string } | null>(null);
-  const { actions, selected } = useEditor((state, query) => {
-    const selectedArray = Array.from(state.events.selected);
-    const [currentNodeId] = selectedArray;
+
+  const { selected, actions } = useEditor((state, query) => {
+    const [currentNodeId] = Array.from(state.events.selected);
 
     if (currentNodeId) {
-      const node = state.nodes[currentNodeId];
-      // console.log(node);
       return {
         selected: {
           id: currentNodeId,
-          name: node.data.name,
-          settings: node.related?.settings,
-          props: node.data.props,
-          displayName: node.data.displayName,
+          name: state.nodes[currentNodeId].data.name,
+          settings: state.nodes[currentNodeId].related && state.nodes[currentNodeId].related.settings,
+          props: state.nodes[currentNodeId].data.props,
+          displayName: state.nodes[currentNodeId].data.displayName,
           isDeletable: query.node(currentNodeId).isDeletable(),
         },
         isEnabled: state.options.enabled,
       };
-    }     
-  //   else if (currentNodeId === 'ROOT') {
-  //     const node = state.nodes[currentNodeId];
-  //     console.log(node);
-  //     return {
-  //       selected: {
-  //         id: currentNodeId,
-  //         name: node.data.name,
-  //         settings: BackgroundSettings,
-  //         props: node.data.props,
-  //         displayName: node.data.displayName,
-  //         isDeletable: query.node(currentNodeId).isDeletable(),
-  //       },
-  //   }
-  // }
-
-
+    }
     return { selected: null, isEnabled: false };
   });
 
@@ -102,13 +86,14 @@ export const PropertyInspector: React.FC = () => {
   return selected ? (
     <div className={classes.propertyInspector}>
       <div className={classes.header}>
-        <Subtitle2>{selected.displayName}-{selected.id}</Subtitle2>
+        <Subtitle2>{selected.displayName}</Subtitle2>
         <Button icon={<Dismiss20Regular />} appearance="transparent" onClick={handleClose} />
       </div>
       <Divider style={{ flexGrow: "0" }} />
       {selected.settings && React.createElement(selected.settings)}
       {(selected.displayName === 'Background') ? <BackgroundSettings /> : null}
-      <div className={classes.buttonGroup}>
+      
+      {(selected.displayName !== 'GridCell' && selected.displayName !== 'Background') ? (<div className={classes.buttonGroup}>
         <Tooltip content="Copy Format" relationship="label">
           <Button
             appearance='secondary'
@@ -127,7 +112,7 @@ export const PropertyInspector: React.FC = () => {
             disabled={!copiedSettings || !selected.props || selected.displayName !== copiedSettings.displayName}
           />
         </Tooltip>
-        <Button
+         <Button
           appearance='primary'
           className={classes.button}
           icon={<Delete24Regular />}
@@ -138,7 +123,7 @@ export const PropertyInspector: React.FC = () => {
         >
           Delete
         </Button>
-      </div>
+      </div>): null}
     </div>
   ) : null;
 };

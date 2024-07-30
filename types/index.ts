@@ -3,15 +3,20 @@ import { Layout } from "react-grid-layout";
 import * as VscIcons from "react-icons/vsc";
 
 export interface BackgroundProps {
-  backgroundColor: string;
-  layout: Layout[];
-  rows: number;
-  columns: number;
-}
+    backgroundColor: string;
+    layout: Layout[];
+    rows: number;
+    columns: number;
+    lockedGrid: boolean;
+    [key: string]: string | number | Layout[] | boolean;
+  }
 
-export interface EditBackgroundButtonProps {
-  nodeId: string;
-}
+export interface TooltipConfigBackground {
+    label: string;
+    content: string;
+    propKey: keyof BackgroundProps;
+    type: 'color' | 'spinButton' | 'text' | 'button';
+};
 
 export interface ButtonProps {
   backgroundColor: string;
@@ -69,18 +74,13 @@ export type TooltipConfigCheckbox = {
 };
 
 export interface ContainerProps {
-  children?: React.ReactNode;
-  flexDirection?: "row" | "column";
-  justifyContent?: "flex-start" | "center" | "flex-end" | "space-between" | "space-around";
-  alignItems?: "flex-start" | "center" | "flex-end";
-  gap?: number;
-}
-
-export interface generateContainerProps {
-  flexDirection: "row" | "column";
-  justifyContent?: "flex-start" | "center" | "flex-end" | "space-between" | "space-around";
-  alignItems?: "flex-start" | "center" | "flex-end";
-}
+    id: string;
+    children?: React.ReactNode;
+    flexDirection?: "row" | "column";
+    justifyContent?: "flex-start" | "center" | "flex-end" | "space-between" | "space-around";
+    alignItems?: "flex-start" | "center" | "flex-end";
+    gap?: number;
+  }
 
 export interface InputProps {
   fontSize: number;

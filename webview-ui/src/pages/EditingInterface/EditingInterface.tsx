@@ -1,6 +1,6 @@
 import { Editor } from "@craftjs/core";
 import { Label } from "../../components/user/Label";
-import { Button } from '../../components/user/Button';
+import { Button } from "../../components/user/Button";
 import { makeStyles } from '@fluentui/react-components';
 import { TextBox } from '../../components/user/TextBox';
 import { Image } from '../../components/user/Image';
@@ -13,7 +13,6 @@ import RightSidebar from './RightSidebar/RightSidebar';
 import Canvas from './Canvas';
 import LeftSidebar from './LeftSidebar/LeftSidebar';
 import { GridCell } from "../../components/user/GridCell";
-import { GridCellContents } from "../../components/user/GridCellContents";
 import { EditBackgroundButton } from "../../components/EditBackgroundButton";
 
 const useStyles = makeStyles({
@@ -49,7 +48,7 @@ const EditingInterface: React.FC = () => {
     const classes = useStyles();
 
     return (
-        <Editor resolver={{ Background, Label, Button, TextBox, Image, UserInput, RadioButton, Checkbox, GridCell, GridCellContents, Icon, EditBackgroundButton }}>
+        <Editor resolver={{ Background, Label, Button, TextBox, Image, UserInput, RadioButton, Checkbox, GridCell, Icon, EditBackgroundButton }}>
             <div className={classes.mainLayout}>
                 <div className={classes.leftSidebar}>
                     <LeftSidebar classes={classes} />

@@ -1,4 +1,3 @@
-import React from "react";
 import { useNode, UserComponent } from "@craftjs/core";
 import { makeStyles} from "@fluentui/react-components";
 import { ButtonProps } from '../../../../types';
