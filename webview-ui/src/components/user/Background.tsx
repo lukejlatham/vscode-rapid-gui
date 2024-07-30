@@ -8,6 +8,7 @@ import "react-resizable/css/styles.css";
 import { useNode } from '@craftjs/core';
 import { EditBackgroundButton } from '../EditBackgroundButton';
 import { BackgroundProps } from '../../../../types';
+import { DeleteRegular } from '@fluentui/react-icons';
 
 const useStyles = makeStyles({
   background: {
@@ -26,16 +27,8 @@ const useStyles = makeStyles({
   },
   removeButton: {
     position: 'absolute',
-    top: '10px',
-    right: '10px',
-    cursor: 'pointer',
-    color: 'white',
-    border: 'none',
-    padding: '2px 6px',
-    fontSize: '16px',
-    lineHeight: '16px',
-    borderRadius: '8px',
-    backgroundColor: 'red',
+    left: '45%',
+    bottom: '10px',
   },
   settingsContainer: {
     display: 'flex',
@@ -114,20 +107,6 @@ export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgr
     return () => window.removeEventListener('resize', updateContainerHeight);
   }, []);
 // TODO:  UPDATE THIS FUCTION TO NOT EXCEED THE MAXIMUM ROWS AND COLUMNS AND ADD RIGHT TO LEFT
-  const addItem = () => {
-    setProp((props: BackgroundProps) => {
-      const newItem = {
-        i: (props.layout.length > 0 ? (parseInt(props.layout[props.layout.length - 1].i) + 1).toString() : '0'),
-        x: 0,
-        y: 0,
-        w: 1,
-        h: 1,
-        maxW: props.rows,
-        maxH: props.columns
-      };
-      props.layout = [...props.layout, newItem];
-    });
-  };
 
   const onRemoveItem = (i: string) => {
     setProp((props: BackgroundProps) => {
@@ -170,7 +149,7 @@ export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgr
   return (
     <>
       <div className={classes.settingsContainer}>
-        <EditBackgroundButton nodeId="ROOT"/>
+        {/* <EditBackgroundButton nodeId="ROOT"/> */}
         <Label>
           <input
             className={classes.colorInput}
@@ -195,9 +174,9 @@ export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgr
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleColumnsChange(parseInt(e.target.value, 10))}
           />
         </Label>
-        <Button size='small' onClick={addItem} className={classes.addButton}>
+        {/* <Button size='small' onClick={addItem} className={classes.addButton}>
           Add Item
-        </Button>
+        </Button> */}
         <Button size='small' onClick={handleLockedGrid} className={classes.lockedButton}>
           {initialGridLocked ? 'Unlock Grid' : 'Lock Grid'}
         </Button>
@@ -223,17 +202,16 @@ export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgr
         >
           {initialLayout.map((item) => (
             <div key={item.i} data-grid={item} className={classes.gridCell}>
-              <Element id={item.i} is={GridCell} />
+              <Element id={item.i} is={GridCell} custom={{id: item.i}} canvas/>
              {!initialGridLocked && (
-        <button
+        <Button
           className={classes.removeButton}
+          icon={<DeleteRegular />}
           onClick={(e) => {
             e.stopPropagation();
             onRemoveItem(item.i);
           }}
-        >
-          Remove
-        </button>
+        />
       )}
             </div>
             

@@ -60,6 +60,7 @@ export type TooltipConfigCheckbox = {
 };
 
 export interface ContainerProps {
+    id: string;
     children?: React.ReactNode;
     flexDirection?: "row" | "column";
     justifyContent?: "flex-start" | "center" | "flex-end" | "space-between" | "space-around";

@@ -3,6 +3,8 @@ import { useEditor } from "@craftjs/core";
 import { Subtitle2, Divider, Button, Tooltip, makeStyles } from "@fluentui/react-components";
 import { Delete24Regular, PaintBrush24Regular, PaintBrushArrowDown24Regular, Dismiss20Regular } from "@fluentui/react-icons";
 import { BackgroundSettings } from "../../../components/user/Settings/BackgroundSettings";
+import { stat } from "fs";
+import { string } from "zod";
 
 
 const useStyles = makeStyles({
@@ -36,20 +38,18 @@ const useStyles = makeStyles({
 
 export const PropertyInspector: React.FC = () => {
   const [copiedSettings, setCopiedSettings] = useState<{ props: Record<string, any>, displayName: string } | null>(null);
-  const { actions, selected } = useEditor((state, query) => {
-    const selectedArray = Array.from(state.events.selected);
-    const [currentNodeId] = selectedArray;
+
+  const { selected, actions } = useEditor((state, query) => {
+    const [currentNodeId] = Array.from(state.events.selected);
 
     if (currentNodeId) {
-      const node = state.nodes[currentNodeId];
-      // console.log(node);
       return {
         selected: {
           id: currentNodeId,
-          name: node.data.name,
-          settings: node.related?.settings,
-          props: node.data.props,
-          displayName: node.data.displayName,
+          name: state.nodes[currentNodeId].data.name,
+          settings: state.nodes[currentNodeId].related && state.nodes[currentNodeId].related.settings,
+          props: state.nodes[currentNodeId].data.props,
+          displayName: state.nodes[currentNodeId].data.displayName,
           isDeletable: query.node(currentNodeId).isDeletable(),
         },
         isEnabled: state.options.enabled,
@@ -111,17 +111,17 @@ export const PropertyInspector: React.FC = () => {
             disabled={!copiedSettings || !selected.props || selected.displayName !== copiedSettings.displayName}
           />
         </Tooltip>
-        <Button
+        {(selected.displayName !== 'GridCell') ? <Button
           appearance='primary'
           className={classes.button}
           icon={<Delete24Regular />}
           onClick={() => {
             actions.delete(selected.id);
           }}
-          // disabled={!selected.isDeletable}
+          disabled={!selected.isDeletable}
         >
           Delete
-        </Button>
+        </Button> : null}
       </div>
     </div>
   ) : null;
