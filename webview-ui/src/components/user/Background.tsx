@@ -8,6 +8,7 @@ import "react-resizable/css/styles.css";
 import { useNode } from '@craftjs/core';
 import { EditBackgroundButton } from '../EditBackgroundButton';
 import { BackgroundProps } from '../../../../types';
+import { set } from 'lodash';
 
 const useStyles = makeStyles({
   background: {
@@ -98,10 +99,6 @@ export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgr
   const ResponsiveGridLayout = useMemo(() => WidthProvider(Responsive), []);
   const backgroundRef = useRef<HTMLDivElement>(null);
   const classes = useStyles();
-  const [items, setItems] = useState<Layout[]>(initialLayout);
-  const [backgroundColor, setBackgroundColor] = useState(initialBackgroundColor);
-  const [rows, setRows] = useState(initialRows);
-  const [columns, setColumns] = useState(initialColumns);
   const [containerHeight, setContainerHeight] = useState(0);
   const [lockedGrid, setLockedGrid] = useState(false);
   const { actions:{setProp} } = useNode();
@@ -121,49 +118,43 @@ export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgr
   const addItem = () => {
     setProp((props: BackgroundProps) => {
       const newItem = {
-        i: (items.length > 0 ? (parseInt(items[items.length - 1].i) + 1).toString() : '0'),
+        i: (props.layout.length > 0 ? (parseInt(props.layout[props.layout.length - 1].i) + 1).toString() : '0'),
         x: 0,
         y: 0,
         w: 1,
         h: 1,
-        maxW: rows,
-        maxH: columns
+        maxW: props.rows,
+        maxH: props.columns
       };
       props.layout = [...props.layout, newItem];
-      setItems(props.layout);
     });
   };
 
   const onRemoveItem = (i: string) => {
-    setItems((prevItems) => prevItems.filter((item) => item.i !== i));
     setProp((props: BackgroundProps) => {
       props.layout = props.layout.filter((item) => item.i !== i);
     });
   };
 
   const onLayoutChange = (layout: Layout[]) => {
-    setItems(layout);
     setProp((props: BackgroundProps) => {
       props.layout = layout;
     });
   };
 
   const handleBackgroundColorChange = (color: string) => {
-    setBackgroundColor(color);
     setProp((props: BackgroundProps) => {
       props.backgroundColor = color;
     });
   };
 
   const handleRowsChange = (newRows: number) => {
-    setRows(newRows);
     setProp((props: BackgroundProps) => {
       props.rows = newRows;
     });
   };
 
   const handleColumnsChange = (newColumns: number) => {
-    setColumns(newColumns);
     setProp((props: BackgroundProps) => {
       props.columns = newColumns;
     });
@@ -173,7 +164,7 @@ export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgr
     setLockedGrid(!lockedGrid);
   }
 
-  const rowHeight = containerHeight / rows;
+  const rowHeight = containerHeight / initialRows;
 
   return (
     <>
@@ -183,7 +174,7 @@ export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgr
           <input
             className={classes.colorInput}
             type="color"
-            value={backgroundColor}
+            value={initialBackgroundColor}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleBackgroundColorChange(e.target.value)} />
         </Label>
         <Label>
@@ -191,7 +182,7 @@ export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgr
           <Input
           className='rows'
             type="number"
-            value={rows.toString()}
+            value={initialRows.toString()}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleRowsChange(parseInt(e.target.value, 10))}
           />
         </Label>
@@ -199,7 +190,7 @@ export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgr
           Columns
           <Input
             type="number"
-            value={columns.toString()}
+            value={initialColumns.toString()}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleColumnsChange(parseInt(e.target.value, 10))}
           />
         </Label>
@@ -214,14 +205,14 @@ export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgr
         appearance='filled'
         ref={backgroundRef}
         className={classes.background}
-        style={{ backgroundColor }}
+        style={{ backgroundColor: initialBackgroundColor }}
       >
         <ResponsiveGridLayout
           className="layout"
-          layout={items}
-          cols={columns}
+          layout={initialLayout}
+          cols={initialColumns}
           rowHeight={rowHeight}
-          maxRows={rows}
+          maxRows={initialRows}
           isResizable={lockedGrid ? false : true}
           isDraggable={lockedGrid ? false : true}
           compactType={null}
@@ -229,7 +220,7 @@ export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgr
         
           resizeHandles={['se', 'sw', 'ne', 'nw']}
         >
-          {items.map((item) => (
+          {initialLayout.map((item) => (
             <div key={item.i} data-grid={item} className={classes.gridCell}>
               <Element id={item.i} is={GridCell} />
              {lockedGrid && (
