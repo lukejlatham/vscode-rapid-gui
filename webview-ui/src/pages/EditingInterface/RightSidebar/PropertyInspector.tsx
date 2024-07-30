@@ -54,23 +54,7 @@ export const PropertyInspector: React.FC = () => {
         },
         isEnabled: state.options.enabled,
       };
-    }     
-  //   else if (currentNodeId === 'ROOT') {
-  //     const node = state.nodes[currentNodeId];
-  //     console.log(node);
-  //     return {
-  //       selected: {
-  //         id: currentNodeId,
-  //         name: node.data.name,
-  //         settings: BackgroundSettings,
-  //         props: node.data.props,
-  //         displayName: node.data.displayName,
-  //         isDeletable: query.node(currentNodeId).isDeletable(),
-  //       },
-  //   }
-  // }
-
-
+    }
     return { selected: null, isEnabled: false };
   });
 
@@ -134,7 +118,7 @@ export const PropertyInspector: React.FC = () => {
           onClick={() => {
             actions.delete(selected.id);
           }}
-          disabled={!selected.isDeletable}
+          // disabled={!selected.isDeletable}
         >
           Delete
         </Button>

@@ -7,11 +7,16 @@ export interface BackgroundProps {
     layout: Layout[];
     rows: number;
     columns: number;
+    lockedGrid: boolean;
+    [key: string]: string | number | Layout[] | boolean;
   }
 
-export interface EditBackgroundButtonProps {
-    nodeId: string;
-}
+export interface TooltipConfigBackground {
+    label: string;
+    content: string;
+    propKey: keyof BackgroundProps;
+    type: 'color' | 'spinButton' | 'text' | 'button';
+};
 
 export interface ButtonProps {
     backgroundColor: string;

@@ -8,7 +8,6 @@ import "react-resizable/css/styles.css";
 import { useNode } from '@craftjs/core';
 import { EditBackgroundButton } from '../EditBackgroundButton';
 import { BackgroundProps } from '../../../../types';
-import { set } from 'lodash';
 
 const useStyles = makeStyles({
   background: {
@@ -95,12 +94,12 @@ const useStyles = makeStyles({
   },
 });
 
-export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgroundColor, layout: initialLayout, rows: initialRows, columns: initialColumns }) => {
+export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgroundColor, layout: initialLayout, rows: initialRows, columns: initialColumns, lockedGrid: initialGridLocked }) => {
   const ResponsiveGridLayout = useMemo(() => WidthProvider(Responsive), []);
   const backgroundRef = useRef<HTMLDivElement>(null);
   const classes = useStyles();
   const [containerHeight, setContainerHeight] = useState(0);
-  const [lockedGrid, setLockedGrid] = useState(false);
+  // const [lockedGrid, setLockedGrid] = useState(false);
   const { actions:{setProp} } = useNode();
 
   useEffect(() => {
@@ -161,8 +160,10 @@ export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgr
   };
 
   const handleLockedGrid = () => {
-    setLockedGrid(!lockedGrid);
-  }
+    setProp((props: BackgroundProps) => {
+      props.lockedGrid = !props.lockedGrid;
+    });
+  };
 
   const rowHeight = containerHeight / initialRows;
 
@@ -198,7 +199,7 @@ export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgr
           Add Item
         </Button>
         <Button size='small' onClick={handleLockedGrid} className={classes.lockedButton}>
-          {lockedGrid ? 'Unlock Grid' : 'Lock Grid'}
+          {initialGridLocked ? 'Unlock Grid' : 'Lock Grid'}
         </Button>
       </div>
       <Card
@@ -213,9 +214,9 @@ export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgr
           cols={initialColumns}
           rowHeight={rowHeight}
           maxRows={initialRows}
-          isResizable={lockedGrid ? false : true}
-          isDraggable={lockedGrid ? false : true}
-          compactType={null}
+          isResizable={initialGridLocked ? false : true}
+          isDraggable={initialGridLocked ? false : true}
+          compactType={'horizontal'}
           onLayoutChange={onLayoutChange}
         
           resizeHandles={['se', 'sw', 'ne', 'nw']}
@@ -223,7 +224,7 @@ export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgr
           {initialLayout.map((item) => (
             <div key={item.i} data-grid={item} className={classes.gridCell}>
               <Element id={item.i} is={GridCell} />
-             {lockedGrid && (
+             {!initialGridLocked && (
         <button
           className={classes.removeButton}
           onClick={(e) => {
@@ -255,6 +256,7 @@ export const BackgroundDefaultProps: BackgroundProps = {
   ],
   rows: 2,
   columns: 3,
+  lockedGrid: false,
 };
 
 

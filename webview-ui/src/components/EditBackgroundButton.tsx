@@ -1,23 +1,26 @@
 import { Button } from '@fluentui/react-components';
 import { useEditor, UserComponent } from '@craftjs/core';
-import { EditBackgroundButtonProps } from '../../../types';
 import { BackgroundSettings } from './user/Settings/BackgroundSettings';
+import { TableEditRegular } from '@fluentui/react-icons';
 
-export const EditBackgroundButton: UserComponent<EditBackgroundButtonProps> = ({ nodeId }) => {
+export const EditBackgroundButton: UserComponent = () => {
     const { connectors: { select } } = useEditor();
-    const { query } = useEditor();
+    // const { query } = useEditor();
 
-    const value = query.node(nodeId).get().data.props.backgroundColor;
+    // const value = query.node("ROOT").get().data.props.backgroundColor;
 
     return (
         <Button
+            icon={<TableEditRegular />}
+            size='large' 
+            appearance='secondary'
             ref={(ref: HTMLButtonElement | null) => {
                 if (ref) {
-                    select(ref, nodeId);
+                    select(ref, "ROOT");
                 }
             }}
         >
-            {value ? `Edit Background: ${value}` : 'Edit Background'}
+            Edit Background
         </Button>
     );
 };

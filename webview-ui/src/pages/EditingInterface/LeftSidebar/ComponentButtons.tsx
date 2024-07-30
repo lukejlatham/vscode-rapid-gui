@@ -9,6 +9,7 @@ import { UserInput, InputDefaultProps } from '../../../components/user/Input';
 import { RadioButton, RadioButtonDefaultProps } from '../../../components/user/RadioButton';
 import { Checkbox, CheckboxDefaultProps } from '../../../components/user/Checkbox';
 import { Icon, IconDefaultProps } from '../../../components/user/Icon';
+import { EditBackgroundButton } from '../../../components/EditBackgroundButton';
 import {
     Image24Regular,
     TextboxRegular,
@@ -79,6 +80,8 @@ const ComponentButtons: React.FC<{ classes: any }> = ({ classes }) => {
                 }
             }}>Icon</Button>
             <Divider className={classes.divider}> Layout </Divider>
+            <EditBackgroundButton/>
+
         </>
     );
 };
