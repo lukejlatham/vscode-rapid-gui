@@ -19,8 +19,6 @@ export const GridCellSettings: React.FC = () => {
     }));
     const { query, actions: { setProp } } = useEditor();
     const props = query.node("ROOT").get().data.props as BackgroundProps;
-    const backgroundId = query.node('ROOT').get().id;
-
     console.log('Grid Cell props: ', gridProps);
 
     const gridCellId = gridCell.data.custom?.id
@@ -76,7 +74,8 @@ export const GridCellSettings: React.FC = () => {
                     {tooltip.type === "spinButton" ? (
                         <SpinButton
                             className={styles.spinButton}
-                            defaultValue={props[tooltip.propKey] as number}
+                            min={0}
+                            defaultValue={gridProps[tooltip.propKey] as number}
                             onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
                                 const value = data.value ? data.value : 0;
                                 actions.setProp((props: GridCellProps) => {
@@ -88,7 +87,7 @@ export const GridCellSettings: React.FC = () => {
                         <Input
                             className={styles.textInput}
                             type="text"
-                            defaultValue={props[tooltip.propKey] as string}
+                            defaultValue={gridProps[tooltip.propKey] as string}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                 actions.setProp((props: GridCellProps) => {
                                     (props[tooltip.propKey] as string) = e.target.value;
@@ -97,7 +96,7 @@ export const GridCellSettings: React.FC = () => {
                         />
                     ) : tooltip.type === "alignItems" ? (
                         <RadioGroup
-                            defaultValue={props[tooltip.propKey] as string}
+                            defaultValue={gridProps[tooltip.propKey] as string}
                             layout="horizontal-stacked"
                             onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
                                 actions.setProp((props: GridCellProps) => {
@@ -111,7 +110,7 @@ export const GridCellSettings: React.FC = () => {
                         </RadioGroup>
                     ) : tooltip.type === "justifyContent" ? (
                         <RadioGroup
-                            defaultValue={props[tooltip.propKey] as string}
+                            defaultValue={gridProps[tooltip.propKey] as string}
                             layout="horizontal-stacked"
                             onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
                                 actions.setProp((props: GridCellProps) => {
@@ -127,7 +126,7 @@ export const GridCellSettings: React.FC = () => {
                         </RadioGroup>
                     ) : tooltip.type === "direction" && (
                         <RadioGroup
-                            defaultValue={props[tooltip.propKey] as string}
+                            defaultValue={gridProps[tooltip.propKey] as string}
                             layout="horizontal-stacked"
                             onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
                                 actions.setProp((props: GridCellProps) => {

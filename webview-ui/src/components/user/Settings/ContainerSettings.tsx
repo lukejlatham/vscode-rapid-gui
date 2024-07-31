@@ -69,6 +69,8 @@ export const ContainerSettings: React.FC = () => {
                     ) : tooltip.type === "spinButton" ? (
                         <SpinButton
                             className={styles.spinButton}
+                            min={0}
+                            max={100}
                             defaultValue={props[tooltip.propKey] as number}
                             onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
                                 const value = data.value ? data.value : 0;
