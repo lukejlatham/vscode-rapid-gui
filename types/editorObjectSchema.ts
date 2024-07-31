@@ -80,7 +80,7 @@ export const generateButtonSchema = ButtonSchema.omit({
   icon: undefined,
 });
 
-type generateButtonProps = z.infer<typeof generateButtonSchema>;
+export type generateButtonProps = z.infer<typeof generateButtonSchema>;
 
 export const CheckboxSchema = z.object({
   header: z.string().default("Checkbox Header"),
@@ -101,7 +101,9 @@ export const generateCheckboxSchema = CheckboxSchema.omit({
   direction: "row",
 });
 
-type CheckboxProps = z.infer<typeof CheckboxSchema>;
+export type generateCheckboxProps = z.infer<typeof generateCheckboxSchema>;
+
+export type CheckboxProps = z.infer<typeof CheckboxSchema>;
 
 export const editableCheckboxSchema = CheckboxSchema.omit({
   fontSize: true,
@@ -137,7 +139,7 @@ export const generateContainerSchema = ContainerSchema.omit({
   alignItems: "flex-start",
 });
 
-type generateContainerProps = z.infer<typeof generateContainerSchema>;
+export type generateContainerProps = z.infer<typeof generateContainerSchema>;
 
 export const InputSchema = z.object({
   fontSize: z.number().default(14),
@@ -158,7 +160,7 @@ export const generateInputSchema = InputSchema.omit({
   placeholder: "Enter text",
 });
 
-type generateInputProps = z.infer<typeof generateInputSchema>;
+export type generateInputProps = z.infer<typeof generateInputSchema>;
 
 export const LabelSchema = z.object({
   text: z.string().default("Label"),
@@ -177,7 +179,7 @@ export const LabelSchema = z.object({
   underline: z.boolean().default(false).optional(),
 });
 
-type LabelProps = z.infer<typeof LabelSchema>;
+export type LabelProps = z.infer<typeof LabelSchema>;
 
 export const generateLabelSchema = LabelSchema.omit({
   fontSize: true,
@@ -197,7 +199,7 @@ export const generateLabelSchema = LabelSchema.omit({
   underline: false,
 });
 
-type generateLabelProps = z.infer<typeof generateLabelSchema>;
+export type generateLabelProps = z.infer<typeof generateLabelSchema>;
 
 export const RadioButtonSchema = z.object({
   header: z.string().default("Radio Button Header"),
@@ -220,7 +222,7 @@ export const generateRadioButtonSchema = RadioButtonSchema.omit({
   direction: "row",
 });
 
-type generateRadioButtonProps = z.infer<typeof generateRadioButtonSchema>;
+export type generateRadioButtonProps = z.infer<typeof generateRadioButtonSchema>;
 
 export const TextBoxSchema = z.object({
   text: z.string().default("Text Box"),
@@ -249,7 +251,7 @@ export const generateTextBoxSchema = TextBoxSchema.omit({
   width: 200,
 });
 
-type generateTextBoxProps = z.infer<typeof generateTextBoxSchema>;
+export type generateTextBoxProps = z.infer<typeof generateTextBoxSchema>;
 
 const TooltipConfigTextSchema = z.object({
   label: z.string().default("Tooltip Label"),
@@ -288,7 +290,7 @@ const generateImageSchema = ImageSchema.omit({
   width: 150,
 });
 
-type generateImageProps = z.infer<typeof generateImageSchema>;
+export type generateImageProps = z.infer<typeof generateImageSchema>;
 
 const CardContainerSchema = z.object({
   color: z.string().default("white"),
@@ -355,7 +357,7 @@ export const generateTextSchema = TextSchema.omit({
   underline: false,
 });
 
-type generateTextProps = z.infer<typeof generateTextSchema>;
+export type generateTextProps = z.infer<typeof generateTextSchema>;
 
 export const generateFullElementSchema = z.object({
   props: z.union([
