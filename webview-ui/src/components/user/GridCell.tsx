@@ -1,42 +1,63 @@
-import { UserComponent, Element, useNode} from "@craftjs/core";
-import {ContainerProps} from '../../../../types';
+import { UserComponent, useNode } from "@craftjs/core";
+import { GridCellProps } from '../../../../types';
 import { makeStyles } from "@fluentui/react-components";
 import { GridCellSettings } from "./Settings/GridCellSettings";
 
 const useStyles = makeStyles({
   container: {
+    display: "flex",
     width: "100%",
     height: "100%",
-    position: 'relative',
     overflow: 'hidden',
-    
+  },
+  justifyLeft: {
+    justifyContent: "flex-start",
+  },
+  justifyCenter: {
+    justifyContent: "center",
+  },
+  justifyRight: {
+    justifyContent: "flex-end",
+  },
+  justifySpaceBetween: {
+    justifyContent: "space-between",
+  },
+  justifySpaceAround: {
+    justifyContent: "space-around",
+  },
+  directionRow: {
+    flexDirection: "row",
+  },
+  directionColumn: {
+    flexDirection: "column",
+  },
+  alignStart: {
+    alignItems: "flex-start",
+  },
+  alignCenter: {
+    alignItems: "center",
+  },
+  alignEnd: {
+    alignItems: "flex-end",
   },
   containerEmpty: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: "40px",
+    padding: "0px",
     width: "100%",
     height: "100%",
-  },
-  propsDisplay: {
-    position: "absolute",
-    bottom: "5px",
-    right: "5px",
-    backgroundColor: "rgba(255, 255, 255, 0.7)",
-    padding: "2px 5px",
-    fontSize: "12px",
-    borderRadius: "3px",
   },
 });
 
-export const GridCell: UserComponent<ContainerProps> = ({ id, children }) => {
+export const GridCell: UserComponent<GridCellProps> = ({ id, children, justifyContent, flexDirection, alignItems, gap }) => {
   const { connectors: { connect, drag } } = useNode();
   const styles = useStyles();
 
   return (
-    <div ref={(ref: HTMLDivElement | null ) => ref && connect(drag(ref))} className={styles.container}>
+    <div ref={(ref: HTMLDivElement | null) => ref && connect(drag(ref))} 
+    className={`${styles.container} 
+    ${justifyContent === 'flex-start' ? styles.justifyLeft : justifyContent === 'center' ? styles.justifyCenter : justifyContent === 'flex-end' ? styles.justifyRight : justifyContent === 'space-between' ? styles.justifySpaceBetween : styles.justifySpaceAround}
+    ${flexDirection === 'row' ? styles.directionRow : styles.directionColumn}
+    ${alignItems === 'flex-start' ? styles.alignStart : alignItems === 'center' ? styles.alignCenter : styles.alignEnd}`}
+    style={{gap: `${gap}px`}}>
       {children ? (
         children
       ) : (
@@ -49,12 +70,19 @@ export const GridCell: UserComponent<ContainerProps> = ({ id, children }) => {
   );
 };
 
+export const GridCellDefaultProps: GridCellProps = {
+  justifyContent: 'flex-start',
+  flexDirection: 'row',
+  alignItems: 'flex-start',
+  gap: 1,
+};
+
 GridCell.craft = {
-  displayName: "GridCell",
+  displayName: "Grid Cell",
   related: {
     settings: GridCellSettings
   }
-  
+
 };
 
 export default GridCell;

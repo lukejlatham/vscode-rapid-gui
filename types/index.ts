@@ -43,7 +43,7 @@ export type generateButtonProps = {
   icon?: keyof typeof VscIcons;
 };
 
-export type TooltipConfig = {
+export type TooltipConfigButton = {
   label: string;
   content: string;
   propKey: keyof ButtonProps;
@@ -73,14 +73,21 @@ export type TooltipConfigCheckbox = {
   type: "color" | "spinButton" | "text" | "options" | "direction";
 };
 
-export interface ContainerProps {
-    id: string;
+export interface GridCellProps {
+    id?: string;
     children?: React.ReactNode;
     flexDirection?: "row" | "column";
     justifyContent?: "flex-start" | "center" | "flex-end" | "space-between" | "space-around";
     alignItems?: "flex-start" | "center" | "flex-end";
     gap?: number;
   }
+
+export type TooltipConfigGridCell = {
+    label: string;
+    content: string;
+    propKey: keyof GridCellProps;
+    type: 'color' | 'spinButton' | 'text' | 'alignItems' | 'justifyContent' | 'direction';
+};
 
 export interface InputProps {
   fontSize: number;
@@ -208,8 +215,7 @@ export interface generateImageProps {
   width: number;
 }
 
-export interface CardContainerProps {
-  color: string;
+export interface ContainerProps {
   height: number;
   width: number;
   flexDirection?: "row" | "column";
@@ -218,9 +224,17 @@ export interface CardContainerProps {
   gap?: number;
   backgroundColor: string;
   borderRadius: number;
-  bordercolor: string;
+  borderColor: string;
   padding: number;
-  shadow: boolean;
+  shadow?: boolean;
+  children?: React.ReactNode;
+}
+
+export interface TooltipConfigContainer {
+  label: string;
+  content: string;
+  propKey: keyof ContainerProps;
+  type: "color" | "spinButton" | "text" | "justifyContent" | "alignItems" | "direction";
 }
 
 export interface TextProps {
