@@ -3,7 +3,7 @@ import { Input, Label, SpinButton, Radio, RadioGroup, SpinButtonChangeEvent, Spi
 import { Info16Regular } from "@fluentui/react-icons";
 import { useNode } from "@craftjs/core";
 import { usePropertyInspectorStyles } from "../../../hooks/usePropertyInspectorStyles";
-import { ButtonProps, TooltipConfig } from "../../../../../types";
+import { ButtonProps, TooltipConfigButton as TooltipConfig } from "../../../../../types";
 
 export const ButtonSettings: React.FC = () => {
     const { actions: { setProp }, props } = useNode(node => ({

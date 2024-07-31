@@ -2,7 +2,7 @@ import React, { FC, useEffect, useMemo, useState, useRef } from 'react';
 import { Card, makeStyles, Input, Label, Button } from '@fluentui/react-components';
 import Responsive, { Layout, WidthProvider } from 'react-grid-layout';
 import { Element } from '@craftjs/core';
-import { GridCell } from './GridCell';
+import { GridCell, GridCellDefaultProps } from './GridCell';
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import { useNode } from '@craftjs/core';
@@ -77,7 +77,7 @@ export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgr
         >
           {initialLayout.map((item) => (
             <div key={item.i} data-grid={item} className={styles.gridCell}>
-              <Element id={item.i} is={GridCell} custom={{id: item.i}} canvas/>
+              <Element id={item.i} is={GridCell} custom={{id: item.i}} {...GridCellDefaultProps} canvas/>
             </div>
           ))}
         </ResponsiveGridLayout>

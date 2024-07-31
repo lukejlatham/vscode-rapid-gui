@@ -26,6 +26,7 @@ import {
     CheckboxCheckedRegular,
     EmojiRegular
 } from '@fluentui/react-icons';
+import { Container, ContainerDefaultProps } from '../../../components/user/Container';
 
 const ButtonIcon = bundleIcon(Button20Filled, Button20Regular);
 const LabelIcon = bundleIcon(TextT24Regular, TextT24Regular);
@@ -79,6 +80,11 @@ const ComponentButtons: React.FC<{ classes: any }> = ({ classes }) => {
                     connectors.create(ref, <Icon {...IconDefaultProps} />);
                 }
             }}>Icon</Button>
+            <Button icon={<EmojiRegular />} size='large' appearance='outline' ref={ref => {
+                if (ref !== null) {
+                    connectors.create(ref, <Container {...ContainerDefaultProps} />);
+                }
+            }}>Container</Button>
             <Divider className={classes.divider}> Layout </Divider>
             <EditBackgroundButton/>
 
