@@ -93,9 +93,9 @@ export const Text: UserComponent<TextProps> = ({ text, fontSize, fontColor, text
 };
 
 export const TextDefaultProps: TextProps = {
-    text: "Text",
+    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     fontSize: 16,
-    fontColor: "#000000",
+    fontColor: "white",
     userEditable: true,
     textAlign: "left",
     bold: false,

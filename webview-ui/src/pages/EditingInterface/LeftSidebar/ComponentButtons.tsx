@@ -66,12 +66,12 @@ const ComponentButtons: React.FC<{ classes: any }> = ({ classes }) => {
                 if (ref !== null) {
                     connectors.create(ref, <UserInput {...InputDefaultProps} />);
                 }
-            }}>Paragraph</Button>
+            }}>Text Input</Button>
             <Button icon={<TextIcon />} size='large' appearance='outline' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Text {...TextDefaultProps} />);
                 }
-            }}>Text Input</Button>
+            }}>Paragraph</Button>
             <Button icon={<RadioButtonFilled />} size='large' appearance='outline' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <RadioButton {...RadioButtonDefaultProps} />);

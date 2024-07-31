@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { usePropertyInspectorStyles } from "../../../hooks/usePropertyInspectorStyles";
 import { TextProps } from "../../../../../types";
-import { SlideTextRegular } from "@fluentui/react-icons";
+import { Info16Regular } from "@fluentui/react-icons";
 import { useNode } from "@craftjs/core";
 import { Input, Label as FLabel, RadioGroup, Radio, Tooltip, useId } from "@fluentui/react-components";
 
@@ -57,7 +57,7 @@ export const TextSettings: React.FC = () => {
               relationship="label" 
               onVisibleChange={(_, data) => setVisibleTooltip(data.visible ? tooltip.propKey : null)}
             >
-              <SlideTextRegular
+              <Info16Regular
                 tabIndex={0}
                 className={visibleTooltip === tooltip.propKey ? styles.visible : undefined}
               />
@@ -88,7 +88,7 @@ export const TextSettings: React.FC = () => {
                   setProp((props: TextProps) => (props.text = e.target.value), 1000);
                 }}
               />
-            ) : tooltip.propKey === "textAlign" && (
+            ) : tooltip.propKey === "textAlign" ? (
               <RadioGroup
                 defaultValue={textAlign}
                 layout="horizontal-stacked"
@@ -100,8 +100,8 @@ export const TextSettings: React.FC = () => {
                 <Radio value="center" label="Center" />
                 <Radio value="right" label="Right" />
                 <Radio value="justify" label="Justify" />
-              </RadioGroup>
-            )} : tooltip.propKey === "bold" && (
+                </RadioGroup>
+            ) : tooltip.propKey === "bold" ? (
                 <RadioGroup
                     defaultValue={bold}
                     layout="horizontal-stacked"
@@ -129,7 +129,7 @@ export const TextSettings: React.FC = () => {
                     <Radio value="true" label="Italic" />
                     <Radio value="false" label="Normal" />
                 </RadioGroup>
-            ) : tooltip.propKey === "underline" && (
+            ) : tooltip.propKey === "underline" ? (
                 <RadioGroup
                     defaultValue={underline}
                     layout="horizontal-stacked"
@@ -156,6 +156,7 @@ export const TextSettings: React.FC = () => {
                     }}
                 />
             )
+        }
           </div>
         ))}
       </div>
