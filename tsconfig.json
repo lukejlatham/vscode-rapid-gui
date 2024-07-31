@@ -8,9 +8,14 @@
       "dom"
     ],
     "sourceMap": true,
-    "rootDir": "src",
     "strict": false,
+    "noEmit": true,
+    "esModuleInterop": true,
   },
+  "include": [
+    "types/**/*.d.ts",
+    "src/**/*.ts"
+  ],
   "exclude": [
     "node_modules",
     ".vscode-test",

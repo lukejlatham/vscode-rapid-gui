@@ -1,27 +1,18 @@
 import { AzureOpenAI } from "openai";
 import Instructor from "@instructor-ai/instructor";
 import { z } from "zod";
-
-const elements = ["Button", "Label", "Image", "TextBox"];
-
-const elementSchema = z.object({
-  type: z.enum([elements[0], elements[1], elements[2], elements[3]]),
-  name: z.string(),
-});
-
-const sectionSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  xPosition: z.number().max(10),
-  yPosition: z.number().max(10),
-  width: z.number().max(10),
-  height: z.number().max(10),
-  children: z.array(elementSchema),
-});
-
-const layoutSchema = z.object({
-  sections: z.array(sectionSchema),
-});
+import {
+  layoutSchema,
+  generateButtonSchema,
+  generateContainerSchema,
+  generateElementSchema,
+  generateFullElementSchema,
+  generateInputSchema,
+  generateLabelSchema,
+  generateRadioButtonSchema,
+  generateTextBoxSchema,
+  generateTextSchema,
+} from "../../types/editorObjectSchema";
 
 const exampleOutput = `
 {
