@@ -224,10 +224,17 @@ export interface ContainerProps {
   gap?: number;
   backgroundColor: string;
   borderRadius: number;
-  bordercolor: string;
+  borderColor: string;
   padding: number;
   shadow?: boolean;
   children?: React.ReactNode;
+}
+
+export interface TooltipConfigContainer {
+  label: string;
+  content: string;
+  propKey: keyof ContainerProps;
+  type: "color" | "spinButton" | "text" | "justifyContent" | "alignItems" | "direction";
 }
 
 export interface TextProps {

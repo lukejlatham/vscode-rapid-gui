@@ -1,15 +1,16 @@
 import { UserComponent, useNode } from "@craftjs/core";
 import { ContainerProps } from "../../../../types";
 import { makeStyles } from "@fluentui/react-components";
+import { ContainerSettings } from "./Settings/ContainerSettings";
 // import { ContainerSettings } from "./Settings/ContainerSettings";
 
 
 const useStyles = makeStyles({
     container: {
       display: "flex",
-      width: "100%",
-      height: "100%",
       overflow: 'hidden',
+      maxWidth: '100%',
+      maxHeight: '100%',
     },
     justifyLeft: {
       justifyContent: "flex-start",
@@ -47,13 +48,13 @@ const useStyles = makeStyles({
     },
   });
 
-export const Container: UserComponent<ContainerProps> = ({ height, width, backgroundColor, borderRadius, bordercolor, padding, flexDirection, justifyContent, alignItems, gap, children, }) => {
+export const Container: UserComponent<ContainerProps> = ({ height, width, backgroundColor, borderRadius, borderColor, padding, flexDirection, justifyContent, alignItems, gap, children, }) => {
     const { connectors: { connect, drag } } = useNode();
     const styles = useStyles();
     const divStyle = {
         backgroundColor: backgroundColor,
         borderRadius: borderRadius,
-        border: `1px solid ${bordercolor}`,
+        border: `1px solid ${borderColor}`,
         padding: padding,
         height: `${height}%`,
         width: `${width}%`,
@@ -81,9 +82,9 @@ export const Container: UserComponent<ContainerProps> = ({ height, width, backgr
 export const ContainerDefaultProps: ContainerProps = {
     height: 50,
     width: 100,
-    backgroundColor: "#666666",
-    borderRadius: 0,
-    bordercolor: "#FFFFFF",
+    backgroundColor: "#292929",
+    borderRadius: 5,
+    borderColor: "#666666",
     padding: 0,
     flexDirection: "row",
     justifyContent: "flex-start",
@@ -94,7 +95,7 @@ export const ContainerDefaultProps: ContainerProps = {
 Container.craft = {
     displayName: "Container",
     props: ContainerDefaultProps,
-    // related: {
-    //     settings: ContainerSettings,
-    // },
+    related: {
+        settings: ContainerSettings,
+    },
   };

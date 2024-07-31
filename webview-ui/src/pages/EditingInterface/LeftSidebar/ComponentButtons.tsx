@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Divider } from "@fluentui/react-components";
-import { useEditor } from "@craftjs/core";
+import { useEditor, Element } from "@craftjs/core";
 import { Label, LabelDefaultProps } from '../../../components/user/Label';
 import { Button as UserButton, ButtonDefaultProps } from "../../../components/user/Button";
 import { TextBox, TextBoxDefaultProps } from '../../../components/user/TextBox';
@@ -24,7 +24,8 @@ import {
     RadioButtonFilled,
     CheckboxCheckedFilled,
     CheckboxCheckedRegular,
-    EmojiRegular
+    EmojiRegular,
+    CardUiRegular
 } from '@fluentui/react-icons';
 import { Container, ContainerDefaultProps } from '../../../components/user/Container';
 
@@ -80,9 +81,9 @@ const ComponentButtons: React.FC<{ classes: any }> = ({ classes }) => {
                     connectors.create(ref, <Icon {...IconDefaultProps} />);
                 }
             }}>Icon</Button>
-            <Button icon={<EmojiRegular />} size='large' appearance='outline' ref={ref => {
+            <Button icon={<CardUiRegular />} size='large' appearance='outline' ref={ref => {
                 if (ref !== null) {
-                    connectors.create(ref, <Container {...ContainerDefaultProps} />);
+                    connectors.create(ref, <Element is={Container} {...ContainerDefaultProps} canvas />);
                 }
             }}>Container</Button>
             <Divider className={classes.divider}> Layout </Divider>
