@@ -86,6 +86,7 @@ const extractZodObject = (schema: ZodTypeAny): ZodObject<any> => {
 };
 
 // Function to describe a Zod schema
+// Function to describe a Zod schema
 const describeZodSchema = (schemaName: string, schema: ZodObject<any>): string => {
   let description = `**${schemaName}**:\n`;
 
@@ -99,17 +100,14 @@ const describeZodSchema = (schemaName: string, schema: ZodObject<any>): string =
     else if (value instanceof z.ZodBoolean) type = "boolean";
     else if (value instanceof z.ZodEnum) type = `enum(${value.options.join(", ")})`;
     else if (value instanceof z.ZodArray) type = `array`;
-    else if (value instanceof ZodOptional)
-      type = `optional(${describeZodSchema(key, extractZodObject(value))})`;
-    else if (value instanceof ZodDefault)
-      type = `default(${describeZodSchema(key, extractZodObject(value))})`;
+    else if (value instanceof ZodOptional || value instanceof ZodDefault)
+      type = `${describeZodSchema(key, extractZodObject(value))}`;
 
     description += `  - ${key}: ${type}\n`;
   }
 
   return description;
 };
-
 // Generate descriptions using Zod schemas
 const descriptions = [
   describeZodSchema("Button", extractZodObject(generateButtonSchema)),
