@@ -159,6 +159,4 @@ function buildChildNodes(input) {
   return childNodes;
 }
 // Output the result
-console.log(JSON.stringify(buildChildNodes(input), null, 2));
-
 export { buildChildNodes };

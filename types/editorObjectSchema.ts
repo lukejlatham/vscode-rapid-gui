@@ -91,7 +91,7 @@ export const CheckboxSchema = z.object({
   direction: z.enum(["row", "column"]).default("row"),
 });
 
-const generateCheckboxSchema = CheckboxSchema.omit({
+export const generateCheckboxSchema = CheckboxSchema.omit({
   fontSize: true,
   fontColor: true,
 }).default({

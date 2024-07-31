@@ -12,6 +12,8 @@ async function processSketch(
   try {
     const { apiKey, apiEndpoint, deploymentName } = await getAzureOpenaiApiKeys(context);
 
+    webview.postMessage({ command: "processingStage", stage: "Generating layout" });
+
     const layout = await getLayout(
       apiEndpoint,
       apiKey,
@@ -23,6 +25,8 @@ async function processSketch(
 
     console.log("processSketch in generateLayout.ts - Layout Response:", layout);
 
+    webview.postMessage({ command: "processingStage", stage: "Refining properties" });
+
     const layoutNodes = buildLayoutNodes(layout);
 
     const childNodes = buildChildNodes(layout);
@@ -30,8 +34,6 @@ async function processSketch(
     const fullNodes = { ...layoutNodes, ...childNodes };
 
     const stringifiedNodes = JSON.stringify(fullNodes, null, 2);
-
-    console.log("processSketch in generateLayout.ts - Full Nodes:", stringifiedNodes);
 
     return stringifiedNodes;
   } catch (error) {
@@ -68,8 +70,6 @@ async function processTextDescription(
     const fullNodes = { ...layoutNodes, ...childNodes };
 
     const stringifiedNodes = JSON.stringify(fullNodes, null, 2);
-
-    console.log("processText in generateLayout.ts - Built Layout Nodes:", stringifiedNodes);
 
     return stringifiedNodes;
   } catch (error) {

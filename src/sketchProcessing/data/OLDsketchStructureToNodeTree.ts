@@ -1,4 +1,4 @@
-const simpleJson = require('./simple_sketch_layout.json');
+const simpleJson = require("./simple_sketch_layout.json");
 
 interface CraftNode {
   type: { resolvedName: string };
@@ -27,25 +27,25 @@ interface CraftJsNodeTree {
 const uiJson: UiNode = simpleJson;
 
 // Helper function to generate unique IDs
-const generateUniqueId = (): string => '_' + Math.random().toString(36).substr(2, 9);
+const generateUniqueId = (): string => "_" + Math.random().toString(36).substr(2, 9);
 
 // Recursive function to convert JSON to Craft.js node tree
 const convertToCraftJsNodes = (node: UiNode, parentId: string | null = null): CraftJsNodeTree => {
   const type = Object.keys(node)[0];
   const nodeId = generateUniqueId();
   const children = node[type].children || [];
-  const childNodes = children.map(child => convertToCraftJsNodes(child, nodeId));
+  const childNodes = children.map((child) => convertToCraftJsNodes(child, nodeId));
 
   const craftNode: CraftNode = {
     type: { resolvedName: type },
-    isCanvas: ['Container', 'Row', 'Column'].includes(type),
+    isCanvas: ["Container", "Row", "Column"].includes(type),
     props: { id: node[type].id },
     displayName: type,
     custom: {},
     parent: parentId,
     hidden: false,
-    nodes: childNodes.map(child => Object.keys(child)[0]),
-    linkedNodes: {}
+    nodes: childNodes.map((child) => Object.keys(child)[0]),
+    linkedNodes: {},
   };
 
   return { [nodeId]: craftNode, ...Object.assign({}, ...childNodes) };
@@ -62,8 +62,8 @@ const craftJsNodeTree: CraftJsNodeTree = {
     custom: {},
     hidden: false,
     nodes: [],
-    linkedNodes: {}
-  }
+    linkedNodes: {},
+  },
 };
 
 const rootNodeId = Object.keys(uiJson)[0];
@@ -75,9 +75,7 @@ Object.assign(craftJsNodeTree, rootNode);
 
 // Fix the parent field for the first-level node
 if (craftJsNodeTree[rootFirstChildId]) {
-  craftJsNodeTree[rootFirstChildId].parent = 'ROOT';
+  craftJsNodeTree[rootFirstChildId].parent = "ROOT";
 }
-
-console.log(JSON.stringify(craftJsNodeTree, null, 2));
 
 export {};

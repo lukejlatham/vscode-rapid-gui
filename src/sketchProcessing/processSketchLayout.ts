@@ -12,11 +12,9 @@ export async function processSketch(
   try {
     webview.postMessage({ command: "processingStage", stage: "Generating layout" });
     const textualDescription = await getTextualDescription(sketchAsUrl, context);
-    console.log("Textual Description:", textualDescription);
 
     webview.postMessage({ command: "processingStage", stage: "Refining properties" });
     const simpleNodeTree = await getSimpleNodeTree(textualDescription, context);
-    console.log("Layout Response:", simpleNodeTree);
 
     webview.postMessage({ command: "processingStage", stage: "Finalizing" });
     const nodesWithProperties = await getNodesWithProperties(
@@ -24,7 +22,6 @@ export async function processSketch(
       textualDescription,
       context
     );
-    console.log("Nodes with Properties:", nodesWithProperties);
 
     webview.postMessage({ command: "processingStage", stage: "Finalizing" });
     const layoutData = JSON.parse(simpleNodeTree);

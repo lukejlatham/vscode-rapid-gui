@@ -256,5 +256,3 @@ function buildLayoutNodes(rawLayoutResponse: string) {
 }
 
 export { buildLayoutNodes };
-
-console.log(JSON.stringify(buildLayoutNodes(input)));

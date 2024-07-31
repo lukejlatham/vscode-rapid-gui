@@ -1,18 +1,38 @@
 import { AzureOpenAI } from "openai";
 import Instructor from "@instructor-ai/instructor";
 import { z } from "zod";
-import {
-  layoutSchema,
-  generateButtonSchema,
-  generateContainerSchema,
-  generateElementSchema,
-  generateFullElementSchema,
-  generateInputSchema,
-  generateLabelSchema,
-  generateRadioButtonSchema,
-  generateTextBoxSchema,
-  generateTextSchema,
-} from "../../types/editorObjectSchema";
+import { layoutSchema } from "../../types/editorObjectSchema";
+
+import { systemMessage } from "./getChildProps";
+
+// const schemaTypes = generateElementSchema.shape.type.options as string[];
+
+// const generateSchemaMapping = (types) => {
+//   return types.reduce((acc, type) => {
+//     const schemaName = `generate${type}Schema`;
+//     acc[type] = eval(schemaName); // Use eval to dynamically access the schema
+//     return acc;
+//   }, {});
+// };
+
+// const schemaMapping = generateSchemaMapping(schemaTypes);
+
+// const generateSectionSchemas = (layout) => {
+//   const sections = layout.sections.map((section) => {
+//     const sectionName = section.name;
+//     const sectionSchemas = section.children.map((child) => {
+//       const typeSchema = schemaMapping[child.type];
+//       return {
+//         Name: child.name,
+//         Type: typeSchema,
+//       };
+//     });
+
+//     return { [sectionName]: sectionSchemas };
+//   });
+
+//   return z.object(sections.reduce((acc, section) => ({ ...acc, ...section }), {}));
+// };
 
 const exampleOutput = `
 {
@@ -69,10 +89,10 @@ const exampleOutput = `
 }
 `;
 
-const systemMessage = {
-  role: "system",
-  content: `You are a UI designer who creates perfect designs from a given sketch or description of a UI. You create your designs in terms of sections, each section containing elements like buttons, labels, images, and textboxes.\n An example of an output is ${exampleOutput}.`,
-};
+// const systemMessage = {
+//   role: "system",
+//   content: `You are a UI designer who creates perfect designs from a given sketch or description of a UI. You create your designs in terms of sections, each section containing elements like buttons, labels, images, and textboxes.\n An example of an output is ${exampleOutput}.`,
+// };
 
 const textMessage = (textDescription: string) => ({
   role: "user",
@@ -106,8 +126,6 @@ async function getLayout(
   textDescription?: string,
   sketchUrl?: string
 ) {
-  console.log("Running get layout function from getLayout.ts");
-
   if (!textDescription && !sketchUrl) {
     throw new Error("No textual description or sketch provided.");
   }

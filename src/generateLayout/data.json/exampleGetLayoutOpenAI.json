@@ -1,0 +1,75 @@
+{
+  "sections": [
+    {
+      "id": "Header",
+      "name": "Header",
+      "xPosition": 0,
+      "yPosition": 0,
+      "width": 10,
+      "height": 1,
+      "children": [
+        { "type": "Button", "name": "HomeButton" },
+        { "type": "Button", "name": "HeaderButton1" },
+        { "type": "Button", "name": "HeaderButton2" },
+        { "type": "Button", "name": "HeaderButton3" }
+      ]
+    },
+    {
+      "id": "Sidebar",
+      "name": "Sidebar",
+      "xPosition": 0,
+      "yPosition": 1,
+      "width": 3,
+      "height": 6,
+      "children": [
+        { "type": "Label", "name": "SidebarLabel1" },
+        { "type": "Label", "name": "SidebarLabel2" },
+        { "type": "Label", "name": "SidebarLabel3" },
+        { "type": "Label", "name": "SidebarLabel4" },
+        { "type": "Label", "name": "SidebarLabel5" }
+      ]
+    },
+    {
+      "id": "MainContent",
+      "name": "MainContent",
+      "xPosition": 3,
+      "yPosition": 1,
+      "width": 7,
+      "height": 6,
+      "children": [
+        { "type": "Label", "name": "StepLabel" },
+        { "type": "Image", "name": "MainImage" },
+        { "type": "Label", "name": "AdditionalLabel1" },
+        { "type": "Label", "name": "AdditionalLabel2" }
+      ]
+    },
+    {
+      "id": "SubContent",
+      "name": "SubContent",
+      "xPosition": 3,
+      "yPosition": 7,
+      "width": 7,
+      "height": 2,
+      "children": [
+        { "type": "Label", "name": "PossibleLabel" },
+        { "type": "Label", "name": "DropdownLabel" }
+      ]
+    },
+    {
+      "id": "Footer",
+      "name": "Footer",
+      "xPosition": 0,
+      "yPosition": 9,
+      "width": 10,
+      "height": 1,
+      "children": [
+        { "type": "TextBox", "name": "SearchTextBox" },
+        { "type": "Button", "name": "FooterButton1" },
+        { "type": "Button", "name": "FooterButton2" },
+        { "type": "Button", "name": "FooterButton3" },
+        { "type": "Label", "name": "ContactLabel" }
+      ]
+    }
+  ],
+  "_meta": { "usage": { "completion_tokens": 358, "prompt_tokens": 1461, "total_tokens": 1819 } }
+}

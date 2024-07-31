@@ -15,18 +15,12 @@ function encodeImage(file: File): Promise<string> {
 
 async function handleSketchUpload(file: File): Promise<void> {
   try {
-    console.log("Uploading sketch:", file);
-
     const base64ImageString = await encodeImage(file);
-
-    console.log("Encoded image:");
 
     vscode.postMessage({
       command: "processSketch",
       content: base64ImageString,
     });
-
-    console.log("Posted message to VS Code:");
   } catch (error) {
     console.error("Error processing sketch upload:", error);
   }

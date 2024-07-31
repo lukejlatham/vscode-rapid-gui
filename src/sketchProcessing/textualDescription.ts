@@ -24,10 +24,6 @@ import * as path from "path";
 // // Call the function with the image path
 // const base64String: string | null = convertImageToBase64(exampleSketchPath);
 
-// if (base64String) {
-//     console.log(base64String);
-// }
-
 const elements = ["Button", "Label", "Image", "TextBox", "Columns", "Column", "Rows", "Row"];
 // const example = `
 // Here is a detailed description of the layout based on the given elements:

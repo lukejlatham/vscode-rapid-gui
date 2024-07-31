@@ -161,7 +161,6 @@ export class MainWebviewPanel {
             return;
           case "processSketch":
             const sketchDescription = await processSketch(message.content, this._context, webview);
-            console.log("Sketch Description:", sketchDescription);
             webview.postMessage({ command: "sketchProcessed", content: sketchDescription });
             return;
           case "ProcessTextDescription":
