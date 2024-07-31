@@ -3,7 +3,7 @@ import { usePropertyInspectorStyles } from "../../../hooks/usePropertyInspectorS
 import { TextProps } from "../../../../../types";
 import { Info16Regular } from "@fluentui/react-icons";
 import { useNode } from "@craftjs/core";
-import { Input, Label as FLabel, RadioGroup, Radio, Tooltip, useId } from "@fluentui/react-components";
+import { Input, Label as FLabel, RadioGroup, Radio, Tooltip, useId, Button } from "@fluentui/react-components";
 
 export const TextSettings: React.FC = () => {
     const {
@@ -102,19 +102,16 @@ export const TextSettings: React.FC = () => {
                 <Radio value="justify" label="Justify" />
                 </RadioGroup>
             ) : tooltip.propKey === "bold" ? (
-                <RadioGroup
-                    defaultValue={bold}
-                    layout="horizontal-stacked"
-                    onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
+                <Button
+                    onClick={() => {
                         setProp((props: TextProps) => {
-                            props.bold = data.value === "true";
+                            props.bold = !bold;
                             return props;
                         }, 1000);
                     }}
                 >
-                    <Radio value="true" label="Bold" />
-                    <Radio value="false" label="Normal" />
-                </RadioGroup>
+                    {bold ? "Unbold" : "Bold"}
+                </Button>
             ) : tooltip.propKey === "italic" ? (
                 <RadioGroup
                     defaultValue={italic}
