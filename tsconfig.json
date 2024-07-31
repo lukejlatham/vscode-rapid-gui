@@ -9,16 +9,15 @@
     ],
     "sourceMap": true,
     "strict": false,
-    "noEmit": true,
-    "esModuleInterop": true,
+    "rootDirs": [
+      "src",
+      "types"
+    ],
   },
-  "include": [
-    "types/**/*.d.ts",
-    "src/**/*.ts"
-  ],
   "exclude": [
     "node_modules",
     ".vscode-test",
-    "webview-ui"
+    "webview-ui",
+    "types"
   ]
 }

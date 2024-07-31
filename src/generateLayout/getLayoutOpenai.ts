@@ -1,9 +1,16 @@
 import { AzureOpenAI } from "openai";
 import Instructor from "@instructor-ai/instructor";
 import { z } from "zod";
-import { layoutSchema } from "../../types/editorObjectSchema";
-
-import { systemMessage } from "./getChildProps";
+import {
+  layoutSchema,
+  generateButtonSchema,
+  generateCheckboxSchema,
+  generateLabelSchema,
+  generateRadioButtonSchema,
+  generateInputSchema,
+  generateTextBoxSchema,
+  generateTextSchema,
+} from "../../types/editorObjectSchema";
 
 // const schemaTypes = generateElementSchema.shape.type.options as string[];
 
@@ -94,6 +101,41 @@ const exampleOutput = `
 //   content: `You are a UI designer who creates perfect designs from a given sketch or description of a UI. You create your designs in terms of sections, each section containing elements like buttons, labels, images, and textboxes.\n An example of an output is ${exampleOutput}.`,
 // };
 
+const allowedSchemas = [
+  generateButtonSchema,
+  generateInputSchema,
+  generateLabelSchema,
+  generateTextBoxSchema,
+  generateTextSchema,
+  generateCheckboxSchema,
+  generateRadioButtonSchema,
+];
+
+// const schemaToString = (schema) => {
+//   const shape = schema._def.shape();
+//   return Object.keys(shape)
+//     .map((key) => {
+//       const def = shape[key]._def;
+//       const type = def.typeName;
+//       const defaultValue = def.defaultValue ? `(default: ${def.defaultValue()})` : "";
+//       return `- ${key}: ${type} ${defaultValue}`;
+//     })
+//     .join("\n");
+// };
+
+// const generateSystemMessage = (allowedSchemas) => {
+//   return (
+//     `You are a UI designer who creates perfect designs from a given sketch or description of a UI. You create your designs in terms of sections, each section containing elements.\n Allowed element types and properties are as follows:` +
+//     allowedSchemas.map(({ name, schema }) => `**${name}**:\n${schemaToString(schema)}`).join("\n\n")
+//   );
+// };
+
+const systemMessage = {
+  role: "system",
+  // content: generateSystemMessage(allowedSchemas),
+  content: `You ared the dog`,
+};
+
 const textMessage = (textDescription: string) => ({
   role: "user",
   content: [
@@ -147,6 +189,8 @@ async function getLayout(
 
   const messages = [systemMessage, userMessage];
 
+  console.log("in getLayout - Messages:", messages);
+
   try {
     const layout = await instructor.chat.completions.create({
       model: GPT4O_DEPLOYMENT_NAME,
@@ -157,6 +201,8 @@ async function getLayout(
       },
       max_retries: 2,
     });
+
+    console.log("in getLayout - Layout Response:", layout);
 
     return JSON.stringify(layout);
   } catch (error) {
