@@ -233,6 +233,7 @@ export interface TextProps {
   underline?: boolean;
   hyperlink?: string;
   placeholder?: string;
+  userEditable?: boolean;
 }
 
 export interface generateTextProps {

@@ -10,6 +10,7 @@ import { RadioButton, RadioButtonDefaultProps } from '../../../components/user/R
 import { Checkbox, CheckboxDefaultProps } from '../../../components/user/Checkbox';
 import { Icon, IconDefaultProps } from '../../../components/user/Icon';
 import { EditBackgroundButton } from '../../../components/EditBackgroundButton';
+import { Text, TextDefaultProps } from '../../../components/user/Text';
 import {
     Image24Regular,
     TextboxRegular,
@@ -24,15 +25,17 @@ import {
     RadioButtonFilled,
     CheckboxCheckedFilled,
     CheckboxCheckedRegular,
-    EmojiRegular
+    EmojiRegular,
+    SlideTextRegular
 } from '@fluentui/react-icons';
 
 const ButtonIcon = bundleIcon(Button20Filled, Button20Regular);
 const LabelIcon = bundleIcon(TextT24Regular, TextT24Regular);
 const ImageIcon = bundleIcon(Image24Regular, Image24Regular);
-const TextIcon = bundleIcon(TextboxRegular, TextboxRegular);
+const TextBoxIcon = bundleIcon(TextboxRegular, TextboxRegular);
 const InputIcon = bundleIcon(Password24Regular, Password24Filled);
 const CheckboxIcon = bundleIcon(CheckboxCheckedFilled, CheckboxCheckedRegular);
+const TextIcon = bundleIcon(SlideTextRegular, SlideTextRegular);
 
 const ComponentButtons: React.FC<{ classes: any }> = ({ classes }) => {
     const { connectors } = useEditor();
@@ -49,11 +52,11 @@ const ComponentButtons: React.FC<{ classes: any }> = ({ classes }) => {
                     connectors.create(ref, <Image {...ImageDefaultProps} />);
                 }
             }}>Image</Button>
-            <Button icon={<TextIcon />} size='large' appearance='outline' ref={ref => {
+            <Button icon={<TextBoxIcon />} size='large' appearance='outline' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <TextBox {...TextBoxDefaultProps} />);
                 }
-            }}>TextBox</Button>
+            }}>Text Box</Button>
             <Button icon={<LabelIcon />} size='large' appearance='outline'  ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Label {...LabelDefaultProps} />);
@@ -63,7 +66,12 @@ const ComponentButtons: React.FC<{ classes: any }> = ({ classes }) => {
                 if (ref !== null) {
                     connectors.create(ref, <UserInput {...InputDefaultProps} />);
                 }
-            }}>Input</Button>
+            }}>Paragraph</Button>
+            <Button icon={<TextIcon />} size='large' appearance='outline' ref={ref => {
+                if (ref !== null) {
+                    connectors.create(ref, <Text {...TextDefaultProps} />);
+                }
+            }}>Text Input</Button>
             <Button icon={<RadioButtonFilled />} size='large' appearance='outline' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <RadioButton {...RadioButtonDefaultProps} />);
