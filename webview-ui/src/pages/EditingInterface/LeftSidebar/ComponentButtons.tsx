@@ -26,7 +26,7 @@ import {
     CheckboxCheckedFilled,
     CheckboxCheckedRegular,
     EmojiRegular,
-    SlideTextRegular
+    SlideTextRegular,
     CardUiRegular
 } from '@fluentui/react-icons';
 import { Container, ContainerDefaultProps } from '../../../components/user/Container';
