@@ -77,7 +77,7 @@ export const containerSchema = z.object({
   shadow: z.boolean().default(false),
 });
 
-type ContainerProps = z.infer<typeof containerSchema>;
+export type ContainerProps = z.infer<typeof containerSchema>;
 
 export const generateContainerSchema = containerSchema.pick({
   height: true,
@@ -98,7 +98,7 @@ export const inputSchema = z.object({
   borderRadius: z.number().default(4),
 });
 
-type InputProps = z.infer<typeof inputSchema>;
+export type InputProps = z.infer<typeof inputSchema>;
 
 export const generateInputSchema = inputSchema.pick({
   placeholder: true,
@@ -121,7 +121,7 @@ export const labelSchema = z.object({
   underline: z.boolean().default(false).optional(),
 });
 
-type LabelProps = z.infer<typeof labelSchema>;
+export type LabelProps = z.infer<typeof labelSchema>;
 
 export const generateLabelSchema = labelSchema.pick({
   text: true,
@@ -143,7 +143,7 @@ export const radioButtonSchema = z.object({
   direction: z.enum(["row", "column"]).default("row"),
 });
 
-type RadioButtonProps = z.infer<typeof radioButtonSchema>;
+export type RadioButtonProps = z.infer<typeof radioButtonSchema>;
 
 export const generateRadioButtonSchema = radioButtonSchema.pick({
   header: true,
@@ -166,7 +166,7 @@ export const textBoxSchema = z.object({
   alignment: z.enum(["left", "center", "right"]).default("left"),
 });
 
-type TextBoxProps = z.infer<typeof textBoxSchema>;
+export type TextBoxProps = z.infer<typeof textBoxSchema>;
 
 export const generateTextBoxSchema = textBoxSchema.pick({
   text: true,
@@ -183,7 +183,7 @@ export const iconSchema = z.object({
   hyperlink: z.string().optional(),
 });
 
-type IconProps = z.infer<typeof iconSchema>;
+export type IconProps = z.infer<typeof iconSchema>;
 
 export const imageSchema = z.object({
   src: z.string().default("https://via.placeholder.com/150"),
@@ -193,7 +193,7 @@ export const imageSchema = z.object({
   alignment: z.enum(["left", "center", "right"]).optional(),
 });
 
-type ImageProps = z.infer<typeof imageSchema>;
+export type ImageProps = z.infer<typeof imageSchema>;
 
 export const generateImageSchema = imageSchema.pick({
   src: true,
@@ -220,7 +220,7 @@ export const cardContainerSchema = z.object({
   shadow: z.boolean().default(false),
 });
 
-type CardContainerProps = z.infer<typeof cardContainerSchema>;
+export type CardContainerProps = z.infer<typeof cardContainerSchema>;
 
 export const textSchema = z.object({
   text: z.string().default("Text"),
@@ -234,7 +234,7 @@ export const textSchema = z.object({
   placeholder: z.string().optional(),
 });
 
-type TextProps = z.infer<typeof textSchema>;
+export type TextProps = z.infer<typeof textSchema>;
 
 export const generateTextSchema = textSchema.pick({
   text: true,
