@@ -6,7 +6,7 @@ import { GridCell, GridCellDefaultProps } from './GridCell';
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import { useNode } from '@craftjs/core';
-import { BackgroundProps } from '../../../../types';
+import { BackgroundProps, backgroundSchema } from '../../../../types';
 import { DeleteRegular } from '@fluentui/react-icons';
 
 const useStyles = makeStyles({
@@ -26,7 +26,17 @@ const useStyles = makeStyles({
   },
 });
 
-export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgroundColor, layout: initialLayout, rows: initialRows, columns: initialColumns, lockedGrid: initialGridLocked }) => {
+export const Background: FC<BackgroundProps> = (props) => {
+  const validatedProps = backgroundSchema.parse(props);
+
+  const {
+    backgroundColor: initialBackgroundColor,
+    layout: initialLayout,
+    rows: initialRows,
+    columns: initialColumns,
+    lockedGrid: initialGridLocked,
+  } = validatedProps;
+
   const ResponsiveGridLayout = useMemo(() => WidthProvider(Responsive), []);
   const backgroundRef = useRef<HTMLDivElement>(null);
   const styles = useStyles();
