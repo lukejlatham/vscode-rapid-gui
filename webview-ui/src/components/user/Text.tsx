@@ -82,7 +82,10 @@ export const Text: UserComponent<TextProps> = ({ text, fontSize, fontColor, text
           className={`${styles.textContent} ${textAlign === 'left' ? styles.alignLeft :
             textAlign === 'center' ? styles.alignCenter :
               textAlign === 'right' ? styles.alignRight :
-                styles.alignJustify}`}
+                styles.alignJustify}
+            ${bold ? styles.bold : ""}
+            ${italic ? styles.italic : ""}
+            ${underline ? styles.underline : ""}`}
           style={{ fontSize: `${fontSize}px`, color: fontColor }}
         />
       ) : (

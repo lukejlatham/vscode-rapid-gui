@@ -3,7 +3,7 @@ import { usePropertyInspectorStyles } from "../../../hooks/usePropertyInspectorS
 import { TextProps } from "../../../../../types";
 import { Info16Regular } from "@fluentui/react-icons";
 import { useNode } from "@craftjs/core";
-import { Input, Label as FLabel, RadioGroup, Radio, Tooltip, useId, Button } from "@fluentui/react-components";
+import { Input, Label as FLabel, Tooltip, useId, Button, RadioGroup, Radio } from "@fluentui/react-components";
 
 export const TextSettings: React.FC = () => {
     const {
