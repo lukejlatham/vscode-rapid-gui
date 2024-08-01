@@ -6,7 +6,7 @@ import {
 import Projects from '../Projects/Projects';
 import { StartProjectDialog } from '../../components/StartProjectDialog';
 import TemplatesGrid from '../../components/TemplatesGrid';
-import ImageUploadButton from '../../components/ImageUpload/ImageUploadButton';
+import ImageUploadButton from '../../components/SketchUpload/ImageUploadButton';
 import { title } from 'process';
 import { Color } from 'vscode';
 

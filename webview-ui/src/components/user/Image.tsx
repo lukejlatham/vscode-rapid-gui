@@ -37,6 +37,7 @@ export const ImageDefaultProps: ImageProps = {
 };
 
 Image.craft = {
+  displayName: "Image",
   props: ImageDefaultProps,
   related: {
     settings: ImageSettings,

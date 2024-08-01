@@ -13,6 +13,7 @@ import { getAzureOpenaiApiKeys } from "../utilities/azureApiKeyStorage";
 import { handleFileSave, handleFileLoad } from "../utilities/projectSaveUtilities";
 import { processSketch, processTextDescription } from "../generateLayout/generateLayout";
 import { processCopilotMessages } from "../copilot";
+import { handleImageUpload } from "../utilities/imageSave";
 
 export class MainWebviewPanel {
   public static currentPanel: MainWebviewPanel | undefined;
@@ -117,13 +118,6 @@ export class MainWebviewPanel {
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
           <meta name="theme-color" content="#000000">
-          <meta http-equiv="Content-Security-Policy" content="
-            default-src 'none'; 
-            img-src https: vscode-resource:; 
-            script-src 'nonce-${nonce}' vscode-resource:; 
-            style-src 'unsafe-inline' vscode-resource:;
-            connect-src ${connectSrcUrls};
-          ">
           <link rel="stylesheet" type="text/css" href="${stylesUri}">
           <title>Hello World</title>
         </head>
@@ -171,10 +165,15 @@ export class MainWebviewPanel {
             );
             webview.postMessage({ command: "textDescriptionProcessed", textDescription });
             return;
-
           case "aiUserMessage":
             const updatedMessages = await processCopilotMessages(message.content, this._context);
             webview.postMessage({ command: "aiCopilotMessage", content: updatedMessages });
+            return;
+          case "uploadImage":
+            const filePath = await handleImageUpload(message.content, message.filename, this._context);
+            const imageUri = webview.asWebviewUri(Uri.file(filePath));
+            window.showInformationMessage("Image saving command received.");
+            webview.postMessage({ command: 'imageUploaded', filePath: imageUri });
             return;
         }
       },

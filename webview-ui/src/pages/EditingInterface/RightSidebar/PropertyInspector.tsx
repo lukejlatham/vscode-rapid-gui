@@ -13,6 +13,7 @@ const useStyles = makeStyles({
     padding: '10px',
     border: '1px solid #666666',
     borderRadius: '10px',
+    maxWidth: "100%"
   },
   header: {
     display: 'flex',
@@ -91,7 +92,7 @@ export const PropertyInspector: React.FC = () => {
       </div>
       <Divider style={{ flexGrow: "0" }} />
       {selected.settings && React.createElement(selected.settings)}
-      {(selected.displayName === 'Background') ? <BackgroundSettings /> : null}
+      {(selected.id === 'ROOT') ? <BackgroundSettings /> : null}
       
       {(selected.displayName !== 'GridCell' && selected.displayName !== 'Background') ? (<div className={classes.buttonGroup}>
         <Tooltip content="Copy Format" relationship="label">

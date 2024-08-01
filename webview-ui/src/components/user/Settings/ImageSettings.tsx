@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useNode } from '@craftjs/core';
 import { ImageProps, TooltipConfigImage as TooltipConfig } from '../../../../../types';
 import { Input, Label, Tooltip, useId, mergeClasses, SpinButton, SpinButtonChangeEvent, SpinButtonOnChangeData } from '@fluentui/react-components';
 import { usePropertyInspectorStyles } from '../../../hooks/usePropertyInspectorStyles';
 import { Info16Regular } from '@fluentui/react-icons';
-
+import { UserImageUploadButton } from '../../UserImageUploadButton';
 
 // TODO: add tooltips to image settings
 export const ImageSettings: React.FC = () => {
@@ -27,9 +27,19 @@ export const ImageSettings: React.FC = () => {
     const handleVisibilityChange = (tooltipKey: string, isVisible: boolean) => {
       setVisibleTooltip(isVisible ? tooltipKey : null);
   };
+
+//   const [imageSrc, setImageSrc] = useState(props.src);
+
+  const handleImageUpload = (filePath: string) => {
+    // setImageSrc(filePath);
+    setProp((props: ImageProps) => {
+      props.src = filePath;
+    }, 1000);
+  };
   
     return (
       <div className={styles.settingsContainer}>
+            <UserImageUploadButton onUpload={handleImageUpload} />
         {tooltips.map((tooltip, index) => (
                 <div key={index}>
                     <div aria-owns={visibleTooltip === tooltip.propKey ? contentId : undefined} className={styles.label}>
