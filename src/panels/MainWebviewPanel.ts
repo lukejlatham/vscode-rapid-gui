@@ -6,6 +6,7 @@ import {
   Uri,
   ViewColumn,
   ExtensionContext,
+  workspace,
 } from "vscode";
 import { getUri } from "../utilities/getUri";
 import { getNonce } from "../utilities/getNonce";
@@ -46,6 +47,7 @@ export class MainWebviewPanel {
         localResourceRoots: [
           Uri.joinPath(extensionUri, "out"),
           Uri.joinPath(extensionUri, "webview-ui/build"),
+          workspace.workspaceFolders?.[0]?.uri,
         ],
       });
 
@@ -118,7 +120,15 @@ export class MainWebviewPanel {
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
           <meta name="theme-color" content="#000000">
+                    <meta http-equiv="Content-Security-Policy" content="
+            default-src 'none'; 
+            img-src vscode-resource: https:; 
+            script-src 'nonce-${nonce}' vscode-resource:; 
+            style-src 'unsafe-inline' vscode-resource:;
+            connect-src ${connectSrcUrls};
+          ">
           <link rel="stylesheet" type="text/css" href="${stylesUri}">
+  
           <title>Hello World</title>
         </head>
         <body>
@@ -170,10 +180,16 @@ export class MainWebviewPanel {
             webview.postMessage({ command: "aiCopilotMessage", content: updatedMessages });
             return;
           case "uploadImage":
-            const filePath = await handleImageUpload(message.content, message.filename, this._context);
-            const imageUri = webview.asWebviewUri(Uri.file(filePath));
-            window.showInformationMessage("Image saving command received.");
-            webview.postMessage({ command: 'imageUploaded', filePath: imageUri });
+            const filePath = await handleImageUpload(
+              message.content,
+              message.filename,
+              this._context
+            );
+            if (filePath) {
+              const imageUri = webview.asWebviewUri(Uri.file(filePath)).toString();
+              window.showInformationMessage("Image saving command received.");
+              webview.postMessage({ command: "imageUploaded", filePath: imageUri });
+            }
             return;
         }
       },

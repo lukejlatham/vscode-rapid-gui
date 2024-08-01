@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "@fluentui/react-components";
 import { ImageAdd24Regular } from '@fluentui/react-icons';
 import { vscode } from '../utilities/vscode';
@@ -19,12 +19,20 @@ export const UserImageUploadButton: React.FC<{ onUpload: (filePath: string) => v
     }
   };
 
-  window.addEventListener('message', event => {
-    const message = event.data;
-    if (message.command === 'imageUploaded') {
-      onUpload(message.filePath);
-    }
-  });
+  useEffect(() => {
+    const messageHandler = (event: MessageEvent) => {
+      const message = event.data;
+      if (message.command === 'imageUploaded') {
+        onUpload(message.filePath);
+      }
+    };
+
+    window.addEventListener('message', messageHandler);
+
+    return () => {
+      window.removeEventListener('message', messageHandler);
+    };
+  }, [onUpload]);
 
   return (
     <>
@@ -36,15 +44,18 @@ export const UserImageUploadButton: React.FC<{ onUpload: (filePath: string) => v
         onChange={handleFileChange}
       />
       <label htmlFor="upload-image">
-        <Button icon={<ImageAdd24Regular />} appearance='outline'
-        onClick={
-          () => {
+        <Button
+          icon={<ImageAdd24Regular />}
+          appearance='outline'
+          onClick={() => {
             const uploadImage = document.getElementById('upload-image');
             if (uploadImage) {
               uploadImage.click();
             }
-          }
-        }>Upload Image</Button>
+          }}
+        >
+          Upload Image
+        </Button>
       </label>
     </>
   );
