@@ -1,45 +1,5 @@
 import { AzureOpenAI } from "openai";
 import Instructor from "@instructor-ai/instructor";
-import { z } from "zod";
-import {
-  layoutSchema,
-  generateButtonSchema,
-  generateCheckboxSchema,
-  generateLabelSchema,
-  generateRadioButtonSchema,
-  generateInputSchema,
-  generateTextBoxSchema,
-  generateTextSchema,
-} from "../../types/editorObjectSchema";
-
-// const schemaTypes = generateElementSchema.shape.type.options as string[];
-
-// const generateSchemaMapping = (types) => {
-//   return types.reduce((acc, type) => {
-//     const schemaName = `generate${type}Schema`;
-//     acc[type] = eval(schemaName); // Use eval to dynamically access the schema
-//     return acc;
-//   }, {});
-// };
-
-// const schemaMapping = generateSchemaMapping(schemaTypes);
-
-// const generateSectionSchemas = (layout) => {
-//   const sections = layout.sections.map((section) => {
-//     const sectionName = section.name;
-//     const sectionSchemas = section.children.map((child) => {
-//       const typeSchema = schemaMapping[child.type];
-//       return {
-//         Name: child.name,
-//         Type: typeSchema,
-//       };
-//     });
-
-//     return { [sectionName]: sectionSchemas };
-//   });
-
-//   return z.object(sections.reduce((acc, section) => ({ ...acc, ...section }), {}));
-// };
 
 const exampleOutput = `
 {
@@ -101,39 +61,68 @@ const exampleOutput = `
 //   content: `You are a UI designer who creates perfect designs from a given sketch or description of a UI. You create your designs in terms of sections, each section containing elements like buttons, labels, images, and textboxes.\n An example of an output is ${exampleOutput}.`,
 // };
 
-const allowedSchemas = [
+import {
   generateButtonSchema,
-  generateInputSchema,
   generateLabelSchema,
+  generateRadioButtonSchema,
+  generateInputSchema,
   generateTextBoxSchema,
   generateTextSchema,
   generateCheckboxSchema,
-  generateRadioButtonSchema,
-];
+  layoutSchema,
+} from "../../types/editorObjectSchema";
 
-// const schemaToString = (schema) => {
-//   const shape = schema._def.shape();
-//   return Object.keys(shape)
-//     .map((key) => {
-//       const def = shape[key]._def;
-//       const type = def.typeName;
-//       const defaultValue = def.defaultValue ? `(default: ${def.defaultValue()})` : "";
-//       return `- ${key}: ${type} ${defaultValue}`;
-//     })
-//     .join("\n");
-// };
+import { z, ZodObject, ZodDefault, ZodTypeAny, ZodOptional } from "zod";
 
-// const generateSystemMessage = (allowedSchemas) => {
-//   return (
-//     `You are a UI designer who creates perfect designs from a given sketch or description of a UI. You create your designs in terms of sections, each section containing elements.\n Allowed element types and properties are as follows:` +
-//     allowedSchemas.map(({ name, schema }) => `**${name}**:\n${schemaToString(schema)}`).join("\n\n")
-//   );
-// };
+// Helper function to extract the underlying ZodObject from a ZodDefault or ZodOptional
+const extractZodObject = (schema: ZodTypeAny): ZodObject<any> => {
+  if (schema instanceof ZodDefault) {
+    return schema._def.innerType as ZodObject<any>;
+  }
+  if (schema instanceof ZodOptional) {
+    return schema._def.innerType as ZodObject<any>;
+  }
+  return schema as ZodObject<any>;
+};
 
+// Function to describe a Zod schema
+// Function to describe a Zod schema
+const describeZodSchema = (schemaName: string, schema: ZodObject<any>): string => {
+  let description = `**${schemaName}**:\n`;
+
+  const shape = schema.shape;
+  for (const key in shape) {
+    const value = shape[key];
+    let type = "unknown";
+
+    if (value instanceof z.ZodString) type = "string";
+    else if (value instanceof z.ZodNumber) type = "number";
+    else if (value instanceof z.ZodBoolean) type = "boolean";
+    else if (value instanceof z.ZodEnum) type = `enum(${value.options.join(", ")})`;
+    else if (value instanceof z.ZodArray) type = `array`;
+    else if (value instanceof ZodOptional || value instanceof ZodDefault)
+      type = `${describeZodSchema(key, extractZodObject(value))}`;
+
+    description += `  - ${key}: ${type}\n`;
+  }
+
+  return description;
+};
+// Generate descriptions using Zod schemas
+const descriptions = [
+  describeZodSchema("Button", extractZodObject(generateButtonSchema)),
+  describeZodSchema("Checkbox", extractZodObject(generateCheckboxSchema)),
+  describeZodSchema("Label", extractZodObject(generateLabelSchema)),
+  describeZodSchema("RadioButton", extractZodObject(generateRadioButtonSchema)),
+  describeZodSchema("Input", extractZodObject(generateInputSchema)),
+  describeZodSchema("TextBox", extractZodObject(generateTextBoxSchema)),
+  describeZodSchema("Text", extractZodObject(generateTextSchema)),
+].join("\n\n");
+
+// Now you can use `descriptions` in your system message or elsewhere
 const systemMessage = {
   role: "system",
-  // content: generateSystemMessage(allowedSchemas),
-  content: `You ared the dog`,
+  content: `You are a UI designer who creates perfect designs from a given sketch or description of a UI. You create your designs in terms of sections, each section containing elements.\n\nAllowed element types and properties are as follows:\n\n${descriptions}`,
 };
 
 const textMessage = (textDescription: string) => ({
@@ -171,6 +160,7 @@ async function getLayout(
   if (!textDescription && !sketchUrl) {
     throw new Error("No textual description or sketch provided.");
   }
+  console.log("in getLayout - systemMessage:", systemMessage);
 
   const client = new AzureOpenAI({
     apiVersion: "2024-06-01",

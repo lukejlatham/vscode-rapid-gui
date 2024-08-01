@@ -1,46 +1,32 @@
 import React from 'react';
 import { useEditor, useNode } from '@craftjs/core';
-import { BackgroundProps, GridCellProps, TooltipConfigGridCell as TooltipConfig } from '../../../../../types';
+import { BackgroundProps, ContainerProps, TooltipConfigContainer as TooltipConfig } from '../../../../../types';
 import { Input, Label, Button, makeStyles, SpinButton, Radio, RadioGroup, SpinButtonChangeEvent, SpinButtonOnChangeData, Tooltip, useId, mergeClasses } from "@fluentui/react-components";
 import { Info16Regular, Delete24Regular } from '@fluentui/react-icons';
 import { usePropertyInspectorStyles } from '../../../hooks/usePropertyInspectorStyles';
 
 
-const useStyles = makeStyles({
-    deleteButton: {
-        marginTop: '10px',
-    }
-});
-
-export const GridCellSettings: React.FC = () => {
-    const { gridCell, gridProps, actions } = useNode((node) => ({
-        gridCell: node,
-        gridProps: node.data.props as GridCellProps,
+export const ContainerSettings: React.FC = () => {
+    const { actions: { setProp }, props } = useNode(node => ({
+        props: node.data.props as ContainerProps
     }));
-    const { query, actions: { setProp } } = useEditor();
-    const props = query.node("ROOT").get().data.props as BackgroundProps;
-    console.log('Grid Cell props: ', gridProps);
 
-    const gridCellId = gridCell.data.custom?.id
-    
-    // function to remove GridCell from layout
-    const handleRemoveItem = (i: string) => {
-        setProp('ROOT', (props: BackgroundProps) => {
-            console.log(props.layout)
-            props.layout = props.layout.filter((item) => item.i !== i);
-        });
-    };
 
     const styles = usePropertyInspectorStyles();
-    const styles2 = useStyles();
 
     const contentId = useId("content");
     const [visibleTooltip, setVisibleTooltip] = React.useState<string | null>(null);
     const tooltips: TooltipConfig[] = [
-        { label: "Direction", content: "Set the direction of the grid cell.", propKey: "flexDirection", type: "direction"},
-        { label: "Justify Content", content: "Set how the contents of the cell should be justified.", propKey: "justifyContent", type: "justifyContent"},
-        { label: "Align Items", content: "Set how the contents of the cell should be aligned.", propKey: "alignItems", type: "alignItems"},
-        { label: "Gap", content: "Adjust the gap between components within the cell.", propKey: "gap", type: "spinButton"},
+        { label: "Background Color", content: "Change the background color of the container.", propKey: "backgroundColor", type: "color" },
+        { label: "Border Color", content: "Change the border color of the container.", propKey: "borderColor", type: "color" },
+        { label: "Border Radius", content: "Adjust how rounded the corners of the container are.", propKey: "borderRadius", type: "spinButton" },
+        { label: "Height", content: "Set the height of the container.", propKey: "height", type: "spinButton" },
+        { label: "Width", content: "Set the width of the container.", propKey: "width", type: "spinButton" },
+        { label: "Padding", content: "Adjust the padding of the container.", propKey: "padding", type: "spinButton" },
+        { label: "Direction", content: "Set the direction of the contents of the container.", propKey: "flexDirection", type: "direction"},
+        { label: "Justify Content", content: "Set how the contents of the container should be justified.", propKey: "justifyContent", type: "justifyContent"},
+        { label: "Align Items", content: "Set how the contents of the container should be aligned.", propKey: "alignItems", type: "alignItems"},
+        { label: "Gap", content: "Adjust the gap between components within the container.", propKey: "gap", type: "spinButton"},
     ];
 
     const handleVisibilityChange = (tooltipKey: string, isVisible: boolean) => {
@@ -71,14 +57,24 @@ export const GridCellSettings: React.FC = () => {
                             />
                         </Tooltip>
                     </div>
-                    {tooltip.type === "spinButton" ? (
+                    {tooltip.type === "color" ? (
+                        <input
+                            className={styles.colorInput}
+                            type="color"
+                            defaultValue={props[tooltip.propKey] as string}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProp((props: ContainerProps) => {
+                                (props[tooltip.propKey] as string) = e.target.value;
+                            })}
+                        />
+                    ) : tooltip.type === "spinButton" ? (
                         <SpinButton
                             className={styles.spinButton}
                             min={0}
-                            defaultValue={gridProps[tooltip.propKey] as number}
+                            max={100}
+                            defaultValue={props[tooltip.propKey] as number}
                             onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
                                 const value = data.value ? data.value : 0;
-                                actions.setProp((props: GridCellProps) => {
+                                setProp((props: ContainerProps) => {
                                     (props[tooltip.propKey] as number) = value;
                                 }, 1000);
                             }}
@@ -87,19 +83,19 @@ export const GridCellSettings: React.FC = () => {
                         <Input
                             className={styles.textInput}
                             type="text"
-                            defaultValue={gridProps[tooltip.propKey] as string}
+                            defaultValue={props[tooltip.propKey] as string}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                actions.setProp((props: GridCellProps) => {
+                                setProp((props: ContainerProps) => {
                                     (props[tooltip.propKey] as string) = e.target.value;
                                 }, 1000);
                             }}
                         />
                     ) : tooltip.type === "alignItems" ? (
                         <RadioGroup
-                            defaultValue={gridProps[tooltip.propKey] as string}
+                            defaultValue={props[tooltip.propKey] as string}
                             layout="horizontal-stacked"
                             onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
-                                actions.setProp((props: GridCellProps) => {
+                                setProp((props: ContainerProps) => {
                                     (props[tooltip.propKey] as 'flex-start' | 'center' | 'flex-end') = data.value as 'flex-start' | 'center' | 'flex-end';
                                 }, 1000);
                             }}
@@ -110,10 +106,10 @@ export const GridCellSettings: React.FC = () => {
                         </RadioGroup>
                     ) : tooltip.type === "justifyContent" ? (
                         <RadioGroup
-                            defaultValue={gridProps[tooltip.propKey] as string}
+                            defaultValue={props[tooltip.propKey] as string}
                             layout="horizontal-stacked"
                             onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
-                                actions.setProp((props: GridCellProps) => {
+                                setProp((props: ContainerProps) => {
                                     (props[tooltip.propKey] as "flex-start" | "center" | "flex-end" | "space-between" | "space-around") = data.value as "flex-start" | "center" | "flex-end" | "space-between" | "space-around";
                                 }, 1000);
                             }}
@@ -126,10 +122,10 @@ export const GridCellSettings: React.FC = () => {
                         </RadioGroup>
                     ) : tooltip.type === "direction" && (
                         <RadioGroup
-                            defaultValue={gridProps[tooltip.propKey] as string}
+                            defaultValue={props[tooltip.propKey] as string}
                             layout="horizontal-stacked"
                             onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
-                                actions.setProp((props: GridCellProps) => {
+                                setProp((props: ContainerProps) => {
                                     (props[tooltip.propKey] as 'row' | 'column') = data.value as 'row' | 'column';
                                 }, 1000);
                             }}
@@ -141,15 +137,6 @@ export const GridCellSettings: React.FC = () => {
                 }
                 </div>
             ))}
-            <Button
-                size='large'
-                className={styles2.deleteButton}
-                appearance='primary'
-                icon={<Delete24Regular />}
-                onClick={() => handleRemoveItem(gridCellId)}
-            >
-                Delete
-            </Button>
         </div>
     )
 }

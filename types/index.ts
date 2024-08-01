@@ -28,9 +28,7 @@ export interface ButtonProps {
   text: string;
   alignment: "left" | "center" | "right";
   displayName?: string;
-  icon?: keyof typeof VscIcons;
-  iconPosition?: "left" | "right";
-  iconColor?: string;
+  icon?: "none" | "left" | "right";
   bordercolor?: string;
   shadow?: boolean;
   hyperlink?: string;
@@ -43,11 +41,11 @@ export type generateButtonProps = {
   icon?: keyof typeof VscIcons;
 };
 
-export type TooltipConfig = {
+export type TooltipConfigButton = {
   label: string;
   content: string;
   propKey: keyof ButtonProps;
-  type: "color" | "spinButton" | "text" | "alignment";
+  type: "color" | "spinButton" | "text" | "icon";
 };
 
 export interface CheckboxProps {
@@ -73,14 +71,21 @@ export type TooltipConfigCheckbox = {
   type: "color" | "spinButton" | "text" | "options" | "direction";
 };
 
-export interface ContainerProps {
-    id: string;
+export interface GridCellProps {
+    id?: string;
     children?: React.ReactNode;
     flexDirection?: "row" | "column";
     justifyContent?: "flex-start" | "center" | "flex-end" | "space-between" | "space-around";
     alignItems?: "flex-start" | "center" | "flex-end";
     gap?: number;
   }
+
+export type TooltipConfigGridCell = {
+    label: string;
+    content: string;
+    propKey: keyof GridCellProps;
+    type: 'color' | 'spinButton' | 'text' | 'alignItems' | 'justifyContent' | 'direction';
+};
 
 export interface InputProps {
   fontSize: number;
@@ -109,13 +114,11 @@ export interface LabelProps {
   width: number;
   height: number;
   textAlign: "left" | "center" | "right" | "justify";
-  icon?: keyof typeof VscIcons;
-  iconPosition?: "left" | "right";
-  iconColor?: string;
   hyperlink?: string;
   bold?: boolean;
   italic?: boolean;
   underline?: boolean;
+  icon?: "none" | "left" | "right";
 }
 
 export interface generateLabelProps {
@@ -196,9 +199,15 @@ export type TooltipConfigIcon = {
 export interface ImageProps {
   src: string;
   alt: string;
-  width: number; //change to % after
-  height: number; //change to % after
-  alignment?: "left" | "center" | "right";
+  width: number;
+  height: number;
+}
+
+export interface TooltipConfigImage {
+  label: string;
+  content: string;
+  propKey: keyof ImageProps;
+  type: "spinButton" | "text";
 }
 
 export interface generateImageProps {
@@ -208,8 +217,7 @@ export interface generateImageProps {
   width: number;
 }
 
-export interface CardContainerProps {
-  color: string;
+export interface ContainerProps {
   height: number;
   width: number;
   flexDirection?: "row" | "column";
@@ -218,9 +226,17 @@ export interface CardContainerProps {
   gap?: number;
   backgroundColor: string;
   borderRadius: number;
-  bordercolor: string;
+  borderColor: string;
   padding: number;
-  shadow: boolean;
+  shadow?: boolean;
+  children?: React.ReactNode;
+}
+
+export interface TooltipConfigContainer {
+  label: string;
+  content: string;
+  propKey: keyof ContainerProps;
+  type: "color" | "spinButton" | "text" | "justifyContent" | "alignItems" | "direction";
 }
 
 export interface TextProps {

@@ -1,17 +1,16 @@
-import { useState, useEffect } from "react";
 import { useNode, UserComponent } from "@craftjs/core";
 import ContentEditable from "react-contenteditable";
-import { Label as FLabel, Input, RadioGroup, Radio, makeStyles, Tooltip, useId, mergeClasses, tokens } from "@fluentui/react-components";
-import { Info16Regular } from "@fluentui/react-icons";
+import { makeStyles} from "@fluentui/react-components";
 import { LabelProps, ContentEditableEvent } from "../../../../types";
 import { LabelSettings } from "./Settings/LabelSettings";
+import { Icon, IconDefaultProps } from "./Icon";
 
 const useStyles = makeStyles({
   labelContainer: {
-    cursor: "pointer",
-  },
-  labelContent: {
-    margin: 0,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "5px",
   },
   alignLeft: {
     textAlign: "left",
@@ -27,36 +26,35 @@ const useStyles = makeStyles({
   },
 });
 
-export const Label: UserComponent<LabelProps> = ({ text, fontSize, fontcolor, textAlign, userEditable = true, height, width }) => {
+export const Label: UserComponent<LabelProps> = ({ text, fontSize, fontcolor, textAlign, userEditable = true, height, width, icon }) => {
   const {
     connectors: { connect, drag },
-    selected,
-    actions: { setProp },
+    // selected,
+    // actions: { setProp },
   } = useNode((node) => ({
-    selected: node.events.selected,
-    dragged: node.events.dragged,
+    // selected: node.events.selected,
+    // dragged: node.events.dragged,
   }));
 
-  const [editable, setEditable] = useState(false);
+  // const [editable, setEditable] = useState(false);
 
-  useEffect(() => {
-    if (selected) {
-      return;
-    }
-    if (userEditable) {
-      setEditable(false);
-    }
-  }, [selected, userEditable]);
+  // useEffect(() => {
+  //   if (selected) {
+  //     return;
+  //   }
+  //   if (userEditable) {
+  //     setEditable(false);
+  //   }
+  // }, [selected, userEditable]);
 
   const styles = useStyles();
 
   return (
     <div
-      ref={(ref: HTMLDivElement | null) => ref && connect(drag(ref))}
       className={styles.labelContainer}
-      onClick={() => selected && userEditable && setEditable(true)}
     >
-      {userEditable ? (
+      {icon === "left" && <Icon {...IconDefaultProps} />}
+      {/* {userEditable ? (
         <ContentEditable
           html={text}
           disabled={!editable}
@@ -67,24 +65,26 @@ export const Label: UserComponent<LabelProps> = ({ text, fontSize, fontcolor, te
               500
             )
           }
-          tagName="p"
-          className={`${styles.labelContent} ${textAlign === 'left' ? styles.alignLeft :
+          tagName="span"
+          className={`${textAlign === 'left' ? styles.alignLeft :
             textAlign === 'center' ? styles.alignCenter :
               textAlign === 'right' ? styles.alignRight :
                 styles.alignJustify}`}
           style={{ fontSize: `${fontSize}px`, color: fontcolor }}
         />
-      ) : (
-        <p
-          className={`${styles.labelContent} ${textAlign === 'left' ? styles.alignLeft :
+       ) : ( */}
+        <span
+        ref={(ref: HTMLSpanElement | null) => ref && connect(drag(ref))}
+          className={`${textAlign === 'left' ? styles.alignLeft :
             textAlign === 'center' ? styles.alignCenter :
               textAlign === 'right' ? styles.alignRight :
                 styles.alignJustify}`}
           style={{ fontSize: `${fontSize}px`, color: fontcolor }}
         >
           {text}
-        </p>
-      )}
+        </span>
+       {/* )} */}
+      {icon === "right" && <Icon {...IconDefaultProps} />}
     </div>
   );
 };
@@ -93,10 +93,11 @@ export const LabelDefaultProps: LabelProps = {
   text: "New Label",
   textAlign: 'left',
   fontSize: 20,
-  fontcolor: "#000000",
+  fontcolor: "#FFFFFF",
   userEditable: true,
   width: 100,
   height: 100,
+  icon: "none"
 };
 
 (Label as any).craft = {

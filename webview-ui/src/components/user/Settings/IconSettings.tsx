@@ -183,7 +183,7 @@ export const IconSettings: React.FC = () => {
                     ) : tooltip.type === "spinButton" ? (
                         <SpinButton
                             className={propInspector.spinButton}
-                            step={5}
+                            step={1}
                             defaultValue={props[tooltip.propKey] as number}
                             onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
                                 const value = data.value ? data.value : 0;

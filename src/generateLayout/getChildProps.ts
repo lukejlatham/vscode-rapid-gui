@@ -28,9 +28,10 @@ const allowedSchemas = [
 //     .join("\n");
 // };
 
-const generateSystemMessage = (allowedSchemas) => {
-  return `You are a UI designer who creates perfect designs from a given sketch or description of a UI. You create your designs in terms of sections, each section containing elements.\n Allowed element types and properties are as follows:`;
-  // allowedSchemas.map(({ name, schema }) => `**${name}**:\n${schemaToString(schema)}`).join("\n\n")
-};
+// const generateSystemMessage = (allowedSchemas) => {
+//   return `You are a UI designer who creates perfect designs from a given sketch or description of a UI. You create your designs in terms of sections, each section containing elements.\n Allowed element types and properties are as follows:`;
+//   allowedSchemas.map(({ name, schema }) => `**${name}**:\n${schemaToString(schema)}`).join("\n\n");
+// };
 
-export const systemMessage = generateSystemMessage(allowedSchemas);
+//
+export {};

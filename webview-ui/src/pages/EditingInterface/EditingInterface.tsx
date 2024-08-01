@@ -13,6 +13,7 @@ import RightSidebar from './RightSidebar/RightSidebar';
 import Canvas from './Canvas';
 import LeftSidebar from './LeftSidebar/LeftSidebar';
 import { GridCell } from "../../components/user/GridCell";
+import { Container } from "../../components/user/Container";
 import { EditBackgroundButton } from "../../components/EditBackgroundButton";
 import { Text } from "../../components/user/Text";
 
@@ -49,7 +50,7 @@ const EditingInterface: React.FC = () => {
     const classes = useStyles();
 
     return (
-        <Editor resolver={{ Background, Text, Label, Button, TextBox, Image, UserInput, RadioButton, Checkbox, GridCell, Icon, EditBackgroundButton }}>
+        <Editor resolver={{ Background, Text, Label, Button, TextBox, Image, UserInput, RadioButton, Checkbox, GridCell, Icon, EditBackgroundButton, Container }}>
             <div className={classes.mainLayout}>
                 <div className={classes.leftSidebar}>
                     <LeftSidebar classes={classes} />
