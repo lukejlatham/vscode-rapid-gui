@@ -30,6 +30,8 @@ export const LabelSettings: React.FC = () => {
       { label: "Font Color", content: "Change the text color of the label.", propKey: "fontcolor" },
       { label: "Text", content: "Edit the text of the label.", propKey: "text" },
       { label: "Alignment", content: "Set the text alignment.", propKey: "textAlign" },
+      { label: "Hyperlink", content: "Add a hyperlink to the label.", propKey: "hyperlink" },
+      { label: "Icon", content: "Add an icon to the label. Choosing 'Left' or 'Right' will add an icon at that position.", propKey: "icon" },
     ];
   
     return (
@@ -78,7 +80,7 @@ export const LabelSettings: React.FC = () => {
                   setProp((props: LabelProps) => (props.text = e.target.value), 1000);
                 }}
               />
-            ) : tooltip.propKey === "textAlign" && (
+            ) : tooltip.propKey === "textAlign" ? (
               <RadioGroup
                 defaultValue={textAlign}
                 layout="horizontal-stacked"
@@ -90,6 +92,27 @@ export const LabelSettings: React.FC = () => {
                 <Radio value="center" label="Center" />
                 <Radio value="right" label="Right" />
                 <Radio value="justify" label="Justify" />
+              </RadioGroup>
+            ) : tooltip.propKey === "hyperlink" ? (
+              <Input
+                className={styles.textInput}
+                type="text"
+                defaultValue={""}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  setProp((props: LabelProps) => (props.hyperlink = e.target.value), 1000);
+                }}
+              />
+            ) : tooltip.propKey === "icon" && (
+              <RadioGroup
+                defaultValue="none"
+                layout="horizontal-stacked"
+                onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
+                  setProp((props: LabelProps) => (props.icon = data.value as 'none' | 'left' | 'right'), 1000);
+                }}
+              >
+                <Radio value="none" label="None" />
+                <Radio value="left" label="Left" />
+                <Radio value="right" label="Right" />
               </RadioGroup>
             )}
           </div>

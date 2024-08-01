@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNode, UserComponent } from '@craftjs/core';
-import * as VscIcons from "react-icons/vsc"; // Import all icons from Material Design
+import * as VscIcons from "react-icons/vsc";
 import { IconProps } from '../../../../types';
 import { IconSettings } from './Settings/IconSettings';
 

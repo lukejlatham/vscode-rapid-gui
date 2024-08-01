@@ -16,12 +16,14 @@ export const ButtonSettings: React.FC = () => {
     const tooltips: TooltipConfig[] = [
         { label: "Font Color", content: "Changed the color of the text on the button.", propKey: "fontColor", type: "color" },
         { label: "Background Color", content: "Changedthe color of the button.", propKey: "backgroundColor", type: "color" },
+        { label: "Border Color", content: "Change the color of the border.", propKey: "bordercolor", type: "color" },
+        { label: "Text", content: "Edit the text that appears in the button.", propKey: "text", type: "text" },
         { label: "Font Size", content: "Adjust the size of the text on the button.", propKey: "fontSize", type: "spinButton" },
         { label: "Border Radius", content: "Adjust how rounded the corners of the button are.", propKey: "borderRadius", type: "spinButton" },
         { label: "Width", content: "Set how wide the button is.", propKey: "width", type: "spinButton" },
         { label: "Height", content: "Set how tall the button is.", propKey: "height", type: "spinButton" },
-        { label: "Text", content: "Edit the text that appears in the button.", propKey: "text", type: "text" },
-        { label: "Alignment", content: "Set how you want the button to be aligned.", propKey: "alignment", type: "alignment" },
+        { label: "Icon", content: "Add an icon to the button. Choosing 'Left' or 'Right' will add an icon at that position.", propKey: "icon", type: "icon" },
+        { label: "Hyperlink", content: "Add a hyperlink to the button.", propKey: "hyperlink", type: "text" },
     ];
 
     const handleVisibilityChange = (tooltipKey: string, isVisible: boolean) => {
@@ -83,18 +85,18 @@ export const ButtonSettings: React.FC = () => {
                                 }, 1000);
                             }}
                         />
-                    ) : tooltip.type === "alignment" && (
+                    ) : tooltip.type === "icon" && (
                         <RadioGroup
                             defaultValue={props[tooltip.propKey] as string}
                             layout="horizontal-stacked"
                             onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
                                 setProp((props: ButtonProps) => {
-                                    (props[tooltip.propKey] as 'left' | 'center' | 'right') = data.value as 'left' | 'center' | 'right';
+                                    (props[tooltip.propKey] as 'none' | 'left' | 'right') = data.value as 'none' | 'left' | 'right';
                                 }, 1000);
                             }}
                         >
+                            <Radio key="none" label="None" value="none" />
                             <Radio key="left" label="Left" value="left" />
-                            <Radio key="center" label="Center" value="center" />
                             <Radio key="right" label="Right" value="right" />
                         </RadioGroup>
                     )}

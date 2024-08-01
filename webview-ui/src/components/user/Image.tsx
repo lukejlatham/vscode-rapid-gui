@@ -16,6 +16,7 @@ const useStyles = makeStyles({
   justifyRight: {
     justifyContent: "flex-end",
   },
+  
 });
 
 export const Image: UserComponent<ImageProps> = ({ src, alt, width, height, alignment }) => {

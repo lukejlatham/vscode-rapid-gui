@@ -28,9 +28,7 @@ export interface ButtonProps {
   text: string;
   alignment: "left" | "center" | "right";
   displayName?: string;
-  icon?: keyof typeof VscIcons;
-  iconPosition?: "left" | "right";
-  iconColor?: string;
+  icon?: "none" | "left" | "right";
   bordercolor?: string;
   shadow?: boolean;
   hyperlink?: string;
@@ -47,7 +45,7 @@ export type TooltipConfigButton = {
   label: string;
   content: string;
   propKey: keyof ButtonProps;
-  type: "color" | "spinButton" | "text" | "alignment";
+  type: "color" | "spinButton" | "text" | "icon";
 };
 
 export interface CheckboxProps {
@@ -116,13 +114,11 @@ export interface LabelProps {
   width: number;
   height: number;
   textAlign: "left" | "center" | "right" | "justify";
-  icon?: keyof typeof VscIcons;
-  iconPosition?: "left" | "right";
-  iconColor?: string;
   hyperlink?: string;
   bold?: boolean;
   italic?: boolean;
   underline?: boolean;
+  icon?: "none" | "left" | "right";
 }
 
 export interface generateLabelProps {
