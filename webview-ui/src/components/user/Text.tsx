@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNode, UserComponent } from "@craftjs/core";
 import ContentEditable from "react-contenteditable";
-import { Label as FLabel, Input, RadioGroup, Radio, makeStyles } from "@fluentui/react-components";
+import { makeStyles } from "@fluentui/react-components";
 import { TextProps, ContentEditableEvent } from "../../../../types";
 import { TextSettings } from "./Settings/TextSettings";
 
@@ -30,17 +30,16 @@ const useStyles = makeStyles({
   bold: {
     fontWeight: "bold",
   },
-    italic: {
-        fontStyle: "italic",
-    },
-    underline: {
-        textDecoration: "underline",
-    },
+  italic: {
+    fontStyle: "italic",
+  },
+  underline: {
+    textDecoration: "underline",
+  },
 });
 
 export const Text: UserComponent<TextProps> = ({ text, fontSize, fontColor, textAlign, userEditable, bold, italic, underline, hyperlink, placeholder }) => {
-
-    const {
+  const {
     connectors: { connect, drag },
     selected,
     actions: { setProp },
@@ -105,17 +104,17 @@ export const Text: UserComponent<TextProps> = ({ text, fontSize, fontColor, text
 };
 
 export const TextDefaultProps: TextProps = {
-    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    fontSize: 16,
-    fontColor: "white",
-    userEditable: true,
-    textAlign: "left",
-    bold: false,
-    italic: false,
-    underline: false,
-    hyperlink: "",
-    placeholder: "Text",
-    };
+  text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+  fontSize: 16,
+  fontColor: "white",
+  userEditable: true,
+  textAlign: "left",
+  bold: false,
+  italic: false,
+  underline: false,
+  hyperlink: "",
+  placeholder: "Text",
+};
 
 (Text as any).craft = {
   props: TextDefaultProps,
