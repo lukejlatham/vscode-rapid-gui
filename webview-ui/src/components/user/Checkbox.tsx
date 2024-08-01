@@ -1,6 +1,6 @@
 import { useNode, UserComponent } from '@craftjs/core';
 import { makeStyles } from '@fluentui/react-components';
-import {CheckboxProps } from '../../../../types';
+import {checkboxSchema, CheckboxProps } from '../../../../types';
 import { CheckboxSettings } from './Settings/CheckboxSettings';
 
 const useStyles = makeStyles({
@@ -11,7 +11,11 @@ const useStyles = makeStyles({
     },
 });
 
-export const Checkbox: UserComponent<CheckboxProps> = ({ header, optionLabels, numberOfBoxes, fontSize, fontColor, direction }) => {
+export const Checkbox: UserComponent<CheckboxProps> = (props) => {
+    const validatedProps = checkboxSchema.parse(props);
+
+    const { header, numberOfBoxes, optionLabels, fontSize, fontColor, direction } = validatedProps;
+
     const { connectors: { connect, drag } } = useNode((state) => ({
         selected: state.events.selected,
         dragged: state.events.dragged,
