@@ -199,9 +199,15 @@ export type TooltipConfigIcon = {
 export interface ImageProps {
   src: string;
   alt: string;
-  width: number; //change to % after
-  height: number; //change to % after
-  alignment?: "left" | "center" | "right";
+  width: number;
+  height: number;
+}
+
+export interface TooltipConfigImage {
+  label: string;
+  content: string;
+  propKey: keyof ImageProps;
+  type: "spinButton" | "text";
 }
 
 export interface generateImageProps {

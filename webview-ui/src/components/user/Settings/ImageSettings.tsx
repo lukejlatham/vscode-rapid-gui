@@ -1,8 +1,9 @@
 import React from 'react';
 import { useNode } from '@craftjs/core';
-import { ImageProps } from '../../../../../types';
-import { Input, Label, Radio, RadioGroup } from '@fluentui/react-components';
+import { ImageProps, TooltipConfigImage as TooltipConfig } from '../../../../../types';
+import { Input, Label, Tooltip, useId, mergeClasses, SpinButton, SpinButtonChangeEvent, SpinButtonOnChangeData } from '@fluentui/react-components';
 import { usePropertyInspectorStyles } from '../../../hooks/usePropertyInspectorStyles';
+import { Info16Regular } from '@fluentui/react-icons';
 
 
 // TODO: add tooltips to image settings
@@ -12,67 +13,70 @@ export const ImageSettings: React.FC = () => {
     }));
   
     const styles = usePropertyInspectorStyles();
+
+    const contentId = useId("content");
+    const [visibleTooltip, setVisibleTooltip] = React.useState<string | null>(null);
+
+    const tooltips: TooltipConfig[] = [
+        { label: "Source", content: "Provide the URL of the image.", propKey: "src", type: "text" },
+        { label: "Alt", content: "Change the alt text of the image.", propKey: "alt", type: "text" },
+        { label: "Width", content: "Change the width of the image.", propKey: "width", type: "spinButton" },
+        { label: "Height", content: "Change the height of the image.", propKey: "height", type: "spinButton" },
+    ];
+
+    const handleVisibilityChange = (tooltipKey: string, isVisible: boolean) => {
+      setVisibleTooltip(isVisible ? tooltipKey : null);
+  };
   
     return (
       <div className={styles.settingsContainer}>
-        <Label>
-          Source
-          <Input
-            type="text"
-            value={props.src}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              setProp((props: ImageProps) => (props.src = e.target.value), 1000);
-            }}
-          />
-        </Label>
-        <Label>
-          Alt
-          <Input
-            type="text"
-            value={props.alt}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              setProp((props: ImageProps) => (props.alt = e.target.value), 1000);
-            }}
-          />
-        </Label>
-        <Label>
-          Width
-          <Input
-            type="number"
-            value={props.width.toString()}
-            min="1"
-            max="100"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              setProp((props: ImageProps) => (props.width = parseInt(e.target.value, 10)), 1000);
-            }}
-          />
-        </Label>
-        <Label>
-          Height
-          <Input
-            type="number"
-            value={props.height.toString()}
-            min="1"
-            max="100"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              setProp((props: ImageProps) => (props.height = parseInt(e.target.value, 10)), 1000);
-            }}
-          />
-        </Label>
-        <Label>
-          Alignment
-          <RadioGroup
-            value={props.alignment}
-            layout="horizontal-stacked"
-            onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
-              setProp((props: ImageProps) => (props.alignment = data.value as 'left' | 'center' | 'right'), 1000);
-            }}
-          >
-            <Radio key="left" label="Left" value="left" />
-            <Radio key="center" label="Center" value="center" />
-            <Radio key="right" label="Right" value="right" />
-          </RadioGroup>
-        </Label>
+        {tooltips.map((tooltip, index) => (
+                <div key={index}>
+                    <div aria-owns={visibleTooltip === tooltip.propKey ? contentId : undefined} className={styles.label}>
+                        <Label>
+                            {tooltip.label}
+                        </Label>
+                        <Tooltip
+                            content={{
+                                children: tooltip.content,
+                                id: contentId,
+                            }}
+                            positioning="above-start"
+                            withArrow
+                            relationship="label"
+                            onVisibleChange={(e, data) => handleVisibilityChange(tooltip.propKey, data.visible)}
+                        >
+                            <Info16Regular
+                                tabIndex={0}
+                                className={mergeClasses(visibleTooltip === tooltip.propKey && styles.visible)}
+                            />
+                        </Tooltip>
+                    </div>
+                    {tooltip.type === "spinButton" ? (
+                        <SpinButton
+                            className={styles.spinButton}
+                            defaultValue={props[tooltip.propKey] as number}
+                            onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
+                                const value = data.value ? data.value : 0;
+                                setProp((props: ImageProps) => {
+                                    (props[tooltip.propKey] as number) = value;
+                                }, 1000);
+                            }}
+                        />
+                    ) : tooltip.type === "text" && (
+                        <Input
+                            className={styles.textInput}
+                            type="text"
+                            defaultValue={props[tooltip.propKey] as string}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                setProp((props: ImageProps) => {
+                                    (props[tooltip.propKey] as string) = e.target.value;
+                                }, 1000);
+                            }}
+                        />
+                    )}
+                </div>
+            ))}
       </div>
     );
   };

@@ -7,19 +7,9 @@ const useStyles = makeStyles({
   container: {
     display: "flex",
   },
-  justifyLeft: {
-    justifyContent: "flex-start",
-  },
-  justifyCenter: {
-    justifyContent: "center",
-  },
-  justifyRight: {
-    justifyContent: "flex-end",
-  },
-  
 });
 
-export const Image: UserComponent<ImageProps> = ({ src, alt, width, height, alignment }) => {
+export const Image: UserComponent<ImageProps> = ({ src, alt, width, height }) => {
   const { connectors: { connect, drag } } = useNode();
 
   const styles = useStyles();
@@ -29,7 +19,7 @@ export const Image: UserComponent<ImageProps> = ({ src, alt, width, height, alig
       if (ref) {
           connect(drag(ref));
       }
-  }}className={`${styles.container} ${alignment === "left" ? styles.justifyLeft : alignment === "center" ? styles.justifyCenter : styles.justifyRight}`}>
+  }} className={styles.container}>
       <img
         src={src}
         alt={alt}
@@ -42,9 +32,8 @@ export const Image: UserComponent<ImageProps> = ({ src, alt, width, height, alig
 export const ImageDefaultProps: ImageProps = {
   src: "https://photographylife.com/wp-content/uploads/2023/05/Nikon-Z8-Official-Samples-00002.jpg",
   alt: "New image",
-  width: 100,
-  height: 100,
-  alignment: "center",
+  width: 80,
+  height: 80,
 };
 
 Image.craft = {
