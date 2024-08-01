@@ -1,10 +1,8 @@
 import { useNode, UserComponent, Element } from "@craftjs/core";
 import { makeStyles} from "@fluentui/react-components";
-import { ButtonProps } from '../../../../types';
+import { buttonSchema, ButtonProps } from '../../../../types';
 import { ButtonSettings } from "./Settings/ButtonSettings";
 import { Icon, IconDefaultProps } from "./Icon";
-
-
 
 const useStyles = makeStyles({
     container: {
@@ -23,7 +21,10 @@ const useStyles = makeStyles({
     },
 });
 
-export const Button: UserComponent<ButtonProps> = ({ backgroundColor, fontSize, borderRadius, text, fontColor, width, height, bordercolor, icon }) => {
+export const Button: UserComponent<ButtonProps> = (props) => {
+    const validatedProps = buttonSchema.parse(props);
+
+    const { backgroundColor, fontColor, fontSize, borderRadius, text, width, height, bordercolor, icon } = validatedProps;
     const { connectors: { connect, drag } } = useNode();
     const styles = useStyles();
 
