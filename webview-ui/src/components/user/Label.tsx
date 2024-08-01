@@ -7,12 +7,10 @@ import { Icon, IconDefaultProps } from "./Icon";
 
 const useStyles = makeStyles({
   labelContainer: {
-    padding: "5px",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     gap: "5px",
-
   },
   alignLeft: {
     textAlign: "left",

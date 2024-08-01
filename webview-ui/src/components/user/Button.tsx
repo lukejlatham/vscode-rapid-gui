@@ -17,6 +17,9 @@ const useStyles = makeStyles({
         gap: "5px",
         justifyContent: "center",
         alignItems: "center",
+        maxWidth: "100%",
+        maxHeight: "100%",
+        cursor: "pointer",
     },
 });
 
@@ -37,8 +40,8 @@ export const Button: UserComponent<ButtonProps> = ({ backgroundColor, fontSize, 
                     backgroundColor,
                     fontSize: `${fontSize}px`,
                     borderRadius: `${borderRadius}px`,
-                    width: `${width}px`,
-                    height: `${height}px`,
+                    width: `${width}%`,
+                    height: `${height}%`,
                     border: `1px solid ${bordercolor}`,
                 }}
             >   
@@ -55,8 +58,8 @@ export const ButtonDefaultProps: ButtonProps = {
     fontSize: 20,
     borderRadius: 4,
     text: "New Button",
-    width: 150,
-    height: 50,
+    width: 60,
+    height: 12,
     alignment: "left",
     icon: "none",
     bordercolor: "#666666",
