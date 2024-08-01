@@ -39,11 +39,7 @@ const useStyles = makeStyles({
 });
 
 export const Text: UserComponent<TextProps> = ({ text, fontSize, fontColor, textAlign, userEditable, bold, italic, underline, hyperlink, placeholder }) => {
-  const {
-    connectors: { connect, drag },
-    selected,
-    actions: { setProp },
-  } = useNode((node) => ({
+  const { connectors: { connect, drag }, selected, actions: { setProp } } = useNode((node) => ({
     selected: node.events.selected,
     dragged: node.events.dragged,
   }));
@@ -61,47 +57,30 @@ export const Text: UserComponent<TextProps> = ({ text, fontSize, fontColor, text
 
   const styles = useStyles();
 
+  const handleInput = (e: ContentEditableEvent) => {
+    setProp((props: TextProps) => (props.text = e.target.value), 500);
+  };
+
   return (
     <div
       ref={(ref: HTMLDivElement | null) => ref && connect(drag(ref))}
       className={styles.textContainer}
       onClick={() => selected && userEditable && setEditable(true)}
     >
-      {userEditable ? (
-        <ContentEditable
-          html={text}
-          disabled={!editable}
-          onChange={(e: ContentEditableEvent) =>
-            setProp(
-              (props: TextProps) =>
-                (props.text = e.target.value.replace(/<\/?[^>]+(>|$)/g, "")),
-              500
-            )
-          }
-          tagName="p"
-          className={`${styles.textContent} ${textAlign === 'left' ? styles.alignLeft :
-            textAlign === 'center' ? styles.alignCenter :
-              textAlign === 'right' ? styles.alignRight :
-                styles.alignJustify}
-            ${bold ? styles.bold : ""}
-            ${italic ? styles.italic : ""}
-            ${underline ? styles.underline : ""}`}
-          style={{ fontSize: `${fontSize}px`, color: fontColor }}
-        />
-      ) : (
-        <p
-          className={`${styles.textContent} ${textAlign === 'left' ? styles.alignLeft :
-            textAlign === 'center' ? styles.alignCenter :
-              textAlign === 'right' ? styles.alignRight :
-                styles.alignJustify} 
-                ${bold ? styles.bold : ""}
-                ${italic ? styles.italic : ""}
-                ${underline ? styles.underline : ""}`}
-          style={{ fontSize: `${fontSize}px`, color: fontColor }}
-        >
-          {text}
-        </p>
-      )}
+      <ContentEditable
+        html={text}
+        disabled={!editable}
+        onChange={handleInput}
+        tagName="div"
+        className={`${styles.textContent} ${textAlign === "left" ? styles.alignLeft : textAlign === "center" ? styles.alignCenter : textAlign === "right" ? styles.alignRight : styles.alignJustify}`}
+        style={{
+          fontSize: `${fontSize}px`,
+          color: fontColor,
+          fontWeight: bold ? "bold" : "normal",
+          fontStyle: italic ? "italic" : "normal",
+          textDecoration: underline ? "underline" : "none",
+        }}
+      />
     </div>
   );
 };
