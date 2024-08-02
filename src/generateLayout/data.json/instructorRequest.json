@@ -1,0 +1,61 @@
+{
+  "choices": [
+    {
+      "content_filter_results": {},
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": "",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"sections\":[{\"id\":\"header\",\"name\":\"Header\",\"xPosition\":0,\"yPosition\":0,\"width\":10,\"height\":1,\"children\":[{\"type\":\"Button\",\"name\":\"Home Button\",\"generateFullElementSchema\":{\"props\":{\"type\":\"Button\",\"text\":\"Home\"}}},{\"type\":\"Button\",\"name\":\"Nav Button 1\",\"generateFullElementSchema\":{\"props\":{\"type\":\"Button\",\"text\":\"Nav1\"}}},{\"type\":\"Button\",\"name\":\"Nav Button 2\",\"generateFullElementSchema\":{\"props\":{\"type\":\"Button\",\"text\":\"Nav2\"}}},{\"type\":\"Button\",\"name\":\"Nav Button 3\",\"generateFullElementSchema\":{\"props\":{\"type\":\"Button\",\"text\":\"Nav3\"}}},{\"type\":\"Button\",\"name\":\"Nav Button 4\",\"generateFullElementSchema\":{\"props\":{\"type\":\"Button\",\"text\":\"Nav4\"}}}]},{\"id\":\"main\",\"name\":\"Main Content\",\"xPosition\":0,\"yPosition\":1,\"width\":10,\"height\":8,\"children\":[{\"type\":\"Label\",\"name\":\"Step Label\",\"generateFullElementSchema\":{\"props\":{\"type\":\"Label\",\"text\":\"STEP 1\"}}},{\"type\":\"TextBox\",\"name\":\"Text Field 1\",\"generateFullElementSchema\":{\"props\":{\"type\":\"TextBox\"}}},{\"type\":\"TextBox\",\"name\":\"Text Field 2\",\"generateFullElementSchema\":{\"props\":{\"type\":\"TextBox\"}}},{\"type\":\"TextBox\",\"name\":\"Text Field 3\",\"generateFullElementSchema\":{\"props\":{\"type\":\"TextBox\"}}},{\"type\":\"TextBox\",\"name\":\"Text Field 4\",\"generateFullElementSchema\":{\"props\":{\"type\":\"TextBox\"}}},{\"type\":\"TextBox\",\"name\":\"Text Field 5\",\"generateFullElementSchema\":{\"props\":{\"type\":\"TextBox\"}}},{\"type\":\"Image\",\"name\":\"Step Image\",\"generateFullElementSchema\":{\"props\":{\"type\":\"Image\"}}},{\"type\":\"Label\",\"name\":\"Possible Label\",\"generateFullElementSchema\":{\"props\":{\"type\":\"Label\",\"text\":\"POSSIBLE\",\"bold\":true}}},{\"type\":\"TextBox\",\"name\":\"Text Area\",\"generateFullElementSchema\":{\"props\":{\"type\":\"TextBox\"}}}]},{\"id\":\"footer\",\"name\":\"Footer\",\"xPosition\":0,\"yPosition\":9,\"width\":10,\"height\":1,\"children\":[{\"type\":\"Button\",\"name\":\"Search Button\",\"generateFullElementSchema\":{\"props\":{\"type\":\"Button\",\"text\":\"SEARCH\"}}},{\"type\":\"RadioButton\",\"name\":\"Radio Buttons\",\"generateFullElementSchema\":{\"props\":{\"type\":\"RadioButton\",\"numberOfButtons\":3}}},{\"type\":\"Button\",\"name\":\"Contact Button\",\"generateFullElementSchema\":{\"props\":{\"type\":\"Button\",\"text\":\"CONTACT\"}}}]},{\"id\":\"empty_columns\",\"name\":\"Empty Columns\",\"xPosition\":2,\"yPosition\":1,\"width\":2,\"height\":10,\"children\":[]}]}",
+              "name": "Layout"
+            },
+            "id": "call_QrTJEszskRN4uNAmO2ItagyF",
+            "type": "function"
+          }
+        ]
+      }
+    }
+  ],
+  "created": 1722638261,
+  "id": "chatcmpl-9rvC1nQjPkHvR46Liw0OpKbXMcqRQ",
+  "model": "gpt-4o-2024-05-13",
+  "object": "chat.completion",
+  "prompt_filter_results": [
+    {
+      "prompt_index": 0,
+      "content_filter_result": {}
+    },
+    {
+      "prompt_index": 1,
+      "content_filter_result": {
+        "sexual": {
+          "filtered": false,
+          "severity": "safe"
+        },
+        "violence": {
+          "filtered": false,
+          "severity": "safe"
+        },
+        "hate": {
+          "filtered": false,
+          "severity": "safe"
+        },
+        "self_harm": {
+          "filtered": false,
+          "severity": "safe"
+        }
+      }
+    }
+  ],
+  "system_fingerprint": "fp_abc28019ad",
+  "usage": {
+    "completion_tokens": 570,
+    "prompt_tokens": 1959,
+    "total_tokens": 2529
+  }
+}

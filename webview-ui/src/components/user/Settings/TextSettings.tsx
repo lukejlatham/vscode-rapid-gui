@@ -37,13 +37,10 @@ export const TextSettings: React.FC = () => {
         { label: "Font Color", content: "Change the text colour of the label.", propKey: "fontColor" },
         { label: "Text", content: "Edit the text", propKey: "text" },
         { label: "Alignment", content: "Set the text alignment.", propKey: "textAlign" },
-        // { label: "Bold", content: "Make the text bold.", propKey: "bold" },
-        // { label: "Italic", content: "Make the text italic.", propKey: "italic" },
-        // { label: "Underline", content: "Underline the text.", propKey: "underline" },
         { label: "Hyperlink", content: "Add a hyperlink to the text.", propKey: "hyperlink" },
     ];
 
-    type StyleKeys = 'bold' | 'italic' | 'underline'; // Add other keys as needed
+    type StyleKeys = 'bold' | 'italic' | 'underline';
 
     const applyStyle = (style: StyleKeys) => {
         const selection = window.getSelection();

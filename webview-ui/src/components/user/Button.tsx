@@ -24,7 +24,7 @@ const useStyles = makeStyles({
 export const Button: UserComponent<ButtonProps> = (props) => {
     const validatedProps = buttonSchema.parse(props);
 
-    const { backgroundColor, fontColor, fontSize, borderRadius, text, width, height, bordercolor, icon } = validatedProps;
+    const { backgroundColor, fontColor, fontSize, borderRadius, text, width, height, bordercolor, shadowBlur, shadowColor, shadowOffsetX, shadowOffsetY, icon } = validatedProps;
     const { connectors: { connect, drag } } = useNode();
     const styles = useStyles();
 
@@ -44,6 +44,7 @@ export const Button: UserComponent<ButtonProps> = (props) => {
                     width: `${width}%`,
                     height: `${height}%`,
                     border: `1px solid ${bordercolor}`,
+                    boxShadow: `${shadowOffsetX}px ${shadowOffsetY}px ${shadowBlur}px ${shadowColor}`,
                 }}
             >   
             {icon ==="left" && <Element id="button_icon" is={Icon} {...IconDefaultProps} />}
@@ -64,6 +65,11 @@ export const ButtonDefaultProps: ButtonProps = {
     alignment: "left",
     icon: "none",
     bordercolor: "#666666",
+    shadowColor: "transparent",
+    shadowOffsetX: 0,
+    shadowOffsetY: 0,
+    shadowBlur: 0,
+
 };
 
 (Button as any).craft = {

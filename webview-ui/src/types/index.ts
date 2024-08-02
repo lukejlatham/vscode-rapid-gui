@@ -1,16 +1,24 @@
 //types
 import * as VscIcons from "react-icons/vsc";
 import { z } from "zod";
+import { SerializedNodes } from "@craftjs/core";
 
 type VscIconKeys = keyof typeof VscIcons;
 
 type IconType = VscIconKeys | "none" | "left" | "right";
 
 export const backgroundSchema = z.object({
-  backgroundColor: z.string().default("white"),
-  layout: z.array(z.any()).default([]),
-  rows: z.number().default(1),
-  columns: z.number().default(1),
+  backgroundColor: z.string().default("#292929"),
+  layout: z.array(z.any()).default([
+    { i: "0", x: 0, y: 0, w: 1, h: 1 },
+    { i: "1", x: 1, y: 0, w: 1, h: 1 },
+    { i: "2", x: 2, y: 0, w: 1, h: 1 },
+    { i: "3", x: 0, y: 1, w: 1, h: 1 },
+    { i: "4", x: 1, y: 1, w: 1, h: 1 },
+    { i: "5", x: 2, y: 1, w: 1, h: 1 },
+  ]),
+  rows: z.number().default(3),
+  columns: z.number().default(3),
   lockedGrid: z.boolean().default(false),
   additionalProps: z
     .record(z.union([z.string(), z.number(), z.boolean(), z.array(z.any())]))
@@ -34,7 +42,10 @@ export const buttonSchema = z.object({
     .union([z.enum(["none", "left", "right"]), z.string().refine((val) => val in VscIcons)])
     .optional(),
   bordercolor: z.string().optional(),
-  shadow: z.boolean().default(false).optional(),
+  shadowColor: z.string().optional(),
+  shadowOffsetX: z.number().optional(),
+  shadowOffsetY: z.number().optional(),
+  shadowBlur: z.number().optional(),
   hyperlink: z.string().optional(),
 });
 
@@ -86,7 +97,10 @@ export const containerSchema = z.object({
   borderRadius: z.number().default(4),
   borderColor: z.string().default("black"),
   padding: z.number().default(10),
-  shadow: z.boolean().default(false),
+  shadowColor: z.string().optional(),
+  shadowOffsetX: z.number().optional(),
+  shadowOffsetY: z.number().optional(),
+  shadowBlur: z.number().optional(),
   children: z.any().optional(),
 });
 
@@ -137,8 +151,6 @@ export const labelSchema = z.object({
   fontSize: z.number().default(14),
   fontcolor: z.string().default("black"),
   userEditable: z.boolean().default(true).optional(),
-  width: z.number().default(100),
-  height: z.number().default(20),
   textAlign: z.enum(["left", "center", "right", "justify"]).default("left"),
   icon: z
     .union([z.enum(["none", "left", "right"]), z.string().refine((val) => val in VscIcons)])
@@ -264,7 +276,6 @@ export const textSchema = z.object({
   italic: z.boolean().optional().default(false),
   underline: z.boolean().optional().default(false),
   hyperlink: z.string().optional(),
-  placeholder: z.string().optional(),
   userEditable: z.boolean().optional().default(true),
 });
 
@@ -436,3 +447,12 @@ export const craftjsNodeSchema = z.object({
   linkedNodes: z.record(z.string()),
   parent: z.string(),
 });
+export interface Page {
+  id: string;
+  name: string;
+  content: SerializedNodes;
+}
+
+export interface CanvasProps {
+  classes: any;
+}

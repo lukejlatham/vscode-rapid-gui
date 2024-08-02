@@ -1,5 +1,5 @@
-import React, { FC, useEffect, useMemo, useState, useRef } from 'react';
-import { Card, makeStyles, Input, Label, Button } from '@fluentui/react-components';
+import { FC, useEffect, useMemo, useState, useRef } from 'react';
+import { Card, makeStyles} from '@fluentui/react-components';
 import Responsive, { Layout, WidthProvider } from 'react-grid-layout';
 import { Element } from '@craftjs/core';
 import { GridCell, GridCellDefaultProps } from './GridCell';
@@ -43,6 +43,15 @@ export const Background: FC<BackgroundProps> = (props) => {
   const [containerHeight, setContainerHeight] = useState(0);
   const { actions:{setProp} } = useNode();
 
+  setProp((props: BackgroundProps) => {
+    props.rows = initialRows;
+    props.columns = initialColumns;
+    props.lockedGrid = initialGridLocked;
+    props.backgroundColor = initialBackgroundColor;
+    props.layout = initialLayout;
+  }
+  );
+
   useEffect(() => {
     const updateContainerHeight = () => {
       if (backgroundRef.current) {
@@ -54,6 +63,8 @@ export const Background: FC<BackgroundProps> = (props) => {
 
     return () => window.removeEventListener('resize', updateContainerHeight);
   }, []);
+
+
 // TODO:  UPDATE THIS FUCTION TO NOT EXCEED THE MAXIMUM ROWS AND COLUMNS AND ADD RIGHT TO LEFT
 
   const onLayoutChange = (layout: Layout[]) => {
