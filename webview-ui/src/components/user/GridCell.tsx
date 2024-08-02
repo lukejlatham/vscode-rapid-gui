@@ -1,5 +1,5 @@
 import { UserComponent, useNode } from "@craftjs/core";
-import { GridCellProps } from '../../../../types';
+import { GridCellProps, gridCellSchema } from '../../../../types';
 import { makeStyles } from "@fluentui/react-components";
 import { GridCellSettings } from "./Settings/GridCellSettings";
 
@@ -47,7 +47,10 @@ const useStyles = makeStyles({
   },
 });
 
-export const GridCell: UserComponent<GridCellProps> = ({ id, children, justifyContent, flexDirection, alignItems, gap }) => {
+export const GridCell: UserComponent<GridCellProps> = (props) => {
+  const validatedProps = gridCellSchema.parse(props);
+  
+  const { justifyContent, flexDirection, alignItems, gap, children } = validatedProps;
   const { connectors: { connect, drag } } = useNode();
   const styles = useStyles();
 

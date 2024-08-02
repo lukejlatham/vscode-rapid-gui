@@ -1,7 +1,7 @@
 import { useNode, UserComponent } from "@craftjs/core";
 import ContentEditable from "react-contenteditable";
 import { makeStyles} from "@fluentui/react-components";
-import { LabelProps, ContentEditableEvent } from "../../../../types";
+import { LabelProps,labelSchema, ContentEditableEvent } from "../../../../types";
 import { LabelSettings } from "./Settings/LabelSettings";
 import { Icon, IconDefaultProps } from "./Icon";
 
@@ -26,7 +26,11 @@ const useStyles = makeStyles({
   },
 });
 
-export const Label: UserComponent<LabelProps> = ({ text, fontSize, fontcolor, textAlign, userEditable = true, height, width, icon }) => {
+export const Label: UserComponent<LabelProps> = (props) => {
+  const validatedProps = labelSchema.parse(props);
+
+  const { text, textAlign, fontSize, fontcolor, userEditable, icon } = validatedProps;
+
   const {
     connectors: { connect, drag },
     // selected,
@@ -97,7 +101,7 @@ export const LabelDefaultProps: LabelProps = {
   userEditable: true,
   width: 100,
   height: 100,
-  icon: "none"
+  icon: "none",
 };
 
 (Label as any).craft = {

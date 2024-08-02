@@ -1,10 +1,13 @@
 import React from 'react';
 import { useNode, UserComponent } from '@craftjs/core';
 import * as VscIcons from "react-icons/vsc";
-import { IconProps } from '../../../../types';
+import { IconProps, iconSchema } from '../../../../types';
 import { IconSettings } from './Settings/IconSettings';
 
-export const Icon: UserComponent<IconProps> = ({ selectedIcon, iconSize, iconColor, hyperlink }) => {
+export const Icon: UserComponent<IconProps> = (props) => {
+    const validatedProps = iconSchema.parse(props);
+    const { selectedIcon, iconSize, iconColor } = validatedProps;
+    
     const { connectors: { connect, drag } } = useNode((state) => ({
         selected: state.events.selected,
         dragged: state.events.dragged,

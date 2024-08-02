@@ -1,6 +1,6 @@
 import { useNode, UserComponent } from "@craftjs/core";
 import { makeStyles } from "@fluentui/react-components";
-import { ImageProps } from "../../../../types";
+import { ImageProps, imageSchema } from "../../../../types";
 import { ImageSettings } from "./Settings/ImageSettings";
 
 const useStyles = makeStyles({
@@ -9,7 +9,10 @@ const useStyles = makeStyles({
   },
 });
 
-export const Image: UserComponent<ImageProps> = ({ src, alt, width, height }) => {
+export const Image: UserComponent<ImageProps> = (props) => {
+  const validatedProps = imageSchema.parse(props);
+  const { src, alt, width, height } = validatedProps;
+  
   const { connectors: { connect, drag } } = useNode();
 
   const styles = useStyles();

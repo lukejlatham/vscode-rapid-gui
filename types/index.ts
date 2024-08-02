@@ -41,7 +41,7 @@ export const generateButtonSchema = z.object({
   icon: z.string().refine(val => val in VscIcons).optional() as z.ZodType<VscIconKeys | undefined>,
 });
 
-export type generateButtonProps = z.infer<typeof generateButtonSchema>;
+export type GenerateButtonProps = z.infer<typeof generateButtonSchema>;
 
 export const checkboxSchema = z.object({
   header: z.string().default("Checkbox Header"),
@@ -61,7 +61,7 @@ export const generateCheckboxSchema = checkboxSchema.pick({
   direction: true,
 });
 
-export type generateCheckboxProps = z.infer<typeof generateCheckboxSchema>;
+export type GenerateCheckboxProps = z.infer<typeof generateCheckboxSchema>;
 
 export const containerSchema = z.object({
   height: z.number().default(200),
@@ -79,6 +79,17 @@ export const containerSchema = z.object({
 
 export type ContainerProps = z.infer<typeof containerSchema>;
 
+export const gridCellSchema = z.object({
+  id: z.string().optional(),
+  children: z.any().optional(),
+  flexDirection: z.enum(["row", "column"]).optional(),
+  justifyContent: z.enum(["flex-start", "center", "flex-end", "space-between", "space-around"]).optional(),
+  alignItems: z.enum(["flex-start", "center", "flex-end"]).optional(),
+  gap: z.number().optional(),
+});
+
+export type GridCellProps = z.infer<typeof gridCellSchema>;
+
 export const generateContainerSchema = containerSchema.pick({
   height: true,
   width: true,
@@ -88,7 +99,7 @@ export const generateContainerSchema = containerSchema.pick({
   gap: true,
 });
 
-export type generateContainerProps = z.infer<typeof generateContainerSchema>;
+export type GenerateContainerProps = z.infer<typeof generateContainerSchema>;
 
 export const inputSchema = z.object({
   fontSize: z.number().default(14),
@@ -104,7 +115,7 @@ export const generateInputSchema = inputSchema.pick({
   placeholder: true,
 });
 
-export type generateInputProps = z.infer<typeof generateInputSchema>;
+export type GenerateInputProps = z.infer<typeof generateInputSchema>;
 
 export const labelSchema = z.object({
   text: z.string().default("Label"),
@@ -132,7 +143,7 @@ export const generateLabelSchema = labelSchema.pick({
   underline: true,
 });
 
-export type generateLabelProps = z.infer<typeof generateLabelSchema>;
+export type GenerateLabelProps = z.infer<typeof generateLabelSchema>;
 
 export const radioButtonSchema = z.object({
   header: z.string().default("Radio Button Header"),
@@ -152,7 +163,7 @@ export const generateRadioButtonSchema = radioButtonSchema.pick({
   direction: true,
 });
 
-export type generateRadioButtonProps = z.infer<typeof generateRadioButtonSchema>;
+export type GenerateRadioButtonProps = z.infer<typeof generateRadioButtonSchema>;
 
 export const textBoxSchema = z.object({
   text: z.string().default("Text Box"),
@@ -174,7 +185,7 @@ export const generateTextBoxSchema = textBoxSchema.pick({
   alignment: true,
 });
 
-export type generateTextBoxProps = z.infer<typeof generateTextBoxSchema>;
+export type GenerateTextBoxProps = z.infer<typeof generateTextBoxSchema>;
 
 export const iconSchema = z.object({
   selectedIcon: z.string().refine(val => val in VscIcons) as z.ZodType<VscIconKeys>,
@@ -203,7 +214,7 @@ export const generateImageSchema = imageSchema.pick({
   alignment: true,
 });
 
-export type generateImageProps = z.infer<typeof generateImageSchema>;
+export type GenerateImageProps = z.infer<typeof generateImageSchema>;
 
 export const cardContainerSchema = z.object({
   color: z.string().default("white"),
@@ -232,6 +243,7 @@ export const textSchema = z.object({
   underline: z.boolean().optional().default(false),
   hyperlink: z.string().optional(),
   placeholder: z.string().optional(),
+  userEditable: z.boolean().optional().default(true),
 });
 
 export type TextProps = z.infer<typeof textSchema>;
@@ -245,9 +257,266 @@ export const generateTextSchema = textSchema.pick({
   underline: true,
 });
 
-export type generateTextProps = z.infer<typeof generateTextSchema>;
+export type GenerateTextProps = z.infer<typeof generateTextSchema>;
 
-// ContentEditableEvent remains the same as it's a simple event interface
 export interface ContentEditableEvent {
   target: { value: string };
 }
+
+
+// export interface BackgroundProps {
+//     backgroundColor: string;
+//     layout: Layout[];
+//     rows: number;
+//     columns: number;
+//     lockedGrid: boolean;
+//     [key: string]: string | number | Layout[] | boolean;
+//   }
+
+// export interface TooltipConfigBackground {
+//     label: string;
+//     content: string;
+//     propKey: keyof BackgroundProps;
+//     type: 'color' | 'spinButton' | 'text' | 'button';
+// };
+
+// export interface ButtonProps {
+//   backgroundColor: string;
+//   fontSize: number;
+//   fontColor: string;
+//   borderRadius: number;
+//   width: number;
+//   height: number;
+//   text: string;
+//   alignment: "left" | "center" | "right";
+//   displayName?: string;
+//   icon?: "none" | "left" | "right";
+//   bordercolor?: string;
+//   shadow?: boolean;
+//   hyperlink?: string;
+// }
+
+// export type generateButtonProps = {
+//   width: number;
+//   height: number;
+//   text: string;
+//   icon?: keyof typeof VscIcons;
+// };
+
+// export type TooltipConfigButton = {
+//   label: string;
+//   content: string;
+//   propKey: keyof ButtonProps;
+//   type: "color" | "spinButton" | "text" | "icon";
+// };
+
+// export interface CheckboxProps {
+//   header: string;
+//   optionLabels: string[];
+//   numberOfBoxes: number;
+//   fontSize: number;
+//   fontColor: string;
+//   direction: "row" | "column";
+// }
+
+// export interface editableCheckboxProps {
+//   header: string;
+//   optionLabels: string[];
+//   numberOfBoxes: number;
+//   direction: "row" | "column";
+// }
+
+// export type TooltipConfigCheckbox = {
+//   label: string;
+//   content: string;
+//   propKey: keyof CheckboxProps;
+//   type: "color" | "spinButton" | "text" | "options" | "direction";
+// };
+
+// export interface GridCellProps {
+//     id?: string;
+//     children?: React.ReactNode;
+//     flexDirection?: "row" | "column";
+//     justifyContent?: "flex-start" | "center" | "flex-end" | "space-between" | "space-around";
+//     alignItems?: "flex-start" | "center" | "flex-end";
+//     gap?: number;
+//   }
+
+// export type TooltipConfigGridCell = {
+//     label: string;
+//     content: string;
+//     propKey: keyof GridCellProps;
+//     type: 'color' | 'spinButton' | 'text' | 'alignItems' | 'justifyContent' | 'direction';
+// };
+
+// export interface InputProps {
+//   fontSize: number;
+//   fontColor: string;
+//   backgroundColor: string;
+//   placeholder: string;
+//   borderRadius: number;
+// }
+
+// export interface generateInputProps {
+//   placeholder: string;
+// }
+
+// export type TooltipConfigInput = {
+//   label: string;
+//   content: string;
+//   propKey: keyof InputProps;
+//   type: "color" | "spinButton" | "text" | "alignment";
+// };
+
+// export interface LabelProps {
+//   text: string;
+//   fontSize: number;
+//   fontcolor: string;
+//   userEditable?: boolean;
+//   width: number;
+//   height: number;
+//   textAlign: "left" | "center" | "right" | "justify";
+//   hyperlink?: string;
+//   bold?: boolean;
+//   italic?: boolean;
+//   underline?: boolean;
+//   icon?: "none" | "left" | "right";
+// }
+
+// export interface generateLabelProps {
+//   text: string;
+//   fontcolor: string;
+//   icon?: keyof typeof VscIcons;
+//   bold?: boolean;
+//   italic?: boolean;
+//   underline?: boolean;
+// }
+
+// export interface ContentEditableEvent {
+//   target: { value: string };
+// }
+
+// export interface RadioButtonProps {
+//   header: string;
+//   numberOfButtons: number;
+//   optionLabels: string[];
+//   fontSize: number;
+//   fontColor: string;
+//   direction: "row" | "column";
+// }
+
+// export interface generateRadioButtonProps {
+//   header: string;
+//   numberOfButtons: number;
+//   optionLabels: string[];
+//   direction: "row" | "column";
+// }
+
+// export type TooltipConfigRadio = {
+//   label: string;
+//   content: string;
+//   propKey: keyof RadioButtonProps;
+//   type: "color" | "spinButton" | "text" | "options" | "direction";
+// };
+
+// export interface TextBoxProps {
+//   text: string;
+//   fontSize: number;
+//   fontColor: string;
+//   backgroundColor: string;
+//   placeholder: string;
+//   borderRadius: number;
+//   height: number; //change to % after
+//   width: number; //change to % after
+//   alignment: "left" | "center" | "right";
+// }
+
+// export interface generateTextBoxProps {
+//   placeholder: string;
+//   height: number;
+//   width: number;
+// }
+
+// export type TooltipConfigText = {
+//   label: string;
+//   content: string;
+//   propKey: keyof TextBoxProps;
+//   type: "color" | "spinButton" | "text" | "alignment";
+// };
+
+// export interface IconProps {
+//   selectedIcon: keyof typeof VscIcons;
+//   iconSize?: number;
+//   iconColor?: string;
+//   hyperlink?: string;
+// }
+
+// export type TooltipConfigIcon = {
+//   label: string;
+//   content: string;
+//   propKey: keyof IconProps;
+//   type: "color" | "spinButton" | "text";
+// };
+
+// export interface ImageProps {
+//   src: string;
+//   alt: string;
+//   width: number;
+//   height: number;
+// }
+
+// export interface TooltipConfigImage {
+//   label: string;
+//   content: string;
+//   propKey: keyof ImageProps;
+//   type: "spinButton" | "text";
+// }
+
+// export interface generateImageProps {
+//   src: string;
+//   alt: string;
+//   height: number;
+//   width: number;
+// }
+
+// export interface ContainerProps {
+//   height: number;
+//   width: number;
+//   flexDirection?: "row" | "column";
+//   justifyContent?: "flex-start" | "center" | "flex-end" | "space-between" | "space-around";
+//   alignItems?: "flex-start" | "center" | "flex-end";
+//   gap?: number;
+//   backgroundColor: string;
+//   borderRadius: number;
+//   borderColor: string;
+//   padding: number;
+//   shadow?: boolean;
+//   children?: React.ReactNode;
+// }
+
+// export interface TooltipConfigContainer {
+//   label: string;
+//   content: string;
+//   propKey: keyof ContainerProps;
+//   type: "color" | "spinButton" | "text" | "justifyContent" | "alignItems" | "direction";
+// }
+
+// export interface TextProps {
+//   text: string;
+//   fontSize: number;
+//   fontColor: string;
+//   textAlign: "left" | "center" | "right" | "justify";
+//   bold?: boolean;
+//   italic?: boolean;
+//   underline?: boolean;
+//   hyperlink?: string;
+//   placeholder?: string;
+//   userEditable?: boolean;
+// }
+
+// export interface generateTextProps {
+//   text: string;
+//   bold?: boolean;
+//   italic?: boolean;
+//   underline?: boolean;
+// }
