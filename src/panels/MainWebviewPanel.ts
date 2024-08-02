@@ -176,6 +176,9 @@ export class MainWebviewPanel {
             const updatedMessages = await processCopilotMessages(message.content, this._context);
             webview.postMessage({ command: "aiCopilotMessage", content: updatedMessages });
             return;
+          case "deletedPageAlert":
+            window.showErrorMessage(message.message);
+            return;
         }
       },
       undefined,
