@@ -12,6 +12,7 @@ export const backgroundSchema = z.object({
   columns: z.number().default(1),
   lockedGrid: z.boolean().default(false),
   additionalProps: z.record(z.union([z.string(), z.number(), z.boolean(), z.array(z.any())])).optional(),
+  key: z.any().optional(),
 });
 
 export type BackgroundProps = z.infer<typeof backgroundSchema>;

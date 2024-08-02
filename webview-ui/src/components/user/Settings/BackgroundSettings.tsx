@@ -64,11 +64,11 @@ export const BackgroundSettings: React.FC = () => {
                         <SpinButton
                             className={styles.spinButton}
                             min={1}
-                            defaultValue={props[tooltip.propKey] as number}
+                            defaultValue={props[tooltip.propKey as keyof typeof props]}
                             onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
                                 const value = data.value ? data.value : 0;
                                 setProp(nodeID, (props: BackgroundProps) => {
-                                    (props[tooltip.propKey] as number) = value;
+                                    (props[tooltip.propKey as keyof BackgroundProps] as number) = value;
                                 });
                             }}
                         />
@@ -76,10 +76,10 @@ export const BackgroundSettings: React.FC = () => {
                         <Input
                             className={styles.textInput}
                             type="text"
-                            defaultValue={props[tooltip.propKey] as string}
+                            defaultValue={props[tooltip.propKey as keyof typeof props]}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                 setProp(nodeID, (props: BackgroundProps) => {
-                                    (props[tooltip.propKey] as string) = e.target.value;
+                                    (props[tooltip.propKey as keyof BackgroundProps] as string) = e.target.value;
                                 });
                             }}
                         />
