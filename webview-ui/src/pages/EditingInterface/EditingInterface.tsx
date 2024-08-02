@@ -17,6 +17,7 @@ import { Page } from "../../../../types";
 import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import { EditorContent } from "./EditorContent";
+import { vscode } from '../../utilities/vscode';
 
 const useStyles = makeStyles({
     mainLayout: {
@@ -136,7 +137,8 @@ const EditingInterface: React.FC = () => {
           setPages(prevPages => prevPages.filter((_, i) => i !== index));
           setCurrentPageIndex(prevIndex => Math.min(prevIndex, pages.length - 2));
         } else {
-          alert("You can't delete the last page.");
+        //   alert("You can't delete the last page.");
+          vscode.postMessage({ command: 'deletedPageAlert', message: "You can't delete the last page." });
         }
       };
     

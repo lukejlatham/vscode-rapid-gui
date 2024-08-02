@@ -8,6 +8,7 @@ import { Button, Select } from '@fluentui/react-components';
 import { RenamePageDialog } from '../../components/RenamePageDialog';
 import { DocumentOnePageAddRegular, DeleteRegular } from '@fluentui/react-icons';
 
+
 interface EditorContentProps {
     pages: Page[];
     currentPageIndex: number;
