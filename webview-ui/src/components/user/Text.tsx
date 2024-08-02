@@ -41,7 +41,7 @@ const useStyles = makeStyles({
 export const Text: UserComponent<TextProps> = (props) => {
   const validatedProps = textSchema.parse(props);
 
-  const { text, fontSize, fontColor, userEditable, textAlign, bold, italic, underline, hyperlink, placeholder } = validatedProps;
+  const { text, fontSize, fontColor, userEditable, textAlign, bold, italic, underline, hyperlink } = validatedProps;
 
   const { connectors: { connect, drag }, selected, actions: { setProp } } = useNode((node) => ({
     selected: node.events.selected,
@@ -99,7 +99,6 @@ export const TextDefaultProps: TextProps = {
   italic: false,
   underline: false,
   hyperlink: "",
-  placeholder: "Text",
 };
 
 (Text as any).craft = {

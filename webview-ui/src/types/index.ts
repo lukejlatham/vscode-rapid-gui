@@ -266,7 +266,6 @@ export const textSchema = z.object({
   italic: z.boolean().optional().default(false),
   underline: z.boolean().optional().default(false),
   hyperlink: z.string().optional(),
-  placeholder: z.string().optional(),
   userEditable: z.boolean().optional().default(true),
 });
 
