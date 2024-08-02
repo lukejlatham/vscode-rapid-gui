@@ -1,6 +1,8 @@
 {
   "ROOT": {
-    "type": { "resolvedName": "Background" },
+    "type": {
+      "resolvedName": "Background"
+    },
     "isCanvas": false,
     "props": {
       "backgroundColor": "#292929",
@@ -14,53 +16,60 @@
           "moved": false,
           "static": false,
           "maxW": 10,
-          "maxH": 11
+          "maxH": 10
         },
         {
-          "w": 2,
-          "h": 9,
+          "w": 3,
+          "h": 7,
           "x": 0,
           "y": 1,
           "i": "1",
           "moved": false,
           "static": false,
           "maxW": 10,
-          "maxH": 11
+          "maxH": 10
         },
         {
-          "w": 8,
+          "w": 7,
           "h": 7,
-          "x": 2,
+          "x": 3,
           "y": 1,
           "i": "2",
           "moved": false,
           "static": false,
           "maxW": 10,
-          "maxH": 11
+          "maxH": 10
         },
         {
           "w": 10,
-          "h": 1,
+          "h": 2,
           "x": 0,
-          "y": 10,
+          "y": 8,
           "i": "3",
           "moved": false,
           "static": false,
           "maxW": 10,
-          "maxH": 11
+          "maxH": 10
         }
       ],
-      "rows": 11,
+      "rows": 10,
       "columns": 10
     },
-    "displayName": "Fw",
+    "displayName": "Background",
     "custom": {},
     "hidden": false,
-    "nodes": ["Header", "Sidebar", "MainContent", "Footer"],
-    "linkedNodes": { "0": "Header", "1": "Sidebar", "2": "MainContent", "3": "Footer" }
+    "nodes": ["Navigation Bar", "Left Column", "Main Content", "Footer"],
+    "linkedNodes": {
+      "0": "Navigation Bar",
+      "1": "Left Column",
+      "2": "Main Content",
+      "3": "Footer"
+    }
   },
-  "Header": {
-    "type": { "resolvedName": "GridCell" },
+  "Navigation Bar": {
+    "type": {
+      "resolvedName": "GridCell"
+    },
     "isCanvas": false,
     "props": {},
     "displayName": "GridCell",
@@ -68,43 +77,120 @@
     "parent": "ROOT",
     "hidden": false,
     "nodes": [],
-    "linkedNodes": { "GridCellContents": "HeaderContents" }
-  },
-  "HeaderContents": {
-    "type": { "resolvedName": "GridCellContents" },
-    "isCanvas": true,
-    "props": {},
-    "displayName": "GridCellContents",
-    "custom": {},
-    "parent": "Header",
-    "hidden": false,
-    "nodes": ["homeButton", "navButton1", "navButton2", "navButton3"],
     "linkedNodes": {}
   },
-  "Sidebar": {
-    "type": { "resolvedName": "GridCell" },
-    "isCanvas": false,
-    "props": {},
-    "displayName": "GridCell",
-    "custom": {},
-    "parent": "ROOT",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": { "GridCellContents": "SidebarContents" }
-  },
-  "SidebarContents": {
-    "type": { "resolvedName": "GridCellContents" },
+  "Navigation BarContainer": {
+    "type": {
+      "resolvedName": "Container"
+    },
     "isCanvas": true,
-    "props": {},
-    "displayName": "GridCellContents",
+    "props": {
+      "height": 1,
+      "width": 10,
+      "flexDirection": "row",
+      "justifyContent": "space-around",
+      "alignItems": "center",
+      "backgroundColor": "Main"
+    },
+    "displayName": "Container",
     "custom": {},
-    "parent": "Sidebar",
+    "parent": "Navigation Bar",
     "hidden": false,
-    "nodes": ["sidebarLabel1", "sidebarLabel2", "sidebarLabel3", "sidebarLabel4"],
+    "nodes": ["Home", "Nav Button 1", "Nav Button 2", "Nav Button 3"],
     "linkedNodes": {}
   },
-  "MainContent": {
-    "type": { "resolvedName": "GridCell" },
+  "Home": {
+    "type": {
+      "resolvedName": "Button"
+    },
+    "isCanvas": false,
+    "props": {
+      "backgroundColor": "white",
+      "fontSize": 14,
+      "fontColor": "black",
+      "borderRadius": 4,
+      "width": 100,
+      "height": 40,
+      "text": "Button",
+      "alignment": "center"
+    },
+    "displayName": "Button",
+    "custom": {},
+    "parent": "Navigation BarContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "Nav Button 1": {
+    "type": {
+      "resolvedName": "Button"
+    },
+    "isCanvas": false,
+    "props": {
+      "backgroundColor": "white",
+      "fontSize": 14,
+      "fontColor": "black",
+      "borderRadius": 4,
+      "width": 100,
+      "height": 40,
+      "text": "Button",
+      "alignment": "center"
+    },
+    "displayName": "Button",
+    "custom": {},
+    "parent": "Navigation BarContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "Nav Button 2": {
+    "type": {
+      "resolvedName": "Button"
+    },
+    "isCanvas": false,
+    "props": {
+      "backgroundColor": "white",
+      "fontSize": 14,
+      "fontColor": "black",
+      "borderRadius": 4,
+      "width": 100,
+      "height": 40,
+      "text": "Button",
+      "alignment": "center"
+    },
+    "displayName": "Button",
+    "custom": {},
+    "parent": "Navigation BarContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "Nav Button 3": {
+    "type": {
+      "resolvedName": "Button"
+    },
+    "isCanvas": false,
+    "props": {
+      "backgroundColor": "white",
+      "fontSize": 14,
+      "fontColor": "black",
+      "borderRadius": 4,
+      "width": 100,
+      "height": 40,
+      "text": "Button",
+      "alignment": "center"
+    },
+    "displayName": "Button",
+    "custom": {},
+    "parent": "Navigation BarContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "Left Column": {
+    "type": {
+      "resolvedName": "GridCell"
+    },
     "isCanvas": false,
     "props": {},
     "displayName": "GridCell",
@@ -112,21 +198,244 @@
     "parent": "ROOT",
     "hidden": false,
     "nodes": [],
-    "linkedNodes": { "GridCellContents": "MainContentContents" }
+    "linkedNodes": {}
   },
-  "MainContentContents": {
-    "type": { "resolvedName": "GridCellContents" },
+  "Left ColumnContainer": {
+    "type": {
+      "resolvedName": "Container"
+    },
     "isCanvas": true,
-    "props": {},
-    "displayName": "GridCellContents",
+    "props": {
+      "height": 7,
+      "width": 3,
+      "flexDirection": "column",
+      "justifyContent": "space-around",
+      "alignItems": "center",
+      "backgroundColor": "Main"
+    },
+    "displayName": "Container",
     "custom": {},
-    "parent": "MainContent",
+    "parent": "Left Column",
     "hidden": false,
-    "nodes": ["stepLabel", "mainImage", "possibleLabel", "mainTextBox"],
+    "nodes": ["Label 1", "Label 2", "Label 3", "Label 4", "Label 5"],
+    "linkedNodes": {}
+  },
+  "Label 1": {
+    "type": {
+      "resolvedName": "Label"
+    },
+    "isCanvas": false,
+    "props": {
+      "text": "Label",
+      "fontSize": 14,
+      "fontcolor": "black",
+      "width": 100,
+      "height": 20,
+      "textAlign": "left"
+    },
+    "displayName": "Label",
+    "custom": {},
+    "parent": "Left ColumnContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "Label 2": {
+    "type": {
+      "resolvedName": "Label"
+    },
+    "isCanvas": false,
+    "props": {
+      "text": "Label",
+      "fontSize": 14,
+      "fontcolor": "black",
+      "width": 100,
+      "height": 20,
+      "textAlign": "left"
+    },
+    "displayName": "Label",
+    "custom": {},
+    "parent": "Left ColumnContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "Label 3": {
+    "type": {
+      "resolvedName": "Label"
+    },
+    "isCanvas": false,
+    "props": {
+      "text": "Label",
+      "fontSize": 14,
+      "fontcolor": "black",
+      "width": 100,
+      "height": 20,
+      "textAlign": "left"
+    },
+    "displayName": "Label",
+    "custom": {},
+    "parent": "Left ColumnContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "Label 4": {
+    "type": {
+      "resolvedName": "Label"
+    },
+    "isCanvas": false,
+    "props": {
+      "text": "Label",
+      "fontSize": 14,
+      "fontcolor": "black",
+      "width": 100,
+      "height": 20,
+      "textAlign": "left"
+    },
+    "displayName": "Label",
+    "custom": {},
+    "parent": "Left ColumnContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "Label 5": {
+    "type": {
+      "resolvedName": "Label"
+    },
+    "isCanvas": false,
+    "props": {
+      "text": "Label",
+      "fontSize": 14,
+      "fontcolor": "black",
+      "width": 100,
+      "height": 20,
+      "textAlign": "left"
+    },
+    "displayName": "Label",
+    "custom": {},
+    "parent": "Left ColumnContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "Main Content": {
+    "type": {
+      "resolvedName": "GridCell"
+    },
+    "isCanvas": false,
+    "props": {},
+    "displayName": "GridCell",
+    "custom": {},
+    "parent": "ROOT",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "Main ContentContainer": {
+    "type": {
+      "resolvedName": "Container"
+    },
+    "isCanvas": true,
+    "props": {
+      "height": 7,
+      "width": 7,
+      "flexDirection": "column",
+      "justifyContent": "space-around",
+      "alignItems": "center",
+      "backgroundColor": "Main"
+    },
+    "displayName": "Container",
+    "custom": {},
+    "parent": "Main Content",
+    "hidden": false,
+    "nodes": ["Step 1", "Main Image", "Possible", "Secondary Image"],
+    "linkedNodes": {}
+  },
+  "Step 1": {
+    "type": {
+      "resolvedName": "Label"
+    },
+    "isCanvas": false,
+    "props": {
+      "text": "Label",
+      "fontSize": 14,
+      "fontcolor": "black",
+      "width": 100,
+      "height": 20,
+      "textAlign": "left"
+    },
+    "displayName": "Label",
+    "custom": {},
+    "parent": "Main ContentContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "Main Image": {
+    "type": {
+      "resolvedName": "Image"
+    },
+    "isCanvas": false,
+    "props": {
+      "src": "https://via.placeholder.com/150",
+      "alt": "Image",
+      "width": 150,
+      "height": 150
+    },
+    "displayName": "Image",
+    "custom": {},
+    "parent": "Main ContentContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "Possible": {
+    "type": {
+      "resolvedName": "TextBox"
+    },
+    "isCanvas": false,
+    "props": {
+      "text": "Text Box",
+      "fontSize": 14,
+      "fontColor": "black",
+      "backgroundColor": "white",
+      "placeholder": "Enter text",
+      "borderRadius": 4,
+      "height": 100,
+      "width": 200,
+      "alignment": "left"
+    },
+    "displayName": "TextBox",
+    "custom": {},
+    "parent": "Main ContentContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "Secondary Image": {
+    "type": {
+      "resolvedName": "Image"
+    },
+    "isCanvas": false,
+    "props": {
+      "src": "https://via.placeholder.com/150",
+      "alt": "Image",
+      "width": 150,
+      "height": 150
+    },
+    "displayName": "Image",
+    "custom": {},
+    "parent": "Main ContentContainer",
+    "hidden": false,
+    "nodes": [],
     "linkedNodes": {}
   },
   "Footer": {
-    "type": { "resolvedName": "GridCell" },
+    "type": {
+      "resolvedName": "GridCell"
+    },
     "isCanvas": false,
     "props": {},
     "displayName": "GridCell",
@@ -134,17 +443,107 @@
     "parent": "ROOT",
     "hidden": false,
     "nodes": [],
-    "linkedNodes": { "GridCellContents": "FooterContents" }
+    "linkedNodes": {}
   },
-  "FooterContents": {
-    "type": { "resolvedName": "GridCellContents" },
+  "FooterContainer": {
+    "type": {
+      "resolvedName": "Container"
+    },
     "isCanvas": true,
-    "props": {},
-    "displayName": "GridCellContents",
+    "props": {
+      "height": 2,
+      "width": 10,
+      "flexDirection": "row",
+      "justifyContent": "space-between",
+      "alignItems": "center",
+      "backgroundColor": "Main"
+    },
+    "displayName": "Container",
     "custom": {},
     "parent": "Footer",
     "hidden": false,
-    "nodes": ["searchButton", "contactLabel", "footerButton1", "footerButton2", "footerButton3"],
+    "nodes": ["Search", "Icon 1", "Icon 2", "Icon 3", "Contact"],
+    "linkedNodes": {}
+  },
+  "Search": {
+    "type": {
+      "resolvedName": "Button"
+    },
+    "isCanvas": false,
+    "props": {
+      "backgroundColor": "white",
+      "fontSize": 14,
+      "fontColor": "black",
+      "borderRadius": 4,
+      "width": 100,
+      "height": 40,
+      "text": "Button",
+      "alignment": "center"
+    },
+    "displayName": "Button",
+    "custom": {},
+    "parent": "FooterContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "Icon 1": {
+    "type": {
+      "resolvedName": "Icon"
+    },
+    "isCanvas": false,
+    "props": {},
+    "displayName": "Icon",
+    "custom": {},
+    "parent": "FooterContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "Icon 2": {
+    "type": {
+      "resolvedName": "Icon"
+    },
+    "isCanvas": false,
+    "props": {},
+    "displayName": "Icon",
+    "custom": {},
+    "parent": "FooterContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "Icon 3": {
+    "type": {
+      "resolvedName": "Icon"
+    },
+    "isCanvas": false,
+    "props": {},
+    "displayName": "Icon",
+    "custom": {},
+    "parent": "FooterContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "Contact": {
+    "type": {
+      "resolvedName": "Label"
+    },
+    "isCanvas": false,
+    "props": {
+      "text": "Label",
+      "fontSize": 14,
+      "fontcolor": "black",
+      "width": 100,
+      "height": 20,
+      "textAlign": "left"
+    },
+    "displayName": "Label",
+    "custom": {},
+    "parent": "FooterContainer",
+    "hidden": false,
+    "nodes": [],
     "linkedNodes": {}
   }
 }

@@ -29,6 +29,8 @@ async function processSketch(
 
     const layoutNodes = buildLayoutNodes(layout);
 
+    console.log("processSketch in generateLayout.ts - Layout Nodes:", layoutNodes);
+
     const childNodes = buildChildNodes(layout);
 
     const fullNodes = { ...layoutNodes, ...childNodes };

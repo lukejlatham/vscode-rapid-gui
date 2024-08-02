@@ -62,168 +62,196 @@ const input = `{
   "_meta": { "usage": { "completion_tokens": 295, "prompt_tokens": 1461, "total_tokens": 1756 } }
 }`;
 
-interface Section {
-  id: string;
-  name: string;
-  xPosition: number;
-  yPosition: number;
-  width: number;
-  height: number;
-  children: Array<{ type: string; name: string }>;
+import { z } from "zod";
+import {
+  layoutSchema,
+  sectionSchema,
+  backgroundNodeLayout,
+  nodeTreeRootSchema,
+  craftjsNodeSchema,
+  buttonSchema,
+  checkboxSchema,
+  containerSchema,
+  gridCellSchema,
+  inputSchema,
+  labelSchema,
+  radioButtonSchema,
+  textBoxSchema,
+  iconSchema,
+  imageSchema,
+} from "../../webview-ui/src/types"; // Assuming schemas are exported from a separate file
+
+// Define types using z.infer
+type LayoutType = z.infer<typeof backgroundNodeLayout>;
+type NodeTreeRootType = z.infer<typeof nodeTreeRootSchema>;
+type Section = z.infer<typeof sectionSchema>;
+type LayoutSchema = z.infer<typeof layoutSchema>;
+type NodeSection = z.infer<typeof craftjsNodeSchema>;
+type ContainerProps = z.infer<typeof containerSchema>;
+type GridCellProps = z.infer<typeof gridCellSchema>;
+
+// Function to parse and validate input JSON
+function parseAndValidateInput(rawJson: string): LayoutSchema {
+  return layoutSchema.parse(JSON.parse(rawJson));
 }
 
+// Interface for layout dimensions
 interface LayoutDimensions {
   rows: number;
   columns: number;
   ids: string[];
 }
-interface NodeTreeRoot {
-  type: { resolvedName: string };
-  isCanvas: boolean;
-  props: {
-    backgroundColor: string;
-    layout: Array<{
-      w: number;
-      h: number;
-      x: number;
-      y: number;
-      i: string;
-      moved: boolean;
-      static: boolean;
-      maxW?: number;
-      maxH?: number;
-    }>;
-    rows: number;
-    columns: number;
-  };
-  displayName: string;
-  custom: object;
-  hidden: boolean;
-  nodes: string[];
-  linkedNodes: { [key: string]: string };
-}
 
-interface NodeSection {
-  type: { resolvedName: string };
-  isCanvas: boolean;
-  props: {};
-  displayName: string;
-  custom: object;
-  parent: string;
-  hidden: boolean;
-  nodes: string[];
-  linkedNodes: object;
-}
-
-function removeMetadata(jsonData: string): Section[] {
-  const parsedData = JSON.parse(jsonData);
-  return parsedData.sections;
-}
-
-function getLayoutDimensions(sections: Section[]): LayoutDimensions {
+// Function to calculate layout dimensions
+function calculateLayoutDimensions(layout: LayoutSchema): LayoutDimensions {
   let maxX = 0;
   let maxY = 0;
-  const ids: string[] = [];
-
-  sections.forEach((section) => {
+  const ids: string[] = layout.sections.map((section) => {
     const sectionRight = section.xPosition + section.width;
     const sectionBottom = section.yPosition + section.height;
 
-    if (sectionRight > maxX) {
-      maxX = sectionRight;
-    }
+    if (sectionRight > maxX) maxX = sectionRight;
+    if (sectionBottom > maxY) maxY = sectionBottom;
 
-    if (sectionBottom > maxY) {
-      maxY = sectionBottom;
-    }
-
-    ids.push(section.id);
+    return section.name;
   });
 
   return { rows: maxY, columns: maxX, ids };
 }
 
-function createNodeTreeRoot(
-  rows: number,
-  columns: number,
-  backgroundColor: string,
-  ids: string[],
-  layout: Array<{
-    w: number;
-    h: number;
-    x: number;
-    y: number;
-    i: string;
-    moved: boolean;
-    static: boolean;
-    maxW?: number;
-    maxH?: number;
-  }>
-): NodeTreeRoot {
-  const linkedNodes = ids.reduce((acc, id, index) => {
+// Function to create a node
+function createNode(
+  id: string,
+  resolvedName: string,
+  isCanvas: boolean,
+  parent: string,
+  props: { [key: string]: any } = {},
+  children: string[] = []
+): NodeSection {
+  return {
+    type: { resolvedName },
+    isCanvas,
+    props,
+    displayName: resolvedName,
+    custom: {},
+    parent,
+    hidden: false,
+    nodes: children,
+    linkedNodes: {},
+  };
+}
+
+// Function to generate section nodes
+function generateSectionNodes(sections: Section[]): { [key: string]: NodeSection } {
+  const nodes: { [key: string]: NodeSection } = {};
+
+  sections.forEach((section) => {
+    // Create the GridCell node
+    nodes[section.name] = createNode(section.name, "GridCell", false, "ROOT");
+
+    const containerId = section.name + "Container";
+
+    // Create the Container node within the GridCell node
+    const containerProps: ContainerProps = {
+      height: section.height,
+      width: section.width,
+      flexDirection: section.flexDirection,
+      justifyContent: section.justifyContent,
+      alignItems: section.alignItems,
+      backgroundColor: section.color,
+    };
+
+    nodes[containerId] = createNode(
+      containerId,
+      "Container",
+      true,
+      section.name,
+      containerProps,
+      section.children.map((child) => child.name)
+    );
+
+    // Create child nodes within the Container node
+    section.children.forEach((child) => {
+      let childProps: any = {};
+      switch (child.type) {
+        case "Button":
+          childProps = buttonSchema.parse(child);
+          break;
+        case "Checkbox":
+          childProps = checkboxSchema.parse(child);
+          break;
+        case "Input":
+          childProps = inputSchema.parse(child);
+          break;
+        case "Label":
+          childProps = labelSchema.parse(child);
+          break;
+        case "RadioButton":
+          childProps = radioButtonSchema.parse(child);
+          break;
+        case "TextBox":
+          childProps = textBoxSchema.parse(child);
+          break;
+        case "Icon":
+          childProps = iconSchema.parse(child);
+          break;
+        case "Image":
+          childProps = imageSchema.parse(child);
+          break;
+      }
+
+      nodes[child.name] = createNode(child.name, child.type, false, containerId, childProps);
+    });
+  });
+
+  return nodes;
+}
+
+// Function to create the background node
+function createBackgroundNode(
+  dimensions: LayoutDimensions,
+  layout: LayoutType[],
+  backgroundColor: string
+): NodeTreeRootType {
+  const linkedNodes = dimensions.ids.reduce((acc, id, index) => {
     acc[String(index)] = id;
     return acc;
-  }, {});
+  }, {} as Record<string, string>);
 
   return {
     type: { resolvedName: "Background" },
     isCanvas: false,
     props: {
-      backgroundColor: backgroundColor,
-      layout: layout,
-      rows: rows,
-      columns: columns,
+      backgroundColor,
+      layout,
+      rows: dimensions.rows,
+      columns: dimensions.columns,
     },
-    displayName: "Fw",
+    displayName: "Background",
     custom: {},
     hidden: false,
-    nodes: [],
-    linkedNodes: linkedNodes,
+    nodes: dimensions.ids,
+    linkedNodes,
   };
 }
 
-function generateSectionLayout(sections: Section[]): { [key: string]: NodeSection } {
-  const layout: { [key: string]: NodeSection } = {};
-
-  sections.forEach((section) => {
-    const node: NodeSection = {
-      type: { resolvedName: "GridCell" },
-      isCanvas: false,
-      props: {},
-      displayName: "GridCell",
-      custom: {},
-      parent: "ROOT",
-      hidden: false,
-      nodes: [],
-      linkedNodes: { GridCellContents: section.id + "Contents" },
-    };
-
-    layout[section.id] = node;
-
-    const contentNode: NodeSection = {
-      type: { resolvedName: "GridCellContents" },
-      isCanvas: true,
-      props: {},
-      displayName: "GridCellContents",
-      custom: {},
-      parent: section.id,
-      hidden: false,
-      nodes: section.children.map((child) => child.name),
-      linkedNodes: {},
-    };
-
-    layout[section.id + "Contents"] = contentNode;
-  });
-
-  return layout;
+// Function to assemble the final layout
+function assembleFinalLayout(
+  backgroundNode: NodeTreeRootType,
+  sectionNodes: { [key: string]: NodeSection }
+): { [key: string]: NodeSection } {
+  return {
+    ROOT: backgroundNode,
+    ...sectionNodes,
+  };
 }
 
+// Main function to build layout nodes
 function buildLayoutNodes(rawLayoutResponse: string) {
-  const sections = removeMetadata(rawLayoutResponse);
+  const parsedData = parseAndValidateInput(rawLayoutResponse);
+  const layoutDimensions = calculateLayoutDimensions(parsedData);
 
-  const layoutDimensions = getLayoutDimensions(sections);
-
-  const layout = sections.map((section, index) => ({
+  const layout = parsedData.sections.map((section, index) => ({
     w: section.width,
     h: section.height,
     x: section.xPosition,
@@ -235,24 +263,10 @@ function buildLayoutNodes(rawLayoutResponse: string) {
     maxH: layoutDimensions.rows,
   }));
 
-  const backgroundNode = createNodeTreeRoot(
-    layoutDimensions.rows,
-    layoutDimensions.columns,
-    "#292929",
-    layoutDimensions.ids,
-    layout
-  );
+  const backgroundNode = createBackgroundNode(layoutDimensions, layout, "#292929");
+  const sectionNodes = generateSectionNodes(parsedData.sections);
 
-  const sectionLayout = generateSectionLayout(sections);
-
-  backgroundNode.nodes = layoutDimensions.ids;
-
-  const output = {
-    ROOT: backgroundNode,
-    ...sectionLayout,
-  };
-
-  return output;
+  return assembleFinalLayout(backgroundNode, sectionNodes);
 }
 
 export { buildLayoutNodes };

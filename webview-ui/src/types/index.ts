@@ -205,7 +205,10 @@ export const generateTextBoxSchema = textBoxSchema.pick({
 export type GenerateTextBoxProps = z.infer<typeof generateTextBoxSchema>;
 
 export const iconSchema = z.object({
-  selectedIcon: z.string().refine((val) => val in VscIcons) as z.ZodType<VscIconKeys>,
+  selectedIcon: z
+    .string()
+    .refine((val) => val in VscIcons)
+    .optional() as z.ZodType<VscIconKeys>,
   iconSize: z.number().default(24).optional(),
   iconColor: z.string().default("black").optional(),
   hyperlink: z.string().optional(),
@@ -235,8 +238,8 @@ export type GenerateImageProps = z.infer<typeof generateImageSchema>;
 
 export const cardContainerSchema = z.object({
   color: z.string().default("white"),
-  height: z.number().default(200),
-  width: z.number().default(300),
+  height: z.number().default(100),
+  width: z.number().default(100),
   flexDirection: z.enum(["row", "column"]).optional(),
   justifyContent: z
     .enum(["flex-start", "center", "flex-end", "space-between", "space-around"])
@@ -351,3 +354,85 @@ export interface TooltipConfigContainer {
   propKey: keyof ContainerProps;
   type: "color" | "spinButton" | "text" | "justifyContent" | "alignItems" | "direction";
 }
+
+export const generateElementSchema = z.object({
+  type: z.enum([
+    "Button",
+    "Label",
+    "Image",
+    "TextBox",
+    "RadioButton",
+    "Checkbox",
+    "Input",
+    "Text",
+    "Icon",
+  ]),
+  name: z.string(),
+  size: z.enum(["small", "medium", "large"]).optional().default("medium"),
+  text: z.string().optional(),
+  imageSrc: z.string().optional(),
+  color: z.enum(["Main", "Accent"]).default("Main"),
+});
+
+export const sectionSchema = z.object({
+  name: z.string(),
+  xPosition: z.number().int().max(10),
+  yPosition: z.number().int().max(10),
+  width: z.number().int().max(10),
+  height: z.number().int().max(10),
+  color: z.enum(["Main", "Accent"]).default("Main"),
+  flexDirection: z.enum(["row", "column"]).default("row"),
+  justifyContent: z
+    .enum(["flex-start", "center", "flex-end", "space-between", "space-around"])
+    .default("space-around"),
+  alignItems: z.enum(["flex-start", "center", "flex-end"]).default("center"),
+  children: z.array(generateElementSchema),
+});
+
+export const layoutSchema = z.object({
+  sections: z.array(sectionSchema),
+});
+
+export const backgroundNodeLayout = z.object({
+  w: z.number().int(),
+  h: z.number().int(),
+  x: z.number().int(),
+  y: z.number().int(),
+  i: z.string(),
+  moved: z.boolean(),
+  static: z.boolean(),
+  maxW: z.number().int().optional(),
+  maxH: z.number().int().optional(),
+});
+
+export const nodeTreeRootSchema = z.object({
+  type: z.object({
+    resolvedName: z.string(),
+  }),
+  isCanvas: z.boolean(),
+  props: z.object({
+    backgroundColor: z.string(),
+    layout: z.array(backgroundNodeLayout),
+    rows: z.number().int(),
+    columns: z.number().int(),
+  }),
+  displayName: z.string(),
+  custom: z.record(z.any()),
+  hidden: z.boolean(),
+  nodes: z.array(z.string()),
+  linkedNodes: z.record(z.string()),
+});
+
+export const craftjsNodeSchema = z.object({
+  type: z.object({
+    resolvedName: z.string(),
+  }),
+  isCanvas: z.boolean(),
+  props: z.record(z.string(), z.any()),
+  displayName: z.string(),
+  custom: z.record(z.any()),
+  hidden: z.boolean(),
+  nodes: z.array(z.string()),
+  linkedNodes: z.record(z.string()),
+  parent: z.string(),
+});
