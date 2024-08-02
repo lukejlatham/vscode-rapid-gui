@@ -1,5 +1,5 @@
 import { UserComponent, useNode } from "@craftjs/core";
-import { ContainerProps } from "../../../../types";
+import { ContainerProps, containerSchema  } from "../../../../types";
 import { makeStyles } from "@fluentui/react-components";
 import { ContainerSettings } from "./Settings/ContainerSettings";
 // import { ContainerSettings } from "./Settings/ContainerSettings";
@@ -48,7 +48,11 @@ const useStyles = makeStyles({
     },
   });
 
-export const Container: UserComponent<ContainerProps> = ({ height, width, backgroundColor, borderRadius, borderColor, padding, flexDirection, justifyContent, alignItems, gap, children, }) => {
+export const Container: UserComponent<ContainerProps> = (props) => {
+  const validatedProps = containerSchema.parse(props);
+  const { children, height, width, backgroundColor, borderRadius, borderColor, padding, flexDirection, justifyContent, alignItems, gap } = validatedProps;
+  
+
     const { connectors: { connect, drag } } = useNode();
     const styles = useStyles();
     const divStyle = {
@@ -90,6 +94,7 @@ export const ContainerDefaultProps: ContainerProps = {
     justifyContent: "flex-start",
     alignItems: "flex-start",
     gap: 0,
+    shadow: false,
   };
 
 Container.craft = {

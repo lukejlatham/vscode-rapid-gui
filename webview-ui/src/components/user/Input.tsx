@@ -1,8 +1,11 @@
 import {useNode, UserComponent} from '@craftjs/core';
-import {InputProps} from '../../../../types';
+import {InputProps, inputSchema} from '../../../../types';
 import { InputSettings } from './Settings/InputSettings';
 
-export const UserInput: UserComponent<InputProps> = ({ fontSize, fontColor, backgroundColor, placeholder, borderRadius}) => {
+export const UserInput: UserComponent<InputProps> = (props) => {
+    const validatedProps = inputSchema.parse(props);
+    const { fontSize, fontColor, backgroundColor, placeholder, borderRadius } = validatedProps;
+    
     const { connectors: { connect, drag } } = useNode((state) => ({
         selected: state.events.selected,
         dragged: state.events.dragged,

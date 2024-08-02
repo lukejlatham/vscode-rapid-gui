@@ -5,7 +5,7 @@ import {
   generateTextBoxSchema,
   generateTextSchema,
   generateCheckboxSchema,
-} from "../../types/editorObjectSchema";
+} from "../../webview-ui/src/types/editorObjectSchema";
 
 const allowedSchemas = [
   generateButtonSchema,

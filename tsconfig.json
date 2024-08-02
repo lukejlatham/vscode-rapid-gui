@@ -11,13 +11,13 @@
     "strict": false,
     "rootDirs": [
       "src",
-      "types"
+      "webview-ui/src/types"
     ],
   },
   "exclude": [
     "node_modules",
     ".vscode-test",
     "webview-ui",
-    "types"
+    "webview-ui/src/types"
   ]
 }
