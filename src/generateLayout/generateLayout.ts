@@ -73,6 +73,11 @@ async function processTextDescription(
 
     const stringifiedNodes = JSON.stringify(fullNodes, null, 2);
 
+    console.log(
+      "processTextDescription in generateLayout.ts - stringified Nodes:",
+      stringifiedNodes
+    );
+
     return stringifiedNodes;
   } catch (error) {
     console.error("Error processing text description:", error);

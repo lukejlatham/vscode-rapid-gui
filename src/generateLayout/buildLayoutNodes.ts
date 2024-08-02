@@ -61,7 +61,6 @@ const input = `{
   ],
   "_meta": { "usage": { "completion_tokens": 295, "prompt_tokens": 1461, "total_tokens": 1756 } }
 }`;
-
 import { z } from "zod";
 import {
   layoutSchema,
@@ -146,10 +145,11 @@ function generateSectionNodes(sections: Section[]): { [key: string]: NodeSection
   const nodes: { [key: string]: NodeSection } = {};
 
   sections.forEach((section) => {
-    // Create the GridCell node
-    nodes[section.name] = createNode(section.name, "GridCell", false, "ROOT");
-
+    const gridCellId = section.name + "GridCell";
     const containerId = section.name + "Container";
+
+    // Create the GridCell node
+    nodes[gridCellId] = createNode(gridCellId, "GridCell", false, "ROOT");
 
     // Create the Container node within the GridCell node
     const containerProps: ContainerProps = {
@@ -165,10 +165,11 @@ function generateSectionNodes(sections: Section[]): { [key: string]: NodeSection
       containerId,
       "Container",
       true,
-      section.name,
+      gridCellId,
       containerProps,
       section.children.map((child) => child.name)
     );
+    delete nodes[containerId].linkedNodes; // Ensure no linkedNodes for Container
 
     // Create child nodes within the Container node
     section.children.forEach((child) => {
@@ -202,6 +203,9 @@ function generateSectionNodes(sections: Section[]): { [key: string]: NodeSection
 
       nodes[child.name] = createNode(child.name, child.type, false, containerId, childProps);
     });
+
+    // Set linked nodes for GridCell
+    nodes[gridCellId].linkedNodes = { container: containerId };
   });
 
   return nodes;
@@ -214,7 +218,7 @@ function createBackgroundNode(
   backgroundColor: string
 ): NodeTreeRootType {
   const linkedNodes = dimensions.ids.reduce((acc, id, index) => {
-    acc[String(index)] = id;
+    acc[String(index)] = id + "GridCell";
     return acc;
   }, {} as Record<string, string>);
 
@@ -230,7 +234,7 @@ function createBackgroundNode(
     displayName: "Background",
     custom: {},
     hidden: false,
-    nodes: dimensions.ids,
+    nodes: [],
     linkedNodes,
   };
 }
