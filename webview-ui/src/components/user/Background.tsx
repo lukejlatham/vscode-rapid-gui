@@ -1,5 +1,5 @@
-import React, { FC, useEffect, useMemo, useState, useRef } from 'react';
-import { Card, makeStyles, Input, Label, Button } from '@fluentui/react-components';
+import { FC, useEffect, useMemo, useState, useRef } from 'react';
+import { Card, makeStyles} from '@fluentui/react-components';
 import Responsive, { Layout, WidthProvider } from 'react-grid-layout';
 import { Element } from '@craftjs/core';
 import { GridCell, GridCellDefaultProps } from './GridCell';
@@ -7,7 +7,6 @@ import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import { useNode } from '@craftjs/core';
 import { BackgroundProps } from '../../../../types';
-import { DeleteRegular } from '@fluentui/react-icons';
 
 const useStyles = makeStyles({
   background: {
@@ -26,7 +25,19 @@ const useStyles = makeStyles({
   },
 });
 
-export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgroundColor, layout: initialLayout, rows: initialRows, columns: initialColumns, lockedGrid: initialGridLocked }) => {
+export const Background: FC<BackgroundProps> = ({ 
+  backgroundColor: initialBackgroundColor = '#292929',
+  layout: initialLayout = [
+    { i: '0', x: 0, y: 0, w: 1, h: 1 },
+    { i: '1', x: 1, y: 0, w: 1, h: 1 },
+    { i: '2', x: 2, y: 0, w: 1, h: 1 },
+    { i: '3', x: 0, y: 1, w: 1, h: 1 },
+    { i: '4', x: 1, y: 1, w: 1, h: 1 },
+    { i: '5', x: 2, y: 1, w: 1, h: 1 }],
+  rows: initialRows = 2,
+  columns: initialColumns = 3,
+  lockedGrid: initialGridLocked = false,
+}) => {
   const ResponsiveGridLayout = useMemo(() => WidthProvider(Responsive), []);
   const backgroundRef = useRef<HTMLDivElement>(null);
   const styles = useStyles();
