@@ -90,7 +90,10 @@ export const containerSchema = z.object({
   borderRadius: z.number().default(4),
   borderColor: z.string().default("black"),
   padding: z.number().default(10),
-  shadow: z.boolean().default(false),
+  shadowColor: z.string().optional(),
+  shadowOffsetX: z.number().optional(),
+  shadowOffsetY: z.number().optional(),
+  shadowBlur: z.number().optional(),
   children: z.any().optional(),
 });
 

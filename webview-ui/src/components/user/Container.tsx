@@ -50,8 +50,7 @@ const useStyles = makeStyles({
 
 export const Container: UserComponent<ContainerProps> = (props) => {
   const validatedProps = containerSchema.parse(props);
-  const { children, height, width, backgroundColor, borderRadius, borderColor, padding, flexDirection, justifyContent, alignItems, gap } = validatedProps;
-  
+  const { children, height, width, backgroundColor, borderRadius, borderColor, padding, flexDirection, justifyContent, alignItems, shadowBlur, shadowColor, shadowOffsetX, shadowOffsetY, gap } = validatedProps;
 
     const { connectors: { connect, drag } } = useNode();
     const styles = useStyles();
@@ -63,6 +62,7 @@ export const Container: UserComponent<ContainerProps> = (props) => {
         height: `${height}%`,
         width: `${width}%`,
         gap: `${gap}px`,
+        boxShadow: `${shadowOffsetX}px ${shadowOffsetY}px ${shadowBlur}px ${shadowColor}`,
         };
 
     return (
@@ -94,7 +94,10 @@ export const ContainerDefaultProps: ContainerProps = {
     justifyContent: "flex-start",
     alignItems: "flex-start",
     gap: 0,
-    shadow: false,
+    shadowColor: "transparent",
+    shadowOffsetX: 0,
+    shadowOffsetY: 0,
+    shadowBlur: 0,
   };
 
 Container.craft = {
