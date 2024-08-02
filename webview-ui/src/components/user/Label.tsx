@@ -29,7 +29,7 @@ const useStyles = makeStyles({
 export const Label: UserComponent<LabelProps> = (props) => {
   const validatedProps = labelSchema.parse(props);
 
-  const { text, textAlign, fontSize, fontcolor, userEditable, icon } = validatedProps;
+  const { text, textAlign, fontSize, fontcolor, userEditable, icon, hyperlink, bold, italic, underline } = validatedProps;
 
   const {
     connectors: { connect, drag },
@@ -83,7 +83,12 @@ export const Label: UserComponent<LabelProps> = (props) => {
             textAlign === 'center' ? styles.alignCenter :
               textAlign === 'right' ? styles.alignRight :
                 styles.alignJustify}`}
-          style={{ fontSize: `${fontSize}px`, color: fontcolor }}
+          style={{ fontSize: `${fontSize}px`, 
+          color: fontcolor,
+          fontWeight: bold ? "bold" : "normal",
+          fontStyle: italic ? "italic" : "normal",
+          textDecoration: underline ? "underline" : "none",
+        }}
         >
           {text}
         </span>
@@ -99,9 +104,11 @@ export const LabelDefaultProps: LabelProps = {
   fontSize: 20,
   fontcolor: "#FFFFFF",
   userEditable: true,
-  width: 100,
-  height: 100,
   icon: "none",
+  hyperlink: "",
+  bold: false,
+  italic: false,
+  underline: false,
 };
 
 (Label as any).craft = {

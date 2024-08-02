@@ -41,9 +41,13 @@ export const buttonSchema = z.object({
     .union([z.enum(["none", "left", "right"]), z.string().refine((val) => val in VscIcons)])
     .optional(),
   bordercolor: z.string().optional(),
-  shadow: z.boolean().default(false).optional(),
+  shadowColor: z.string().optional(),
+  shadowOffsetX: z.number().optional(),
+  shadowOffsetY: z.number().optional(),
+  shadowBlur: z.number().optional(),
   hyperlink: z.string().optional(),
 });
+
 
 export type ButtonProps = z.infer<typeof buttonSchema>;
 
@@ -93,7 +97,10 @@ export const containerSchema = z.object({
   borderRadius: z.number().default(4),
   borderColor: z.string().default("black"),
   padding: z.number().default(10),
-  shadow: z.boolean().default(false),
+  shadowColor: z.string().optional(),
+  shadowOffsetX: z.number().optional(),
+  shadowOffsetY: z.number().optional(),
+  shadowBlur: z.number().optional(),
   children: z.any().optional(),
 });
 
@@ -144,8 +151,6 @@ export const labelSchema = z.object({
   fontSize: z.number().default(14),
   fontcolor: z.string().default("black"),
   userEditable: z.boolean().default(true).optional(),
-  width: z.number().default(100),
-  height: z.number().default(20),
   textAlign: z.enum(["left", "center", "right", "justify"]).default("left"),
   icon: z
     .union([z.enum(["none", "left", "right"]), z.string().refine((val) => val in VscIcons)])
@@ -268,7 +273,6 @@ export const textSchema = z.object({
   italic: z.boolean().optional().default(false),
   underline: z.boolean().optional().default(false),
   hyperlink: z.string().optional(),
-  placeholder: z.string().optional(),
   userEditable: z.boolean().optional().default(true),
 });
 

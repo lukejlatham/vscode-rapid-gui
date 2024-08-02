@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { usePropertyInspectorStyles } from "../../../hooks/usePropertyInspectorStyles";
 import { LabelProps } from "../../../types";
-import { Info16Regular } from "@fluentui/react-icons";
+import { Info16Regular, TextBoldFilled, TextItalicFilled, TextUnderlineFilled } from "@fluentui/react-icons";
 import { useNode } from "@craftjs/core";
 
-import { Input, Label as FLabel, RadioGroup, Radio, Tooltip, useId } from "@fluentui/react-components";
+import { Input, Label as FLabel, RadioGroup, Radio, Tooltip, useId, Button } from "@fluentui/react-components";
 
 
 export const LabelSettings: React.FC = () => {
@@ -13,12 +13,18 @@ export const LabelSettings: React.FC = () => {
       fontSize,
       fontcolor,
       text,
+      bold,
+      italic,
+      underline,
       textAlign,
     } = useNode((node) => ({
       fontSize: node.data.props.fontSize,
       fontcolor: node.data.props.fontcolor,
       text: node.data.props.text,
       textAlign: node.data.props.textAlign,
+      bold: node.data.props.bold,
+      italic: node.data.props.italic,
+      underline: node.data.props.underline
     }));
   
     const styles = usePropertyInspectorStyles();
@@ -33,7 +39,20 @@ export const LabelSettings: React.FC = () => {
       { label: "Hyperlink", content: "Add a hyperlink to the label.", propKey: "hyperlink" },
       { label: "Icon", content: "Add an icon to the label. Choosing 'Left' or 'Right' will add an icon at that position.", propKey: "icon" },
     ];
+
+    type StyleKeys = 'bold' | 'italic' | 'underline'; 
   
+  const applyStyle = (style: StyleKeys) => {
+      const selection = window.getSelection();
+      if (!selection || selection.rangeCount === 0 || selection.isCollapsed) {
+          setProp((props: LabelProps) => {
+              props[style] = !props[style];
+          }, 1000);
+      } else {
+          document.execCommand(style);
+      }
+  };
+
     return (
       <div className={styles.settingsContainer}>
         {tooltips.map((tooltip, index) => (
@@ -117,6 +136,20 @@ export const LabelSettings: React.FC = () => {
             )}
           </div>
         ))}
+        <div className={styles.buttonContainer}>
+            <Button 
+            icon={<TextBoldFilled />}
+            className={styles.activeButton} onClick={() => applyStyle("bold")}>
+            </Button> 
+            <Button 
+            icon={<TextItalicFilled />}
+            className={styles.activeButton} onClick={() => applyStyle("italic")}>
+            </Button> 
+            <Button 
+            icon={<TextUnderlineFilled />}
+            className={styles.activeButton} onClick={() => applyStyle("underline")}>
+            </Button>
+        </div>
       </div>
     );
   };
