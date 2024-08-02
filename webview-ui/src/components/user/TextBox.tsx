@@ -1,6 +1,6 @@
 import { useNode, UserComponent } from '@craftjs/core';
 import { makeStyles } from '@fluentui/react-components';
-import { TextBoxProps} from '../../../../types';
+import { TextBoxProps, textBoxSchema } from '../../../../types';
 import { TextBoxSettings } from './Settings/TextboxSettings';
 
 const useStyles = makeStyles({
@@ -22,7 +22,11 @@ const useStyles = makeStyles({
     },
 });
 
-export const TextBox: UserComponent<TextBoxProps> = ({ text, fontSize, fontColor, placeholder, height, width, backgroundColor, borderRadius, alignment }) => {
+export const TextBox: UserComponent<TextBoxProps> = (props) => {
+    const validatedProps = textBoxSchema.parse(props);
+
+    const { text, fontSize, fontColor, backgroundColor, placeholder, height, width, borderRadius, alignment } = validatedProps;
+    
     const {
         connectors: { connect, drag },
     } = useNode((node) => ({
