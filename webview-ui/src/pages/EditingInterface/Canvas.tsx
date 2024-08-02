@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { useEditor } from '@craftjs/core';
 import { vscode } from '../../utilities/vscode';
 import { makeStyles } from '@fluentui/react-components';
-import { CanvasProps } from '../../../../types';
+import { CanvasProps } from '../../types';
 
 const useStyles = makeStyles({
     canvas: {

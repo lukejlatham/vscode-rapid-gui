@@ -13,7 +13,7 @@ import { GridCell } from "../../components/user/GridCell";
 import { Container } from "../../components/user/Container";
 import { EditBackgroundButton } from "../../components/EditBackgroundButton";
 import { Text } from "../../components/user/Text";
-import { Page } from "../../../../types";
+import { Page } from "../../types";
 import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import { EditorContent } from "./EditorContent";

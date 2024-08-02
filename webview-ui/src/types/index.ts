@@ -1,16 +1,23 @@
 //types
 import * as VscIcons from "react-icons/vsc";
 import { z } from "zod";
+import { SerializedNodes } from "@craftjs/core";
 
 type VscIconKeys = keyof typeof VscIcons;
 
 type IconType = VscIconKeys | "none" | "left" | "right";
 
 export const backgroundSchema = z.object({
-  backgroundColor: z.string().default("white"),
-  layout: z.array(z.any()).default([]),
-  rows: z.number().default(1),
-  columns: z.number().default(1),
+  backgroundColor: z.string().default("#292929"),
+  layout: z.array(z.any()).default([{ i: '0', x: 0, y: 0, w: 1, h: 1 },
+    { i: '1', x: 1, y: 0, w: 1, h: 1 },
+    { i: '2', x: 2, y: 0, w: 1, h: 1 },
+    { i: '3', x: 0, y: 1, w: 1, h: 1 },
+    { i: '4', x: 1, y: 1, w: 1, h: 1 },
+    { i: '5', x: 2, y: 1, w: 1, h: 1 },
+  ]),
+  rows: z.number().default(3),
+  columns: z.number().default(3),
   lockedGrid: z.boolean().default(false),
   additionalProps: z
     .record(z.union([z.string(), z.number(), z.boolean(), z.array(z.any())]))
@@ -350,4 +357,14 @@ export interface TooltipConfigContainer {
   content: string;
   propKey: keyof ContainerProps;
   type: "color" | "spinButton" | "text" | "justifyContent" | "alignItems" | "direction";
+}
+
+export interface Page {
+  id: string;
+  name: string;
+  content: SerializedNodes;
+}
+
+export interface CanvasProps {
+  classes: any;
 }
