@@ -8,6 +8,7 @@ import "react-resizable/css/styles.css";
 import { useNode } from '@craftjs/core';
 import { BackgroundProps } from '../../../../types';
 
+
 const useStyles = makeStyles({
   background: {
     width: '100%',
@@ -34,7 +35,7 @@ export const Background: FC<BackgroundProps> = ({
     { i: '3', x: 0, y: 1, w: 1, h: 1 },
     { i: '4', x: 1, y: 1, w: 1, h: 1 },
     { i: '5', x: 2, y: 1, w: 1, h: 1 }],
-  rows: initialRows = 2,
+  rows: initialRows = 3,
   columns: initialColumns = 3,
   lockedGrid: initialGridLocked = false,
 }) => {
@@ -43,6 +44,15 @@ export const Background: FC<BackgroundProps> = ({
   const styles = useStyles();
   const [containerHeight, setContainerHeight] = useState(0);
   const { actions:{setProp} } = useNode();
+
+  setProp((props: BackgroundProps) => {
+    props.rows = initialRows;
+    props.columns = initialColumns;
+    props.lockedGrid = initialGridLocked;
+    props.backgroundColor = initialBackgroundColor;
+    props.layout = initialLayout;
+  }
+  );
 
   useEffect(() => {
     const updateContainerHeight = () => {
@@ -55,6 +65,8 @@ export const Background: FC<BackgroundProps> = ({
 
     return () => window.removeEventListener('resize', updateContainerHeight);
   }, []);
+
+
 // TODO:  UPDATE THIS FUCTION TO NOT EXCEED THE MAXIMUM ROWS AND COLUMNS AND ADD RIGHT TO LEFT
 
   const onLayoutChange = (layout: Layout[]) => {
