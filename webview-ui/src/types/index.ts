@@ -34,9 +34,13 @@ export const buttonSchema = z.object({
     .union([z.enum(["none", "left", "right"]), z.string().refine((val) => val in VscIcons)])
     .optional(),
   bordercolor: z.string().optional(),
-  shadow: z.boolean().default(false).optional(),
+  shadowColor: z.string().optional(),
+  shadowOffsetX: z.number().optional(),
+  shadowOffsetY: z.number().optional(),
+  shadowBlur: z.number().optional(),
   hyperlink: z.string().optional(),
 });
+
 
 export type ButtonProps = z.infer<typeof buttonSchema>;
 
