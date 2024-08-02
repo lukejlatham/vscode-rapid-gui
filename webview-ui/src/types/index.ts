@@ -144,8 +144,6 @@ export const labelSchema = z.object({
   fontSize: z.number().default(14),
   fontcolor: z.string().default("black"),
   userEditable: z.boolean().default(true).optional(),
-  width: z.number().default(100),
-  height: z.number().default(20),
   textAlign: z.enum(["left", "center", "right", "justify"]).default("left"),
   icon: z
     .union([z.enum(["none", "left", "right"]), z.string().refine((val) => val in VscIcons)])
