@@ -6,6 +6,8 @@ import { z } from "zod";
 
 type VscIconKeys = keyof typeof VscIcons;
 
+type IconType = VscIconKeys | "none" | "left" | "right";
+
 export const backgroundSchema = z.object({
   backgroundColor: z.string().default("white"),
   layout: z.array(z.any()).default([]),
@@ -28,7 +30,10 @@ export const buttonSchema = z.object({
   text: z.string().default("Button"),
   alignment: z.enum(["left", "center", "right"]).default("center"),
   displayName: z.string().optional(),
-  icon: z.string().refine(val => val in VscIcons).optional() as z.ZodType<VscIconKeys | undefined>,
+  icon: z.union([
+    z.enum(["none", "left", "right"]),
+    z.string().refine(val => val in VscIcons),
+  ]).optional(),
   bordercolor: z.string().optional(),
   shadow: z.boolean().default(false).optional(),
   hyperlink: z.string().optional(),
@@ -77,6 +82,7 @@ export const containerSchema = z.object({
   borderColor: z.string().default("black"),
   padding: z.number().default(10),
   shadow: z.boolean().default(false),
+  children: z.any().optional(),
 });
 
 export type ContainerProps = z.infer<typeof containerSchema>;
@@ -127,8 +133,10 @@ export const labelSchema = z.object({
   width: z.number().default(100),
   height: z.number().default(20),
   textAlign: z.enum(["left", "center", "right", "justify"]).default("left"),
-  icon: z.string().refine(val => val in VscIcons).optional() as z.ZodType<VscIconKeys | undefined>,
-  hyperlink: z.string().optional(),
+  icon: z.union([
+    z.enum(["none", "left", "right"]),
+    z.string().refine(val => val in VscIcons),
+  ]).optional(),  hyperlink: z.string().optional(),
   bold: z.boolean().default(false).optional(),
   italic: z.boolean().default(false).optional(),
   underline: z.boolean().default(false).optional(),
