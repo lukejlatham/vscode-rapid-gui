@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNode, UserComponent } from '@craftjs/core';
 import * as VscIcons from "react-icons/vsc";
-import { IconProps, iconSchema } from '../../../../types';
+import { IconProps, iconSchema } from '../../types';
 import { IconSettings } from './Settings/IconSettings';
 
 export const Icon: UserComponent<IconProps> = (props) => {

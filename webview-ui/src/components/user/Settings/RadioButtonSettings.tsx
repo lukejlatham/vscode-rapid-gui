@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNode } from '@craftjs/core';
-import { RadioButtonProps, TooltipConfigRadio } from '../../../../../types';
+import { RadioButtonProps, TooltipConfigRadio } from '../../../types';
 import { Info16Regular } from "@fluentui/react-icons";
 import { Label, Input, SpinButton, Tooltip, useId, mergeClasses, SpinButtonChangeEvent, SpinButtonOnChangeData, RadioGroup, Radio } from '@fluentui/react-components';
 import { usePropertyInspectorStyles } from '../../../hooks/usePropertyInspectorStyles';

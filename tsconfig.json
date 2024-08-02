@@ -18,6 +18,5 @@
     "node_modules",
     ".vscode-test",
     "webview-ui",
-    "webview-ui/src/types"
   ]
 }

@@ -1,5 +1,5 @@
 import { UserComponent, useNode } from "@craftjs/core";
-import { GridCellProps, gridCellSchema } from '../../../../types';
+import { GridCellProps, gridCellSchema } from '../../types';
 import { makeStyles } from "@fluentui/react-components";
 import { GridCellSettings } from "./Settings/GridCellSettings";
 

@@ -1,6 +1,6 @@
 import { useNode, UserComponent } from '@craftjs/core';
 import { makeStyles } from '@fluentui/react-components';
-import { TextBoxProps, textBoxSchema } from '../../../../types';
+import { TextBoxProps, textBoxSchema } from '../../types';
 import { TextBoxSettings } from './Settings/TextboxSettings';
 
 const useStyles = makeStyles({

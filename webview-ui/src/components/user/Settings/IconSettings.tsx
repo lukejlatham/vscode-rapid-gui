@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { usePropertyInspectorStyles } from "../../../hooks/usePropertyInspectorStyles";
 import { useNode } from "@craftjs/core";
 import { makeStyles, tokens, mergeClasses, Button, Dialog, DialogActions, DialogBody, DialogContent, DialogSurface, DialogTitle, DialogTrigger, Input, Label, SearchBox, SpinButton, Tooltip, useId, SpinButtonChangeEvent, SpinButtonOnChangeData } from "@fluentui/react-components";
-import { IconProps, TooltipConfigIcon as TooltipConfig } from "../../../../../types";
+import { IconProps, TooltipConfigIcon as TooltipConfig } from "../../../types";
 import * as VscIcons from "react-icons/vsc"; // Import all icons from Material Design
 import { EmojiEditRegular, Info16Regular } from "@fluentui/react-icons";
 

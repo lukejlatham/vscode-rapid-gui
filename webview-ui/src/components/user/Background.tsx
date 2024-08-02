@@ -6,7 +6,7 @@ import { GridCell, GridCellDefaultProps } from './GridCell';
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import { useNode } from '@craftjs/core';
-import { BackgroundProps, backgroundSchema } from '../../../../types';
+import { BackgroundProps, backgroundSchema } from '../../types';
 import { DeleteRegular } from '@fluentui/react-icons';
 
 const useStyles = makeStyles({

@@ -27,6 +27,7 @@
     "../src/backend/sketchProcessing/layoutCraftTreeConverter.ts",
     "../src/backend/sketchProcessing/oaApi.ts",
     "../src/backend/sketchProcessing/sketchStructureToNodeTree.ts",
-    "../src/backend/sketchProcessing/sketchUpload.ts"
-, "../types"  ]
+    "../src/backend/sketchProcessing/sketchUpload.ts",
+    "src/types"
+  ]
 }

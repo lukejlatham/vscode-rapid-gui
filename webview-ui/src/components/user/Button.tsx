@@ -1,6 +1,6 @@
 import { useNode, UserComponent, Element } from "@craftjs/core";
 import { makeStyles} from "@fluentui/react-components";
-import { buttonSchema, ButtonProps } from '../../../../types';
+import { buttonSchema, ButtonProps } from '../../types';
 import { ButtonSettings } from "./Settings/ButtonSettings";
 import { Icon, IconDefaultProps } from "./Icon";
 

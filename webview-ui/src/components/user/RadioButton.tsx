@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNode, UserComponent } from '@craftjs/core';
 import { makeStyles } from '@fluentui/react-components';
-import { RadioButtonProps, radioButtonSchema } from '../../../../types';
+import { RadioButtonProps, radioButtonSchema } from '../../types';
 import { RadioButtonSettings } from './Settings/RadioButtonSettings';
 
 

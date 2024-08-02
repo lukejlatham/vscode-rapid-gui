@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNode, UserComponent } from "@craftjs/core";
 import ContentEditable from "react-contenteditable";
 import { makeStyles } from "@fluentui/react-components";
-import { TextProps, textSchema, ContentEditableEvent } from "../../../../types";
+import { TextProps, textSchema, ContentEditableEvent } from "../../types";
 import { TextSettings } from "./Settings/TextSettings";
 
 const useStyles = makeStyles({

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { usePropertyInspectorStyles } from "../../../hooks/usePropertyInspectorStyles";
-import { LabelProps } from "../../../../../types";
+import { LabelProps } from "../../../types";
 import { Info16Regular } from "@fluentui/react-icons";
 import { useNode } from "@craftjs/core";
 

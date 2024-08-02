@@ -1,7 +1,7 @@
 import { useNode, UserComponent } from "@craftjs/core";
 import ContentEditable from "react-contenteditable";
 import { makeStyles} from "@fluentui/react-components";
-import { LabelProps,labelSchema, ContentEditableEvent } from "../../../../types";
+import { LabelProps,labelSchema, ContentEditableEvent } from "../../types";
 import { LabelSettings } from "./Settings/LabelSettings";
 import { Icon, IconDefaultProps } from "./Icon";
 

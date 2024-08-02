@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEditor } from '@craftjs/core';
-import { BackgroundProps } from '../../../../../types';
+import { BackgroundProps } from '../../../types';
 import { usePropertyInspectorStyles } from '../../../hooks/usePropertyInspectorStyles';
 import { SpinButton, SpinButtonChangeEvent, SpinButtonOnChangeData, Label, Input, Button, useId, Tooltip, mergeClasses } from '@fluentui/react-components';
 import { Info16Regular, LockClosedRegular, LockOpenRegular , AddSquareRegular} from '@fluentui/react-icons';

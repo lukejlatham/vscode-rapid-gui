@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNode } from '@craftjs/core';
 import { Label, Input, Radio, RadioGroup, SpinButton, SpinButtonChangeEvent, SpinButtonOnChangeData, Tooltip, useId, mergeClasses } from '@fluentui/react-components';
 import { Info16Regular } from "@fluentui/react-icons";
-import { TooltipConfigText, TextBoxProps } from '../../../../../types';
+import { TooltipConfigText, TextBoxProps } from '../../../types';
 import { usePropertyInspectorStyles } from '../../../hooks/usePropertyInspectorStyles';
 
 

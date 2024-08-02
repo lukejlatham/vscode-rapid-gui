@@ -1,5 +1,5 @@
 import {useNode, UserComponent} from '@craftjs/core';
-import {InputProps, inputSchema} from '../../../../types';
+import {InputProps, inputSchema} from '../../types';
 import { InputSettings } from './Settings/InputSettings';
 
 export const UserInput: UserComponent<InputProps> = (props) => {

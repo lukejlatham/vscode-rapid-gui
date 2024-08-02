@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { usePropertyInspectorStyles } from "../../../hooks/usePropertyInspectorStyles";
-import { TextProps } from "../../../../../types";
+import { TextProps } from "../../../types";
 import { useNode } from "@craftjs/core";
 import { Input, Label as FLabel, Tooltip, useId, Button, RadioGroup, Radio } from "@fluentui/react-components";
 import { Info16Regular, TextBoldFilled, TextItalicFilled, TextUnderlineFilled } from "@fluentui/react-icons";

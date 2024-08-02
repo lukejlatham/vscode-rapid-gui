@@ -1,5 +1,5 @@
 import { UserComponent, useNode } from "@craftjs/core";
-import { ContainerProps, containerSchema  } from "../../../../types";
+import { ContainerProps, containerSchema  } from "../../types";
 import { makeStyles } from "@fluentui/react-components";
 import { ContainerSettings } from "./Settings/ContainerSettings";
 // import { ContainerSettings } from "./Settings/ContainerSettings";

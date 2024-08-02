@@ -1,7 +1,5 @@
 //types
-import { Layout } from "react-grid-layout";
 import * as VscIcons from "react-icons/vsc";
-import { text } from "stream/consumers";
 import { z } from "zod";
 
 type VscIconKeys = keyof typeof VscIcons;
@@ -14,7 +12,9 @@ export const backgroundSchema = z.object({
   rows: z.number().default(1),
   columns: z.number().default(1),
   lockedGrid: z.boolean().default(false),
-  additionalProps: z.record(z.union([z.string(), z.number(), z.boolean(), z.array(z.any())])).optional(),
+  additionalProps: z
+    .record(z.union([z.string(), z.number(), z.boolean(), z.array(z.any())]))
+    .optional(),
   key: z.any().optional(),
 });
 
@@ -30,10 +30,9 @@ export const buttonSchema = z.object({
   text: z.string().default("Button"),
   alignment: z.enum(["left", "center", "right"]).default("center"),
   displayName: z.string().optional(),
-  icon: z.union([
-    z.enum(["none", "left", "right"]),
-    z.string().refine(val => val in VscIcons),
-  ]).optional(),
+  icon: z
+    .union([z.enum(["none", "left", "right"]), z.string().refine((val) => val in VscIcons)])
+    .optional(),
   bordercolor: z.string().optional(),
   shadow: z.boolean().default(false).optional(),
   hyperlink: z.string().optional(),
@@ -45,7 +44,10 @@ export const generateButtonSchema = z.object({
   width: z.number().default(100),
   height: z.number().default(40),
   text: z.string().default("Button"),
-  icon: z.string().refine(val => val in VscIcons).optional() as z.ZodType<VscIconKeys | undefined>,
+  icon: z
+    .string()
+    .refine((val) => val in VscIcons)
+    .optional() as z.ZodType<VscIconKeys | undefined>,
 });
 
 export type GenerateButtonProps = z.infer<typeof generateButtonSchema>;
@@ -74,7 +76,10 @@ export const containerSchema = z.object({
   height: z.number().default(200),
   width: z.number().default(300),
   flexDirection: z.enum(["row", "column"]).default("row").optional(),
-  justifyContent: z.enum(["flex-start", "center", "flex-end", "space-between", "space-around"]).default("flex-start").optional(),
+  justifyContent: z
+    .enum(["flex-start", "center", "flex-end", "space-between", "space-around"])
+    .default("flex-start")
+    .optional(),
   alignItems: z.enum(["flex-start", "center", "flex-end"]).default("flex-start").optional(),
   gap: z.number().default(0).optional(),
   backgroundColor: z.string().default("white"),
@@ -91,7 +96,9 @@ export const gridCellSchema = z.object({
   id: z.string().optional(),
   children: z.any().optional(),
   flexDirection: z.enum(["row", "column"]).optional(),
-  justifyContent: z.enum(["flex-start", "center", "flex-end", "space-between", "space-around"]).optional(),
+  justifyContent: z
+    .enum(["flex-start", "center", "flex-end", "space-between", "space-around"])
+    .optional(),
   alignItems: z.enum(["flex-start", "center", "flex-end"]).optional(),
   gap: z.number().optional(),
 });
@@ -133,10 +140,10 @@ export const labelSchema = z.object({
   width: z.number().default(100),
   height: z.number().default(20),
   textAlign: z.enum(["left", "center", "right", "justify"]).default("left"),
-  icon: z.union([
-    z.enum(["none", "left", "right"]),
-    z.string().refine(val => val in VscIcons),
-  ]).optional(),  hyperlink: z.string().optional(),
+  icon: z
+    .union([z.enum(["none", "left", "right"]), z.string().refine((val) => val in VscIcons)])
+    .optional(),
+  hyperlink: z.string().optional(),
   bold: z.boolean().default(false).optional(),
   italic: z.boolean().default(false).optional(),
   underline: z.boolean().default(false).optional(),
@@ -198,7 +205,7 @@ export const generateTextBoxSchema = textBoxSchema.pick({
 export type GenerateTextBoxProps = z.infer<typeof generateTextBoxSchema>;
 
 export const iconSchema = z.object({
-  selectedIcon: z.string().refine(val => val in VscIcons) as z.ZodType<VscIconKeys>,
+  selectedIcon: z.string().refine((val) => val in VscIcons) as z.ZodType<VscIconKeys>,
   iconSize: z.number().default(24).optional(),
   iconColor: z.string().default("black").optional(),
   hyperlink: z.string().optional(),
@@ -231,7 +238,9 @@ export const cardContainerSchema = z.object({
   height: z.number().default(200),
   width: z.number().default(300),
   flexDirection: z.enum(["row", "column"]).optional(),
-  justifyContent: z.enum(["flex-start", "center", "flex-end", "space-between", "space-around"]).optional(),
+  justifyContent: z
+    .enum(["flex-start", "center", "flex-end", "space-between", "space-around"])
+    .optional(),
   alignItems: z.enum(["flex-start", "center", "flex-end"]).optional(),
   gap: z.number().default(0).optional(),
   backgroundColor: z.string().default("white"),
@@ -274,12 +283,11 @@ export interface ContentEditableEvent {
 }
 
 export interface TooltipConfigBackground {
-    label: string;
-    content: string;
-    propKey: keyof BackgroundProps;
-    type: 'color' | 'spinButton' | 'text' | 'button';
-};
-
+  label: string;
+  content: string;
+  propKey: keyof BackgroundProps;
+  type: "color" | "spinButton" | "text" | "button";
+}
 
 export type TooltipConfigButton = {
   label: string;
@@ -296,10 +304,10 @@ export type TooltipConfigCheckbox = {
 };
 
 export type TooltipConfigGridCell = {
-    label: string;
-    content: string;
-    propKey: keyof GridCellProps;
-    type: 'color' | 'spinButton' | 'text' | 'alignItems' | 'justifyContent' | 'direction';
+  label: string;
+  content: string;
+  propKey: keyof GridCellProps;
+  type: "color" | "spinButton" | "text" | "alignItems" | "justifyContent" | "direction";
 };
 
 export type TooltipConfigInput = {
