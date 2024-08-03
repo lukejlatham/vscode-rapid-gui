@@ -1,6 +1,7 @@
 //types
 import { Layout } from "react-grid-layout";
 import * as VscIcons from "react-icons/vsc";
+import { SerializedNodes } from "@craftjs/core";
 
 export interface BackgroundProps {
     backgroundColor: string;
@@ -249,6 +250,7 @@ export interface TextProps {
   underline?: boolean;
   hyperlink?: string;
   placeholder?: string;
+  userEditable?: boolean;
 }
 
 export interface generateTextProps {
@@ -256,4 +258,14 @@ export interface generateTextProps {
   bold?: boolean;
   italic?: boolean;
   underline?: boolean;
+}
+
+export interface Page {
+  id: string;
+  name: string;
+  content: SerializedNodes;
+}
+
+export interface CanvasProps {
+  classes: any;
 }

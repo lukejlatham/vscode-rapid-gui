@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEditor, useNode } from '@craftjs/core';
-import { BackgroundProps, ContainerProps, TooltipConfigContainer as TooltipConfig } from '../../../../../types';
+import { BackgroundProps, ContainerProps, TooltipConfigContainer as TooltipConfig } from '../../../types';
 import { Input, Label, Button, makeStyles, SpinButton, Radio, RadioGroup, SpinButtonChangeEvent, SpinButtonOnChangeData, Tooltip, useId, mergeClasses } from "@fluentui/react-components";
 import { Info16Regular, Delete24Regular } from '@fluentui/react-icons';
 import { usePropertyInspectorStyles } from '../../../hooks/usePropertyInspectorStyles';
@@ -27,6 +27,10 @@ export const ContainerSettings: React.FC = () => {
         { label: "Justify Content", content: "Set how the contents of the container should be justified.", propKey: "justifyContent", type: "justifyContent"},
         { label: "Align Items", content: "Set how the contents of the container should be aligned.", propKey: "alignItems", type: "alignItems"},
         { label: "Gap", content: "Adjust the gap between components within the container.", propKey: "gap", type: "spinButton"},
+        { label: "Shadow Color", content: "Change the color of the shadow.", propKey: "shadowColor", type: "color" },
+        { label: "Shadow Offset X", content: "Set the horizontal offset of the shadow.", propKey: "shadowOffsetX", type: "spinButton" },
+        { label: "Shadow Offset Y", content: "Set the vertical offset of the shadow.", propKey: "shadowOffsetY", type: "spinButton" },
+        { label: "Shadow Blur", content: "Set the blur radius of the shadow.", propKey: "shadowBlur", type: "spinButton" },
     ];
 
     const handleVisibilityChange = (tooltipKey: string, isVisible: boolean) => {

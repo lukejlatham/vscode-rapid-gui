@@ -1,12 +1,12 @@
-import React, { FC, useEffect, useMemo, useState, useRef } from 'react';
-import { Card, makeStyles, Input, Label, Button } from '@fluentui/react-components';
+import { FC, useEffect, useMemo, useState, useRef } from 'react';
+import { Card, makeStyles} from '@fluentui/react-components';
 import Responsive, { Layout, WidthProvider } from 'react-grid-layout';
 import { Element } from '@craftjs/core';
 import { GridCell, GridCellDefaultProps } from './GridCell';
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import { useNode } from '@craftjs/core';
-import { BackgroundProps } from '../../../../types';
+import { BackgroundProps, backgroundSchema } from '../../types';
 import { DeleteRegular } from '@fluentui/react-icons';
 
 const useStyles = makeStyles({
@@ -26,12 +26,31 @@ const useStyles = makeStyles({
   },
 });
 
-export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgroundColor, layout: initialLayout, rows: initialRows, columns: initialColumns, lockedGrid: initialGridLocked }) => {
+export const Background: FC<BackgroundProps> = (props) => {
+  const validatedProps = backgroundSchema.parse(props);
+
+  const {
+    backgroundColor: initialBackgroundColor,
+    layout: initialLayout,
+    rows: initialRows,
+    columns: initialColumns,
+    lockedGrid: initialGridLocked,
+  } = validatedProps;
+
   const ResponsiveGridLayout = useMemo(() => WidthProvider(Responsive), []);
   const backgroundRef = useRef<HTMLDivElement>(null);
   const styles = useStyles();
   const [containerHeight, setContainerHeight] = useState(0);
   const { actions:{setProp} } = useNode();
+
+  setProp((props: BackgroundProps) => {
+    props.rows = initialRows;
+    props.columns = initialColumns;
+    props.lockedGrid = initialGridLocked;
+    props.backgroundColor = initialBackgroundColor;
+    props.layout = initialLayout;
+  }
+  );
 
   useEffect(() => {
     const updateContainerHeight = () => {
@@ -44,6 +63,8 @@ export const Background: FC<BackgroundProps> = ({ backgroundColor: initialBackgr
 
     return () => window.removeEventListener('resize', updateContainerHeight);
   }, []);
+
+
 // TODO:  UPDATE THIS FUCTION TO NOT EXCEED THE MAXIMUM ROWS AND COLUMNS AND ADD RIGHT TO LEFT
 
   const onLayoutChange = (layout: Layout[]) => {

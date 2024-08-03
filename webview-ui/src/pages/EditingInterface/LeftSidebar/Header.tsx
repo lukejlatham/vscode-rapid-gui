@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Title3 } from "@fluentui/react-components";
+import { Button, Subtitle1 } from "@fluentui/react-components";
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft24Filled, ArrowLeft24Regular, bundleIcon } from '@fluentui/react-icons';
 
@@ -15,7 +15,7 @@ const Header: React.FC<{ classes: any }> = ({ classes }) => {
                 icon={<BackButtonIcon />}
                 onClick={() => navigate(-1)}
             />
-            <Title3>Project Name</Title3>
+            <Subtitle1>Project Name</Subtitle1>
         </div>
     );
 };

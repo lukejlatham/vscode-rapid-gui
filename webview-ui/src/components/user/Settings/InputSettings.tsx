@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { useNode } from '@craftjs/core';
-import { InputProps, TooltipConfigInput } from '../../../../../types';
+import { InputProps, TooltipConfigInput } from '../../../types';
 import { Input, Label, mergeClasses, SpinButton, SpinButtonChangeEvent, SpinButtonOnChangeData, useId, Tooltip } from '@fluentui/react-components';
 import { usePropertyInspectorStyles } from '../../../hooks/usePropertyInspectorStyles';
 import { Info16Regular } from "@fluentui/react-icons";

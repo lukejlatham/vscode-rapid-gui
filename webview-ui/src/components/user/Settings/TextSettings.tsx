@@ -1,0 +1,141 @@
+import React, { useState } from "react";
+import { usePropertyInspectorStyles } from "../../../hooks/usePropertyInspectorStyles";
+import { TextProps } from "../../../types";
+import { useNode } from "@craftjs/core";
+import { Input, Label as FLabel, Tooltip, useId, Button, RadioGroup, Radio } from "@fluentui/react-components";
+import { Info16Regular, TextBoldFilled, TextItalicFilled, TextUnderlineFilled } from "@fluentui/react-icons";
+import './ButtonSettingsStyle.css'
+
+export const TextSettings: React.FC = () => {
+    const {
+        actions: { setProp },
+        text,
+        fontSize,
+        fontColor,
+        textAlign,
+        bold,
+        italic,
+        underline,
+        hyperlink,
+    } = useNode((node) => ({
+        fontSize: node.data.props.fontSize,
+        text: node.data.props.text,
+        fontColor: node.data.props.fontColor,
+        textAlign: node.data.props.textAlign,
+        bold: node.data.props.bold,
+        italic: node.data.props.italic,
+        underline: node.data.props.underline,
+        hyperlink: node.data.props.hyperlink,
+    }));
+
+    const styles = usePropertyInspectorStyles();
+    const contentId = useId("content");
+    const [visibleTooltip, setVisibleTooltip] = useState<string | null>(null);
+
+    const tooltips = [
+        { label: "Font Size", content: "Adjust the size of the text.", propKey: "fontSize" },
+        { label: "Font Color", content: "Change the text colour of the label.", propKey: "fontColor" },
+        { label: "Text", content: "Edit the text", propKey: "text" },
+        { label: "Alignment", content: "Set the text alignment.", propKey: "textAlign" },
+        { label: "Hyperlink", content: "Add a hyperlink to the text.", propKey: "hyperlink" },
+    ];
+
+    type StyleKeys = 'bold' | 'italic' | 'underline';
+
+    const applyStyle = (style: StyleKeys) => {
+        const selection = window.getSelection();
+        if (!selection || selection.rangeCount === 0 || selection.isCollapsed) {
+            setProp((props: TextProps) => {
+                props[style] = !props[style];
+            }, 1000);
+        } else {
+            document.execCommand(style);
+        }
+    };
+
+    return (
+        <div className={styles.settingsContainer}>
+            {tooltips.map((tooltip, index) => (
+                <div key={index}>
+                    <div aria-owns={visibleTooltip === tooltip.propKey ? contentId : undefined} className={styles.label}>
+                        <FLabel>{tooltip.label}</FLabel>
+                        <Tooltip
+                            content={tooltip.content}
+                            positioning="above-start"
+                            withArrow
+                            relationship="label"
+                            onVisibleChange={(_, data) => setVisibleTooltip(data.visible ? tooltip.propKey : null)}
+                        >
+                            <Info16Regular
+                                tabIndex={0}
+                                className={visibleTooltip === tooltip.propKey ? styles.visible : undefined}
+                            />
+                        </Tooltip>
+                    </div>
+                    {tooltip.propKey === "fontSize" ? (
+                        <Input
+                            className={styles.numberInput}
+                            type="number"
+                            value={fontSize.toString()}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                setProp((props: TextProps) => (props.fontSize = parseInt(e.target.value, 10)), 1000);
+                            }}
+                        />
+                    ) : tooltip.propKey === "fontColor" ? (
+                        <input
+                            className={styles.colorInput}
+                            type="color"
+                            defaultValue={fontColor}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProp((props: TextProps) => props.fontColor = e.target.value)}
+                        />
+                    ) : tooltip.propKey === "text" ? (
+                        <Input
+                            className={styles.textInput}
+                            type="text"
+                            defaultValue={text}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                setProp((props: TextProps) => (props.text = e.target.value), 1000);
+                            }}
+                        />
+                    ) : tooltip.propKey === "textAlign" ? (
+                        <RadioGroup
+                            defaultValue={textAlign}
+                            layout="horizontal-stacked"
+                            onChange={(_, data: { value: string }) => {
+                                setProp((props: TextProps) => (props.textAlign = data.value as "left" | "center" | "right" | "justify"), 1000);
+                            }}
+                        >
+                            <Radio value="left" label="Left" />
+                            <Radio value="center" label="Center" />
+                            <Radio value="right" label="Right" />
+                            <Radio value="justify" label="Justify" />
+                        </RadioGroup>
+                    ) : tooltip.propKey === "hyperlink" ? (
+                        <Input
+                            className={styles.textInput}
+                            type="text"
+                            defaultValue={hyperlink}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                setProp((props: TextProps) => (props.hyperlink = e.target.value), 1000);
+                            }}
+                        />
+                    ) : null}
+                </div>
+            ))}
+            <div className={styles.buttonContainer}>
+            <Button 
+            icon={<TextBoldFilled />}
+            className={styles.activeButton} onClick={() => applyStyle("bold")}>
+            </Button> 
+            <Button 
+            icon={<TextItalicFilled />}
+            className={styles.activeButton} onClick={() => applyStyle("italic")}>
+            </Button> 
+            <Button 
+            icon={<TextUnderlineFilled />}
+            className={styles.activeButton} onClick={() => applyStyle("underline")}>
+            </Button>
+        </div>
+        </div>
+    );
+};

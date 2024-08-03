@@ -3,7 +3,7 @@ import { useEditor, UserComponent } from '@craftjs/core';
 import { BackgroundSettings } from './user/Settings/BackgroundSettings';
 import { TableEditRegular } from '@fluentui/react-icons';
 
-export const EditBackgroundButton: UserComponent = () => {
+export const EditBackgroundButton: UserComponent<{classes: any}> = ({classes}) => {
     const { connectors: { select } } = useEditor();
     // const { query } = useEditor();
 
@@ -11,6 +11,7 @@ export const EditBackgroundButton: UserComponent = () => {
 
     return (
         <Button
+            className={classes.button}
             icon={<TableEditRegular />}
             size='large' 
             appearance='secondary'

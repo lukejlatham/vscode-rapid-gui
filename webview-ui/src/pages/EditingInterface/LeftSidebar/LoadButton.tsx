@@ -4,7 +4,7 @@ import { Folder24Regular } from '@fluentui/react-icons';
 import { useEditor } from "@craftjs/core";
 import { vscode } from '../../../utilities/vscode';
 
-const LoadButton: React.FC = () => {
+const LoadButton: React.FC<{classes: any}> = ({classes}) => {
     const { actions } = useEditor();
 
     const handleLoad = () => {
@@ -30,7 +30,7 @@ const LoadButton: React.FC = () => {
     }, [actions]);
 
     return (
-        <Button icon={<Folder24Regular />} appearance='outline' onClick={handleLoad}>Load</Button>
+        <Button className={classes.button} icon={<Folder24Regular />} appearance='outline' onClick={handleLoad}>Load</Button>
     );
 };
 

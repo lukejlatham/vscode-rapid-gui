@@ -3,7 +3,7 @@ import { Input, Label, SpinButton, Radio, RadioGroup, SpinButtonChangeEvent, Spi
 import { Info16Regular } from "@fluentui/react-icons";
 import { useNode } from "@craftjs/core";
 import { usePropertyInspectorStyles } from "../../../hooks/usePropertyInspectorStyles";
-import { ButtonProps, TooltipConfigButton as TooltipConfig } from "../../../../../types";
+import { ButtonProps, TooltipConfigButton as TooltipConfig } from "../../../types";
 
 export const ButtonSettings: React.FC = () => {
     const { actions: { setProp }, props } = useNode(node => ({
@@ -15,7 +15,7 @@ export const ButtonSettings: React.FC = () => {
 
     const tooltips: TooltipConfig[] = [
         { label: "Font Color", content: "Changed the color of the text on the button.", propKey: "fontColor", type: "color" },
-        { label: "Background Color", content: "Changedthe color of the button.", propKey: "backgroundColor", type: "color" },
+        { label: "Background Color", content: "Changed the color of the button.", propKey: "backgroundColor", type: "color" },
         { label: "Border Color", content: "Change the color of the border.", propKey: "bordercolor", type: "color" },
         { label: "Text", content: "Edit the text that appears in the button.", propKey: "text", type: "text" },
         { label: "Font Size", content: "Adjust the size of the text on the button.", propKey: "fontSize", type: "spinButton" },
@@ -23,8 +23,12 @@ export const ButtonSettings: React.FC = () => {
         { label: "Width", content: "Set how wide the button is.", propKey: "width", type: "spinButton" },
         { label: "Height", content: "Set how tall the button is.", propKey: "height", type: "spinButton" },
         { label: "Icon", content: "Add an icon to the button. Choosing 'Left' or 'Right' will add an icon at that position.", propKey: "icon", type: "icon" },
+        { label: "Shadow Color", content: "Change the color of the shadow.", propKey: "shadowColor", type: "color" },
+        { label: "Shadow Offset X", content: "Set the horizontal offset of the shadow.", propKey: "shadowOffsetX", type: "spinButton" },
+        { label: "Shadow Offset Y", content: "Set the vertical offset of the shadow.", propKey: "shadowOffsetY", type: "spinButton" },
+        { label: "Shadow Blur", content: "Set the blur radius of the shadow.", propKey: "shadowBlur", type: "spinButton" },
         { label: "Hyperlink", content: "Add a hyperlink to the button.", propKey: "hyperlink", type: "text" },
-    ];
+      ];
 
     const handleVisibilityChange = (tooltipKey: string, isVisible: boolean) => {
         setVisibleTooltip(isVisible ? tooltipKey : null);

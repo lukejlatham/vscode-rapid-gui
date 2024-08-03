@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNode, UserComponent } from '@craftjs/core';
 import { makeStyles } from '@fluentui/react-components';
-import { RadioButtonProps } from '../../../../types';
+import { RadioButtonProps, radioButtonSchema } from '../../types';
 import { RadioButtonSettings } from './Settings/RadioButtonSettings';
 
 
@@ -13,8 +13,11 @@ const useStyles = makeStyles({
     },
 });
 
+export const RadioButton: UserComponent<RadioButtonProps> = (props) => {
+    const validatedProps = radioButtonSchema.parse(props);
 
-export const RadioButton: UserComponent<RadioButtonProps> = ({ header, numberOfButtons, optionLabels, fontSize, fontColor, direction }) => {
+    const { header, optionLabels, fontSize, fontColor, direction } = validatedProps;
+    
     const { connectors: { connect, drag } } = useNode();
     const [selectedButton, setSelectedButton] = useState<number>(0);
 

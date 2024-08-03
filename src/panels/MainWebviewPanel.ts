@@ -175,6 +175,9 @@ export class MainWebviewPanel {
             window.showInformationMessage("Image saving command received.");
             webview.postMessage({ command: 'imageUploaded', filePath: imageUri });
             return;
+          case "deletedPageAlert":
+            window.showErrorMessage(message.message);
+            return;
         }
       },
       undefined,

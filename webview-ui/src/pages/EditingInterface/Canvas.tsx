@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { useEditor } from '@craftjs/core';
 import { vscode } from '../../utilities/vscode';
 import { makeStyles } from '@fluentui/react-components';
+import { CanvasProps } from '../../types';
 
 const useStyles = makeStyles({
     canvas: {
@@ -17,7 +18,7 @@ const useStyles = makeStyles({
     },
 });
 
-const Canvas: React.FC<{ classes: any }> = ({ classes }) => {
+const Canvas: React.FC<CanvasProps> = ({ classes }) => {
     const styles = useStyles();
 
     const { query, actions } = useEditor();

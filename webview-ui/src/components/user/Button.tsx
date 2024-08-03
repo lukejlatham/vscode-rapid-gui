@@ -1,10 +1,8 @@
 import { useNode, UserComponent, Element } from "@craftjs/core";
 import { makeStyles} from "@fluentui/react-components";
-import { ButtonProps } from '../../../../types';
+import { buttonSchema, ButtonProps } from '../../types';
 import { ButtonSettings } from "./Settings/ButtonSettings";
 import { Icon, IconDefaultProps } from "./Icon";
-
-
 
 const useStyles = makeStyles({
     container: {
@@ -23,7 +21,10 @@ const useStyles = makeStyles({
     },
 });
 
-export const Button: UserComponent<ButtonProps> = ({ backgroundColor, fontSize, borderRadius, text, fontColor, width, height, bordercolor, icon }) => {
+export const Button: UserComponent<ButtonProps> = (props) => {
+    const validatedProps = buttonSchema.parse(props);
+
+    const { backgroundColor, fontColor, fontSize, borderRadius, text, width, height, bordercolor, shadowBlur, shadowColor, shadowOffsetX, shadowOffsetY, icon } = validatedProps;
     const { connectors: { connect, drag } } = useNode();
     const styles = useStyles();
 
@@ -43,6 +44,7 @@ export const Button: UserComponent<ButtonProps> = ({ backgroundColor, fontSize, 
                     width: `${width}%`,
                     height: `${height}%`,
                     border: `1px solid ${bordercolor}`,
+                    boxShadow: `${shadowOffsetX}px ${shadowOffsetY}px ${shadowBlur}px ${shadowColor}`,
                 }}
             >   
             {icon ==="left" && <Element id="button_icon" is={Icon} {...IconDefaultProps} />}
@@ -63,6 +65,11 @@ export const ButtonDefaultProps: ButtonProps = {
     alignment: "left",
     icon: "none",
     bordercolor: "#666666",
+    shadowColor: "transparent",
+    shadowOffsetX: 0,
+    shadowOffsetY: 0,
+    shadowBlur: 0,
+
 };
 
 (Button as any).craft = {

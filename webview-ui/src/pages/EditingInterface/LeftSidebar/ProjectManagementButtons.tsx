@@ -20,10 +20,10 @@ const ProjectManagement: React.FC<{ classes: any, }> = ({ classes }) => {
         <>
             <div className={classes.projectManagement}><Subtitle2>Project Management</Subtitle2></div>
             <Divider className={classes.divider}></Divider>
-            <SaveButton />
-            <LoadButton />
-            <Button icon={<ArrowHookUpRight24Regular />} appearance='outline' onClick={handleRedo}>Redo</Button>
-            <Button icon={<ArrowHookUpLeft24Regular />} appearance='outline' onClick={handleUndo}>Undo</Button>
+            <SaveButton classes={classes} />
+            <LoadButton classes={classes}/>
+            <Button className={classes.button} icon={<ArrowHookUpRight24Regular />} appearance='outline' onClick={handleRedo}>Redo</Button>
+            <Button className={classes.button} icon={<ArrowHookUpLeft24Regular />} appearance='outline' onClick={handleUndo}>Undo</Button>
         </>
     );
 };

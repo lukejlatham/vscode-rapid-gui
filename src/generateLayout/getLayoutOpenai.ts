@@ -70,7 +70,7 @@ import {
   generateTextSchema,
   generateCheckboxSchema,
   layoutSchema,
-} from "../../types/editorObjectSchema";
+} from "../../webview-ui/src/types/editorObjectSchema";
 
 import { z, ZodObject, ZodDefault, ZodTypeAny, ZodOptional } from "zod";
 
