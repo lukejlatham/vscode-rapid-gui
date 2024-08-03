@@ -3,7 +3,7 @@ import { DocumentSave24Regular } from '@fluentui/react-icons';
 import { useEditor } from "@craftjs/core";
 import { vscode } from '../../../utilities/vscode';
 
-const SaveButton: React.FC = () => {
+const SaveButton: React.FC<{classes: any}> = ({classes}) => {
     const { query } = useEditor();
 
     const handleSave = () => {
@@ -16,7 +16,7 @@ const SaveButton: React.FC = () => {
 
     return (
         <>
-            <Button icon={<DocumentSave24Regular />} appearance='outline' onClick={handleSave}>Save</Button>
+            <Button className={classes.button} icon={<DocumentSave24Regular />} appearance='outline' onClick={handleSave}>Save</Button>
         </>
     );
 };

@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { SerializedNodes, useEditor } from '@craftjs/core';
 import { Button, Select } from '@fluentui/react-components';
 import { RenamePageDialog } from '../../components/RenamePageDialog';
-import { DocumentOnePageAddRegular, DeleteRegular } from '@fluentui/react-icons';
+import { DocumentOnePageAddRegular, DeleteRegular, SquareEraserRegular} from '@fluentui/react-icons';
 
 
 interface EditorContentProps {
@@ -17,6 +17,7 @@ interface EditorContentProps {
     renamePage: (index: number, newName: string) => void;
     deletePage: (index: number) => void;
     setPages: React.Dispatch<React.SetStateAction<Page[]>>;
+    clearPage: (index: number) => void;
     classes: any;
 }
 
@@ -29,6 +30,7 @@ export const EditorContent: React.FC<EditorContentProps> = ({
     deletePage,
     setPages,
     classes,
+    clearPage
 }) => {
     const { actions, query } = useEditor();
 
@@ -78,15 +80,36 @@ export const EditorContent: React.FC<EditorContentProps> = ({
                     <Button
                         icon={<DocumentOnePageAddRegular />}
                         size='large'
-                        onClick={addPage}>Add Page</Button>
+                        onClick={() => {
+                            addPage();
+                        }}
+                    >
+                        Add
+                    </Button>
                     <RenamePageDialog
                         currentPageName={pages[currentPageIndex].name}
-                        onRename={(newName: string) => renamePage(currentPageIndex, newName)}
+                        onRename={(newName: string) => {
+                            renamePage(currentPageIndex, newName);
+                        }}
                     />
                     <Button
                         icon={<DeleteRegular />}
                         size='large'
-                        onClick={() => deletePage(currentPageIndex)}>Delete Page</Button>
+                        onClick={() => {
+                            deletePage(currentPageIndex);
+                        }}
+                    >
+                        Delete
+                    </Button>
+                    <Button
+                        size='large'
+                        icon={<SquareEraserRegular />}
+                        onClick={() => {
+                            clearPage(currentPageIndex);
+                        }}
+                    >
+                        Reset
+                    </Button>
                 </div>
                 <div className={classes.canvas}>
                     <Canvas classes={classes} />

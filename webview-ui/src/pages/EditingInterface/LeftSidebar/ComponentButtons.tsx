@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Divider } from "@fluentui/react-components";
+import { Button, Divider, makeStyles } from "@fluentui/react-components";
 import { useEditor, Element } from "@craftjs/core";
 import { Label, LabelDefaultProps } from '../../../components/user/Label';
 import { Button as UserButton, ButtonDefaultProps } from "../../../components/user/Button";
@@ -44,59 +44,59 @@ const ComponentButtons: React.FC<{ classes: any }> = ({ classes }) => {
 
     return (
         <>
-            <Button icon={<ButtonIcon />} size='large' appearance='outline' ref={ref => {
+            <Button 
+            className={classes.button} icon={<ButtonIcon />} size='large' appearance='outline' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <UserButton {...ButtonDefaultProps} />);
                 }
             }}>Button</Button>
-            <Button icon={<ImageIcon />} size='large' appearance='outline' ref={ref => {
+            <Button className={classes.button} icon={<ImageIcon />} size='large' appearance='outline' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Image {...ImageDefaultProps} />);
                 }
             }}>Image</Button>
-            <Button icon={<TextBoxIcon />} size='large' appearance='outline' ref={ref => {
+            <Button className={classes.button} icon={<TextBoxIcon />} size='large' appearance='outline' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <TextBox {...TextBoxDefaultProps} />);
                 }
             }}>Text Box</Button>
-            <Button icon={<LabelIcon />} size='large' appearance='outline'  ref={ref => {
+            <Button className={classes.button} icon={<LabelIcon />} size='large' appearance='outline'  ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Label {...LabelDefaultProps} />);
                 }
             }}>Label</Button>
-            <Button icon={<InputIcon />} size='large' appearance='outline'  ref={ref => {
+            <Button className={classes.button} icon={<InputIcon />} size='large' appearance='outline'  ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <UserInput {...InputDefaultProps} />);
                 }
             }}>Text Input</Button>
-            <Button icon={<TextIcon />} size='large' appearance='outline' ref={ref => {
+            <Button className={classes.button} icon={<TextIcon />} size='large' appearance='outline' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Text {...TextDefaultProps} />);
                 }
             }}>Paragraph</Button>
-            <Button icon={<RadioButtonFilled />} size='large' appearance='outline' ref={ref => {
+            <Button className={classes.button} icon={<RadioButtonFilled />} size='large' appearance='outline' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <RadioButton {...RadioButtonDefaultProps} />);
                 }
             }}>Radio Buttons</Button>
-            <Button icon={<CheckboxIcon />} size='large' appearance='outline' ref={ref => {
+            <Button className={classes.button} icon={<CheckboxIcon />} size='large' appearance='outline' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Checkbox {...CheckboxDefaultProps} />);
                 }
             }}>Checkbox</Button>
-            <Button icon={<EmojiRegular />} size='large' appearance='outline' ref={ref => {
+            <Button className={classes.button} icon={<EmojiRegular />} size='large' appearance='outline' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Icon {...IconDefaultProps} />);
                 }
             }}>Icon</Button>
-            <Button icon={<CardUiRegular />} size='large' appearance='outline' ref={ref => {
+            <Button className={classes.button} icon={<CardUiRegular />} size='large' appearance='outline' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Element is={Container} {...ContainerDefaultProps} canvas />);
                 }
             }}>Container</Button>
             <Divider className={classes.divider}> Layout </Divider>
-            <EditBackgroundButton/>
-
+            <EditBackgroundButton classes={classes}/>
         </>
     );
 };
