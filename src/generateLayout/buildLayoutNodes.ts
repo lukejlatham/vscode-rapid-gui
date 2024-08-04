@@ -94,14 +94,21 @@ function parseAndValidateInput(rawJson: string): LayoutSchema {
   return layoutSchema.parse(JSON.parse(rawJson));
 }
 
-// Interface for layout dimensions
+// TODOs:
+
+// Background: remove maxW + maxH + moved + static from layout, remove Nodes, and add lockedGrid
+
+// remove height and width from child gridcells/containers
+
+// Add ids to gridcells custom props:
+//     "custom": { "id": "4" },
+
 interface LayoutDimensions {
   rows: number;
   columns: number;
   ids: string[];
 }
 
-// Function to calculate layout dimensions
 function calculateLayoutDimensions(layout: LayoutSchema): LayoutDimensions {
   let maxX = 0;
   let maxY = 0;
@@ -118,12 +125,12 @@ function calculateLayoutDimensions(layout: LayoutSchema): LayoutDimensions {
   return { rows: maxY, columns: maxX, ids };
 }
 
-// Function to create a node
 function createNode(
   id: string,
   resolvedName: string,
   isCanvas: boolean,
   parent: string,
+  custom: { [key: string]: any } = {},
   props: { [key: string]: any } = {},
   children: string[] = []
 ): NodeSection {
@@ -132,7 +139,7 @@ function createNode(
     isCanvas,
     props,
     displayName: resolvedName,
-    custom: {},
+    custom,
     parent,
     hidden: false,
     nodes: children,
@@ -140,21 +147,17 @@ function createNode(
   };
 }
 
-// Function to generate section nodes
 function generateSectionNodes(sections: Section[]): { [key: string]: NodeSection } {
   const nodes: { [key: string]: NodeSection } = {};
 
-  sections.forEach((section) => {
+  sections.forEach((section, index) => {
     const gridCellId = section.name + "GridCell";
     const containerId = section.name + "Container";
+    const sectionIndex = index.toString();
 
-    // Create the GridCell node
-    nodes[gridCellId] = createNode(gridCellId, "GridCell", false, "ROOT");
+    nodes[gridCellId] = createNode(gridCellId, "GridCell", false, "ROOT", { id: sectionIndex });
 
-    // Create the Container node within the GridCell node
     const containerProps: ContainerProps = {
-      height: section.height,
-      width: section.width,
       flexDirection: section.flexDirection,
       justifyContent: section.justifyContent,
       alignItems: section.alignItems,
@@ -166,12 +169,12 @@ function generateSectionNodes(sections: Section[]): { [key: string]: NodeSection
       "Container",
       true,
       gridCellId,
+      {},
       containerProps,
       section.children.map((child) => child.name)
     );
-    delete nodes[containerId].linkedNodes; // Ensure no linkedNodes for Container
+    delete nodes[containerId].linkedNodes;
 
-    // Create child nodes within the Container node
     section.children.forEach((child) => {
       let childProps: any = {};
       switch (child.type) {
@@ -201,17 +204,13 @@ function generateSectionNodes(sections: Section[]): { [key: string]: NodeSection
           break;
       }
 
-      nodes[child.name] = createNode(child.name, child.type, false, containerId, childProps);
+      nodes[child.name] = createNode(child.name, child.type, false, containerId, {}, childProps);
     });
-
-    // Set linked nodes for GridCell
-    nodes[gridCellId].linkedNodes = { container: containerId };
   });
 
   return nodes;
 }
 
-// Function to create the background node
 function createBackgroundNode(
   dimensions: LayoutDimensions,
   layout: LayoutType[],
@@ -226,10 +225,11 @@ function createBackgroundNode(
     type: { resolvedName: "Background" },
     isCanvas: false,
     props: {
-      backgroundColor,
-      layout,
       rows: dimensions.rows,
       columns: dimensions.columns,
+      lockedGrid: true,
+      backgroundColor,
+      layout,
     },
     displayName: "Background",
     custom: {},
@@ -239,7 +239,6 @@ function createBackgroundNode(
   };
 }
 
-// Function to assemble the final layout
 function assembleFinalLayout(
   backgroundNode: NodeTreeRootType,
   sectionNodes: { [key: string]: NodeSection }
@@ -250,7 +249,6 @@ function assembleFinalLayout(
   };
 }
 
-// Main function to build layout nodes
 function buildLayoutNodes(rawLayoutResponse: string) {
   const parsedData = parseAndValidateInput(rawLayoutResponse);
   const layoutDimensions = calculateLayoutDimensions(parsedData);
@@ -261,10 +259,6 @@ function buildLayoutNodes(rawLayoutResponse: string) {
     x: section.xPosition,
     y: section.yPosition,
     i: String(index),
-    moved: false,
-    static: false,
-    maxW: layoutDimensions.columns,
-    maxH: layoutDimensions.rows,
   }));
 
   const backgroundNode = createBackgroundNode(layoutDimensions, layout, "#292929");

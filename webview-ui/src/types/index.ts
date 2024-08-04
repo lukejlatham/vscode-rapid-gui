@@ -84,8 +84,8 @@ export const generateCheckboxSchema = checkboxSchema.pick({
 export type GenerateCheckboxProps = z.infer<typeof generateCheckboxSchema>;
 
 export const containerSchema = z.object({
-  height: z.number().default(200),
-  width: z.number().default(300),
+  height: z.number().default(100),
+  width: z.number().default(100),
   flexDirection: z.enum(["row", "column"]).default("row").optional(),
   justifyContent: z
     .enum(["flex-start", "center", "flex-end", "space-between", "space-around"])
@@ -422,10 +422,11 @@ export const nodeTreeRootSchema = z.object({
   }),
   isCanvas: z.boolean(),
   props: z.object({
-    backgroundColor: z.string(),
-    layout: z.array(backgroundNodeLayout),
     rows: z.number().int(),
     columns: z.number().int(),
+    lockedGrid: z.boolean(),
+    backgroundColor: z.string(),
+    layout: z.array(backgroundNodeLayout),
   }),
   displayName: z.string(),
   custom: z.record(z.any()),
