@@ -92,14 +92,14 @@ export const containerSchema = z.object({
     .default("space-around"),
   alignItems: z.enum(["flex-start", "center", "flex-end"]).optional().default("center"),
   gap: z.number().optional().default(10),
-  backgroundColor: z.string().default("white"),
-  borderRadius: z.number().default(4),
+  backgroundColor: z.string().default("ghostwhite"),
+  borderRadius: z.number().default(5),
   borderColor: z.string().default("black"),
   padding: z.number().default(10),
-  shadowColor: z.string().optional().default("transparent"),
-  shadowOffsetX: z.number().optional().default(2),
-  shadowOffsetY: z.number().optional().default(2),
-  shadowBlur: z.number().optional().default(2),
+  shadowColor: z.string().optional().default("black"),
+  shadowOffsetX: z.number().optional().default(1),
+  shadowOffsetY: z.number().optional().default(1),
+  shadowBlur: z.number().optional().default(1),
   children: z.any().optional(),
 });
 
@@ -147,7 +147,7 @@ export type GenerateInputProps = z.infer<typeof generateInputSchema>;
 
 export const labelSchema = z.object({
   text: z.string().default("Label"),
-  fontSize: z.number().default(14),
+  fontSize: z.number().default(20),
   fontcolor: z.string().default("black"),
   userEditable: z.boolean().default(true).optional(),
   textAlign: z.enum(["left", "center", "right", "justify"]).default("left"),
@@ -386,7 +386,7 @@ export const generateElementSchema = z.object({
   ]),
   name: z.string(),
   text: z.string().optional(),
-  backgroundColor: z.enum(["lightslategrey", "ghostwhite", "aliceblue"]).default("lightslategrey"),
+  backgroundColor: z.enum(["lightslategrey", "darkslategrey"]).default("lightslategrey"),
 });
 
 export const sectionSchema = z.object({
@@ -395,7 +395,7 @@ export const sectionSchema = z.object({
   yPosition: z.number().int().max(10),
   width: z.number().int().max(10),
   height: z.number().int().max(10),
-  backgroundColor: z.enum(["ghostwhite", "aliceblue, lightslategrey"]).default("ghostwhite"),
+  backgroundColor: z.enum(["ghostwhite", "aliceblue"]).default("ghostwhite"),
   flexDirection: z.enum(["row", "column"]).default("row"),
   children: z.array(generateElementSchema),
 });

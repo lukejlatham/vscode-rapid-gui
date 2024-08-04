@@ -8,7 +8,6 @@ const useStyles = makeStyles({
     display: "flex",
     width: "100%",
     height: "100%",
-    overflow: 'hidden',
   },
   justifyLeft: {
     justifyContent: "flex-start",
@@ -74,10 +73,10 @@ export const GridCell: UserComponent<GridCellProps> = (props) => {
 };
 
 export const GridCellDefaultProps: GridCellProps = {
-  justifyContent: 'flex-start',
-  flexDirection: 'row',
-  alignItems: 'flex-start',
-  gap: 1,
+  justifyContent: "flex-start",
+  flexDirection: "column",
+  alignItems: "flex-start",
+  gap: 10,
 };
 
 GridCell.craft = {

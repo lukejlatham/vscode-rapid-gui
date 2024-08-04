@@ -258,7 +258,7 @@ function buildLayoutNodes(rawLayoutResponse: string) {
     // maxH: layoutDimensions.rows,
   }));
 
-  const backgroundNode = createBackgroundNode(layoutDimensions, layout, "#292929");
+  const backgroundNode = createBackgroundNode(layoutDimensions, layout, "#6f787d");
 
   const sectionNodes = generateSectionNodes(parsedData.sections);
 
