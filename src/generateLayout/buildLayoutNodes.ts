@@ -254,11 +254,11 @@ function buildLayoutNodes(rawLayoutResponse: string) {
   const layoutDimensions = calculateLayoutDimensions(parsedData);
 
   const layout = parsedData.sections.map((section, index) => ({
-    w: section.width,
-    h: section.height,
+    i: String(index),
     x: section.xPosition,
     y: section.yPosition,
-    i: String(index),
+    w: section.width,
+    h: section.height,
   }));
 
   const backgroundNode = createBackgroundNode(layoutDimensions, layout, "#292929");
