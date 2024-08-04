@@ -33,8 +33,8 @@ export const buttonSchema = z.object({
   fontSize: z.number().default(14),
   fontColor: z.string().default("black"),
   borderRadius: z.number().default(4),
-  width: z.number().default(100),
-  height: z.number().default(40),
+  width: z.number().default(80),
+  height: z.number().default(60),
   text: z.string().default("Button"),
   alignment: z.enum(["left", "center", "right"]).default("center"),
   displayName: z.string().optional(),
@@ -89,18 +89,18 @@ export const containerSchema = z.object({
   flexDirection: z.enum(["row", "column"]).default("row").optional(),
   justifyContent: z
     .enum(["flex-start", "center", "flex-end", "space-between", "space-around"])
-    .default("flex-start")
-    .optional(),
-  alignItems: z.enum(["flex-start", "center", "flex-end"]).default("flex-start").optional(),
-  gap: z.number().default(0).optional(),
+    .optional()
+    .default("space-around"),
+  alignItems: z.enum(["flex-start", "center", "flex-end"]).optional().default("center"),
+  gap: z.number().optional().default(10),
   backgroundColor: z.string().default("white"),
   borderRadius: z.number().default(4),
   borderColor: z.string().default("black"),
   padding: z.number().default(10),
-  shadowColor: z.string().optional(),
-  shadowOffsetX: z.number().optional(),
-  shadowOffsetY: z.number().optional(),
-  shadowBlur: z.number().optional(),
+  shadowColor: z.string().optional().default("transparent"),
+  shadowOffsetX: z.number().optional().default(2),
+  shadowOffsetY: z.number().optional().default(2),
+  shadowBlur: z.number().optional().default(2),
   children: z.any().optional(),
 });
 
@@ -108,13 +108,13 @@ export type ContainerProps = z.infer<typeof containerSchema>;
 
 export const gridCellSchema = z.object({
   children: z.any().optional(),
-  flexDirection: z.enum(["row", "column"]).optional(),
+  flexDirection: z.enum(["row", "column"]).optional().default("row"),
   justifyContent: z
     .enum(["flex-start", "center", "flex-end", "space-between", "space-around"])
     .optional()
     .default("space-between"),
   alignItems: z.enum(["flex-start", "center", "flex-end"]).optional().default("center"),
-  gap: z.number().optional(),
+  gap: z.number().optional().default(10),
 });
 
 export type GridCellProps = z.infer<typeof gridCellSchema>;
@@ -202,7 +202,7 @@ export const textBoxSchema = z.object({
   placeholder: z.string().default("Enter text"),
   borderRadius: z.number().default(4),
   height: z.number().default(100),
-  width: z.number().default(200),
+  width: z.number().default(100),
   alignment: z.enum(["left", "center", "right"]).default("left"),
 });
 
@@ -211,7 +211,6 @@ export type TextBoxProps = z.infer<typeof textBoxSchema>;
 export const generateTextBoxSchema = textBoxSchema.pick({
   text: true,
   placeholder: true,
-  alignment: true,
 });
 
 export type GenerateTextBoxProps = z.infer<typeof generateTextBoxSchema>;
@@ -240,10 +239,6 @@ export type ImageProps = z.infer<typeof imageSchema>;
 
 export const generateImageSchema = imageSchema.pick({
   src: true,
-  alt: true,
-  width: true,
-  height: true,
-  alignment: true,
 });
 
 export type GenerateImageProps = z.infer<typeof generateImageSchema>;
@@ -380,8 +375,8 @@ export const generateElementSchema = z.object({
   ]),
   name: z.string(),
   text: z.string().optional(),
-  Src: z.string().optional(),
-  color: z.enum(["466673", "495051"]).default("466673"),
+  src: z.string().optional(),
+  backgroundColor: z.enum(["#ececec", "#9fd3c7"]).default("#ececec"),
 });
 
 export const sectionSchema = z.object({
@@ -390,7 +385,7 @@ export const sectionSchema = z.object({
   yPosition: z.number().int().max(10),
   width: z.number().int().max(10),
   height: z.number().int().max(10),
-  backgroundColor: z.enum(["FEF9EF", "E8F8FF"]).default("FEF9EF"),
+  backgroundColor: z.enum(["#FEF9EF", "#E8F8FF"]).default("#FEF9EF"),
   flexDirection: z.enum(["row", "column"]).default("row"),
   children: z.array(generateElementSchema),
 });

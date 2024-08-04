@@ -86,8 +86,6 @@ type NodeTreeRootType = z.infer<typeof nodeTreeRootSchema>;
 type Section = z.infer<typeof sectionSchema>;
 type LayoutSchema = z.infer<typeof layoutSchema>;
 type NodeSection = z.infer<typeof craftjsNodeSchema>;
-type ContainerProps = z.infer<typeof containerSchema>;
-type GridCellProps = z.infer<typeof gridCellSchema>;
 
 // Function to parse and validate input JSON
 function parseAndValidateInput(rawJson: string): LayoutSchema {
@@ -261,13 +259,14 @@ function buildLayoutNodes(rawLayoutResponse: string) {
   }));
 
   const backgroundNode = createBackgroundNode(layoutDimensions, layout, "#292929");
+
   const sectionNodes = generateSectionNodes(parsedData.sections);
 
   const combinedNodes = { ROOT: backgroundNode, ...sectionNodes };
 
   const stringifiedNodes = JSON.stringify(combinedNodes);
 
-  console.log("combined stringed nodes in build layoutNodes:", combinedNodes);
+  console.log("buildLayoutNodes - Combined Nodes:", stringifiedNodes);
 
   return stringifiedNodes;
 }

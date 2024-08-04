@@ -1,140 +1,111 @@
 {
   "sections": [
     {
-      "id": "header",
       "name": "Header",
       "xPosition": 0,
       "yPosition": 0,
       "width": 10,
       "height": 1,
+      "backgroundColor": "#E8F8FF",
+      "flexDirection": "row",
       "children": [
+        { "type": "Button", "name": "HomeButton", "text": "Home", "backgroundColor": "#466673" },
         {
-          "name": "Button",
-          "props": { "type": "Button", "icon": "", "text": "HOME", "alignment": "center" }
-        }
+          "type": "Button",
+          "name": "NavButton1",
+          "text": "Button 1",
+          "backgroundColor": "#466673"
+        },
+        {
+          "type": "Button",
+          "name": "NavButton2",
+          "text": "Button 2",
+          "backgroundColor": "#466673"
+        },
+        { "type": "Button", "name": "NavButton3", "text": "Button 3", "backgroundColor": "#466673" }
       ]
     },
     {
-      "id": "navigation",
-      "name": "Navigation Buttons",
-      "xPosition": 1,
-      "yPosition": 1,
-      "width": 8,
-      "height": 1,
-      "children": [
-        {
-          "name": "Button",
-          "props": { "type": "Button", "icon": "", "text": "Nav1", "alignment": "center" }
-        },
-        {
-          "name": "Button",
-          "props": { "type": "Button", "icon": "", "text": "Nav2", "alignment": "center" }
-        },
-        {
-          "name": "Button",
-          "props": { "type": "Button", "icon": "", "text": "Nav3", "alignment": "center" }
-        },
-        {
-          "name": "Button",
-          "props": { "type": "Button", "icon": "", "text": "Nav4", "alignment": "center" }
-        }
-      ]
-    },
-    {
-      "id": "sidebar",
       "name": "Sidebar",
       "xPosition": 0,
-      "yPosition": 2,
-      "width": 3,
-      "height": 6,
+      "yPosition": 1,
+      "width": 2,
+      "height": 7,
+      "backgroundColor": "#FEF9EF",
+      "flexDirection": "column",
       "children": [
-        { "name": "Label", "props": { "type": "Label", "text": "Link 1", "textAlign": "left" } },
-        { "name": "Label", "props": { "type": "Label", "text": "Link 2", "textAlign": "left" } },
-        { "name": "Label", "props": { "type": "Label", "text": "Link 3", "textAlign": "left" } },
-        { "name": "Label", "props": { "type": "Label", "text": "Link 4", "textAlign": "left" } },
-        { "name": "Label", "props": { "type": "Label", "text": "Link 5", "textAlign": "left" } },
-        { "name": "Label", "props": { "type": "Label", "text": "Link 6", "textAlign": "left" } }
-      ]
-    },
-    {
-      "id": "main",
-      "name": "Main Content",
-      "xPosition": 3,
-      "yPosition": 2,
-      "width": 5,
-      "height": 6,
-      "children": [
-        { "name": "Label", "props": { "type": "Label", "text": "STEP 1", "textAlign": "left" } },
         {
-          "name": "TextBox",
-          "props": { "type": "TextBox", "text": "Text Box", "placeholder": "", "alignment": "left" }
+          "type": "Button",
+          "name": "SideButton1",
+          "text": "Button 1",
+          "backgroundColor": "#466673"
+        },
+        {
+          "type": "Button",
+          "name": "SideButton2",
+          "text": "Button 2",
+          "backgroundColor": "#466673"
+        },
+        {
+          "type": "Button",
+          "name": "SideButton3",
+          "text": "Button 3",
+          "backgroundColor": "#466673"
+        },
+        {
+          "type": "Button",
+          "name": "SideButton4",
+          "text": "Button 4",
+          "backgroundColor": "#466673"
+        },
+        {
+          "type": "Button",
+          "name": "SideButton5",
+          "text": "Button 5",
+          "backgroundColor": "#466673"
         }
       ]
     },
     {
-      "id": "image",
-      "name": "Image",
-      "xPosition": 3,
-      "yPosition": 3.5,
-      "width": 5,
-      "height": 1.5,
+      "name": "MainContent",
+      "xPosition": 2,
+      "yPosition": 1,
+      "width": 8,
+      "height": 7,
+      "backgroundColor": "#FEF9EF",
+      "flexDirection": "column",
       "children": [
+        { "type": "Text", "name": "StepText", "text": "Step 1", "backgroundColor": "#466673" },
+        { "type": "Image", "name": "ImagePlaceholder", "backgroundColor": "#466673" },
         {
-          "name": "Image",
-          "props": {
-            "type": "Image",
-            "src": "https://via.placeholder.com/300x150",
-            "alt": "Main Image",
-            "width": 150,
-            "height": 150,
-            "alignment": "left"
-          }
+          "type": "TextBox",
+          "name": "PossibleTextBox",
+          "text": "Possible",
+          "backgroundColor": "#466673"
         }
       ]
     },
     {
-      "id": "dropdown",
-      "name": "Dropdown",
-      "xPosition": 3,
-      "yPosition": 5.5,
-      "width": 5,
-      "height": 1,
-      "children": [
-        {
-          "name": "RadioButton",
-          "props": {
-            "type": "RadioButton",
-            "header": "Possible",
-            "optionLabels": [],
-            "numberOfButtons": 1,
-            "direction": "row"
-          }
-        }
-      ]
-    },
-    {
-      "id": "footer",
       "name": "Footer",
       "xPosition": 0,
-      "yPosition": 9,
+      "yPosition": 8,
       "width": 10,
-      "height": 1.5,
+      "height": 2,
+      "backgroundColor": "#E8F8FF",
+      "flexDirection": "row",
       "children": [
-        { "name": "Input", "props": { "type": "Input", "placeholder": "Search" } },
+        { "type": "TextBox", "name": "SearchBox", "text": "Search", "backgroundColor": "#466673" },
         {
-          "name": "Button",
-          "props": { "type": "Button", "icon": "", "text": "O", "alignment": "center" }
+          "type": "Button",
+          "name": "SearchButton",
+          "text": "Search",
+          "backgroundColor": "#466673"
         },
-        {
-          "name": "Button",
-          "props": { "type": "Button", "icon": "", "text": "O", "alignment": "center" }
-        },
-        {
-          "name": "Button",
-          "props": { "type": "Button", "icon": "", "text": "O", "alignment": "center" }
-        },
-        { "name": "Label", "props": { "type": "Label", "text": "CONTACT", "textAlign": "right" } }
+        { "type": "Button", "name": "FooterButton1", "backgroundColor": "#466673" },
+        { "type": "Button", "name": "FooterButton2", "backgroundColor": "#466673" },
+        { "type": "TextBox", "name": "ContactBox", "text": "Contact", "backgroundColor": "#466673" }
       ]
     }
-  ]
+  ],
+  "_meta": { "usage": { "completion_tokens": 402, "prompt_tokens": 1183, "total_tokens": 1585 } }
 }

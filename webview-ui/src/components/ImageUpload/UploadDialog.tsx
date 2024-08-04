@@ -88,11 +88,9 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose }) =
         setLoading(false);
         setCurrentStage(PROCESSING_STAGES.length);
 
-        console.log('In upload dialog:', message.content);
-
         navigate('/editing-interface');
 
-        
+        console.log('Sketch processed:', message.content);
 
         setTimeout(() => {
           window.postMessage({ command: 'loadTree', data: message.content });
