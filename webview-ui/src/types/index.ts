@@ -78,7 +78,6 @@ export const generateCheckboxSchema = checkboxSchema.pick({
   header: true,
   optionLabels: true,
   numberOfBoxes: true,
-  direction: true,
 });
 
 export type GenerateCheckboxProps = z.infer<typeof generateCheckboxSchema>;
@@ -189,7 +188,6 @@ export const generateRadioButtonSchema = radioButtonSchema.pick({
   header: true,
   optionLabels: true,
   numberOfButtons: true,
-  direction: true,
 });
 
 export type GenerateRadioButtonProps = z.infer<typeof generateRadioButtonSchema>;
@@ -361,6 +359,19 @@ export interface TooltipConfigContainer {
   type: "color" | "spinButton" | "text" | "justifyContent" | "alignItems" | "direction";
 }
 
+const generatedElements = z.union([
+  generateButtonSchema,
+  generateCheckboxSchema,
+  generateContainerSchema,
+  generateInputSchema,
+  generateLabelSchema,
+  generateRadioButtonSchema,
+  generateTextBoxSchema,
+  generateTextSchema,
+  generateImageSchema,
+  generateInputSchema,
+]);
+
 export const generateElementSchema = z.object({
   type: z.enum([
     "Button",
@@ -375,8 +386,7 @@ export const generateElementSchema = z.object({
   ]),
   name: z.string(),
   text: z.string().optional(),
-  src: z.string().optional(),
-  backgroundColor: z.enum(["#ececec", "#9fd3c7"]).default("#ececec"),
+  backgroundColor: z.enum(["lightslategrey", "ghostwhite", "aliceblue"]).default("lightslategrey"),
 });
 
 export const sectionSchema = z.object({
@@ -385,7 +395,7 @@ export const sectionSchema = z.object({
   yPosition: z.number().int().max(10),
   width: z.number().int().max(10),
   height: z.number().int().max(10),
-  backgroundColor: z.enum(["#FEF9EF", "#E8F8FF"]).default("#FEF9EF"),
+  backgroundColor: z.enum(["ghostwhite", "aliceblue, lightslategrey"]).default("ghostwhite"),
   flexDirection: z.enum(["row", "column"]).default("row"),
   children: z.array(generateElementSchema),
 });
