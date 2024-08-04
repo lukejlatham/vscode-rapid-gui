@@ -107,13 +107,13 @@ export const containerSchema = z.object({
 export type ContainerProps = z.infer<typeof containerSchema>;
 
 export const gridCellSchema = z.object({
-  id: z.string().optional(),
   children: z.any().optional(),
   flexDirection: z.enum(["row", "column"]).optional(),
   justifyContent: z
     .enum(["flex-start", "center", "flex-end", "space-between", "space-around"])
-    .optional(),
-  alignItems: z.enum(["flex-start", "center", "flex-end"]).optional(),
+    .optional()
+    .default("space-between"),
+  alignItems: z.enum(["flex-start", "center", "flex-end"]).optional().default("center"),
   gap: z.number().optional(),
 });
 
@@ -379,10 +379,9 @@ export const generateElementSchema = z.object({
     "Icon",
   ]),
   name: z.string(),
-  size: z.enum(["small", "medium", "large"]).optional().default("medium"),
   text: z.string().optional(),
-  imageSrc: z.string().optional(),
-  color: z.enum(["Main", "Accent"]).default("Main"),
+  Src: z.string().optional(),
+  color: z.enum(["466673", "495051"]).default("466673"),
 });
 
 export const sectionSchema = z.object({
@@ -391,12 +390,8 @@ export const sectionSchema = z.object({
   yPosition: z.number().int().max(10),
   width: z.number().int().max(10),
   height: z.number().int().max(10),
-  color: z.enum(["Main", "Accent"]).default("Main"),
+  backgroundColor: z.enum(["FEF9EF", "E8F8FF"]).default("FEF9EF"),
   flexDirection: z.enum(["row", "column"]).default("row"),
-  justifyContent: z
-    .enum(["flex-start", "center", "flex-end", "space-between", "space-around"])
-    .default("space-around"),
-  alignItems: z.enum(["flex-start", "center", "flex-end"]).default("center"),
   children: z.array(generateElementSchema),
 });
 

@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import { getAzureOpenaiApiKeys } from "../utilities/azureApiKeyStorage";
 import { getLayout } from "./getLayoutOpenai";
-import { buildLayoutNodes } from "./buildLayoutNodes";
+import { buildLayoutNodes } from "./convertLayoutToNodes";
 
 async function processSketch(
   sketch: string,

@@ -146,12 +146,14 @@ function generateSectionNodes(sections: Section[]): { [key: string]: NodeSection
     const containerId = section.name + "Container";
     const sectionIndex = index.toString();
 
-    const gridCellProps: GridCellProps = {
-      flexDirection: "column",
-      justifyContent: "flex-start",
-      alignItems: "center",
-      gap: 1,
-    };
+    //  const gridCellProps: GridCellProps = {
+    //    flexDirection: "column",
+    //    justifyContent: "flex-start",
+    //    alignItems: "center",
+    //    gap: 1,
+    //  };
+
+    const gridCellDefaultsOveride = gridCellSchema.parse({});
 
     nodes[gridCellId] = createNode(
       gridCellId,
@@ -159,26 +161,14 @@ function generateSectionNodes(sections: Section[]): { [key: string]: NodeSection
       true,
       "ROOT",
       { id: sectionIndex },
-      gridCellProps,
+      gridCellDefaultsOveride,
       [containerId]
     );
 
-    const containerProps: ContainerProps = {
+    const containerDefaultsOveride = containerSchema.parse({
       flexDirection: section.flexDirection,
-      justifyContent: section.justifyContent,
-      alignItems: section.alignItems,
-      backgroundColor: section.color,
-      height: 50,
-      width: 100,
-      borderRadius: 5,
-      borderColor: "#666666",
-      padding: 0,
-      gap: 0,
-      shadowColor: "transparent",
-      shadowOffsetX: 0,
-      shadowOffsetY: 0,
-      shadowBlur: 0,
-    };
+      backgroundColor: section.backgroundColor,
+    });
 
     nodes[containerId] = createNode(
       containerId,
@@ -186,7 +176,7 @@ function generateSectionNodes(sections: Section[]): { [key: string]: NodeSection
       true,
       gridCellId,
       {},
-      containerProps,
+      containerDefaultsOveride,
       section.children.map((child) => child.name)
     );
 
