@@ -52,6 +52,8 @@ async function processTextDescription(
   try {
     const { apiKey, apiEndpoint, deploymentName } = await getAzureOpenaiApiKeys(context);
 
+    webview.postMessage({ command: "processingStage", stage: "Generating layout" });
+
     const layout = await getLayout(
       apiEndpoint,
       apiKey,
@@ -61,22 +63,11 @@ async function processTextDescription(
       undefined
     );
 
-    const layoutNodes = buildLayoutNodes(layout);
+    console.log("processTextDescription in generateLayout.ts - Layout Response:", layout);
 
-    webview.postMessage({ command: "processingStage", stage: "Generating layout" });
+    const layoutNodes = await buildLayoutNodes(layout);
 
-    const childNodes = buildChildNodes(layout);
-
-    webview.postMessage({ command: "processingStage", stage: "Refining properties" });
-
-    const fullNodes = { ...layoutNodes, ...childNodes };
-
-    const stringifiedNodes = JSON.stringify(fullNodes, null, 2);
-
-    console.log(
-      "processTextDescription in generateLayout.ts - stringified Nodes:",
-      stringifiedNodes
-    );
+    const stringifiedNodes = JSON.stringify(layoutNodes, null, 2);
 
     return stringifiedNodes;
   } catch (error) {

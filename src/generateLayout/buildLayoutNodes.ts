@@ -147,7 +147,7 @@ function createNode(
   };
 }
 
-function generateSectionNodes(sections: Section[]): { [key: string]: NodeSection } {
+async function generateSectionNodes(sections: Section[]): Promise<{ [key: string]: NodeSection }> {
   const nodes: { [key: string]: NodeSection } = {};
 
   sections.forEach((section, index) => {
@@ -211,11 +211,11 @@ function generateSectionNodes(sections: Section[]): { [key: string]: NodeSection
   return nodes;
 }
 
-function createBackgroundNode(
+async function createBackgroundNode(
   dimensions: LayoutDimensions,
   layout: LayoutType[],
   backgroundColor: string
-): NodeTreeRootType {
+): Promise<NodeTreeRootType> {
   const linkedNodes = dimensions.ids.reduce((acc, id, index) => {
     acc[String(index)] = id + "GridCell";
     return acc;
@@ -239,17 +239,7 @@ function createBackgroundNode(
   };
 }
 
-function assembleFinalLayout(
-  backgroundNode: NodeTreeRootType,
-  sectionNodes: { [key: string]: NodeSection }
-): { [key: string]: NodeSection } {
-  return {
-    ROOT: backgroundNode,
-    ...sectionNodes,
-  };
-}
-
-function buildLayoutNodes(rawLayoutResponse: string) {
+async function buildLayoutNodes(rawLayoutResponse: string) {
   const parsedData = parseAndValidateInput(rawLayoutResponse);
   const layoutDimensions = calculateLayoutDimensions(parsedData);
 
@@ -261,10 +251,18 @@ function buildLayoutNodes(rawLayoutResponse: string) {
     h: section.height,
   }));
 
-  const backgroundNode = createBackgroundNode(layoutDimensions, layout, "#292929");
-  const sectionNodes = generateSectionNodes(parsedData.sections);
+  const backgroundNode = await createBackgroundNode(layoutDimensions, layout, "#292929");
+  const sectionNodes = await generateSectionNodes(parsedData.sections);
 
-  return assembleFinalLayout(backgroundNode, sectionNodes);
+  const combinedNodes = { ...backgroundNode, ...sectionNodes };
+
+  const stringifiedNodes = JSON.stringify(combinedNodes, null, 2);
+
+  console.log("in buildLayoutNodes:", combinedNodes);
+
+  console.log("in buildLayoutNodes:", stringifiedNodes);
+
+  return combinedNodes;
 }
 
 export { buildLayoutNodes };

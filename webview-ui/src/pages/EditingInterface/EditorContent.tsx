@@ -1,4 +1,4 @@
-import { Page } from '../../../../types';
+import { Page } from '../../types';
 import RightSidebar from './RightSidebar/RightSidebar';
 import Canvas from './Canvas';
 import LeftSidebar from './LeftSidebar/LeftSidebar';
