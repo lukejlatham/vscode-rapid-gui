@@ -88,12 +88,16 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose }) =
         setLoading(false);
         setCurrentStage(PROCESSING_STAGES.length);
 
+        console.log('In upload dialog:', message.content);
+
         navigate('/editing-interface');
+
+        
 
         setTimeout(() => {
           window.postMessage({ command: 'loadTree', data: message.content });
 
-        }, 500);
+        }, 1000);
       }
     };
 

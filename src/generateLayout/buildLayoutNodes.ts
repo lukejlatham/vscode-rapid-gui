@@ -94,15 +94,6 @@ function parseAndValidateInput(rawJson: string): LayoutSchema {
   return layoutSchema.parse(JSON.parse(rawJson));
 }
 
-// TODOs:
-
-// Background: remove maxW + maxH + moved + static from layout, remove Nodes, and add lockedGrid
-
-// remove height and width from child gridcells/containers
-
-// Add ids to gridcells custom props:
-//     "custom": { "id": "4" },
-
 interface LayoutDimensions {
   rows: number;
   columns: number;
@@ -147,7 +138,7 @@ function createNode(
   };
 }
 
-async function generateSectionNodes(sections: Section[]): Promise<{ [key: string]: NodeSection }> {
+function generateSectionNodes(sections: Section[]): { [key: string]: NodeSection } {
   const nodes: { [key: string]: NodeSection } = {};
 
   sections.forEach((section, index) => {
@@ -155,13 +146,38 @@ async function generateSectionNodes(sections: Section[]): Promise<{ [key: string
     const containerId = section.name + "Container";
     const sectionIndex = index.toString();
 
-    nodes[gridCellId] = createNode(gridCellId, "GridCell", false, "ROOT", { id: sectionIndex });
+    const gridCellProps: GridCellProps = {
+      flexDirection: "column",
+      justifyContent: "flex-start",
+      alignItems: "center",
+      gap: 1,
+    };
+
+    nodes[gridCellId] = createNode(
+      gridCellId,
+      "GridCell",
+      true,
+      "ROOT",
+      { id: sectionIndex },
+      gridCellProps,
+      [containerId]
+    );
 
     const containerProps: ContainerProps = {
       flexDirection: section.flexDirection,
       justifyContent: section.justifyContent,
       alignItems: section.alignItems,
       backgroundColor: section.color,
+      height: 50,
+      width: 100,
+      borderRadius: 5,
+      borderColor: "#666666",
+      padding: 0,
+      gap: 0,
+      shadowColor: "transparent",
+      shadowOffsetX: 0,
+      shadowOffsetY: 0,
+      shadowBlur: 0,
     };
 
     nodes[containerId] = createNode(
@@ -173,7 +189,6 @@ async function generateSectionNodes(sections: Section[]): Promise<{ [key: string
       containerProps,
       section.children.map((child) => child.name)
     );
-    delete nodes[containerId].linkedNodes;
 
     section.children.forEach((child) => {
       let childProps: any = {};
@@ -210,12 +225,11 @@ async function generateSectionNodes(sections: Section[]): Promise<{ [key: string
 
   return nodes;
 }
-
-async function createBackgroundNode(
+function createBackgroundNode(
   dimensions: LayoutDimensions,
   layout: LayoutType[],
   backgroundColor: string
-): Promise<NodeTreeRootType> {
+): NodeTreeRootType {
   const linkedNodes = dimensions.ids.reduce((acc, id, index) => {
     acc[String(index)] = id + "GridCell";
     return acc;
@@ -223,23 +237,24 @@ async function createBackgroundNode(
 
   return {
     type: { resolvedName: "Background" },
-    isCanvas: false,
+    isCanvas: true,
     props: {
       rows: dimensions.rows,
       columns: dimensions.columns,
-      lockedGrid: true,
+      lockedGrid: false,
       backgroundColor,
       layout,
     },
     displayName: "Background",
     custom: {},
+    parent: null,
     hidden: false,
     nodes: [],
     linkedNodes,
   };
 }
 
-async function buildLayoutNodes(rawLayoutResponse: string) {
+function buildLayoutNodes(rawLayoutResponse: string) {
   const parsedData = parseAndValidateInput(rawLayoutResponse);
   const layoutDimensions = calculateLayoutDimensions(parsedData);
 
@@ -249,20 +264,22 @@ async function buildLayoutNodes(rawLayoutResponse: string) {
     y: section.yPosition,
     w: section.width,
     h: section.height,
+    // moved: false,
+    // static: false,
+    // maxW: layoutDimensions.columns,
+    // maxH: layoutDimensions.rows,
   }));
 
-  const backgroundNode = await createBackgroundNode(layoutDimensions, layout, "#292929");
-  const sectionNodes = await generateSectionNodes(parsedData.sections);
+  const backgroundNode = createBackgroundNode(layoutDimensions, layout, "#292929");
+  const sectionNodes = generateSectionNodes(parsedData.sections);
 
-  const combinedNodes = { ...backgroundNode, ...sectionNodes };
+  const combinedNodes = { ROOT: backgroundNode, ...sectionNodes };
 
-  const stringifiedNodes = JSON.stringify(combinedNodes, null, 2);
+  const stringifiedNodes = JSON.stringify(combinedNodes);
 
-  console.log("in buildLayoutNodes:", combinedNodes);
+  console.log("combined stringed nodes in build layoutNodes:", combinedNodes);
 
-  console.log("in buildLayoutNodes:", stringifiedNodes);
-
-  return combinedNodes;
+  return stringifiedNodes;
 }
 
 export { buildLayoutNodes };

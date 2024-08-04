@@ -410,8 +410,8 @@ export const backgroundNodeLayout = z.object({
   x: z.number().int(),
   y: z.number().int(),
   i: z.string(),
-  moved: z.boolean(),
-  static: z.boolean(),
+  moved: z.boolean().default(false),
+  static: z.boolean().default(false),
   maxW: z.number().int().optional(),
   maxH: z.number().int().optional(),
 });
@@ -430,6 +430,7 @@ export const nodeTreeRootSchema = z.object({
   }),
   displayName: z.string(),
   custom: z.record(z.any()),
+  parent: z.undefined(),
   hidden: z.boolean(),
   nodes: z.array(z.string()),
   linkedNodes: z.record(z.string()),

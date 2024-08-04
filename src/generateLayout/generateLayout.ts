@@ -2,7 +2,6 @@ import * as vscode from "vscode";
 import { getAzureOpenaiApiKeys } from "../utilities/azureApiKeyStorage";
 import { getLayout } from "./getLayoutOpenai";
 import { buildLayoutNodes } from "./buildLayoutNodes";
-import { buildChildNodes } from "./buildChildNodes";
 
 async function processSketch(
   sketch: string,
@@ -29,15 +28,7 @@ async function processSketch(
 
     const layoutNodes = buildLayoutNodes(layout);
 
-    console.log("processSketch in generateLayout.ts - Layout Nodes:", layoutNodes);
-
-    const childNodes = buildChildNodes(layout);
-
-    const fullNodes = { ...layoutNodes, ...childNodes };
-
-    const stringifiedNodes = JSON.stringify(fullNodes, null, 2);
-
-    return stringifiedNodes;
+    return layoutNodes;
   } catch (error) {
     console.error("Error processing sketch:", error);
     throw error;
@@ -65,11 +56,9 @@ async function processTextDescription(
 
     console.log("processTextDescription in generateLayout.ts - Layout Response:", layout);
 
-    const layoutNodes = await buildLayoutNodes(layout);
+    const layoutNodes = buildLayoutNodes(layout);
 
-    const stringifiedNodes = JSON.stringify(layoutNodes, null, 2);
-
-    return stringifiedNodes;
+    return layoutNodes;
   } catch (error) {
     console.error("Error processing text description:", error);
     webview.postMessage({ command: "processingStage", stage: "Error occurred during processing" });
