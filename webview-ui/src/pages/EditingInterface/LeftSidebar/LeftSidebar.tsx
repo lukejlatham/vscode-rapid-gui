@@ -1,7 +1,6 @@
 import React from 'react';
 import { makeStyles, Divider, Subtitle2, Card } from "@fluentui/react-components";
 import Header from './Header';
-import SearchComponent from './SearchComponent';
 import ComponentButtons from './ComponentButtons';
 import ProjectManagement from './ProjectManagementButtons';
 
@@ -31,7 +30,9 @@ const useStyles = makeStyles({
         paddingTop: '20px',
         textAlign: 'center',
     },
-    button: {},
+    button: {
+        padding: '10px 7px',
+    },
 });
 
 const LeftSidebar: React.FC<{ classes: any }> = ({ classes }) => {
@@ -40,7 +41,6 @@ const LeftSidebar: React.FC<{ classes: any }> = ({ classes }) => {
     return (
         <Card className={`${classes.componentRoot} ${localClasses.componentRoot}`}>
             <Header classes={localClasses} />
-            <SearchComponent classes={localClasses} />
             <div className={localClasses.subtitleCentered}><Subtitle2>Component Library</Subtitle2></div>
             <Divider className={localClasses.divider} />
             <ComponentButtons classes={localClasses} />

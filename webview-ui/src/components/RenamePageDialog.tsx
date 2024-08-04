@@ -35,6 +35,8 @@ export const RenamePageDialog: React.FC<RenamePageDialogProps> = ({ currentPageN
     const handleSubmit = (ev: React.FormEvent<HTMLFormElement>) => {
         ev.preventDefault();
         onRename(newName);
+        // Reset the name after renaming
+        setNewName(currentPageName);
         setIsOpen(false); // Close the dialog after renaming
     };
 
@@ -42,7 +44,7 @@ export const RenamePageDialog: React.FC<RenamePageDialogProps> = ({ currentPageN
         <>
             <Dialog open={isOpen}>
                 <DialogTrigger disableButtonEnhancement>
-                    <Button icon={<DocumentEditRegular />} size="large" onClick={() => setIsOpen(true)}>Rename Page</Button>
+                    <Button icon={<DocumentEditRegular />} size="large" onClick={() => setIsOpen(true)}>Rename</Button>
                 </DialogTrigger>
                 <DialogSurface aria-describedby={undefined}>
                     <form onSubmit={handleSubmit}>
@@ -55,7 +57,7 @@ export const RenamePageDialog: React.FC<RenamePageDialogProps> = ({ currentPageN
                                 <Input
                                     required
                                     id={"name-input"}
-                                    value={newName}
+                                    defaultValue={currentPageName}
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewName(e.target.value)}
                                 />
                             </DialogContent>

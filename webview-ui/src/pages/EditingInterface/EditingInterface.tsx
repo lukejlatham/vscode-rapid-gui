@@ -146,6 +146,13 @@ const EditingInterface: React.FC = () => {
         return <div>Loading...</div>;
       }
 
+      const clearPage = (index: number) => {
+        setPages(prevPages => prevPages.map((page, i) => 
+          i === index ? { ...page, content: { ROOT: createDefaultPage().content.ROOT } } : page
+        ));
+        renamePage(index, `Page ${index + 1}`);
+      }
+
 
     return (
         <Editor resolver={{ Background, Text, Label, Button, TextBox, Image, UserInput, RadioButton, Checkbox, GridCell, Icon, EditBackgroundButton, Container }}>
@@ -157,6 +164,7 @@ const EditingInterface: React.FC = () => {
                 renamePage={renamePage}
                 deletePage={deletePage}
                 setPages={setPages}
+                clearPage={clearPage}
                 classes={classes}
             />
         </Editor>
