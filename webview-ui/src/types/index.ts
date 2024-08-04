@@ -31,7 +31,7 @@ export type BackgroundProps = z.infer<typeof backgroundSchema>;
 export const buttonSchema = z.object({
   backgroundColor: z.string().default("white"),
   fontSize: z.number().default(14),
-  fontColor: z.string().default("black"),
+  fontColor: z.string().default("white"),
   borderRadius: z.number().default(4),
   width: z.number().default(80),
   height: z.number().default(60),
@@ -42,10 +42,10 @@ export const buttonSchema = z.object({
     .union([z.enum(["none", "left", "right"]), z.string().refine((val) => val in VscIcons)])
     .optional(),
   bordercolor: z.string().optional(),
-  shadowColor: z.string().optional(),
-  shadowOffsetX: z.number().optional(),
-  shadowOffsetY: z.number().optional(),
-  shadowBlur: z.number().optional(),
+  shadowColor: z.string().optional().default("black"),
+  shadowOffsetX: z.number().optional().default(1),
+  shadowOffsetY: z.number().optional().default(1),
+  shadowBlur: z.number().optional().default(3),
   hyperlink: z.string().optional(),
 });
 
@@ -92,14 +92,14 @@ export const containerSchema = z.object({
     .default("space-around"),
   alignItems: z.enum(["flex-start", "center", "flex-end"]).optional().default("center"),
   gap: z.number().optional().default(10),
-  backgroundColor: z.string().default("ghostwhite"),
+  backgroundColor: z.string().default("#92a0ad"),
   borderRadius: z.number().default(5),
-  borderColor: z.string().default("black"),
-  padding: z.number().default(10),
+  borderColor: z.string().optional().default("#666666"),
+  padding: z.number().default(0),
   shadowColor: z.string().optional().default("black"),
   shadowOffsetX: z.number().optional().default(1),
   shadowOffsetY: z.number().optional().default(1),
-  shadowBlur: z.number().optional().default(1),
+  shadowBlur: z.number().optional().default(3),
   children: z.any().optional(),
 });
 
@@ -111,7 +111,7 @@ export const gridCellSchema = z.object({
   justifyContent: z
     .enum(["flex-start", "center", "flex-end", "space-between", "space-around"])
     .optional()
-    .default("space-between"),
+    .default("center"),
   alignItems: z.enum(["flex-start", "center", "flex-end"]).optional().default("center"),
   gap: z.number().optional().default(10),
 });
@@ -147,7 +147,7 @@ export type GenerateInputProps = z.infer<typeof generateInputSchema>;
 
 export const labelSchema = z.object({
   text: z.string().default("Label"),
-  fontSize: z.number().default(20),
+  fontSize: z.number().default(22),
   fontcolor: z.string().default("black"),
   userEditable: z.boolean().default(true).optional(),
   textAlign: z.enum(["left", "center", "right", "justify"]).default("left"),
@@ -155,7 +155,7 @@ export const labelSchema = z.object({
     .union([z.enum(["none", "left", "right"]), z.string().refine((val) => val in VscIcons)])
     .optional(),
   hyperlink: z.string().optional(),
-  bold: z.boolean().default(false).optional(),
+  bold: z.boolean().optional().default(true),
   italic: z.boolean().default(false).optional(),
   underline: z.boolean().default(false).optional(),
 });
@@ -219,17 +219,21 @@ export const iconSchema = z.object({
     .refine((val) => val in VscIcons)
     .optional() as z.ZodType<VscIconKeys>,
   iconSize: z.number().default(24).optional(),
-  iconColor: z.string().default("black").optional(),
+  iconColor: z.string().default("lightslategray").optional(),
   hyperlink: z.string().optional(),
 });
 
 export type IconProps = z.infer<typeof iconSchema>;
 
 export const imageSchema = z.object({
-  src: z.string().default("https://via.placeholder.com/150"),
+  src: z
+    .string()
+    .default(
+      "https://media.licdn.com/dms/image/D4E22AQGL4EZgEpG2ag/feedshare-shrink_800/0/1719580422738?e=2147483647&v=beta&t=Nj786KjutiTxei_wgDDM40hcWFi5_-qqBIKM4jOa3Hc"
+    ),
   alt: z.string().default("Image"),
-  width: z.number().default(150),
-  height: z.number().default(150),
+  width: z.number().default(100),
+  height: z.number().default(100),
   alignment: z.enum(["left", "center", "right"]).optional(),
 });
 
@@ -386,7 +390,7 @@ export const generateElementSchema = z.object({
   ]),
   name: z.string(),
   text: z.string().optional(),
-  backgroundColor: z.enum(["lightslategrey", "darkslategrey"]).default("lightslategrey"),
+  backgroundColor: z.enum(["#778899", "#bbc4cc", "#92a0ad"]).default("#778899"),
 });
 
 export const sectionSchema = z.object({
@@ -395,7 +399,6 @@ export const sectionSchema = z.object({
   yPosition: z.number().int().max(10),
   width: z.number().int().max(10),
   height: z.number().int().max(10),
-  backgroundColor: z.enum(["ghostwhite", "aliceblue"]).default("ghostwhite"),
   flexDirection: z.enum(["row", "column"]).default("row"),
   children: z.array(generateElementSchema),
 });

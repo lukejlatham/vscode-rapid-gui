@@ -165,7 +165,7 @@ function generateSectionNodes(sections: Section[]): { [key: string]: NodeSection
 
     const containerDefaultsOveride = containerSchema.parse({
       flexDirection: section.flexDirection,
-      backgroundColor: section.backgroundColor,
+      backgroundColor: "ghostwhite",
     });
 
     nodes[containerId] = createNode(
@@ -258,7 +258,7 @@ function buildLayoutNodes(rawLayoutResponse: string) {
     // maxH: layoutDimensions.rows,
   }));
 
-  const backgroundNode = createBackgroundNode(layoutDimensions, layout, "#6f787d");
+  const backgroundNode = createBackgroundNode(layoutDimensions, layout, "292929");
 
   const sectionNodes = generateSectionNodes(parsedData.sections);
 

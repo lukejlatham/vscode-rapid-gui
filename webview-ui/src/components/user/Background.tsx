@@ -91,9 +91,9 @@ export const Background: FC<BackgroundProps> = (props) => {
           maxRows={initialRows}
           isResizable={initialGridLocked ? false : true}
           isDraggable={initialGridLocked ? false : true}
-          compactType={'horizontal'}
+          compactType={null}
           onLayoutChange={onLayoutChange}
-        
+          preventCollision={true}
           resizeHandles={['se', 'sw', 'ne', 'nw']}
         >
           {initialLayout.map((item) => (

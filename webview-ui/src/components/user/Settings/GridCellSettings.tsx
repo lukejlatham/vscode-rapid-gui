@@ -19,7 +19,6 @@ export const GridCellSettings: React.FC = () => {
     }));
     const { query, actions: { setProp } } = useEditor();
     const props = query.node("ROOT").get().data.props as BackgroundProps;
-    console.log('Grid Cell props: ', gridProps);
 
     const gridCellId = gridCell.data.custom?.id
     
