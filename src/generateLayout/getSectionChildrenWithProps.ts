@@ -12,7 +12,7 @@ const textMessage = (layout: string, childElements: string) => ({
   content: [
     {
       type: "text",
-      text: `You are working on this layout: ${layout}. Provide properties for the following child elements: ${childElements}`,
+      text: `You are working on this layout: ${layout}. Provide properties for the following child elements: ${childElements}. You must retain all the child elements in the same section.`,
     },
   ],
 });

@@ -94,9 +94,6 @@ interface LayoutDimensions {
 }
 
 const overwriteContents = (parsedLayout: string, parsedFullChildren: string): LayoutSchema => {
-  console.log("Parsed layout:", parsedLayout);
-  console.log("Parsed full children:", parsedFullChildren);
-
   const layout1Parsed = JSON.parse(parsedLayout);
   const layout2Parsed = JSON.parse(parsedFullChildren);
 
@@ -154,13 +151,13 @@ function createNode(
     linkedNodes: {},
   };
 }
-
 function generateSectionNodes(sections: FullSectionSchema[]): { [key: string]: NodeSection } {
   const nodes: { [key: string]: NodeSection } = {};
 
   sections.forEach((section, index) => {
-    const gridCellId = `${section.section}GridCell`;
-    const containerId = `${section.section}Container`;
+    const sanitizedSectionName = section.section.replace(/\s+/g, "");
+    const gridCellId = `${sanitizedSectionName}GridCell`;
+    const containerId = `${sanitizedSectionName}Container`;
     const sectionIndex = index.toString();
 
     const gridCellDefaultsOverride = gridCellSchema.parse({});
@@ -176,11 +173,19 @@ function generateSectionNodes(sections: FullSectionSchema[]): { [key: string]: N
 
     const containerDefaultsOverride = containerSchema.parse({
       flexDirection: section.props.flexDirection,
-      backgroundColor: section.props.backgroundColor,
     });
 
+    nodes[containerId] = createNode(
+      "Container",
+      true,
+      gridCellId,
+      {},
+      containerDefaultsOverride,
+      []
+    );
+
     const childIds = section.children.map((child, childIndex) => {
-      const childId = `${section.section}${child.type}${childIndex}`;
+      const childId = `${sanitizedSectionName}${child.type}${childIndex}`;
       let childProps: any = {};
       switch (child.type) {
         case "Button":
@@ -216,14 +221,7 @@ function generateSectionNodes(sections: FullSectionSchema[]): { [key: string]: N
       return childId;
     });
 
-    nodes[containerId] = createNode(
-      "Container",
-      true,
-      gridCellId,
-      {},
-      containerDefaultsOverride,
-      childIds
-    );
+    nodes[containerId].nodes = childIds;
   });
 
   return nodes;
@@ -235,7 +233,8 @@ function createBackgroundNode(
   backgroundColor: string
 ): NodeTreeRootType {
   const linkedNodes = dimensions.ids.reduce((acc, id, index) => {
-    acc[String(index)] = id + "GridCell";
+    const sanitizedId = id.replace(/\s+/g, "");
+    acc[String(index)] = sanitizedId + "GridCell";
     return acc;
   }, {} as Record<string, string>);
 
@@ -261,14 +260,9 @@ function createBackgroundNode(
 function buildLayoutNodes(parsedLayout: string, parsedFullChildren: string): string {
   const combinedLayout = overwriteContents(parsedLayout, parsedFullChildren);
 
-  console.log("Combined layout:", combinedLayout);
-
   const parsedData = fullLayoutSchema.parse(combinedLayout);
 
-  console.log("Parsed data:", parsedData);
   const layoutDimensions = calculateLayoutDimensions(combinedLayout);
-
-  console.log("Layout dimensions:", layoutDimensions);
 
   const layout = parsedData.map((section, index) => ({
     i: String(index),
@@ -284,17 +278,15 @@ function buildLayoutNodes(parsedLayout: string, parsedFullChildren: string): str
 
   const backgroundNode = createBackgroundNode(layoutDimensions, layout, "292929");
 
-  console.log("Background node:", backgroundNode);
-
   const sectionNodes = generateSectionNodes(combinedLayout);
 
   console.log("Section nodes:", sectionNodes);
 
   const combinedNodes = { ROOT: backgroundNode, ...sectionNodes };
 
-  console.log("Combined nodes:", combinedNodes);
-
   const stringifiedNodes = JSON.stringify(combinedNodes);
+
+  console.log("Final nodes output:", stringifiedNodes);
 
   return stringifiedNodes;
 }

@@ -9,10 +9,9 @@
       "backgroundColor": "292929",
       "layout": [
         { "i": "0", "x": 1, "y": 1, "w": 10, "h": 1 },
-        { "i": "1", "x": 1, "y": 2, "w": 3, "h": 7 },
-        { "i": "2", "x": 4, "y": 2, "w": 7, "h": 5 },
-        { "i": "3", "x": 4, "y": 7, "w": 7, "h": 2 },
-        { "i": "4", "x": 1, "y": 9, "w": 10, "h": 1 }
+        { "i": "1", "x": 1, "y": 2, "w": 3, "h": 6 },
+        { "i": "2", "x": 4, "y": 2, "w": 6, "h": 6 },
+        { "i": "3", "x": 1, "y": 8, "w": 10, "h": 2 }
       ]
     },
     "displayName": "Background",
@@ -21,14 +20,13 @@
     "hidden": false,
     "nodes": [],
     "linkedNodes": {
-      "0": "HeaderGridCell",
-      "1": "SidebarGridCell",
-      "2": "Main Content AreaGridCell",
-      "3": "Related ContentGridCell",
-      "4": "FooterGridCell"
+      "0": "navigationbarGridCell",
+      "1": "leftsidebarGridCell",
+      "2": "maincontentGridCell",
+      "3": "footerGridCell"
     }
   },
-  "HeaderGridCell": {
+  "navigationbarGridCell": {
     "type": { "resolvedName": "GridCell" },
     "isCanvas": true,
     "props": {
@@ -41,135 +39,10 @@
     "custom": { "id": "0" },
     "parent": "ROOT",
     "hidden": false,
-    "nodes": ["HeaderContainer"],
+    "nodes": ["navigationbarContainer"],
     "linkedNodes": {}
   },
-  "HeaderButton0": {
-    "type": { "resolvedName": "Button" },
-    "isCanvas": false,
-    "props": {
-      "backgroundColor": "white",
-      "fontSize": 14,
-      "fontColor": "white",
-      "borderRadius": 4,
-      "width": 6,
-      "height": 80,
-      "text": "Home",
-      "alignment": "center",
-      "icon": "VscHome",
-      "shadowColor": "black",
-      "shadowOffsetX": 1,
-      "shadowOffsetY": 1,
-      "shadowBlur": 3
-    },
-    "displayName": "Button",
-    "custom": {},
-    "parent": "HeaderContainer",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "HeaderButton1": {
-    "type": { "resolvedName": "Button" },
-    "isCanvas": false,
-    "props": {
-      "backgroundColor": "white",
-      "fontSize": 14,
-      "fontColor": "white",
-      "borderRadius": 4,
-      "width": 20,
-      "height": 80,
-      "text": "Nav1",
-      "alignment": "center",
-      "icon": "VscAdd",
-      "shadowColor": "black",
-      "shadowOffsetX": 1,
-      "shadowOffsetY": 1,
-      "shadowBlur": 3
-    },
-    "displayName": "Button",
-    "custom": {},
-    "parent": "HeaderContainer",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "HeaderButton2": {
-    "type": { "resolvedName": "Button" },
-    "isCanvas": false,
-    "props": {
-      "backgroundColor": "white",
-      "fontSize": 14,
-      "fontColor": "white",
-      "borderRadius": 4,
-      "width": 20,
-      "height": 80,
-      "text": "Nav2",
-      "alignment": "center",
-      "icon": "VscAdd",
-      "shadowColor": "black",
-      "shadowOffsetX": 1,
-      "shadowOffsetY": 1,
-      "shadowBlur": 3
-    },
-    "displayName": "Button",
-    "custom": {},
-    "parent": "HeaderContainer",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "HeaderButton3": {
-    "type": { "resolvedName": "Button" },
-    "isCanvas": false,
-    "props": {
-      "backgroundColor": "white",
-      "fontSize": 14,
-      "fontColor": "white",
-      "borderRadius": 4,
-      "width": 20,
-      "height": 80,
-      "text": "Nav3",
-      "alignment": "center",
-      "icon": "VscAdd",
-      "shadowColor": "black",
-      "shadowOffsetX": 1,
-      "shadowOffsetY": 1,
-      "shadowBlur": 3
-    },
-    "displayName": "Button",
-    "custom": {},
-    "parent": "HeaderContainer",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "HeaderButton4": {
-    "type": { "resolvedName": "Button" },
-    "isCanvas": false,
-    "props": {
-      "backgroundColor": "white",
-      "fontSize": 14,
-      "fontColor": "white",
-      "borderRadius": 4,
-      "width": 20,
-      "height": 80,
-      "text": "Nav4",
-      "alignment": "center",
-      "icon": "VscAdd",
-      "shadowColor": "black",
-      "shadowOffsetX": 1,
-      "shadowOffsetY": 1,
-      "shadowBlur": 3
-    },
-    "displayName": "Button",
-    "custom": {},
-    "parent": "HeaderContainer",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "HeaderContainer": {
+  "navigationbarContainer": {
     "type": { "resolvedName": "Container" },
     "isCanvas": true,
     "props": {
@@ -179,7 +52,7 @@
       "justifyContent": "space-around",
       "alignItems": "center",
       "gap": 10,
-      "backgroundColor": "ghostwhite",
+      "backgroundColor": "#92a0ad",
       "borderRadius": 5,
       "borderColor": "#666666",
       "padding": 0,
@@ -190,12 +63,113 @@
     },
     "displayName": "Container",
     "custom": {},
-    "parent": "HeaderGridCell",
+    "parent": "navigationbarGridCell",
     "hidden": false,
-    "nodes": ["HeaderButton0", "HeaderButton1", "HeaderButton2", "HeaderButton3", "HeaderButton4"],
+    "nodes": [
+      "navigationbarButton0",
+      "navigationbarButton1",
+      "navigationbarButton2",
+      "navigationbarButton3"
+    ],
     "linkedNodes": {}
   },
-  "SidebarGridCell": {
+  "navigationbarButton0": {
+    "type": { "resolvedName": "Button" },
+    "isCanvas": false,
+    "props": {
+      "backgroundColor": "#778899",
+      "fontSize": 14,
+      "fontColor": "white",
+      "borderRadius": 4,
+      "width": 2.5,
+      "height": 100,
+      "text": "Home",
+      "alignment": "center",
+      "shadowColor": "black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 3
+    },
+    "displayName": "Button",
+    "custom": {},
+    "parent": "navigationbarContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "navigationbarButton1": {
+    "type": { "resolvedName": "Button" },
+    "isCanvas": false,
+    "props": {
+      "backgroundColor": "#778899",
+      "fontSize": 14,
+      "fontColor": "white",
+      "borderRadius": 4,
+      "width": 2.5,
+      "height": 100,
+      "text": "NavItem1",
+      "alignment": "center",
+      "shadowColor": "black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 3
+    },
+    "displayName": "Button",
+    "custom": {},
+    "parent": "navigationbarContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "navigationbarButton2": {
+    "type": { "resolvedName": "Button" },
+    "isCanvas": false,
+    "props": {
+      "backgroundColor": "#778899",
+      "fontSize": 14,
+      "fontColor": "white",
+      "borderRadius": 4,
+      "width": 2.5,
+      "height": 100,
+      "text": "NavItem2",
+      "alignment": "center",
+      "shadowColor": "black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 3
+    },
+    "displayName": "Button",
+    "custom": {},
+    "parent": "navigationbarContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "navigationbarButton3": {
+    "type": { "resolvedName": "Button" },
+    "isCanvas": false,
+    "props": {
+      "backgroundColor": "#778899",
+      "fontSize": 14,
+      "fontColor": "white",
+      "borderRadius": 4,
+      "width": 2.5,
+      "height": 100,
+      "text": "NavItem3",
+      "alignment": "center",
+      "shadowColor": "black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 3
+    },
+    "displayName": "Button",
+    "custom": {},
+    "parent": "navigationbarContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "leftsidebarGridCell": {
     "type": { "resolvedName": "GridCell" },
     "isCanvas": true,
     "props": {
@@ -208,160 +182,10 @@
     "custom": { "id": "1" },
     "parent": "ROOT",
     "hidden": false,
-    "nodes": ["SidebarContainer"],
+    "nodes": ["leftsidebarContainer"],
     "linkedNodes": {}
   },
-  "SidebarButton0": {
-    "type": { "resolvedName": "Button" },
-    "isCanvas": false,
-    "props": {
-      "backgroundColor": "white",
-      "fontSize": 14,
-      "fontColor": "white",
-      "borderRadius": 4,
-      "width": 90,
-      "height": 12,
-      "text": "Link1",
-      "alignment": "center",
-      "icon": "VscAdd",
-      "shadowColor": "black",
-      "shadowOffsetX": 1,
-      "shadowOffsetY": 1,
-      "shadowBlur": 3
-    },
-    "displayName": "Button",
-    "custom": {},
-    "parent": "SidebarContainer",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "SidebarButton1": {
-    "type": { "resolvedName": "Button" },
-    "isCanvas": false,
-    "props": {
-      "backgroundColor": "white",
-      "fontSize": 14,
-      "fontColor": "white",
-      "borderRadius": 4,
-      "width": 90,
-      "height": 12,
-      "text": "Link2",
-      "alignment": "center",
-      "icon": "VscAdd",
-      "shadowColor": "black",
-      "shadowOffsetX": 1,
-      "shadowOffsetY": 1,
-      "shadowBlur": 3
-    },
-    "displayName": "Button",
-    "custom": {},
-    "parent": "SidebarContainer",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "SidebarButton2": {
-    "type": { "resolvedName": "Button" },
-    "isCanvas": false,
-    "props": {
-      "backgroundColor": "white",
-      "fontSize": 14,
-      "fontColor": "white",
-      "borderRadius": 4,
-      "width": 90,
-      "height": 12,
-      "text": "Link3",
-      "alignment": "center",
-      "icon": "VscAdd",
-      "shadowColor": "black",
-      "shadowOffsetX": 1,
-      "shadowOffsetY": 1,
-      "shadowBlur": 3
-    },
-    "displayName": "Button",
-    "custom": {},
-    "parent": "SidebarContainer",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "SidebarButton3": {
-    "type": { "resolvedName": "Button" },
-    "isCanvas": false,
-    "props": {
-      "backgroundColor": "white",
-      "fontSize": 14,
-      "fontColor": "white",
-      "borderRadius": 4,
-      "width": 90,
-      "height": 12,
-      "text": "Link4",
-      "alignment": "center",
-      "icon": "VscAdd",
-      "shadowColor": "black",
-      "shadowOffsetX": 1,
-      "shadowOffsetY": 1,
-      "shadowBlur": 3
-    },
-    "displayName": "Button",
-    "custom": {},
-    "parent": "SidebarContainer",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "SidebarButton4": {
-    "type": { "resolvedName": "Button" },
-    "isCanvas": false,
-    "props": {
-      "backgroundColor": "white",
-      "fontSize": 14,
-      "fontColor": "white",
-      "borderRadius": 4,
-      "width": 90,
-      "height": 12,
-      "text": "Link5",
-      "alignment": "center",
-      "icon": "VscAdd",
-      "shadowColor": "black",
-      "shadowOffsetX": 1,
-      "shadowOffsetY": 1,
-      "shadowBlur": 3
-    },
-    "displayName": "Button",
-    "custom": {},
-    "parent": "SidebarContainer",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "SidebarButton5": {
-    "type": { "resolvedName": "Button" },
-    "isCanvas": false,
-    "props": {
-      "backgroundColor": "white",
-      "fontSize": 14,
-      "fontColor": "white",
-      "borderRadius": 4,
-      "width": 90,
-      "height": 12,
-      "text": "Link6",
-      "alignment": "center",
-      "icon": "VscAdd",
-      "shadowColor": "black",
-      "shadowOffsetX": 1,
-      "shadowOffsetY": 1,
-      "shadowBlur": 3
-    },
-    "displayName": "Button",
-    "custom": {},
-    "parent": "SidebarContainer",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "SidebarContainer": {
+  "leftsidebarContainer": {
     "type": { "resolvedName": "Container" },
     "isCanvas": true,
     "props": {
@@ -371,7 +195,7 @@
       "justifyContent": "space-around",
       "alignItems": "center",
       "gap": 10,
-      "backgroundColor": "ghostwhite",
+      "backgroundColor": "#92a0ad",
       "borderRadius": 5,
       "borderColor": "#666666",
       "padding": 0,
@@ -382,19 +206,113 @@
     },
     "displayName": "Container",
     "custom": {},
-    "parent": "SidebarGridCell",
+    "parent": "leftsidebarGridCell",
     "hidden": false,
     "nodes": [
-      "SidebarButton0",
-      "SidebarButton1",
-      "SidebarButton2",
-      "SidebarButton3",
-      "SidebarButton4",
-      "SidebarButton5"
+      "leftsidebarLabel0",
+      "leftsidebarLabel1",
+      "leftsidebarLabel2",
+      "leftsidebarLabel3",
+      "leftsidebarLabel4"
     ],
     "linkedNodes": {}
   },
-  "Main Content AreaGridCell": {
+  "leftsidebarLabel0": {
+    "type": { "resolvedName": "Label" },
+    "isCanvas": false,
+    "props": {
+      "text": "Menu Link 1",
+      "fontSize": 22,
+      "fontcolor": "black",
+      "textAlign": "left",
+      "bold": true,
+      "italic": false,
+      "underline": false
+    },
+    "displayName": "Label",
+    "custom": {},
+    "parent": "leftsidebarContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "leftsidebarLabel1": {
+    "type": { "resolvedName": "Label" },
+    "isCanvas": false,
+    "props": {
+      "text": "Menu Link 2",
+      "fontSize": 22,
+      "fontcolor": "black",
+      "textAlign": "left",
+      "bold": true,
+      "italic": false,
+      "underline": false
+    },
+    "displayName": "Label",
+    "custom": {},
+    "parent": "leftsidebarContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "leftsidebarLabel2": {
+    "type": { "resolvedName": "Label" },
+    "isCanvas": false,
+    "props": {
+      "text": "Menu Link 3",
+      "fontSize": 22,
+      "fontcolor": "black",
+      "textAlign": "left",
+      "bold": true,
+      "italic": false,
+      "underline": false
+    },
+    "displayName": "Label",
+    "custom": {},
+    "parent": "leftsidebarContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "leftsidebarLabel3": {
+    "type": { "resolvedName": "Label" },
+    "isCanvas": false,
+    "props": {
+      "text": "Menu Link 4",
+      "fontSize": 22,
+      "fontcolor": "black",
+      "textAlign": "left",
+      "bold": true,
+      "italic": false,
+      "underline": false
+    },
+    "displayName": "Label",
+    "custom": {},
+    "parent": "leftsidebarContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "leftsidebarLabel4": {
+    "type": { "resolvedName": "Label" },
+    "isCanvas": false,
+    "props": {
+      "text": "Menu Link 5",
+      "fontSize": 22,
+      "fontcolor": "black",
+      "textAlign": "left",
+      "bold": true,
+      "italic": false,
+      "underline": false
+    },
+    "displayName": "Label",
+    "custom": {},
+    "parent": "leftsidebarContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "maincontentGridCell": {
     "type": { "resolvedName": "GridCell" },
     "isCanvas": true,
     "props": {
@@ -407,10 +325,36 @@
     "custom": { "id": "2" },
     "parent": "ROOT",
     "hidden": false,
-    "nodes": ["Main Content AreaContainer"],
+    "nodes": ["maincontentContainer"],
     "linkedNodes": {}
   },
-  "Main Content AreaText0": {
+  "maincontentContainer": {
+    "type": { "resolvedName": "Container" },
+    "isCanvas": true,
+    "props": {
+      "height": 100,
+      "width": 100,
+      "flexDirection": "row",
+      "justifyContent": "space-around",
+      "alignItems": "center",
+      "gap": 10,
+      "backgroundColor": "#92a0ad",
+      "borderRadius": 5,
+      "borderColor": "#666666",
+      "padding": 0,
+      "shadowColor": "black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 3
+    },
+    "displayName": "Container",
+    "custom": {},
+    "parent": "maincontentGridCell",
+    "hidden": false,
+    "nodes": ["maincontentText0", "maincontentImage1", "maincontentTextBox2", "maincontentText3"],
+    "linkedNodes": {}
+  },
+  "maincontentText0": {
     "type": { "resolvedName": "Text" },
     "isCanvas": false,
     "props": {
@@ -425,54 +369,69 @@
     },
     "displayName": "Text",
     "custom": {},
-    "parent": "Main Content AreaContainer",
+    "parent": "maincontentContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "Main Content AreaImage1": {
+  "maincontentImage1": {
     "type": { "resolvedName": "Image" },
     "isCanvas": false,
     "props": {
-      "src": "https://via.placeholder.com/300",
-      "alt": "Placeholder",
-      "width": 90,
-      "height": 75
+      "src": "https://media.licdn.com/dms/image/D4E22AQGL4EZgEpG2ag/feedshare-shrink_800/0/17110080422738?e=2147483647&v=beta&t=Nj786KjutiTxei_wgDDM40hcWFi5_-qqBIKM4jOa3Hc",
+      "alt": "To be replaced",
+      "width": 100,
+      "height": 60
     },
     "displayName": "Image",
     "custom": {},
-    "parent": "Main Content AreaContainer",
+    "parent": "maincontentContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "Main Content AreaContainer": {
-    "type": { "resolvedName": "Container" },
-    "isCanvas": true,
+  "maincontentTextBox2": {
+    "type": { "resolvedName": "TextBox" },
+    "isCanvas": false,
     "props": {
-      "height": 100,
+      "text": "Possible",
+      "fontSize": 14,
+      "fontColor": "black",
+      "backgroundColor": "white",
+      "placeholder": "Enter text",
+      "borderRadius": 4,
+      "height": 20,
       "width": 100,
-      "flexDirection": "column",
-      "justifyContent": "space-around",
-      "alignItems": "center",
-      "gap": 10,
-      "backgroundColor": "ghostwhite",
-      "borderRadius": 5,
-      "borderColor": "#666666",
-      "padding": 0,
-      "shadowColor": "black",
-      "shadowOffsetX": 1,
-      "shadowOffsetY": 1,
-      "shadowBlur": 3
+      "alignment": "left"
     },
-    "displayName": "Container",
+    "displayName": "TextBox",
     "custom": {},
-    "parent": "Main Content AreaGridCell",
+    "parent": "maincontentContainer",
     "hidden": false,
-    "nodes": ["Main Content AreaText0", "Main Content AreaImage1"],
+    "nodes": [],
     "linkedNodes": {}
   },
-  "Related ContentGridCell": {
+  "maincontentText3": {
+    "type": { "resolvedName": "Text" },
+    "isCanvas": false,
+    "props": {
+      "text": "Additional Elements",
+      "fontSize": 14,
+      "fontColor": "black",
+      "textAlign": "left",
+      "bold": false,
+      "italic": false,
+      "underline": false,
+      "userEditable": true
+    },
+    "displayName": "Text",
+    "custom": {},
+    "parent": "maincontentContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "footerGridCell": {
     "type": { "resolvedName": "GridCell" },
     "isCanvas": true,
     "props": {
@@ -485,40 +444,10 @@
     "custom": { "id": "3" },
     "parent": "ROOT",
     "hidden": false,
-    "nodes": ["Related ContentContainer"],
+    "nodes": ["footerContainer"],
     "linkedNodes": {}
   },
-  "Related ContentLabel0": {
-    "type": { "resolvedName": "Label" },
-    "isCanvas": false,
-    "props": {
-      "text": "POSSIBLE",
-      "fontSize": 22,
-      "fontcolor": "black",
-      "textAlign": "left",
-      "bold": true,
-      "italic": false,
-      "underline": false
-    },
-    "displayName": "Label",
-    "custom": {},
-    "parent": "Related ContentContainer",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "Related ContentIcon1": {
-    "type": { "resolvedName": "Icon" },
-    "isCanvas": false,
-    "props": { "selectedIcon": "VscAdd", "iconSize": 24, "iconColor": "Main" },
-    "displayName": "Icon",
-    "custom": {},
-    "parent": "Related ContentContainer",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "Related ContentContainer": {
+  "footerContainer": {
     "type": { "resolvedName": "Container" },
     "isCanvas": true,
     "props": {
@@ -528,7 +457,7 @@
       "justifyContent": "space-around",
       "alignItems": "center",
       "gap": 10,
-      "backgroundColor": "ghostwhite",
+      "backgroundColor": "#92a0ad",
       "borderRadius": 5,
       "borderColor": "#666666",
       "padding": 0,
@@ -539,130 +468,79 @@
     },
     "displayName": "Container",
     "custom": {},
-    "parent": "Related ContentGridCell",
+    "parent": "footerGridCell",
     "hidden": false,
-    "nodes": ["Related ContentLabel0", "Related ContentIcon1"],
+    "nodes": ["footerInput0", "footerIcon1", "footerIcon2", "footerIcon3", "footerText4"],
     "linkedNodes": {}
   },
-  "FooterGridCell": {
-    "type": { "resolvedName": "GridCell" },
-    "isCanvas": true,
-    "props": {
-      "flexDirection": "row",
-      "justifyContent": "center",
-      "alignItems": "center",
-      "gap": 10
-    },
-    "displayName": "GridCell",
-    "custom": { "id": "4" },
-    "parent": "ROOT",
-    "hidden": false,
-    "nodes": ["FooterContainer"],
-    "linkedNodes": {}
-  },
-  "FooterTextBox0": {
-    "type": { "resolvedName": "TextBox" },
+  "footerInput0": {
+    "type": { "resolvedName": "Input" },
     "isCanvas": false,
     "props": {
-      "text": "Search",
       "fontSize": 14,
       "fontColor": "black",
-      "backgroundColor": "Main",
-      "placeholder": "Enter text",
-      "borderRadius": 4,
-      "height": 90,
-      "width": 70,
-      "alignment": "left"
-    },
-    "displayName": "TextBox",
-    "custom": {},
-    "parent": "FooterContainer",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "FooterButton1": {
-    "type": { "resolvedName": "Button" },
-    "isCanvas": false,
-    "props": {
       "backgroundColor": "white",
-      "fontSize": 14,
-      "fontColor": "white",
-      "borderRadius": 4,
-      "width": 20,
-      "height": 90,
-      "text": "Contact",
-      "alignment": "center",
-      "icon": "VscAdd",
-      "shadowColor": "black",
-      "shadowOffsetX": 1,
-      "shadowOffsetY": 1,
-      "shadowBlur": 3
+      "placeholder": "Search",
+      "borderRadius": 4
     },
-    "displayName": "Button",
+    "displayName": "Input",
     "custom": {},
-    "parent": "FooterContainer",
+    "parent": "footerContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "FooterIcon2": {
+  "footerIcon1": {
     "type": { "resolvedName": "Icon" },
     "isCanvas": false,
-    "props": { "selectedIcon": "VscAdd", "iconSize": 20, "iconColor": "Main" },
+    "props": { "selectedIcon": "VscSearch", "iconSize": 24, "iconColor": "#778899" },
     "displayName": "Icon",
     "custom": {},
-    "parent": "FooterContainer",
+    "parent": "footerContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "FooterIcon3": {
+  "footerIcon2": {
     "type": { "resolvedName": "Icon" },
     "isCanvas": false,
-    "props": { "selectedIcon": "VscAdd", "iconSize": 20, "iconColor": "Main" },
+    "props": { "selectedIcon": "VscHome", "iconSize": 24, "iconColor": "#778899" },
     "displayName": "Icon",
     "custom": {},
-    "parent": "FooterContainer",
+    "parent": "footerContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "FooterIcon4": {
+  "footerIcon3": {
     "type": { "resolvedName": "Icon" },
     "isCanvas": false,
-    "props": { "selectedIcon": "VscAdd", "iconSize": 20, "iconColor": "Main" },
+    "props": { "selectedIcon": "VscInfo", "iconSize": 24, "iconColor": "#778899" },
     "displayName": "Icon",
     "custom": {},
-    "parent": "FooterContainer",
+    "parent": "footerContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "FooterContainer": {
-    "type": { "resolvedName": "Container" },
-    "isCanvas": true,
+  "footerText4": {
+    "type": { "resolvedName": "Text" },
+    "isCanvas": false,
     "props": {
-      "height": 100,
-      "width": 100,
-      "flexDirection": "row",
-      "justifyContent": "space-around",
-      "alignItems": "center",
-      "gap": 10,
-      "backgroundColor": "ghostwhite",
-      "borderRadius": 5,
-      "borderColor": "#666666",
-      "padding": 0,
-      "shadowColor": "black",
-      "shadowOffsetX": 1,
-      "shadowOffsetY": 1,
-      "shadowBlur": 3
+      "text": "Contact Info",
+      "fontSize": 14,
+      "fontColor": "black",
+      "textAlign": "left",
+      "bold": false,
+      "italic": false,
+      "underline": false,
+      "userEditable": true
     },
-    "displayName": "Container",
+    "displayName": "Text",
     "custom": {},
-    "parent": "FooterGridCell",
+    "parent": "footerContainer",
     "hidden": false,
-    "nodes": ["FooterTextBox0", "FooterButton1", "FooterIcon2", "FooterIcon3", "FooterIcon4"],
+    "nodes": [],
     "linkedNodes": {}
   }
 }

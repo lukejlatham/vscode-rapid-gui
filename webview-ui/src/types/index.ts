@@ -29,9 +29,9 @@ export const backgroundSchema = z.object({
 export type BackgroundProps = z.infer<typeof backgroundSchema>;
 
 export const buttonSchema = z.object({
-  backgroundColor: z.string().default("lightslategray"),
+  backgroundColor: z.string().default("#778899"),
   fontSize: z.number().default(14),
-  fontColor: z.string().default("black"),
+  fontColor: z.string().default("white"),
   borderRadius: z.number().default(4),
   width: z.number().default(80),
   height: z.number().default(60),
@@ -72,7 +72,7 @@ export const containerSchema = z.object({
     .default("space-around"),
   alignItems: z.enum(["flex-start", "center", "flex-end"]).optional().default("center"),
   gap: z.number().optional().default(10),
-  backgroundColor: z.string().default("#92a0ad"),
+  backgroundColor: z.string().default("ghostwhite"),
   borderRadius: z.number().default(5),
   borderColor: z.string().optional().default("#666666"),
   padding: z.number().default(0),
@@ -156,7 +156,7 @@ export const iconSchema = z.object({
     .refine((val) => val in VscIcons)
     .optional() as z.ZodType<VscIconKeys>,
   iconSize: z.number().default(24).optional(),
-  iconColor: z.string().default("lightslategray").optional(),
+  iconColor: z.string().optional().default("#778899"),
   hyperlink: z.string().optional(),
 });
 
@@ -166,9 +166,9 @@ export const imageSchema = z.object({
   src: z
     .string()
     .default(
-      "https://media.licdn.com/dms/image/D4E22AQGL4EZgEpG2ag/feedshare-shrink_800/0/1719580422738?e=2147483647&v=beta&t=Nj786KjutiTxei_wgDDM40hcWFi5_-qqBIKM4jOa3Hc"
+      "https://media.licdn.com/dms/image/D4E22AQGL4EZgEpG2ag/feedshare-shrink_800/0/17110080422738?e=2147483647&v=beta&t=Nj786KjutiTxei_wgDDM40hcWFi5_-qqBIKM4jOa3Hc"
     ),
-  alt: z.string().default("Image"),
+  alt: z.string().default("To be replaced"),
   width: z.number().default(100),
   height: z.number().default(100),
   alignment: z.enum(["left", "center", "right"]).optional(),
@@ -176,24 +176,24 @@ export const imageSchema = z.object({
 
 export type ImageProps = z.infer<typeof imageSchema>;
 
-export const cardContainerSchema = z.object({
-  color: z.string().default("white"),
-  height: z.number().default(100),
-  width: z.number().default(100),
-  flexDirection: z.enum(["row", "column"]).optional(),
-  justifyContent: z
-    .enum(["flex-start", "center", "flex-end", "space-between", "space-around"])
-    .optional(),
-  alignItems: z.enum(["flex-start", "center", "flex-end"]).optional(),
-  gap: z.number().default(0).optional(),
-  backgroundColor: z.string().default("white"),
-  borderRadius: z.number().default(4),
-  bordercolor: z.string().default("black"),
-  padding: z.number().default(10),
-  shadow: z.boolean().default(false),
-});
+// export const cardContainerSchema = z.object({
+//   color: z.string().default("white"),
+//   height: z.number().default(100),
+//   width: z.number().default(100),
+//   flexDirection: z.enum(["row", "column"]).optional(),
+//   justifyContent: z
+//     .enum(["flex-start", "center", "flex-end", "space-between", "space-around"])
+//     .optional(),
+//   alignItems: z.enum(["flex-start", "center", "flex-end"]).optional(),
+//   gap: z.number().default(0).optional(),
+//   backgroundColor: z.string().default("white"),
+//   borderRadius: z.number().default(4),
+//   bordercolor: z.string().default("black"),
+//   padding: z.number().default(10),
+//   shadow: z.boolean().default(false),
+// });
 
-export type CardContainerProps = z.infer<typeof cardContainerSchema>;
+// export type CardContainerProps = z.infer<typeof cardContainerSchema>;
 
 export const textSchema = z.object({
   text: z.string().default("Text"),
@@ -293,136 +293,6 @@ export interface CanvasProps {
   classes: any;
 }
 
-// Used in getSectionChildrenWithProps.ts
-
-export const generateButtonSchema = z.object({
-  type: z.literal("Button"),
-  props: z.object({
-    width: z.number().max(95),
-    height: z.number().max(95),
-    text: z.string(),
-    backgroundColor: z.enum(["Main", "Accent1", "Accent2"]).default("Main"),
-    icon: z
-      .union([
-        z.enum(["left", "right"]).default("left"),
-        z.enum([
-          "VscAdd",
-          "VscEdit",
-          "VscTrash",
-          "VscSearch",
-          "VscSave",
-          "VscHome",
-          "VscSettingsGear",
-          "VscInfo",
-        ]),
-      ])
-      .default("VscAdd"),
-  }),
-});
-export type GenerateButtonProps = z.infer<typeof generateButtonSchema>;
-
-export const generateCheckboxSchema = z.object({
-  type: z.literal("Checkbox"),
-  props: z.object({
-    optionLabels: z.array(z.string()).default([]),
-    numberOfBoxes: z.number().default(2),
-    direction: z.enum(["row", "column"]).default("row"),
-  }),
-});
-
-export type GenerateCheckboxProps = z.infer<typeof generateCheckboxSchema>;
-
-export const generateInputSchema = z.object({
-  type: z.literal("Input"),
-  props: z.object({
-    backgroundColor: z.enum(["Main", "Accent1", "Accent2"]).default("Main"),
-    placeholder: z.string().default("Enter text"),
-  }),
-});
-
-export type GenerateInputProps = z.infer<typeof generateInputSchema>;
-
-export const generateLabelSchema = z.object({
-  type: z.literal("Label"),
-  props: z.object({
-    text: z.string().default("Header"),
-    bold: z.boolean().default(true),
-    italic: z.boolean().default(false),
-    underline: z.boolean().default(false),
-    hyperlink: z.string().optional(),
-  }),
-});
-
-export type GenerateLabelProps = z.infer<typeof generateLabelSchema>;
-
-export const generateRadioButtonSchema = z.object({
-  type: z.literal("RadioButton"),
-  props: z.object({
-    header: z.string().default("Radio Button Header"),
-    numberOfButtons: z.number().default(2),
-    optionLabels: z
-      .array(z.string())
-      .default([])
-      .describe("Array of strings for each radio button"),
-    direction: z.enum(["row", "column"]).default("row"),
-  }),
-});
-
-export type GenerateRadioButtonProps = z.infer<typeof generateRadioButtonSchema>;
-
-export const generateImageSchema = z.object({
-  type: z.literal("Image"),
-  props: z.object({
-    src: z.string().describe("LINK TO THE IMAGE NEEDED"),
-    alt: z.string().default("Image"),
-    width: z.number().max(95),
-    height: z.number().max(95),
-  }),
-});
-
-export type GenerateImageProps = z.infer<typeof generateImageSchema>;
-
-export const generateTextBoxSchema = z.object({
-  type: z.literal("TextBox"),
-  props: z.object({
-    text: z.string().default("Text Box"),
-    backgroundColor: z.enum(["Main", "Accent1", "Accent2"]).default("Main"),
-    height: z.number().max(95),
-    width: z.number().max(95),
-  }),
-});
-
-export type GenerateTextBoxProps = z.infer<typeof generateTextBoxSchema>;
-
-export const generateTextSchema = z.object({
-  type: z.literal("Text"),
-  props: z.object({
-    text: z.string().default("Text"),
-  }),
-});
-
-export type GenerateTextProps = z.infer<typeof generateTextSchema>;
-
-export const generateIconSchema = z.object({
-  type: z.literal("Icon"),
-  props: z.object({
-    selectedIcon: z
-      .enum([
-        "VscAdd",
-        "VscEdit",
-        "VscTrash",
-        "VscSearch",
-        "VscSave",
-        "VscHome",
-        "VscSettingsGear",
-        "VscInfo",
-      ])
-      .default("VscAdd"),
-    iconSize: z.number().default(24),
-    iconColor: z.enum(["Main", "Accent1", "Accent2"]).default("Main"),
-  }),
-});
-
 // Used in getSectionChildrenOpenai.ts
 
 export const generatedElements = z.object({
@@ -449,6 +319,102 @@ export const generatedAllSectionsChildren = z.object({
   sections: z.array(generatedSectionChildren).max(5),
 });
 
+// Used in getSectionChildrenWithProps.ts
+
+export const generateButtonSchema = z.object({
+  type: z.literal("Button"),
+  props: z.object({
+    width: z.number().int().max(100),
+    height: z.number().int().max(100),
+    text: z.string(),
+  }),
+});
+
+export const generateCheckboxSchema = z.object({
+  type: z.literal("Checkbox"),
+  props: z.object({
+    optionLabels: z.array(z.string()).default([]),
+    numberOfBoxes: z.number().default(2),
+    direction: z.enum(["row", "column"]).default("row"),
+  }),
+});
+
+export const generateInputSchema = z.object({
+  type: z.literal("Input"),
+  props: z.object({
+    placeholder: z.string().default("Enter text"),
+  }),
+});
+
+export const generateLabelSchema = z.object({
+  type: z.literal("Label"),
+  props: z.object({
+    text: z.string().default("Header"),
+    bold: z.boolean().default(true),
+    italic: z.boolean().default(false),
+    underline: z.boolean().default(false),
+    hyperlink: z.string().optional(),
+  }),
+});
+
+export const generateRadioButtonSchema = z.object({
+  type: z.literal("RadioButton"),
+  props: z.object({
+    header: z.string().default("Radio Button Header"),
+    numberOfButtons: z.number().default(2),
+    optionLabels: z
+      .array(z.string())
+      .default([])
+      .describe("Array of strings for each radio button"),
+    direction: z.enum(["row", "column"]).default("row"),
+  }),
+});
+
+export const generateImageSchema = z.object({
+  type: z.literal("Image"),
+  props: z.object({
+    width: z.number().int().max(100),
+    height: z.number().int().max(100),
+  }),
+});
+
+export const generateTextBoxSchema = z.object({
+  type: z.literal("TextBox"),
+  props: z.object({
+    text: z.string().default("Text Box"),
+    width: z.number().int().max(100),
+    height: z.number().int().max(100),
+  }),
+});
+
+export const generateTextSchema = z.object({
+  type: z.literal("Text"),
+  props: z.object({
+    text: z.string().default("Text"),
+  }),
+});
+
+export type GenerateTextProps = z.infer<typeof generateTextSchema>;
+
+export const generateIconSchema = z.object({
+  type: z.literal("Icon"),
+  props: z.object({
+    selectedIcon: z
+      .enum([
+        "VscAdd",
+        "VscEdit",
+        "VscTrash",
+        "VscSearch",
+        "VscSave",
+        "VscHome",
+        "VscSettingsGear",
+        "VscInfo",
+      ])
+      .default("VscAdd"),
+    iconSize: z.number().default(24),
+  }),
+});
+
 // Used in convertLayoutToNodes.ts
 
 export const generatedFullElements = z.union([
@@ -471,8 +437,7 @@ export const fullSectionSchema = z.object({
     yPosition: z.number().int().max(10),
     width: z.number().int().max(10),
     height: z.number().int().max(10),
-    flexDirection: z.enum(["row", "column"]).default("row"),
-    backgroundColor: z.string().describe("Hex color code"),
+    flexDirection: z.enum(["row", "column"]),
   }),
   children: z.array(generatedFullElements),
 });
@@ -487,7 +452,6 @@ export const sectionSchema = z.object({
     width: z.number().int().max(10),
     height: z.number().int().max(10),
     flexDirection: z.enum(["row", "column"]).default("row"),
-    backgroundColor: z.string().describe("Hex color code"),
   }),
   contents: z.string().describe("Give a detailed description of the section over 3 lines."),
 });
