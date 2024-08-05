@@ -11,6 +11,7 @@ const exampleLayout = {
       width: 10,
       height: 2,
       flexDirection: "row",
+      backgroundColor: "#708090",
       contents:
         "This is the header section, containing the site logo, header text and navigation buttons.",
     },
@@ -20,7 +21,8 @@ const exampleLayout = {
       yPosition: 2,
       width: 7,
       height: 8,
-      flexDirection: "column",
+      flexDirection: "#DCDCDC",
+      backgroundColor: "Main",
       contents:
         "This section includes the main content area where articles are displayed with pictures",
     },
@@ -31,6 +33,7 @@ const exampleLayout = {
       width: 3,
       height: 8,
       flexDirection: "column",
+      backgroundColor: "#DCDCDC",
       contents: "The sidebar contains links to recent posts.",
     },
     {
@@ -40,6 +43,7 @@ const exampleLayout = {
       width: 10,
       height: 2,
       flexDirection: "row",
+      backgroundColor: "#2F4F4F",
       contents:
         "Footer section with links to privacy policy, contact information, and social media profiles.",
     },

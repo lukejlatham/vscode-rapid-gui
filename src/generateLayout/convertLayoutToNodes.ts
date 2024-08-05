@@ -176,7 +176,7 @@ function generateSectionNodes(sections: FullSectionSchema[]): { [key: string]: N
 
     const containerDefaultsOverride = containerSchema.parse({
       flexDirection: section.props.flexDirection,
-      backgroundColor: "ghostwhite",
+      backgroundColor: section.props.backgroundColor,
     });
 
     const childIds = section.children.map((child, childIndex) => {

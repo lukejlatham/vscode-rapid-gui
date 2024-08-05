@@ -4,7 +4,7 @@ import { ZodObject } from "zod";
 
 const systemMessage = {
   role: "system",
-  content: `You are a UI designer who fills in provided layouts. You will provide the child elements and a description of each one. Try to be as detailed as possible and avoid generic names.`,
+  content: `You are a UI designer who refines properties for a given layout with predefined elements. Provide properties for the child elements of each section. The width/height represents the percentage of the parent container. For example, a width of 10 means 10% of the parent container.`,
 };
 
 const textMessage = (layout: string, childElements: string) => ({

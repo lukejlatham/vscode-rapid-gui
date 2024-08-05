@@ -29,9 +29,9 @@ export const backgroundSchema = z.object({
 export type BackgroundProps = z.infer<typeof backgroundSchema>;
 
 export const buttonSchema = z.object({
-  backgroundColor: z.string().default("white"),
+  backgroundColor: z.string().default("lightslategray"),
   fontSize: z.number().default(14),
-  fontColor: z.string().default("white"),
+  fontColor: z.string().default("black"),
   borderRadius: z.number().default(4),
   width: z.number().default(80),
   height: z.number().default(60),
@@ -283,23 +283,6 @@ export interface TooltipConfigContainer {
   type: "color" | "spinButton" | "text" | "justifyContent" | "alignItems" | "direction";
 }
 
-// export const generateElementSchema = z.object({
-//   type: z.enum([
-//     "Button",
-//     "Label",
-//     "Image",
-//     "TextBox",
-//     "RadioButton",
-//     "Checkbox",
-//     "Input",
-//     "Text",
-//     "Icon",
-//   ]),
-//   name: z.string(),
-//   text: z.string().optional(),
-//   backgroundColor: z.enum(["#778899", "#bbc4cc", "#92a0ad"]).default("#778899"),
-// });
-
 export interface Page {
   id: string;
   name: string;
@@ -310,21 +293,7 @@ export interface CanvasProps {
   classes: any;
 }
 
-// export const generateContainerSchema = z.object({
-//   type: z.literal("Container"),
-//   props: containerSchema.pick({
-//     height: true,
-//     width: true,
-//     flexDirection: true,
-//     justifyContent: true,
-//     alignItems: true,
-//     gap: true,
-//   }),
-// });
-
-// export type GenerateContainerProps = z.infer<typeof generateContainerSchema>;
-
-// CHILD PROPS GENERATION FOR getSectionChildren.ts
+// Used in getSectionChildrenWithProps.ts
 
 export const generateButtonSchema = z.object({
   type: z.literal("Button"),
@@ -332,6 +301,7 @@ export const generateButtonSchema = z.object({
     width: z.number().max(95),
     height: z.number().max(95),
     text: z.string(),
+    backgroundColor: z.enum(["Main", "Accent1", "Accent2"]).default("Main"),
     icon: z
       .union([
         z.enum(["left", "right"]).default("left"),
@@ -453,18 +423,7 @@ export const generateIconSchema = z.object({
   }),
 });
 
-export const generatedFullElements = z.union([
-  generateButtonSchema,
-  generateCheckboxSchema,
-  generateIconSchema,
-  generateInputSchema,
-  generateLabelSchema,
-  generateRadioButtonSchema,
-  generateTextBoxSchema,
-  generateTextSchema,
-  generateImageSchema,
-  generateInputSchema,
-]);
+// Used in getSectionChildrenOpenai.ts
 
 export const generatedElements = z.object({
   type: z.enum([
@@ -490,6 +449,21 @@ export const generatedAllSectionsChildren = z.object({
   sections: z.array(generatedSectionChildren).max(5),
 });
 
+// Used in convertLayoutToNodes.ts
+
+export const generatedFullElements = z.union([
+  generateButtonSchema,
+  generateCheckboxSchema,
+  generateIconSchema,
+  generateInputSchema,
+  generateLabelSchema,
+  generateRadioButtonSchema,
+  generateTextBoxSchema,
+  generateTextSchema,
+  generateImageSchema,
+  generateInputSchema,
+]);
+
 export const fullSectionSchema = z.object({
   section: z.string(),
   props: z.object({
@@ -498,6 +472,7 @@ export const fullSectionSchema = z.object({
     width: z.number().int().max(10),
     height: z.number().int().max(10),
     flexDirection: z.enum(["row", "column"]).default("row"),
+    backgroundColor: z.string().describe("Hex color code"),
   }),
   children: z.array(generatedFullElements),
 });
@@ -512,6 +487,7 @@ export const sectionSchema = z.object({
     width: z.number().int().max(10),
     height: z.number().int().max(10),
     flexDirection: z.enum(["row", "column"]).default("row"),
+    backgroundColor: z.string().describe("Hex color code"),
   }),
   contents: z.string().describe("Give a detailed description of the section over 3 lines."),
 });

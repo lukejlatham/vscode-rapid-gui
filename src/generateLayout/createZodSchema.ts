@@ -37,19 +37,6 @@ export const generateSectionChildrenSchema = (sections) => {
   });
 };
 
-const dog = z.object({
-  sections: z.array(
-    z.object({
-      section1: z.literal("section1"),
-      children: z.array(generatedElements),
-    }),
-    z.object({
-      section2: z.literal("section2"),
-      children: z.array(generatedElements),
-    })
-  ),
-});
-
 export const generateSectionChildrenFullSchema = (sections) => {
   const sectionSchemas = sections.map((section) => {
     const childSchemas = section.children.map((child) => {
