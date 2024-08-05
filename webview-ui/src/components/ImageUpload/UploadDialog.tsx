@@ -65,6 +65,7 @@ interface UploadDialogProps {
 
 const PROCESSING_STAGES = [
   "Generating layout",
+  "Generating components",
   "Refining properties",
 ];
 
@@ -82,7 +83,8 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose }) =
       const message = event.data;
 
       if (message.command === 'processingStage') {
-        setCurrentStage(PROCESSING_STAGES.indexOf(message.stage));
+        const stageIndex = PROCESSING_STAGES.indexOf(message.stage);
+        setCurrentStage(stageIndex !== -1 ? stageIndex : -1);
       } else if (message.command === 'sketchProcessed') {
         setUIDescription(message.description);
         setLoading(false);
@@ -92,16 +94,17 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose }) =
 
         setTimeout(() => {
           window.postMessage({ command: 'loadTree', data: message.content });
-
         }, 100);
       }
     };
 
     window.addEventListener('message', handleMessage);
+
     return () => {
       window.removeEventListener('message', handleMessage);
     };
   }, [navigate]);
+
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -183,7 +186,7 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose }) =
                       </Text>
                     </div>
                   ))}
-                  </div>
+                </div>
               )}
               {uiDescription && (
                 <Text>

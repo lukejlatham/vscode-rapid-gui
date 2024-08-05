@@ -38,7 +38,6 @@ async function getChildrenWithProps(
   const instructor = Instructor({
     client: client,
     mode: "TOOLS",
-    debug: true,
   });
 
   const userMessage = textMessage(layout, childElements);

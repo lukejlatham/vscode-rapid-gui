@@ -173,6 +173,7 @@ function generateSectionNodes(sections: FullSectionSchema[]): { [key: string]: N
 
     const containerDefaultsOverride = containerSchema.parse({
       flexDirection: section.props.flexDirection,
+      backgroundColor: "ghostwhite",
     });
 
     nodes[containerId] = createNode(
@@ -280,13 +281,9 @@ function buildLayoutNodes(parsedLayout: string, parsedFullChildren: string): str
 
   const sectionNodes = generateSectionNodes(combinedLayout);
 
-  console.log("Section nodes:", sectionNodes);
-
   const combinedNodes = { ROOT: backgroundNode, ...sectionNodes };
 
   const stringifiedNodes = JSON.stringify(combinedNodes);
-
-  console.log("Final nodes output:", stringifiedNodes);
 
   return stringifiedNodes;
 }

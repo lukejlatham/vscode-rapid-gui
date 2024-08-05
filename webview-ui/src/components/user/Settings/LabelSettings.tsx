@@ -33,7 +33,7 @@ export const LabelSettings: React.FC = () => {
   
     const tooltips = [
       { label: "Font Size", content: "Adjust the size of the text.", propKey: "fontSize" },
-      { label: "Font Color", content: "Change the text color of the label.", propKey: "fontcolor" },
+      { label: "Font Color", content: "Change the text color of the label.", propKey: "fontColor" },
       { label: "Text", content: "Edit the text of the label.", propKey: "text" },
       { label: "Alignment", content: "Set the text alignment.", propKey: "textAlign" },
       { label: "Hyperlink", content: "Add a hyperlink to the label.", propKey: "hyperlink" },

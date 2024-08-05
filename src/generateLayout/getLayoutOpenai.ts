@@ -96,7 +96,6 @@ async function getLayout(
   const instructor = Instructor({
     client: client,
     mode: "TOOLS",
-    debug: true,
   });
 
   const userMessage =

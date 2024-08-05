@@ -102,7 +102,7 @@ export const LabelDefaultProps: LabelProps = {
   text: "New Label",
   textAlign: 'left',
   fontSize: 20,
-  fontColor: "#FFFFFF",
+  fontColor: "black",
   userEditable: true,
   icon: "none",
   hyperlink: "",

@@ -29,9 +29,9 @@ export const backgroundSchema = z.object({
 export type BackgroundProps = z.infer<typeof backgroundSchema>;
 
 export const buttonSchema = z.object({
-  backgroundColor: z.string().default("lightslategray"),
+  backgroundColor: z.string().default("lightslategrey"),
   fontSize: z.number().default(14),
-  fontColor: z.string().default("white"),
+  fontColor: z.string().default("black"),
   borderRadius: z.number().default(4),
   width: z.number().default(80),
   height: z.number().default(60),
@@ -156,14 +156,14 @@ export const iconSchema = z.object({
     .refine((val) => val in VscIcons)
     .optional() as z.ZodType<VscIconKeys>,
   iconSize: z.number().default(24).optional(),
-  iconColor: z.string().optional().default("lightslategray"),
-  hyperlink: z.string().optional(),
+  iconColor: z.string().optional().default("lightslategrey"),
+  hyperlink: z.string().optional().default(""),
 });
 
 export type IconProps = z.infer<typeof iconSchema>;
 
 export const imageSchema = z.object({
-  src: z.string().default("https://archive.org/download/placeholder-image/placeholder-image.jpg"),
+  src: z.string().optional().default("Replace with image URL"),
   alt: z.string().default("Placeholder Image"),
   width: z.number().default(100),
   height: z.number().default(100),
@@ -171,25 +171,6 @@ export const imageSchema = z.object({
 });
 
 export type ImageProps = z.infer<typeof imageSchema>;
-
-// export const cardContainerSchema = z.object({
-//   color: z.string().default("white"),
-//   height: z.number().default(100),
-//   width: z.number().default(100),
-//   flexDirection: z.enum(["row", "column"]).optional(),
-//   justifyContent: z
-//     .enum(["flex-start", "center", "flex-end", "space-between", "space-around"])
-//     .optional(),
-//   alignItems: z.enum(["flex-start", "center", "flex-end"]).optional(),
-//   gap: z.number().default(0).optional(),
-//   backgroundColor: z.string().default("white"),
-//   borderRadius: z.number().default(4),
-//   bordercolor: z.string().default("black"),
-//   padding: z.number().default(10),
-//   shadow: z.boolean().default(false),
-// });
-
-// export type CardContainerProps = z.infer<typeof cardContainerSchema>;
 
 export const textSchema = z.object({
   text: z.string().default("Text"),
@@ -320,9 +301,17 @@ export const generatedAllSectionsChildren = z.object({
 export const generateButtonSchema = z.object({
   type: z.literal("Button"),
   props: z.object({
-    width: z.number().int().max(100),
-    height: z.number().int().max(100),
-    text: z.string(),
+    width: z
+      .number()
+      .int()
+      .max(100)
+      .describe("Width of the button in percentage of the parent container."),
+    height: z
+      .number()
+      .int()
+      .max(100)
+      .describe("Height of the button in percentage of the parent container."),
+    text: z.string().default("Button"),
   }),
 });
 
@@ -349,7 +338,6 @@ export const generateLabelSchema = z.object({
     bold: z.boolean().default(true),
     italic: z.boolean().default(false),
     underline: z.boolean().default(false),
-    hyperlink: z.string().optional(),
   }),
 });
 

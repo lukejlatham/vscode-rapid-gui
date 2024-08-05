@@ -89,8 +89,6 @@ Possible elements:
 - Input
 - Text
 - Icon
-- GridCell
-- Section
 `,
 };
 
@@ -124,7 +122,6 @@ async function getSectionChildren(
   const instructor = Instructor({
     client: client,
     mode: "TOOLS",
-    debug: true,
   });
 
   const userMessage = textMessage(layout);
