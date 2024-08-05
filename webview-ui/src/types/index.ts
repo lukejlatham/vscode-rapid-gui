@@ -51,18 +51,6 @@ export const buttonSchema = z.object({
 
 export type ButtonProps = z.infer<typeof buttonSchema>;
 
-export const generateButtonSchema = z.object({
-  width: z.number().default(100),
-  height: z.number().default(40),
-  text: z.string().default("Button"),
-  icon: z
-    .string()
-    .refine((val) => val in VscIcons)
-    .optional() as z.ZodType<VscIconKeys | undefined>,
-});
-
-export type GenerateButtonProps = z.infer<typeof generateButtonSchema>;
-
 export const checkboxSchema = z.object({
   header: z.string().default("Checkbox Header"),
   optionLabels: z.array(z.string()).default([]),
@@ -73,14 +61,6 @@ export const checkboxSchema = z.object({
 });
 
 export type CheckboxProps = z.infer<typeof checkboxSchema>;
-
-export const generateCheckboxSchema = checkboxSchema.pick({
-  header: true,
-  optionLabels: true,
-  numberOfBoxes: true,
-});
-
-export type GenerateCheckboxProps = z.infer<typeof generateCheckboxSchema>;
 
 export const containerSchema = z.object({
   height: z.number().default(100),
@@ -118,17 +98,6 @@ export const gridCellSchema = z.object({
 
 export type GridCellProps = z.infer<typeof gridCellSchema>;
 
-export const generateContainerSchema = containerSchema.pick({
-  height: true,
-  width: true,
-  flexDirection: true,
-  justifyContent: true,
-  alignItems: true,
-  gap: true,
-});
-
-export type GenerateContainerProps = z.infer<typeof generateContainerSchema>;
-
 export const inputSchema = z.object({
   fontSize: z.number().default(14),
   fontColor: z.string().default("black"),
@@ -138,12 +107,6 @@ export const inputSchema = z.object({
 });
 
 export type InputProps = z.infer<typeof inputSchema>;
-
-export const generateInputSchema = inputSchema.pick({
-  placeholder: true,
-});
-
-export type GenerateInputProps = z.infer<typeof generateInputSchema>;
 
 export const labelSchema = z.object({
   text: z.string().default("Label"),
@@ -162,17 +125,6 @@ export const labelSchema = z.object({
 
 export type LabelProps = z.infer<typeof labelSchema>;
 
-export const generateLabelSchema = labelSchema.pick({
-  text: true,
-  hyperlink: true,
-  textAlign: true,
-  bold: true,
-  italic: true,
-  underline: true,
-});
-
-export type GenerateLabelProps = z.infer<typeof generateLabelSchema>;
-
 export const radioButtonSchema = z.object({
   header: z.string().default("Radio Button Header"),
   numberOfButtons: z.number().default(2),
@@ -183,14 +135,6 @@ export const radioButtonSchema = z.object({
 });
 
 export type RadioButtonProps = z.infer<typeof radioButtonSchema>;
-
-export const generateRadioButtonSchema = radioButtonSchema.pick({
-  header: true,
-  optionLabels: true,
-  numberOfButtons: true,
-});
-
-export type GenerateRadioButtonProps = z.infer<typeof generateRadioButtonSchema>;
 
 export const textBoxSchema = z.object({
   text: z.string().default("Text Box"),
@@ -205,13 +149,6 @@ export const textBoxSchema = z.object({
 });
 
 export type TextBoxProps = z.infer<typeof textBoxSchema>;
-
-export const generateTextBoxSchema = textBoxSchema.pick({
-  text: true,
-  placeholder: true,
-});
-
-export type GenerateTextBoxProps = z.infer<typeof generateTextBoxSchema>;
 
 export const iconSchema = z.object({
   selectedIcon: z
@@ -238,12 +175,6 @@ export const imageSchema = z.object({
 });
 
 export type ImageProps = z.infer<typeof imageSchema>;
-
-export const generateImageSchema = imageSchema.pick({
-  src: true,
-});
-
-export type GenerateImageProps = z.infer<typeof generateImageSchema>;
 
 export const cardContainerSchema = z.object({
   color: z.string().default("white"),
@@ -277,17 +208,6 @@ export const textSchema = z.object({
 });
 
 export type TextProps = z.infer<typeof textSchema>;
-
-export const generateTextSchema = textSchema.pick({
-  text: true,
-  hyperlink: true,
-  textAlign: true,
-  bold: true,
-  italic: true,
-  underline: true,
-});
-
-export type GenerateTextProps = z.infer<typeof generateTextSchema>;
 
 export interface ContentEditableEvent {
   target: { value: string };
@@ -362,19 +282,6 @@ export interface TooltipConfigContainer {
   propKey: keyof ContainerProps;
   type: "color" | "spinButton" | "text" | "justifyContent" | "alignItems" | "direction";
 }
-
-const generatedElements = z.union([
-  generateButtonSchema,
-  generateCheckboxSchema,
-  generateContainerSchema,
-  generateInputSchema,
-  generateLabelSchema,
-  generateRadioButtonSchema,
-  generateTextBoxSchema,
-  generateTextSchema,
-  generateImageSchema,
-  generateInputSchema,
-]);
 
 export const generateElementSchema = z.object({
   type: z.enum([
@@ -452,6 +359,7 @@ export const craftjsNodeSchema = z.object({
   linkedNodes: z.record(z.string()),
   parent: z.string(),
 });
+
 export interface Page {
   id: string;
   name: string;
@@ -461,3 +369,140 @@ export interface Page {
 export interface CanvasProps {
   classes: any;
 }
+
+// export const generateContainerSchema = z.object({
+//   type: z.literal("Container"),
+//   props: containerSchema.pick({
+//     height: true,
+//     width: true,
+//     flexDirection: true,
+//     justifyContent: true,
+//     alignItems: true,
+//     gap: true,
+//   }),
+// });
+
+// export type GenerateContainerProps = z.infer<typeof generateContainerSchema>;
+
+export const generateButtonSchema = z.object({
+  type: z.literal("Button"),
+  props: z.object({
+    width: z.number().default(50),
+    height: z.number().default(50),
+    text: z.string().default("Button"),
+    icon: z
+      .string()
+      .refine((val) => val in VscIcons)
+      .optional() as z.ZodType<VscIconKeys | undefined>,
+  }),
+});
+
+export type GenerateButtonProps = z.infer<typeof generateButtonSchema>;
+
+export const generateCheckboxSchema = z.object({
+  type: z.literal("Checkbox"),
+  props: z.object({
+    optionLabels: z.array(z.string()).default([]),
+    numberOfBoxes: z.number().default(2),
+    direction: z.enum(["row", "column"]).default("row"),
+  }),
+});
+
+export type GenerateCheckboxProps = z.infer<typeof generateCheckboxSchema>;
+
+export const generateInputSchema = z.object({
+  type: z.literal("Input"),
+  props: z.object({
+    backgroundColor: z.enum(["Main", "Accent1", "Accent2"]).default("Main"),
+    placeholder: z.string().default("Enter text"),
+  }),
+});
+
+export type GenerateInputProps = z.infer<typeof generateInputSchema>;
+
+export const generateLabelSchema = z.object({
+  type: z.literal("Label"),
+  props: z.object({
+    text: z.string().default("Header"),
+    fontcolor: z.enum(["Main", "Accent1", "Accent2"]).default("Main"),
+    bold: z.boolean().default(true),
+    italic: z.boolean().default(false),
+    underline: z.boolean().default(false),
+  }),
+});
+
+export type GenerateLabelProps = z.infer<typeof generateLabelSchema>;
+
+export const generateRadioButtonSchema = z.object({
+  type: z.literal("RadioButton"),
+  props: z.object({
+    header: z.string().default("Radio Button Header"),
+    numberOfButtons: z.number().default(2),
+    optionLabels: z.array(z.string()).default([]),
+    direction: z.enum(["row", "column"]).default("row"),
+  }),
+});
+
+export type GenerateRadioButtonProps = z.infer<typeof generateRadioButtonSchema>;
+
+export const generateImageSchema = z.object({
+  type: z.literal("Image"),
+  props: z.object({
+    src: z
+      .string()
+      .default(
+        "https://media.licdn.com/dms/image/D4E22AQGL4EZgEpG2ag/feedshare-shrink_800/0/1719580422738?e=2147483647&v=beta&t=Nj786KjutiTxei_wgDDM40hcWFi5_-qqBIKM4jOa3Hc"
+      ),
+    alt: z.string().default("Image"),
+    width: z.number().default(100),
+    height: z.number().default(100),
+  }),
+});
+
+export type GenerateImageProps = z.infer<typeof generateImageSchema>;
+
+export const generateTextBoxSchema = z.object({
+  type: z.literal("TextBox"),
+  props: z.object({
+    text: z.string().default("Text Box"),
+    backgroundColor: z.enum(["Main", "Accent1", "Accent2"]).default("Main"),
+    height: z.number().default(100),
+    width: z.number().default(100),
+  }),
+});
+
+export type GenerateTextBoxProps = z.infer<typeof generateTextBoxSchema>;
+
+export const generateTextSchema = z.object({
+  type: z.literal("Text"),
+  props: z.object({
+    text: z.string().default("Text"),
+  }),
+});
+
+export type GenerateTextProps = z.infer<typeof generateTextSchema>;
+
+export const generateIconSchema = z.object({
+  type: z.literal("Icon"),
+  props: z.object({
+    selectedIcon: z
+      .string()
+      .refine((val) => val in VscIcons)
+      .default("VscAccount"),
+    iconSize: z.number().default(24),
+    iconColor: z.enum(["Main", "Accent1", "Accent2"]).default("Main"),
+  }),
+});
+
+const generatedElements = z.union([
+  generateButtonSchema,
+  generateCheckboxSchema,
+  generateIconSchema,
+  generateInputSchema,
+  generateLabelSchema,
+  generateRadioButtonSchema,
+  generateTextBoxSchema,
+  generateTextSchema,
+  generateImageSchema,
+  generateInputSchema,
+]);
