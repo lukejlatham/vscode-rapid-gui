@@ -300,68 +300,6 @@ export interface TooltipConfigContainer {
 //   backgroundColor: z.enum(["#778899", "#bbc4cc", "#92a0ad"]).default("#778899"),
 // });
 
-export const sectionSchema = z.object({
-  section: z.string(),
-  props: z.object({
-    xPosition: z.number().int().max(10),
-    yPosition: z.number().int().max(10),
-    width: z.number().int().max(10),
-    height: z.number().int().max(10),
-    flexDirection: z.enum(["row", "column"]).default("row"),
-  }),
-  contents: z.string().describe("Give a detailed description of the section over 3 lines."),
-});
-
-export const layoutSchema = z.object({
-  sections: z.array(sectionSchema).max(5),
-});
-
-export const backgroundNodeLayout = z.object({
-  w: z.number().int(),
-  h: z.number().int(),
-  x: z.number().int(),
-  y: z.number().int(),
-  i: z.string(),
-  moved: z.boolean().default(false),
-  static: z.boolean().default(false),
-  maxW: z.number().int().optional(),
-  maxH: z.number().int().optional(),
-});
-
-export const nodeTreeRootSchema = z.object({
-  type: z.object({
-    resolvedName: z.string(),
-  }),
-  isCanvas: z.boolean(),
-  props: z.object({
-    rows: z.number().int(),
-    columns: z.number().int(),
-    lockedGrid: z.boolean(),
-    backgroundColor: z.string(),
-    layout: z.array(backgroundNodeLayout),
-  }),
-  displayName: z.string(),
-  custom: z.record(z.any()),
-  parent: z.undefined(),
-  hidden: z.boolean(),
-  nodes: z.array(z.string()),
-  linkedNodes: z.record(z.string()),
-});
-
-export const craftjsNodeSchema = z.object({
-  type: z.object({
-    resolvedName: z.string(),
-  }),
-  isCanvas: z.boolean(),
-  props: z.record(z.string(), z.any()),
-  displayName: z.string(),
-  custom: z.record(z.any()),
-  hidden: z.boolean(),
-  nodes: z.array(z.string()),
-  linkedNodes: z.record(z.string()),
-  parent: z.string(),
-});
-
 export interface Page {
   id: string;
   name: string;
@@ -515,18 +453,18 @@ export const generateIconSchema = z.object({
   }),
 });
 
-// export const generatedElements = z.union([
-//   generateButtonSchema,
-//   generateCheckboxSchema,
-//   generateIconSchema,
-//   generateInputSchema,
-//   generateLabelSchema,
-//   generateRadioButtonSchema,
-//   generateTextBoxSchema,
-//   generateTextSchema,
-//   generateImageSchema,
-//   generateInputSchema,
-// ]);
+export const generatedFullElements = z.union([
+  generateButtonSchema,
+  generateCheckboxSchema,
+  generateIconSchema,
+  generateInputSchema,
+  generateLabelSchema,
+  generateRadioButtonSchema,
+  generateTextBoxSchema,
+  generateTextSchema,
+  generateImageSchema,
+  generateInputSchema,
+]);
 
 export const generatedElements = z.object({
   type: z.enum([
@@ -550,4 +488,80 @@ export const generatedSectionChildren = z.object({
 
 export const generatedAllSectionsChildren = z.object({
   sections: z.array(generatedSectionChildren).max(5),
+});
+
+export const fullSectionSchema = z.object({
+  section: z.string(),
+  props: z.object({
+    xPosition: z.number().int().max(10),
+    yPosition: z.number().int().max(10),
+    width: z.number().int().max(10),
+    height: z.number().int().max(10),
+    flexDirection: z.enum(["row", "column"]).default("row"),
+  }),
+  children: z.array(generatedFullElements),
+});
+
+export const fullLayoutSchema = z.array(fullSectionSchema).max(5);
+
+export const sectionSchema = z.object({
+  section: z.string(),
+  props: z.object({
+    xPosition: z.number().int().max(10),
+    yPosition: z.number().int().max(10),
+    width: z.number().int().max(10),
+    height: z.number().int().max(10),
+    flexDirection: z.enum(["row", "column"]).default("row"),
+  }),
+  contents: z.string().describe("Give a detailed description of the section over 3 lines."),
+});
+
+export const layoutSchema = z.object({
+  sections: z.array(sectionSchema).max(5),
+});
+
+export const backgroundNodeLayout = z.object({
+  w: z.number().int(),
+  h: z.number().int(),
+  x: z.number().int(),
+  y: z.number().int(),
+  i: z.string(),
+  moved: z.boolean().default(false),
+  static: z.boolean().default(false),
+  maxW: z.number().int().optional(),
+  maxH: z.number().int().optional(),
+});
+
+export const nodeTreeRootSchema = z.object({
+  type: z.object({
+    resolvedName: z.string(),
+  }),
+  isCanvas: z.boolean(),
+  props: z.object({
+    rows: z.number().int(),
+    columns: z.number().int(),
+    lockedGrid: z.boolean(),
+    backgroundColor: z.string(),
+    layout: z.array(backgroundNodeLayout),
+  }),
+  displayName: z.string(),
+  custom: z.record(z.any()),
+  parent: z.undefined(),
+  hidden: z.boolean(),
+  nodes: z.array(z.string()),
+  linkedNodes: z.record(z.string()),
+});
+
+export const craftjsNodeSchema = z.object({
+  type: z.object({
+    resolvedName: z.string(),
+  }),
+  isCanvas: z.boolean(),
+  props: z.record(z.string(), z.any()),
+  displayName: z.string(),
+  custom: z.record(z.any()),
+  hidden: z.boolean(),
+  nodes: z.array(z.string()),
+  linkedNodes: z.record(z.string()),
+  parent: z.string(),
 });

@@ -63,33 +63,29 @@ const input = `{
 }`;
 import { z } from "zod";
 import {
-  layoutSchema,
-  sectionSchema,
   backgroundNodeLayout,
   nodeTreeRootSchema,
   craftjsNodeSchema,
   buttonSchema,
+  fullLayoutSchema,
   checkboxSchema,
   containerSchema,
-  gridCellSchema,
   inputSchema,
   labelSchema,
   radioButtonSchema,
   textBoxSchema,
   iconSchema,
   imageSchema,
-} from "../../webview-ui/src/types"; // Assuming schemas are exported from a separate file
+  gridCellSchema,
+  fullSectionSchema,
+  textSchema,
+} from "../../webview-ui/src/types";
 
-// Define types using z.infer
 type LayoutType = z.infer<typeof backgroundNodeLayout>;
 type NodeTreeRootType = z.infer<typeof nodeTreeRootSchema>;
-type LayoutSchema = z.infer<typeof layoutSchema>;
+type LayoutSchema = z.infer<typeof fullLayoutSchema>;
 type NodeSection = z.infer<typeof craftjsNodeSchema>;
-
-// Function to parse and validate input JSON
-function parseAndValidateInput(rawJson: string): LayoutSchema {
-  return layoutSchema.parse(JSON.parse(rawJson));
-}
+type FullSectionSchema = z.infer<typeof fullSectionSchema>;
 
 interface LayoutDimensions {
   rows: number;
@@ -97,10 +93,35 @@ interface LayoutDimensions {
   ids: string[];
 }
 
+const overwriteContents = (parsedLayout: string, parsedFullChildren: string): LayoutSchema => {
+  console.log("Parsed layout:", parsedLayout);
+  console.log("Parsed full children:", parsedFullChildren);
+
+  const layout1Parsed = JSON.parse(parsedLayout);
+  const layout2Parsed = JSON.parse(parsedFullChildren);
+
+  const layout2Dict = layout2Parsed.reduce((acc: { [key: string]: any }, item: any) => {
+    acc[item.section] = item.children;
+    return acc;
+  }, {});
+
+  const updatedLayout1 = layout1Parsed.map((item: any) => {
+    if (layout2Dict[item.section]) {
+      return {
+        ...item,
+        children: layout2Dict[item.section], // Replace contents with children
+      };
+    }
+    return item;
+  });
+
+  return updatedLayout1;
+};
+
 function calculateLayoutDimensions(layout: LayoutSchema): LayoutDimensions {
   let maxX = 0;
   let maxY = 0;
-  const ids: string[] = layout.sections.map((section) => {
+  const ids: string[] = layout.map((section) => {
     const sectionRight = section.props.xPosition + section.props.width;
     const sectionBottom = section.props.yPosition + section.props.height;
 
@@ -114,7 +135,6 @@ function calculateLayoutDimensions(layout: LayoutSchema): LayoutDimensions {
 }
 
 function createNode(
-  id: string,
   resolvedName: string,
   isCanvas: boolean,
   parent: string,
@@ -135,78 +155,79 @@ function createNode(
   };
 }
 
-// function generateSectionNodes(sections: Section[]): { [key: string]: NodeSection } {
-//   const nodes: { [key: string]: NodeSection } = {};
+function generateSectionNodes(sections: FullSectionSchema[]): { [key: string]: NodeSection } {
+  const nodes: { [key: string]: NodeSection } = {};
 
-//   sections.forEach((section, index) => {
-//     const gridCellId = section.section + "GridCell";
-//     const containerId = section.section + "Container";
-//     const sectionIndex = index.toString();
+  sections.forEach((section, index) => {
+    const gridCellId = `${section.section}GridCell`;
+    const containerId = `${section.section}Container`;
+    const sectionIndex = index.toString();
 
-//     const gridCellDefaultsOveride = gridCellSchema.parse({});
+    const gridCellDefaultsOverride = gridCellSchema.parse({});
 
-//     nodes[gridCellId] = createNode(
-//       gridCellId,
-//       "GridCell",
-//       true,
-//       "ROOT",
-//       { id: sectionIndex },
-//       gridCellDefaultsOveride,
-//       [containerId]
-//     );
+    nodes[gridCellId] = createNode(
+      "GridCell",
+      true,
+      "ROOT",
+      { id: sectionIndex },
+      gridCellDefaultsOverride,
+      [containerId]
+    );
 
-//     const containerDefaultsOveride = containerSchema.parse({
-//       flexDirection: section.props.flexDirection,
-//       backgroundColor: "ghostwhite",
-//     });
+    const containerDefaultsOverride = containerSchema.parse({
+      flexDirection: section.props.flexDirection,
+      backgroundColor: "ghostwhite",
+    });
 
-//     nodes[containerId] = createNode(
-//       containerId,
-//       "Container",
-//       true,
-//       gridCellId,
-//       {},
-//       containerDefaultsOveride,
-//       // section.children.map((child) => child.name)
-//     );
+    const childIds = section.children.map((child, childIndex) => {
+      const childId = `${section.section}${child.type}${childIndex}`;
+      let childProps: any = {};
+      switch (child.type) {
+        case "Button":
+          childProps = buttonSchema.parse(child.props);
+          break;
+        case "Checkbox":
+          childProps = checkboxSchema.parse(child.props);
+          break;
+        case "Input":
+          childProps = inputSchema.parse(child.props);
+          break;
+        case "Label":
+          childProps = labelSchema.parse(child.props);
+          break;
+        case "RadioButton":
+          childProps = radioButtonSchema.parse(child.props);
+          break;
+        case "TextBox":
+          childProps = textBoxSchema.parse(child.props);
+          break;
+        case "Icon":
+          childProps = iconSchema.parse(child.props);
+          break;
+        case "Image":
+          childProps = imageSchema.parse(child.props);
+          break;
+        case "Text":
+          childProps = textSchema.parse(child.props);
+          break;
+      }
 
-//     // section.children.forEach((child) => {
-//     //   let childProps: any = {};
-//     //   switch (child.type) {
-//     //     case "Button":
-//     //       childProps = buttonSchema.parse(child);
-//     //       break;
-//     //     case "Checkbox":
-//     //       childProps = checkboxSchema.parse(child);
-//     //       break;
-//     //     case "Input":
-//     //       childProps = inputSchema.parse(child);
-//     //       break;
-//     //     case "Label":
-//     //       childProps = labelSchema.parse(child);
-//     //       break;
-//     //     case "RadioButton":
-//     //       childProps = radioButtonSchema.parse(child);
-//     //       break;
-//     //     case "TextBox":
-//     //       childProps = textBoxSchema.parse(child);
-//     //       break;
-//     //     case "Icon":
-//     //       childProps = iconSchema.parse(child);
-//     //       break;
-//     //     case "Image":
-//     //       childProps = imageSchema.parse(child);
-//     //       break;
-//     //   }
+      nodes[childId] = createNode(child.type, false, containerId, {}, childProps);
+      return childId;
+    });
 
-//       // nodes[child.name] = createNode(child.name, child.type, false, containerId, {}, childProps);
+    nodes[containerId] = createNode(
+      "Container",
+      true,
+      gridCellId,
+      {},
+      containerDefaultsOverride,
+      childIds
+    );
+  });
 
-//       nodes["homeButton"] = createNode("homeButton", "Button", false, containerId, {}, buttonSchema.parse({}));
-//     });
-//   });
-
-//   return nodes;
-// }
+  return nodes;
+}
 
 function createBackgroundNode(
   dimensions: LayoutDimensions,
@@ -237,11 +258,19 @@ function createBackgroundNode(
   };
 }
 
-function buildLayoutNodes(rawLayoutResponse: string) {
-  const parsedData = parseAndValidateInput(rawLayoutResponse);
-  const layoutDimensions = calculateLayoutDimensions(parsedData);
+function buildLayoutNodes(parsedLayout: string, parsedFullChildren: string): string {
+  const combinedLayout = overwriteContents(parsedLayout, parsedFullChildren);
 
-  const layout = parsedData.sections.map((section, index) => ({
+  console.log("Combined layout:", combinedLayout);
+
+  const parsedData = fullLayoutSchema.parse(combinedLayout);
+
+  console.log("Parsed data:", parsedData);
+  const layoutDimensions = calculateLayoutDimensions(combinedLayout);
+
+  console.log("Layout dimensions:", layoutDimensions);
+
+  const layout = parsedData.map((section, index) => ({
     i: String(index),
     x: section.props.xPosition,
     y: section.props.yPosition,
@@ -255,18 +284,15 @@ function buildLayoutNodes(rawLayoutResponse: string) {
 
   const backgroundNode = createBackgroundNode(layoutDimensions, layout, "292929");
 
-  // const sectionNodes = generateSectionNodes(parsedData);
+  console.log("Background node:", backgroundNode);
 
-  const sectionNodes = createNode(
-    "searchButton",
-    "Button",
-    false,
-    "FooterContainer",
-    {},
-    buttonSchema.parse({})
-  );
+  const sectionNodes = generateSectionNodes(combinedLayout);
+
+  console.log("Section nodes:", sectionNodes);
 
   const combinedNodes = { ROOT: backgroundNode, ...sectionNodes };
+
+  console.log("Combined nodes:", combinedNodes);
 
   const stringifiedNodes = JSON.stringify(combinedNodes);
 

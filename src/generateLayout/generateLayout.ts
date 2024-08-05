@@ -9,8 +9,9 @@ import {
 } from "./createZodSchema";
 import { getChildrenWithProps } from "./getSectionChildrenWithProps";
 
-async function processSketch(
-  sketch: string,
+async function processInput(
+  input: string,
+  inputType: "sketch" | "text",
   context: vscode.ExtensionContext,
   webview: vscode.Webview
 ) {
@@ -23,9 +24,9 @@ async function processSketch(
       apiEndpoint,
       apiKey,
       deploymentName,
-      "sketch",
-      undefined,
-      sketch
+      inputType,
+      inputType === "text" ? input : undefined,
+      inputType === "sketch" ? input : undefined
     );
 
     const parsedLayout = JSON.stringify(layout.sections);
@@ -63,13 +64,22 @@ async function processSketch(
 
     console.log("Generated full children sections with properties:", parsedFullChildren);
 
-    const layoutNodes = buildLayoutNodes(parsedLayout);
+    const layoutNodes = buildLayoutNodes(parsedLayout, parsedFullChildren);
 
     return layoutNodes;
   } catch (error) {
-    console.error("Error processing sketch:", error);
+    console.error("Error processing input:", error);
+    webview.postMessage({ command: "processingStage", stage: "Error occurred during processing" });
     throw error;
   }
+}
+
+async function processSketch(
+  sketch: string,
+  context: vscode.ExtensionContext,
+  webview: vscode.Webview
+) {
+  return processInput(sketch, "sketch", context, webview);
 }
 
 async function processTextDescription(
@@ -77,49 +87,7 @@ async function processTextDescription(
   context: vscode.ExtensionContext,
   webview: vscode.Webview
 ) {
-  try {
-    const { apiKey, apiEndpoint, deploymentName } = await getAzureOpenaiApiKeys(context);
-
-    webview.postMessage({ command: "processingStage", stage: "Generating layout" });
-
-    const layout = await getLayout(
-      apiEndpoint,
-      apiKey,
-      deploymentName,
-      "text",
-      textDescription,
-      undefined
-    );
-
-    console.log("processTextDescription in generateLayout.ts - Layout Response:", layout);
-
-    const zodChildrenSchema = generateSectionChildrenSchema(layout.sections);
-
-    console.log(
-      "processTextDescription in generateLayout.ts - Zod Schema:",
-      JSON.stringify(zodChildrenSchema)
-    );
-
-    const parsedLayout = JSON.stringify(layout.sections);
-
-    const children = await getSectionChildren(
-      apiEndpoint,
-      apiKey,
-      deploymentName,
-      parsedLayout,
-      zodChildrenSchema
-    );
-
-    console.log("processTextDescription in generateLayout.ts - Children Response:", children);
-
-    const layoutNodes = buildLayoutNodes(parsedLayout);
-
-    return layoutNodes;
-  } catch (error) {
-    console.error("Error processing text description:", error);
-    webview.postMessage({ command: "processingStage", stage: "Error occurred during processing" });
-    throw error;
-  }
+  return processInput(textDescription, "text", context, webview);
 }
 
 export { processSketch, processTextDescription };

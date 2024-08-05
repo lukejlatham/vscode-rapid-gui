@@ -2,20 +2,11 @@
   {
     "section": "Header",
     "children": [
-      { "type": "Button", "props": { "width": 10, "height": 5, "text": "Home", "icon": "VscAdd" } },
-      {
-        "type": "Button",
-        "props": { "width": 15, "height": 5, "text": "About Us", "icon": "VscAdd" }
-      },
-      {
-        "type": "Button",
-        "props": { "width": 15, "height": 5, "text": "Services", "icon": "VscAdd" }
-      },
-      {
-        "type": "Button",
-        "props": { "width": 15, "height": 5, "text": "Contact Us", "icon": "VscAdd" }
-      },
-      { "type": "Button", "props": { "width": 15, "height": 5, "text": "Help", "icon": "VscAdd" } }
+      { "type": "Button", "props": { "width": 8, "height": 8, "text": "Home", "icon": "VscHome" } },
+      { "type": "Button", "props": { "width": 8, "height": 8, "text": "Nav1", "icon": "VscInfo" } },
+      { "type": "Button", "props": { "width": 8, "height": 8, "text": "Nav2", "icon": "VscInfo" } },
+      { "type": "Button", "props": { "width": 8, "height": 8, "text": "Nav3", "icon": "VscInfo" } },
+      { "type": "Button", "props": { "width": 8, "height": 8, "text": "Nav4", "icon": "VscInfo" } }
     ]
   },
   {
@@ -23,28 +14,28 @@
     "children": [
       {
         "type": "Button",
-        "props": { "width": 15, "height": 5, "text": "Dashboard", "icon": "VscAdd" }
+        "props": { "width": 8, "height": 8, "text": "Menu1", "icon": "VscSettingsGear" }
       },
       {
         "type": "Button",
-        "props": { "width": 15, "height": 5, "text": "Reports", "icon": "VscAdd" }
+        "props": { "width": 8, "height": 8, "text": "Menu2", "icon": "VscSettingsGear" }
       },
       {
         "type": "Button",
-        "props": { "width": 15, "height": 5, "text": "Settings", "icon": "VscAdd" }
+        "props": { "width": 8, "height": 8, "text": "Menu3", "icon": "VscSettingsGear" }
       },
       {
         "type": "Button",
-        "props": { "width": 15, "height": 5, "text": "Profile", "icon": "VscAdd" }
+        "props": { "width": 8, "height": 8, "text": "Menu4", "icon": "VscSettingsGear" }
       },
       {
         "type": "Button",
-        "props": { "width": 15, "height": 5, "text": "Logout", "icon": "VscAdd" }
+        "props": { "width": 8, "height": 8, "text": "Menu5", "icon": "VscSettingsGear" }
       }
     ]
   },
   {
-    "section": "Main Content",
+    "section": "Main",
     "children": [
       {
         "type": "Label",
@@ -54,25 +45,28 @@
         "type": "Image",
         "props": {
           "src": "https://via.placeholder.com/150",
-          "alt": "Main Content Image",
-          "width": 80,
-          "height": 60
+          "alt": "Main Placeholder",
+          "width": 85,
+          "height": 45
         }
-      }
+      },
+      { "type": "Text", "props": { "text": "Additional content line 1" } },
+      { "type": "Text", "props": { "text": "Additional content line 2" } },
+      { "type": "Text", "props": { "text": "Additional content line 3" } }
     ]
   },
   {
-    "section": "Options Box",
+    "section": "Subsection",
     "children": [
       {
         "type": "Label",
         "props": { "text": "Possible", "bold": true, "italic": false, "underline": false }
       },
-      { "type": "Input", "props": { "backgroundColor": "Main", "placeholder": "Select option" } },
       {
-        "type": "TextBox",
-        "props": { "text": "", "backgroundColor": "Accent1", "height": 50, "width": 90 }
-      }
+        "type": "Input",
+        "props": { "backgroundColor": "Main", "placeholder": "Select an option" }
+      },
+      { "type": "Text", "props": { "text": "Further information below the dropdown" } }
     ]
   },
   {
@@ -81,16 +75,23 @@
       { "type": "Input", "props": { "backgroundColor": "Main", "placeholder": "Search" } },
       {
         "type": "Icon",
-        "props": { "selectedIcon": "VscInfo", "iconSize": 24, "iconColor": "Accent1" }
+        "props": { "selectedIcon": "VscSearch", "iconSize": 18, "iconColor": "Main" }
       },
       {
         "type": "Icon",
-        "props": { "selectedIcon": "VscSettingsGear", "iconSize": 24, "iconColor": "Accent1" }
+        "props": { "selectedIcon": "VscAdd", "iconSize": 18, "iconColor": "Main" }
+      },
+      {
+        "type": "Icon",
+        "props": { "selectedIcon": "VscSave", "iconSize": 18, "iconColor": "Main" }
       },
       {
         "type": "Label",
         "props": { "text": "Contact", "bold": true, "italic": false, "underline": false }
-      }
+      },
+      { "type": "Text", "props": { "text": "1234 Main St" } },
+      { "type": "Text", "props": { "text": "City, ST 12345" } },
+      { "type": "Text", "props": { "text": "Email: contact@example.com" } }
     ]
   }
 ]
