@@ -276,7 +276,7 @@ function buildLayoutNodes(parsedLayout: string, parsedFullChildren: string): str
     // maxH: layoutDimensions.rows,
   }));
 
-  const backgroundNode = createBackgroundNode(layoutDimensions, layout, "292929");
+  const backgroundNode = createBackgroundNode(layoutDimensions, layout, "#292929");
 
   const sectionNodes = generateSectionNodes(combinedLayout);
 

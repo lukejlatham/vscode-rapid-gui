@@ -4,14 +4,15 @@
     "isCanvas": true,
     "props": {
       "rows": 10,
-      "columns": 11,
+      "columns": 10,
       "lockedGrid": false,
-      "backgroundColor": "292929",
+      "backgroundColor": "#292929",
       "layout": [
-        { "i": "0", "x": 1, "y": 1, "w": 10, "h": 1 },
-        { "i": "1", "x": 1, "y": 2, "w": 3, "h": 6 },
-        { "i": "2", "x": 4, "y": 2, "w": 6, "h": 6 },
-        { "i": "3", "x": 1, "y": 8, "w": 10, "h": 2 }
+        { "i": "0", "x": 0, "y": 0, "w": 10, "h": 1 },
+        { "i": "1", "x": 0, "y": 1, "w": 2, "h": 8 },
+        { "i": "2", "x": 2, "y": 1, "w": 6, "h": 8 },
+        { "i": "3", "x": 8, "y": 1, "w": 2, "h": 8 },
+        { "i": "4", "x": 0, "y": 9, "w": 10, "h": 1 }
       ]
     },
     "displayName": "Background",
@@ -20,13 +21,14 @@
     "hidden": false,
     "nodes": [],
     "linkedNodes": {
-      "0": "navigationbarGridCell",
-      "1": "leftsidebarGridCell",
-      "2": "maincontentGridCell",
-      "3": "footerGridCell"
+      "0": "HeaderGridCell",
+      "1": "SidebarGridCell",
+      "2": "MainContentGridCell",
+      "3": "RightPanelGridCell",
+      "4": "FooterGridCell"
     }
   },
-  "navigationbarGridCell": {
+  "HeaderGridCell": {
     "type": { "resolvedName": "GridCell" },
     "isCanvas": true,
     "props": {
@@ -39,10 +41,10 @@
     "custom": { "id": "0" },
     "parent": "ROOT",
     "hidden": false,
-    "nodes": ["navigationbarContainer"],
+    "nodes": ["HeaderContainer"],
     "linkedNodes": {}
   },
-  "navigationbarContainer": {
+  "HeaderContainer": {
     "type": { "resolvedName": "Container" },
     "isCanvas": true,
     "props": {
@@ -52,7 +54,7 @@
       "justifyContent": "space-around",
       "alignItems": "center",
       "gap": 10,
-      "backgroundColor": "#92a0ad",
+      "backgroundColor": "ghostwhite",
       "borderRadius": 5,
       "borderColor": "#666666",
       "padding": 0,
@@ -63,17 +65,12 @@
     },
     "displayName": "Container",
     "custom": {},
-    "parent": "navigationbarGridCell",
+    "parent": "HeaderGridCell",
     "hidden": false,
-    "nodes": [
-      "navigationbarButton0",
-      "navigationbarButton1",
-      "navigationbarButton2",
-      "navigationbarButton3"
-    ],
+    "nodes": ["HeaderButton0", "HeaderButton1", "HeaderButton2", "HeaderButton3", "HeaderButton4"],
     "linkedNodes": {}
   },
-  "navigationbarButton0": {
+  "HeaderButton0": {
     "type": { "resolvedName": "Button" },
     "isCanvas": false,
     "props": {
@@ -81,7 +78,7 @@
       "fontSize": 14,
       "fontColor": "white",
       "borderRadius": 4,
-      "width": 2.5,
+      "width": 15,
       "height": 100,
       "text": "Home",
       "alignment": "center",
@@ -92,12 +89,12 @@
     },
     "displayName": "Button",
     "custom": {},
-    "parent": "navigationbarContainer",
+    "parent": "HeaderContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "navigationbarButton1": {
+  "HeaderButton1": {
     "type": { "resolvedName": "Button" },
     "isCanvas": false,
     "props": {
@@ -105,9 +102,9 @@
       "fontSize": 14,
       "fontColor": "white",
       "borderRadius": 4,
-      "width": 2.5,
+      "width": 15,
       "height": 100,
-      "text": "NavItem1",
+      "text": "About",
       "alignment": "center",
       "shadowColor": "black",
       "shadowOffsetX": 1,
@@ -116,12 +113,12 @@
     },
     "displayName": "Button",
     "custom": {},
-    "parent": "navigationbarContainer",
+    "parent": "HeaderContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "navigationbarButton2": {
+  "HeaderButton2": {
     "type": { "resolvedName": "Button" },
     "isCanvas": false,
     "props": {
@@ -129,9 +126,9 @@
       "fontSize": 14,
       "fontColor": "white",
       "borderRadius": 4,
-      "width": 2.5,
+      "width": 15,
       "height": 100,
-      "text": "NavItem2",
+      "text": "Services",
       "alignment": "center",
       "shadowColor": "black",
       "shadowOffsetX": 1,
@@ -140,12 +137,12 @@
     },
     "displayName": "Button",
     "custom": {},
-    "parent": "navigationbarContainer",
+    "parent": "HeaderContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "navigationbarButton3": {
+  "HeaderButton3": {
     "type": { "resolvedName": "Button" },
     "isCanvas": false,
     "props": {
@@ -153,9 +150,9 @@
       "fontSize": 14,
       "fontColor": "white",
       "borderRadius": 4,
-      "width": 2.5,
+      "width": 15,
       "height": 100,
-      "text": "NavItem3",
+      "text": "Contact",
       "alignment": "center",
       "shadowColor": "black",
       "shadowOffsetX": 1,
@@ -164,12 +161,36 @@
     },
     "displayName": "Button",
     "custom": {},
-    "parent": "navigationbarContainer",
+    "parent": "HeaderContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "leftsidebarGridCell": {
+  "HeaderButton4": {
+    "type": { "resolvedName": "Button" },
+    "isCanvas": false,
+    "props": {
+      "backgroundColor": "#778899",
+      "fontSize": 14,
+      "fontColor": "white",
+      "borderRadius": 4,
+      "width": 20,
+      "height": 100,
+      "text": "Profile",
+      "alignment": "center",
+      "shadowColor": "black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 3
+    },
+    "displayName": "Button",
+    "custom": {},
+    "parent": "HeaderContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "SidebarGridCell": {
     "type": { "resolvedName": "GridCell" },
     "isCanvas": true,
     "props": {
@@ -182,20 +203,20 @@
     "custom": { "id": "1" },
     "parent": "ROOT",
     "hidden": false,
-    "nodes": ["leftsidebarContainer"],
+    "nodes": ["SidebarContainer"],
     "linkedNodes": {}
   },
-  "leftsidebarContainer": {
+  "SidebarContainer": {
     "type": { "resolvedName": "Container" },
     "isCanvas": true,
     "props": {
       "height": 100,
       "width": 100,
-      "flexDirection": "row",
+      "flexDirection": "column",
       "justifyContent": "space-around",
       "alignItems": "center",
       "gap": 10,
-      "backgroundColor": "#92a0ad",
+      "backgroundColor": "ghostwhite",
       "borderRadius": 5,
       "borderColor": "#666666",
       "padding": 0,
@@ -206,113 +227,138 @@
     },
     "displayName": "Container",
     "custom": {},
-    "parent": "leftsidebarGridCell",
+    "parent": "SidebarGridCell",
     "hidden": false,
     "nodes": [
-      "leftsidebarLabel0",
-      "leftsidebarLabel1",
-      "leftsidebarLabel2",
-      "leftsidebarLabel3",
-      "leftsidebarLabel4"
+      "SidebarButton0",
+      "SidebarButton1",
+      "SidebarButton2",
+      "SidebarButton3",
+      "SidebarButton4"
     ],
     "linkedNodes": {}
   },
-  "leftsidebarLabel0": {
-    "type": { "resolvedName": "Label" },
+  "SidebarButton0": {
+    "type": { "resolvedName": "Button" },
     "isCanvas": false,
     "props": {
-      "text": "Menu Link 1",
-      "fontSize": 22,
-      "fontcolor": "black",
-      "textAlign": "left",
-      "bold": true,
-      "italic": false,
-      "underline": false
+      "backgroundColor": "#778899",
+      "fontSize": 14,
+      "fontColor": "white",
+      "borderRadius": 4,
+      "width": 100,
+      "height": 10,
+      "text": "Dashboard",
+      "alignment": "center",
+      "shadowColor": "black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 3
     },
-    "displayName": "Label",
+    "displayName": "Button",
     "custom": {},
-    "parent": "leftsidebarContainer",
+    "parent": "SidebarContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "leftsidebarLabel1": {
-    "type": { "resolvedName": "Label" },
+  "SidebarButton1": {
+    "type": { "resolvedName": "Button" },
     "isCanvas": false,
     "props": {
-      "text": "Menu Link 2",
-      "fontSize": 22,
-      "fontcolor": "black",
-      "textAlign": "left",
-      "bold": true,
-      "italic": false,
-      "underline": false
+      "backgroundColor": "#778899",
+      "fontSize": 14,
+      "fontColor": "white",
+      "borderRadius": 4,
+      "width": 100,
+      "height": 10,
+      "text": "Settings",
+      "alignment": "center",
+      "shadowColor": "black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 3
     },
-    "displayName": "Label",
+    "displayName": "Button",
     "custom": {},
-    "parent": "leftsidebarContainer",
+    "parent": "SidebarContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "leftsidebarLabel2": {
-    "type": { "resolvedName": "Label" },
+  "SidebarButton2": {
+    "type": { "resolvedName": "Button" },
     "isCanvas": false,
     "props": {
-      "text": "Menu Link 3",
-      "fontSize": 22,
-      "fontcolor": "black",
-      "textAlign": "left",
-      "bold": true,
-      "italic": false,
-      "underline": false
+      "backgroundColor": "#778899",
+      "fontSize": 14,
+      "fontColor": "white",
+      "borderRadius": 4,
+      "width": 100,
+      "height": 10,
+      "text": "Reports",
+      "alignment": "center",
+      "shadowColor": "black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 3
     },
-    "displayName": "Label",
+    "displayName": "Button",
     "custom": {},
-    "parent": "leftsidebarContainer",
+    "parent": "SidebarContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "leftsidebarLabel3": {
-    "type": { "resolvedName": "Label" },
+  "SidebarButton3": {
+    "type": { "resolvedName": "Button" },
     "isCanvas": false,
     "props": {
-      "text": "Menu Link 4",
-      "fontSize": 22,
-      "fontcolor": "black",
-      "textAlign": "left",
-      "bold": true,
-      "italic": false,
-      "underline": false
+      "backgroundColor": "#778899",
+      "fontSize": 14,
+      "fontColor": "white",
+      "borderRadius": 4,
+      "width": 100,
+      "height": 10,
+      "text": "Support",
+      "alignment": "center",
+      "shadowColor": "black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 3
     },
-    "displayName": "Label",
+    "displayName": "Button",
     "custom": {},
-    "parent": "leftsidebarContainer",
+    "parent": "SidebarContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "leftsidebarLabel4": {
-    "type": { "resolvedName": "Label" },
+  "SidebarButton4": {
+    "type": { "resolvedName": "Button" },
     "isCanvas": false,
     "props": {
-      "text": "Menu Link 5",
-      "fontSize": 22,
-      "fontcolor": "black",
-      "textAlign": "left",
-      "bold": true,
-      "italic": false,
-      "underline": false
+      "backgroundColor": "#778899",
+      "fontSize": 14,
+      "fontColor": "white",
+      "borderRadius": 4,
+      "width": 100,
+      "height": 10,
+      "text": "Log Out",
+      "alignment": "center",
+      "shadowColor": "black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 3
     },
-    "displayName": "Label",
+    "displayName": "Button",
     "custom": {},
-    "parent": "leftsidebarContainer",
+    "parent": "SidebarContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "maincontentGridCell": {
+  "MainContentGridCell": {
     "type": { "resolvedName": "GridCell" },
     "isCanvas": true,
     "props": {
@@ -325,20 +371,20 @@
     "custom": { "id": "2" },
     "parent": "ROOT",
     "hidden": false,
-    "nodes": ["maincontentContainer"],
+    "nodes": ["MainContentContainer"],
     "linkedNodes": {}
   },
-  "maincontentContainer": {
+  "MainContentContainer": {
     "type": { "resolvedName": "Container" },
     "isCanvas": true,
     "props": {
       "height": 100,
       "width": 100,
-      "flexDirection": "row",
+      "flexDirection": "column",
       "justifyContent": "space-around",
       "alignItems": "center",
       "gap": 10,
-      "backgroundColor": "#92a0ad",
+      "backgroundColor": "ghostwhite",
       "borderRadius": 5,
       "borderColor": "#666666",
       "padding": 0,
@@ -349,16 +395,21 @@
     },
     "displayName": "Container",
     "custom": {},
-    "parent": "maincontentGridCell",
+    "parent": "MainContentGridCell",
     "hidden": false,
-    "nodes": ["maincontentText0", "maincontentImage1", "maincontentTextBox2", "maincontentText3"],
+    "nodes": [
+      "MainContentText0",
+      "MainContentImage1",
+      "MainContentTextBox2",
+      "MainContentTextBox3"
+    ],
     "linkedNodes": {}
   },
-  "maincontentText0": {
+  "MainContentText0": {
     "type": { "resolvedName": "Text" },
     "isCanvas": false,
     "props": {
-      "text": "Step 1",
+      "text": "STEP 1",
       "fontSize": 14,
       "fontColor": "black",
       "textAlign": "left",
@@ -369,32 +420,32 @@
     },
     "displayName": "Text",
     "custom": {},
-    "parent": "maincontentContainer",
+    "parent": "MainContentContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "maincontentImage1": {
+  "MainContentImage1": {
     "type": { "resolvedName": "Image" },
     "isCanvas": false,
     "props": {
       "src": "https://media.licdn.com/dms/image/D4E22AQGL4EZgEpG2ag/feedshare-shrink_800/0/17110080422738?e=2147483647&v=beta&t=Nj786KjutiTxei_wgDDM40hcWFi5_-qqBIKM4jOa3Hc",
       "alt": "To be replaced",
       "width": 100,
-      "height": 60
+      "height": 50
     },
     "displayName": "Image",
     "custom": {},
-    "parent": "maincontentContainer",
+    "parent": "MainContentContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "maincontentTextBox2": {
+  "MainContentTextBox2": {
     "type": { "resolvedName": "TextBox" },
     "isCanvas": false,
     "props": {
-      "text": "Possible",
+      "text": "Description",
       "fontSize": 14,
       "fontColor": "black",
       "backgroundColor": "white",
@@ -406,32 +457,33 @@
     },
     "displayName": "TextBox",
     "custom": {},
-    "parent": "maincontentContainer",
+    "parent": "MainContentContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "maincontentText3": {
-    "type": { "resolvedName": "Text" },
+  "MainContentTextBox3": {
+    "type": { "resolvedName": "TextBox" },
     "isCanvas": false,
     "props": {
-      "text": "Additional Elements",
+      "text": "Additional Info",
       "fontSize": 14,
       "fontColor": "black",
-      "textAlign": "left",
-      "bold": false,
-      "italic": false,
-      "underline": false,
-      "userEditable": true
+      "backgroundColor": "white",
+      "placeholder": "Enter text",
+      "borderRadius": 4,
+      "height": 20,
+      "width": 100,
+      "alignment": "left"
     },
-    "displayName": "Text",
+    "displayName": "TextBox",
     "custom": {},
-    "parent": "maincontentContainer",
+    "parent": "MainContentContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "footerGridCell": {
+  "RightPanelGridCell": {
     "type": { "resolvedName": "GridCell" },
     "isCanvas": true,
     "props": {
@@ -444,20 +496,20 @@
     "custom": { "id": "3" },
     "parent": "ROOT",
     "hidden": false,
-    "nodes": ["footerContainer"],
+    "nodes": ["RightPanelContainer"],
     "linkedNodes": {}
   },
-  "footerContainer": {
+  "RightPanelContainer": {
     "type": { "resolvedName": "Container" },
     "isCanvas": true,
     "props": {
       "height": 100,
       "width": 100,
-      "flexDirection": "row",
+      "flexDirection": "column",
       "justifyContent": "space-around",
       "alignItems": "center",
       "gap": 10,
-      "backgroundColor": "#92a0ad",
+      "backgroundColor": "ghostwhite",
       "borderRadius": 5,
       "borderColor": "#666666",
       "padding": 0,
@@ -468,12 +520,91 @@
     },
     "displayName": "Container",
     "custom": {},
-    "parent": "footerGridCell",
+    "parent": "RightPanelGridCell",
     "hidden": false,
-    "nodes": ["footerInput0", "footerIcon1", "footerIcon2", "footerIcon3", "footerText4"],
+    "nodes": ["RightPanelLabel0", "RightPanelCheckbox1"],
     "linkedNodes": {}
   },
-  "footerInput0": {
+  "RightPanelLabel0": {
+    "type": { "resolvedName": "Label" },
+    "isCanvas": false,
+    "props": {
+      "text": "POSSIBLE",
+      "fontSize": 22,
+      "fontcolor": "black",
+      "textAlign": "left",
+      "bold": true,
+      "italic": false,
+      "underline": false
+    },
+    "displayName": "Label",
+    "custom": {},
+    "parent": "RightPanelContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "RightPanelCheckbox1": {
+    "type": { "resolvedName": "Checkbox" },
+    "isCanvas": false,
+    "props": {
+      "header": "Checkbox Header",
+      "optionLabels": ["Option 1", "Option 2", "Option 3", "Option 4"],
+      "numberOfBoxes": 4,
+      "fontSize": 14,
+      "fontColor": "black",
+      "direction": "column"
+    },
+    "displayName": "Checkbox",
+    "custom": {},
+    "parent": "RightPanelContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "FooterGridCell": {
+    "type": { "resolvedName": "GridCell" },
+    "isCanvas": true,
+    "props": {
+      "flexDirection": "row",
+      "justifyContent": "center",
+      "alignItems": "center",
+      "gap": 10
+    },
+    "displayName": "GridCell",
+    "custom": { "id": "4" },
+    "parent": "ROOT",
+    "hidden": false,
+    "nodes": ["FooterContainer"],
+    "linkedNodes": {}
+  },
+  "FooterContainer": {
+    "type": { "resolvedName": "Container" },
+    "isCanvas": true,
+    "props": {
+      "height": 100,
+      "width": 100,
+      "flexDirection": "row",
+      "justifyContent": "space-around",
+      "alignItems": "center",
+      "gap": 10,
+      "backgroundColor": "ghostwhite",
+      "borderRadius": 5,
+      "borderColor": "#666666",
+      "padding": 0,
+      "shadowColor": "black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 3
+    },
+    "displayName": "Container",
+    "custom": {},
+    "parent": "FooterGridCell",
+    "hidden": false,
+    "nodes": ["FooterInput0", "FooterIcon1", "FooterIcon2", "FooterIcon3", "FooterLabel4"],
+    "linkedNodes": {}
+  },
+  "FooterInput0": {
     "type": { "resolvedName": "Input" },
     "isCanvas": false,
     "props": {
@@ -485,60 +616,59 @@
     },
     "displayName": "Input",
     "custom": {},
-    "parent": "footerContainer",
+    "parent": "FooterContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "footerIcon1": {
+  "FooterIcon1": {
     "type": { "resolvedName": "Icon" },
     "isCanvas": false,
     "props": { "selectedIcon": "VscSearch", "iconSize": 24, "iconColor": "#778899" },
     "displayName": "Icon",
     "custom": {},
-    "parent": "footerContainer",
+    "parent": "FooterContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "footerIcon2": {
+  "FooterIcon2": {
     "type": { "resolvedName": "Icon" },
     "isCanvas": false,
-    "props": { "selectedIcon": "VscHome", "iconSize": 24, "iconColor": "#778899" },
+    "props": { "selectedIcon": "VscSearch", "iconSize": 24, "iconColor": "#778899" },
     "displayName": "Icon",
     "custom": {},
-    "parent": "footerContainer",
+    "parent": "FooterContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "footerIcon3": {
+  "FooterIcon3": {
     "type": { "resolvedName": "Icon" },
     "isCanvas": false,
-    "props": { "selectedIcon": "VscInfo", "iconSize": 24, "iconColor": "#778899" },
+    "props": { "selectedIcon": "VscSearch", "iconSize": 24, "iconColor": "#778899" },
     "displayName": "Icon",
     "custom": {},
-    "parent": "footerContainer",
+    "parent": "FooterContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "footerText4": {
-    "type": { "resolvedName": "Text" },
+  "FooterLabel4": {
+    "type": { "resolvedName": "Label" },
     "isCanvas": false,
     "props": {
-      "text": "Contact Info",
-      "fontSize": 14,
-      "fontColor": "black",
+      "text": "Contact",
+      "fontSize": 22,
+      "fontcolor": "black",
       "textAlign": "left",
-      "bold": false,
+      "bold": true,
       "italic": false,
-      "underline": false,
-      "userEditable": true
+      "underline": false
     },
-    "displayName": "Text",
+    "displayName": "Label",
     "custom": {},
-    "parent": "footerContainer",
+    "parent": "FooterContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}

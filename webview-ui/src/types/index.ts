@@ -29,7 +29,7 @@ export const backgroundSchema = z.object({
 export type BackgroundProps = z.infer<typeof backgroundSchema>;
 
 export const buttonSchema = z.object({
-  backgroundColor: z.string().default("#778899"),
+  backgroundColor: z.string().default("lightslategray"),
   fontSize: z.number().default(14),
   fontColor: z.string().default("white"),
   borderRadius: z.number().default(4),
@@ -74,7 +74,7 @@ export const containerSchema = z.object({
   gap: z.number().optional().default(10),
   backgroundColor: z.string().default("ghostwhite"),
   borderRadius: z.number().default(5),
-  borderColor: z.string().optional().default("#666666"),
+  borderColor: z.string().optional().default("black"),
   padding: z.number().default(0),
   shadowColor: z.string().optional().default("black"),
   shadowOffsetX: z.number().optional().default(1),
@@ -156,7 +156,7 @@ export const iconSchema = z.object({
     .refine((val) => val in VscIcons)
     .optional() as z.ZodType<VscIconKeys>,
   iconSize: z.number().default(24).optional(),
-  iconColor: z.string().optional().default("#778899"),
+  iconColor: z.string().optional().default("lightslategray"),
   hyperlink: z.string().optional(),
 });
 
@@ -203,7 +203,7 @@ export const textSchema = z.object({
   bold: z.boolean().optional().default(false),
   italic: z.boolean().optional().default(false),
   underline: z.boolean().optional().default(false),
-  hyperlink: z.string().optional(),
+  hyperlink: z.string().optional().default(""),
   userEditable: z.boolean().optional().default(true),
 });
 
