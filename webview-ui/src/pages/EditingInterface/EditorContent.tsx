@@ -61,7 +61,7 @@ export const EditorContent: React.FC<EditorContentProps> = ({
     return (
         <div className={classes.mainLayout}>
             <div className={classes.leftSidebar}>
-                <LeftSidebar classes={classes} />
+                <LeftSidebar classes={classes} pages={pages} currentPageIndex={currentPageIndex}/>
             </div>
             <div className={classes.mainContent}>
                 <div className={classes.pageNavigation}>
@@ -81,6 +81,7 @@ export const EditorContent: React.FC<EditorContentProps> = ({
                         icon={<DocumentOnePageAddRegular />}
                         size='large'
                         onClick={() => {
+                            updateCurrentPage(); // Save current page before adding new
                             addPage();
                         }}
                     >

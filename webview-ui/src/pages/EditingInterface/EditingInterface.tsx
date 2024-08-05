@@ -58,7 +58,7 @@ const useStyles = makeStyles({
     },
 });
 
-const LOCAL_STORAGE_KEY = 'dragDropEditorPages';
+const LOCAL_STORAGE_KEY = 'userPages';
 
 const createDefaultPage = (): Page => ({
     id: uuidv4(),
@@ -113,11 +113,11 @@ const EditingInterface: React.FC = () => {
       }, []);
     
 
-      useEffect(() => {
-        if (!isLoading) {
-          localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(pages));
-        }
-      }, [pages, isLoading]);
+      // useEffect(() => {
+      //   if (!isLoading) {
+      //     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(pages));
+      //   }
+      // }, [pages, isLoading]);
 
       const addPage = () => {
         const newPage = createDefaultPage();
