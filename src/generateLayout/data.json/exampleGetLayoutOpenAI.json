@@ -1,140 +1,72 @@
 {
   "sections": [
     {
-      "id": "header",
       "name": "Header",
       "xPosition": 0,
       "yPosition": 0,
       "width": 10,
       "height": 1,
+      "backgroundColor": "#92a0ad",
+      "flexDirection": "row",
       "children": [
-        {
-          "name": "Button",
-          "props": { "type": "Button", "icon": "", "text": "HOME", "alignment": "center" }
-        }
+        { "type": "Button", "name": "HomeButton", "text": "HOME", "backgroundColor": "#778899" },
+        { "type": "Button", "name": "Button1", "text": " ", "backgroundColor": "#778899" },
+        { "type": "Button", "name": "Button2", "text": " ", "backgroundColor": "#778899" },
+        { "type": "Button", "name": "Button3", "text": " ", "backgroundColor": "#778899" }
       ]
     },
     {
-      "id": "navigation",
-      "name": "Navigation Buttons",
-      "xPosition": 1,
-      "yPosition": 1,
-      "width": 8,
-      "height": 1,
-      "children": [
-        {
-          "name": "Button",
-          "props": { "type": "Button", "icon": "", "text": "Nav1", "alignment": "center" }
-        },
-        {
-          "name": "Button",
-          "props": { "type": "Button", "icon": "", "text": "Nav2", "alignment": "center" }
-        },
-        {
-          "name": "Button",
-          "props": { "type": "Button", "icon": "", "text": "Nav3", "alignment": "center" }
-        },
-        {
-          "name": "Button",
-          "props": { "type": "Button", "icon": "", "text": "Nav4", "alignment": "center" }
-        }
-      ]
-    },
-    {
-      "id": "sidebar",
       "name": "Sidebar",
       "xPosition": 0,
-      "yPosition": 2,
+      "yPosition": 1,
       "width": 3,
-      "height": 6,
+      "height": 8,
+      "backgroundColor": "#bbc4cc",
+      "flexDirection": "column",
       "children": [
-        { "name": "Label", "props": { "type": "Label", "text": "Link 1", "textAlign": "left" } },
-        { "name": "Label", "props": { "type": "Label", "text": "Link 2", "textAlign": "left" } },
-        { "name": "Label", "props": { "type": "Label", "text": "Link 3", "textAlign": "left" } },
-        { "name": "Label", "props": { "type": "Label", "text": "Link 4", "textAlign": "left" } },
-        { "name": "Label", "props": { "type": "Label", "text": "Link 5", "textAlign": "left" } },
-        { "name": "Label", "props": { "type": "Label", "text": "Link 6", "textAlign": "left" } }
+        { "type": "Label", "name": "Label1", "text": " ", "backgroundColor": "#778899" },
+        { "type": "Label", "name": "Label2", "text": " ", "backgroundColor": "#778899" },
+        { "type": "Label", "name": "Label3", "text": " ", "backgroundColor": "#778899" },
+        { "type": "Label", "name": "Label4", "text": " ", "backgroundColor": "#778899" },
+        { "type": "Label", "name": "Label5", "text": " ", "backgroundColor": "#778899" }
       ]
     },
     {
-      "id": "main",
-      "name": "Main Content",
+      "name": "MainContent",
       "xPosition": 3,
-      "yPosition": 2,
-      "width": 5,
-      "height": 6,
+      "yPosition": 1,
+      "width": 7,
+      "height": 8,
+      "backgroundColor": "#92a0ad",
+      "flexDirection": "column",
       "children": [
-        { "name": "Label", "props": { "type": "Label", "text": "STEP 1", "textAlign": "left" } },
+        { "type": "Label", "name": "StepLabel", "text": "STEP 1", "backgroundColor": "#778899" },
+        { "type": "Image", "name": "ImagePlaceholder", "text": " ", "backgroundColor": "#778899" },
         {
-          "name": "TextBox",
-          "props": { "type": "TextBox", "text": "Text Box", "placeholder": "", "alignment": "left" }
-        }
+          "type": "Label",
+          "name": "PossibleLabel",
+          "text": "POSSIBLE",
+          "backgroundColor": "#778899"
+        },
+        { "type": "TextBox", "name": "TextBox1", "text": "", "backgroundColor": "#778899" }
       ]
     },
     {
-      "id": "image",
-      "name": "Image",
-      "xPosition": 3,
-      "yPosition": 3.5,
-      "width": 5,
-      "height": 1.5,
-      "children": [
-        {
-          "name": "Image",
-          "props": {
-            "type": "Image",
-            "src": "https://via.placeholder.com/300x150",
-            "alt": "Main Image",
-            "width": 150,
-            "height": 150,
-            "alignment": "left"
-          }
-        }
-      ]
-    },
-    {
-      "id": "dropdown",
-      "name": "Dropdown",
-      "xPosition": 3,
-      "yPosition": 5.5,
-      "width": 5,
-      "height": 1,
-      "children": [
-        {
-          "name": "RadioButton",
-          "props": {
-            "type": "RadioButton",
-            "header": "Possible",
-            "optionLabels": [],
-            "numberOfButtons": 1,
-            "direction": "row"
-          }
-        }
-      ]
-    },
-    {
-      "id": "footer",
       "name": "Footer",
       "xPosition": 0,
       "yPosition": 9,
       "width": 10,
-      "height": 1.5,
+      "height": 1,
+      "backgroundColor": "#92a0ad",
+      "flexDirection": "row",
       "children": [
-        { "name": "Input", "props": { "type": "Input", "placeholder": "Search" } },
-        {
-          "name": "Button",
-          "props": { "type": "Button", "icon": "", "text": "O", "alignment": "center" }
-        },
-        {
-          "name": "Button",
-          "props": { "type": "Button", "icon": "", "text": "O", "alignment": "center" }
-        },
-        {
-          "name": "Button",
-          "props": { "type": "Button", "icon": "", "text": "O", "alignment": "center" }
-        },
-        { "name": "Label", "props": { "type": "Label", "text": "CONTACT", "textAlign": "right" } }
+        { "type": "Input", "name": "SearchInput", "text": "SEARCH", "backgroundColor": "#778899" },
+        { "type": "Button", "name": "FooterButton1", "text": " ", "backgroundColor": "#778899" },
+        { "type": "Button", "name": "FooterButton2", "text": " ", "backgroundColor": "#778899" },
+        { "type": "Button", "name": "FooterButton3", "text": " ", "backgroundColor": "#778899" },
+        { "type": "Label", "name": "ContactLabel", "text": "CONTACT", "backgroundColor": "#778899" }
       ]
     }
-  ]
+  ],
+  "_meta": { "usage": { "completion_tokens": 408, "prompt_tokens": 1191, "total_tokens": 1599 } }
 }

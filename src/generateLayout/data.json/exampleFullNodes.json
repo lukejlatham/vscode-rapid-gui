@@ -1,469 +1,490 @@
 {
   "ROOT": {
-    "type": {
-      "resolvedName": "Background"
-    },
-    "isCanvas": false,
+    "type": { "resolvedName": "Background" },
+    "isCanvas": true,
     "props": {
-      "backgroundColor": "#333",
-      "id": "background",
       "rows": 10,
-      "columns": 10
+      "columns": 10,
+      "lockedGrid": false,
+      "backgroundColor": "ghostwhite",
+      "layout": [
+        { "i": "0", "x": 0, "y": 0, "w": 10, "h": 1 },
+        { "i": "1", "x": 0, "y": 1, "w": 10, "h": 8 },
+        { "i": "2", "x": 0, "y": 1, "w": 2, "h": 8 },
+        { "i": "3", "x": 0, "y": 9, "w": 10, "h": 1 }
+      ]
     },
     "displayName": "Background",
     "custom": {},
+    "parent": null,
     "hidden": false,
-    "nodes": ["Header", "Sidebar", "MainContent", "Footer"],
+    "nodes": [],
     "linkedNodes": {
-      "Header": "Header",
-      "Sidebar": "Sidebar",
-      "MainContent": "MainContent",
-      "Footer": "Footer"
+      "0": "HeaderGridCell",
+      "1": "MainContentGridCell",
+      "2": "SidebarGridCell",
+      "3": "FooterGridCell"
     }
   },
-  "Header": {
-    "type": {
-      "resolvedName": "Container"
-    },
+  "HeaderGridCell": {
+    "type": { "resolvedName": "GridCell" },
     "isCanvas": true,
     "props": {
-      "id": "Header",
-      "x": 0,
-      "y": 0,
-      "w": 10,
-      "h": 1
+      "flexDirection": "row",
+      "justifyContent": "center",
+      "alignItems": "center",
+      "gap": 10
+    },
+    "displayName": "GridCell",
+    "custom": { "id": "0" },
+    "parent": "ROOT",
+    "hidden": false,
+    "nodes": ["HeaderContainer"],
+    "linkedNodes": {}
+  },
+  "HeaderContainer": {
+    "type": { "resolvedName": "Container" },
+    "isCanvas": true,
+    "props": {
+      "height": 96,
+      "width": 96,
+      "flexDirection": "row",
+      "justifyContent": "space-around",
+      "alignItems": "center",
+      "gap": 10,
+      "backgroundColor": "#92a0ad",
+      "borderRadius": 5,
+      "padding": 0,
+      "shadowColor": "black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 3
     },
     "displayName": "Container",
     "custom": {},
-    "parent": "ROOT",
+    "parent": "HeaderGridCell",
     "hidden": false,
-    "nodes": ["homeButton", "headerButton1", "headerButton2", "headerButton3"],
+    "nodes": ["Home", "NavButton1", "NavButton2", "NavButton3"],
     "linkedNodes": {}
   },
-  "Sidebar": {
-    "type": {
-      "resolvedName": "Container"
+  "Home": {
+    "type": { "resolvedName": "Button" },
+    "isCanvas": false,
+    "props": {
+      "backgroundColor": "#778899",
+      "fontSize": 14,
+      "fontColor": "black",
+      "borderRadius": 4,
+      "width": 80,
+      "height": 60,
+      "text": "Home",
+      "alignment": "center",
+      "shadowColor": "black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 3
     },
+    "displayName": "Button",
+    "custom": {},
+    "parent": "HeaderContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "NavButton1": {
+    "type": { "resolvedName": "Button" },
+    "isCanvas": false,
+    "props": {
+      "backgroundColor": "#778899",
+      "fontSize": 14,
+      "fontColor": "black",
+      "borderRadius": 4,
+      "width": 80,
+      "height": 60,
+      "text": "Button1",
+      "alignment": "center",
+      "shadowColor": "black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 3
+    },
+    "displayName": "Button",
+    "custom": {},
+    "parent": "HeaderContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "NavButton2": {
+    "type": { "resolvedName": "Button" },
+    "isCanvas": false,
+    "props": {
+      "backgroundColor": "#778899",
+      "fontSize": 14,
+      "fontColor": "black",
+      "borderRadius": 4,
+      "width": 80,
+      "height": 60,
+      "text": "Button2",
+      "alignment": "center",
+      "shadowColor": "black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 3
+    },
+    "displayName": "Button",
+    "custom": {},
+    "parent": "HeaderContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "NavButton3": {
+    "type": { "resolvedName": "Button" },
+    "isCanvas": false,
+    "props": {
+      "backgroundColor": "#778899",
+      "fontSize": 14,
+      "fontColor": "black",
+      "borderRadius": 4,
+      "width": 80,
+      "height": 60,
+      "text": "Button3",
+      "alignment": "center",
+      "shadowColor": "black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 3
+    },
+    "displayName": "Button",
+    "custom": {},
+    "parent": "HeaderContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "MainContentGridCell": {
+    "type": { "resolvedName": "GridCell" },
     "isCanvas": true,
     "props": {
-      "id": "Sidebar",
-      "x": 0,
-      "y": 1,
-      "w": 2,
-      "h": 9
+      "flexDirection": "row",
+      "justifyContent": "center",
+      "alignItems": "center",
+      "gap": 10
+    },
+    "displayName": "GridCell",
+    "custom": { "id": "1" },
+    "parent": "ROOT",
+    "hidden": false,
+    "nodes": ["MainContentContainer"],
+    "linkedNodes": {}
+  },
+  "MainContentContainer": {
+    "type": { "resolvedName": "Container" },
+    "isCanvas": true,
+    "props": {
+      "height": 96,
+      "width": 96,
+      "flexDirection": "row",
+      "justifyContent": "space-around",
+      "alignItems": "center",
+      "gap": 10,
+      "backgroundColor": "#bbc4cc",
+      "borderRadius": 5,
+      "padding": 0,
+      "shadowColor": "black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 3
     },
     "displayName": "Container",
     "custom": {},
-    "parent": "ROOT",
+    "parent": "MainContentGridCell",
     "hidden": false,
-    "nodes": ["sidebarLabel1", "sidebarLabel2", "sidebarLabel3", "sidebarLabel4", "sidebarLabel5"],
+    "nodes": ["StepLabel", "MainImage", "PossibleTextBox"],
     "linkedNodes": {}
   },
-  "MainContent": {
-    "type": {
-      "resolvedName": "Container"
-    },
-    "isCanvas": true,
-    "props": {
-      "id": "MainContent",
-      "x": 2,
-      "y": 1,
-      "w": 8,
-      "h": 8
-    },
-    "displayName": "Container",
+  "StepLabel": {
+    "type": { "resolvedName": "Label" },
+    "isCanvas": false,
+    "props": { "text": "STEP 1", "fontSize": 20, "fontcolor": "black", "textAlign": "left" },
+    "displayName": "Label",
     "custom": {},
-    "parent": "ROOT",
+    "parent": "MainContentContainer",
     "hidden": false,
-    "nodes": ["stepLabel", "stepImage", "possibleLabel", "possibleTextBox"],
+    "nodes": [],
     "linkedNodes": {}
   },
-  "Footer": {
-    "type": {
-      "resolvedName": "Container"
-    },
-    "isCanvas": true,
-    "props": {
-      "id": "Footer",
-      "x": 0,
-      "y": 9,
-      "w": 10,
-      "h": 1
-    },
-    "displayName": "Container",
-    "custom": {},
-    "parent": "ROOT",
-    "hidden": false,
-    "nodes": ["searchBox", "footerButton1", "footerButton2", "footerButton3", "contactLabel"],
-    "linkedNodes": {}
-  },
-  "homeButton": {
-    "type": {
-      "resolvedName": "Button"
-    },
+  "MainImage": {
+    "type": { "resolvedName": "Image" },
     "isCanvas": false,
     "props": {
-      "backgroundColor": "#0047AB",
-      "fontColor": "white",
-      "fontSize": 20,
-      "borderRadius": 4,
-      "text": "New Button",
+      "src": "https://via.placeholder.com/150",
+      "alt": "Image",
       "width": 150,
-      "height": 50,
-      "alignment": "center"
-    },
-    "displayName": "Button",
-    "custom": {},
-    "parent": "Header",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "headerButton1": {
-    "type": {
-      "resolvedName": "Button"
-    },
-    "isCanvas": false,
-    "props": {
-      "backgroundColor": "#0047AB",
-      "fontColor": "white",
-      "fontSize": 20,
-      "borderRadius": 4,
-      "text": "New Button",
-      "width": 150,
-      "height": 50,
-      "alignment": "center"
-    },
-    "displayName": "Button",
-    "custom": {},
-    "parent": "Header",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "headerButton2": {
-    "type": {
-      "resolvedName": "Button"
-    },
-    "isCanvas": false,
-    "props": {
-      "backgroundColor": "#0047AB",
-      "fontColor": "white",
-      "fontSize": 20,
-      "borderRadius": 4,
-      "text": "New Button",
-      "width": 150,
-      "height": 50,
-      "alignment": "center"
-    },
-    "displayName": "Button",
-    "custom": {},
-    "parent": "Header",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "headerButton3": {
-    "type": {
-      "resolvedName": "Button"
-    },
-    "isCanvas": false,
-    "props": {
-      "backgroundColor": "#0047AB",
-      "fontColor": "white",
-      "fontSize": 20,
-      "borderRadius": 4,
-      "text": "New Button",
-      "width": 150,
-      "height": 50,
-      "alignment": "center"
-    },
-    "displayName": "Button",
-    "custom": {},
-    "parent": "Header",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "sidebarLabel1": {
-    "type": {
-      "resolvedName": "Label"
-    },
-    "isCanvas": false,
-    "props": {
-      "text": "New Label",
-      "textAlign": "left",
-      "fontSize": 20,
-      "color": "#FFFFFF",
-      "userEditable": true
-    },
-    "displayName": "Label",
-    "custom": {},
-    "parent": "Sidebar",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "sidebarLabel2": {
-    "type": {
-      "resolvedName": "Label"
-    },
-    "isCanvas": false,
-    "props": {
-      "text": "New Label",
-      "textAlign": "left",
-      "fontSize": 20,
-      "color": "#FFFFFF",
-      "userEditable": true
-    },
-    "displayName": "Label",
-    "custom": {},
-    "parent": "Sidebar",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "sidebarLabel3": {
-    "type": {
-      "resolvedName": "Label"
-    },
-    "isCanvas": false,
-    "props": {
-      "text": "New Label",
-      "textAlign": "left",
-      "fontSize": 20,
-      "color": "#FFFFFF",
-      "userEditable": true
-    },
-    "displayName": "Label",
-    "custom": {},
-    "parent": "Sidebar",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "sidebarLabel4": {
-    "type": {
-      "resolvedName": "Label"
-    },
-    "isCanvas": false,
-    "props": {
-      "text": "New Label",
-      "textAlign": "left",
-      "fontSize": 20,
-      "color": "#FFFFFF",
-      "userEditable": true
-    },
-    "displayName": "Label",
-    "custom": {},
-    "parent": "Sidebar",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "sidebarLabel5": {
-    "type": {
-      "resolvedName": "Label"
-    },
-    "isCanvas": false,
-    "props": {
-      "text": "New Label",
-      "textAlign": "left",
-      "fontSize": 20,
-      "color": "#FFFFFF",
-      "userEditable": true
-    },
-    "displayName": "Label",
-    "custom": {},
-    "parent": "Sidebar",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "stepLabel": {
-    "type": {
-      "resolvedName": "Label"
-    },
-    "isCanvas": false,
-    "props": {
-      "text": "New Label",
-      "textAlign": "left",
-      "fontSize": 20,
-      "color": "#FFFFFF",
-      "userEditable": true
-    },
-    "displayName": "Label",
-    "custom": {},
-    "parent": "MainContent",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "stepImage": {
-    "type": {
-      "resolvedName": "Image"
-    },
-    "isCanvas": false,
-    "props": {
-      "src": "https://photographylife.com/wp-content/uploads/2023/05/Nikon-Z8-Official-Samples-00002.jpg",
-      "alt": "New image",
-      "width": 480,
-      "height": 320,
-      "alignment": "center"
+      "height": 150
     },
     "displayName": "Image",
     "custom": {},
-    "parent": "MainContent",
+    "parent": "MainContentContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "possibleLabel": {
-    "type": {
-      "resolvedName": "Label"
-    },
+  "PossibleTextBox": {
+    "type": { "resolvedName": "TextBox" },
     "isCanvas": false,
     "props": {
-      "text": "New Label",
-      "textAlign": "left",
-      "fontSize": 20,
-      "color": "#FFFFFF",
-      "userEditable": true
-    },
-    "displayName": "Label",
-    "custom": {},
-    "parent": "MainContent",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "possibleTextBox": {
-    "type": {
-      "resolvedName": "TextBox"
-    },
-    "isCanvas": false,
-    "props": {
-      "text": "",
-      "fontSize": 16,
+      "text": "Possible",
+      "fontSize": 14,
       "fontColor": "black",
-      "backgroundColor": "white",
-      "placeholder": "Placeholder...",
-      "rows": 5,
-      "cols": 20,
-      "borderRadius": 5,
-      "alignment": "center"
+      "backgroundColor": "#778899",
+      "placeholder": "Enter text",
+      "borderRadius": 4,
+      "height": 100,
+      "width": 100,
+      "alignment": "left"
     },
     "displayName": "TextBox",
     "custom": {},
-    "parent": "MainContent",
+    "parent": "MainContentContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "searchBox": {
-    "type": {
-      "resolvedName": "TextBox"
-    },
-    "isCanvas": false,
+  "SidebarGridCell": {
+    "type": { "resolvedName": "GridCell" },
+    "isCanvas": true,
     "props": {
-      "text": "",
-      "fontSize": 16,
-      "fontColor": "black",
-      "backgroundColor": "white",
-      "placeholder": "Placeholder...",
-      "rows": 5,
-      "cols": 20,
+      "flexDirection": "row",
+      "justifyContent": "center",
+      "alignItems": "center",
+      "gap": 10
+    },
+    "displayName": "GridCell",
+    "custom": { "id": "2" },
+    "parent": "ROOT",
+    "hidden": false,
+    "nodes": ["SidebarContainer"],
+    "linkedNodes": {}
+  },
+  "SidebarContainer": {
+    "type": { "resolvedName": "Container" },
+    "isCanvas": true,
+    "props": {
+      "height": 96,
+      "width": 96,
+      "flexDirection": "column",
+      "justifyContent": "space-around",
+      "alignItems": "center",
+      "gap": 10,
+      "backgroundColor": "#92a0ad",
       "borderRadius": 5,
-      "alignment": "center"
+      "padding": 0,
+      "shadowColor": "black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 3
     },
-    "displayName": "TextBox",
+    "displayName": "Container",
     "custom": {},
-    "parent": "Footer",
+    "parent": "SidebarGridCell",
     "hidden": false,
-    "nodes": [],
+    "nodes": ["Label1", "Label2", "Label3", "Label4", "Label5"],
     "linkedNodes": {}
   },
-  "footerButton1": {
-    "type": {
-      "resolvedName": "Button"
-    },
+  "Label1": {
+    "type": { "resolvedName": "Label" },
     "isCanvas": false,
-    "props": {
-      "backgroundColor": "#0047AB",
-      "fontColor": "white",
-      "fontSize": 20,
-      "borderRadius": 4,
-      "text": "New Button",
-      "width": 150,
-      "height": 50,
-      "alignment": "center"
-    },
-    "displayName": "Button",
-    "custom": {},
-    "parent": "Footer",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "footerButton2": {
-    "type": {
-      "resolvedName": "Button"
-    },
-    "isCanvas": false,
-    "props": {
-      "backgroundColor": "#0047AB",
-      "fontColor": "white",
-      "fontSize": 20,
-      "borderRadius": 4,
-      "text": "New Button",
-      "width": 150,
-      "height": 50,
-      "alignment": "center"
-    },
-    "displayName": "Button",
-    "custom": {},
-    "parent": "Footer",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "footerButton3": {
-    "type": {
-      "resolvedName": "Button"
-    },
-    "isCanvas": false,
-    "props": {
-      "backgroundColor": "#0047AB",
-      "fontColor": "white",
-      "fontSize": 20,
-      "borderRadius": 4,
-      "text": "New Button",
-      "width": 150,
-      "height": 50,
-      "alignment": "center"
-    },
-    "displayName": "Button",
-    "custom": {},
-    "parent": "Footer",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "contactLabel": {
-    "type": {
-      "resolvedName": "Label"
-    },
-    "isCanvas": false,
-    "props": {
-      "text": "New Label",
-      "textAlign": "left",
-      "fontSize": 20,
-      "color": "#FFFFFF",
-      "userEditable": true
-    },
+    "props": { "text": "Label1", "fontSize": 20, "fontcolor": "black", "textAlign": "left" },
     "displayName": "Label",
     "custom": {},
-    "parent": "Footer",
+    "parent": "SidebarContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "Label2": {
+    "type": { "resolvedName": "Label" },
+    "isCanvas": false,
+    "props": { "text": "Label2", "fontSize": 20, "fontcolor": "black", "textAlign": "left" },
+    "displayName": "Label",
+    "custom": {},
+    "parent": "SidebarContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "Label3": {
+    "type": { "resolvedName": "Label" },
+    "isCanvas": false,
+    "props": { "text": "Label3", "fontSize": 20, "fontcolor": "black", "textAlign": "left" },
+    "displayName": "Label",
+    "custom": {},
+    "parent": "SidebarContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "Label4": {
+    "type": { "resolvedName": "Label" },
+    "isCanvas": false,
+    "props": { "text": "Label4", "fontSize": 20, "fontcolor": "black", "textAlign": "left" },
+    "displayName": "Label",
+    "custom": {},
+    "parent": "SidebarContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "Label5": {
+    "type": { "resolvedName": "Label" },
+    "isCanvas": false,
+    "props": { "text": "Label5", "fontSize": 20, "fontcolor": "black", "textAlign": "left" },
+    "displayName": "Label",
+    "custom": {},
+    "parent": "SidebarContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "FooterGridCell": {
+    "type": { "resolvedName": "GridCell" },
+    "isCanvas": true,
+    "props": {
+      "flexDirection": "row",
+      "justifyContent": "center",
+      "alignItems": "center",
+      "gap": 10
+    },
+    "displayName": "GridCell",
+    "custom": { "id": "3" },
+    "parent": "ROOT",
+    "hidden": false,
+    "nodes": ["FooterContainer"],
+    "linkedNodes": {}
+  },
+  "FooterContainer": {
+    "type": { "resolvedName": "Container" },
+    "isCanvas": true,
+    "props": {
+      "height": 96,
+      "width": 96,
+      "flexDirection": "row",
+      "justifyContent": "space-around",
+      "alignItems": "center",
+      "gap": 10,
+      "backgroundColor": "#92a0ad",
+      "borderRadius": 5,
+      "padding": 0,
+      "shadowColor": "black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 3
+    },
+    "displayName": "Container",
+    "custom": {},
+    "parent": "FooterGridCell",
+    "hidden": false,
+    "nodes": ["SearchInput", "SearchButton", "FooterButton1", "FooterButton2", "ContactLabel"],
+    "linkedNodes": {}
+  },
+  "SearchInput": {
+    "type": { "resolvedName": "Input" },
+    "isCanvas": false,
+    "props": {
+      "fontSize": 14,
+      "fontColor": "black",
+      "backgroundColor": "#778899",
+      "placeholder": "Enter text",
+      "borderRadius": 4
+    },
+    "displayName": "Input",
+    "custom": {},
+    "parent": "FooterContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "SearchButton": {
+    "type": { "resolvedName": "Button" },
+    "isCanvas": false,
+    "props": {
+      "backgroundColor": "#778899",
+      "fontSize": 14,
+      "fontColor": "black",
+      "borderRadius": 4,
+      "width": 80,
+      "height": 60,
+      "text": "Search",
+      "alignment": "center",
+      "shadowColor": "black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 3
+    },
+    "displayName": "Button",
+    "custom": {},
+    "parent": "FooterContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "FooterButton1": {
+    "type": { "resolvedName": "Button" },
+    "isCanvas": false,
+    "props": {
+      "backgroundColor": "#778899",
+      "fontSize": 14,
+      "fontColor": "black",
+      "borderRadius": 4,
+      "width": 80,
+      "height": 60,
+      "text": "Button1",
+      "alignment": "center",
+      "shadowColor": "black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 3
+    },
+    "displayName": "Button",
+    "custom": {},
+    "parent": "FooterContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "FooterButton2": {
+    "type": { "resolvedName": "Button" },
+    "isCanvas": false,
+    "props": {
+      "backgroundColor": "#778899",
+      "fontSize": 14,
+      "fontColor": "black",
+      "borderRadius": 4,
+      "width": 80,
+      "height": 60,
+      "text": "Button2",
+      "alignment": "center",
+      "shadowColor": "black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 3
+    },
+    "displayName": "Button",
+    "custom": {},
+    "parent": "FooterContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "ContactLabel": {
+    "type": { "resolvedName": "Label" },
+    "isCanvas": false,
+    "props": { "text": "Contact", "fontSize": 20, "fontcolor": "black", "textAlign": "left" },
+    "displayName": "Label",
+    "custom": {},
+    "parent": "FooterContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}

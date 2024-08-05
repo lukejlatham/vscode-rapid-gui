@@ -56,7 +56,7 @@ export const Container: UserComponent<ContainerProps> = (props) => {
     const styles = useStyles();
     const divStyle = {
         backgroundColor: backgroundColor,
-        borderRadius: borderRadius,
+        borderRadius: `${borderRadius}px`,
         border: `1px solid ${borderColor}`,
         padding: padding,
         height: `${height}%`,
@@ -91,13 +91,13 @@ export const ContainerDefaultProps: ContainerProps = {
     borderColor: "#666666",
     padding: 0,
     flexDirection: "row",
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
-    gap: 0,
-    shadowColor: "transparent",
-    shadowOffsetX: 0,
-    shadowOffsetY: 0,
-    shadowBlur: 0,
+    justifyContent: "space-around",
+    alignItems: "center",
+    gap: 10,
+    shadowColor: "black",
+    shadowOffsetX: 1,
+    shadowOffsetY: 1,
+    shadowBlur: 1,
   };
 
 Container.craft = {

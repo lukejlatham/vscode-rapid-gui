@@ -38,6 +38,7 @@ const Canvas: React.FC<CanvasProps> = ({ classes }) => {
             switch (message.command) {
                 case 'loadTree':
                     deserializeNodes(message.data);
+                    console.log('loaded tree', message.data);
                     vscode.postMessage({ command: 'treeLoaded', success: true });
                     break;
                 case 'sendTree':

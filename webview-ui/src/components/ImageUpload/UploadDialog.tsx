@@ -93,7 +93,7 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose }) =
         setTimeout(() => {
           window.postMessage({ command: 'loadTree', data: message.content });
 
-        }, 500);
+        }, 100);
       }
     };
 
