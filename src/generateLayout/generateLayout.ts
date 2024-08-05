@@ -2,7 +2,12 @@ import * as vscode from "vscode";
 import { getAzureOpenaiApiKeys } from "../utilities/azureApiKeyStorage";
 import { getLayout } from "./getLayoutOpenai";
 import { buildLayoutNodes } from "./convertLayoutToNodes";
-import { getSectionChildren } from "./getChildPropsOpenai";
+import { getSectionChildren } from "./getSectionChildrenOpenai";
+import {
+  generateSectionChildrenSchema,
+  generateSectionChildrenFullSchema,
+} from "./createZodSchema";
+import { getChildrenWithProps } from "./getSectionChildrenWithProps";
 
 async function processSketch(
   sketch: string,
@@ -23,15 +28,42 @@ async function processSketch(
       sketch
     );
 
-    console.log("processTextDescription in generateLayout.ts - Layout Response:", layout);
+    const parsedLayout = JSON.stringify(layout.sections);
+
+    console.log("Generated layout sections:", parsedLayout);
 
     webview.postMessage({ command: "processingStage", stage: "Refining properties" });
 
-    const children = await getSectionChildren(apiEndpoint, apiKey, deploymentName, layout);
+    const zodChildrenSchema = generateSectionChildrenSchema(layout.sections);
 
-    console.log("processTextDescription in generateLayout.ts - Children Response:", children);
+    const children = await getSectionChildren(
+      apiEndpoint,
+      apiKey,
+      deploymentName,
+      parsedLayout,
+      zodChildrenSchema
+    );
 
-    const layoutNodes = buildLayoutNodes(layout);
+    const zodChildrenWithPropsSchema = generateSectionChildrenFullSchema(children.sections);
+
+    const parsedChildren = JSON.stringify(children.sections);
+
+    console.log("Generated children sections:", parsedChildren);
+
+    const fullChildren = await getChildrenWithProps(
+      apiEndpoint,
+      apiKey,
+      deploymentName,
+      parsedLayout,
+      parsedChildren,
+      zodChildrenWithPropsSchema
+    );
+
+    const parsedFullChildren = JSON.stringify(fullChildren.sections);
+
+    console.log("Generated full children sections with properties:", parsedFullChildren);
+
+    const layoutNodes = buildLayoutNodes(parsedLayout);
 
     return layoutNodes;
   } catch (error) {
@@ -61,11 +93,26 @@ async function processTextDescription(
 
     console.log("processTextDescription in generateLayout.ts - Layout Response:", layout);
 
-    const children = await getSectionChildren(apiEndpoint, apiKey, deploymentName, layout);
+    const zodChildrenSchema = generateSectionChildrenSchema(layout.sections);
+
+    console.log(
+      "processTextDescription in generateLayout.ts - Zod Schema:",
+      JSON.stringify(zodChildrenSchema)
+    );
+
+    const parsedLayout = JSON.stringify(layout.sections);
+
+    const children = await getSectionChildren(
+      apiEndpoint,
+      apiKey,
+      deploymentName,
+      parsedLayout,
+      zodChildrenSchema
+    );
 
     console.log("processTextDescription in generateLayout.ts - Children Response:", children);
 
-    const layoutNodes = buildLayoutNodes(layout);
+    const layoutNodes = buildLayoutNodes(parsedLayout);
 
     return layoutNodes;
   } catch (error) {

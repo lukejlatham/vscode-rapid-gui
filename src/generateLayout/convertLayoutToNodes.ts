@@ -270,8 +270,6 @@ function buildLayoutNodes(rawLayoutResponse: string) {
 
   const stringifiedNodes = JSON.stringify(combinedNodes);
 
-  console.log("buildLayoutNodes - Combined Nodes:", stringifiedNodes);
-
   return stringifiedNodes;
 }
 

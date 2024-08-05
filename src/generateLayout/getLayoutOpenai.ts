@@ -115,7 +115,7 @@ async function getLayout(
       max_retries: 2,
     });
 
-    return JSON.stringify(layout);
+    return layout;
   } catch (error) {
     throw error;
   }

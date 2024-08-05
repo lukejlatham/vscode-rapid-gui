@@ -1,102 +1,96 @@
-{
-  "sections": [
-    {
-      "section": "header",
-      "children": [
-        {
-          "type": "Label",
-          "props": { "text": "HOME", "bold": true, "italic": false, "underline": false }
-        },
-        {
-          "type": "Label",
-          "props": { "text": "NAV1", "bold": true, "italic": false, "underline": false }
-        },
-        {
-          "type": "Label",
-          "props": { "text": "NAV2", "bold": true, "italic": false, "underline": false }
-        },
-        {
-          "type": "Label",
-          "props": { "text": "NAV3", "bold": true, "italic": false, "underline": false }
-        },
-        {
-          "type": "Label",
-          "props": { "text": "NAV4", "bold": true, "italic": false, "underline": false }
+[
+  {
+    "section": "Header",
+    "children": [
+      { "type": "Button", "props": { "width": 10, "height": 5, "text": "Home", "icon": "VscAdd" } },
+      {
+        "type": "Button",
+        "props": { "width": 15, "height": 5, "text": "About Us", "icon": "VscAdd" }
+      },
+      {
+        "type": "Button",
+        "props": { "width": 15, "height": 5, "text": "Services", "icon": "VscAdd" }
+      },
+      {
+        "type": "Button",
+        "props": { "width": 15, "height": 5, "text": "Contact Us", "icon": "VscAdd" }
+      },
+      { "type": "Button", "props": { "width": 15, "height": 5, "text": "Help", "icon": "VscAdd" } }
+    ]
+  },
+  {
+    "section": "Sidebar",
+    "children": [
+      {
+        "type": "Button",
+        "props": { "width": 15, "height": 5, "text": "Dashboard", "icon": "VscAdd" }
+      },
+      {
+        "type": "Button",
+        "props": { "width": 15, "height": 5, "text": "Reports", "icon": "VscAdd" }
+      },
+      {
+        "type": "Button",
+        "props": { "width": 15, "height": 5, "text": "Settings", "icon": "VscAdd" }
+      },
+      {
+        "type": "Button",
+        "props": { "width": 15, "height": 5, "text": "Profile", "icon": "VscAdd" }
+      },
+      {
+        "type": "Button",
+        "props": { "width": 15, "height": 5, "text": "Logout", "icon": "VscAdd" }
+      }
+    ]
+  },
+  {
+    "section": "Main Content",
+    "children": [
+      {
+        "type": "Label",
+        "props": { "text": "Step 1", "bold": true, "italic": false, "underline": false }
+      },
+      {
+        "type": "Image",
+        "props": {
+          "src": "https://via.placeholder.com/150",
+          "alt": "Main Content Image",
+          "width": 80,
+          "height": 60
         }
-      ]
-    },
-    {
-      "section": "sidebar",
-      "children": [
-        {
-          "type": "Label",
-          "props": { "text": "Link1", "bold": true, "italic": false, "underline": false }
-        },
-        {
-          "type": "Label",
-          "props": { "text": "Link2", "bold": true, "italic": false, "underline": false }
-        },
-        {
-          "type": "Label",
-          "props": { "text": "Link3", "bold": true, "italic": false, "underline": false }
-        },
-        {
-          "type": "Label",
-          "props": { "text": "Link4", "bold": true, "italic": false, "underline": false }
-        }
-      ]
-    },
-    {
-      "section": "main-content",
-      "children": [
-        {
-          "type": "Label",
-          "props": { "text": "STEP 1", "bold": true, "italic": false, "underline": false }
-        },
-        {
-          "type": "Image",
-          "props": { "src": "image_source_url_here", "alt": "Image", "width": 95, "height": 95 }
-        },
-        {
-          "type": "Label",
-          "props": {
-            "text": "Dropdown to select options",
-            "bold": true,
-            "italic": false,
-            "underline": false
-          }
-        },
-        {
-          "type": "Label",
-          "props": { "text": "DataGrid", "bold": true, "italic": false, "underline": false }
-        }
-      ]
-    },
-    {
-      "section": "footer",
-      "children": [
-        {
-          "type": "Label",
-          "props": { "text": "SEARCH", "bold": true, "italic": false, "underline": false }
-        },
-        {
-          "type": "Icon",
-          "props": { "selectedIcon": "VscAdd", "iconSize": 24, "iconColor": "Main" }
-        },
-        {
-          "type": "Icon",
-          "props": { "selectedIcon": "VscEdit", "iconSize": 24, "iconColor": "Main" }
-        },
-        {
-          "type": "Icon",
-          "props": { "selectedIcon": "VscTrash", "iconSize": 24, "iconColor": "Main" }
-        },
-        {
-          "type": "Label",
-          "props": { "text": "CONTACT Info", "bold": true, "italic": false, "underline": false }
-        }
-      ]
-    }
-  ],
-  "_meta": { "usage": { "completion_tokens": 824, "prompt_tokens": 5367, "total_tokens": 6191 } }
-}
+      }
+    ]
+  },
+  {
+    "section": "Options Box",
+    "children": [
+      {
+        "type": "Label",
+        "props": { "text": "Possible", "bold": true, "italic": false, "underline": false }
+      },
+      { "type": "Input", "props": { "backgroundColor": "Main", "placeholder": "Select option" } },
+      {
+        "type": "TextBox",
+        "props": { "text": "", "backgroundColor": "Accent1", "height": 50, "width": 90 }
+      }
+    ]
+  },
+  {
+    "section": "Footer",
+    "children": [
+      { "type": "Input", "props": { "backgroundColor": "Main", "placeholder": "Search" } },
+      {
+        "type": "Icon",
+        "props": { "selectedIcon": "VscInfo", "iconSize": 24, "iconColor": "Accent1" }
+      },
+      {
+        "type": "Icon",
+        "props": { "selectedIcon": "VscSettingsGear", "iconSize": 24, "iconColor": "Accent1" }
+      },
+      {
+        "type": "Label",
+        "props": { "text": "Contact", "bold": true, "italic": false, "underline": false }
+      }
+    ]
+  }
+]

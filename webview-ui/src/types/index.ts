@@ -309,7 +309,7 @@ export const sectionSchema = z.object({
     height: z.number().int().max(10),
     flexDirection: z.enum(["row", "column"]).default("row"),
   }),
-  contents: z.string().describe("Describe the section contents"),
+  contents: z.string().describe("Give a detailed description of the section over 3 lines."),
 });
 
 export const layoutSchema = z.object({
@@ -515,27 +515,37 @@ export const generateIconSchema = z.object({
   }),
 });
 
-export const generatedElements = z.union([
-  generateButtonSchema,
-  generateCheckboxSchema,
-  generateIconSchema,
-  generateInputSchema,
-  generateLabelSchema,
-  generateRadioButtonSchema,
-  generateTextBoxSchema,
-  generateTextSchema,
-  generateImageSchema,
-  generateInputSchema,
-]);
+// export const generatedElements = z.union([
+//   generateButtonSchema,
+//   generateCheckboxSchema,
+//   generateIconSchema,
+//   generateInputSchema,
+//   generateLabelSchema,
+//   generateRadioButtonSchema,
+//   generateTextBoxSchema,
+//   generateTextSchema,
+//   generateImageSchema,
+//   generateInputSchema,
+// ]);
+
+export const generatedElements = z.object({
+  type: z.enum([
+    "Button",
+    "Label",
+    "Image",
+    "TextBox",
+    "RadioButton",
+    "Checkbox",
+    "Input",
+    "Text",
+    "Icon",
+  ]),
+  description: z.string(),
+});
 
 export const generatedSectionChildren = z.object({
   section: z.string(),
-  children: z
-    .array(generatedElements)
-    .max(8)
-    .describe(
-      "Types can be button, label, image, icon, label, RadioButton, TextBox, Text, Image, Input"
-    ),
+  children: z.array(generatedElements).max(8),
 });
 
 export const generatedAllSectionsChildren = z.object({
