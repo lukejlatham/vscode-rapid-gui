@@ -2,6 +2,7 @@ import * as vscode from "vscode";
 import { getAzureOpenaiApiKeys } from "../utilities/azureApiKeyStorage";
 import { getLayout } from "./getLayoutOpenai";
 import { buildLayoutNodes } from "./convertLayoutToNodes";
+import { getSectionChildren } from "./getChildPropsOpenai";
 
 async function processSketch(
   sketch: string,
@@ -22,9 +23,13 @@ async function processSketch(
       sketch
     );
 
-    console.log("processSketch in generateLayout.ts - Layout Response:", layout);
+    console.log("processTextDescription in generateLayout.ts - Layout Response:", layout);
 
     webview.postMessage({ command: "processingStage", stage: "Refining properties" });
+
+    const children = await getSectionChildren(apiEndpoint, apiKey, deploymentName, layout);
+
+    console.log("processTextDescription in generateLayout.ts - Children Response:", children);
 
     const layoutNodes = buildLayoutNodes(layout);
 
@@ -55,6 +60,10 @@ async function processTextDescription(
     );
 
     console.log("processTextDescription in generateLayout.ts - Layout Response:", layout);
+
+    const children = await getSectionChildren(apiEndpoint, apiKey, deploymentName, layout);
+
+    console.log("processTextDescription in generateLayout.ts - Children Response:", children);
 
     const layoutNodes = buildLayoutNodes(layout);
 

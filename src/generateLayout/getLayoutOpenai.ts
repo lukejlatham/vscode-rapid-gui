@@ -10,151 +10,46 @@ const exampleLayout = {
       yPosition: 0,
       width: 10,
       height: 2,
-      backgroundColor: "lightslategrey",
       flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
-      children: [
-        {
-          type: "Label",
-          name: "Title",
-          text: "Welcome to My App",
-        },
-        {
-          type: "Button",
-          name: "LoginButton",
-          text: "Login",
-          backgroundColor: "aliceblue",
-        },
-      ],
+      contents:
+        "This is the header section, containing the site logo, header text and navigation buttons.",
     },
     {
       name: "MainContent",
       xPosition: 0,
       yPosition: 2,
-      width: 10,
-      height: 6,
-      backgroundColor: "ghostwhite",
+      width: 7,
+      height: 8,
       flexDirection: "column",
-      justifyContent: "space-around",
-      alignItems: "center",
-      children: [
-        {
-          type: "TextBox",
-          name: "Username",
-        },
-        {
-          type: "TextBox",
-          name: "Password",
-        },
-        {
-          type: "Checkbox",
-          name: "RememberMe",
-          text: "Remember Me",
-        },
-        {
-          type: "Button",
-          name: "SubmitButton",
-          text: "Submit",
-          backgroundColor: "aliceblue",
-        },
-      ],
+      contents:
+        "This section includes the main content area where articles are displayed with pictures",
+    },
+    {
+      name: "Sidebar",
+      xPosition: 7,
+      yPosition: 2,
+      width: 3,
+      height: 8,
+      flexDirection: "column",
+      contents: "The sidebar contains links to recent posts.",
     },
     {
       name: "Footer",
       xPosition: 0,
-      yPosition: 8,
+      yPosition: 10,
       width: 10,
       height: 2,
-      backgroundColor: "lightslategrey",
       flexDirection: "row",
-      justifyContent: "space-around",
-      alignItems: "center",
-      children: [
-        {
-          type: "Text",
-          name: "FooterText",
-          text: "© 2024 My Company",
-          backgroundColor: "Main",
-        },
-        {
-          type: "Icon",
-          name: "SocialMediaIcon",
-          backgroundColor: "aliceblue",
-        },
-      ],
+      contents:
+        "Footer section with links to privacy policy, contact information, and social media profiles.",
     },
   ],
 };
 
 const systemMessage = {
   role: "system",
-  content: `You are a UI designer who creates perfect designs from a given sketch or description of a UI. You create your designs in terms of sections, each section containing elements like buttons, labels, images, and textboxes. An example layout is shown below:\n\n${exampleLayout}`,
+  content: `You are a UI designer who creates perfect designs from a given sketch or description of a UI. You create your designs in terms of sections, each section containing child elements. An example layout is shown below:\n\n${exampleLayout}`,
 };
-
-// import {
-//   generateButtonSchema,
-//   generateLabelSchema,
-//   generateRadioButtonSchema,
-//   generateInputSchema,
-//   generateTextBoxSchema,
-//   generateTextSchema,
-//   generateCheckboxSchema,
-//   layoutSchema,
-// } from "../../webview-ui/src/types/editorObjectSchema";
-
-// import { z, ZodObject, ZodDefault, ZodTypeAny, ZodOptional } from "zod";
-
-// // Helper function to extract the underlying ZodObject from a ZodDefault or ZodOptional
-// const extractZodObject = (schema: ZodTypeAny): ZodObject<any> => {
-//   if (schema instanceof ZodDefault) {
-//     return schema._def.innerType as ZodObject<any>;
-//   }
-//   if (schema instanceof ZodOptional) {
-//     return schema._def.innerType as ZodObject<any>;
-//   }
-//   return schema as ZodObject<any>;
-// };
-
-// // Function to describe a Zod schema
-// // Function to describe a Zod schema
-// const describeZodSchema = (schemaName: string, schema: ZodObject<any>): string => {
-//   let description = `**${schemaName}**:\n`;
-
-//   const shape = schema.shape;
-//   for (const key in shape) {
-//     const value = shape[key];
-//     let type = "unknown";
-
-//     if (value instanceof z.ZodString) type = "string";
-//     else if (value instanceof z.ZodNumber) type = "number";
-//     else if (value instanceof z.ZodBoolean) type = "boolean";
-//     else if (value instanceof z.ZodEnum) type = `enum(${value.options.join(", ")})`;
-//     else if (value instanceof z.ZodArray) type = `array`;
-//     else if (value instanceof ZodOptional || value instanceof ZodDefault)
-//       type = `${describeZodSchema(key, extractZodObject(value))}`;
-
-//     description += `  - ${key}: ${type}\n`;
-//   }
-
-//   return description;
-// };
-// // Generate descriptions using Zod schemas
-// const descriptions = [
-//   describeZodSchema("Button", extractZodObject(generateButtonSchema)),
-//   describeZodSchema("Checkbox", extractZodObject(generateCheckboxSchema)),
-//   describeZodSchema("Label", extractZodObject(generateLabelSchema)),
-//   describeZodSchema("RadioButton", extractZodObject(generateRadioButtonSchema)),
-//   describeZodSchema("Input", extractZodObject(generateInputSchema)),
-//   describeZodSchema("TextBox", extractZodObject(generateTextBoxSchema)),
-//   describeZodSchema("Text", extractZodObject(generateTextSchema)),
-// ].join("\n\n");
-
-// // Now you can use `descriptions` in your system message or elsewhere
-// const systemMessage = {
-//   role: "system",
-//   content: `You are a UI designer who creates perfect designs from a given sketch or description of a UI. You create your designs in terms of sections, each section containing elements.\n\nAllowed element types and properties are as follows:\n\n${descriptions}`,
-// };
 
 const textMessage = (textDescription: string) => ({
   role: "user",
@@ -227,3 +122,69 @@ async function getLayout(
 }
 
 export { getLayout };
+
+// OLD CODE - ATTEMPTED TO GENERATE DESCRIPTIONS DYNAMICALLY
+
+// import {
+//   generateButtonSchema,
+//   generateLabelSchema,
+//   generateRadioButtonSchema,
+//   generateInputSchema,
+//   generateTextBoxSchema,
+//   generateTextSchema,
+//   generateCheckboxSchema,
+//   layoutSchema,
+// } from "../../webview-ui/src/types/editorObjectSchema";
+
+// import { z, ZodObject, ZodDefault, ZodTypeAny, ZodOptional } from "zod";
+
+// // Helper function to extract the underlying ZodObject from a ZodDefault or ZodOptional
+// const extractZodObject = (schema: ZodTypeAny): ZodObject<any> => {
+//   if (schema instanceof ZodDefault) {
+//     return schema._def.innerType as ZodObject<any>;
+//   }
+//   if (schema instanceof ZodOptional) {
+//     return schema._def.innerType as ZodObject<any>;
+//   }
+//   return schema as ZodObject<any>;
+// };
+
+// // Function to describe a Zod schema
+// // Function to describe a Zod schema
+// const describeZodSchema = (schemaName: string, schema: ZodObject<any>): string => {
+//   let description = `**${schemaName}**:\n`;
+
+//   const shape = schema.shape;
+//   for (const key in shape) {
+//     const value = shape[key];
+//     let type = "unknown";
+
+//     if (value instanceof z.ZodString) type = "string";
+//     else if (value instanceof z.ZodNumber) type = "number";
+//     else if (value instanceof z.ZodBoolean) type = "boolean";
+//     else if (value instanceof z.ZodEnum) type = `enum(${value.options.join(", ")})`;
+//     else if (value instanceof z.ZodArray) type = `array`;
+//     else if (value instanceof ZodOptional || value instanceof ZodDefault)
+//       type = `${describeZodSchema(key, extractZodObject(value))}`;
+
+//     description += `  - ${key}: ${type}\n`;
+//   }
+
+//   return description;
+// };
+// // Generate descriptions using Zod schemas
+// const descriptions = [
+//   describeZodSchema("Button", extractZodObject(generateButtonSchema)),
+//   describeZodSchema("Checkbox", extractZodObject(generateCheckboxSchema)),
+//   describeZodSchema("Label", extractZodObject(generateLabelSchema)),
+//   describeZodSchema("RadioButton", extractZodObject(generateRadioButtonSchema)),
+//   describeZodSchema("Input", extractZodObject(generateInputSchema)),
+//   describeZodSchema("TextBox", extractZodObject(generateTextBoxSchema)),
+//   describeZodSchema("Text", extractZodObject(generateTextSchema)),
+// ].join("\n\n");
+
+// // Now you can use `descriptions` in your system message or elsewhere
+// const systemMessage = {
+//   role: "system",
+//   content: `You are a UI designer who creates perfect designs from a given sketch or description of a UI. You create your designs in terms of sections, each section containing elements.\n\nAllowed element types and properties are as follows:\n\n${descriptions}`,
+// };

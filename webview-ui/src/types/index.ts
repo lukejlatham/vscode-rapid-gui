@@ -283,35 +283,37 @@ export interface TooltipConfigContainer {
   type: "color" | "spinButton" | "text" | "justifyContent" | "alignItems" | "direction";
 }
 
-export const generateElementSchema = z.object({
-  type: z.enum([
-    "Button",
-    "Label",
-    "Image",
-    "TextBox",
-    "RadioButton",
-    "Checkbox",
-    "Input",
-    "Text",
-    "Icon",
-  ]),
-  name: z.string(),
-  text: z.string().optional(),
-  backgroundColor: z.enum(["#778899", "#bbc4cc", "#92a0ad"]).default("#778899"),
-});
+// export const generateElementSchema = z.object({
+//   type: z.enum([
+//     "Button",
+//     "Label",
+//     "Image",
+//     "TextBox",
+//     "RadioButton",
+//     "Checkbox",
+//     "Input",
+//     "Text",
+//     "Icon",
+//   ]),
+//   name: z.string(),
+//   text: z.string().optional(),
+//   backgroundColor: z.enum(["#778899", "#bbc4cc", "#92a0ad"]).default("#778899"),
+// });
 
 export const sectionSchema = z.object({
-  name: z.string(),
-  xPosition: z.number().int().max(10),
-  yPosition: z.number().int().max(10),
-  width: z.number().int().max(10),
-  height: z.number().int().max(10),
-  flexDirection: z.enum(["row", "column"]).default("row"),
-  children: z.array(generateElementSchema),
+  section: z.string(),
+  props: z.object({
+    xPosition: z.number().int().max(10),
+    yPosition: z.number().int().max(10),
+    width: z.number().int().max(10),
+    height: z.number().int().max(10),
+    flexDirection: z.enum(["row", "column"]).default("row"),
+  }),
+  contents: z.string().describe("Describe the section contents"),
 });
 
 export const layoutSchema = z.object({
-  sections: z.array(sectionSchema),
+  sections: z.array(sectionSchema).max(5),
 });
 
 export const backgroundNodeLayout = z.object({
@@ -384,6 +386,8 @@ export interface CanvasProps {
 
 // export type GenerateContainerProps = z.infer<typeof generateContainerSchema>;
 
+// CHILD PROPS GENERATION FOR getSectionChildren.ts
+
 export const generateButtonSchema = z.object({
   type: z.literal("Button"),
   props: z.object({
@@ -428,6 +432,7 @@ export const generateLabelSchema = z.object({
     bold: z.boolean().default(true),
     italic: z.boolean().default(false),
     underline: z.boolean().default(false),
+    hyperlink: z.string().optional(),
   }),
 });
 
@@ -452,7 +457,8 @@ export const generateImageSchema = z.object({
       .string()
       .default(
         "https://media.licdn.com/dms/image/D4E22AQGL4EZgEpG2ag/feedshare-shrink_800/0/1719580422738?e=2147483647&v=beta&t=Nj786KjutiTxei_wgDDM40hcWFi5_-qqBIKM4jOa3Hc"
-      ),
+      )
+      .describe("Can use any https url for the image"),
     alt: z.string().default("Image"),
     width: z.number().default(100),
     height: z.number().default(100),
@@ -494,7 +500,7 @@ export const generateIconSchema = z.object({
   }),
 });
 
-const generatedElements = z.union([
+export const generatedElements = z.union([
   generateButtonSchema,
   generateCheckboxSchema,
   generateIconSchema,
@@ -506,3 +512,12 @@ const generatedElements = z.union([
   generateImageSchema,
   generateInputSchema,
 ]);
+
+export const generatedSectionChildren = z.object({
+  section: z.string(),
+  children: z.array(generatedElements).max(8),
+});
+
+export const generatedAllSectionsChildren = z.object({
+  sections: z.array(generatedSectionChildren).max(5),
+});
