@@ -1,6 +1,6 @@
 import { AzureOpenAI } from "openai";
 import Instructor from "@instructor-ai/instructor";
-import { layoutSchema } from "../../webview-ui/src/types";
+import { generatedAllSectionsChildren } from "../../webview-ui/src/types";
 
 const exampleLayout = {
   sections: [
@@ -138,7 +138,7 @@ async function getSectionChildren(
       model: GPT4O_DEPLOYMENT_NAME,
       messages: messages,
       response_model: {
-        schema: layoutSchema,
+        schema: generatedAllSectionsChildren,
         name: "Layout",
       },
       max_retries: 2,

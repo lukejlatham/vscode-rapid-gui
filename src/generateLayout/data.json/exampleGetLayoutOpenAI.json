@@ -1,72 +1,37 @@
 {
   "sections": [
     {
-      "name": "Header",
-      "xPosition": 0,
-      "yPosition": 0,
-      "width": 10,
-      "height": 1,
-      "backgroundColor": "#92a0ad",
-      "flexDirection": "row",
-      "children": [
-        { "type": "Button", "name": "HomeButton", "text": "HOME", "backgroundColor": "#778899" },
-        { "type": "Button", "name": "Button1", "text": " ", "backgroundColor": "#778899" },
-        { "type": "Button", "name": "Button2", "text": " ", "backgroundColor": "#778899" },
-        { "type": "Button", "name": "Button3", "text": " ", "backgroundColor": "#778899" }
-      ]
+      "section": "header",
+      "props": { "xPosition": 0, "yPosition": 0, "width": 10, "height": 2, "flexDirection": "row" },
+      "contents": "HOME | NAV1 | NAV2 | NAV3 | NAV4"
     },
     {
-      "name": "Sidebar",
-      "xPosition": 0,
-      "yPosition": 1,
-      "width": 3,
-      "height": 8,
-      "backgroundColor": "#bbc4cc",
-      "flexDirection": "column",
-      "children": [
-        { "type": "Label", "name": "Label1", "text": " ", "backgroundColor": "#778899" },
-        { "type": "Label", "name": "Label2", "text": " ", "backgroundColor": "#778899" },
-        { "type": "Label", "name": "Label3", "text": " ", "backgroundColor": "#778899" },
-        { "type": "Label", "name": "Label4", "text": " ", "backgroundColor": "#778899" },
-        { "type": "Label", "name": "Label5", "text": " ", "backgroundColor": "#778899" }
-      ]
+      "section": "sidebar",
+      "props": {
+        "xPosition": 0,
+        "yPosition": 2,
+        "width": 4,
+        "height": 6,
+        "flexDirection": "column"
+      },
+      "contents": "Link1\nLink2\nLink3\nLink4"
     },
     {
-      "name": "MainContent",
-      "xPosition": 3,
-      "yPosition": 1,
-      "width": 7,
-      "height": 8,
-      "backgroundColor": "#92a0ad",
-      "flexDirection": "column",
-      "children": [
-        { "type": "Label", "name": "StepLabel", "text": "STEP 1", "backgroundColor": "#778899" },
-        { "type": "Image", "name": "ImagePlaceholder", "text": " ", "backgroundColor": "#778899" },
-        {
-          "type": "Label",
-          "name": "PossibleLabel",
-          "text": "POSSIBLE",
-          "backgroundColor": "#778899"
-        },
-        { "type": "TextBox", "name": "TextBox1", "text": "", "backgroundColor": "#778899" }
-      ]
+      "section": "main-content",
+      "props": {
+        "xPosition": 4,
+        "yPosition": 2,
+        "width": 6,
+        "height": 6,
+        "flexDirection": "column"
+      },
+      "contents": "STEP 1\n[Image]\nDropdown to select options\nDataGrid"
     },
     {
-      "name": "Footer",
-      "xPosition": 0,
-      "yPosition": 9,
-      "width": 10,
-      "height": 1,
-      "backgroundColor": "#92a0ad",
-      "flexDirection": "row",
-      "children": [
-        { "type": "Input", "name": "SearchInput", "text": "SEARCH", "backgroundColor": "#778899" },
-        { "type": "Button", "name": "FooterButton1", "text": " ", "backgroundColor": "#778899" },
-        { "type": "Button", "name": "FooterButton2", "text": " ", "backgroundColor": "#778899" },
-        { "type": "Button", "name": "FooterButton3", "text": " ", "backgroundColor": "#778899" },
-        { "type": "Label", "name": "ContactLabel", "text": "CONTACT", "backgroundColor": "#778899" }
-      ]
+      "section": "footer",
+      "props": { "xPosition": 0, "yPosition": 8, "width": 10, "height": 2, "flexDirection": "row" },
+      "contents": "SEARCH | Icon1 Icon2 Icon3 | CONTACT Info"
     }
   ],
-  "_meta": { "usage": { "completion_tokens": 408, "prompt_tokens": 1191, "total_tokens": 1599 } }
+  "_meta": { "usage": { "completion_tokens": 188, "prompt_tokens": 1092, "total_tokens": 1280 } }
 }

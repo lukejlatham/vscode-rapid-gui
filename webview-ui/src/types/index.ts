@@ -391,16 +391,26 @@ export interface CanvasProps {
 export const generateButtonSchema = z.object({
   type: z.literal("Button"),
   props: z.object({
-    width: z.number().default(50),
-    height: z.number().default(50),
-    text: z.string().default("Button"),
+    width: z.number().max(95),
+    height: z.number().max(95),
+    text: z.string(),
     icon: z
-      .string()
-      .refine((val) => val in VscIcons)
-      .optional() as z.ZodType<VscIconKeys | undefined>,
+      .union([
+        z.enum(["left", "right"]).default("left"),
+        z.enum([
+          "VscAdd",
+          "VscEdit",
+          "VscTrash",
+          "VscSearch",
+          "VscSave",
+          "VscHome",
+          "VscSettingsGear",
+          "VscInfo",
+        ]),
+      ])
+      .default("VscAdd"),
   }),
 });
-
 export type GenerateButtonProps = z.infer<typeof generateButtonSchema>;
 
 export const generateCheckboxSchema = z.object({
@@ -428,7 +438,6 @@ export const generateLabelSchema = z.object({
   type: z.literal("Label"),
   props: z.object({
     text: z.string().default("Header"),
-    fontcolor: z.enum(["Main", "Accent1", "Accent2"]).default("Main"),
     bold: z.boolean().default(true),
     italic: z.boolean().default(false),
     underline: z.boolean().default(false),
@@ -443,7 +452,10 @@ export const generateRadioButtonSchema = z.object({
   props: z.object({
     header: z.string().default("Radio Button Header"),
     numberOfButtons: z.number().default(2),
-    optionLabels: z.array(z.string()).default([]),
+    optionLabels: z
+      .array(z.string())
+      .default([])
+      .describe("Array of strings for each radio button"),
     direction: z.enum(["row", "column"]).default("row"),
   }),
 });
@@ -453,15 +465,10 @@ export type GenerateRadioButtonProps = z.infer<typeof generateRadioButtonSchema>
 export const generateImageSchema = z.object({
   type: z.literal("Image"),
   props: z.object({
-    src: z
-      .string()
-      .default(
-        "https://media.licdn.com/dms/image/D4E22AQGL4EZgEpG2ag/feedshare-shrink_800/0/1719580422738?e=2147483647&v=beta&t=Nj786KjutiTxei_wgDDM40hcWFi5_-qqBIKM4jOa3Hc"
-      )
-      .describe("Can use any https url for the image"),
+    src: z.string().describe("LINK TO THE IMAGE NEEDED"),
     alt: z.string().default("Image"),
-    width: z.number().default(100),
-    height: z.number().default(100),
+    width: z.number().max(95),
+    height: z.number().max(95),
   }),
 });
 
@@ -472,8 +479,8 @@ export const generateTextBoxSchema = z.object({
   props: z.object({
     text: z.string().default("Text Box"),
     backgroundColor: z.enum(["Main", "Accent1", "Accent2"]).default("Main"),
-    height: z.number().default(100),
-    width: z.number().default(100),
+    height: z.number().max(95),
+    width: z.number().max(95),
   }),
 });
 
@@ -492,9 +499,17 @@ export const generateIconSchema = z.object({
   type: z.literal("Icon"),
   props: z.object({
     selectedIcon: z
-      .string()
-      .refine((val) => val in VscIcons)
-      .default("VscAccount"),
+      .enum([
+        "VscAdd",
+        "VscEdit",
+        "VscTrash",
+        "VscSearch",
+        "VscSave",
+        "VscHome",
+        "VscSettingsGear",
+        "VscInfo",
+      ])
+      .default("VscAdd"),
     iconSize: z.number().default(24),
     iconColor: z.enum(["Main", "Accent1", "Accent2"]).default("Main"),
   }),
@@ -515,7 +530,12 @@ export const generatedElements = z.union([
 
 export const generatedSectionChildren = z.object({
   section: z.string(),
-  children: z.array(generatedElements).max(8),
+  children: z
+    .array(generatedElements)
+    .max(8)
+    .describe(
+      "Types can be button, label, image, icon, label, RadioButton, TextBox, Text, Image, Input"
+    ),
 });
 
 export const generatedAllSectionsChildren = z.object({
