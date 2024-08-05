@@ -111,7 +111,7 @@ export type InputProps = z.infer<typeof inputSchema>;
 export const labelSchema = z.object({
   text: z.string().default("Label"),
   fontSize: z.number().default(22),
-  fontcolor: z.string().default("black"),
+  fontColor: z.string().default("black"),
   userEditable: z.boolean().default(true).optional(),
   textAlign: z.enum(["left", "center", "right", "justify"]).default("left"),
   icon: z
@@ -163,12 +163,8 @@ export const iconSchema = z.object({
 export type IconProps = z.infer<typeof iconSchema>;
 
 export const imageSchema = z.object({
-  src: z
-    .string()
-    .default(
-      "https://media.licdn.com/dms/image/D4E22AQGL4EZgEpG2ag/feedshare-shrink_800/0/17110080422738?e=2147483647&v=beta&t=Nj786KjutiTxei_wgDDM40hcWFi5_-qqBIKM4jOa3Hc"
-    ),
-  alt: z.string().default("To be replaced"),
+  src: z.string().default("https://archive.org/download/placeholder-image/placeholder-image.jpg"),
+  alt: z.string().default("Placeholder Image"),
   width: z.number().default(100),
   height: z.number().default(100),
   alignment: z.enum(["left", "center", "right"]).optional(),
