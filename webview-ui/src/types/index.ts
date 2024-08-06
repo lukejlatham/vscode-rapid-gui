@@ -1,11 +1,12 @@
 //types
-import * as FluentIcons from "@fluentui/react-icons";
+import * as VscIcons from "react-icons/vsc";
 import { z } from "zod";
 import { SerializedNodes } from "@craftjs/core";
+import { max, min } from "lodash";
 
-type FluentIconKeys = keyof typeof FluentIcons;
+type VscIconKeys = keyof typeof VscIcons;
 
-type IconType = FluentIconKeys | "none" | "left" | "right";
+type IconType = VscIconKeys | "none" | "left" | "right";
 
 export const backgroundSchema = z.object({
   backgroundColor: z.string().default("#292929"),
@@ -19,7 +20,7 @@ export const backgroundSchema = z.object({
   ]),
   rows: z.number().default(3),
   columns: z.number().default(3),
-  lockedGrid: z.boolean().default(false),
+  lockedGrid: z.boolean().default(true),
   additionalProps: z
     .record(z.union([z.string(), z.number(), z.boolean(), z.array(z.any())]))
     .optional(),
@@ -39,7 +40,7 @@ export const buttonSchema = z.object({
   alignment: z.enum(["left", "center", "right"]).default("center"),
   displayName: z.string().optional().default("Button"),
   icon: z
-    .union([z.enum(["none", "left", "right"]), z.string().refine((val) => val in FluentIcons)])
+    .union([z.enum(["none", "left", "right"]), z.string().refine((val) => val in VscIcons)])
     .optional(),
   bordercolor: z.string().optional().default("white"),
   shadowColor: z.string().optional().default("black"),
@@ -96,6 +97,16 @@ export const gridCellSchema = z.object({
   gap: z.number().optional().default(10),
 });
 
+export const dropdownSchema = z.object({
+  header: z.string().default("Dropdown Header"),
+  optionLabels: z.array(z.string()).default([]),
+  numberOfOptions: z.number().default(1),
+  fontSize: z.number().default(14),
+  fontColor: z.string().default("black"),
+});
+
+export type DropdownProps = z.infer<typeof dropdownSchema>;
+
 export type GridCellProps = z.infer<typeof gridCellSchema>;
 
 export const inputSchema = z.object({
@@ -115,7 +126,7 @@ export const labelSchema = z.object({
   userEditable: z.boolean().optional().default(true),
   textAlign: z.enum(["left", "center", "right", "justify"]).default("left"),
   icon: z
-    .union([z.enum(["none", "left", "right"]), z.string().refine((val) => val in FluentIcons)])
+    .union([z.enum(["none", "left", "right"]), z.string().refine((val) => val in VscIcons)])
     .optional()
     .default("none"),
   hyperlink: z.string().optional().default(""),
@@ -137,6 +148,18 @@ export const radioButtonSchema = z.object({
 
 export type RadioButtonProps = z.infer<typeof radioButtonSchema>;
 
+export const sliderSchema = z.object({
+  header: z.string().default("Slider"),
+  min: z.number().default(0),
+  max: z.number().default(100),
+  step: z.number().default(1),
+  fontSize: z.number().default(14),
+  fontColor: z.string().default("black"),
+});
+
+export type SliderProps = z.infer<typeof sliderSchema>;
+
+
 export const textBoxSchema = z.object({
   text: z.string().default("Text Box"),
   fontSize: z.number().default(14),
@@ -154,8 +177,8 @@ export type TextBoxProps = z.infer<typeof textBoxSchema>;
 export const iconSchema = z.object({
   selectedIcon: z
     .string()
-    .refine((val) => val in FluentIcons)
-    .optional() as z.ZodType<FluentIconKeys>,
+    .refine((val) => val in VscIcons)
+    .optional() as z.ZodType<VscIconKeys>,
   iconSize: z.number().optional().default(24),
   iconColor: z.string().optional().default("lightslategrey"),
   hyperlink: z.string().optional().default(""),
@@ -237,6 +260,13 @@ export type TooltipConfigRadio = {
   type: "color" | "spinButton" | "text" | "options" | "direction";
 };
 
+export type TooltipConfigDropdown = {
+  label: string;
+  content: string;
+  propKey: keyof DropdownProps;
+  type: "color" | "spinButton" | "text" | "options";
+};
+
 export type TooltipConfigText = {
   label: string;
   content: string;
@@ -263,6 +293,13 @@ export interface TooltipConfigContainer {
   content: string;
   propKey: keyof ContainerProps;
   type: "color" | "spinButton" | "text" | "justifyContent" | "alignItems" | "direction";
+}
+
+export interface TooltipConfigSlider {
+  label: string;
+  content: string;
+  propKey: keyof SliderProps;
+  type: "color" | "spinButton" | "text" ;
 }
 
 export interface Page {
@@ -383,17 +420,16 @@ export const generateIconSchema = z.object({
   props: z.object({
     selectedIcon: z
       .enum([
-        "Add24Regular",
-        "Edit24Regular",
-        "Delete24Regular",
-        "Search24Regular",
-        "Save24Regular",
-        "Home24Regular",
-        "Settings24Regular",
-        "Info24Regular",
-        "Mail24Regular",
+        "VscAdd",
+        "VscEdit",
+        "VscTrash",
+        "VscSearch",
+        "VscSave",
+        "VscHome",
+        "VscSettingsGear",
+        "VscInfo",
       ])
-      .default("Add24Regular"),
+      .default("VscAdd"),
     iconSize: z.number().default(24),
   }),
 });
