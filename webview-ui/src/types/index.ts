@@ -1,11 +1,11 @@
 //types
-import * as VscIcons from "react-icons/vsc";
+import * as FluentIcons from "@fluentui/react-icons";
 import { z } from "zod";
 import { SerializedNodes } from "@craftjs/core";
 
-type VscIconKeys = keyof typeof VscIcons;
+type FluentIconKeys = keyof typeof FluentIcons;
 
-type IconType = VscIconKeys | "none" | "left" | "right";
+type IconType = FluentIconKeys | "none" | "left" | "right";
 
 export const backgroundSchema = z.object({
   backgroundColor: z.string().default("#292929"),
@@ -39,7 +39,7 @@ export const buttonSchema = z.object({
   alignment: z.enum(["left", "center", "right"]).default("center"),
   displayName: z.string().optional().default("Button"),
   icon: z
-    .union([z.enum(["none", "left", "right"]), z.string().refine((val) => val in VscIcons)])
+    .union([z.enum(["none", "left", "right"]), z.string().refine((val) => val in FluentIcons)])
     .optional(),
   bordercolor: z.string().optional().default("white"),
   shadowColor: z.string().optional().default("black"),
@@ -115,7 +115,7 @@ export const labelSchema = z.object({
   userEditable: z.boolean().optional().default(true),
   textAlign: z.enum(["left", "center", "right", "justify"]).default("left"),
   icon: z
-    .union([z.enum(["none", "left", "right"]), z.string().refine((val) => val in VscIcons)])
+    .union([z.enum(["none", "left", "right"]), z.string().refine((val) => val in FluentIcons)])
     .optional()
     .default("none"),
   hyperlink: z.string().optional().default(""),
@@ -154,8 +154,8 @@ export type TextBoxProps = z.infer<typeof textBoxSchema>;
 export const iconSchema = z.object({
   selectedIcon: z
     .string()
-    .refine((val) => val in VscIcons)
-    .optional() as z.ZodType<VscIconKeys>,
+    .refine((val) => val in FluentIcons)
+    .optional() as z.ZodType<FluentIconKeys>,
   iconSize: z.number().optional().default(24),
   iconColor: z.string().optional().default("lightslategrey"),
   hyperlink: z.string().optional().default(""),
@@ -383,16 +383,17 @@ export const generateIconSchema = z.object({
   props: z.object({
     selectedIcon: z
       .enum([
-        "VscAdd",
-        "VscEdit",
-        "VscTrash",
-        "VscSearch",
-        "VscSave",
-        "VscHome",
-        "VscSettingsGear",
-        "VscInfo",
+        "Add24Regular",
+        "Edit24Regular",
+        "Delete24Regular",
+        "Search24Regular",
+        "Save24Regular",
+        "Home24Regular",
+        "Settings24Regular",
+        "Info24Regular",
+        "Mail24Regular",
       ])
-      .default("VscAdd"),
+      .default("Add24Regular"),
     iconSize: z.number().default(24),
   }),
 });

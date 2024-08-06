@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNode, UserComponent } from '@craftjs/core';
-import * as VscIcons from "react-icons/vsc";
+// import * as VscIcons from "react-icons/vsc";
+import * as FluentIcons from "@fluentui/react-icons";
 import { IconProps, iconSchema } from '../../types';
 import { IconSettings } from './Settings/IconSettings';
 
@@ -14,10 +15,10 @@ export const Icon: UserComponent<IconProps> = (props) => {
     }));
 
     // Fetch the icon component from VscIcons, defaulting to null if not found
-    const IconComponent = VscIcons[selectedIcon] as React.ComponentType<any> | undefined;
+    const IconComponent = FluentIcons[selectedIcon as keyof typeof FluentIcons] as React.ComponentType<any>;
 
     if (!IconComponent) {
-        console.warn(`Icon component for ${String(selectedIcon)} is not a valid React component.`);
+        console.warn(`Icon component for ${String(selectedIcon)} is not found.`);
         return null; // Handle the case where the component doesn't exist
     }
 
@@ -33,7 +34,7 @@ export const Icon: UserComponent<IconProps> = (props) => {
 };
 
 export const IconDefaultProps: IconProps = {
-    selectedIcon: "VscHome", // Replace with a default Material Design icon name
+    selectedIcon: "Home24Regular",
     iconSize: 24,
     iconColor: "#lightslategray",
     hyperlink: "",

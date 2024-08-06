@@ -3,7 +3,7 @@ import { usePropertyInspectorStyles } from "../../../hooks/usePropertyInspectorS
 import { useNode } from "@craftjs/core";
 import { makeStyles, tokens, mergeClasses, Button, Dialog, DialogActions, DialogBody, DialogContent, DialogSurface, DialogTitle, DialogTrigger, Input, Label, SearchBox, SpinButton, Tooltip, useId, SpinButtonChangeEvent, SpinButtonOnChangeData } from "@fluentui/react-components";
 import { IconProps, TooltipConfigIcon as TooltipConfig } from "../../../types";
-import * as VscIcons from "react-icons/vsc"; // Import all icons from Material Design
+import * as FluentIcons from "@fluentui/react-icons";
 import { EmojiEditRegular, Info16Regular } from "@fluentui/react-icons";
 
 const useStyles = makeStyles({
@@ -54,12 +54,12 @@ export const IconSettings: React.FC = () => {
     // State for the dialog open state
     const [isOpen, setIsOpen] = useState(false);
     // State for the selected icon
-    const [selectedIcon, setSelectedIcon] = useState<keyof typeof VscIcons>(props.selectedIcon);
+    const [selectedIcon, setSelectedIcon] = useState<keyof typeof FluentIcons>(props.selectedIcon);
     // State for the search query in the search box
     const [searchQuery, setSearchQuery] = useState("");
 
     // Function to handle icon click in the dialog
-    const handleIconClick = (icon: keyof typeof VscIcons) => {
+    const handleIconClick = (icon: keyof typeof FluentIcons) => {
         setSelectedIcon(icon);
     };
 
@@ -80,8 +80,10 @@ export const IconSettings: React.FC = () => {
     };
 
     // function to filter the icons based on the search
-    const filteredIcons = Object.keys(VscIcons).filter(icon =>
-        icon.toLowerCase().includes(searchQuery.toLowerCase())
+    const filteredIcons = Object.keys(FluentIcons).filter(icon =>
+        icon.toLowerCase().includes(searchQuery.toLowerCase()) &&
+        typeof FluentIcons[icon as keyof typeof FluentIcons] === 'function' &&
+        icon.endsWith('24Regular')
     );
 
     // Generate a unique ID for the content of the tooltips
@@ -122,14 +124,14 @@ export const IconSettings: React.FC = () => {
                             />
                             <div className={styles.iconGrid}>
                                 {filteredIcons.map((icon) => {
-                                    const IconComponent = VscIcons[icon as keyof typeof VscIcons];
+                                    const IconComponent = FluentIcons[icon as keyof typeof FluentIcons] as React.ComponentType<{ className?: string }>;
                                     if (IconComponent && typeof IconComponent === 'function') {
                                         return (
                                             <Button
                                                 size='large'
                                                 key={icon}
                                                 className={mergeClasses(styles.iconButton, selectedIcon === icon ? styles.selectedIconButton : '')}
-                                                onClick={() => handleIconClick(icon as keyof typeof VscIcons)}
+                                                onClick={() => handleIconClick(icon as keyof typeof FluentIcons)}
                                             >
                                                 <IconComponent />
                                             </Button>
