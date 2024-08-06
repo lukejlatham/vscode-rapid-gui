@@ -2,7 +2,7 @@
 import * as VscIcons from "react-icons/vsc";
 import { z } from "zod";
 import { SerializedNodes } from "@craftjs/core";
-import { max, min } from "lodash";
+import { head, max, min } from "lodash";
 
 type VscIconKeys = keyof typeof VscIcons;
 
@@ -155,11 +155,10 @@ export const sliderSchema = z.object({
   step: z.number().default(1),
   fontSize: z.number().default(14),
   fontColor: z.string().default("black"),
-  sliderColor: z.string().default("red"),
+  backgroundColor: z.string().default("red"),
 });
 
 export type SliderProps = z.infer<typeof sliderSchema>;
-
 
 export const textBoxSchema = z.object({
   text: z.string().default("Text Box"),
@@ -179,7 +178,7 @@ export const iconSchema = z.object({
   selectedIcon: z
     .string()
     .refine((val) => val in VscIcons)
-    .optional() as z.ZodType<VscIconKeys>,
+    .default("VscAdd") as z.ZodType<VscIconKeys>,
   iconSize: z.number().optional().default(24),
   iconColor: z.string().optional().default("lightslategrey"),
   hyperlink: z.string().optional().default(""),
@@ -194,8 +193,8 @@ export const imageSchema = z.object({
       "https://media.licdn.com/dms/image/D4E22AQGL4EZgEpG2ag/feedshare-shrink_800/0/1719580422738?e=2147483647&v=beta&t=Nj786KjutiTxei_wgDDM40hcWFi5_-qqBIKM4jOa3Hc"
     ),
   alt: z.string().default("New image"),
-  width: z.number().default(100),
-  height: z.number().default(100),
+  width: z.number().default(80),
+  height: z.number().default(80),
   alignment: z.enum(["left", "center", "right"]).optional(),
 });
 
@@ -300,7 +299,7 @@ export interface TooltipConfigSlider {
   label: string;
   content: string;
   propKey: keyof SliderProps;
-  type: "color" | "spinButton" | "text" ;
+  type: "color" | "spinButton" | "text";
 }
 
 export interface Page {
@@ -326,13 +325,15 @@ export const generatedElements = z.object({
     "Input",
     "Text",
     "Icon",
+    "Slider",
+    "Dropdown",
   ]),
   description: z.string(),
 });
 
 export const generatedSectionChildren = z.object({
   section: z.string(),
-  children: z.array(generatedElements).max(8),
+  children: z.array(generatedElements).max(5),
 });
 
 export const generatedAllSectionsChildren = z.object({
@@ -346,8 +347,8 @@ const ColorEnum = z.enum(["Main", "LightAccent", "DarkAccent"]).default("Main");
 export const generateButtonSchema = z.object({
   type: z.literal("Button"),
   props: z.object({
-    width: z.number().int().max(80).default(80),
-    height: z.number().int().max(80).default(60),
+    width: z.number().int().default(80),
+    height: z.number().int().default(60),
     text: z.string().default("Button"),
     backgroundColor: ColorEnum,
   }),
@@ -413,21 +414,31 @@ export const generateTextSchema = z.object({
   }),
 });
 
+export const generateSliderSchema = z.object({
+  type: z.literal("Image"),
+  props: z.object({
+    backgroundColor: ColorEnum,
+    header: z.string().default(""),
+  }),
+});
+
+export const generateDropdownSchema = z.object({
+  type: z.literal("Dropdown"),
+  props: z.object({
+    header: z.string().default(""),
+    optionLabels: z.array(z.string()).default(["Option 1", "Option 2"]),
+    numberOfOptions: z.number().default(2),
+    fontColor: ColorEnum,
+  }),
+});
+
 export const generateIconSchema = z.object({
   type: z.literal("Icon"),
   props: z.object({
     selectedIcon: z
-      .enum([
-        "VscAdd",
-        "VscEdit",
-        "VscTrash",
-        "VscSearch",
-        "VscSave",
-        "VscHome",
-        "VscSettingsGear",
-        "VscInfo",
-      ])
-      .default("VscAdd"),
+      .string()
+      .default("VscAdd")
+      .describe("Icon name from react-icons/vsc - must start with Vsc"),
     iconSize: z.number().default(24),
   }),
 });
@@ -464,6 +475,8 @@ export const generatedFullElements = z.union([
   generateTextSchema,
   generateImageSchema,
   generateInputSchema,
+  generateSliderSchema,
+  generateDropdownSchema,
 ]);
 
 export const fullSectionSchema = z.object({

@@ -80,6 +80,8 @@ import {
   fullSectionSchema,
   textSchema,
   ThemedLayoutSchema,
+  dropdownSchema,
+  sliderSchema,
 } from "../../webview-ui/src/types";
 import { applyThemeToSchema } from "./applyTheming";
 
@@ -218,6 +220,10 @@ function generateSectionNodes(sections: ThemedLayoutSchema[]): { [key: string]: 
           break;
         case "Text":
           childProps = textSchema.parse(child.props);
+        case "Dropdown":
+          childProps = dropdownSchema.parse(child.props);
+        case "Slider":
+          childProps = sliderSchema.parse(child.props);
           break;
       }
 

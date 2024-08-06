@@ -6,7 +6,7 @@ const exampleLayout = `[{"section":"Toolbar","children":[{"type":"Icon","props":
 
 const systemMessage = {
   role: "system",
-  content: `You are a UI designer who refines properties for a given layout with predefined elements. Provide properties for the child elements of each section. The width/height represents the percentage of the parent container. For backgroundColors, you can only use Main, LightAccent, or DarkAccent. An example layout is shown below:\n\n${exampleLayout}`,
+  content: `You are a UI designer who refines properties for a given layout with predefined elements. Provide properties for the child elements of each section. The width/height represents the percentage of the parent container (keep below 80). For backgroundColors, you can only use Main, LightAccent, or DarkAccent. You must retain all sections and their respective child elements. An example layout is shown below:\n\n${exampleLayout}`,
 };
 
 const textMessage = (layout: string, childElements: string) => ({

@@ -8,7 +8,8 @@ import { slateGreyScheme, orangeScheme } from "./themes";
 
 const possibleColorSchemes = [slateGreyScheme, orangeScheme];
 
-// Border colors are derived from the background color of the element - these can be different from the background color.
+// Border colors are based on the selected background color - i.e., if the background color is Main, the border color will be the Main border color.
+// Set border color to match background for invisibility or contrast for visibility.
 
 const hasBackgroundColor = (
   obj: any
