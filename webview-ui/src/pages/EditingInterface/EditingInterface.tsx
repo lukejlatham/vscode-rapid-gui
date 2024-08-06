@@ -139,7 +139,6 @@ const EditingInterface: React.FC = () => {
           setPages(prevPages => prevPages.filter((_, i) => i !== index));
           setCurrentPageIndex(prevIndex => Math.min(prevIndex, pages.length - 2));
         } else {
-        //   alert("You can't delete the last page.");
           vscode.postMessage({ command: 'deletedPageAlert', message: "You can't delete the last page." });
         }
       };

@@ -4,13 +4,13 @@ import { useEditor } from "@craftjs/core";
 import { vscode } from '../../../utilities/vscode';
 import { Page } from "../../../types";
 
-const LOCAL_STORAGE_KEY = 'userPages';
+// const LOCAL_STORAGE_KEY = 'userPages';
 
 const SaveButton: React.FC<{classes: any, pages: Page[], currentPageIndex: number}> = ({classes, pages, currentPageIndex}) => {
     const { query } = useEditor();
 
     const handleSave = () => {
-        // const serializedData = query.serialize();
+        const serializedData = query.serialize();
 
     
         // array of the content of each page
@@ -19,7 +19,7 @@ const SaveButton: React.FC<{classes: any, pages: Page[], currentPageIndex: numbe
         //array of the names of each page
         const pagesNames = pages.map(page => page.name);      
 
-        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(pages));
+        // localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(pages));
         vscode.postMessage({
             command: 'saveFile',
             contents: pagesContents,
