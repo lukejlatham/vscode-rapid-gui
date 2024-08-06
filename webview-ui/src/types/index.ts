@@ -2,6 +2,7 @@
 import * as VscIcons from "react-icons/vsc";
 import { z } from "zod";
 import { SerializedNodes } from "@craftjs/core";
+import { max, min } from "lodash";
 
 type VscIconKeys = keyof typeof VscIcons;
 
@@ -147,6 +148,18 @@ export const radioButtonSchema = z.object({
 
 export type RadioButtonProps = z.infer<typeof radioButtonSchema>;
 
+export const sliderSchema = z.object({
+  header: z.string().default("Slider"),
+  min: z.number().default(0),
+  max: z.number().default(100),
+  step: z.number().default(1),
+  fontSize: z.number().default(14),
+  fontColor: z.string().default("black"),
+});
+
+export type SliderProps = z.infer<typeof sliderSchema>;
+
+
 export const textBoxSchema = z.object({
   text: z.string().default("Text Box"),
   fontSize: z.number().default(14),
@@ -280,6 +293,13 @@ export interface TooltipConfigContainer {
   content: string;
   propKey: keyof ContainerProps;
   type: "color" | "spinButton" | "text" | "justifyContent" | "alignItems" | "direction";
+}
+
+export interface TooltipConfigSlider {
+  label: string;
+  content: string;
+  propKey: keyof SliderProps;
+  type: "color" | "spinButton" | "text" ;
 }
 
 export interface Page {

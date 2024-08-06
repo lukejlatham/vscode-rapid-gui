@@ -12,6 +12,7 @@ import { Icon, IconDefaultProps } from '../../../components/user/Icon';
 import { EditBackgroundButton } from '../../../components/EditBackgroundButton';
 import { Text, TextDefaultProps } from '../../../components/user/Text';
 import { Dropdown, DropdownDefaultProps } from '../../../components/user/Dropdown';
+import { Slider, SliderDefaultProps } from '../../../components/user/Slider';
 import {
     Image24Regular,
     TextboxRegular,
@@ -29,7 +30,8 @@ import {
     EmojiRegular,
     SlideTextRegular,
     CardUiRegular,
-    TextBulletListCheckmarkFilled
+    TextBulletListCheckmarkFilled,
+    OptionsRegular
 } from '@fluentui/react-icons';
 import { Container, ContainerDefaultProps } from '../../../components/user/Container';
 
@@ -92,6 +94,11 @@ const ComponentButtons: React.FC<{ classes: any }> = ({ classes }) => {
                     connectors.create(ref, <Dropdown {...DropdownDefaultProps} />);
                 }
             }}>Dropdown</Button>
+            <Button className={classes.button} icon={<OptionsRegular />} size='large' appearance='outline' ref={ref => {
+                if (ref !== null) {
+                    connectors.create(ref, <Slider {...SliderDefaultProps} />);
+                }
+            }}>Slider</Button>
             <Button className={classes.button} icon={<EmojiRegular />} size='large' appearance='outline' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Icon {...IconDefaultProps} />);
