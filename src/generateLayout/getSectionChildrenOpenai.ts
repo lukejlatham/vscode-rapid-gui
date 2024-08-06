@@ -86,6 +86,7 @@ Possible elements:
 - TextBox
 - RadioButton
 - Checkbox
+- Input: use for fields
 - Icon
 `,
 };

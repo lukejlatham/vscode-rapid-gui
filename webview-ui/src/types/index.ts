@@ -285,7 +285,7 @@ export const generatedElements = z.object({
     "TextBox",
     "RadioButton",
     "Checkbox",
-    // "Input",
+    "Input",
     "Text",
     "Icon",
   ]),
@@ -420,6 +420,7 @@ export const fullSectionSchema = z.object({
     width: z.number().int().max(10),
     height: z.number().int().max(10),
     flexDirection: z.enum(["row", "column"]),
+    backgroundColor: z.enum(["ghostwhite", "lightslategray"]).default("ghostwhite"),
   }),
   children: z.array(generatedFullElements),
 });
@@ -433,7 +434,8 @@ export const sectionSchema = z.object({
     yPosition: z.number().int().max(10),
     width: z.number().int().max(10),
     height: z.number().int().max(10),
-    flexDirection: z.enum(["row", "column"]).default("row"),
+    flexDirection: z.enum(["row", "column"]).describe("Row if width > height, column otherwise."),
+    backgroundColor: z.enum(["ghostwhite", "lightslategray"]).default("ghostwhite"),
   }),
   contents: z.string().describe("Give a detailed description of the section over 3 lines."),
 });
