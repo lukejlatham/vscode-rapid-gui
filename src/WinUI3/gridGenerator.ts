@@ -1,85 +1,83 @@
-interface NodeProps {
-  rows?: number;
-  columns?: number;
-  backgroundColor?: string;
-  layout?: {
-    i: string;
-    x: number;
-    y: number;
-    w: number;
-    h: number;
-    moved?: boolean;
-    static?: boolean;
-    maxW?: number;
-    maxH?: number;
-  }[];
-  [key: string]: any;
-}
+// GridGenerator.ts
+import { PageStructure, LayoutItem, Node } from "./JsonParser";
 
-interface CustomNode {
-  type: { resolvedName: string };
-  isCanvas: boolean;
-  props: NodeProps;
-  displayName: string;
-  custom?: { id?: string };
-  parent: string | null;
-  hidden: boolean;
-  nodes: string[];
-  linkedNodes: { [key: string]: string };
-}
-
-interface JsonStructure {
-  [key: string]: CustomNode;
-}
-
-function generateGridXaml(json: JsonStructure): string {
-  const root = json["ROOT"];
+export function generateGridXaml(pageStructure: PageStructure): string {
+  const root = pageStructure.root;
   let xaml = `<Grid x:Name="RootGrid" Background="${root.props.backgroundColor}">\n`;
 
-  // Set root grid row and column definitions
-  if (root.props.rows) {
-    xaml += ` <Grid.RowDefinitions>\n`;
-    for (let i = 0; i < root.props.rows; i++) {
-      xaml += ` <RowDefinition Height="*"/>\n`;
-    }
-    xaml += ` </Grid.RowDefinitions>\n`;
-  }
-
-  if (root.props.columns) {
-    xaml += ` <Grid.ColumnDefinitions>\n`;
-    for (let i = 0; i < root.props.columns; i++) {
-      xaml += ` <ColumnDefinition Width="*"/>\n`;
-    }
-    xaml += ` </Grid.ColumnDefinitions>\n`;
-  }
-
-  // Generate child grids based on the layout
-  if (root.props.layout) {
-    root.props.layout.forEach((layoutItem) => {
-      const nodeId = root.linkedNodes[layoutItem.i];
-      const node = json[nodeId];
-      xaml += generateGridCellXaml(layoutItem, node, json);
-    });
-  }
+  xaml += generateGridDefinitions(root.props.rows, root.props.columns);
+  xaml += generateGridContent(pageStructure, root.props.layout || [], "");
 
   xaml += "</Grid>\n";
   return xaml;
 }
 
-function generateGridCellXaml(layoutItem: any, node: CustomNode, json: JsonStructure): string {
-  let xaml = ` <Grid Grid.Row="${layoutItem.y}" Grid.Column="${layoutItem.x}" Grid.RowSpan="${layoutItem.h}" Grid.ColumnSpan="${layoutItem.w}">\n`;
+function generateGridDefinitions(rows?: number, columns?: number): string {
+  let xaml = "";
 
-  // Add a StackPanel for cell content
-  xaml += `    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical" Margin="10">\n`;
-
-  // Add content for each grid cell
-  for (const childId of node.nodes) {
-    const childNode = json[childId];
-    xaml += `      <!-- ${childNode.displayName} -->\n`;
+  if (rows) {
+    xaml += "  <Grid.RowDefinitions>\n";
+    for (let i = 0; i < rows; i++) {
+      xaml += '    <RowDefinition Height="*"/>\n';
+    }
+    xaml += "  </Grid.RowDefinitions>\n";
   }
 
-  xaml += "    </StackPanel>\n";
-  xaml += "  </Grid>\n";
+  if (columns) {
+    xaml += "  <Grid.ColumnDefinitions>\n";
+    for (let i = 0; i < columns; i++) {
+      xaml += '    <ColumnDefinition Width="*"/>\n';
+    }
+    xaml += "  </Grid.ColumnDefinitions>\n";
+  }
+
+  return xaml;
+}
+
+function generateGridContent(
+  pageStructure: PageStructure,
+  layout: LayoutItem[],
+  indent: string
+): string {
+  let xaml = "";
+
+  for (const item of layout) {
+    const node = pageStructure.components[pageStructure.root.linkedNodes[item.i]];
+    xaml += generateGridCell(pageStructure, item, node, indent);
+  }
+
+  return xaml;
+}
+
+function generateGridCell(
+  pageStructure: PageStructure,
+  layoutItem: LayoutItem,
+  node: Node,
+  indent: string
+): string {
+  let xaml = `${indent}<Grid Grid.Row="${layoutItem.y}" Grid.Column="${layoutItem.x}" Grid.RowSpan="${layoutItem.h}" Grid.ColumnSpan="${layoutItem.w}">\n`;
+
+  // Handle nested grid
+  if (node.type.resolvedName === "GridCell" && node.props.rows && node.props.columns) {
+    xaml += generateGridDefinitions(node.props.rows, node.props.columns);
+    xaml += generateGridContent(pageStructure, node.props.layout || [], indent + "  ");
+  } else {
+    // Add a StackPanel for cell content
+    xaml += `${indent}  <StackPanel Orientation="${node.props.flexDirection || "Vertical"}" 
+                   HorizontalAlignment="${mapFlexToAlignment(node.props.justifyContent)}" 
+                   VerticalAlignment="${mapFlexToAlignment(node.props.alignItems)}" 
+                   Margin="${node.props.gap || 10}">\n`;
+
+    // Generate components within the cell
+    for (const childId of node.nodes) {
+      const childNode = pageStructure.components[childId];
+      xaml += generateComponent(childNode, indent + "    ");
+    }
+
+    xaml += `${indent}  </StackPanel>\n`;
+  }
+
+  xaml += `${indent}</Grid>\n`;
   return xaml;
 }
 
@@ -92,446 +90,34 @@ function mapFlexToAlignment(flexValue: string): string {
     case "center":
       return "Center";
     case "space-between":
+    case "space-around":
       return "Stretch";
     default:
       return "Stretch";
   }
 }
 
-// function generateComponentXaml(node: CustomNode): string {
-//   let xaml = "";
-
-//   switch (node.type.resolvedName) {
-//     case "Input":
-//       xaml += `<TextBox PlaceholderText="${node.props.placeholder}" FontSize="${node.props.fontSize}" Foreground="${node.props.fontColor}" Background="${node.props.backgroundColor}" BorderRadius="${node.props.borderRadius}"/>\n`;
-//       break;
-//     case "Text":
-//       xaml += `<TextBlock Text="${node.props.text}" FontSize="${node.props.fontSize}" Foreground="${node.props.fontColor}" TextAlignment="${node.props.textAlign}" />\n`;
-//       break;
-//     case "Label":
-//       xaml += `<TextBlock Text="${node.props.text}" FontSize="${node.props.fontSize}" Foreground="${node.props.fontColor}" TextAlignment="${node.props.textAlign}" />\n`;
-//       break;
-//     case "Icon":
-//       xaml += `<FontIcon Glyph="${node.props.selectedIcon}" FontSize="${node.props.iconSize}" Foreground="${node.props.iconColor}" />\n`;
-//       break;
-//     case "RadioButton":
-//       xaml += `<StackPanel Orientation="${node.props.direction}">\n`;
-//       node.props.optionLabels.forEach((label: string) => {
-//         xaml += `<RadioButton Content="${label}" FontSize="${node.props.fontSize}" Foreground="${node.props.fontColor}" />\n`;
-//       });
-//       xaml += `</StackPanel>\n`;
-//       break;
-//     case "Container":
-//       xaml += `<Border Background="${node.props.backgroundColor}" CornerRadius="${node.props.borderRadius}" BorderBrush="${node.props.borderColor}" Padding="${node.props.padding}" Width="${node.props.width}" Height="${node.props.height}">\n`;
-//       xaml += `<StackPanel Orientation="${node.props.flexDirection}" HorizontalAlignment="${node.props.justifyContent}" VerticalAlignment="${node.props.alignItems}">\n`;
-//       // Here you would add child elements inside the container if necessary
-//       xaml += `</StackPanel>\n`;
-//       xaml += `</Border>\n`;
-//       break;
-//     default:
-//       xaml += `<!-- Unknown component type: ${node.type.resolvedName} -->\n`;
-//   }
-
-//   return xaml;
-// }
-
-function generateXaml(json: JsonStructure): string {
-  let xaml = `<Window x:Class="GridExample.MainWindow"
-          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-          Title="MainWindow" Height="450" Width="800">\n`;
-  xaml += generateGridXaml(json);
-  xaml += "</Window>";
-  return xaml;
+function generateComponent(node: Node, indent: string): string {
+  switch (node.type.resolvedName) {
+    case "Input":
+      return `${indent}<TextBox PlaceholderText="${node.props.placeholder}" FontSize="${node.props.fontSize}" Foreground="${node.props.fontColor}" Background="${node.props.backgroundColor}"/>\n`;
+    case "Text":
+    case "Label":
+      return `${indent}<TextBlock Text="${node.props.text}" FontSize="${node.props.fontSize}" Foreground="${node.props.fontColor}" TextAlignment="${node.props.textAlign}"/>\n`;
+    case "Button":
+      return `${indent}<Button Content="${node.props.text}" FontSize="${node.props.fontSize}" Foreground="${node.props.fontColor}" Background="${node.props.backgroundColor}"/>\n`;
+    case "Icon":
+      return `${indent}<FontIcon Glyph="${node.props.selectedIcon}" FontSize="${node.props.iconSize}" Foreground="${node.props.iconColor}"/>\n`;
+    case "RadioButton":
+      let radioXaml = `${indent}<StackPanel Orientation="${node.props.direction}">\n`;
+      node.props.optionLabels.forEach((label: string) => {
+        radioXaml += `${indent}  <RadioButton Content="${label}" FontSize="${node.props.fontSize}" Foreground="${node.props.fontColor}"/>\n`;
+      });
+      radioXaml += `${indent}</StackPanel>\n`;
+      return radioXaml;
+    case "Container":
+      return `${indent}<Border Background="${node.props.backgroundColor}" CornerRadius="${node.props.borderRadius}" BorderBrush="${node.props.borderColor}" Padding="${node.props.padding}" Width="${node.props.width}" Height="${node.props.height}"/>\n`;
+    default:
+      return `${indent}<!-- Unknown component type: ${node.type.resolvedName} -->\n`;
+  }
 }
-
-//   let cellXaml = "";
-//   if (json.ROOT.props.layout) {
-//     for (const layoutItem of json.ROOT.props.layout) {
-//       const nodeId = json.ROOT.linkedNodes[layoutItem.i];
-//       const node = json[nodeId];
-//       cellXaml += generateGridCellXaml(layoutItem, node, json);
-//     }
-//   }
-//   xaml = xaml.replace("</Grid>", cellXaml + "</Grid>");
-//   xaml += "\n</Window>";
-//   return xaml;
-// }
-
-// Example usage
-const json: JsonStructure = {
-  "ROOT": {
-    type: { resolvedName: "Background" },
-    isCanvas: true,
-    props: {
-      rows: 5,
-      columns: 5,
-      lockedGrid: false,
-      backgroundColor: "#292929",
-      layout: [
-        {
-          w: 1,
-          h: 1,
-          x: 0,
-          y: 0,
-          i: "0",
-          moved: false,
-          static: false,
-        },
-        {
-          w: 1,
-          h: 1,
-          x: 1,
-          y: 0,
-          i: "1",
-          moved: false,
-          static: false,
-        },
-        {
-          w: 1,
-          h: 1,
-          x: 2,
-          y: 0,
-          i: "2",
-          moved: false,
-          static: false,
-        },
-        {
-          w: 1,
-          h: 1,
-          x: 0,
-          y: 1,
-          i: "3",
-          moved: false,
-          static: false,
-        },
-        {
-          w: 1,
-          h: 1,
-          x: 1,
-          y: 1,
-          i: "4",
-          moved: false,
-          static: false,
-        },
-        {
-          w: 1,
-          h: 1,
-          x: 2,
-          y: 1,
-          i: "5",
-          moved: false,
-          static: false,
-        },
-        {
-          w: 1,
-          h: 1,
-          x: 3,
-          y: 0,
-          i: "6",
-          maxW: 5,
-          maxH: 5,
-          moved: false,
-          static: false,
-        },
-        {
-          w: 1,
-          h: 1,
-          x: 4,
-          y: 0,
-          i: "7",
-          maxW: 5,
-          maxH: 5,
-          moved: false,
-          static: false,
-        },
-        {
-          w: 1,
-          h: 1,
-          x: 3,
-          y: 1,
-          i: "8",
-          maxW: 5,
-          maxH: 5,
-          moved: false,
-          static: false,
-        },
-        {
-          w: 1,
-          h: 1,
-          x: 4,
-          y: 1,
-          i: "9",
-          maxW: 5,
-          maxH: 5,
-          moved: false,
-          static: false,
-        },
-        {
-          w: 1,
-          h: 1,
-          x: 0,
-          y: 2,
-          i: "10",
-          maxW: 5,
-          maxH: 5,
-          moved: false,
-          static: false,
-        },
-        {
-          w: 2,
-          h: 1,
-          x: 1,
-          y: 2,
-          i: "11",
-          maxW: 5,
-          maxH: 5,
-          moved: false,
-          static: false,
-        },
-        {
-          w: 2,
-          h: 1,
-          x: 3,
-          y: 2,
-          i: "12",
-          maxW: 5,
-          maxH: 5,
-          moved: false,
-          static: false,
-        },
-      ],
-    },
-    displayName: "Background",
-    custom: {},
-    parent: null,
-    hidden: false,
-    nodes: [],
-    linkedNodes: {
-      "0": "3q3SjD9wIE",
-      "1": "3TIilnliOM",
-      "2": "luDnnEeOQB",
-      "3": "ibzieLXfUr",
-      "4": "S1yn6IcYu0",
-      "5": "sPR6gLeUYh",
-      "6": "B6gedZQbJK",
-      "7": "jj1BIJjqrv",
-      "8": "-zYeoALOFj",
-      "9": "50JbJxdjD-",
-      "10": "bVM1dEwvfB",
-      "11": "Z6zl7VmWwi",
-      "12": "3KZyY-FYbF",
-    },
-  },
-  "3q3SjD9wIE": {
-    type: { resolvedName: "GridCell" },
-    isCanvas: true,
-    props: {
-      justifyContent: "center",
-      flexDirection: "column",
-      alignItems: "center",
-      gap: 10,
-    },
-    displayName: "Grid Cell",
-    custom: { id: "0" },
-    parent: "ROOT",
-    hidden: false,
-    nodes: [],
-    linkedNodes: {},
-  },
-  "3TIilnliOM": {
-    type: { resolvedName: "GridCell" },
-    isCanvas: true,
-    props: {
-      justifyContent: "center",
-      flexDirection: "column",
-      alignItems: "center",
-      gap: 10,
-    },
-    displayName: "Grid Cell",
-    custom: { id: "1" },
-    parent: "ROOT",
-    hidden: false,
-    nodes: [],
-    linkedNodes: {},
-  },
-  "luDnnEeOQB": {
-    type: { resolvedName: "GridCell" },
-    isCanvas: true,
-    props: {
-      justifyContent: "center",
-      flexDirection: "column",
-      alignItems: "center",
-      gap: 10,
-    },
-    displayName: "Grid Cell",
-    custom: { id: "2" },
-    parent: "ROOT",
-    hidden: false,
-    nodes: [],
-    linkedNodes: {},
-  },
-  "ibzieLXfUr": {
-    type: { resolvedName: "GridCell" },
-    isCanvas: true,
-    props: {
-      justifyContent: "center",
-      flexDirection: "column",
-      alignItems: "center",
-      gap: 10,
-    },
-    displayName: "Grid Cell",
-    custom: { id: "3" },
-    parent: "ROOT",
-    hidden: false,
-    nodes: [],
-    linkedNodes: {},
-  },
-  "S1yn6IcYu0": {
-    type: { resolvedName: "GridCell" },
-    isCanvas: true,
-    props: {
-      justifyContent: "center",
-      flexDirection: "column",
-      alignItems: "center",
-      gap: 10,
-    },
-    displayName: "Grid Cell",
-    custom: { id: "4" },
-    parent: "ROOT",
-    hidden: false,
-    nodes: [],
-    linkedNodes: {},
-  },
-  "sPR6gLeUYh": {
-    type: { resolvedName: "GridCell" },
-    isCanvas: true,
-    props: {
-      justifyContent: "center",
-      flexDirection: "column",
-      alignItems: "center",
-      gap: 10,
-    },
-    displayName: "Grid Cell",
-    custom: { id: "5" },
-    parent: "ROOT",
-    hidden: false,
-    nodes: [],
-    linkedNodes: {},
-  },
-  "B6gedZQbJK": {
-    type: { resolvedName: "GridCell" },
-    isCanvas: true,
-    props: {
-      justifyContent: "center",
-      flexDirection: "column",
-      alignItems: "center",
-      gap: 10,
-    },
-    displayName: "Grid Cell",
-    custom: { id: "6" },
-    parent: "ROOT",
-    hidden: false,
-    nodes: [],
-    linkedNodes: {},
-  },
-  "jj1BIJjqrv": {
-    type: { resolvedName: "GridCell" },
-    isCanvas: true,
-    props: {
-      justifyContent: "center",
-      flexDirection: "column",
-      alignItems: "center",
-      gap: 10,
-    },
-    displayName: "Grid Cell",
-    custom: { id: "7" },
-    parent: "ROOT",
-    hidden: false,
-    nodes: [],
-    linkedNodes: {},
-  },
-  "-zYeoALOFj": {
-    type: { resolvedName: "GridCell" },
-    isCanvas: true,
-    props: {
-      justifyContent: "center",
-      flexDirection: "column",
-      alignItems: "center",
-      gap: 10,
-    },
-    displayName: "Grid Cell",
-    custom: { id: "8" },
-    parent: "ROOT",
-    hidden: false,
-    nodes: [],
-    linkedNodes: {},
-  },
-  "50JbJxdjD-": {
-    type: { resolvedName: "GridCell" },
-    isCanvas: true,
-    props: {
-      justifyContent: "center",
-      flexDirection: "column",
-      alignItems: "center",
-      gap: 10,
-    },
-    displayName: "Grid Cell",
-    custom: { id: "9" },
-    parent: "ROOT",
-    hidden: false,
-    nodes: [],
-    linkedNodes: {},
-  },
-  "bVM1dEwvfB": {
-    type: { resolvedName: "GridCell" },
-    isCanvas: true,
-    props: {
-      justifyContent: "center",
-      flexDirection: "column",
-      alignItems: "center",
-      gap: 10,
-    },
-    displayName: "Grid Cell",
-    custom: { id: "10" },
-    parent: "ROOT",
-    hidden: false,
-    nodes: [],
-    linkedNodes: {},
-  },
-  "Z6zl7VmWwi": {
-    type: { resolvedName: "GridCell" },
-    isCanvas: true,
-    props: {
-      justifyContent: "center",
-      flexDirection: "column",
-      alignItems: "center",
-      gap: 10,
-    },
-    displayName: "Grid Cell",
-    custom: { id: "11" },
-    parent: "ROOT",
-    hidden: false,
-    nodes: [],
-    linkedNodes: {},
-  },
-  "3KZyY-FYbF": {
-    type: { resolvedName: "GridCell" },
-    isCanvas: true,
-    props: {
-      justifyContent: "center",
-      flexDirection: "column",
-      alignItems: "center",
-      gap: 10,
-    },
-    displayName: "Grid Cell",
-    custom: { id: "12" },
-    parent: "ROOT",
-    hidden: false,
-    nodes: [],
-    linkedNodes: {},
-  },
-};
-
-const xamlOutput = generateGridXaml(json);
-console.log(xamlOutput);
