@@ -81,13 +81,11 @@ const systemMessage = {
 
 Possible elements:
 - Button
-- Label
-- Image
+- Label: use for headers and titles
+- Image 
 - TextBox
 - RadioButton
 - Checkbox
-- Input
-- Text
 - Icon
 `,
 };

@@ -30,18 +30,18 @@ export type BackgroundProps = z.infer<typeof backgroundSchema>;
 
 export const buttonSchema = z.object({
   backgroundColor: z.string().default("lightslategrey"),
-  fontSize: z.number().default(14),
-  fontColor: z.string().default("black"),
+  fontSize: z.number().default(16),
+  fontColor: z.string().default("white"),
   borderRadius: z.number().default(4),
   width: z.number().default(80),
   height: z.number().default(60),
   text: z.string().default("Button"),
   alignment: z.enum(["left", "center", "right"]).default("center"),
-  displayName: z.string().optional(),
+  displayName: z.string().optional().default("Button"),
   icon: z
     .union([z.enum(["none", "left", "right"]), z.string().refine((val) => val in VscIcons)])
     .optional(),
-  bordercolor: z.string().optional(),
+  bordercolor: z.string().optional().default("white"),
   shadowColor: z.string().optional().default("black"),
   shadowOffsetX: z.number().optional().default(1),
   shadowOffsetY: z.number().optional().default(1),
@@ -112,15 +112,16 @@ export const labelSchema = z.object({
   text: z.string().default("Label"),
   fontSize: z.number().default(22),
   fontColor: z.string().default("black"),
-  userEditable: z.boolean().default(true).optional(),
+  userEditable: z.boolean().optional().default(true),
   textAlign: z.enum(["left", "center", "right", "justify"]).default("left"),
   icon: z
     .union([z.enum(["none", "left", "right"]), z.string().refine((val) => val in VscIcons)])
-    .optional(),
-  hyperlink: z.string().optional(),
+    .optional()
+    .default("none"),
+  hyperlink: z.string().optional().default(""),
   bold: z.boolean().optional().default(true),
-  italic: z.boolean().default(false).optional(),
-  underline: z.boolean().default(false).optional(),
+  italic: z.boolean().optional().default(false),
+  underline: z.boolean().optional().default(false),
 });
 
 export type LabelProps = z.infer<typeof labelSchema>;
@@ -155,7 +156,7 @@ export const iconSchema = z.object({
     .string()
     .refine((val) => val in VscIcons)
     .optional() as z.ZodType<VscIconKeys>,
-  iconSize: z.number().default(24).optional(),
+  iconSize: z.number().optional().default(24),
   iconColor: z.string().optional().default("lightslategrey"),
   hyperlink: z.string().optional().default(""),
 });
@@ -163,8 +164,12 @@ export const iconSchema = z.object({
 export type IconProps = z.infer<typeof iconSchema>;
 
 export const imageSchema = z.object({
-  src: z.string().optional().default("Replace with image URL"),
-  alt: z.string().default("Placeholder Image"),
+  src: z
+    .string()
+    .default(
+      "https://photographylife.com/wp-content/uploads/2023/05/Nikon-Z8-Official-Samples-00002.jpg"
+    ),
+  alt: z.string().default("New image"),
   width: z.number().default(100),
   height: z.number().default(100),
   alignment: z.enum(["left", "center", "right"]).optional(),
@@ -173,7 +178,7 @@ export const imageSchema = z.object({
 export type ImageProps = z.infer<typeof imageSchema>;
 
 export const textSchema = z.object({
-  text: z.string().default("Text"),
+  text: z.string().default("Here is some text"),
   fontSize: z.number().default(14),
   fontColor: z.string().default("black"),
   textAlign: z.enum(["left", "center", "right", "justify"]).default("left"),
@@ -280,7 +285,7 @@ export const generatedElements = z.object({
     "TextBox",
     "RadioButton",
     "Checkbox",
-    "Input",
+    // "Input",
     "Text",
     "Icon",
   ]),
@@ -301,16 +306,8 @@ export const generatedAllSectionsChildren = z.object({
 export const generateButtonSchema = z.object({
   type: z.literal("Button"),
   props: z.object({
-    width: z
-      .number()
-      .int()
-      .max(100)
-      .describe("Width of the button in percentage of the parent container."),
-    height: z
-      .number()
-      .int()
-      .max(100)
-      .describe("Height of the button in percentage of the parent container."),
+    width: z.number().int().max(80),
+    height: z.number().int().max(80),
     text: z.string().default("Button"),
   }),
 });
@@ -357,6 +354,13 @@ export const generateRadioButtonSchema = z.object({
 export const generateImageSchema = z.object({
   type: z.literal("Image"),
   props: z.object({
+    src: z
+      .string()
+      .optional()
+      .default(
+        "https://photographylife.com/wp-content/uploads/2023/05/Nikon-Z8-Official-Samples-00002.jpg"
+      ),
+    alt: z.string().default("Image"),
     width: z.number().int().max(100),
     height: z.number().int().max(100),
   }),

@@ -35,7 +35,7 @@ export const InputDefaultProps: InputProps = {
     fontColor: '#000000',
     backgroundColor: '#FFFFFF',
     placeholder: 'Enter text here...',
-    borderRadius: 2,
+    borderRadius: 4,
 };
 
 UserInput.craft = {
