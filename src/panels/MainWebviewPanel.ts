@@ -157,9 +157,11 @@ export class MainWebviewPanel {
             await handleFileSave(message.contents, message.fileNames, this._context);
             return;
           case "loadFile":
-            await handleFileLoad(this._context, 
-              // message.fileName, 
-              webview);
+            await handleFileLoad(
+              this._context,
+              // message.fileName,
+              webview
+            );
             return;
           case "processSketch":
             const sketchDescription = await processSketch(message.content, this._context, webview);
@@ -190,5 +192,9 @@ export class MainWebviewPanel {
 
   public postMessage(message: any) {
     this._panel.webview.postMessage(message);
+  }
+
+  public get webview(): Webview {
+    return this._panel.webview;
   }
 }

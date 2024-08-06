@@ -7,8 +7,25 @@ import {
   getAzureOpenaiApiKey,
   getGpt4oDeploymentName,
 } from "./utilities/azureApiKeyStorage";
+import { convertToXaml } from "./utilities/xamlConverter";
 
 export function activate(context: vscode.ExtensionContext) {
+  if (MainWebviewPanel.currentPanel) {
+    context.subscriptions.push(
+      MainWebviewPanel.currentPanel.webview.onDidReceiveMessage(
+        async (message) => {
+          switch (message.command) {
+            case "downloadCode":
+              await convertToXaml(message.contents, message.fileNames, context);
+              return;
+          }
+        },
+        undefined,
+        context.subscriptions
+      )
+    );
+  }
+
   // Command to show the main webview panel
   context.subscriptions.push(
     vscode.commands.registerCommand("mainWebviewPanel.showMainWebviewPanel", () => {
