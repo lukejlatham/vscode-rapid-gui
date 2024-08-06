@@ -1,13 +1,14 @@
 // GridGenerator.ts
 import { PageStructure, LayoutItem, Node } from "./JsonParser";
 import { generateComponentXaml } from "./componentGenerator";
+import { Page } from "../../webview-ui/src/types";
 
-export function generateGridXaml(pageStructure: PageStructure): string {
-  const root = pageStructure.root;
+export function generateGridXaml(page: Page): string {
+  const root = page.content.ROOT;
   let xaml = `<Grid x:Name="RootGrid" Background="${root.props.backgroundColor}">\n`;
 
   xaml += generateGridDefinitions(root.props.rows, root.props.columns);
-  xaml += generateGridContent(pageStructure, root.props.layout || [], "");
+  xaml += generateGridContent(page.content, root.props.layout || [], "");
 
   xaml += "</Grid>\n";
   return xaml;
@@ -35,33 +36,24 @@ function generateGridDefinitions(rows?: number, columns?: number): string {
   return xaml;
 }
 
-function generateGridContent(
-  pageStructure: PageStructure,
-  layout: LayoutItem[],
-  indent: string
-): string {
+function generateGridContent(content: any, layout: any[], indent: string): string {
   let xaml = "";
 
   for (const item of layout) {
-    const node = pageStructure.components[pageStructure.root.linkedNodes[item.i]];
-    xaml += generateGridCell(pageStructure, item, node, indent);
+    const node = content[item.i];
+    xaml += generateGridCell(content, item, node, indent);
   }
 
   return xaml;
 }
 
-function generateGridCell(
-  pageStructure: PageStructure,
-  layoutItem: LayoutItem,
-  node: Node,
-  indent: string
-): string {
+function generateGridCell(content: any, layoutItem: any, node: any, indent: string): string {
   let xaml = `${indent}<Grid Grid.Row="${layoutItem.y}" Grid.Column="${layoutItem.x}" Grid.RowSpan="${layoutItem.h}" Grid.ColumnSpan="${layoutItem.w}">\n`;
 
   // Handle nested grid
   if (node.type.resolvedName === "GridCell" && node.props.rows && node.props.columns) {
     xaml += generateGridDefinitions(node.props.rows, node.props.columns);
-    xaml += generateGridContent(pageStructure, node.props.layout || [], indent + "  ");
+    xaml += generateGridContent(content, node.props.layout || [], indent + "  ");
   } else {
     // Add a StackPanel for cell content
     xaml += `${indent}  <StackPanel Orientation="${node.props.flexDirection || "Vertical"}" 
@@ -71,7 +63,7 @@ function generateGridCell(
 
     // Generate components within the cell
     for (const childId of node.nodes) {
-      const childNode = pageStructure.components[childId];
+      const childNode = content[childId];
       xaml += generateComponentXaml(childNode, indent + "    ");
     }
 

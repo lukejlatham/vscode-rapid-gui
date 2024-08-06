@@ -10,8 +10,19 @@ import { generateCheckboxXaml } from "./components/checkboxTranslator";
 import { generateSliderXaml } from "./components/sliderTranslator";
 import { generateTextBoxXaml } from "./components/textBoxGenerator";
 import { generateImageXaml } from "./components/imageTranslator";
+import { Page } from "../../webview-ui/src/types";
+import { SerializedNodes } from "@craftjs/core";
 
-export function generateComponentXaml(node: Node, indent: string = ""): string {
+export function generateComponentXaml(content: SerializedNodes, indent: string = ""): string {
+  let xaml = "";
+  for (const [id, node] of Object.entries(content)) {
+    if (id !== "ROOT") {
+      xaml += generateSingleComponentXaml(node, indent);
+    }
+  }
+  return xaml;
+}
+function generateSingleComponentXaml(node: any, indent: string = ""): string {
   switch (node.type.resolvedName) {
     case "Button":
       return generateButtonXaml(node, indent);
