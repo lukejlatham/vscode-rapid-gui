@@ -1,5 +1,3 @@
-// ComponentGenerator.ts
-
 import { Node } from "./JsonParser";
 import { generateButtonXaml } from "./components/buttonTranslator";
 import { generateLabelXaml } from "./components/labelTranslator";
@@ -11,6 +9,7 @@ import { generateContainerXaml } from "./components/containerTranslator";
 import { generateCheckboxXaml } from "./components/checkboxTranslator";
 import { generateSliderXaml } from "./components/sliderTranslator";
 import { generateTextBoxXaml } from "./components/textBoxGenerator";
+import { generateImageXaml } from "./components/imageTranslator";
 
 export function generateComponentXaml(node: Node, indent: string = ""): string {
   switch (node.type.resolvedName) {
@@ -34,6 +33,8 @@ export function generateComponentXaml(node: Node, indent: string = ""): string {
       return generateSliderXaml(node, indent);
     case "TextBox":
       return generateTextBoxXaml(node, indent);
+    case "Image":
+      return generateImageXaml(node, indent);
     default:
       return `${indent}<!-- Unknown component type: ${node.type.resolvedName} -->\n`;
   }
