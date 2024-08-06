@@ -10,15 +10,20 @@ const SaveButton: React.FC<{classes: any, pages: Page[], currentPageIndex: numbe
     const { query } = useEditor();
 
     const handleSave = () => {
-        console.log('pages:', pages);
-        console.log('currentPageIndex:', currentPageIndex);
-        console.log('current page name:', pages[currentPageIndex].name);
-        const serializedData = query.serialize();
+        // const serializedData = query.serialize();
+
+    
+        // array of the content of each page
+        const pagesContents = pages.map(page => JSON.stringify(page.content));
+
+        //array of the names of each page
+        const pagesNames = pages.map(page => page.name);      
+
         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(pages));
         vscode.postMessage({
             command: 'saveFile',
-            content: serializedData,
-            fileName: pages[currentPageIndex].name,
+            contents: pagesContents,
+            fileNames: pagesNames,
         });
     };
 

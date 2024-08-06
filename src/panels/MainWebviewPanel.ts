@@ -154,7 +154,7 @@ export class MainWebviewPanel {
             window.showInformationMessage("Azure API keys received.");
             return;
           case "saveFile":
-            await handleFileSave(message.content, message.fileName, this._context);
+            await handleFileSave(message.contents, message.fileNames, this._context);
             return;
           case "loadFile":
             await handleFileLoad(this._context, message.fileName, webview);
