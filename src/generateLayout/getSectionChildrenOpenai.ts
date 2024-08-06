@@ -83,12 +83,14 @@ Possible elements:
 - Button
 - Label: use for headers and titles
 - Image 
-- TextBox - use for textArea style inputs
-- RadioButton
-- Checkbox
+- TextBox: use for textArea style inputs
+- RadioButton: series of radio buttons
+- Checkbox: series of checkboxes
 - Input: use for fields
 - Text: use for paragraphs
 - Icon
+
+Use a lot of icons and try to vary the elements in each section.
 `,
 };
 

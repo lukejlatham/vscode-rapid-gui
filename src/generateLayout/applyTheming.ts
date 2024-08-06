@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { fullLayoutSchema, ColorScheme, themedLayoutSchema } from "../../webview-ui/src/types";
 import { slateGreyScheme, orangeScheme } from "./themes";
+import { copyFileSync } from "fs";
 
 // Generated colors are always Main, LightAccent, or DarkAccent.
 
@@ -33,6 +34,8 @@ const applyThemeToSchema = (
 ): z.infer<typeof themedLayoutSchema> => {
   const randomIndex = Math.floor(Math.random() * possibleColorSchemes.length);
   const selectedColorScheme = possibleColorSchemes[randomIndex];
+
+  console.log("Selected color scheme: ", selectedColorScheme);
 
   return data.map((section) => {
     const newSectionProps = {

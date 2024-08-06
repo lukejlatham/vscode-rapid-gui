@@ -4,7 +4,7 @@ export const slateGreyScheme: ColorScheme = {
   sectionColors: {
     main: "#F8F8FF",
     lightaccent: "#778899",
-    darkaccent: "aliceblue",
+    darkaccent: "#3E3138",
   },
   sectionBorderColors: {
     main: "aliceblue",
@@ -12,14 +12,14 @@ export const slateGreyScheme: ColorScheme = {
     darkaccent: "#F8F8FF",
   },
   elementColors: {
-    main: "darkslategray",
-    lightaccent: "lightslategray",
-    darkaccent: "darkslategray",
+    main: "lightslategray",
+    lightaccent: "aliceblue",
+    darkaccent: "lightslategray",
   },
   elementBorderColors: {
     main: "ghostwhite",
     lightaccent: "#668877",
-    darkaccent: "lightslategray",
+    darkaccent: "ghostwhite",
   },
   fontColors: {
     main: "#31383E",
