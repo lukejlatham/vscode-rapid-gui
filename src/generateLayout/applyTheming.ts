@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { fullLayoutSchema, ColorScheme, themedLayoutSchema } from "../../webview-ui/src/types";
 import { slateGreyScheme, orangeScheme } from "./themes";
-import { copyFileSync } from "fs";
 
 // Generated colors are always Main, LightAccent, or DarkAccent.
 
