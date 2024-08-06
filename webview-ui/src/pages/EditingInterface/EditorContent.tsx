@@ -49,12 +49,15 @@ export const EditorContent: React.FC<EditorContentProps> = ({
     const updateCurrentPage = useCallback(() => {
         try {
             const serializedState = query.serialize();
+            console.log('Current index:', currentPageIndex);
             setPages(prevPages => prevPages.map((page, index) =>
                 index === currentPageIndex
-                    ? { ...page, content: JSON.parse(serializedState) as SerializedNodes }
+                    ? {...page, content: JSON.parse(serializedState) as SerializedNodes }
                     : page
             ));
             console.log('updated page: ', currentPageIndex);
+            console.log('updated page content: ', serializedState);
+            
         } catch (error) {
             console.error('Error updating current page:', error);
         }
@@ -70,7 +73,7 @@ export const EditorContent: React.FC<EditorContentProps> = ({
     return (
         <div className={classes.mainLayout}>
             <div className={classes.leftSidebar}>
-                <LeftSidebar classes={classes} pages={pages} setPages={setPages} updateCurrentPage={updateCurrentPage}/>
+                <LeftSidebar classes={classes} pages={pages} setPages={setPages} updateCurrentPage={updateCurrentPage} currentPageIndex={currentPageIndex}/>
             </div>
             <div className={classes.mainContent}>
                 <div className={classes.pageNavigation}>
@@ -97,6 +100,7 @@ export const EditorContent: React.FC<EditorContentProps> = ({
                         Add
                     </Button>
                     <RenamePageDialog
+                        onUpdate={updateCurrentPage}
                         currentPageName={pages[currentPageIndex].name}
                         onRename={(newName: string) => {
                             renamePage(currentPageIndex, newName);
