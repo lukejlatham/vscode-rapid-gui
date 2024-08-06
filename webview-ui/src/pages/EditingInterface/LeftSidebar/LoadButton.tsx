@@ -3,13 +3,15 @@ import { Button } from "@fluentui/react-components";
 import { Folder24Regular } from '@fluentui/react-icons';
 import { useEditor } from "@craftjs/core";
 import { vscode } from '../../../utilities/vscode';
+import { Page } from "../../../types";
 
-const LoadButton: React.FC<{classes: any}> = ({classes}) => {
+const LoadButton: React.FC<{classes: any, pages: Page[], currentPageIndex: number}> = ({classes, pages, currentPageIndex}) => {
     const { actions } = useEditor();
 
     const handleLoad = () => {
         vscode.postMessage({
             command: 'loadFile',
+            fileName: pages[currentPageIndex].name,
         });
     };
 

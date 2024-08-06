@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import * as fs from "fs";
 import * as path from "path";
 
-export async function handleFileSave(nodeTreeProject: string, context: vscode.ExtensionContext) {
+export async function handleFileSave(nodeTreeProject: string, fileName:string, context: vscode.ExtensionContext) {
   const currentFolder = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
 
   if (!currentFolder) {
@@ -10,7 +10,7 @@ export async function handleFileSave(nodeTreeProject: string, context: vscode.Ex
     return;
   }
 
-  const filePath = path.join(currentFolder, "NapkinUIproject.json");
+  const filePath = path.join(currentFolder, `${fileName}.json`);
 
   fs.writeFile(filePath, nodeTreeProject, (err) => {
     if (err) {
@@ -23,7 +23,7 @@ export async function handleFileSave(nodeTreeProject: string, context: vscode.Ex
   });
 }
 
-export async function handleFileLoad(context: vscode.ExtensionContext, webview: vscode.Webview) {
+export async function handleFileLoad(context: vscode.ExtensionContext, fileName: string, webview: vscode.Webview) {
   const currentFolder = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
 
   if (!currentFolder) {
@@ -31,7 +31,7 @@ export async function handleFileLoad(context: vscode.ExtensionContext, webview: 
     return;
   }
 
-  const filePath = path.join(currentFolder, "NapkinUIproject.json");
+  const filePath = path.join(currentFolder, `${fileName}.json`);
 
   fs.readFile(filePath, "utf8", (err, data) => {
     if (err) {
