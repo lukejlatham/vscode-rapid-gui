@@ -415,7 +415,7 @@ export const generateTextSchema = z.object({
 });
 
 export const generateSliderSchema = z.object({
-  type: z.literal("Image"),
+  type: z.literal("Slider"),
   props: z.object({
     backgroundColor: ColorEnum,
     header: z.string().default(""),
