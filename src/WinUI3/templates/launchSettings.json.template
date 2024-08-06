@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "YourProjectName": {
+      "commandName": "Project",
+      "commandLineArgs": "",
+      "workingDirectory": "$(ProjectDir)"
+    }
+  }
+}
