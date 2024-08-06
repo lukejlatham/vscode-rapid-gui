@@ -3,11 +3,7 @@ import { PageStructure, LayoutItem, Node } from "./JsonParser";
 import { generateComponentXaml } from "./componentGenerator";
 import { Page } from "../../webview-ui/src/types";
 
-export function generateGridXaml(
-  root: Node,
-  components: { [key: string]: Node },
-  page: Page
-): string {
+export function generateGridXaml(page: Page): string {
   const rootNode = page.content.ROOT;
   let xaml = `<Grid x:Name="RootGrid" Background="${rootNode.props.backgroundColor}">\n`;
 
