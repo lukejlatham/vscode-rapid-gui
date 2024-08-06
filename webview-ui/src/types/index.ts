@@ -178,7 +178,7 @@ export const iconSchema = z.object({
   selectedIcon: z
     .string()
     .refine((val) => val in VscIcons)
-    .default("VscAdd") as z.ZodType<VscIconKeys>,
+    .optional() as z.ZodType<VscIconKeys>,
   iconSize: z.number().optional().default(24),
   iconColor: z.string().optional().default("lightslategrey"),
   hyperlink: z.string().optional().default(""),
@@ -436,9 +436,18 @@ export const generateIconSchema = z.object({
   type: z.literal("Icon"),
   props: z.object({
     selectedIcon: z
-      .string()
-      .default("VscAdd")
-      .describe("Icon name from react-icons/vsc - must start with Vsc"),
+      .enum([
+        "VscAdd",
+        "VscArrowRight",
+        "VscArrowLeft",
+        "VscArrowUp",
+        "VscArrowDown",
+        "VscCheck",
+        "VscClose",
+        "VscTrash",
+        "VscSave",
+      ])
+      .default("VscAdd"),
     iconSize: z.number().default(24),
   }),
 });

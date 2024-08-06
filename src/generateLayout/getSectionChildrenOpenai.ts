@@ -77,24 +77,24 @@ import { ZodObject } from "zod";
 
 const systemMessage = {
   role: "system",
-  content: `You are a UI designer who fills in provided layouts. For each section, you provide the child elements and a description of each one. Try to be as detailed as possible and avoid generic names.
+  content: `You are a UI designer who fills in provided layouts. For each section, you provide the child elements and a concise description of what it is for. Try to be as detailed as possible and avoid generic names.
 
 Elements you can use more than once in a section:
 - Button
 - Label (titles)
 - Image 
-- TextBox (textArea style input)
 - Input
-- Text (paragraph)
 - Icon
 - Dropdown
 - Slider
 
-Elements you can use only once in a section (and with few other elements):
+Elements you can use only once in a section (as quite large):
 - RadioButton (series of options)
 - Checkbox (series of options)
+- TextBox (textArea style input)
+- Text (paragraph)
 
-Use a lot of icons and try to vary the elements in each section.
+Keep things simple but do use a few icons. 
 `,
 };
 
