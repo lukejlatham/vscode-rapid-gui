@@ -87,34 +87,34 @@ const EditingInterface: React.FC = () => {
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-        const loadPages = () => {
-          try {
-            const storedPages = localStorage.getItem(LOCAL_STORAGE_KEY);
-            if (storedPages) {
-              console.log('Stored pages: ', storedPages);
-              const parsedPages = JSON.parse(storedPages);
-              console.log('Parsed pages: ', parsedPages);
-              if (Array.isArray(parsedPages) && parsedPages.length > 0) {
-                setPages(parsedPages);
-              } else {
-                console.warn('Stored pages were in an unexpected format. Creating a default page.');
-                setPages([createDefaultPage()]);
-              }
-            } else {
-              console.log('No stored pages found. Creating a default page.');
-              setPages([createDefaultPage()]);
-            }
-          } catch (error) {
-            console.error('Error loading pages:', error);
-            setPages([createDefaultPage()]);
-          } finally {
-            setIsLoading(false);
-          }
-        };
+    // useEffect(() => {
+    //     const loadPages = () => {
+    //       try {
+    //         const storedPages = localStorage.getItem(LOCAL_STORAGE_KEY);
+    //         if (storedPages) {
+    //           console.log('Stored pages: ', storedPages);
+    //           const parsedPages = JSON.parse(storedPages);
+    //           console.log('Parsed pages: ', parsedPages);
+    //           if (Array.isArray(parsedPages) && parsedPages.length > 0) {
+    //             setPages(parsedPages);
+    //           } else {
+    //             console.warn('Stored pages were in an unexpected format. Creating a default page.');
+    //             setPages([createDefaultPage()]);
+    //           }
+    //         } else {
+    //           console.log('No stored pages found. Creating a default page.');
+    //           setPages([createDefaultPage()]);
+    //         }
+    //       } catch (error) {
+    //         console.error('Error loading pages:', error);
+    //         setPages([createDefaultPage()]);
+    //       } finally {
+    //         setIsLoading(false);
+    //       }
+    //     };
     
-        loadPages();
-      }, []);
+    //     loadPages();
+    //   }, []);
     
 
       // useEffect(() => {
@@ -145,9 +145,9 @@ const EditingInterface: React.FC = () => {
         }
       };
     
-      if (isLoading) {
-        return <div>Loading...</div>;
-      }
+      // if (isLoading) {
+      //   return <div>Loading...</div>;
+      // }
 
       const clearPage = (index: number) => {
         setPages(prevPages => prevPages.map((page, i) => 
@@ -155,7 +155,6 @@ const EditingInterface: React.FC = () => {
         ));
         renamePage(index, `Page ${index + 1}`);
       }
-
 
     return (
         <Editor resolver={{ Background, Text, Label, Button, TextBox, Image, Input, RadioButton, Checkbox, GridCell, Icon, EditBackgroundButton, Container, Dropdown, Slider }}>

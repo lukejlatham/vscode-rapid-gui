@@ -36,7 +36,7 @@ const useStyles = makeStyles({
     },
 });
 
-const LeftSidebar: React.FC<{ classes: any, pages: Page[], currentPageIndex: number, setPages: React.Dispatch<React.SetStateAction<Page[]>> }> = ({ classes, pages, setPages, currentPageIndex }) => {
+const LeftSidebar: React.FC<{ classes: any, pages: Page[], setPages: React.Dispatch<React.SetStateAction<Page[]>>, updateCurrentPage: () => void }> = ({ classes, pages, setPages, updateCurrentPage }) => {
     const localClasses = useStyles();
 
     return (
@@ -45,7 +45,7 @@ const LeftSidebar: React.FC<{ classes: any, pages: Page[], currentPageIndex: num
             <div className={localClasses.subtitleCentered}><Subtitle2>Component Library</Subtitle2></div>
             <Divider className={localClasses.divider} />
             <ComponentButtons classes={localClasses} />
-            <ProjectManagement classes={localClasses} pages={pages} setPages={setPages} currentPageIndex={currentPageIndex}/>
+            <ProjectManagement classes={localClasses} pages={pages} setPages={setPages} updateCurrentPage={updateCurrentPage}/>
         </Card>
     );
 };

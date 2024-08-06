@@ -15,12 +15,26 @@ export async function handleFileSave(contents: object, fileNames: object, contex
   // Create 'Saved Pages' folder if it doesn't exist
   if (!fs.existsSync(savedPagesFolder)) {
     fs.mkdirSync(savedPagesFolder);
+  } else {
+    // Delete all existing files in the 'Saved Pages' folder
+    const files = fs.readdirSync(savedPagesFolder);
+    for (const file of files) {
+      const filePath = path.join(savedPagesFolder, file);
+      try {
+        fs.unlinkSync(filePath);
+        console.log(`File ${file} has been deleted`);
+      } catch (err) {
+        console.error(`Error deleting file ${file}`, err);
+        vscode.window.showErrorMessage(`Failed to delete file: ${file}`);
+      }
+    }
   }
 
+  // Write new files
   for (const key in contents) {
     if (contents.hasOwnProperty(key) && fileNames.hasOwnProperty(key)) {
       const filePath = path.join(savedPagesFolder, `${fileNames[key]}.json`);
-      const content = (contents[key]);
+      const content = contents[key];
 
       fs.writeFile(filePath, content, (err) => {
         if (err) {

@@ -2,7 +2,7 @@ import { Page } from '../../types';
 import RightSidebar from './RightSidebar/RightSidebar';
 import Canvas from './Canvas';
 import LeftSidebar from './LeftSidebar/LeftSidebar';
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { SerializedNodes, useEditor } from '@craftjs/core';
 import { Button, Select } from '@fluentui/react-components';
 import { RenamePageDialog } from '../../components/RenamePageDialog';
@@ -45,7 +45,8 @@ export const EditorContent: React.FC<EditorContentProps> = ({
         }
     }, [currentPageIndex, pages, actions]);
 
-    const updateCurrentPage = () => {
+
+    const updateCurrentPage = useCallback(() => {
         try {
             const serializedState = query.serialize();
             setPages(prevPages => prevPages.map((page, index) =>
@@ -53,15 +54,23 @@ export const EditorContent: React.FC<EditorContentProps> = ({
                     ? { ...page, content: JSON.parse(serializedState) as SerializedNodes }
                     : page
             ));
+            console.log('updated page: ', currentPageIndex);
         } catch (error) {
             console.error('Error updating current page:', error);
         }
-    };
+    }, [currentPageIndex, query, setPages]);
+
+    useEffect(() => {
+        // This effect will run whenever the nodes or events in the editor state change
+        updateCurrentPage();
+    }, [updateCurrentPage]);
+
+
 
     return (
         <div className={classes.mainLayout}>
             <div className={classes.leftSidebar}>
-                <LeftSidebar classes={classes} pages={pages} setPages={setPages }currentPageIndex={currentPageIndex}/>
+                <LeftSidebar classes={classes} pages={pages} setPages={setPages} updateCurrentPage={updateCurrentPage}/>
             </div>
             <div className={classes.mainContent}>
                 <div className={classes.pageNavigation}>

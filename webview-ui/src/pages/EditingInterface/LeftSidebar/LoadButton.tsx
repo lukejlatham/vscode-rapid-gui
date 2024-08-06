@@ -7,7 +7,7 @@ import { Page } from "../../../types";
 import { v4 as uuidv4 } from 'uuid'; // Import uuidv4
 
 
-const LoadButton: React.FC<{classes: any, pages: Page[], setPages: React.Dispatch<React.SetStateAction<Page[]>>, currentPageIndex: number}> = ({classes, pages, setPages, currentPageIndex}) => {
+const LoadButton: React.FC<{classes: any, pages: Page[], setPages: React.Dispatch<React.SetStateAction<Page[]>>}> = ({ classes, pages, setPages }) => {
     const { actions } = useEditor();
 
 
