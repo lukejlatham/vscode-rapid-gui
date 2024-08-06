@@ -13,6 +13,8 @@ import { getAzureOpenaiApiKeys } from "../utilities/azureApiKeyStorage";
 import { handleFileSave, handleFileLoad } from "../utilities/projectSaveUtilities";
 import { processSketch, processTextDescription } from "../generateLayout/generateLayout";
 import { processCopilotMessages } from "../copilot";
+import * as fs from "fs";
+import * as path from "path";
 
 export class MainWebviewPanel {
   public static currentPanel: MainWebviewPanel | undefined;
@@ -20,6 +22,36 @@ export class MainWebviewPanel {
   private readonly _context: ExtensionContext;
   private _disposables: Disposable[] = [];
   private static allowedUrls: Set<string> = new Set();
+
+  private async _handleDownloadCode(message: any) {
+    try {
+      const { contents, fileNames } = message;
+
+      // Ask user for save location
+      const saveLocation = await window.showOpenDialog({
+        canSelectFiles: false,
+        canSelectFolders: true,
+        canSelectMany: false,
+        openLabel: "Select folder to save files",
+      });
+
+      if (saveLocation && saveLocation[0]) {
+        const folderPath = saveLocation[0].fsPath;
+
+        // Save each file
+        for (let i = 0; i < contents.length; i++) {
+          const fileName = `${fileNames[i]}.json`;
+          const filePath = path.join(folderPath, fileName);
+          fs.writeFileSync(filePath, contents[i]);
+        }
+
+        window.showInformationMessage("Files downloaded successfully!");
+      }
+    } catch (error) {
+      console.error("Error in handleDownloadCode:", error);
+      window.showErrorMessage("Failed to download files. Check console for details.");
+    }
+  }
 
   private constructor(panel: WebviewPanel, extensionUri: Uri, context: ExtensionContext) {
     this._panel = panel;
@@ -50,6 +82,7 @@ export class MainWebviewPanel {
 
       MainWebviewPanel.currentPanel = new MainWebviewPanel(panel, extensionUri, context);
     }
+    return MainWebviewPanel.currentPanel;
   }
 
   /**
@@ -182,6 +215,9 @@ export class MainWebviewPanel {
             return;
           case "deletedPageAlert":
             window.showErrorMessage(message.message);
+            return;
+          case "downloadCode":
+            await this._handleDownloadCode(message);
             return;
         }
       },

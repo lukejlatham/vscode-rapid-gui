@@ -10,22 +10,6 @@ import {
 import { convertToXaml } from "./utilities/xamlConverter";
 
 export function activate(context: vscode.ExtensionContext) {
-  if (MainWebviewPanel.currentPanel) {
-    context.subscriptions.push(
-      MainWebviewPanel.currentPanel.webview.onDidReceiveMessage(
-        async (message) => {
-          switch (message.command) {
-            case "downloadCode":
-              await convertToXaml(message.contents, message.fileNames, context);
-              return;
-          }
-        },
-        undefined,
-        context.subscriptions
-      )
-    );
-  }
-
   // Command to show the main webview panel
   context.subscriptions.push(
     vscode.commands.registerCommand("mainWebviewPanel.showMainWebviewPanel", () => {
@@ -93,6 +77,12 @@ export function activate(context: vscode.ExtensionContext) {
     )
   );
 
+  context.subscriptions.push(
+    vscode.commands.registerCommand("mainWebviewPanel.showMainWebviewPanel", () => {
+      MainWebviewPanel.render(context.extensionUri, context);
+    })
+  );
+
   // Register the custom view with buttons
   const buttonTreeViewProvider = new ButtonTreeViewProvider();
   vscode.window.registerTreeDataProvider("sideBarButtons", buttonTreeViewProvider);
@@ -100,6 +90,35 @@ export function activate(context: vscode.ExtensionContext) {
   // Register the tree view provider
   const recentProjectsTreeViewProvider = new RecentProjectsTreeViewProvider(context);
   vscode.window.createTreeView("sideBarTree", { treeDataProvider: recentProjectsTreeViewProvider });
+}
+async function handleDownloadCode(message: any, context: vscode.ExtensionContext) {
+  try {
+    const { contents, fileNames } = message;
+
+    // Ask user for save location
+    const saveLocation = await vscode.window.showOpenDialog({
+      canSelectFiles: false,
+      canSelectFolders: true,
+      canSelectMany: false,
+      openLabel: "Select folder to save files",
+    });
+
+    if (saveLocation && saveLocation[0]) {
+      const folderPath = saveLocation[0].fsPath;
+
+      // Save each file
+      for (let i = 0; i < contents.length; i++) {
+        const fileName = `${fileNames[i]}.json`;
+        const filePath = path.join(folderPath, fileName);
+        fs.writeFileSync(filePath, contents[i]);
+      }
+
+      vscode.window.showInformationMessage("Files downloaded successfully!");
+    }
+  } catch (error) {
+    console.error("Error in handleDownloadCode:", error);
+    vscode.window.showErrorMessage("Failed to download files. Check console for details.");
+  }
 }
 
 export function deactivate() {}
