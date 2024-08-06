@@ -155,6 +155,7 @@ export const sliderSchema = z.object({
   step: z.number().default(1),
   fontSize: z.number().default(14),
   fontColor: z.string().default("black"),
+  sliderColor: z.string().default("red"),
 });
 
 export type SliderProps = z.infer<typeof sliderSchema>;
