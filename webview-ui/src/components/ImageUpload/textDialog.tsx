@@ -60,7 +60,7 @@ const PROCESSING_STAGES = [
   "Refining properties",
 ];
 
-export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose }) => {
+export const TextDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose }) => {
   const [textInput, setTextInput] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [uiDescription, setUIDescription] = useState<string | null>(null);
@@ -75,7 +75,7 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose }) =
       if (message.command === 'processingStage') {
         const stageIndex = PROCESSING_STAGES.indexOf(message.stage);
         setCurrentStage(stageIndex !== -1 ? stageIndex : -1);
-      } else if (message.command === 'textProcessed') {
+      } else if (message.command === 'textDescriptionProcessed') {
         setUIDescription(message.description);
         setLoading(false);
         setCurrentStage(PROCESSING_STAGES.length);

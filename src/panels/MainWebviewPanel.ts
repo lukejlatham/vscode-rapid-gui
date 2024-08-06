@@ -169,7 +169,7 @@ export class MainWebviewPanel {
               this._context,
               webview
             );
-            webview.postMessage({ command: "textDescriptionProcessed", textDescription });
+            webview.postMessage({ command: "textDescriptionProcessed", content: textDescription });
             return;
 
           case "aiUserMessage":

@@ -3,7 +3,7 @@ import { vscode } from "../../utilities/vscode";
 async function handleTextUpload(textInput: string): Promise<void> {
   try {
     vscode.postMessage({
-      command: "processText",
+      command: "ProcessTextDescription",
       content: textInput,
     });
   } catch (error) {
