@@ -447,6 +447,8 @@ export const fullSectionSchema = z.object({
 
 export const fullLayoutSchema = z.array(fullSectionSchema).max(5);
 
+export type FullLayoutSchema = z.infer<typeof fullLayoutSchema>;
+
 export const backgroundNodeLayout = z.object({
   w: z.number().int(),
   h: z.number().int(),

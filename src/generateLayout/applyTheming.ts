@@ -6,15 +6,15 @@ type FullLayoutSchema = z.infer<typeof fullLayoutSchema>;
 const hasBackgroundColor = (
   obj: any
 ): obj is { props: { backgroundColor: "Main" | "Accent1" | "Accent2" } } =>
-  obj.props && typeof obj.props.backgroundColor === "string";
+  obj.props && "backgroundColor" in obj.props && typeof obj.props.backgroundColor === "string";
 
 const hasBorderColor = (
   obj: any
 ): obj is { props: { borderColor: "Main" | "Accent1" | "Accent2" } } =>
-  obj.props && typeof obj.props.borderColor === "string";
+  obj.props && "borderColor" in obj.props && typeof obj.props.borderColor === "string";
 
 const hasFontColor = (obj: any): obj is { props: { fontColor: "Main" | "Accent1" | "Accent2" } } =>
-  obj.props && typeof obj.props.fontColor === "string";
+  obj.props && "fontColor" in obj.props && typeof obj.props.fontColor === "string";
 
 const colorScheme: ColorScheme = {
   sectionColors: {
@@ -43,10 +43,7 @@ const mapColor = (color: "Main" | "Accent1" | "Accent2", colorType: keyof ColorS
   return colorScheme[colorType][color.toLowerCase() as keyof typeof colorScheme.sectionColors];
 };
 
-const transformSchema = (
-  data: FullLayoutSchema,
-  colorScheme: ColorScheme
-): z.infer<typeof themedLayoutSchema> => {
+const applyThemeToSchema = (data: FullLayoutSchema): z.infer<typeof themedLayoutSchema> => {
   return data.map((section) => ({
     ...section,
     props: {
@@ -75,10 +72,5 @@ const transformSchema = (
     }),
   }));
 };
-// Example usage
-const data: FullLayoutSchema = [
-  // Your input data here
-];
 
-const transformedData = transformSchema(data, colorScheme);
-console.log(JSON.stringify(transformedData, null, 2));
+export { applyThemeToSchema };

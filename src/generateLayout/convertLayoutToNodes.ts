@@ -79,7 +79,9 @@ import {
   gridCellSchema,
   fullSectionSchema,
   textSchema,
+  ThemedLayoutSchema,
 } from "../../webview-ui/src/types";
+import { applyThemeToSchema } from "./applyTheming";
 
 type LayoutType = z.infer<typeof backgroundNodeLayout>;
 type NodeTreeRootType = z.infer<typeof nodeTreeRootSchema>;
@@ -151,7 +153,7 @@ function createNode(
     linkedNodes: {},
   };
 }
-function generateSectionNodes(sections: FullSectionSchema[]): { [key: string]: NodeSection } {
+function generateSectionNodes(sections: ThemedLayoutSchema[]): { [key: string]: NodeSection } {
   const nodes: { [key: string]: NodeSection } = {};
 
   sections.forEach((section, index) => {
@@ -277,9 +279,11 @@ function buildLayoutNodes(parsedLayout: string, parsedFullChildren: string): str
     // maxH: layoutDimensions.rows,
   }));
 
-  const backgroundNode = createBackgroundNode(layoutDimensions, layout, "#292929");
+  const themedNodes = applyThemeToSchema(parsedData);
 
-  const sectionNodes = generateSectionNodes(combinedLayout);
+  const sectionNodes = generateSectionNodes(themedNodes);
+
+  const backgroundNode = createBackgroundNode(layoutDimensions, layout, "#292929");
 
   const combinedNodes = { ROOT: backgroundNode, ...sectionNodes };
 
