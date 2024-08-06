@@ -2,27 +2,38 @@
 
 import { Node } from "./JsonParser";
 import { generateButtonXaml } from "./components/buttonTranslator";
+import { generateLabelXaml } from "./components/labelTranslator";
+import { generateIconXaml } from "./components/iconTranslator";
+import { generateInputXaml } from "./components/inputTranslator";
+import { generateTextXaml } from "./components/paragraphTranslator";
+import { generateRadioButtonXaml } from "./components/radioButtonTranslator";
+import { generateContainerXaml } from "./components/containerTranslator";
+import { generateCheckboxXaml } from "./components/checkboxTranslator";
+import { generateSliderXaml } from "./components/sliderTranslator";
+import { generateTextBoxXaml } from "./components/textBoxGenerator";
 
 export function generateComponentXaml(node: Node, indent: string = ""): string {
   switch (node.type.resolvedName) {
     case "Button":
       return generateButtonXaml(node, indent);
     case "Input":
-      return `${indent}<TextBox PlaceholderText="${node.props.placeholder}" FontSize="${node.props.fontSize}" Foreground="${node.props.fontColor}" Background="${node.props.backgroundColor}"/>\n`;
+      return generateInputXaml(node, indent);
     case "Text":
+      return generateTextXaml(node, indent);
     case "Label":
-      return `${indent}<TextBlock Text="${node.props.text}" FontSize="${node.props.fontSize}" Foreground="${node.props.fontColor}" TextAlignment="${node.props.textAlign}"/>\n`;
+      return generateLabelXaml(node, indent);
     case "Icon":
-      return `${indent}<FontIcon Glyph="${node.props.selectedIcon}" FontSize="${node.props.iconSize}" Foreground="${node.props.iconColor}"/>\n`;
+      return generateIconXaml(node, indent);
     case "RadioButton":
-      let radioXaml = `${indent}<StackPanel Orientation="${node.props.direction}">\n`;
-      node.props.optionLabels.forEach((label: string) => {
-        radioXaml += `${indent}  <RadioButton Content="${label}" FontSize="${node.props.fontSize}" Foreground="${node.props.fontColor}"/>\n`;
-      });
-      radioXaml += `${indent}</StackPanel>\n`;
-      return radioXaml;
+      return generateRadioButtonXaml(node, indent);
     case "Container":
-      return `${indent}<Border Background="${node.props.backgroundColor}" CornerRadius="${node.props.borderRadius}" BorderBrush="${node.props.borderColor}" Padding="${node.props.padding}" Width="${node.props.width}" Height="${node.props.height}"/>\n`;
+      return generateContainerXaml(node, indent);
+    case "Checkbox":
+      return generateCheckboxXaml(node, indent);
+    case "Slider":
+      return generateSliderXaml(node, indent);
+    case "TextBox":
+      return generateTextBoxXaml(node, indent);
     default:
       return `${indent}<!-- Unknown component type: ${node.type.resolvedName} -->\n`;
   }
