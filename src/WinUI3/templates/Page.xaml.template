@@ -1,0 +1,10 @@
+<Page
+    x:Class="YourNamespace.Page"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Page">
+    <Grid>
+        <!-- Placeholder for dynamically generated content -->
+        {{PAGE_CONTENT}}
+    </Grid>
+</Page>
