@@ -176,6 +176,7 @@ function generateSectionNodes(sections: ThemedLayoutSchema[]): { [key: string]: 
     const containerDefaultsOverride = containerSchema.parse({
       flexDirection: section.props.flexDirection,
       backgroundColor: section.props.backgroundColor,
+      borderColor: section.props.borderColor,
     });
 
     nodes[containerId] = createNode(

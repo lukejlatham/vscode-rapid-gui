@@ -303,15 +303,15 @@ export const generatedAllSectionsChildren = z.object({
 
 // Used in getSectionChildrenWithProps.ts
 
-const ColorEnum = z.enum(["Main", "Accent1", "Accent2"]);
+const ColorEnum = z.enum(["Main", "LightAccent", "DarkAccent"]).default("Main");
 
 export const generateButtonSchema = z.object({
   type: z.literal("Button"),
   props: z.object({
-    width: z.number().int().max(80),
-    height: z.number().int().max(80),
+    width: z.number().int().max(80).default(80),
+    height: z.number().int().max(80).default(60),
     text: z.string().default("Button"),
-    backgroundColor: ColorEnum.default("Main"),
+    backgroundColor: ColorEnum,
   }),
 });
 
@@ -328,7 +328,7 @@ export const generateInputSchema = z.object({
   type: z.literal("Input"),
   props: z.object({
     placeholder: z.string().default("Enter text"),
-    fontColor: ColorEnum.default("Main"),
+    fontColor: ColorEnum,
   }),
 });
 
@@ -338,7 +338,7 @@ export const generateLabelSchema = z.object({
     text: z.string().default("Header"),
     bold: z.boolean().default(true),
     italic: z.boolean().default(false),
-    fontColor: ColorEnum.default("Main"),
+    fontColor: ColorEnum,
   }),
 });
 
@@ -356,8 +356,6 @@ export const generateImageSchema = z.object({
   type: z.literal("Image"),
   props: z.object({
     alt: z.string().default("Image"),
-    width: z.number().int().max(100),
-    height: z.number().int().max(100),
   }),
 });
 
@@ -365,9 +363,7 @@ export const generateTextBoxSchema = z.object({
   type: z.literal("TextBox"),
   props: z.object({
     text: z.string().default("Text Box"),
-    width: z.number().int().max(100),
-    height: z.number().int().max(100),
-    fontColor: ColorEnum.default("Main"),
+    fontColor: ColorEnum,
   }),
 });
 
@@ -375,7 +371,7 @@ export const generateTextSchema = z.object({
   type: z.literal("Text"),
   props: z.object({
     text: z.string().default("Text"),
-    fontColor: ColorEnum.default("Main"),
+    fontColor: ColorEnum,
   }),
 });
 
@@ -408,9 +404,9 @@ export const sectionSchema = z.object({
     width: z.number().int().max(10),
     height: z.number().int().max(10),
     flexDirection: z.enum(["row", "column"]).describe("Row if width > height, column otherwise."),
-    backgroundColor: z.enum(["Main", "Accent1, Accent2"]).default("Main"),
+    backgroundColor: ColorEnum.describe("Use accent colors for headers and footers."),
   }),
-  contents: z.string().describe("Give a detailed description of the section over 3 lines."),
+  contents: z.string().describe("Give a detailed description of the section."),
 });
 
 export const layoutSchema = z.object({
@@ -440,7 +436,7 @@ export const fullSectionSchema = z.object({
     width: z.number().int().max(10),
     height: z.number().int().max(10),
     flexDirection: z.enum(["row", "column"]),
-    backgroundColor: ColorEnum.default("Main"),
+    backgroundColor: ColorEnum,
   }),
   children: z.array(generatedFullElements),
 });
@@ -500,23 +496,28 @@ export const craftjsNodeSchema = z.object({
 export type ColorScheme = {
   sectionColors: {
     main: string;
-    accent1: string;
-    accent2: string;
+    lightaccent: string;
+    darkaccent: string;
+  };
+  sectionBorderColors: {
+    main: string;
+    lightaccent: string;
+    darkaccent: string;
   };
   elementColors: {
     main: string;
-    accent1: string;
-    accent2: string;
+    lightaccent: string;
+    darkaccent: string;
   };
-  borderColors: {
+  elementBorderColors: {
     main: string;
-    accent1: string;
-    accent2: string;
+    lightaccent: string;
+    darkaccent: string;
   };
   fontColors: {
     main: string;
-    accent1: string;
-    accent2: string;
+    lightaccent: string;
+    darkaccent: string;
   };
 };
 
@@ -529,6 +530,7 @@ export const themedSectionSchema = z.object({
     height: z.number().int().max(10),
     flexDirection: z.enum(["row", "column"]),
     backgroundColor: z.string(),
+    borderColor: z.string(),
   }),
   children: z.array(z.any()),
 });

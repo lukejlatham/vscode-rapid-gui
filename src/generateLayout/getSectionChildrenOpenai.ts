@@ -83,10 +83,11 @@ Possible elements:
 - Button
 - Label: use for headers and titles
 - Image 
-- TextBox
+- TextBox - use for textArea style inputs
 - RadioButton
 - Checkbox
 - Input: use for fields
+- Text: use for paragraphs
 - Icon
 `,
 };
