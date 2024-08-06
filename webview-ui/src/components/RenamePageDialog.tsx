@@ -25,9 +25,10 @@ const useStyles = makeStyles({
 interface RenamePageDialogProps {
     currentPageName: string;
     onRename: (newName: string) => void;
+    onUpdate: () => void;
 }
 
-export const RenamePageDialog: React.FC<RenamePageDialogProps> = ({ currentPageName, onRename }) => {
+export const RenamePageDialog: React.FC<RenamePageDialogProps> = ({ currentPageName, onRename, onUpdate }) => {
     const styles = useStyles();
     const [newName, setNewName] = React.useState<string>(currentPageName);
     const [isOpen, setIsOpen] = React.useState<boolean>(false); // Add open state
@@ -37,6 +38,7 @@ export const RenamePageDialog: React.FC<RenamePageDialogProps> = ({ currentPageN
         onRename(newName);
         // Reset the name after renaming
         setNewName(currentPageName);
+        onUpdate();
         setIsOpen(false); // Close the dialog after renaming
     };
 

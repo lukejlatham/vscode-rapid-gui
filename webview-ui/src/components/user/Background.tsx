@@ -119,7 +119,7 @@ export const BackgroundDefaultProps: BackgroundProps = {
   ],
   rows: 2,
   columns: 3,
-  lockedGrid: false,
+  lockedGrid: true,
 };
 
 
