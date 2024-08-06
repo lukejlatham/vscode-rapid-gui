@@ -92,7 +92,9 @@ const EditingInterface: React.FC = () => {
           try {
             const storedPages = localStorage.getItem(LOCAL_STORAGE_KEY);
             if (storedPages) {
+              console.log('Stored pages: ', storedPages);
               const parsedPages = JSON.parse(storedPages);
+              console.log('Parsed pages: ', parsedPages);
               if (Array.isArray(parsedPages) && parsedPages.length > 0) {
                 setPages(parsedPages);
               } else {

@@ -20,7 +20,7 @@ export async function handleFileSave(contents: object, fileNames: object, contex
   for (const key in contents) {
     if (contents.hasOwnProperty(key) && fileNames.hasOwnProperty(key)) {
       const filePath = path.join(savedPagesFolder, `${fileNames[key]}.json`);
-      const content = JSON.stringify(contents[key], null, 2);
+      const content = (contents[key]);
 
       fs.writeFile(filePath, content, (err) => {
         if (err) {
@@ -35,7 +35,7 @@ export async function handleFileSave(contents: object, fileNames: object, contex
   }
 }
 
-export async function handleFileLoad(context: vscode.ExtensionContext, fileName: string, webview: vscode.Webview) {
+export async function handleFileLoad(context: vscode.ExtensionContext, webview: vscode.Webview) {
   const currentFolder = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
 
   if (!currentFolder) {
@@ -43,16 +43,44 @@ export async function handleFileLoad(context: vscode.ExtensionContext, fileName:
     return;
   }
 
-  const filePath = path.join(currentFolder, `${fileName}.json`);
+  const savedPagesFolder = path.join(currentFolder, 'Saved Pages');
 
-  fs.readFile(filePath, "utf8", (err, data) => {
+  if (!fs.existsSync(savedPagesFolder)) {
+    vscode.window.showErrorMessage("Cannot find Saved Pages folder. Make sure you have saved a project first, and have not deleted or renamed the 'Saved Pages' folder.");
+    return;
+  }
+
+  fs.readdir(savedPagesFolder, (err, files) => {
     if (err) {
-      console.error("Error reading file", err);
-      vscode.window.showErrorMessage("Failed to read Project file");
-    } else {
-      console.log("Project file has been read", data);
-      webview.postMessage({ command: "loadFile", data: JSON.parse(data) });
-      vscode.window.showInformationMessage("Project file read successfully");
+      console.error("Error reading Saved Pages folder", err);
+      vscode.window.showErrorMessage("Failed to read Saved Pages folder");
+      return;
     }
+
+    const fileContents: { fileName: string, fileData: any }[] = [];
+    let filesRead = 0;
+
+    files.forEach((file) => {
+      const filePath = path.join(savedPagesFolder, file);
+      const fileName = path.basename(file, '.json');
+
+      fs.readFile(filePath, "utf8", (err, data) => {
+        filesRead++;
+        if (err) {
+          console.error(`Error reading file ${file}`, err);
+          vscode.window.showErrorMessage(`Failed to read file: ${file}`);
+        } else {
+          console.log(`File ${file} has been read`, data);
+          fileContents.push({ fileName, fileData: data });
+        }
+
+        // Check if all files have been read
+        if (filesRead === files.length) {
+          console.log("Projects files read: ", fileContents);
+          webview.postMessage({ command: "loadFiles", data: fileContents });
+          vscode.window.showInformationMessage("All project files read successfully");
+        }
+      });
+    });
   });
 }

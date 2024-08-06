@@ -61,7 +61,7 @@ export const EditorContent: React.FC<EditorContentProps> = ({
     return (
         <div className={classes.mainLayout}>
             <div className={classes.leftSidebar}>
-                <LeftSidebar classes={classes} pages={pages} currentPageIndex={currentPageIndex}/>
+                <LeftSidebar classes={classes} pages={pages} setPages={setPages }currentPageIndex={currentPageIndex}/>
             </div>
             <div className={classes.mainContent}>
                 <div className={classes.pageNavigation}>
