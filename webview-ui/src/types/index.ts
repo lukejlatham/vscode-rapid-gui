@@ -167,7 +167,7 @@ export const imageSchema = z.object({
   src: z
     .string()
     .default(
-      "https://photographylife.com/wp-content/uploads/2023/05/Nikon-Z8-Official-Samples-00002.jpg"
+      "https://media.licdn.com/dms/image/D4E22AQGL4EZgEpG2ag/feedshare-shrink_800/0/1719580422738?e=2147483647&v=beta&t=Nj786KjutiTxei_wgDDM40hcWFi5_-qqBIKM4jOa3Hc"
     ),
   alt: z.string().default("New image"),
   width: z.number().default(100),
@@ -354,12 +354,6 @@ export const generateRadioButtonSchema = z.object({
 export const generateImageSchema = z.object({
   type: z.literal("Image"),
   props: z.object({
-    src: z
-      .string()
-      .optional()
-      .default(
-        "https://photographylife.com/wp-content/uploads/2023/05/Nikon-Z8-Official-Samples-00002.jpg"
-      ),
     alt: z.string().default("Image"),
     width: z.number().int().max(100),
     height: z.number().int().max(100),
