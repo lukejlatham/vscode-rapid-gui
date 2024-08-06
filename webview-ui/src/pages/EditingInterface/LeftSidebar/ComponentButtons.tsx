@@ -5,7 +5,7 @@ import { Label, LabelDefaultProps } from '../../../components/user/Label';
 import { Button as UserButton, ButtonDefaultProps } from "../../../components/user/Button";
 import { TextBox, TextBoxDefaultProps } from '../../../components/user/TextBox';
 import { Image, ImageDefaultProps } from '../../../components/user/Image';
-import { UserInput, InputDefaultProps } from '../../../components/user/Input';
+import { Input, InputDefaultProps } from '../../../components/user/Input';
 import { RadioButton, RadioButtonDefaultProps } from '../../../components/user/RadioButton';
 import { Checkbox, CheckboxDefaultProps } from '../../../components/user/Checkbox';
 import { Icon, IconDefaultProps } from '../../../components/user/Icon';
@@ -67,7 +67,7 @@ const ComponentButtons: React.FC<{ classes: any }> = ({ classes }) => {
             }}>Label</Button>
             <Button className={classes.button} icon={<InputIcon />} size='large' appearance='outline'  ref={ref => {
                 if (ref !== null) {
-                    connectors.create(ref, <UserInput {...InputDefaultProps} />);
+                    connectors.create(ref, <Input {...InputDefaultProps} />);
                 }
             }}>Text Input</Button>
             <Button className={classes.button} icon={<TextIcon />} size='large' appearance='outline' ref={ref => {

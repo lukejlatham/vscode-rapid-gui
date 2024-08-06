@@ -5,7 +5,7 @@ import { makeStyles } from '@fluentui/react-components';
 import { TextBox } from '../../components/user/TextBox';
 import { Image } from '../../components/user/Image';
 import { Background } from '../../components/user/Background';
-import { UserInput } from "../../components/user/Input";
+import { Input } from "../../components/user/Input";
 import { RadioButton } from "../../components/user/RadioButton";
 import { Checkbox } from "../../components/user/Checkbox";
 import { Icon } from "../../components/user/Icon";
@@ -155,7 +155,7 @@ const EditingInterface: React.FC = () => {
 
 
     return (
-        <Editor resolver={{ Background, Text, Label, Button, TextBox, Image, UserInput, RadioButton, Checkbox, GridCell, Icon, EditBackgroundButton, Container }}>
+        <Editor resolver={{ Background, Text, Label, Button, TextBox, Image, Input, RadioButton, Checkbox, GridCell, Icon, EditBackgroundButton, Container }}>
             <EditorContent
                 pages={pages}
                 currentPageIndex={currentPageIndex}
