@@ -9,11 +9,27 @@ export class FileGenerator {
   private projectName: string;
   private outputPath: string;
   private templateManager: TemplateManager;
+  private namespace: string;
+  private appIdentity: string;
+  private publisher: string;
+  private appDescription: string;
 
-  constructor(projectName: string, outputPath: string, templateManager: TemplateManager) {
+  constructor(
+    projectName: string,
+    outputPath: string,
+    templateManager: TemplateManager,
+    namespace: string,
+    appIdentity: string,
+    publisher: string,
+    appDescription: string
+  ) {
     this.projectName = projectName;
     this.outputPath = outputPath;
     this.templateManager = templateManager;
+    this.namespace = namespace;
+    this.appIdentity = appIdentity;
+    this.publisher = publisher;
+    this.appDescription = appDescription;
   }
 
   public generateProjectFiles(pages: Page[]) {
@@ -108,6 +124,9 @@ export class FileGenerator {
     const content = this.templateManager.fillTemplate("Package.appxmanifest", {
       namespace: this.projectName,
       appName: this.projectName,
+      appIdentity: this.appIdentity,
+      publisher: this.publisher,
+      appDescription: this.appDescription,
     });
     this.createFile("Package.appxmanifest", content);
   }

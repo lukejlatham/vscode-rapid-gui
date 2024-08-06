@@ -17,24 +17,43 @@ export async function convertToXaml(
     return;
   }
 
+  const projectName = await vscode.window.showInputBox({
+    prompt: "Enter a name for your WinUI 3 project",
+    placeHolder: "MyWinUIProject",
+  });
+
+  if (!projectName) {
+    vscode.window.showErrorMessage("Project name is required");
+    return;
+  }
+
   const pages: Page[] = contents.map((content, index) => ({
     id: fileNames[index],
     name: fileNames[index],
     content: JSON.parse(content),
   }));
 
-  const outputPath = path.join(currentFolder, "WinUI3Output");
-  const projectName = "MyWinUIApp";
+  const outputPath = path.join(currentFolder, projectName);
 
   const templateManager = new TemplateManager(path.join(context.extensionPath, "templates"));
   const projectStructureGenerator = new ProjectStructureGenerator(outputPath);
-  const fileGenerator = new FileGenerator(projectName, outputPath, templateManager);
+  const fileGenerator = new FileGenerator(
+    projectName,
+    outputPath,
+    templateManager,
+    projectName,
+    `${projectName}.App`,
+    "CN=YourPublisherName",
+    `${projectName} Description`
+  );
 
   try {
     projectStructureGenerator.createProjectStructure();
     fileGenerator.generateProjectFiles(pages);
 
-    vscode.window.showInformationMessage(`WinUI 3 project generated at ${outputPath}`);
+    vscode.window.showInformationMessage(
+      `WinUI 3 project '${projectName}' generated at ${outputPath}`
+    );
   } catch (error) {
     vscode.window.showErrorMessage(`Error generating WinUI 3 project: ${(error as Error).message}`);
   }
