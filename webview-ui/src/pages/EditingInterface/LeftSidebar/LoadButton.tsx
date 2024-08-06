@@ -4,14 +4,16 @@ import { Folder24Regular } from '@fluentui/react-icons';
 import { useEditor } from "@craftjs/core";
 import { vscode } from '../../../utilities/vscode';
 import { Page } from "../../../types";
+import { v4 as uuidv4 } from 'uuid'; // Import uuidv4
 
-const LoadButton: React.FC<{classes: any, pages: Page[], currentPageIndex: number}> = ({classes, pages, currentPageIndex}) => {
+
+const LoadButton: React.FC<{classes: any, pages: Page[], setPages: React.Dispatch<React.SetStateAction<Page[]>>}> = ({ classes, pages, setPages }) => {
     const { actions } = useEditor();
+
 
     const handleLoad = () => {
         vscode.postMessage({
             command: 'loadFile',
-            fileName: pages[currentPageIndex].name,
         });
     };
 
@@ -19,8 +21,22 @@ const LoadButton: React.FC<{classes: any, pages: Page[], currentPageIndex: numbe
         const handleMessage = (event: { data: any; }) => {
             const message = event.data;
 
-            if (message.command === 'loadFile') {
-                actions.deserialize(JSON.stringify(message.data));
+            if (message.command === 'loadFiles') {
+                const loadedPages = message.data.map((file: { fileName: string, fileData: string }) => {
+                    try {
+                        // const content = JSON.parse(file.fileData);
+                        const content = JSON.parse(file.fileData);
+                        return {
+                            id: uuidv4(), // Generate a new random ID
+                            name: file.fileName,
+                            content: content
+                        };
+                    } catch (error) {
+                        console.error("Error deserializing page content:", error);
+                        return null;
+                    }
+                }).filter((page: any) => page !== null);
+                setPages(loadedPages);
             }
         };
 
@@ -29,7 +45,7 @@ const LoadButton: React.FC<{classes: any, pages: Page[], currentPageIndex: numbe
         return () => {
             window.removeEventListener('message', handleMessage);
         };
-    }, [actions]);
+    }, [setPages]);
 
     return (
         <Button className={classes.button} icon={<Folder24Regular />} appearance='outline' onClick={handleLoad}>Load</Button>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Divider, makeStyles } from "@fluentui/react-components";
+import { Button, Divider } from "@fluentui/react-components";
 import { useEditor, Element } from "@craftjs/core";
 import { Label, LabelDefaultProps } from '../../../components/user/Label';
 import { Button as UserButton, ButtonDefaultProps } from "../../../components/user/Button";
@@ -11,6 +11,8 @@ import { Checkbox, CheckboxDefaultProps } from '../../../components/user/Checkbo
 import { Icon, IconDefaultProps } from '../../../components/user/Icon';
 import { EditBackgroundButton } from '../../../components/EditBackgroundButton';
 import { Text, TextDefaultProps } from '../../../components/user/Text';
+import { Dropdown, DropdownDefaultProps } from '../../../components/user/Dropdown';
+import { Slider, SliderDefaultProps } from '../../../components/user/Slider';
 import {
     Image24Regular,
     TextboxRegular,
@@ -18,8 +20,6 @@ import {
     Button20Regular,
     Button20Filled,
     TextT24Regular,
-    LayoutRowTwoRegular,
-    LayoutColumnTwoRegular,
     Password24Regular,
     Password24Filled,
     RadioButtonFilled,
@@ -27,7 +27,9 @@ import {
     CheckboxCheckedRegular,
     EmojiRegular,
     SlideTextRegular,
-    CardUiRegular
+    CardUiRegular,
+    TextBulletListCheckmarkFilled,
+    OptionsRegular
 } from '@fluentui/react-icons';
 import { Container, ContainerDefaultProps } from '../../../components/user/Container';
 
@@ -50,31 +52,31 @@ const ComponentButtons: React.FC<{ classes: any }> = ({ classes }) => {
                     connectors.create(ref, <UserButton {...ButtonDefaultProps} />);
                 }
             }}>Button</Button>
-            <Button className={classes.button} icon={<ImageIcon />} size='large' appearance='outline' ref={ref => {
-                if (ref !== null) {
-                    connectors.create(ref, <Image {...ImageDefaultProps} />);
-                }
-            }}>Image</Button>
-            <Button className={classes.button} icon={<TextBoxIcon />} size='large' appearance='outline' ref={ref => {
-                if (ref !== null) {
-                    connectors.create(ref, <TextBox {...TextBoxDefaultProps} />);
-                }
-            }}>Text Box</Button>
             <Button className={classes.button} icon={<LabelIcon />} size='large' appearance='outline'  ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Label {...LabelDefaultProps} />);
                 }
-            }}>Label</Button>
+            }}>Label</Button>               
             <Button className={classes.button} icon={<InputIcon />} size='large' appearance='outline'  ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Input {...InputDefaultProps} />);
                 }
-            }}>Text Input</Button>
+            }}>Single-Line Input</Button>
+            <Button className={classes.button} icon={<TextBoxIcon />} size='large' appearance='outline' ref={ref => {
+                if (ref !== null) {
+                    connectors.create(ref, <TextBox {...TextBoxDefaultProps} />);
+                }
+            }}>Multi-Line Input</Button>
             <Button className={classes.button} icon={<TextIcon />} size='large' appearance='outline' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Text {...TextDefaultProps} />);
                 }
             }}>Paragraph</Button>
+            <Button className={classes.button} icon={<ImageIcon />} size='large' appearance='outline' ref={ref => {
+                if (ref !== null) {
+                    connectors.create(ref, <Image {...ImageDefaultProps} />);
+                }
+            }}>Image</Button>
             <Button className={classes.button} icon={<RadioButtonFilled />} size='large' appearance='outline' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <RadioButton {...RadioButtonDefaultProps} />);
@@ -85,6 +87,16 @@ const ComponentButtons: React.FC<{ classes: any }> = ({ classes }) => {
                     connectors.create(ref, <Checkbox {...CheckboxDefaultProps} />);
                 }
             }}>Checkbox</Button>
+            <Button className={classes.button} icon={<TextBulletListCheckmarkFilled />} size='large' appearance='outline' ref={ref => {
+                if (ref !== null) {
+                    connectors.create(ref, <Dropdown {...DropdownDefaultProps} />);
+                }
+            }}>Dropdown</Button>
+            <Button className={classes.button} icon={<OptionsRegular />} size='large' appearance='outline' ref={ref => {
+                if (ref !== null) {
+                    connectors.create(ref, <Slider {...SliderDefaultProps} />);
+                }
+            }}>Slider</Button>
             <Button className={classes.button} icon={<EmojiRegular />} size='large' appearance='outline' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Icon {...IconDefaultProps} />);
