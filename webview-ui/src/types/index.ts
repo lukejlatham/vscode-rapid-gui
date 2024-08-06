@@ -96,6 +96,16 @@ export const gridCellSchema = z.object({
   gap: z.number().optional().default(10),
 });
 
+export const dropdownSchema = z.object({
+  header: z.string().default("Dropdown Header"),
+  optionLabels: z.array(z.string()).default([]),
+  numberOfOptions: z.number().default(1),
+  fontSize: z.number().default(14),
+  fontColor: z.string().default("black"),
+});
+
+export type DropdownProps = z.infer<typeof dropdownSchema>;
+
 export type GridCellProps = z.infer<typeof gridCellSchema>;
 
 export const inputSchema = z.object({
@@ -235,6 +245,13 @@ export type TooltipConfigRadio = {
   content: string;
   propKey: keyof RadioButtonProps;
   type: "color" | "spinButton" | "text" | "options" | "direction";
+};
+
+export type TooltipConfigDropdown = {
+  label: string;
+  content: string;
+  propKey: keyof DropdownProps;
+  type: "color" | "spinButton" | "text" | "options";
 };
 
 export type TooltipConfigText = {

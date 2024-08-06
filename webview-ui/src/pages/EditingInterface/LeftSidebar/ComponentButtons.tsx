@@ -11,6 +11,7 @@ import { Checkbox, CheckboxDefaultProps } from '../../../components/user/Checkbo
 import { Icon, IconDefaultProps } from '../../../components/user/Icon';
 import { EditBackgroundButton } from '../../../components/EditBackgroundButton';
 import { Text, TextDefaultProps } from '../../../components/user/Text';
+import { Dropdown, DropdownDefaultProps } from '../../../components/user/Dropdown';
 import {
     Image24Regular,
     TextboxRegular,
@@ -27,7 +28,8 @@ import {
     CheckboxCheckedRegular,
     EmojiRegular,
     SlideTextRegular,
-    CardUiRegular
+    CardUiRegular,
+    TextBulletListCheckmarkFilled
 } from '@fluentui/react-icons';
 import { Container, ContainerDefaultProps } from '../../../components/user/Container';
 
@@ -85,6 +87,11 @@ const ComponentButtons: React.FC<{ classes: any }> = ({ classes }) => {
                     connectors.create(ref, <Checkbox {...CheckboxDefaultProps} />);
                 }
             }}>Checkbox</Button>
+            <Button className={classes.button} icon={<TextBulletListCheckmarkFilled />} size='large' appearance='outline' ref={ref => {
+                if (ref !== null) {
+                    connectors.create(ref, <Dropdown {...DropdownDefaultProps} />);
+                }
+            }}>Dropdown</Button>
             <Button className={classes.button} icon={<EmojiRegular />} size='large' appearance='outline' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Icon {...IconDefaultProps} />);

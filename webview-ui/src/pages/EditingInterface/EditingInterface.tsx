@@ -13,6 +13,7 @@ import { GridCell } from "../../components/user/GridCell";
 import { Container } from "../../components/user/Container";
 import { EditBackgroundButton } from "../../components/EditBackgroundButton";
 import { Text } from "../../components/user/Text";
+import { Dropdown } from "../../components/user/Dropdown";
 import { Page } from "../../types";
 import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from 'uuid';
@@ -155,7 +156,7 @@ const EditingInterface: React.FC = () => {
 
 
     return (
-        <Editor resolver={{ Background, Text, Label, Button, TextBox, Image, Input, RadioButton, Checkbox, GridCell, Icon, EditBackgroundButton, Container }}>
+        <Editor resolver={{ Background, Text, Label, Button, TextBox, Image, Input, RadioButton, Checkbox, GridCell, Icon, EditBackgroundButton, Container, Dropdown }}>
             <EditorContent
                 pages={pages}
                 currentPageIndex={currentPageIndex}
