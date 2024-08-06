@@ -303,12 +303,15 @@ export const generatedAllSectionsChildren = z.object({
 
 // Used in getSectionChildrenWithProps.ts
 
+const ColorEnum = z.enum(["Main", "Accent1", "Accent2"]);
+
 export const generateButtonSchema = z.object({
   type: z.literal("Button"),
   props: z.object({
     width: z.number().int().max(80),
     height: z.number().int().max(80),
     text: z.string().default("Button"),
+    backgroundColor: ColorEnum.default("Main"),
   }),
 });
 
@@ -325,6 +328,7 @@ export const generateInputSchema = z.object({
   type: z.literal("Input"),
   props: z.object({
     placeholder: z.string().default("Enter text"),
+    fontColor: ColorEnum.default("Main"),
   }),
 });
 
@@ -334,7 +338,7 @@ export const generateLabelSchema = z.object({
     text: z.string().default("Header"),
     bold: z.boolean().default(true),
     italic: z.boolean().default(false),
-    underline: z.boolean().default(false),
+    fontColor: ColorEnum.default("Main"),
   }),
 });
 
@@ -343,10 +347,7 @@ export const generateRadioButtonSchema = z.object({
   props: z.object({
     header: z.string().default("Radio Button Header"),
     numberOfButtons: z.number().default(2),
-    optionLabels: z
-      .array(z.string())
-      .default([])
-      .describe("Array of strings for each radio button"),
+    optionLabels: z.array(z.string()).default([]),
     direction: z.enum(["row", "column"]).default("row"),
   }),
 });
@@ -366,6 +367,7 @@ export const generateTextBoxSchema = z.object({
     text: z.string().default("Text Box"),
     width: z.number().int().max(100),
     height: z.number().int().max(100),
+    fontColor: ColorEnum.default("Main"),
   }),
 });
 
@@ -373,10 +375,9 @@ export const generateTextSchema = z.object({
   type: z.literal("Text"),
   props: z.object({
     text: z.string().default("Text"),
+    fontColor: ColorEnum.default("Main"),
   }),
 });
-
-export type GenerateTextProps = z.infer<typeof generateTextSchema>;
 
 export const generateIconSchema = z.object({
   type: z.literal("Icon"),
@@ -395,6 +396,25 @@ export const generateIconSchema = z.object({
       .default("VscAdd"),
     iconSize: z.number().default(24),
   }),
+});
+
+// Used in getSectionChildrenOpenai.ts
+
+export const sectionSchema = z.object({
+  section: z.string(),
+  props: z.object({
+    xPosition: z.number().int().max(10),
+    yPosition: z.number().int().max(10),
+    width: z.number().int().max(10),
+    height: z.number().int().max(10),
+    flexDirection: z.enum(["row", "column"]).describe("Row if width > height, column otherwise."),
+    backgroundColor: z.enum(["Main", "Accent1, Accent2"]).default("Main"),
+  }),
+  contents: z.string().describe("Give a detailed description of the section over 3 lines."),
+});
+
+export const layoutSchema = z.object({
+  sections: z.array(sectionSchema).max(5),
 });
 
 // Used in convertLayoutToNodes.ts
@@ -420,29 +440,12 @@ export const fullSectionSchema = z.object({
     width: z.number().int().max(10),
     height: z.number().int().max(10),
     flexDirection: z.enum(["row", "column"]),
-    backgroundColor: z.enum(["ghostwhite", "lightslategray"]).default("ghostwhite"),
+    backgroundColor: ColorEnum.default("Main"),
   }),
   children: z.array(generatedFullElements),
 });
 
 export const fullLayoutSchema = z.array(fullSectionSchema).max(5);
-
-export const sectionSchema = z.object({
-  section: z.string(),
-  props: z.object({
-    xPosition: z.number().int().max(10),
-    yPosition: z.number().int().max(10),
-    width: z.number().int().max(10),
-    height: z.number().int().max(10),
-    flexDirection: z.enum(["row", "column"]).describe("Row if width > height, column otherwise."),
-    backgroundColor: z.enum(["ghostwhite", "lightslategray"]).default("ghostwhite"),
-  }),
-  contents: z.string().describe("Give a detailed description of the section over 3 lines."),
-});
-
-export const layoutSchema = z.object({
-  sections: z.array(sectionSchema).max(5),
-});
 
 export const backgroundNodeLayout = z.object({
   w: z.number().int(),
@@ -489,3 +492,47 @@ export const craftjsNodeSchema = z.object({
   linkedNodes: z.record(z.string()),
   parent: z.string(),
 });
+
+// Used in applyTheming.ts
+
+export type ColorScheme = {
+  sectionColors: {
+    main: string;
+    accent1: string;
+    accent2: string;
+  };
+  elementColors: {
+    main: string;
+    accent1: string;
+    accent2: string;
+  };
+  borderColors: {
+    main: string;
+    accent1: string;
+    accent2: string;
+  };
+  fontColors: {
+    main: string;
+    accent1: string;
+    accent2: string;
+  };
+};
+
+export const themedSectionSchema = z.object({
+  section: z.string(),
+  props: z.object({
+    xPosition: z.number().int().max(10),
+    yPosition: z.number().int().max(10),
+    width: z.number().int().max(10),
+    height: z.number().int().max(10),
+    flexDirection: z.enum(["row", "column"]),
+    backgroundColor: z.string(),
+  }),
+  children: z.array(z.any()),
+});
+
+export type ThemedSectionSchema = z.infer<typeof themedSectionSchema>;
+
+export const themedLayoutSchema = z.array(themedSectionSchema).max(5);
+
+export type ThemedLayoutSchema = z.infer<typeof themedSectionSchema>;
