@@ -26,6 +26,9 @@ export class FileGenerator {
     this.createLaunchSettings();
     this.createAppManifest();
     this.createResourcesFile();
+    this.createGitignore();
+    this.createReadme();
+    this.copyDefaultAssets();
 
     pages.forEach((page) => {
       this.createPageXaml(page);
@@ -64,6 +67,20 @@ export class FileGenerator {
       namespace: this.projectName,
     });
     this.createFile("MainWindow.xaml.cs", content);
+  }
+
+  private copyDefaultAssets() {
+    const assetFiles = [
+      "Square44x44Logo.png",
+      "Square150x150Logo.png",
+      "Wide310x150Logo.png",
+      "SplashScreen.png",
+    ];
+    assetFiles.forEach((file) => {
+      const sourcePath = path.join(__dirname, "..", "resources", "DefaultAssets", file);
+      const destPath = path.join(this.outputPath, "Assets", file);
+      fs.copyFileSync(sourcePath, destPath);
+    });
   }
 
   private createPageXaml(page: Page) {
@@ -121,5 +138,62 @@ export class FileGenerator {
       appName: this.projectName,
     });
     this.createFile("Strings/en-us/Resources.resw", content);
+  }
+
+  private createGitignore() {
+    const content = `
+  # Visual Studio files
+  .vs/
+  bin/
+  obj/
+  
+  # Build results
+  [Dd]ebug/
+  [Rr]elease/
+  x64/
+  x86/
+  [Aa][Rr][Mm]/
+  [Aa][Rr][Mm]64/
+  bld/
+  [Bb]in/
+  [Oo]bj/
+  [Ll]og/
+  
+  # NuGet Packages
+  *.nupkg
+  # The packages folder can be ignored because of Package Restore
+  **/packages/*
+  # except build/, which is used as an MSBuild target.
+  !**/packages/build/
+  `;
+    this.createFile(".gitignore", content);
+  }
+
+  private createReadme() {
+    const content = `
+  # ${this.projectName}
+  
+  This is a WinUI 3 project generated automatically from your design!
+  
+  ## Getting Started
+  
+  1. Open the solution in Visual Studio 2019 or later.
+  2. Ensure you have the Windows App SDK installed.
+  3. Build and run the project.
+  
+  ## Project Structure
+  
+  - \`App.xaml\` and \`App.xaml.cs\`: Application entry point
+  - \`MainWindow.xaml\` and \`MainWindow.xaml.cs\`: Main window of the application
+  - \`Pages/\`: Contains individual pages of the application as XAML files that you created!
+  - \`Assets/\`: Contains application assets like icons and images!
+  
+  ## Dependencies
+  
+  - Microsoft.WindowsAppSDK
+  - Microsoft.Windows.SDK.BuildTools
+  
+  `;
+    this.createFile("README.md", content);
   }
 }
