@@ -63,17 +63,12 @@ export const EditorContent: React.FC<EditorContentProps> = ({
         }
     }, [currentPageIndex, query, setPages]);
 
-    useEffect(() => {
-        // This effect will run whenever the nodes or events in the editor state change
-        updateCurrentPage();
-    }, [updateCurrentPage]);
-
 
 
     return (
         <div className={classes.mainLayout}>
             <div className={classes.leftSidebar}>
-                <LeftSidebar classes={classes} pages={pages} setPages={setPages} updateCurrentPage={updateCurrentPage} currentPageIndex={currentPageIndex}/>
+                <LeftSidebar classes={classes} pages={pages} setPages={setPages} currentPageIndex={currentPageIndex}/>
             </div>
             <div className={classes.mainContent}>
                 <div className={classes.pageNavigation}>
