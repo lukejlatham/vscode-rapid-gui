@@ -45,9 +45,6 @@ export class AppGenerator {
     const pages: Page[] = [];
 
     for (const [pageName, pageStructure] of Object.entries(this.parsedJSON.pages)) {
-      const gridXaml = generateGridXaml(pageStructure.root, pageStructure.layout);
-      const componentXaml = generateComponentXaml(pageStructure.components);
-
       const page: Page = {
         id: pageName,
         name: pageName,
@@ -56,6 +53,9 @@ export class AppGenerator {
           ...pageStructure.components,
         },
       };
+
+      const gridXaml = generateGridXaml(pageStructure.root, pageStructure.components, page);
+      const componentXaml = generateComponentXaml(pageStructure.components);
 
       pages.push(page);
     }

@@ -3,12 +3,16 @@ import { PageStructure, LayoutItem, Node } from "./JsonParser";
 import { generateComponentXaml } from "./componentGenerator";
 import { Page } from "../../webview-ui/src/types";
 
-export function generateGridXaml(page: Page): string {
-  const root = page.content.ROOT;
-  let xaml = `<Grid x:Name="RootGrid" Background="${root.props.backgroundColor}">\n`;
+export function generateGridXaml(
+  root: Node,
+  components: { [key: string]: Node },
+  page: Page
+): string {
+  const rootNode = page.content.ROOT;
+  let xaml = `<Grid x:Name="RootGrid" Background="${rootNode.props.backgroundColor}">\n`;
 
-  xaml += generateGridDefinitions(root.props.rows, root.props.columns);
-  xaml += generateGridContent(page.content, root.props.layout || [], "");
+  xaml += generateGridDefinitions(rootNode.props.rows, rootNode.props.columns);
+  xaml += generateGridContent(page.content, rootNode.props.layout || [], "");
 
   xaml += "</Grid>\n";
   return xaml;
@@ -89,28 +93,3 @@ function mapFlexToAlignment(flexValue: string): string {
       return "Stretch";
   }
 }
-
-// function generateComponent(node: Node, indent: string): string {
-//   switch (node.type.resolvedName) {
-//     case "Input":
-//       return `${indent}<TextBox PlaceholderText="${node.props.placeholder}" FontSize="${node.props.fontSize}" Foreground="${node.props.fontColor}" Background="${node.props.backgroundColor}"/>\n`;
-//     case "Text":
-//     case "Label":
-//       return `${indent}<TextBlock Text="${node.props.text}" FontSize="${node.props.fontSize}" Foreground="${node.props.fontColor}" TextAlignment="${node.props.textAlign}"/>\n`;
-//     case "Button":
-//       return `${indent}<Button Content="${node.props.text}" FontSize="${node.props.fontSize}" Foreground="${node.props.fontColor}" Background="${node.props.backgroundColor}"/>\n`;
-//     case "Icon":
-//       return `${indent}<FontIcon Glyph="${node.props.selectedIcon}" FontSize="${node.props.iconSize}" Foreground="${node.props.iconColor}"/>\n`;
-//     case "RadioButton":
-//       let radioXaml = `${indent}<StackPanel Orientation="${node.props.direction}">\n`;
-//       node.props.optionLabels.forEach((label: string) => {
-//         radioXaml += `${indent}  <RadioButton Content="${label}" FontSize="${node.props.fontSize}" Foreground="${node.props.fontColor}"/>\n`;
-//       });
-//       radioXaml += `${indent}</StackPanel>\n`;
-//       return radioXaml;
-//     case "Container":
-//       return `${indent}<Border Background="${node.props.backgroundColor}" CornerRadius="${node.props.borderRadius}" BorderBrush="${node.props.borderColor}" Padding="${node.props.padding}" Width="${node.props.width}" Height="${node.props.height}"/>\n`;
-//     default:
-//       return `${indent}<!-- Unknown component type: ${node.type.resolvedName} -->\n`;
-//   }
-// }
