@@ -1,10 +1,10 @@
 // GridGenerator.ts
-import { PageStructure, LayoutItem, Node } from "./JsonParser";
+import { LayoutItem, Node } from "./JsonParser";
 import { generateComponentXaml } from "./componentGenerator";
 import { Page } from "../../webview-ui/src/types";
 
 export function generateGridXaml(page: Page): string {
-  const rootNode = page.content.ROOT;
+  const rootNode = page.content.ROOT as Node;
   let xaml = `<Grid x:Name="RootGrid" Background="${rootNode.props.backgroundColor}">\n`;
 
   xaml += generateGridDefinitions(rootNode.props.rows, rootNode.props.columns);
@@ -36,7 +36,11 @@ function generateGridDefinitions(rows?: number, columns?: number): string {
   return xaml;
 }
 
-function generateGridContent(content: any, layout: any[], indent: string): string {
+function generateGridContent(
+  content: { [key: string]: Node },
+  layout: LayoutItem[],
+  indent: string
+): string {
   let xaml = "";
 
   for (const item of layout) {
