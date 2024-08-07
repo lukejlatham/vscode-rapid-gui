@@ -113,6 +113,7 @@ export const inputSchema = z.object({
   fontSize: z.number().default(14),
   fontColor: z.string().default("black"),
   backgroundColor: z.string().default("white"),
+  borderColor: z.string().default("black"),
   placeholder: z.string().default("Enter text"),
   borderRadius: z.number().default(4),
 });
@@ -161,15 +162,15 @@ export const sliderSchema = z.object({
 export type SliderProps = z.infer<typeof sliderSchema>;
 
 export const textBoxSchema = z.object({
-  text: z.string().default("Text Box"),
+  text: z.string().default(""),
   fontSize: z.number().default(14),
   fontColor: z.string().default("black"),
-  backgroundColor: z.string().default("white"),
+  backgroundColor: z.string().default('#FFFFFF'),
+  borderColor: z.string().default("black"),
   placeholder: z.string().default("Enter text"),
   borderRadius: z.number().default(4),
   height: z.number().default(100),
   width: z.number().default(100),
-  alignment: z.enum(["left", "center", "right"]).default("left"),
 });
 
 export type TextBoxProps = z.infer<typeof textBoxSchema>;

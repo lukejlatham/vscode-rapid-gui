@@ -1,13 +1,11 @@
-import React, {useEffect} from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Card, CardHeader, Text, Body2, makeStyles, tokens } from '@fluentui/react-components';
-import loginImage from '../assets/Login.png'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Card, CardHeader, Body2, makeStyles, tokens } from '@fluentui/react-components';
 import VideoGameSettings from '../data/layout_templates/VideoGameSettings.json'
 import Login from '../data/layout_templates/Login.json'
 import Website from '../data/layout_templates/Website.json'
 import FeedbackForm from '../data/layout_templates/FeedbackForm.json'
 import { DesktopRegular, GamesRegular, FormRegular, PersonPasskeyRegular } from '@fluentui/react-icons';
-import { useEditor } from '@craftjs/core';
 import { v4 as uuidv4 } from 'uuid';
 
 const useStyles = makeStyles({

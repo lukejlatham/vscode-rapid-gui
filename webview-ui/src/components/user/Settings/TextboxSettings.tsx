@@ -19,11 +19,11 @@ export const TextBoxSettings: React.FC = () => {
         { label: "Font Size", content: "Adjust the size of the text.", propKey: "fontSize", type: "spinButton" },
         { label: "Font Color", content: "Change the text color.", propKey: "fontColor", type: "color" },
         { label: "Background Color", content: "Change the color of the box.", propKey: "backgroundColor", type: "color" },
+        { label: "Border Color", content: "Change the color of the border.", propKey: "borderColor", type: "color" },
         { label: "Placeholder", content: "Edit the text that appears before a user inputs text.", propKey: "placeholder", type: "text" },
         { label: "Border Radius", content: "Adjust how rounded the corners of the textbox are.", propKey: "borderRadius", type: "spinButton" },
         { label: "Height", content: "Adjust the number of height of your textbox", propKey: "height", type: "spinButton" },
         { label: "Width", content: "Adjust the number of width in your textbox.", propKey: "width", type: "spinButton" },
-        { label: "Alignment", content: "Set the alignment of the Texbox.", propKey: "alignment", type: "alignment" },
     ];
 
     return (
@@ -70,7 +70,7 @@ export const TextBoxSettings: React.FC = () => {
                                 (props[tooltip.propKey] as string) = e.target.value;
                             })}
                         />
-                    ) : tooltip.type === "text" ? (
+                    ) : tooltip.type === "text" && (
                         <Input
                             className={styles.textInput}
                             type="text"
@@ -81,20 +81,6 @@ export const TextBoxSettings: React.FC = () => {
                                 }, 1000);
                             }}
                         />
-                    ) : tooltip.type === "alignment" && (
-                        <RadioGroup
-                            defaultValue={props[tooltip.propKey] as string}
-                            layout="horizontal-stacked"
-                            onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
-                                setProp((props: TextBoxProps) => {
-                                    (props[tooltip.propKey] as 'left' | 'center' | 'right') = data.value as 'left' | 'center' | 'right';
-                                }, 1000);
-                            }}
-                        >
-                            <Radio key="left" label="Left" value="left" />
-                            <Radio key="center" label="Center" value="center" />
-                            <Radio key="right" label="Right" value="right" />
-                        </RadioGroup>
                     )}
                 </div>
             ))}

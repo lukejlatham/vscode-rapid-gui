@@ -112,6 +112,7 @@ export const LabelDefaultProps: LabelProps = {
 };
 
 (Label as any).craft = {
+  displayName: "Label",
   props: LabelDefaultProps,
   related: {
     settings: LabelSettings,

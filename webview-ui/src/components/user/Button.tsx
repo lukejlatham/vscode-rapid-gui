@@ -74,6 +74,7 @@ export const ButtonDefaultProps: ButtonProps = {
 };
 
 (Button as any).craft = {
+    displayName: "Button",
     props: ButtonDefaultProps,
     related: {
         settings: ButtonSettings
