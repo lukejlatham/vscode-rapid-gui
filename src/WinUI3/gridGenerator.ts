@@ -5,19 +5,20 @@ import { Page } from "../../webview-ui/src/types";
 
 export function generateGridXaml(page: Page): string {
   const rootNode = page.content.ROOT as Node;
-  let xaml = `Page x:Class="${page.name}"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  let xaml = `<Page
+    x:Class="${page.name}"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <Grid x:Name="RootGrid" Background="${rootNode.props.backgroundColor || "Transparent"}">\n`;
 
   xaml += generateGridDefinitions(rootNode.props.rows, rootNode.props.columns);
   xaml += generateGridContent(
     page.content as { [key: string]: Node },
     rootNode.props.layout || [],
-    "  "
+    "    "
   );
 
-  xaml += "</Grid>\n";
+  xaml += "  </Grid>\n</Page>";
   return xaml;
 }
 
@@ -56,6 +57,8 @@ function generateGridContent(
       xaml += generateGridCell(content, item, node, indent);
     } else {
       console.warn(`Node not found for layout item: ${item.i}`);
+
+      xaml += `${indent}<Grid Grid.Row="${item.y}" Grid.Column="${item.x}" Grid.RowSpan="${item.h}" Grid.ColumnSpan="${item.w}"/>\n`;
     }
   }
 
@@ -70,16 +73,13 @@ function generateGridCell(
 ): string {
   let xaml = `${indent}<Grid Grid.Row="${layoutItem.y}" Grid.Column="${layoutItem.x}" Grid.RowSpan="${layoutItem.h}" Grid.ColumnSpan="${layoutItem.w}">\n`;
 
-  if (node.type.resolvedName === "GridCell" && node.props.rows && node.props.columns) {
-    xaml += generateGridDefinitions(node.props.rows, node.props.columns);
-    xaml += generateGridContent(content, node.props.layout || [], indent + "  ");
-  } else {
+  if (node.nodes && node.nodes.length > 0) {
     xaml += `${indent}  <StackPanel Orientation="${node.props.flexDirection || "Vertical"}"
                  HorizontalAlignment="${mapFlexToAlignment(node.props.justifyContent)}"
                  VerticalAlignment="${mapFlexToAlignment(node.props.alignItems)}"
                  Margin="${node.props.gap || "0"}">\n`;
 
-    for (const childId of node.nodes || []) {
+    for (const childId of node.nodes) {
       const childNode = content[childId];
       if (childNode) {
         xaml += generateComponentXaml({ [childId]: childNode }, indent + "    ");
@@ -89,6 +89,9 @@ function generateGridCell(
     }
 
     xaml += `${indent}  </StackPanel>\n`;
+  } else {
+    // If the node doesn't have children, generate it as a regular component
+    xaml += generateComponentXaml({ [layoutItem.i]: node }, indent + "  ");
   }
 
   xaml += `${indent}</Grid>\n`;
