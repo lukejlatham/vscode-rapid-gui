@@ -7,7 +7,7 @@ import { TextSettings } from "./Settings/TextSettings";
 
 const useStyles = makeStyles({
   textContainer: {
-    cursor: "pointer",
+    cursor: "text",
   },
   textContent: {
     margin: 0,
