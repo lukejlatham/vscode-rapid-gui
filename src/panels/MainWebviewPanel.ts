@@ -29,7 +29,14 @@ export class MainWebviewPanel {
     try {
       const { contents, fileNames } = message;
 
-      // Get the current workspace folder
+      if (
+        !Array.isArray(contents) ||
+        !Array.isArray(fileNames) ||
+        contents.length !== fileNames.length
+      ) {
+        throw new Error("Invalid input format");
+      }
+
       const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
       if (!workspaceFolder) {
         throw new Error("No workspace folder is open");
@@ -38,30 +45,37 @@ export class MainWebviewPanel {
       const projectFolder = workspaceFolder.uri.fsPath;
       const jsonFolder = path.join(projectFolder, "Saved Pages");
 
-      // After conversion, read and save each XAML file
+      if (!fs.existsSync(jsonFolder)) {
+        fs.mkdirSync(jsonFolder, { recursive: true });
+      }
+
       for (let i = 0; i < fileNames.length; i++) {
         const fileName = fileNames[i];
         const jsonContent = contents[i];
 
-        // Assuming convertToXaml saves files in a temporary location or returns content
-        // You might need to adjust this part based on how convertToXaml works
-        await convertToXaml(contents, fileNames, this._context);
+        // Parse the content if it's a string
+        const parsedContent =
+          typeof jsonContent === "string" ? JSON.parse(jsonContent) : jsonContent;
 
-        const xamlFilePath = path.join(jsonFolder, `${fileName}.json`);
-        const xamlContent = fs.readFileSync(xamlFilePath, "utf-8");
+        // Validate the parsed content
+        if (!parsedContent || typeof parsedContent !== "object" || !parsedContent.type) {
+          throw new Error(`Invalid content structure for file: ${fileName}`);
+        }
+
+        // Convert to XAML
+        const xamlContent = await convertToXaml(parsedContent, fileName, this._context);
+
+        // Save the XAML file
+        const xamlFilePath = path.join(jsonFolder, `${fileName}.xaml`);
+        fs.writeFileSync(xamlFilePath, xamlContent, "utf-8");
       }
 
       vscode.window.showInformationMessage(`XAML files generated and saved in ${jsonFolder}`);
     } catch (error) {
       console.error("Error in handleDownloadCode:", error);
-      if (error instanceof Error) {
-        console.error("Error message:", error.message);
-        console.error("Error stack:", error.stack);
-      }
       vscode.window.showErrorMessage(`Failed to generate or save XAML files: ${error.message}`);
     }
   }
-
   private constructor(panel: WebviewPanel, extensionUri: Uri, context: ExtensionContext) {
     this._panel = panel;
     this._context = context;

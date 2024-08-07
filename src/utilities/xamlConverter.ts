@@ -8,7 +8,7 @@ import { Page } from "../../webview-ui/src/types";
 import { SerializedNodes } from "@craftjs/core";
 
 export async function convertToXaml(
-  contents: string | string[] | SerializedNodes,
+  contents: SerializedNodes,
   fileNames: string | string[],
   context: vscode.ExtensionContext
 ) {
@@ -17,6 +17,9 @@ export async function convertToXaml(
     vscode.window.showErrorMessage("No workspace folder is open");
     return;
   }
+
+  console.log("Contents:", JSON.stringify(contents, null, 2));
+  console.log("FileNames:", fileNames);
 
   const projectName = await vscode.window.showInputBox({
     prompt: "Enter a name for your WinUI 3 project",

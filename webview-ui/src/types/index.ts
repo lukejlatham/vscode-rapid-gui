@@ -159,7 +159,6 @@ export const sliderSchema = z.object({
 
 export type SliderProps = z.infer<typeof sliderSchema>;
 
-
 export const textBoxSchema = z.object({
   text: z.string().default("Text Box"),
   fontSize: z.number().default(14),
@@ -299,7 +298,7 @@ export interface TooltipConfigSlider {
   label: string;
   content: string;
   propKey: keyof SliderProps;
-  type: "color" | "spinButton" | "text" ;
+  type: "color" | "spinButton" | "text";
 }
 
 export interface Page {
