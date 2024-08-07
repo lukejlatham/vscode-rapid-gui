@@ -132,7 +132,7 @@ function calculateLayoutDimensions(layout: LayoutSchema): LayoutDimensions {
     return section.section;
   });
 
-  return { rows: maxY, columns: maxX, ids };
+  return { rows: 10, columns: 10, ids };
 }
 
 function createNode(
@@ -220,8 +220,10 @@ function generateSectionNodes(sections: ThemedLayoutSchema[]): { [key: string]: 
           break;
         case "Text":
           childProps = textSchema.parse(child.props);
+          break;
         case "Dropdown":
           childProps = dropdownSchema.parse(child.props);
+          break;
         case "Slider":
           childProps = sliderSchema.parse(child.props);
           break;

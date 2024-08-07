@@ -193,8 +193,8 @@ export const imageSchema = z.object({
       "https://media.licdn.com/dms/image/D4E22AQGL4EZgEpG2ag/feedshare-shrink_800/0/1719580422738?e=2147483647&v=beta&t=Nj786KjutiTxei_wgDDM40hcWFi5_-qqBIKM4jOa3Hc"
     ),
   alt: z.string().default("New image"),
-  width: z.number().default(80),
-  height: z.number().default(80),
+  width: z.number().default(100),
+  height: z.number().default(100),
   alignment: z.enum(["left", "center", "right"]).optional(),
 });
 
@@ -333,11 +333,11 @@ export const generatedElements = z.object({
 
 export const generatedSectionChildren = z.object({
   section: z.string(),
-  children: z.array(generatedElements).max(5),
+  children: z.array(generatedElements).max(6),
 });
 
 export const generatedAllSectionsChildren = z.object({
-  sections: z.array(generatedSectionChildren).max(5),
+  sections: z.array(generatedSectionChildren).min(2).max(6),
 });
 
 // Used in getSectionChildrenWithProps.ts
@@ -380,6 +380,7 @@ export const generateLabelSchema = z.object({
     bold: z.boolean().default(true),
     italic: z.boolean().default(false),
     fontColor: ColorEnum,
+    fontSize: z.number(),
   }),
 });
 
@@ -461,7 +462,7 @@ export const sectionSchema = z.object({
 });
 
 export const layoutSchema = z.object({
-  sections: z.array(sectionSchema).max(5),
+  sections: z.array(sectionSchema).max(6),
 });
 
 // Used in convertLayoutToNodes.ts
@@ -494,7 +495,7 @@ export const fullSectionSchema = z.object({
   children: z.array(generatedFullElements),
 });
 
-export const fullLayoutSchema = z.array(fullSectionSchema).max(5);
+export const fullLayoutSchema = z.array(fullSectionSchema).max(6);
 
 export type FullLayoutSchema = z.infer<typeof fullLayoutSchema>;
 

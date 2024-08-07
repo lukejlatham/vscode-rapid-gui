@@ -8,7 +8,8 @@ const useStyles = makeStyles({
     display: "flex",
     width: "100%",
     height: "100%",
-    padding: "5px",
+    padding: "3px",
+    boxSizing: "border-box",
   },
   justifyLeft: {
     justifyContent: "flex-start",
@@ -41,7 +42,6 @@ const useStyles = makeStyles({
     alignItems: "flex-end",
   },
   containerEmpty: {
-    padding: "5px",
     width: "100%",
     height: "100%",
   },

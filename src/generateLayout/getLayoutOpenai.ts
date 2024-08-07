@@ -51,7 +51,7 @@ const exampleLayout = {
 
 const systemMessage = {
   role: "system",
-  content: `You are a UI designer who creates perfect designs from a given sketch or description of a UI. You create your designs in terms of sections, each section containing child elements. For backgroundColors prop, you can only use Main, LightAccent, or DarkAccent. An example layout is shown below:\n\n${exampleLayout}`,
+  content: `You are a UI designer who creates perfect designs from a given sketch or description of a UI. You create your designs in terms of sections (on 10x10 grid starting at x=0 y=0), each section containing child elements. A section will have everything within aligned into a row or column. For backgroundColors prop, you can only use Main, LightAccent, or DarkAccent. An example layout is shown below:\n\n${exampleLayout}`,
 };
 
 const textMessage = (textDescription: string) => ({

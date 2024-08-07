@@ -6,6 +6,7 @@ import { ImageSettings } from "./Settings/ImageSettings";
 const useStyles = makeStyles({
   container: {
     display: "flex",
+    borderBox: "box-sizing",
   },
 });
 
