@@ -254,7 +254,7 @@ function createBackgroundNode(
     props: {
       rows: dimensions.rows,
       columns: dimensions.columns,
-      lockedGrid: false,
+      lockedGrid: true,
       backgroundColor,
       layout,
     },

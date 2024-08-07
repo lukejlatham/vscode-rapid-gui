@@ -57,7 +57,7 @@ export const Container: UserComponent<ContainerProps> = (props) => {
     const divStyle = {
         backgroundColor: backgroundColor,
         borderRadius: `${borderRadius}px`,
-        border: `1px solid ${borderColor}`,
+        border: `2px solid ${borderColor}`,
         padding: padding,
         height: `${height}%`,
         width: `${width}%`,

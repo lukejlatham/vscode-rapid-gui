@@ -84,7 +84,7 @@ Elements you can use more than once in a section:
 - Label (titles)
 - Image 
 - Input
-- Icon
+- Icon - try to use a few
 - Dropdown
 - Slider
 
@@ -94,7 +94,6 @@ Elements you can use only once in a section (as quite large):
 - TextBox (textArea style input)
 - Text (paragraph)
 
-Keep things simple but do use a few icons. 
 `,
 };
 
