@@ -61,29 +61,27 @@ export class FileGenerator {
   }
 
   private createAppXaml() {
-    const content = this.templateManager.fillTemplate("App.xaml", {
-      namespace: this.namespace,
-    });
+    let content = this.templateManager.getTemplate("App.xaml");
+    content = content.replace("{{namespace}}", this.namespace);
     this.createFile("App.xaml", content);
   }
 
   private createAppXamlCs() {
-    const content = this.templateManager.fillTemplate("App.xaml.cs", {
-      namespace: this.namespace,
-    });
+    let content = this.templateManager.getTemplate("App.xaml.cs");
+    content = content.replace("{{namespace}}", this.namespace);
     this.createFile("App.xaml.cs", content);
   }
 
   private createMainWindowXaml(pages: Page[]) {
+    let content = this.templateManager.getTemplate("MainWindow.xaml");
     const pageItems = pages
       .map((page) => `<NavigationViewItem Content="${page.name}" Tag="${page.name}"/>`)
       .join("\n                ");
 
-    const content = this.templateManager.fillTemplate("MainWindow.xaml", {
-      namespace: this.namespace,
-      projectName: this.projectName,
-      pageItems: pageItems,
-    });
+    content = content.replace("{{namespace}}", this.namespace);
+    content = content.replace("{{projectName}}", this.projectName);
+    content = content.replace("{{pageItems}}", pageItems);
+
     this.createFile("MainWindow.xaml", content);
   }
 
@@ -93,10 +91,10 @@ export class FileGenerator {
       return;
     }
 
-    const content = this.templateManager.fillTemplate("MainWindow.xaml.cs", {
-      namespace: this.namespace,
-      defaultPage: pages[0].name,
-    });
+    let content = this.templateManager.getTemplate("MainWindow.xaml.cs");
+    content = content.replace("{{namespace}}", this.namespace);
+    content = content.replace("{{defaultPage}}", pages[0].name);
+
     this.createFile("MainWindow.xaml.cs", content);
   }
 
@@ -114,8 +112,8 @@ export class FileGenerator {
   }
 
   private createPageXaml(page: Page) {
-    console.log("Creating XAML for page:", page.name);
-    console.log("Page structure:", JSON.stringify(page, null, 2));
+    // console.log("Creating XAML for page:", page.name);
+    // console.log("Page structure:", JSON.stringify(page, null, 2));
     const content = this.generatePageXaml(page);
     const filePath = path.join(this.outputPath, "Pages", `${page.name}.xaml`);
     fs.writeFileSync(filePath, content, "utf-8");

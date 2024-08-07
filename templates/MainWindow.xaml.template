@@ -18,9 +18,7 @@
                         IsBackButtonVisible="Collapsed"
                         SelectionChanged="NavView_SelectionChanged">
             <NavigationView.MenuItems>
-                {{#each pages}}
-                <NavigationViewItem Content="{{this}}" Tag="{{this}}"/>
-                {{/each}}
+                {{pageItems}}
             </NavigationView.MenuItems>
         </NavigationView>
 
