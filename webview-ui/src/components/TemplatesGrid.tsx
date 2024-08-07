@@ -1,6 +1,10 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, {useEffect} from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Card, CardHeader, Text, Body2, makeStyles, tokens } from '@fluentui/react-components';
+import loginImage from '../assets/Login.png'
+import VideoGameSettings from '../data/layout_templates/VideoGameSettings.json'
+import { useEditor } from '@craftjs/core';
+import { v4 as uuidv4 } from 'uuid';
 
 const useStyles = makeStyles({
   cardLink: {
@@ -23,54 +27,20 @@ const useStyles = makeStyles({
     transition: 'transform 0.2s',
     ':hover': {
       transform: 'scale(1.05)',
-    string: 'hover',
+      string: 'hover',
     },
   },
   borderBoxed: {
     border: '2px dashed #d6d6d6',
     borderRadius: '1px',
-    padding: '90px',
+    padding: '80px',
     paddingRight: '50px',
     margin: '5px',
-    },
-  mobileCard: {
-    width: '170px',
-    height: '250px',
-    color: tokens.colorNeutralForeground2,
-    background: tokens.colorNeutralBackground1,
-    transition: 'transform 0.2s',
-    ':hover': {
-      transform: 'scale(1.05)',
-    string: 'hover',
-    },
-  },
-  squareCard: {
-    width: '250px',
-    height: '250px',
-    color: tokens.colorNeutralForeground2,
-    background: tokens.colorNeutralBackground1,
-    transition: 'transform 0.2s',
-    ':hover': {
-      transform: 'scale(1.05)',
-    string: 'hover',
-    },
-  },
-  landscapeCard: {
-    width: '300px',
-    height: '250px',
-    color: tokens.colorNeutralForeground2,
-    background: tokens.colorNeutralBackground1,
-    transition: 'transform 0.2s',
-    ':hover': {
-      transform: 'scale(1.05)',
-    string: 'hover',
-    },
   },
   textContainer: {
     bottom: '4px',
     left: '10px',
     color: '#8F8F8F',
-    position: 'absolute',
   },
   title: {
     fontSize: '16px',
@@ -85,31 +55,51 @@ const useStyles = makeStyles({
 });
 
 const templates = [
-  { name: 'Web App', size: '1920 x 1080 px', className: 'webAppCard' },
-  { name: 'Mobile', size: '1080 x 1920 px', className: 'mobileCard' },
-  { name: 'Square', size: '1080 x 1080 px', className: 'squareCard' },
-  { name: 'Landscape', size: '1920 x 1080 px', className: 'landscapeCard' },
-];
+  // { name: 'Website' },
+  // { name: 'Login' },
+  { name: 'Video Game Settings', data: {id: uuidv4(), name: 'Page 1', content: VideoGameSettings }}];
 
 const TemplatesGrid: React.FC = () => {
+  
+  const navigate = useNavigate();
+  const location = useLocation();
   const styles = useStyles();
+
+  // useEffect(() => {
+  //   // Check if we've just navigated to the editing interface
+  //   if (location.pathname === '/editing-interface' && location.state?.templateData) {
+  //     // After a short delay, send the loadTree message
+  //     const timer = setTimeout(() => {
+  //       window.postMessage({ command: 'loadTree', data: location.state.templateData }, '*');
+  //     }, 100);
+
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [location]);
+
+  // function handleTemplateClick(data: any) {
+  //   // Navigate to the editing interface with template data in state
+  //   console.log('the template:', data);
+  //   navigate('/editing-interface', { state: { templateData: data } });
+  // }
+
   return (
     <div className={styles.templateContainer}>
       {templates.map((template) => (
-        <Link to="/templates" key={template.name} className={styles.cardLink}>
-          <Card className={`${styles[template.className as keyof typeof styles]}`} appearance='filled'>
+        <Link to="/editing-interface" state={{id: template.data.id, name: template.data.name, content: template.data.content}}key={template.name} className={styles.cardLink}>
+        <Card appearance='filled' 
+        // onClick={() => handleTemplateClick(template.data)}
+        >
           <div className={styles.borderBoxed}></div>
-            <div className={styles.textContainer}>
-              <Body2 className={styles.title}>{template.name}</Body2>
-              <div>
-              <Text className={styles.description}>{template.size}</Text>
-              </div>
-            </div>
-          </Card>
+          {/* <CardHeader image={loginImage} /> */}
+          <div className={styles.textContainer}>
+            <Body2 className={styles.title}>{template.name}</Body2>
+          </div>
+        </Card>
         </Link>
-        ))}
+      ))}
     </div>
-    );
+  );
 }
 
 export default TemplatesGrid;

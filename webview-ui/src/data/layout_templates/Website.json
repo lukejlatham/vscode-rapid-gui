@@ -1,0 +1,185 @@
+{
+    "ROOT": {
+        "type": {
+            "resolvedName": "Background"
+        },
+        "isCanvas": true,
+        "props": {
+            "rows": 5,
+            "columns": 4,
+            "lockedGrid": false,
+            "backgroundColor": "#292929",
+            "layout": [
+                {
+                    "w": 4,
+                    "h": 1,
+                    "x": 0,
+                    "y": 0,
+                    "i": "0",
+                    "moved": false,
+                    "static": false
+                },
+                {
+                    "w": 3,
+                    "h": 3,
+                    "x": 0,
+                    "y": 1,
+                    "i": "3",
+                    "moved": false,
+                    "static": false
+                },
+                {
+                    "w": 4,
+                    "h": 1,
+                    "x": 0,
+                    "y": 4,
+                    "i": "4",
+                    "moved": false,
+                    "static": false
+                },
+                {
+                    "w": 1,
+                    "h": 3,
+                    "x": 3,
+                    "y": 1,
+                    "i": "5",
+                    "moved": false,
+                    "static": false
+                }
+            ]
+        },
+        "displayName": "Background",
+        "custom": {},
+        "parent": null,
+        "hidden": false,
+        "nodes": [],
+        "linkedNodes": {
+            "0": "ls8TUam8O6",
+            "1": "LofQA1t8Kv",
+            "2": "DWHARKlVly",
+            "3": "aupopxlMqk",
+            "4": "_Ht4PFqCh9",
+            "5": "aRdxvIRFCV"
+        }
+    },
+    "ls8TUam8O6": {
+        "type": {
+            "resolvedName": "GridCell"
+        },
+        "isCanvas": true,
+        "props": {
+            "justifyContent": "center",
+            "flexDirection": "row",
+            "alignItems": "center",
+            "gap": 10
+        },
+        "displayName": "Grid Cell",
+        "custom": {
+            "id": "0"
+        },
+        "parent": "ROOT",
+        "hidden": false,
+        "nodes": [],
+        "linkedNodes": {}
+    },
+    "LofQA1t8Kv": {
+        "type": {
+            "resolvedName": "GridCell"
+        },
+        "isCanvas": true,
+        "props": {
+            "justifyContent": "center",
+            "flexDirection": "column",
+            "alignItems": "center",
+            "gap": 10
+        },
+        "displayName": "Grid Cell",
+        "custom": {
+            "id": "1"
+        },
+        "parent": "ROOT",
+        "hidden": false,
+        "nodes": [],
+        "linkedNodes": {}
+    },
+    "DWHARKlVly": {
+        "type": {
+            "resolvedName": "GridCell"
+        },
+        "isCanvas": true,
+        "props": {
+            "justifyContent": "center",
+            "flexDirection": "column",
+            "alignItems": "center",
+            "gap": 10
+        },
+        "displayName": "Grid Cell",
+        "custom": {
+            "id": "2"
+        },
+        "parent": "ROOT",
+        "hidden": false,
+        "nodes": [],
+        "linkedNodes": {}
+    },
+    "aupopxlMqk": {
+        "type": {
+            "resolvedName": "GridCell"
+        },
+        "isCanvas": true,
+        "props": {
+            "justifyContent": "flex-start",
+            "flexDirection": "column",
+            "alignItems": "center",
+            "gap": 10
+        },
+        "displayName": "Grid Cell",
+        "custom": {
+            "id": "3"
+        },
+        "parent": "ROOT",
+        "hidden": false,
+        "nodes": [],
+        "linkedNodes": {}
+    },
+    "_Ht4PFqCh9": {
+        "type": {
+            "resolvedName": "GridCell"
+        },
+        "isCanvas": true,
+        "props": {
+            "justifyContent": "center",
+            "flexDirection": "row",
+            "alignItems": "center",
+            "gap": 10
+        },
+        "displayName": "Grid Cell",
+        "custom": {
+            "id": "4"
+        },
+        "parent": "ROOT",
+        "hidden": false,
+        "nodes": [],
+        "linkedNodes": {}
+    },
+    "aRdxvIRFCV": {
+        "type": {
+            "resolvedName": "GridCell"
+        },
+        "isCanvas": true,
+        "props": {
+            "justifyContent": "space-between",
+            "flexDirection": "column",
+            "alignItems": "center",
+            "gap": 10
+        },
+        "displayName": "Grid Cell",
+        "custom": {
+            "id": "5"
+        },
+        "parent": "ROOT",
+        "hidden": false,
+        "nodes": [],
+        "linkedNodes": {}
+    }
+}
