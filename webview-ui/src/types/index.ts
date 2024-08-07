@@ -450,23 +450,19 @@ export const generateIconSchema = z.object({
 
 const sectionSchema = z.object({
   section: z.string(),
-  props: z
-    .object({
-      xPosition: z.number().int().max(10),
-      yPosition: z.number().int().max(10),
-      width: z.number().int().max(10),
-      height: z.number().int().max(10),
-      backgroundColor: ColorEnum.describe("Use accent colors for headers and footers."),
-    })
-    .transform((props) => ({
-      ...props,
-      flexDirection: props.width > props.height ? "row" : "column",
-    })),
-  contents: z.string(),
+  props: z.object({
+    xPosition: z.number().int().max(10),
+    yPosition: z.number().int().max(10),
+    width: z.number().int().max(10),
+    height: z.number().int().max(10),
+    backgroundColor: ColorEnum.describe("Use accent colors for headers and footers."),
+    flexDirection: z.enum(["row", "column"]).describe("Column if height > width, row otherwise."),
+  }),
+  contents: z.string().describe("Detailed description of the sections purpose/contents."),
 });
 
 export const layoutSchema = z.object({
-  sections: z.array(sectionSchema).max(6),
+  sections: z.array(sectionSchema).max(5),
 });
 
 // Used in convertLayoutToNodes.ts
@@ -495,7 +491,7 @@ export const fullSectionSchema = z.object({
     flexDirection: z.enum(["row", "column"]),
     backgroundColor: ColorEnum,
   }),
-  children: z.array(generatedFullElements),
+  children: z.array(generatedFullElements).max(5),
 });
 
 export const fullLayoutSchema = z.array(fullSectionSchema).max(6);
