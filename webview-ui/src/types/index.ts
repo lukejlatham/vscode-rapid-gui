@@ -328,6 +328,7 @@ export const generatedElements = z.object({
     "Slider",
     "Dropdown",
   ]),
+  DescriptiveName: z.string(),
 });
 
 export const generatedSectionChildren = z.object({
