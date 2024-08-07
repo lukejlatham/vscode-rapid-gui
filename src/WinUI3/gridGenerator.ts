@@ -8,7 +8,11 @@ export function generateGridXaml(page: Page): string {
   let xaml = `<Grid x:Name="RootGrid" Background="${rootNode.props.backgroundColor}">\n`;
 
   xaml += generateGridDefinitions(rootNode.props.rows, rootNode.props.columns);
-  xaml += generateGridContent(page.content, rootNode.props.layout || [], "");
+  xaml += generateGridContent(
+    page.content as { [key: string]: Node },
+    rootNode.props.layout || [],
+    "  "
+  );
 
   xaml += "</Grid>\n";
   return xaml;
