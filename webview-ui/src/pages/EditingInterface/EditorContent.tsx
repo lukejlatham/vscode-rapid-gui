@@ -1,8 +1,8 @@
-import { Page } from '../../../../types';
+import { Page } from '../../types';
 import RightSidebar from './RightSidebar/RightSidebar';
 import Canvas from './Canvas';
 import LeftSidebar from './LeftSidebar/LeftSidebar';
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { SerializedNodes, useEditor } from '@craftjs/core';
 import { Button, Select } from '@fluentui/react-components';
 import { RenamePageDialog } from '../../components/RenamePageDialog';
@@ -45,23 +45,30 @@ export const EditorContent: React.FC<EditorContentProps> = ({
         }
     }, [currentPageIndex, pages, actions]);
 
-    const updateCurrentPage = () => {
+
+    const updateCurrentPage = useCallback(() => {
         try {
             const serializedState = query.serialize();
+            console.log('Current index:', currentPageIndex);
             setPages(prevPages => prevPages.map((page, index) =>
                 index === currentPageIndex
-                    ? { ...page, content: JSON.parse(serializedState) as SerializedNodes }
+                    ? {...page, content: JSON.parse(serializedState) as SerializedNodes }
                     : page
             ));
+            console.log('updated page: ', currentPageIndex);
+            console.log('updated page content: ', serializedState);
+            
         } catch (error) {
             console.error('Error updating current page:', error);
         }
-    };
+    }, [currentPageIndex, query, setPages]);
+
+
 
     return (
         <div className={classes.mainLayout}>
             <div className={classes.leftSidebar}>
-                <LeftSidebar classes={classes} />
+                <LeftSidebar classes={classes} pages={pages} setPages={setPages} currentPageIndex={currentPageIndex}/>
             </div>
             <div className={classes.mainContent}>
                 <div className={classes.pageNavigation}>
@@ -81,12 +88,14 @@ export const EditorContent: React.FC<EditorContentProps> = ({
                         icon={<DocumentOnePageAddRegular />}
                         size='large'
                         onClick={() => {
+                            updateCurrentPage(); // Save current page before adding new
                             addPage();
                         }}
                     >
                         Add
                     </Button>
                     <RenamePageDialog
+                        onUpdate={updateCurrentPage}
                         currentPageName={pages[currentPageIndex].name}
                         onRename={(newName: string) => {
                             renamePage(currentPageIndex, newName);

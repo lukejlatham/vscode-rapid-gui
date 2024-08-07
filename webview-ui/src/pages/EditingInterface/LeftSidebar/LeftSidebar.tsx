@@ -3,6 +3,7 @@ import { makeStyles, Divider, Subtitle2, Card } from "@fluentui/react-components
 import Header from './Header';
 import ComponentButtons from './ComponentButtons';
 import ProjectManagement from './ProjectManagementButtons';
+import { Page } from "../../../types";
 
 const useStyles = makeStyles({
     componentRoot: {
@@ -35,7 +36,7 @@ const useStyles = makeStyles({
     },
 });
 
-const LeftSidebar: React.FC<{ classes: any }> = ({ classes }) => {
+const LeftSidebar: React.FC<{ classes: any, pages: Page[], setPages: React.Dispatch<React.SetStateAction<Page[]>>, currentPageIndex: number;}> = ({ classes, pages, setPages, currentPageIndex }) => {
     const localClasses = useStyles();
 
     return (
@@ -44,7 +45,7 @@ const LeftSidebar: React.FC<{ classes: any }> = ({ classes }) => {
             <div className={localClasses.subtitleCentered}><Subtitle2>Component Library</Subtitle2></div>
             <Divider className={localClasses.divider} />
             <ComponentButtons classes={localClasses} />
-            <ProjectManagement classes={localClasses} />
+            <ProjectManagement classes={localClasses} pages={pages} setPages={setPages} currentPageIndex={currentPageIndex}/>
         </Card>
     );
 };

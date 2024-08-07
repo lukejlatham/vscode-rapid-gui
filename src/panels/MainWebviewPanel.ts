@@ -158,10 +158,12 @@ export class MainWebviewPanel {
             window.showInformationMessage("Azure API keys received.");
             return;
           case "saveFile":
-            await handleFileSave(message.content, this._context);
+            await handleFileSave(message.contents, message.fileNames, this._context);
             return;
           case "loadFile":
-            await handleFileLoad(this._context, webview);
+            await handleFileLoad(this._context, 
+              // message.fileName, 
+              webview);
             return;
           case "processSketch":
             const sketchDescription = await processSketch(message.content, this._context, webview);
@@ -173,7 +175,7 @@ export class MainWebviewPanel {
               this._context,
               webview
             );
-            webview.postMessage({ command: "textDescriptionProcessed", textDescription });
+            webview.postMessage({ command: "textDescriptionProcessed", content: textDescription });
             return;
           case "aiUserMessage":
             const updatedMessages = await processCopilotMessages(message.content, this._context);

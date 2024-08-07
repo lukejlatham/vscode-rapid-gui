@@ -151,7 +151,6 @@ export async function getNodesWithProperties(
   const instructor = Instructor({
     client: client,
     mode: "TOOLS",
-    debug: true,
   });
 
   try {

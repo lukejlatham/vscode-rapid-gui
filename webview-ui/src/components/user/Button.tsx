@@ -55,8 +55,9 @@ export const Button: UserComponent<ButtonProps> = (props) => {
 }
 
 export const ButtonDefaultProps: ButtonProps = {
-    backgroundColor: "#292929",
+    backgroundColor: "#778899",
     fontColor: "#FFFFFF",
+    displayName: "Button",
     fontSize: 20,
     borderRadius: 4,
     text: "New Button",

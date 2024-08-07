@@ -1,11 +1,17 @@
 import * as vscode from "vscode";
 import { getAzureOpenaiApiKeys } from "../utilities/azureApiKeyStorage";
 import { getLayout } from "./getLayoutOpenai";
-import { buildLayoutNodes } from "./buildLayoutNodes";
-import { buildChildNodes } from "./buildChildNodes";
+import { buildLayoutNodes } from "./convertLayoutToNodes";
+import { getSectionChildren } from "./getSectionChildrenOpenai";
+import {
+  generateSectionChildrenSchema,
+  generateSectionChildrenFullSchema,
+} from "./createZodSchema";
+import { getChildrenWithProps } from "./getSectionChildrenWithProps";
 
-async function processSketch(
-  sketch: string,
+async function processInput(
+  input: string,
+  inputType: "sketch" | "text",
   context: vscode.ExtensionContext,
   webview: vscode.Webview
 ) {
@@ -18,28 +24,66 @@ async function processSketch(
       apiEndpoint,
       apiKey,
       deploymentName,
-      "sketch",
-      undefined,
-      sketch
+      inputType,
+      inputType === "text" ? input : undefined,
+      inputType === "sketch" ? input : undefined
     );
 
-    console.log("processSketch in generateLayout.ts - Layout Response:", layout);
+    const parsedLayout = JSON.stringify(layout.sections);
+
+    console.log("Generated layout sections:", parsedLayout);
+
+    webview.postMessage({ command: "processingStage", stage: "Generating elements" });
+
+    const zodChildrenSchema = generateSectionChildrenSchema(layout.sections);
+
+    const children = await getSectionChildren(
+      apiEndpoint,
+      apiKey,
+      deploymentName,
+      parsedLayout,
+      zodChildrenSchema
+    );
 
     webview.postMessage({ command: "processingStage", stage: "Refining properties" });
 
-    const layoutNodes = buildLayoutNodes(layout);
+    const zodChildrenWithPropsSchema = generateSectionChildrenFullSchema(children.sections);
 
-    const childNodes = buildChildNodes(layout);
+    const parsedChildren = JSON.stringify(children.sections);
 
-    const fullNodes = { ...layoutNodes, ...childNodes };
+    console.log("Generated children sections:", parsedChildren);
 
-    const stringifiedNodes = JSON.stringify(fullNodes, null, 2);
+    const fullChildren = await getChildrenWithProps(
+      apiEndpoint,
+      apiKey,
+      deploymentName,
+      parsedLayout,
+      parsedChildren,
+      zodChildrenWithPropsSchema
+    );
 
-    return stringifiedNodes;
+    const parsedFullChildren = JSON.stringify(fullChildren.sections);
+
+    console.log("Generated full children sections with properties:", parsedFullChildren);
+
+    const layoutNodes = buildLayoutNodes(parsedLayout, parsedFullChildren);
+
+    console.log("Generated layout nodes:", layoutNodes);
+
+    return layoutNodes;
   } catch (error) {
-    console.error("Error processing sketch:", error);
+    console.error("Error processing input:", error);
+    webview.postMessage({ command: "processingStage", stage: "Error occurred during processing" });
     throw error;
   }
+}
+
+async function processSketch(
+  sketch: string,
+  context: vscode.ExtensionContext,
+  webview: vscode.Webview
+) {
+  return processInput(sketch, "sketch", context, webview);
 }
 
 async function processTextDescription(
@@ -47,36 +91,7 @@ async function processTextDescription(
   context: vscode.ExtensionContext,
   webview: vscode.Webview
 ) {
-  try {
-    const { apiKey, apiEndpoint, deploymentName } = await getAzureOpenaiApiKeys(context);
-
-    const layout = await getLayout(
-      apiEndpoint,
-      apiKey,
-      deploymentName,
-      "text",
-      textDescription,
-      undefined
-    );
-
-    const layoutNodes = buildLayoutNodes(layout);
-
-    webview.postMessage({ command: "processingStage", stage: "Generating layout" });
-
-    const childNodes = buildChildNodes(layout);
-
-    webview.postMessage({ command: "processingStage", stage: "Refining properties" });
-
-    const fullNodes = { ...layoutNodes, ...childNodes };
-
-    const stringifiedNodes = JSON.stringify(fullNodes, null, 2);
-
-    return stringifiedNodes;
-  } catch (error) {
-    console.error("Error processing text description:", error);
-    webview.postMessage({ command: "processingStage", stage: "Error occurred during processing" });
-    throw error;
-  }
+  return processInput(textDescription, "text", context, webview);
 }
 
 export { processSketch, processTextDescription };

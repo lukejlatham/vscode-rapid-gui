@@ -2,6 +2,7 @@
 import * as VscIcons from "react-icons/vsc";
 import { z } from "zod";
 import { SerializedNodes } from "@craftjs/core";
+import { max, min } from "lodash";
 
 type VscIconKeys = keyof typeof VscIcons;
 
@@ -9,16 +10,17 @@ type IconType = VscIconKeys | "none" | "left" | "right";
 
 export const backgroundSchema = z.object({
   backgroundColor: z.string().default("#292929"),
-  layout: z.array(z.any()).default([{ i: '0', x: 0, y: 0, w: 1, h: 1 },
-    { i: '1', x: 1, y: 0, w: 1, h: 1 },
-    { i: '2', x: 2, y: 0, w: 1, h: 1 },
-    { i: '3', x: 0, y: 1, w: 1, h: 1 },
-    { i: '4', x: 1, y: 1, w: 1, h: 1 },
-    { i: '5', x: 2, y: 1, w: 1, h: 1 },
+  layout: z.array(z.any()).default([
+    { i: "0", x: 0, y: 0, w: 1, h: 1 },
+    { i: "1", x: 1, y: 0, w: 1, h: 1 },
+    { i: "2", x: 2, y: 0, w: 1, h: 1 },
+    { i: "3", x: 0, y: 1, w: 1, h: 1 },
+    { i: "4", x: 1, y: 1, w: 1, h: 1 },
+    { i: "5", x: 2, y: 1, w: 1, h: 1 },
   ]),
   rows: z.number().default(3),
   columns: z.number().default(3),
-  lockedGrid: z.boolean().default(false),
+  lockedGrid: z.boolean().default(true),
   additionalProps: z
     .record(z.union([z.string(), z.number(), z.boolean(), z.array(z.any())]))
     .optional(),
@@ -28,40 +30,27 @@ export const backgroundSchema = z.object({
 export type BackgroundProps = z.infer<typeof backgroundSchema>;
 
 export const buttonSchema = z.object({
-  backgroundColor: z.string().default("white"),
-  fontSize: z.number().default(14),
-  fontColor: z.string().default("black"),
+  backgroundColor: z.string().default("lightslategrey"),
+  fontSize: z.number().default(16),
+  fontColor: z.string().default("white"),
   borderRadius: z.number().default(4),
-  width: z.number().default(100),
-  height: z.number().default(40),
+  width: z.number().default(80),
+  height: z.number().default(60),
   text: z.string().default("Button"),
   alignment: z.enum(["left", "center", "right"]).default("center"),
-  displayName: z.string().optional(),
+  displayName: z.string().optional().default("Button"),
   icon: z
     .union([z.enum(["none", "left", "right"]), z.string().refine((val) => val in VscIcons)])
     .optional(),
-  bordercolor: z.string().optional(),
-  shadowColor: z.string().optional(),
-  shadowOffsetX: z.number().optional(),
-  shadowOffsetY: z.number().optional(),
-  shadowBlur: z.number().optional(),
+  bordercolor: z.string().optional().default("white"),
+  shadowColor: z.string().optional().default("black"),
+  shadowOffsetX: z.number().optional().default(1),
+  shadowOffsetY: z.number().optional().default(1),
+  shadowBlur: z.number().optional().default(3),
   hyperlink: z.string().optional(),
 });
 
-
 export type ButtonProps = z.infer<typeof buttonSchema>;
-
-export const generateButtonSchema = z.object({
-  width: z.number().default(100),
-  height: z.number().default(40),
-  text: z.string().default("Button"),
-  icon: z
-    .string()
-    .refine((val) => val in VscIcons)
-    .optional() as z.ZodType<VscIconKeys | undefined>,
-});
-
-export type GenerateButtonProps = z.infer<typeof generateButtonSchema>;
 
 export const checkboxSchema = z.object({
   header: z.string().default("Checkbox Header"),
@@ -74,61 +63,51 @@ export const checkboxSchema = z.object({
 
 export type CheckboxProps = z.infer<typeof checkboxSchema>;
 
-export const generateCheckboxSchema = checkboxSchema.pick({
-  header: true,
-  optionLabels: true,
-  numberOfBoxes: true,
-  direction: true,
-});
-
-export type GenerateCheckboxProps = z.infer<typeof generateCheckboxSchema>;
-
 export const containerSchema = z.object({
-  height: z.number().default(200),
-  width: z.number().default(300),
+  height: z.number().default(100),
+  width: z.number().default(100),
   flexDirection: z.enum(["row", "column"]).default("row").optional(),
   justifyContent: z
     .enum(["flex-start", "center", "flex-end", "space-between", "space-around"])
-    .default("flex-start")
-    .optional(),
-  alignItems: z.enum(["flex-start", "center", "flex-end"]).default("flex-start").optional(),
-  gap: z.number().default(0).optional(),
-  backgroundColor: z.string().default("white"),
-  borderRadius: z.number().default(4),
-  borderColor: z.string().default("black"),
-  padding: z.number().default(10),
-  shadowColor: z.string().optional(),
-  shadowOffsetX: z.number().optional(),
-  shadowOffsetY: z.number().optional(),
-  shadowBlur: z.number().optional(),
+    .optional()
+    .default("space-around"),
+  alignItems: z.enum(["flex-start", "center", "flex-end"]).optional().default("center"),
+  gap: z.number().optional().default(10),
+  backgroundColor: z.string().default("ghostwhite"),
+  borderRadius: z.number().default(5),
+  borderColor: z.string().optional().default("black"),
+  padding: z.number().default(0),
+  shadowColor: z.string().optional().default("black"),
+  shadowOffsetX: z.number().optional().default(1),
+  shadowOffsetY: z.number().optional().default(1),
+  shadowBlur: z.number().optional().default(3),
   children: z.any().optional(),
 });
 
 export type ContainerProps = z.infer<typeof containerSchema>;
 
 export const gridCellSchema = z.object({
-  id: z.string().optional(),
   children: z.any().optional(),
-  flexDirection: z.enum(["row", "column"]).optional(),
+  flexDirection: z.enum(["row", "column"]).optional().default("row"),
   justifyContent: z
     .enum(["flex-start", "center", "flex-end", "space-between", "space-around"])
-    .optional(),
-  alignItems: z.enum(["flex-start", "center", "flex-end"]).optional(),
-  gap: z.number().optional(),
+    .optional()
+    .default("center"),
+  alignItems: z.enum(["flex-start", "center", "flex-end"]).optional().default("center"),
+  gap: z.number().optional().default(10),
 });
+
+export const dropdownSchema = z.object({
+  header: z.string().default("Dropdown Header"),
+  optionLabels: z.array(z.string()).default([]),
+  numberOfOptions: z.number().default(1),
+  fontSize: z.number().default(14),
+  fontColor: z.string().default("black"),
+});
+
+export type DropdownProps = z.infer<typeof dropdownSchema>;
 
 export type GridCellProps = z.infer<typeof gridCellSchema>;
-
-export const generateContainerSchema = containerSchema.pick({
-  height: true,
-  width: true,
-  flexDirection: true,
-  justifyContent: true,
-  alignItems: true,
-  gap: true,
-});
-
-export type GenerateContainerProps = z.infer<typeof generateContainerSchema>;
 
 export const inputSchema = z.object({
   fontSize: z.number().default(14),
@@ -140,39 +119,23 @@ export const inputSchema = z.object({
 
 export type InputProps = z.infer<typeof inputSchema>;
 
-export const generateInputSchema = inputSchema.pick({
-  placeholder: true,
-});
-
-export type GenerateInputProps = z.infer<typeof generateInputSchema>;
-
 export const labelSchema = z.object({
   text: z.string().default("Label"),
-  fontSize: z.number().default(14),
-  fontcolor: z.string().default("black"),
-  userEditable: z.boolean().default(true).optional(),
+  fontSize: z.number().default(22),
+  fontColor: z.string().default("black"),
+  userEditable: z.boolean().optional().default(true),
   textAlign: z.enum(["left", "center", "right", "justify"]).default("left"),
   icon: z
     .union([z.enum(["none", "left", "right"]), z.string().refine((val) => val in VscIcons)])
-    .optional(),
-  hyperlink: z.string().optional(),
-  bold: z.boolean().default(false).optional(),
-  italic: z.boolean().default(false).optional(),
-  underline: z.boolean().default(false).optional(),
+    .optional()
+    .default("none"),
+  hyperlink: z.string().optional().default(""),
+  bold: z.boolean().optional().default(true),
+  italic: z.boolean().optional().default(false),
+  underline: z.boolean().optional().default(false),
 });
 
 export type LabelProps = z.infer<typeof labelSchema>;
-
-export const generateLabelSchema = labelSchema.pick({
-  text: true,
-  hyperlink: true,
-  textAlign: true,
-  bold: true,
-  italic: true,
-  underline: true,
-});
-
-export type GenerateLabelProps = z.infer<typeof generateLabelSchema>;
 
 export const radioButtonSchema = z.object({
   header: z.string().default("Radio Button Header"),
@@ -185,14 +148,18 @@ export const radioButtonSchema = z.object({
 
 export type RadioButtonProps = z.infer<typeof radioButtonSchema>;
 
-export const generateRadioButtonSchema = radioButtonSchema.pick({
-  header: true,
-  optionLabels: true,
-  numberOfButtons: true,
-  direction: true,
+export const sliderSchema = z.object({
+  header: z.string().default("Slider"),
+  min: z.number().default(0),
+  max: z.number().default(100),
+  step: z.number().default(1),
+  fontSize: z.number().default(14),
+  fontColor: z.string().default("black"),
+  sliderColor: z.string().default("red"),
 });
 
-export type GenerateRadioButtonProps = z.infer<typeof generateRadioButtonSchema>;
+export type SliderProps = z.infer<typeof sliderSchema>;
+
 
 export const textBoxSchema = z.object({
   text: z.string().default("Text Box"),
@@ -202,92 +169,51 @@ export const textBoxSchema = z.object({
   placeholder: z.string().default("Enter text"),
   borderRadius: z.number().default(4),
   height: z.number().default(100),
-  width: z.number().default(200),
+  width: z.number().default(100),
   alignment: z.enum(["left", "center", "right"]).default("left"),
 });
 
 export type TextBoxProps = z.infer<typeof textBoxSchema>;
 
-export const generateTextBoxSchema = textBoxSchema.pick({
-  text: true,
-  placeholder: true,
-  alignment: true,
-});
-
-export type GenerateTextBoxProps = z.infer<typeof generateTextBoxSchema>;
-
 export const iconSchema = z.object({
-  selectedIcon: z.string().refine((val) => val in VscIcons) as z.ZodType<VscIconKeys>,
-  iconSize: z.number().default(24).optional(),
-  iconColor: z.string().default("black").optional(),
-  hyperlink: z.string().optional(),
+  selectedIcon: z
+    .string()
+    .refine((val) => val in VscIcons)
+    .optional() as z.ZodType<VscIconKeys>,
+  iconSize: z.number().optional().default(24),
+  iconColor: z.string().optional().default("lightslategrey"),
+  hyperlink: z.string().optional().default(""),
 });
 
 export type IconProps = z.infer<typeof iconSchema>;
 
 export const imageSchema = z.object({
-  src: z.string().default("https://via.placeholder.com/150"),
-  alt: z.string().default("Image"),
-  width: z.number().default(150),
-  height: z.number().default(150),
+  src: z
+    .string()
+    .default(
+      "https://media.licdn.com/dms/image/D4E22AQGL4EZgEpG2ag/feedshare-shrink_800/0/1719580422738?e=2147483647&v=beta&t=Nj786KjutiTxei_wgDDM40hcWFi5_-qqBIKM4jOa3Hc"
+    ),
+  alt: z.string().default("New image"),
+  width: z.number().default(100),
+  height: z.number().default(100),
   alignment: z.enum(["left", "center", "right"]).optional(),
 });
 
 export type ImageProps = z.infer<typeof imageSchema>;
 
-export const generateImageSchema = imageSchema.pick({
-  src: true,
-  alt: true,
-  width: true,
-  height: true,
-  alignment: true,
-});
-
-export type GenerateImageProps = z.infer<typeof generateImageSchema>;
-
-export const cardContainerSchema = z.object({
-  color: z.string().default("white"),
-  height: z.number().default(200),
-  width: z.number().default(300),
-  flexDirection: z.enum(["row", "column"]).optional(),
-  justifyContent: z
-    .enum(["flex-start", "center", "flex-end", "space-between", "space-around"])
-    .optional(),
-  alignItems: z.enum(["flex-start", "center", "flex-end"]).optional(),
-  gap: z.number().default(0).optional(),
-  backgroundColor: z.string().default("white"),
-  borderRadius: z.number().default(4),
-  bordercolor: z.string().default("black"),
-  padding: z.number().default(10),
-  shadow: z.boolean().default(false),
-});
-
-export type CardContainerProps = z.infer<typeof cardContainerSchema>;
-
 export const textSchema = z.object({
-  text: z.string().default("Text"),
+  text: z.string().default("Here is some text"),
   fontSize: z.number().default(14),
   fontColor: z.string().default("black"),
   textAlign: z.enum(["left", "center", "right", "justify"]).default("left"),
   bold: z.boolean().optional().default(false),
   italic: z.boolean().optional().default(false),
   underline: z.boolean().optional().default(false),
-  hyperlink: z.string().optional(),
+  hyperlink: z.string().optional().default(""),
   userEditable: z.boolean().optional().default(true),
 });
 
 export type TextProps = z.infer<typeof textSchema>;
-
-export const generateTextSchema = textSchema.pick({
-  text: true,
-  hyperlink: true,
-  textAlign: true,
-  bold: true,
-  italic: true,
-  underline: true,
-});
-
-export type GenerateTextProps = z.infer<typeof generateTextSchema>;
 
 export interface ContentEditableEvent {
   target: { value: string };
@@ -335,6 +261,13 @@ export type TooltipConfigRadio = {
   type: "color" | "spinButton" | "text" | "options" | "direction";
 };
 
+export type TooltipConfigDropdown = {
+  label: string;
+  content: string;
+  propKey: keyof DropdownProps;
+  type: "color" | "spinButton" | "text" | "options";
+};
+
 export type TooltipConfigText = {
   label: string;
   content: string;
@@ -363,6 +296,13 @@ export interface TooltipConfigContainer {
   type: "color" | "spinButton" | "text" | "justifyContent" | "alignItems" | "direction";
 }
 
+export interface TooltipConfigSlider {
+  label: string;
+  content: string;
+  propKey: keyof SliderProps;
+  type: "color" | "spinButton" | "text" ;
+}
+
 export interface Page {
   id: string;
   name: string;
@@ -372,3 +312,218 @@ export interface Page {
 export interface CanvasProps {
   classes: any;
 }
+
+// Used in getSectionChildrenOpenai.ts
+
+export const generatedElements = z.object({
+  type: z.enum([
+    "Button",
+    "Label",
+    "Image",
+    "TextBox",
+    "RadioButton",
+    "Checkbox",
+    "Input",
+    "Text",
+    "Icon",
+  ]),
+  description: z.string(),
+});
+
+export const generatedSectionChildren = z.object({
+  section: z.string(),
+  children: z.array(generatedElements).max(8),
+});
+
+export const generatedAllSectionsChildren = z.object({
+  sections: z.array(generatedSectionChildren).max(5),
+});
+
+// Used in getSectionChildrenWithProps.ts
+
+export const generateButtonSchema = z.object({
+  type: z.literal("Button"),
+  props: z.object({
+    width: z.number().int().max(80),
+    height: z.number().int().max(80),
+    text: z.string().default("Button"),
+  }),
+});
+
+export const generateCheckboxSchema = z.object({
+  type: z.literal("Checkbox"),
+  props: z.object({
+    optionLabels: z.array(z.string()).default([]),
+    numberOfBoxes: z.number().default(2),
+    direction: z.enum(["row", "column"]).default("row"),
+  }),
+});
+
+export const generateInputSchema = z.object({
+  type: z.literal("Input"),
+  props: z.object({
+    placeholder: z.string().default("Enter text"),
+  }),
+});
+
+export const generateLabelSchema = z.object({
+  type: z.literal("Label"),
+  props: z.object({
+    text: z.string().default("Header"),
+    bold: z.boolean().default(true),
+    italic: z.boolean().default(false),
+    underline: z.boolean().default(false),
+  }),
+});
+
+export const generateRadioButtonSchema = z.object({
+  type: z.literal("RadioButton"),
+  props: z.object({
+    header: z.string().default("Radio Button Header"),
+    numberOfButtons: z.number().default(2),
+    optionLabels: z
+      .array(z.string())
+      .default([])
+      .describe("Array of strings for each radio button"),
+    direction: z.enum(["row", "column"]).default("row"),
+  }),
+});
+
+export const generateImageSchema = z.object({
+  type: z.literal("Image"),
+  props: z.object({
+    alt: z.string().default("Image"),
+    width: z.number().int().max(100),
+    height: z.number().int().max(100),
+  }),
+});
+
+export const generateTextBoxSchema = z.object({
+  type: z.literal("TextBox"),
+  props: z.object({
+    text: z.string().default("Text Box"),
+    width: z.number().int().max(100),
+    height: z.number().int().max(100),
+  }),
+});
+
+export const generateTextSchema = z.object({
+  type: z.literal("Text"),
+  props: z.object({
+    text: z.string().default("Text"),
+  }),
+});
+
+export type GenerateTextProps = z.infer<typeof generateTextSchema>;
+
+export const generateIconSchema = z.object({
+  type: z.literal("Icon"),
+  props: z.object({
+    selectedIcon: z
+      .enum([
+        "VscAdd",
+        "VscEdit",
+        "VscTrash",
+        "VscSearch",
+        "VscSave",
+        "VscHome",
+        "VscSettingsGear",
+        "VscInfo",
+      ])
+      .default("VscAdd"),
+    iconSize: z.number().default(24),
+  }),
+});
+
+// Used in convertLayoutToNodes.ts
+
+export const generatedFullElements = z.union([
+  generateButtonSchema,
+  generateCheckboxSchema,
+  generateIconSchema,
+  generateInputSchema,
+  generateLabelSchema,
+  generateRadioButtonSchema,
+  generateTextBoxSchema,
+  generateTextSchema,
+  generateImageSchema,
+  generateInputSchema,
+]);
+
+export const fullSectionSchema = z.object({
+  section: z.string(),
+  props: z.object({
+    xPosition: z.number().int().max(10),
+    yPosition: z.number().int().max(10),
+    width: z.number().int().max(10),
+    height: z.number().int().max(10),
+    flexDirection: z.enum(["row", "column"]),
+    backgroundColor: z.enum(["ghostwhite", "lightslategray"]).default("ghostwhite"),
+  }),
+  children: z.array(generatedFullElements),
+});
+
+export const fullLayoutSchema = z.array(fullSectionSchema).max(5);
+
+export const sectionSchema = z.object({
+  section: z.string(),
+  props: z.object({
+    xPosition: z.number().int().max(10),
+    yPosition: z.number().int().max(10),
+    width: z.number().int().max(10),
+    height: z.number().int().max(10),
+    flexDirection: z.enum(["row", "column"]).describe("Row if width > height, column otherwise."),
+    backgroundColor: z.enum(["ghostwhite", "lightslategray"]).default("ghostwhite"),
+  }),
+  contents: z.string().describe("Give a detailed description of the section over 3 lines."),
+});
+
+export const layoutSchema = z.object({
+  sections: z.array(sectionSchema).max(5),
+});
+
+export const backgroundNodeLayout = z.object({
+  w: z.number().int(),
+  h: z.number().int(),
+  x: z.number().int(),
+  y: z.number().int(),
+  i: z.string(),
+  moved: z.boolean().default(false),
+  static: z.boolean().default(false),
+  maxW: z.number().int().optional(),
+  maxH: z.number().int().optional(),
+});
+
+export const nodeTreeRootSchema = z.object({
+  type: z.object({
+    resolvedName: z.string(),
+  }),
+  isCanvas: z.boolean(),
+  props: z.object({
+    rows: z.number().int(),
+    columns: z.number().int(),
+    lockedGrid: z.boolean(),
+    backgroundColor: z.string(),
+    layout: z.array(backgroundNodeLayout),
+  }),
+  displayName: z.string(),
+  custom: z.record(z.any()),
+  parent: z.undefined(),
+  hidden: z.boolean(),
+  nodes: z.array(z.string()),
+  linkedNodes: z.record(z.string()),
+});
+
+export const craftjsNodeSchema = z.object({
+  type: z.object({
+    resolvedName: z.string(),
+  }),
+  isCanvas: z.boolean(),
+  props: z.record(z.string(), z.any()),
+  displayName: z.string(),
+  custom: z.record(z.any()),
+  hidden: z.boolean(),
+  nodes: z.array(z.string()),
+  linkedNodes: z.record(z.string()),
+  parent: z.string(),
+});

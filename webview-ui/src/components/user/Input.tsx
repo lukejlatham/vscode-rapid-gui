@@ -2,7 +2,7 @@ import {useNode, UserComponent} from '@craftjs/core';
 import {InputProps, inputSchema} from '../../types';
 import { InputSettings } from './Settings/InputSettings';
 
-export const UserInput: UserComponent<InputProps> = (props) => {
+export const Input: UserComponent<InputProps> = (props) => {
     const validatedProps = inputSchema.parse(props);
     const { fontSize, fontColor, backgroundColor, placeholder, borderRadius } = validatedProps;
     
@@ -35,10 +35,10 @@ export const InputDefaultProps: InputProps = {
     fontColor: '#000000',
     backgroundColor: '#FFFFFF',
     placeholder: 'Enter text here...',
-    borderRadius: 2,
+    borderRadius: 4,
 };
 
-UserInput.craft = {
+Input.craft = {
     displayName: 'Input',
     props: InputDefaultProps,
     related: {

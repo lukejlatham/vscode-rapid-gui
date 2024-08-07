@@ -5,7 +5,7 @@ import { makeStyles } from '@fluentui/react-components';
 import { TextBox } from '../../components/user/TextBox';
 import { Image } from '../../components/user/Image';
 import { Background } from '../../components/user/Background';
-import { UserInput } from "../../components/user/Input";
+import { Input } from "../../components/user/Input";
 import { RadioButton } from "../../components/user/RadioButton";
 import { Checkbox } from "../../components/user/Checkbox";
 import { Icon } from "../../components/user/Icon";
@@ -13,6 +13,8 @@ import { GridCell } from "../../components/user/GridCell";
 import { Container } from "../../components/user/Container";
 import { EditBackgroundButton } from "../../components/EditBackgroundButton";
 import { Text } from "../../components/user/Text";
+import { Dropdown } from "../../components/user/Dropdown";
+import { Slider } from "../../components/user/Slider";
 import { Page } from "../../types";
 import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from 'uuid';
@@ -58,7 +60,7 @@ const useStyles = makeStyles({
     },
 });
 
-const LOCAL_STORAGE_KEY = 'dragDropEditorPages';
+const LOCAL_STORAGE_KEY = 'userPages';
 
 const createDefaultPage = (): Page => ({
     id: uuidv4(),
@@ -85,39 +87,41 @@ const EditingInterface: React.FC = () => {
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-        const loadPages = () => {
-          try {
-            const storedPages = localStorage.getItem(LOCAL_STORAGE_KEY);
-            if (storedPages) {
-              const parsedPages = JSON.parse(storedPages);
-              if (Array.isArray(parsedPages) && parsedPages.length > 0) {
-                setPages(parsedPages);
-              } else {
-                console.warn('Stored pages were in an unexpected format. Creating a default page.');
-                setPages([createDefaultPage()]);
-              }
-            } else {
-              console.log('No stored pages found. Creating a default page.');
-              setPages([createDefaultPage()]);
-            }
-          } catch (error) {
-            console.error('Error loading pages:', error);
-            setPages([createDefaultPage()]);
-          } finally {
-            setIsLoading(false);
-          }
-        };
+    // useEffect(() => {
+    //     const loadPages = () => {
+    //       try {
+    //         const storedPages = localStorage.getItem(LOCAL_STORAGE_KEY);
+    //         if (storedPages) {
+    //           console.log('Stored pages: ', storedPages);
+    //           const parsedPages = JSON.parse(storedPages);
+    //           console.log('Parsed pages: ', parsedPages);
+    //           if (Array.isArray(parsedPages) && parsedPages.length > 0) {
+    //             setPages(parsedPages);
+    //           } else {
+    //             console.warn('Stored pages were in an unexpected format. Creating a default page.');
+    //             setPages([createDefaultPage()]);
+    //           }
+    //         } else {
+    //           console.log('No stored pages found. Creating a default page.');
+    //           setPages([createDefaultPage()]);
+    //         }
+    //       } catch (error) {
+    //         console.error('Error loading pages:', error);
+    //         setPages([createDefaultPage()]);
+    //       } finally {
+    //         setIsLoading(false);
+    //       }
+    //     };
     
-        loadPages();
-      }, []);
+    //     loadPages();
+    //   }, []);
     
 
-      useEffect(() => {
-        if (!isLoading) {
-          localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(pages));
-        }
-      }, [pages, isLoading]);
+      // useEffect(() => {
+      //   if (!isLoading) {
+      //     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(pages));
+      //   }
+      // }, [pages, isLoading]);
 
       const addPage = () => {
         const newPage = createDefaultPage();
@@ -137,14 +141,13 @@ const EditingInterface: React.FC = () => {
           setPages(prevPages => prevPages.filter((_, i) => i !== index));
           setCurrentPageIndex(prevIndex => Math.min(prevIndex, pages.length - 2));
         } else {
-        //   alert("You can't delete the last page.");
           vscode.postMessage({ command: 'deletedPageAlert', message: "You can't delete the last page." });
         }
       };
     
-      if (isLoading) {
-        return <div>Loading...</div>;
-      }
+      // if (isLoading) {
+      //   return <div>Loading...</div>;
+      // }
 
       const clearPage = (index: number) => {
         setPages(prevPages => prevPages.map((page, i) => 
@@ -153,9 +156,8 @@ const EditingInterface: React.FC = () => {
         renamePage(index, `Page ${index + 1}`);
       }
 
-
     return (
-        <Editor resolver={{ Background, Text, Label, Button, TextBox, Image, UserInput, RadioButton, Checkbox, GridCell, Icon, EditBackgroundButton, Container }}>
+        <Editor resolver={{ Background, Text, Label, Button, TextBox, Image, Input, RadioButton, Checkbox, GridCell, Icon, EditBackgroundButton, Container, Dropdown, Slider }}>
             <EditorContent
                 pages={pages}
                 currentPageIndex={currentPageIndex}

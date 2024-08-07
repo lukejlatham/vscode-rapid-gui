@@ -4,15 +4,15 @@
     "isCanvas": true,
     "props": {
       "rows": 10,
-      "columns": 10,
+      "columns": 11,
       "lockedGrid": false,
       "backgroundColor": "#292929",
       "layout": [
-        { "i": "0", "x": 0, "y": 0, "w": 10, "h": 1 },
-        { "i": "1", "x": 0, "y": 1, "w": 2, "h": 8 },
-        { "i": "2", "x": 2, "y": 1, "w": 8, "h": 4 },
-        { "i": "3", "x": 2, "y": 5, "w": 8, "h": 2 },
-        { "i": "4", "x": 0, "y": 9, "w": 10, "h": 1 }
+        { "i": "0", "x": 1, "y": 1, "w": 5, "h": 1 },
+        { "i": "1", "x": 1, "y": 2, "w": 2, "h": 6 },
+        { "i": "2", "x": 3, "y": 2, "w": 7, "h": 4 },
+        { "i": "3", "x": 3, "y": 6, "w": 7, "h": 2 },
+        { "i": "4", "x": 1, "y": 9, "w": 10, "h": 1 }
       ]
     },
     "displayName": "Background",
@@ -21,14 +21,14 @@
     "hidden": false,
     "nodes": [],
     "linkedNodes": {
-      "0": "HeaderGridCell",
-      "1": "LeftSidebarGridCell",
-      "2": "MainContent-Step1GridCell",
-      "3": "MainContent-DropdownGridCell",
+      "0": "NavigationBarGridCell",
+      "1": "SidePanelGridCell",
+      "2": "MainContentGridCell",
+      "3": "PossibleOptionsGridCell",
       "4": "FooterGridCell"
     }
   },
-  "HeaderGridCell": {
+  "NavigationBarGridCell": {
     "type": { "resolvedName": "GridCell" },
     "isCanvas": true,
     "props": {
@@ -41,10 +41,10 @@
     "custom": { "id": "0" },
     "parent": "ROOT",
     "hidden": false,
-    "nodes": ["HeaderContainer"],
+    "nodes": ["NavigationBarContainer"],
     "linkedNodes": {}
   },
-  "HeaderContainer": {
+  "NavigationBarContainer": {
     "type": { "resolvedName": "Container" },
     "isCanvas": true,
     "props": {
@@ -65,23 +65,30 @@
     },
     "displayName": "Container",
     "custom": {},
-    "parent": "HeaderGridCell",
+    "parent": "NavigationBarGridCell",
     "hidden": false,
-    "nodes": ["HeaderButton0", "HeaderButton1", "HeaderButton2", "HeaderButton3", "HeaderButton4"],
+    "nodes": [
+      "NavigationBarButton0",
+      "NavigationBarButton1",
+      "NavigationBarButton2",
+      "NavigationBarButton3"
+    ],
     "linkedNodes": {}
   },
-  "HeaderButton0": {
+  "NavigationBarButton0": {
     "type": { "resolvedName": "Button" },
     "isCanvas": false,
     "props": {
       "backgroundColor": "lightslategrey",
-      "fontSize": 14,
-      "fontColor": "black",
+      "fontSize": 16,
+      "fontColor": "white",
       "borderRadius": 4,
-      "width": 10,
-      "height": 100,
+      "width": 20,
+      "height": 80,
       "text": "Home",
       "alignment": "center",
+      "displayName": "Button",
+      "bordercolor": "white",
       "shadowColor": "black",
       "shadowOffsetX": 1,
       "shadowOffsetY": 1,
@@ -89,23 +96,25 @@
     },
     "displayName": "Button",
     "custom": {},
-    "parent": "HeaderContainer",
+    "parent": "NavigationBarContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "HeaderButton1": {
+  "NavigationBarButton1": {
     "type": { "resolvedName": "Button" },
     "isCanvas": false,
     "props": {
       "backgroundColor": "lightslategrey",
-      "fontSize": 14,
-      "fontColor": "black",
+      "fontSize": 16,
+      "fontColor": "white",
       "borderRadius": 4,
-      "width": 10,
-      "height": 100,
-      "text": "Button",
+      "width": 20,
+      "height": 80,
+      "text": "Tab 1",
       "alignment": "center",
+      "displayName": "Button",
+      "bordercolor": "white",
       "shadowColor": "black",
       "shadowOffsetX": 1,
       "shadowOffsetY": 1,
@@ -113,23 +122,25 @@
     },
     "displayName": "Button",
     "custom": {},
-    "parent": "HeaderContainer",
+    "parent": "NavigationBarContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "HeaderButton2": {
+  "NavigationBarButton2": {
     "type": { "resolvedName": "Button" },
     "isCanvas": false,
     "props": {
       "backgroundColor": "lightslategrey",
-      "fontSize": 14,
-      "fontColor": "black",
+      "fontSize": 16,
+      "fontColor": "white",
       "borderRadius": 4,
-      "width": 10,
-      "height": 100,
-      "text": "Button",
+      "width": 20,
+      "height": 80,
+      "text": "Tab 2",
       "alignment": "center",
+      "displayName": "Button",
+      "bordercolor": "white",
       "shadowColor": "black",
       "shadowOffsetX": 1,
       "shadowOffsetY": 1,
@@ -137,23 +148,25 @@
     },
     "displayName": "Button",
     "custom": {},
-    "parent": "HeaderContainer",
+    "parent": "NavigationBarContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "HeaderButton3": {
+  "NavigationBarButton3": {
     "type": { "resolvedName": "Button" },
     "isCanvas": false,
     "props": {
       "backgroundColor": "lightslategrey",
-      "fontSize": 14,
-      "fontColor": "black",
+      "fontSize": 16,
+      "fontColor": "white",
       "borderRadius": 4,
-      "width": 10,
-      "height": 100,
-      "text": "Button",
+      "width": 20,
+      "height": 80,
+      "text": "Tab 3",
       "alignment": "center",
+      "displayName": "Button",
+      "bordercolor": "white",
       "shadowColor": "black",
       "shadowOffsetX": 1,
       "shadowOffsetY": 1,
@@ -161,36 +174,12 @@
     },
     "displayName": "Button",
     "custom": {},
-    "parent": "HeaderContainer",
+    "parent": "NavigationBarContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "HeaderButton4": {
-    "type": { "resolvedName": "Button" },
-    "isCanvas": false,
-    "props": {
-      "backgroundColor": "lightslategrey",
-      "fontSize": 14,
-      "fontColor": "black",
-      "borderRadius": 4,
-      "width": 10,
-      "height": 100,
-      "text": "Button",
-      "alignment": "center",
-      "shadowColor": "black",
-      "shadowOffsetX": 1,
-      "shadowOffsetY": 1,
-      "shadowBlur": 3
-    },
-    "displayName": "Button",
-    "custom": {},
-    "parent": "HeaderContainer",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "LeftSidebarGridCell": {
+  "SidePanelGridCell": {
     "type": { "resolvedName": "GridCell" },
     "isCanvas": true,
     "props": {
@@ -203,10 +192,10 @@
     "custom": { "id": "1" },
     "parent": "ROOT",
     "hidden": false,
-    "nodes": ["LeftSidebarContainer"],
+    "nodes": ["SidePanelContainer"],
     "linkedNodes": {}
   },
-  "LeftSidebarContainer": {
+  "SidePanelContainer": {
     "type": { "resolvedName": "Container" },
     "isCanvas": true,
     "props": {
@@ -227,30 +216,31 @@
     },
     "displayName": "Container",
     "custom": {},
-    "parent": "LeftSidebarGridCell",
+    "parent": "SidePanelGridCell",
     "hidden": false,
     "nodes": [
-      "LeftSidebarButton0",
-      "LeftSidebarButton1",
-      "LeftSidebarButton2",
-      "LeftSidebarButton3",
-      "LeftSidebarButton4",
-      "LeftSidebarButton5"
+      "SidePanelButton0",
+      "SidePanelButton1",
+      "SidePanelButton2",
+      "SidePanelButton3",
+      "SidePanelButton4"
     ],
     "linkedNodes": {}
   },
-  "LeftSidebarButton0": {
+  "SidePanelButton0": {
     "type": { "resolvedName": "Button" },
     "isCanvas": false,
     "props": {
       "backgroundColor": "lightslategrey",
-      "fontSize": 14,
-      "fontColor": "black",
+      "fontSize": 16,
+      "fontColor": "white",
       "borderRadius": 4,
-      "width": 100,
-      "height": 16,
-      "text": "Button",
+      "width": 80,
+      "height": 15,
+      "text": "Option 1",
       "alignment": "center",
+      "displayName": "Button",
+      "bordercolor": "white",
       "shadowColor": "black",
       "shadowOffsetX": 1,
       "shadowOffsetY": 1,
@@ -258,23 +248,25 @@
     },
     "displayName": "Button",
     "custom": {},
-    "parent": "LeftSidebarContainer",
+    "parent": "SidePanelContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "LeftSidebarButton1": {
+  "SidePanelButton1": {
     "type": { "resolvedName": "Button" },
     "isCanvas": false,
     "props": {
       "backgroundColor": "lightslategrey",
-      "fontSize": 14,
-      "fontColor": "black",
+      "fontSize": 16,
+      "fontColor": "white",
       "borderRadius": 4,
-      "width": 100,
-      "height": 16,
-      "text": "Button",
+      "width": 80,
+      "height": 15,
+      "text": "Option 2",
       "alignment": "center",
+      "displayName": "Button",
+      "bordercolor": "white",
       "shadowColor": "black",
       "shadowOffsetX": 1,
       "shadowOffsetY": 1,
@@ -282,23 +274,25 @@
     },
     "displayName": "Button",
     "custom": {},
-    "parent": "LeftSidebarContainer",
+    "parent": "SidePanelContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "LeftSidebarButton2": {
+  "SidePanelButton2": {
     "type": { "resolvedName": "Button" },
     "isCanvas": false,
     "props": {
       "backgroundColor": "lightslategrey",
-      "fontSize": 14,
-      "fontColor": "black",
+      "fontSize": 16,
+      "fontColor": "white",
       "borderRadius": 4,
-      "width": 100,
-      "height": 16,
-      "text": "Button",
+      "width": 80,
+      "height": 15,
+      "text": "Option 3",
       "alignment": "center",
+      "displayName": "Button",
+      "bordercolor": "white",
       "shadowColor": "black",
       "shadowOffsetX": 1,
       "shadowOffsetY": 1,
@@ -306,23 +300,25 @@
     },
     "displayName": "Button",
     "custom": {},
-    "parent": "LeftSidebarContainer",
+    "parent": "SidePanelContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "LeftSidebarButton3": {
+  "SidePanelButton3": {
     "type": { "resolvedName": "Button" },
     "isCanvas": false,
     "props": {
       "backgroundColor": "lightslategrey",
-      "fontSize": 14,
-      "fontColor": "black",
+      "fontSize": 16,
+      "fontColor": "white",
       "borderRadius": 4,
-      "width": 100,
-      "height": 16,
-      "text": "Button",
+      "width": 80,
+      "height": 15,
+      "text": "Option 4",
       "alignment": "center",
+      "displayName": "Button",
+      "bordercolor": "white",
       "shadowColor": "black",
       "shadowOffsetX": 1,
       "shadowOffsetY": 1,
@@ -330,23 +326,25 @@
     },
     "displayName": "Button",
     "custom": {},
-    "parent": "LeftSidebarContainer",
+    "parent": "SidePanelContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "LeftSidebarButton4": {
+  "SidePanelButton4": {
     "type": { "resolvedName": "Button" },
     "isCanvas": false,
     "props": {
       "backgroundColor": "lightslategrey",
-      "fontSize": 14,
-      "fontColor": "black",
+      "fontSize": 16,
+      "fontColor": "white",
       "borderRadius": 4,
-      "width": 100,
-      "height": 16,
-      "text": "Button",
+      "width": 80,
+      "height": 15,
+      "text": "Option 5",
       "alignment": "center",
+      "displayName": "Button",
+      "bordercolor": "white",
       "shadowColor": "black",
       "shadowOffsetX": 1,
       "shadowOffsetY": 1,
@@ -354,36 +352,12 @@
     },
     "displayName": "Button",
     "custom": {},
-    "parent": "LeftSidebarContainer",
+    "parent": "SidePanelContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "LeftSidebarButton5": {
-    "type": { "resolvedName": "Button" },
-    "isCanvas": false,
-    "props": {
-      "backgroundColor": "lightslategrey",
-      "fontSize": 14,
-      "fontColor": "black",
-      "borderRadius": 4,
-      "width": 100,
-      "height": 16,
-      "text": "Button",
-      "alignment": "center",
-      "shadowColor": "black",
-      "shadowOffsetX": 1,
-      "shadowOffsetY": 1,
-      "shadowBlur": 3
-    },
-    "displayName": "Button",
-    "custom": {},
-    "parent": "LeftSidebarContainer",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "MainContent-Step1GridCell": {
+  "MainContentGridCell": {
     "type": { "resolvedName": "GridCell" },
     "isCanvas": true,
     "props": {
@@ -396,10 +370,10 @@
     "custom": { "id": "2" },
     "parent": "ROOT",
     "hidden": false,
-    "nodes": ["MainContent-Step1Container"],
+    "nodes": ["MainContentContainer"],
     "linkedNodes": {}
   },
-  "MainContent-Step1Container": {
+  "MainContentContainer": {
     "type": { "resolvedName": "Container" },
     "isCanvas": true,
     "props": {
@@ -420,47 +394,50 @@
     },
     "displayName": "Container",
     "custom": {},
-    "parent": "MainContent-Step1GridCell",
+    "parent": "MainContentGridCell",
     "hidden": false,
-    "nodes": ["MainContent-Step1Label0", "MainContent-Step1Image1"],
+    "nodes": ["MainContentLabel0", "MainContentImage1"],
     "linkedNodes": {}
   },
-  "MainContent-Step1Label0": {
+  "MainContentLabel0": {
     "type": { "resolvedName": "Label" },
     "isCanvas": false,
     "props": {
       "text": "STEP 1",
       "fontSize": 22,
       "fontColor": "black",
+      "userEditable": true,
       "textAlign": "left",
+      "icon": "none",
+      "hyperlink": "",
       "bold": true,
       "italic": false,
       "underline": false
     },
     "displayName": "Label",
     "custom": {},
-    "parent": "MainContent-Step1Container",
+    "parent": "MainContentContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "MainContent-Step1Image1": {
+  "MainContentImage1": {
     "type": { "resolvedName": "Image" },
     "isCanvas": false,
     "props": {
-      "src": "Replace with image URL",
-      "alt": "Placeholder Image",
+      "src": "https://photographylife.com/wp-content/uploads/2023/05/Nikon-Z8-Official-Samples-00002.jpg",
+      "alt": "Placeholder",
       "width": 100,
       "height": 80
     },
     "displayName": "Image",
     "custom": {},
-    "parent": "MainContent-Step1Container",
+    "parent": "MainContentContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "MainContent-DropdownGridCell": {
+  "PossibleOptionsGridCell": {
     "type": { "resolvedName": "GridCell" },
     "isCanvas": true,
     "props": {
@@ -473,10 +450,10 @@
     "custom": { "id": "3" },
     "parent": "ROOT",
     "hidden": false,
-    "nodes": ["MainContent-DropdownContainer"],
+    "nodes": ["PossibleOptionsContainer"],
     "linkedNodes": {}
   },
-  "MainContent-DropdownContainer": {
+  "PossibleOptionsContainer": {
     "type": { "resolvedName": "Container" },
     "isCanvas": true,
     "props": {
@@ -497,47 +474,46 @@
     },
     "displayName": "Container",
     "custom": {},
-    "parent": "MainContent-DropdownGridCell",
+    "parent": "PossibleOptionsGridCell",
     "hidden": false,
-    "nodes": ["MainContent-DropdownLabel0", "MainContent-DropdownTextBox1"],
+    "nodes": ["PossibleOptionsLabel0", "PossibleOptionsInput1"],
     "linkedNodes": {}
   },
-  "MainContent-DropdownLabel0": {
+  "PossibleOptionsLabel0": {
     "type": { "resolvedName": "Label" },
     "isCanvas": false,
     "props": {
       "text": "POSSIBLE",
       "fontSize": 22,
       "fontColor": "black",
+      "userEditable": true,
       "textAlign": "left",
+      "icon": "none",
+      "hyperlink": "",
       "bold": true,
       "italic": false,
       "underline": false
     },
     "displayName": "Label",
     "custom": {},
-    "parent": "MainContent-DropdownContainer",
+    "parent": "PossibleOptionsContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "MainContent-DropdownTextBox1": {
-    "type": { "resolvedName": "TextBox" },
+  "PossibleOptionsInput1": {
+    "type": { "resolvedName": "Input" },
     "isCanvas": false,
     "props": {
-      "text": "Text Box",
       "fontSize": 14,
       "fontColor": "black",
       "backgroundColor": "white",
-      "placeholder": "Enter text",
-      "borderRadius": 4,
-      "height": 80,
-      "width": 100,
-      "alignment": "left"
+      "placeholder": "Select an option",
+      "borderRadius": 4
     },
-    "displayName": "TextBox",
+    "displayName": "Input",
     "custom": {},
-    "parent": "MainContent-DropdownContainer",
+    "parent": "PossibleOptionsContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
@@ -581,91 +557,41 @@
     "custom": {},
     "parent": "FooterGridCell",
     "hidden": false,
-    "nodes": ["FooterTextBox0", "FooterIcon1", "FooterIcon2", "FooterIcon3", "FooterLabel4"],
+    "nodes": ["FooterInput0", "FooterTextBox1"],
     "linkedNodes": {}
   },
-  "FooterTextBox0": {
+  "FooterInput0": {
+    "type": { "resolvedName": "Input" },
+    "isCanvas": false,
+    "props": {
+      "fontSize": 14,
+      "fontColor": "black",
+      "backgroundColor": "white",
+      "placeholder": "Search",
+      "borderRadius": 4
+    },
+    "displayName": "Input",
+    "custom": {},
+    "parent": "FooterContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "FooterTextBox1": {
     "type": { "resolvedName": "TextBox" },
     "isCanvas": false,
     "props": {
-      "text": "SEARCH",
+      "text": "Contact Area",
       "fontSize": 14,
       "fontColor": "black",
       "backgroundColor": "white",
       "placeholder": "Enter text",
       "borderRadius": 4,
-      "height": 100,
-      "width": 20,
+      "height": 60,
+      "width": 50,
       "alignment": "left"
     },
     "displayName": "TextBox",
-    "custom": {},
-    "parent": "FooterContainer",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "FooterIcon1": {
-    "type": { "resolvedName": "Icon" },
-    "isCanvas": false,
-    "props": {
-      "selectedIcon": "VscHome",
-      "iconSize": 24,
-      "iconColor": "lightslategrey",
-      "hyperlink": ""
-    },
-    "displayName": "Icon",
-    "custom": {},
-    "parent": "FooterContainer",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "FooterIcon2": {
-    "type": { "resolvedName": "Icon" },
-    "isCanvas": false,
-    "props": {
-      "selectedIcon": "VscSettingsGear",
-      "iconSize": 24,
-      "iconColor": "lightslategrey",
-      "hyperlink": ""
-    },
-    "displayName": "Icon",
-    "custom": {},
-    "parent": "FooterContainer",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "FooterIcon3": {
-    "type": { "resolvedName": "Icon" },
-    "isCanvas": false,
-    "props": {
-      "selectedIcon": "VscInfo",
-      "iconSize": 24,
-      "iconColor": "lightslategrey",
-      "hyperlink": ""
-    },
-    "displayName": "Icon",
-    "custom": {},
-    "parent": "FooterContainer",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "FooterLabel4": {
-    "type": { "resolvedName": "Label" },
-    "isCanvas": false,
-    "props": {
-      "text": "CONTACT",
-      "fontSize": 22,
-      "fontColor": "black",
-      "textAlign": "left",
-      "bold": true,
-      "italic": false,
-      "underline": false
-    },
-    "displayName": "Label",
     "custom": {},
     "parent": "FooterContainer",
     "hidden": false,

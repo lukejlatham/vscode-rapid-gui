@@ -11,7 +11,7 @@ export const LabelSettings: React.FC = () => {
     const {
       actions: { setProp },
       fontSize,
-      fontcolor,
+      fontColor,
       text,
       bold,
       italic,
@@ -19,7 +19,7 @@ export const LabelSettings: React.FC = () => {
       textAlign,
     } = useNode((node) => ({
       fontSize: node.data.props.fontSize,
-      fontcolor: node.data.props.fontcolor,
+      fontColor: node.data.props.fontColor,
       text: node.data.props.text,
       textAlign: node.data.props.textAlign,
       bold: node.data.props.bold,
@@ -33,7 +33,7 @@ export const LabelSettings: React.FC = () => {
   
     const tooltips = [
       { label: "Font Size", content: "Adjust the size of the text.", propKey: "fontSize" },
-      { label: "Font Color", content: "Change the text color of the label.", propKey: "fontcolor" },
+      { label: "Font Color", content: "Change the text color of the label.", propKey: "fontColor" },
       { label: "Text", content: "Edit the text of the label.", propKey: "text" },
       { label: "Alignment", content: "Set the text alignment.", propKey: "textAlign" },
       { label: "Hyperlink", content: "Add a hyperlink to the label.", propKey: "hyperlink" },
@@ -83,12 +83,12 @@ export const LabelSettings: React.FC = () => {
                   setProp((props: LabelProps) => (props.fontSize = parseInt(e.target.value, 10)), 1000);
                 }}
               />
-            ) : tooltip.propKey === "fontcolor" ? (
+            ) : tooltip.propKey === "fontColor" ? (
               <input
                 className={styles.colorInput}
                 type="color"
-                defaultValue={fontcolor}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProp((props: LabelProps) => props.fontcolor = e.target.value)}
+                defaultValue={fontColor}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProp((props: LabelProps) => props.fontColor = e.target.value)}
               />
             ) : tooltip.propKey === "text" ? (
               <Input

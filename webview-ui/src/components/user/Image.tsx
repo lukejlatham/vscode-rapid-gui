@@ -33,7 +33,7 @@ export const Image: UserComponent<ImageProps> = (props) => {
 };
 
 export const ImageDefaultProps: ImageProps = {
-  src: "https://photographylife.com/wp-content/uploads/2023/05/Nikon-Z8-Official-Samples-00002.jpg",
+  src: "https://media.licdn.com/dms/image/D4E22AQGL4EZgEpG2ag/feedshare-shrink_800/0/1719580422738?e=2147483647&v=beta&t=Nj786KjutiTxei_wgDDM40hcWFi5_-qqBIKM4jOa3Hc",
   alt: "New image",
   width: 80,
   height: 80,
