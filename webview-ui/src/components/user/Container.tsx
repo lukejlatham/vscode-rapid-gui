@@ -8,9 +8,11 @@ import { ContainerSettings } from "./Settings/ContainerSettings";
 const useStyles = makeStyles({
     container: {
       display: "flex",
-      overflow: 'hidden',
+      overflow: 'auto',
       maxWidth: '100%',
       maxHeight: '100%',
+      padding: `3px`,
+      boxSizing: "border-box",
     },
     justifyLeft: {
       justifyContent: "flex-start",

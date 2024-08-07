@@ -194,8 +194,8 @@ export const imageSchema = z.object({
       "https://media.licdn.com/dms/image/D4E22AQGL4EZgEpG2ag/feedshare-shrink_800/0/1719580422738?e=2147483647&v=beta&t=Nj786KjutiTxei_wgDDM40hcWFi5_-qqBIKM4jOa3Hc"
     ),
   alt: z.string().default("New image"),
-  width: z.number().default(80),
-  height: z.number().default(80),
+  width: z.number().default(90),
+  height: z.number().default(90),
   alignment: z.enum(["left", "center", "right"]).optional(),
 });
 
@@ -320,7 +320,7 @@ export const generatedElements = z.object({
     "Button",
     "Label",
     "Image",
-    "TextBox",
+    // "TextBox",
     "RadioButton",
     "Checkbox",
     "Input",
@@ -338,7 +338,7 @@ export const generatedSectionChildren = z.object({
 });
 
 export const generatedAllSectionsChildren = z.object({
-  sections: z.array(generatedSectionChildren).max(5),
+  sections: z.array(generatedSectionChildren).min(2).max(6),
 });
 
 // Used in getSectionChildrenWithProps.ts
@@ -381,6 +381,7 @@ export const generateLabelSchema = z.object({
     bold: z.boolean().default(true),
     italic: z.boolean().default(false),
     fontColor: ColorEnum,
+    fontSize: z.number(),
   }),
 });
 
@@ -411,7 +412,7 @@ export const generateTextBoxSchema = z.object({
 export const generateTextSchema = z.object({
   type: z.literal("Text"),
   props: z.object({
-    text: z.string().describe("Short paragraph"),
+    text: z.string().describe("Write short paragraph"),
     fontColor: ColorEnum,
   }),
 });
@@ -448,17 +449,17 @@ export const generateIconSchema = z.object({
 
 // Used in getSectionChildrenOpenai.ts
 
-export const sectionSchema = z.object({
+const sectionSchema = z.object({
   section: z.string(),
   props: z.object({
     xPosition: z.number().int().max(10),
     yPosition: z.number().int().max(10),
     width: z.number().int().max(10),
     height: z.number().int().max(10),
-    flexDirection: z.enum(["row", "column"]).describe("Row if width > height, column otherwise."),
     backgroundColor: ColorEnum.describe("Use accent colors for headers and footers."),
+    flexDirection: z.enum(["row", "column"]).describe("Column if height > width, row otherwise."),
   }),
-  contents: z.string().describe("Give a detailed description of the section."),
+  contents: z.string().describe("Detailed description of the sections purpose/contents."),
 });
 
 export const layoutSchema = z.object({
@@ -474,7 +475,6 @@ export const generatedFullElements = z.union([
   generateInputSchema,
   generateLabelSchema,
   generateRadioButtonSchema,
-  generateTextBoxSchema,
   generateTextSchema,
   generateImageSchema,
   generateInputSchema,
@@ -492,10 +492,10 @@ export const fullSectionSchema = z.object({
     flexDirection: z.enum(["row", "column"]),
     backgroundColor: ColorEnum,
   }),
-  children: z.array(generatedFullElements),
+  children: z.array(generatedFullElements).max(5),
 });
 
-export const fullLayoutSchema = z.array(fullSectionSchema).max(5);
+export const fullLayoutSchema = z.array(fullSectionSchema).max(6);
 
 export type FullLayoutSchema = z.infer<typeof fullLayoutSchema>;
 
