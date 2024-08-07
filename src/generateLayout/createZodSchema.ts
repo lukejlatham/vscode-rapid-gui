@@ -10,6 +10,8 @@ import {
   generateTextBoxSchema,
   generateTextSchema,
   generateIconSchema,
+  generateDropdownSchema,
+  generateSliderSchema,
 } from "../../webview-ui/src/types";
 
 const childSchemaMap = {
@@ -22,6 +24,8 @@ const childSchemaMap = {
   TextBox: generateTextBoxSchema,
   Text: generateTextSchema,
   Icon: generateIconSchema,
+  Slider: generateSliderSchema,
+  Dropdown: generateDropdownSchema,
 };
 
 export const generateSectionChildrenSchema = (sections) => {

@@ -2,7 +2,7 @@
 import * as VscIcons from "react-icons/vsc";
 import { z } from "zod";
 import { SerializedNodes } from "@craftjs/core";
-import { max, min } from "lodash";
+import { head, max, min } from "lodash";
 
 type VscIconKeys = keyof typeof VscIcons;
 
@@ -155,11 +155,10 @@ export const sliderSchema = z.object({
   step: z.number().default(1),
   fontSize: z.number().default(14),
   fontColor: z.string().default("black"),
-  sliderColor: z.string().default("red"),
+  backgroundColor: z.string().default("red"),
 });
 
 export type SliderProps = z.infer<typeof sliderSchema>;
-
 
 export const textBoxSchema = z.object({
   text: z.string().default("Text Box"),
@@ -194,8 +193,8 @@ export const imageSchema = z.object({
       "https://media.licdn.com/dms/image/D4E22AQGL4EZgEpG2ag/feedshare-shrink_800/0/1719580422738?e=2147483647&v=beta&t=Nj786KjutiTxei_wgDDM40hcWFi5_-qqBIKM4jOa3Hc"
     ),
   alt: z.string().default("New image"),
-  width: z.number().default(100),
-  height: z.number().default(100),
+  width: z.number().default(80),
+  height: z.number().default(80),
   alignment: z.enum(["left", "center", "right"]).optional(),
 });
 
@@ -300,7 +299,7 @@ export interface TooltipConfigSlider {
   label: string;
   content: string;
   propKey: keyof SliderProps;
-  type: "color" | "spinButton" | "text" ;
+  type: "color" | "spinButton" | "text";
 }
 
 export interface Page {
@@ -326,13 +325,15 @@ export const generatedElements = z.object({
     "Input",
     "Text",
     "Icon",
+    "Slider",
+    "Dropdown",
   ]),
   description: z.string(),
 });
 
 export const generatedSectionChildren = z.object({
   section: z.string(),
-  children: z.array(generatedElements).max(8),
+  children: z.array(generatedElements).max(5),
 });
 
 export const generatedAllSectionsChildren = z.object({
@@ -341,12 +342,15 @@ export const generatedAllSectionsChildren = z.object({
 
 // Used in getSectionChildrenWithProps.ts
 
+const ColorEnum = z.enum(["Main", "LightAccent", "DarkAccent"]).default("Main");
+
 export const generateButtonSchema = z.object({
   type: z.literal("Button"),
   props: z.object({
-    width: z.number().int().max(80),
-    height: z.number().int().max(80),
+    width: z.number().int().default(80),
+    height: z.number().int().default(60),
     text: z.string().default("Button"),
+    backgroundColor: ColorEnum,
   }),
 });
 
@@ -363,6 +367,7 @@ export const generateInputSchema = z.object({
   type: z.literal("Input"),
   props: z.object({
     placeholder: z.string().default("Enter text"),
+    fontColor: ColorEnum,
   }),
 });
 
@@ -372,7 +377,7 @@ export const generateLabelSchema = z.object({
     text: z.string().default("Header"),
     bold: z.boolean().default(true),
     italic: z.boolean().default(false),
-    underline: z.boolean().default(false),
+    fontColor: ColorEnum,
   }),
 });
 
@@ -381,10 +386,7 @@ export const generateRadioButtonSchema = z.object({
   props: z.object({
     header: z.string().default("Radio Button Header"),
     numberOfButtons: z.number().default(2),
-    optionLabels: z
-      .array(z.string())
-      .default([])
-      .describe("Array of strings for each radio button"),
+    optionLabels: z.array(z.string()).default([]),
     direction: z.enum(["row", "column"]).default("row"),
   }),
 });
@@ -393,8 +395,6 @@ export const generateImageSchema = z.object({
   type: z.literal("Image"),
   props: z.object({
     alt: z.string().default("Image"),
-    width: z.number().int().max(100),
-    height: z.number().int().max(100),
   }),
 });
 
@@ -402,8 +402,7 @@ export const generateTextBoxSchema = z.object({
   type: z.literal("TextBox"),
   props: z.object({
     text: z.string().default("Text Box"),
-    width: z.number().int().max(100),
-    height: z.number().int().max(100),
+    fontColor: ColorEnum,
   }),
 });
 
@@ -411,10 +410,27 @@ export const generateTextSchema = z.object({
   type: z.literal("Text"),
   props: z.object({
     text: z.string().default("Text"),
+    fontColor: ColorEnum,
   }),
 });
 
-export type GenerateTextProps = z.infer<typeof generateTextSchema>;
+export const generateSliderSchema = z.object({
+  type: z.literal("Slider"),
+  props: z.object({
+    backgroundColor: ColorEnum,
+    header: z.string().default(""),
+  }),
+});
+
+export const generateDropdownSchema = z.object({
+  type: z.literal("Dropdown"),
+  props: z.object({
+    header: z.string().default(""),
+    optionLabels: z.array(z.string()).default(["Option 1", "Option 2"]),
+    numberOfOptions: z.number().default(2),
+    fontColor: ColorEnum,
+  }),
+});
 
 export const generateIconSchema = z.object({
   type: z.literal("Icon"),
@@ -422,17 +438,37 @@ export const generateIconSchema = z.object({
     selectedIcon: z
       .enum([
         "VscAdd",
-        "VscEdit",
+        "VscArrowRight",
+        "VscArrowLeft",
+        "VscArrowUp",
+        "VscArrowDown",
+        "VscCheck",
+        "VscClose",
         "VscTrash",
-        "VscSearch",
         "VscSave",
-        "VscHome",
-        "VscSettingsGear",
-        "VscInfo",
       ])
       .default("VscAdd"),
     iconSize: z.number().default(24),
   }),
+});
+
+// Used in getSectionChildrenOpenai.ts
+
+export const sectionSchema = z.object({
+  section: z.string(),
+  props: z.object({
+    xPosition: z.number().int().max(10),
+    yPosition: z.number().int().max(10),
+    width: z.number().int().max(10),
+    height: z.number().int().max(10),
+    flexDirection: z.enum(["row", "column"]).describe("Row if width > height, column otherwise."),
+    backgroundColor: ColorEnum.describe("Use accent colors for headers and footers."),
+  }),
+  contents: z.string().describe("Give a detailed description of the section."),
+});
+
+export const layoutSchema = z.object({
+  sections: z.array(sectionSchema).max(5),
 });
 
 // Used in convertLayoutToNodes.ts
@@ -448,6 +484,8 @@ export const generatedFullElements = z.union([
   generateTextSchema,
   generateImageSchema,
   generateInputSchema,
+  generateSliderSchema,
+  generateDropdownSchema,
 ]);
 
 export const fullSectionSchema = z.object({
@@ -458,29 +496,14 @@ export const fullSectionSchema = z.object({
     width: z.number().int().max(10),
     height: z.number().int().max(10),
     flexDirection: z.enum(["row", "column"]),
-    backgroundColor: z.enum(["ghostwhite", "lightslategray"]).default("ghostwhite"),
+    backgroundColor: ColorEnum,
   }),
   children: z.array(generatedFullElements),
 });
 
 export const fullLayoutSchema = z.array(fullSectionSchema).max(5);
 
-export const sectionSchema = z.object({
-  section: z.string(),
-  props: z.object({
-    xPosition: z.number().int().max(10),
-    yPosition: z.number().int().max(10),
-    width: z.number().int().max(10),
-    height: z.number().int().max(10),
-    flexDirection: z.enum(["row", "column"]).describe("Row if width > height, column otherwise."),
-    backgroundColor: z.enum(["ghostwhite", "lightslategray"]).default("ghostwhite"),
-  }),
-  contents: z.string().describe("Give a detailed description of the section over 3 lines."),
-});
-
-export const layoutSchema = z.object({
-  sections: z.array(sectionSchema).max(5),
-});
+export type FullLayoutSchema = z.infer<typeof fullLayoutSchema>;
 
 export const backgroundNodeLayout = z.object({
   w: z.number().int(),
@@ -527,3 +550,53 @@ export const craftjsNodeSchema = z.object({
   linkedNodes: z.record(z.string()),
   parent: z.string(),
 });
+
+// Used in applyTheming.ts
+
+export type ColorScheme = {
+  sectionColors: {
+    main: string;
+    lightaccent: string;
+    darkaccent: string;
+  };
+  sectionBorderColors: {
+    main: string;
+    lightaccent: string;
+    darkaccent: string;
+  };
+  elementColors: {
+    main: string;
+    lightaccent: string;
+    darkaccent: string;
+  };
+  elementBorderColors: {
+    main: string;
+    lightaccent: string;
+    darkaccent: string;
+  };
+  fontColors: {
+    main: string;
+    lightaccent: string;
+    darkaccent: string;
+  };
+};
+
+export const themedSectionSchema = z.object({
+  section: z.string(),
+  props: z.object({
+    xPosition: z.number().int().max(10),
+    yPosition: z.number().int().max(10),
+    width: z.number().int().max(10),
+    height: z.number().int().max(10),
+    flexDirection: z.enum(["row", "column"]),
+    backgroundColor: z.string(),
+    borderColor: z.string(),
+  }),
+  children: z.array(z.any()),
+});
+
+export type ThemedSectionSchema = z.infer<typeof themedSectionSchema>;
+
+export const themedLayoutSchema = z.array(themedSectionSchema).max(5);
+
+export type ThemedLayoutSchema = z.infer<typeof themedSectionSchema>;

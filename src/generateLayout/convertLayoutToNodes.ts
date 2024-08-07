@@ -79,7 +79,11 @@ import {
   gridCellSchema,
   fullSectionSchema,
   textSchema,
+  ThemedLayoutSchema,
+  dropdownSchema,
+  sliderSchema,
 } from "../../webview-ui/src/types";
+import { applyThemeToSchema } from "./applyTheming";
 
 type LayoutType = z.infer<typeof backgroundNodeLayout>;
 type NodeTreeRootType = z.infer<typeof nodeTreeRootSchema>;
@@ -151,7 +155,7 @@ function createNode(
     linkedNodes: {},
   };
 }
-function generateSectionNodes(sections: FullSectionSchema[]): { [key: string]: NodeSection } {
+function generateSectionNodes(sections: ThemedLayoutSchema[]): { [key: string]: NodeSection } {
   const nodes: { [key: string]: NodeSection } = {};
 
   sections.forEach((section, index) => {
@@ -174,6 +178,7 @@ function generateSectionNodes(sections: FullSectionSchema[]): { [key: string]: N
     const containerDefaultsOverride = containerSchema.parse({
       flexDirection: section.props.flexDirection,
       backgroundColor: section.props.backgroundColor,
+      borderColor: section.props.borderColor,
     });
 
     nodes[containerId] = createNode(
@@ -215,6 +220,10 @@ function generateSectionNodes(sections: FullSectionSchema[]): { [key: string]: N
           break;
         case "Text":
           childProps = textSchema.parse(child.props);
+        case "Dropdown":
+          childProps = dropdownSchema.parse(child.props);
+        case "Slider":
+          childProps = sliderSchema.parse(child.props);
           break;
       }
 
@@ -245,7 +254,7 @@ function createBackgroundNode(
     props: {
       rows: dimensions.rows,
       columns: dimensions.columns,
-      lockedGrid: false,
+      lockedGrid: true,
       backgroundColor,
       layout,
     },
@@ -277,9 +286,11 @@ function buildLayoutNodes(parsedLayout: string, parsedFullChildren: string): str
     // maxH: layoutDimensions.rows,
   }));
 
-  const backgroundNode = createBackgroundNode(layoutDimensions, layout, "#292929");
+  const themedNodes = applyThemeToSchema(parsedData);
 
-  const sectionNodes = generateSectionNodes(combinedLayout);
+  const sectionNodes = generateSectionNodes(themedNodes);
+
+  const backgroundNode = createBackgroundNode(layoutDimensions, layout, "#292929");
 
   const combinedNodes = { ROOT: backgroundNode, ...sectionNodes };
 
