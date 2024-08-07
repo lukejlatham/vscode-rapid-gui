@@ -7,7 +7,7 @@ const exampleLayout = `[{"section":"Toolbar","children":[{"type":"Icon","props":
 const createSystemMessage = (layout: string) => {
   return {
     role: "system",
-    content: `You are a UI designer who refines layout properties. Only use Main, LightAccent, or DarkAccent for backgroundColors. All sections and their respective child elements are fixed. An example layout is shown below:\n\n${layout}`,
+    content: `You are a UI designer who refines layout properties. Only use Main, LightAccent, or DarkAccent for backgroundColors. All sections and their respective child elements are fixed. An example layout is shown below:\n\n${layout}. Make text cryptic/coy and intersperse gen z slang.`,
   };
 };
 
@@ -16,7 +16,7 @@ const textMessage = (layout: string, childElements: string) => ({
   content: [
     {
       type: "text",
-      text: `Provide properties for this \n\n ${layout}\n\n with following child elements as contents: ${childElements}. Make all text bizarre.`,
+      text: `Provide properties for this \n\n ${layout}\n\n with following child elements as contents: ${childElements}.`,
     },
   ],
 });

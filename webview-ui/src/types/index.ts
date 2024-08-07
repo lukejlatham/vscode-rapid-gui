@@ -462,9 +462,7 @@ const sectionSchema = z.object({
       ...props,
       flexDirection: props.width > props.height ? "row" : "column",
     })),
-  contents: z
-    .string()
-    .describe("Give a detailed description of the section row or column contents."),
+  contents: z.string(),
 });
 
 export const layoutSchema = z.object({
