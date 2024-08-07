@@ -6,10 +6,13 @@ import { Page } from "../../webview-ui/src/types";
 export function generateGridXaml(page: Page): string {
   console.log("Generating XAML for page:", JSON.stringify(page, null, 2));
 
-  const rootNode = page.content.ROOT as Node;
-  if (!rootNode) {
+  if (!page.content.ROOT) {
+    console.error("ROOT node is missing in page content");
+    console.log("Page content keys:", Object.keys(page.content));
     throw new Error("Root node not found");
   }
+
+  const rootNode = page.content.ROOT as Node;
 
   let xaml = `<Grid x:Name="RootGrid" Background="${
     rootNode.props.backgroundColor || "Transparent"

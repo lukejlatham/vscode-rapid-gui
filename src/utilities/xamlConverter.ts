@@ -43,12 +43,13 @@ export async function convertToXaml(
 
     try {
       const parsedContent = JSON.parse(jsonContent);
+      console.log("Parsed content:", JSON.stringify(parsedContent, null, 2));
       const page: Page = {
         id: fileName,
         name: fileName,
         content: parsedContent,
       };
-
+      console.log("Created Page object:", JSON.stringify(page, null, 2));
       pages.push(page);
     } catch (error) {
       console.error(`Error processing page ${fileName}:`, error);
