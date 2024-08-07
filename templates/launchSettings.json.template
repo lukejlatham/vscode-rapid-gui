@@ -1,9 +1,0 @@
-{
-  "profiles": {
-    "{{projectName}}": {
-      "commandName": "Project",
-      "commandLineArgs": "",
-      "workingDirectory": "$(ProjectDir)"
-    }
-  }
-}

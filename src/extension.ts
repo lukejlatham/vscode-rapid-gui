@@ -7,7 +7,6 @@ import {
   getAzureOpenaiApiKey,
   getGpt4oDeploymentName,
 } from "./utilities/azureApiKeyStorage";
-import { convertToXaml } from "./utilities/xamlConverter";
 
 export function activate(context: vscode.ExtensionContext) {
   // Command to show the main webview panel
