@@ -4,21 +4,34 @@ import { generateComponentXaml } from "./componentGenerator";
 import { Page } from "../../webview-ui/src/types";
 
 export function generateGridXaml(page: Page): string {
+  console.log("Generating XAML for page:", JSON.stringify(page, null, 2));
+
   const rootNode = page.content.ROOT as Node;
-  let xaml = `<Page
-    x:Class="${page.name}"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-  <Grid x:Name="RootGrid" Background="${rootNode.props.backgroundColor || "Transparent"}">\n`;
+  if (!rootNode) {
+    throw new Error("Root node not found");
+  }
+
+  let xaml = `<Grid x:Name="RootGrid" Background="${
+    rootNode.props.backgroundColor || "Transparent"
+  }">\n`;
 
   xaml += generateGridDefinitions(rootNode.props.rows, rootNode.props.columns);
+
+  if (!rootNode.props.layout) {
+    console.error("Layout not found in root node props");
+  }
+  if (!rootNode.linkedNodes) {
+    console.error("LinkedNodes not found in root node");
+  }
+
   xaml += generateGridContent(
     page.content as { [key: string]: Node },
     rootNode.props.layout || [],
     "    "
   );
 
-  xaml += "  </Grid>\n</Page>";
+  xaml += "  </Grid>\n";
+  console.log("Generated XAML:", xaml);
   return xaml;
 }
 
