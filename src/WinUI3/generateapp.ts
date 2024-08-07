@@ -4,7 +4,7 @@ import { FileGenerator } from "./fileGenerator";
 import { TemplateManager } from "./TemplateManager";
 import { ProjectStructureGenerator } from "./ProjectStructureGenerator";
 import { Page } from "../../webview-ui/src/types";
-import * as path from "path";
+import * as vscode from "vscode";
 
 export class AppGenerator {
   private pages: Page[];
@@ -14,20 +14,24 @@ export class AppGenerator {
   private fileGenerator: FileGenerator;
   private projectStructureGenerator: ProjectStructureGenerator;
 
-  constructor(pages: Page[], outputPath: string, projectName: string) {
+  constructor(
+    pages: Page[],
+    outputPath: string,
+    projectName: string,
+    context: vscode.ExtensionContext
+  ) {
     this.pages = pages;
     this.outputPath = outputPath;
     this.projectName = projectName;
-    // this.templateManager = new TemplateManager(context);
-    this.templateManager = new TemplateManager(path.join(__dirname, "templates"));
+    this.templateManager = new TemplateManager(context);
     this.fileGenerator = new FileGenerator(
       projectName,
       outputPath,
       this.templateManager,
-      projectName, // namespace
-      `${projectName}.App`, // appIdentity
-      "CN=YourPublisherName", // publisher
-      `${projectName} Description` // appDescription
+      projectName,
+      `${projectName}.App`,
+      "CN=YourPublisherName",
+      `${projectName} Description`
     );
     this.projectStructureGenerator = new ProjectStructureGenerator(outputPath);
   }
