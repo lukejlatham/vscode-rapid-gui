@@ -1,9 +1,5 @@
 import * as vscode from "vscode";
-import * as fs from "fs";
 import * as path from "path";
-import { TemplateManager } from "../WinUI3/TemplateManager";
-import { ProjectStructureGenerator } from "../WinUI3/ProjectStructureGenerator";
-import { FileGenerator } from "../WinUI3/fileGenerator";
 import { Page } from "../../webview-ui/src/types";
 import { parseJSON, ParsedJSON } from "../WinUI3/JsonParser";
 import { AppGenerator } from "../WinUI3/generateapp";
@@ -30,10 +26,12 @@ export async function convertToXaml(
   const projectFolder = path.join(currentFolder, projectName);
 
   const pages: Page[] = [];
+
   for (const key in contents) {
     if (contents.hasOwnProperty(key) && fileNames.hasOwnProperty(key)) {
       const fileName = fileNames[key];
       const jsonContent = contents[key];
+
       console.log(`Processing page: ${fileName}`);
 
       const parsedJSON: ParsedJSON = parseJSON(jsonContent);
@@ -42,6 +40,7 @@ export async function convertToXaml(
         name: fileName,
         content: parsedJSON.pages[fileName].components,
       };
+
       pages.push(page);
     }
   }
