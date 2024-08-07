@@ -103,7 +103,7 @@ export class FileGenerator {
   public generatePageXaml(page: Page): string {
     const gridXaml = generateGridXaml(page);
     const componentXaml = generateComponentXaml(page.content as { [key: string]: Node });
-    const pageContent = `${gridXaml}\n${componentXaml}`;
+    const pageContent = gridXaml;
 
     const content = this.templateManager.fillTemplate("Page.xaml", {
       namespace: this.projectName,

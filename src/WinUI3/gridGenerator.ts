@@ -73,7 +73,7 @@ function generateGridCell(
 ): string {
   let xaml = `${indent}<Grid Grid.Row="${layoutItem.y}" Grid.Column="${layoutItem.x}" Grid.RowSpan="${layoutItem.h}" Grid.ColumnSpan="${layoutItem.w}">\n`;
 
-  if (node.nodes && node.nodes.length > 0) {
+  if (node.type.resolvedName === "GridCell") {
     xaml += `${indent}  <StackPanel Orientation="${node.props.flexDirection || "Vertical"}"
                  HorizontalAlignment="${mapFlexToAlignment(node.props.justifyContent)}"
                  VerticalAlignment="${mapFlexToAlignment(node.props.alignItems)}"
@@ -92,6 +92,7 @@ function generateGridCell(
   } else {
     // If the node doesn't have children, generate it as a regular component
     xaml += generateComponentXaml({ [layoutItem.i]: node }, indent + "  ");
+    console.warn(`Node ${layoutItem.i} is not a GridCell`);
   }
 
   xaml += `${indent}</Grid>\n`;
