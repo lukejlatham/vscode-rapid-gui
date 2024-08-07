@@ -352,6 +352,7 @@ export const generateButtonSchema = z.object({
   props: z.object({
     text: z.string().default("Button"),
     backgroundColor: ColorEnum,
+    fontColor: ColorEnum,
   }),
 });
 
@@ -375,7 +376,7 @@ export const generateInputSchema = z.object({
 export const generateLabelSchema = z.object({
   type: z.literal("Label"),
   props: z.object({
-    text: z.string().default("Header"),
+    text: z.string().default("Header").describe("Short header"),
     bold: z.boolean().default(true),
     italic: z.boolean().default(false),
     fontColor: ColorEnum,
@@ -402,7 +403,6 @@ export const generateImageSchema = z.object({
 export const generateTextBoxSchema = z.object({
   type: z.literal("TextBox"),
   props: z.object({
-    text: z.string().default("Text Box"),
     fontColor: ColorEnum,
   }),
 });
@@ -410,7 +410,7 @@ export const generateTextBoxSchema = z.object({
 export const generateTextSchema = z.object({
   type: z.literal("Text"),
   props: z.object({
-    text: z.string().default("Text"),
+    text: z.string().describe("Short paragraph"),
     fontColor: ColorEnum,
   }),
 });
