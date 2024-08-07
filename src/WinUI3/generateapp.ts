@@ -18,8 +18,17 @@ export class AppGenerator {
     this.pages = pages;
     this.outputPath = outputPath;
     this.projectName = projectName;
+    // this.templateManager = new TemplateManager(context);
     this.templateManager = new TemplateManager(path.join(__dirname, "templates"));
-    this.fileGenerator = new FileGenerator(projectName, outputPath, this.templateManager);
+    this.fileGenerator = new FileGenerator(
+      projectName,
+      outputPath,
+      this.templateManager,
+      projectName, // namespace
+      `${projectName}.App`, // appIdentity
+      "CN=YourPublisherName", // publisher
+      `${projectName} Description` // appDescription
+    );
     this.projectStructureGenerator = new ProjectStructureGenerator(outputPath);
   }
 

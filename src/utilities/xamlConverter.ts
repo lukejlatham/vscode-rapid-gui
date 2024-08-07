@@ -5,7 +5,6 @@ import { TemplateManager } from "../WinUI3/TemplateManager";
 import { ProjectStructureGenerator } from "../WinUI3/ProjectStructureGenerator";
 import { FileGenerator } from "../WinUI3/fileGenerator";
 import { Page } from "../../webview-ui/src/types";
-import { SerializedNodes } from "@craftjs/core";
 import { parseJSON, ParsedJSON } from "../WinUI3/JsonParser";
 
 export async function convertToXaml(

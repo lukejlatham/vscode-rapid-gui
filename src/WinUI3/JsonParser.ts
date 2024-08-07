@@ -1,4 +1,4 @@
-// JSONParser.ts
+// JSONParser.ts, change anything that is not a type definition?
 
 export interface ParsedJSON {
   pages: {
