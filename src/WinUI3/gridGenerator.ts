@@ -70,6 +70,7 @@ function generateGridContent(
       xaml += generateGridCell(content, item, node, indent);
     } else {
       console.warn(`Node not found for layout item: ${item.i}`);
+      console.warn(`Node issue is here: ${JSON.stringify(item, null, 2)}`);
 
       xaml += `${indent}<Grid Grid.Row="${item.y}" Grid.Column="${item.x}" Grid.RowSpan="${item.h}" Grid.ColumnSpan="${item.w}"/>\n`;
     }
