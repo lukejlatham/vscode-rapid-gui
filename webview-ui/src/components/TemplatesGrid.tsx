@@ -3,6 +3,9 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Card, CardHeader, Text, Body2, makeStyles, tokens } from '@fluentui/react-components';
 import loginImage from '../assets/Login.png'
 import VideoGameSettings from '../data/layout_templates/VideoGameSettings.json'
+import Login from '../data/layout_templates/Login.json'
+import Website from '../data/layout_templates/Website.json'
+import FeedbackForm from '../data/layout_templates/FeedbackForm.json'
 import { useEditor } from '@craftjs/core';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -55,9 +58,11 @@ const useStyles = makeStyles({
 });
 
 const templates = [
-  // { name: 'Website' },
-  // { name: 'Login' },
-  { name: 'Video Game Settings', data: {id: uuidv4(), name: 'Page 1', content: VideoGameSettings }}];
+  { name: 'Website', data: {id: uuidv4(), name: 'Website', content: Website }},
+  { name: 'Login', data: {id: uuidv4(), name: 'Login Page', content: Login }},
+  { name: 'Video Game Settings', data: {id: uuidv4(), name: 'Video Game Settings', content: VideoGameSettings }},
+  { name: 'Feedback Form', data: {id: uuidv4(), name: 'Feedback Form', content: FeedbackForm }},
+];
 
 const TemplatesGrid: React.FC = () => {
   

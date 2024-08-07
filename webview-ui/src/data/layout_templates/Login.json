@@ -7,7 +7,7 @@
         "props": {
             "rows": 3,
             "columns": 3,
-            "lockedGrid": true,
+            "lockedGrid": false,
             "backgroundColor": "#292929",
             "layout": [
                 {
@@ -21,7 +21,7 @@
                 },
                 {
                     "w": 3,
-                    "h": 3,
+                    "h": 2,
                     "x": 0,
                     "y": 1,
                     "i": "1",
@@ -178,7 +178,7 @@
         "props": {
             "height": 100,
             "width": 100,
-            "backgroundColor": "#ffffff",
+            "backgroundColor": "#292929",
             "borderRadius": 5,
             "borderColor": "#666666",
             "padding": 0,
@@ -214,7 +214,7 @@
             "borderColor": "#666666",
             "padding": 0,
             "flexDirection": "row",
-            "justifyContent": "flex-start",
+            "justifyContent": "center",
             "alignItems": "center",
             "gap": 5,
             "shadowColor": "black",
@@ -227,27 +227,8 @@
         "parent": "Yw0dpt6CTi",
         "hidden": false,
         "nodes": [
-            "qEpJgLf902",
             "Ls8JNMUIj0"
         ],
-        "linkedNodes": {}
-    },
-    "qEpJgLf902": {
-        "type": {
-            "resolvedName": "Icon"
-        },
-        "isCanvas": false,
-        "props": {
-            "selectedIcon": "VscVscodeInsiders",
-            "iconSize": 24,
-            "iconColor": "#4c00ff",
-            "hyperlink": ""
-        },
-        "displayName": "Icon",
-        "custom": {},
-        "parent": "33p_SEox4I",
-        "hidden": false,
-        "nodes": [],
         "linkedNodes": {}
     },
     "Ls8JNMUIj0": {
@@ -256,7 +237,7 @@
         },
         "isCanvas": false,
         "props": {
-            "text": "App name",
+            "text": "App/Website Name",
             "textAlign": "left",
             "fontSize": 24,
             "fontColor": "#4c00ff",
@@ -291,9 +272,9 @@
             "alignItems": "center",
             "gap": 10,
             "shadowColor": "black",
-            "shadowOffsetX": 1,
-            "shadowOffsetY": 1,
-            "shadowBlur": 1
+            "shadowOffsetX": 0,
+            "shadowOffsetY": 0,
+            "shadowBlur": 0
         },
         "displayName": "Container",
         "custom": {},
@@ -318,16 +299,16 @@
             "width": 100,
             "backgroundColor": "#292929",
             "borderRadius": 5,
-            "borderColor": "#666666",
+            "borderColor": "#292929",
             "padding": 0,
             "flexDirection": "row",
             "justifyContent": "space-around",
             "alignItems": "center",
             "gap": 10,
             "shadowColor": "black",
-            "shadowOffsetX": 1,
-            "shadowOffsetY": 1,
-            "shadowBlur": 1
+            "shadowOffsetX": 0,
+            "shadowOffsetY": 0,
+            "shadowBlur": 0
         },
         "displayName": "Container",
         "custom": {},
