@@ -3,7 +3,7 @@ import * as path from "path";
 import { TemplateManager } from "./TemplateManager";
 import { generateGridXaml } from "./gridGenerator";
 import { Page } from "../../webview-ui/src/types";
-//working with pages!
+//working with pages, and should be all dynamic
 
 export class FileGenerator {
   private projectName: string;
