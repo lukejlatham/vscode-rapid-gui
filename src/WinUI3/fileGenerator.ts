@@ -99,7 +99,7 @@ export class FileGenerator {
   //   });
   // }
 
-  private createPageXaml(page: Page) {
+  public generatePageXaml(page: Page): string {
     const gridXaml = generateGridXaml(page);
     const componentXaml = generateComponentXaml(page.content);
     const pageContent = `${gridXaml}\n${componentXaml}`;
@@ -109,6 +109,12 @@ export class FileGenerator {
       pageName: page.name,
       pageContent: pageContent,
     });
+
+    return content;
+  }
+
+  private createPageXaml(page: Page) {
+    const content = this.generatePageXaml(page);
     this.createFile(`Pages/${page.name}.xaml`, content);
   }
 
