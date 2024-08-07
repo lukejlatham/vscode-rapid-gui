@@ -92,19 +92,35 @@ export class FileGenerator {
     }
 
     let content = this.templateManager.getTemplate("MainWindow.xaml.cs");
-    content = content.replace("{{namespace}}", this.namespace);
+    content = content.replace(/\{\{namespace\}\}/g, this.namespace);
     content = content.replace("{{defaultPage}}", pages[0].name);
+
+    // Add a new replacement for the Type.GetType line
+    const pageTypeLogic = pages
+      .map((page) => `case "${page.name}": pageType = typeof(${page.name}); break;`)
+      .join("\n                ");
+
+    content = content.replace(
+      'Type pageType = Type.GetType($"{{namespace}}.{pageName}");',
+      `Type pageType = null;
+                  switch (pageName)
+                  {
+                      ${pageTypeLogic}
+                  }`
+    );
 
     this.createFile("MainWindow.xaml.cs", content);
   }
 
   public generatePageXaml(page: Page): string {
     const gridXaml = generateGridXaml(page);
+
     const content = this.templateManager.fillTemplate("Page.xaml", {
-      namespace: this.namespace,
+      namespace: this.projectName,
       pageName: page.name,
       pageContent: gridXaml,
     });
+
     const finalContent = content.replace("{{PAGE_CONTENT}}", gridXaml);
     console.log(finalContent);
 
