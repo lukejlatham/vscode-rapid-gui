@@ -70,9 +70,14 @@ export class FileGenerator {
   }
 
   private createMainWindowXaml(pages: Page[]) {
+    const pageItems = pages
+      .map((page) => `<NavigationViewItem Content="${page.name}" Tag="${page.name}"/>`)
+      .join("\n                ");
+
     const content = this.templateManager.fillTemplate("MainWindow.xaml", {
       namespace: this.namespace,
-      pages: pages.map((page) => page.name).join(", "),
+      projectName: this.projectName,
+      pageItems: pageItems,
     });
     this.createFile("MainWindow.xaml", content);
   }
