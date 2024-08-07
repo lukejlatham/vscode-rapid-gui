@@ -15,6 +15,7 @@ import { handleFileSave, handleFileLoad } from "../utilities/projectSaveUtilitie
 import { processSketch, processTextDescription } from "../generateLayout/generateLayout";
 import { processCopilotMessages } from "../copilot";
 import { handleImageUpload } from "../utilities/imageSave";
+import { convertToXaml } from "../utilities/xamlConverter";
 
 export class MainWebviewPanel {
   public static currentPanel: MainWebviewPanel | undefined;
@@ -53,6 +54,7 @@ export class MainWebviewPanel {
 
       MainWebviewPanel.currentPanel = new MainWebviewPanel(panel, extensionUri, context);
     }
+    return MainWebviewPanel.currentPanel;
   }
 
   /**
@@ -159,11 +161,14 @@ export class MainWebviewPanel {
             return;
           case "saveFile":
             await handleFileSave(message.contents, message.fileNames, this._context);
+            // check this
             return;
           case "loadFile":
-            await handleFileLoad(this._context, 
-              // message.fileName, 
-              webview);
+            await handleFileLoad(
+              this._context,
+              // message.fileName,
+              webview
+            );
             return;
           case "processSketch":
             const sketchDescription = await processSketch(message.content, this._context, webview);
@@ -196,6 +201,9 @@ export class MainWebviewPanel {
           case "deletedPageAlert":
             window.showErrorMessage(message.message);
             return;
+          case "downloadCode":
+            await convertToXaml(message.content, message.fileName, this._context);
+            return;
         }
       },
       undefined,
@@ -205,5 +213,9 @@ export class MainWebviewPanel {
 
   public postMessage(message: any) {
     this._panel.webview.postMessage(message);
+  }
+
+  public get webview(): Webview {
+    return this._panel.webview;
   }
 }
