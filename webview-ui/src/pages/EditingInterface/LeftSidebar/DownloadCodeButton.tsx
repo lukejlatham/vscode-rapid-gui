@@ -14,11 +14,14 @@ const DownloadCodeButton: React.FC<{ classes: any, pages: Page[], currentPageInd
 
         const pagesContents = pages.map((page, index) => 
             index === currentPageIndex 
-                ? serializedData 
+                ? JSON.stringify(serializedData)  // Stringify serializedData for consistency
                 : JSON.stringify(page.content)
         );
 
         const pagesNames = pages.map(page => page.name);
+
+        console.log('Contents to be sent:', pagesContents);
+        console.log('FileNames to be sent:', pagesNames);
 
         vscode.postMessage({
             command: 'downloadCode',

@@ -1,5 +1,3 @@
-// In xamlConverter.ts
-
 import * as vscode from "vscode";
 import * as path from "path";
 import { Page } from "../../webview-ui/src/types";
@@ -7,15 +5,15 @@ import { parseJSON, ParsedJSON } from "../WinUI3/JsonParser";
 import { AppGenerator } from "../WinUI3/generateapp";
 
 export async function convertToXaml(
-  contents: { [key: string]: string },
-  fileNames: { [key: string]: string },
+  contents: string[],
+  fileNames: string[],
   context: vscode.ExtensionContext
 ): Promise<void> {
   console.log("Contents:", contents);
   console.log("FileNames:", fileNames);
 
-  if (!contents || !fileNames) {
-    throw new Error("Contents or fileNames is undefined");
+  if (!contents || !fileNames || contents.length !== fileNames.length) {
+    throw new Error("Invalid contents or fileNames");
   }
 
   const currentFolder = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
@@ -36,26 +34,24 @@ export async function convertToXaml(
 
   const pages: Page[] = [];
 
-  for (const key in contents) {
-    if (contents.hasOwnProperty(key) && fileNames.hasOwnProperty(key)) {
-      const fileName = fileNames[key];
-      const jsonContent = contents[key];
+  for (let i = 0; i < contents.length; i++) {
+    const fileName = fileNames[i];
+    const jsonContent = contents[i];
 
-      console.log(`Processing page: ${fileName}`);
-      console.log("JSON Content:", jsonContent);
+    console.log(`Processing page: ${fileName}`);
+    console.log("JSON Content:", jsonContent);
 
-      try {
-        const parsedJSON: ParsedJSON = parseJSON(jsonContent);
-        const page: Page = {
-          id: fileName,
-          name: fileName,
-          content: parsedJSON.pages[fileName].components,
-        };
+    try {
+      const parsedContent = JSON.parse(jsonContent);
+      const page: Page = {
+        id: fileName,
+        name: fileName,
+        content: parsedContent,
+      };
 
-        pages.push(page);
-      } catch (error) {
-        console.error(`Error processing page ${fileName}:`, error);
-      }
+      pages.push(page);
+    } catch (error) {
+      console.error(`Error processing page ${fileName}:`, error);
     }
   }
 
