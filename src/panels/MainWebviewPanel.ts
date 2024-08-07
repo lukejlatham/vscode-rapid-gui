@@ -31,7 +31,6 @@ export class MainWebviewPanel {
     try {
       const { contents, fileNames } = message;
 
-      // Get the current workspace folder
       const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
       if (!workspaceFolder) {
         throw new Error("No workspace folder is open");
@@ -55,6 +54,8 @@ export class MainWebviewPanel {
       for (let i = 0; i < fileNames.length; i++) {
         const fileName = fileNames[i];
         const jsonContent = contents[i];
+
+        console.log(`Processing page: ${fileName}`);
 
         const parsedContent = JSON.parse(jsonContent);
 

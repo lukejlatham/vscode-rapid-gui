@@ -116,7 +116,9 @@ export class FileGenerator {
 
   private createPageXaml(page: Page) {
     const content = this.generatePageXaml(page);
-    this.createFile(`Pages/${page.name}.xaml`, content);
+    const filePath = path.join(this.outputPath, "Pages", `${page.name}.xaml`);
+    fs.writeFileSync(filePath, content, "utf-8");
+    console.log(`Generated ${filePath}`);
   }
 
   private createPageXamlCs(pageName: string) {
