@@ -18,9 +18,10 @@ export function generateComponentXaml(
 ): string {
   let xaml = "";
   for (const [id, node] of Object.entries(content)) {
-    if (id !== "ROOT") {
-      xaml += generateSingleComponentXaml(node, indent);
+    if (node.type.resolvedName === "GridCell") {
+      continue;
     }
+    xaml += generateSingleComponentXaml(node, indent);
   }
   return xaml;
 }

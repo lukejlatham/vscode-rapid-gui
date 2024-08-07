@@ -93,6 +93,7 @@ function generateGridCell(
                  VerticalAlignment="${mapFlexToAlignment(node.props.alignItems)}"
                  Margin="${node.props.gap || "0"}">\n`;
 
+    const childIds = [...node.nodes, ...Object.values(node.linkedNodes)];
     for (const childId of node.nodes) {
       const childNode = content[childId];
       if (childNode) {
