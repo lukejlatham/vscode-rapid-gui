@@ -51,7 +51,12 @@ function generateGridContent(
   return xaml;
 }
 
-function generateGridCell(content: any, layoutItem: any, node: any, indent: string): string {
+function generateGridCell(
+  content: { [key: string]: Node },
+  layoutItem: LayoutItem,
+  node: Node,
+  indent: string
+): string {
   let xaml = `${indent}<Grid Grid.Row="${layoutItem.y}" Grid.Column="${layoutItem.x}" Grid.RowSpan="${layoutItem.h}" Grid.ColumnSpan="${layoutItem.w}">\n`;
 
   // Handle nested grid
@@ -68,7 +73,7 @@ function generateGridCell(content: any, layoutItem: any, node: any, indent: stri
     // Generate components within the cell
     for (const childId of node.nodes) {
       const childNode = content[childId];
-      xaml += generateComponentXaml(childNode, indent + "    ");
+      xaml += generateComponentXaml({ [childId]: childNode }, indent + "    ");
     }
 
     xaml += `${indent}  </StackPanel>\n`;
