@@ -4,6 +4,7 @@ import { TemplateManager } from "./TemplateManager";
 import { generateGridXaml } from "./gridGenerator";
 import { generateComponentXaml } from "./componentGenerator";
 import { Page } from "../../webview-ui/src/types";
+import { Node } from "./JsonParser";
 
 export class FileGenerator {
   private projectName: string;
@@ -101,7 +102,7 @@ export class FileGenerator {
 
   public generatePageXaml(page: Page): string {
     const gridXaml = generateGridXaml(page);
-    const componentXaml = generateComponentXaml(page.content);
+    const componentXaml = generateComponentXaml(page.content as { [key: string]: Node });
     const pageContent = `${gridXaml}\n${componentXaml}`;
 
     const content = this.templateManager.fillTemplate("Page.xaml", {
