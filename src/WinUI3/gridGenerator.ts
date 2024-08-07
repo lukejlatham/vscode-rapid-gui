@@ -6,9 +6,14 @@ import { Page } from "../../webview-ui/src/types";
 export function generateGridXaml(page: Page): string {
   console.log("Generating XAML for page:", JSON.stringify(page, null, 2));
 
-  if (!page.content.ROOT) {
+  if (typeof page.content === "string") {
+    console.error("Page content is a string, not an object");
+    page.content = JSON.parse(page.content);
+  }
+
+  if (!page.content || !page.content.ROOT) {
     console.error("ROOT node is missing in page content");
-    console.log("Page content keys:", Object.keys(page.content));
+    console.log("Page content keys:", Object.keys(page.content || {}));
     throw new Error("Root node not found");
   }
 
