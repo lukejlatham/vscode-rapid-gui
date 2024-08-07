@@ -15,6 +15,8 @@ import { processSketch, processTextDescription } from "../generateLayout/generat
 import { processCopilotMessages } from "../copilot";
 import * as fs from "fs";
 import * as path from "path";
+import { convertToXaml } from "../utilities/xamlConverter";
+import vscode from "vscode";
 
 export class MainWebviewPanel {
   public static currentPanel: MainWebviewPanel | undefined;
@@ -27,29 +29,42 @@ export class MainWebviewPanel {
     try {
       const { contents, fileNames } = message;
 
-      // Ask user for save location
-      const saveLocation = await window.showOpenDialog({
-        canSelectFiles: false,
-        canSelectFolders: true,
-        canSelectMany: false,
-        openLabel: "Select folder to save files",
-      });
-
-      if (saveLocation && saveLocation[0]) {
-        const folderPath = saveLocation[0].fsPath;
-
-        // Save each file
-        for (let i = 0; i < contents.length; i++) {
-          const fileName = `${fileNames[i]}.json`;
-          const filePath = path.join(folderPath, fileName);
-          fs.writeFileSync(filePath, contents[i]);
-        }
-
-        window.showInformationMessage("Files downloaded successfully!");
+      // Get the current workspace folder
+      const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
+      if (!workspaceFolder) {
+        throw new Error("No workspace folder is open");
       }
+
+      const projectFolder = workspaceFolder.uri.fsPath;
+      const xamlFolder = path.join(projectFolder, "XAML_Output");
+
+      // Create XAML_Output folder if it doesn't exist
+      if (!fs.existsSync(xamlFolder)) {
+        fs.mkdirSync(xamlFolder);
+      }
+
+      // Convert JSON to XAML
+      await convertToXaml(contents, fileNames, this._context);
+
+      // After conversion, read and save each XAML file
+      for (let i = 0; i < fileNames.length; i++) {
+        const fileName = fileNames[i];
+        const xamlFilePath = path.join(xamlFolder, `${fileName}.xaml`);
+
+        // Assuming convertToXaml saves files in a temporary location or returns content
+        // You might need to adjust this part based on how convertToXaml works
+        const xamlContent = fs.readFileSync(xamlFilePath, "utf8");
+
+        // Save XAML file in the project's XAML_Output folder
+        fs.writeFileSync(path.join(xamlFolder, `${fileName}.xaml`), xamlContent);
+      }
+
+      vscode.window.showInformationMessage(`XAML files generated and saved in ${xamlFolder}`);
     } catch (error) {
       console.error("Error in handleDownloadCode:", error);
-      window.showErrorMessage("Failed to download files. Check console for details.");
+      vscode.window.showErrorMessage(
+        "Failed to generate or save XAML files. Check console for details."
+      );
     }
   }
 

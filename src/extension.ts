@@ -77,12 +77,6 @@ export function activate(context: vscode.ExtensionContext) {
     )
   );
 
-  context.subscriptions.push(
-    vscode.commands.registerCommand("mainWebviewPanel.showMainWebviewPanel", () => {
-      MainWebviewPanel.render(context.extensionUri, context);
-    })
-  );
-
   // Register the custom view with buttons
   const buttonTreeViewProvider = new ButtonTreeViewProvider();
   vscode.window.registerTreeDataProvider("sideBarButtons", buttonTreeViewProvider);
