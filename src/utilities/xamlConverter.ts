@@ -27,30 +27,17 @@ export async function convertToXaml(
     content: parsedJSON.pages[fileName].components,
   };
 
-  const projectName = await vscode.window.showInputBox({
-    prompt: "Enter a name for your WinUI 3 project",
-    placeHolder: "MyWinUIProject",
-  });
-
-  if (!projectName) {
-    throw new Error("Project name cannot be empty");
-  }
-
-  const outputPath = path.join(currentFolder, projectName);
-
   const templateManager = new TemplateManager(context);
-  const projectStructureGenerator = new ProjectStructureGenerator(outputPath);
   const fileGenerator = new FileGenerator(
-    projectName,
-    outputPath,
+    fileName,
+    "",
     templateManager,
-    projectName,
-    `${projectName}.App`,
+    fileName,
+    `${fileName}.App`,
     "CN=YourPublisherName",
-    `${projectName} Description`
+    `${fileName} Description`
   );
 
-  projectStructureGenerator.createProjectStructure();
   const xamlContent = fileGenerator.generatePageXaml(page);
 
   return xamlContent;

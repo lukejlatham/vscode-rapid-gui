@@ -42,12 +42,12 @@ export class MainWebviewPanel {
         throw new Error("No workspace folder is open");
       }
 
-      const projectFolder = workspaceFolder.uri.fsPath;
-      const jsonFolder = path.join(projectFolder, "Saved Pages");
+      // const projectFolder = workspaceFolder.uri.fsPath;
+      // const jsonFolder = path.join(projectFolder, "Saved Pages");
 
-      if (!fs.existsSync(jsonFolder)) {
-        fs.mkdirSync(jsonFolder, { recursive: true });
-      }
+      // if (!fs.existsSync(jsonFolder)) {
+      //   fs.mkdirSync(jsonFolder, { recursive: true });
+      // }
 
       for (let i = 0; i < fileNames.length; i++) {
         const fileName = fileNames[i];
@@ -65,12 +65,12 @@ export class MainWebviewPanel {
         // Convert to XAML
         const xamlContent = await convertToXaml(parsedContent, fileName, this._context);
 
-        // Save the XAML file
-        const xamlFilePath = path.join(jsonFolder, `${fileName}.xaml`);
-        fs.writeFileSync(xamlFilePath, xamlContent, "utf-8");
+        // // Save the XAML file
+        // const xamlFilePath = path.join(jsonFolder, `${fileName}.xaml`);
+        // fs.writeFileSync(xamlFilePath, xamlContent, "utf-8");
       }
 
-      vscode.window.showInformationMessage(`XAML files generated and saved in ${jsonFolder}`);
+      vscode.window.showInformationMessage(`XAML files generated and saved successfully.`);
     } catch (error) {
       console.error("Error in handleDownloadCode:", error);
       vscode.window.showErrorMessage(`Failed to generate or save XAML files: ${error.message}`);
