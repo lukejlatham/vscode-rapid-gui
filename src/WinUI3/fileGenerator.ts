@@ -102,16 +102,19 @@ export class FileGenerator {
 
   public generatePageXaml(page: Page): string {
     const gridXaml = generateGridXaml(page);
-    const componentXaml = generateComponentXaml(page.content as { [key: string]: Node });
-    const pageContent = gridXaml;
+    // const componentXaml = generateComponentXaml(page.content as { [key: string]: Node });
+    // const pageContent = gridXaml;
 
     const content = this.templateManager.fillTemplate("Page.xaml", {
       namespace: this.projectName,
       pageName: page.name,
-      pageContent: pageContent,
+      pageContent: gridXaml,
     });
 
-    return content;
+    const finalContent = content.replace("{{PAGE_CONTENT}}", gridXaml);
+    console.log(finalContent);
+
+    return finalContent;
   }
 
   private createPageXaml(page: Page) {
