@@ -193,8 +193,8 @@ export const imageSchema = z.object({
       "https://media.licdn.com/dms/image/D4E22AQGL4EZgEpG2ag/feedshare-shrink_800/0/1719580422738?e=2147483647&v=beta&t=Nj786KjutiTxei_wgDDM40hcWFi5_-qqBIKM4jOa3Hc"
     ),
   alt: z.string().default("New image"),
-  width: z.number().default(100),
-  height: z.number().default(100),
+  width: z.number().default(90),
+  height: z.number().default(90),
   alignment: z.enum(["left", "center", "right"]).optional(),
 });
 
@@ -319,7 +319,7 @@ export const generatedElements = z.object({
     "Button",
     "Label",
     "Image",
-    "TextBox",
+    // "TextBox",
     "RadioButton",
     "Checkbox",
     "Input",
@@ -333,7 +333,7 @@ export const generatedElements = z.object({
 
 export const generatedSectionChildren = z.object({
   section: z.string(),
-  children: z.array(generatedElements).max(6),
+  children: z.array(generatedElements).max(5),
 });
 
 export const generatedAllSectionsChildren = z.object({
@@ -411,7 +411,7 @@ export const generateTextBoxSchema = z.object({
 export const generateTextSchema = z.object({
   type: z.literal("Text"),
   props: z.object({
-    text: z.string().describe("Short paragraph"),
+    text: z.string().describe("Write short paragraph"),
     fontColor: ColorEnum,
   }),
 });
@@ -448,17 +448,23 @@ export const generateIconSchema = z.object({
 
 // Used in getSectionChildrenOpenai.ts
 
-export const sectionSchema = z.object({
+const sectionSchema = z.object({
   section: z.string(),
-  props: z.object({
-    xPosition: z.number().int().max(10),
-    yPosition: z.number().int().max(10),
-    width: z.number().int().max(10),
-    height: z.number().int().max(10),
-    flexDirection: z.enum(["row", "column"]).describe("Row if width > height, column otherwise."),
-    backgroundColor: ColorEnum.describe("Use accent colors for headers and footers."),
-  }),
-  contents: z.string().describe("Give a detailed description of the section."),
+  props: z
+    .object({
+      xPosition: z.number().int().max(10),
+      yPosition: z.number().int().max(10),
+      width: z.number().int().max(10),
+      height: z.number().int().max(10),
+      backgroundColor: ColorEnum.describe("Use accent colors for headers and footers."),
+    })
+    .transform((props) => ({
+      ...props,
+      flexDirection: props.width > props.height ? "row" : "column",
+    })),
+  contents: z
+    .string()
+    .describe("Give a detailed description of the section row or column contents."),
 });
 
 export const layoutSchema = z.object({
@@ -474,7 +480,6 @@ export const generatedFullElements = z.union([
   generateInputSchema,
   generateLabelSchema,
   generateRadioButtonSchema,
-  generateTextBoxSchema,
   generateTextSchema,
   generateImageSchema,
   generateInputSchema,

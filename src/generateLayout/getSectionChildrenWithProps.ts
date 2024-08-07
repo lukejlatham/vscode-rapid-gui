@@ -16,7 +16,7 @@ const textMessage = (layout: string, childElements: string) => ({
   content: [
     {
       type: "text",
-      text: `Provide properties for this \n\n ${layout}\n\n with following child elements as contents: ${childElements}.`,
+      text: `Provide properties for this \n\n ${layout}\n\n with following child elements as contents: ${childElements}. Make all text bizarre.`,
     },
   ],
 });
