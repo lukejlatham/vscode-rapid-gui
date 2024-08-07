@@ -35,7 +35,7 @@ export async function convertToXaml(
 
   const outputPath = path.join(currentFolder, projectName);
 
-  const templateManager = new TemplateManager(path.join(context.extensionPath, "templates"));
+  const templateManager = new TemplateManager(context);
   const projectStructureGenerator = new ProjectStructureGenerator(outputPath);
   const fileGenerator = new FileGenerator(
     projectName,

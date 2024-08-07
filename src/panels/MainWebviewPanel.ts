@@ -36,35 +36,34 @@ export class MainWebviewPanel {
       }
 
       const projectFolder = workspaceFolder.uri.fsPath;
-      const xamlFolder = path.join(projectFolder, "XAML_Output");
+      const xamlFolder = path.join(projectFolder, "Saved Pages");
 
       // Create XAML_Output folder if it doesn't exist
       if (!fs.existsSync(xamlFolder)) {
         fs.mkdirSync(xamlFolder);
       }
 
-      // Convert JSON to XAML
-      await convertToXaml(contents, fileNames, this._context);
-
       // After conversion, read and save each XAML file
       for (let i = 0; i < fileNames.length; i++) {
         const fileName = fileNames[i];
-        const xamlFilePath = path.join(xamlFolder, `${fileName}.xaml`);
+        const jsonContent = contents[i];
 
         // Assuming convertToXaml saves files in a temporary location or returns content
         // You might need to adjust this part based on how convertToXaml works
-        const xamlContent = fs.readFileSync(xamlFilePath, "utf8");
+        const xamlContent = await convertToXaml(jsonContent, fileName, this._context);
 
-        // Save XAML file in the project's XAML_Output folder
-        fs.writeFileSync(path.join(xamlFolder, `${fileName}.xaml`), xamlContent);
+        const xamlFilePath = path.join(xamlFolder, `${fileName}.xaml`);
+        fs.writeFileSync(xamlFilePath, xamlContent);
       }
 
       vscode.window.showInformationMessage(`XAML files generated and saved in ${xamlFolder}`);
     } catch (error) {
       console.error("Error in handleDownloadCode:", error);
-      vscode.window.showErrorMessage(
-        "Failed to generate or save XAML files. Check console for details."
-      );
+      if (error instanceof Error) {
+        console.error("Error message:", error.message);
+        console.error("Error stack:", error.stack);
+      }
+      vscode.window.showErrorMessage(`Failed to generate or save XAML files: ${error.message}`);
     }
   }
 

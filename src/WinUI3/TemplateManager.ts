@@ -1,12 +1,13 @@
 import * as fs from "fs";
 import * as path from "path";
+import * as vscode from "vscode";
 
 export class TemplateManager {
   private templatesPath: string;
   private templates: Map<string, string>;
 
-  constructor(templatesPath: string) {
-    this.templatesPath = templatesPath;
+  constructor(context: vscode.ExtensionContext) {
+    this.templatesPath = path.join(context.extensionPath, "templates");
     this.templates = new Map();
     this.loadTemplates();
   }
