@@ -7,7 +7,7 @@ import { ZodObject } from "zod";
 const createSystemMessage = (layout: string) => {
   return {
     role: "system",
-    content: `You are a UI designer who refines the properties for this layout:\n\n ${layout}\n\n'. The width/height represents the percentage of the parent container (keep below 80). Only use Main, LightAccent, or DarkAccent for backgroundColors. You must retain all sections and their respective child elements.`,
+    content: `You are a UI designer who refines layout properties. The width/height property represents the percentage of the parent container (keep below 80). Only use Main, LightAccent, or DarkAccent for backgroundColors. All sections and their respective child elements are fixed.`,
   };
 };
 
@@ -16,7 +16,7 @@ const textMessage = (layout: string, childElements: string) => ({
   content: [
     {
       type: "text",
-      text: `Provide properties for the following sections/child elements: ${childElements}. You must retain all sections and their respective child elements in the same positions.`,
+      text: `Provide properties for this \n\n ${layout}\n\n with following sections/child elements: ${childElements}.`,
     },
   ],
 });

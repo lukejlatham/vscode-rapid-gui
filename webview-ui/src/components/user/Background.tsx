@@ -54,7 +54,7 @@ export const Background: FC<BackgroundProps> = (props) => {
   useEffect(() => {
     const updateContainerHeight = () => {
       if (backgroundRef.current) {
-        setContainerHeight(backgroundRef.current.clientHeight*0.8);
+        setContainerHeight(backgroundRef.current.clientHeight*0.85);
       }
     };
     window.addEventListener('resize', updateContainerHeight);

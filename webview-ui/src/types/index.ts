@@ -177,8 +177,8 @@ export type TextBoxProps = z.infer<typeof textBoxSchema>;
 export const iconSchema = z.object({
   selectedIcon: z
     .string()
-    .refine((val) => val in VscIcons)
-    .optional() as z.ZodType<VscIconKeys>,
+    .transform((val) => (val in VscIcons ? val : "VscAdd"))
+    .default("VscCircle") as z.ZodType<VscIconKeys>,
   iconSize: z.number().optional().default(24),
   iconColor: z.string().optional().default("lightslategrey"),
   hyperlink: z.string().optional().default(""),
@@ -328,7 +328,6 @@ export const generatedElements = z.object({
     "Slider",
     "Dropdown",
   ]),
-  description: z.string(),
 });
 
 export const generatedSectionChildren = z.object({
@@ -435,19 +434,7 @@ export const generateDropdownSchema = z.object({
 export const generateIconSchema = z.object({
   type: z.literal("Icon"),
   props: z.object({
-    selectedIcon: z
-      .enum([
-        "VscAdd",
-        "VscArrowRight",
-        "VscArrowLeft",
-        "VscArrowUp",
-        "VscArrowDown",
-        "VscCheck",
-        "VscClose",
-        "VscTrash",
-        "VscSave",
-      ])
-      .default("VscAdd"),
+    selectedIcon: z.string().default("VscAdd"),
     iconSize: z.number().default(24),
   }),
 });
