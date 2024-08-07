@@ -5,10 +5,11 @@ import { TemplateManager } from "../WinUI3/TemplateManager";
 import { ProjectStructureGenerator } from "../WinUI3/ProjectStructureGenerator";
 import { FileGenerator } from "../WinUI3/fileGenerator";
 import { Page } from "../../webview-ui/src/types";
+import { SerializedNodes } from "@craftjs/core";
 
 export async function convertToXaml(
-  contents: string[],
-  fileNames: string[],
+  contents: string | string[] | SerializedNodes,
+  fileNames: string | string[],
   context: vscode.ExtensionContext
 ) {
   const currentFolder = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
@@ -27,11 +28,41 @@ export async function convertToXaml(
     return;
   }
 
-  const pages: Page[] = contents.map((content, index) => ({
-    id: fileNames[index],
-    name: fileNames[index],
-    content: JSON.parse(content),
-  }));
+  let pages: Page[] = [];
+
+  // Handle different types of input
+  if (typeof contents === "string" && typeof fileNames === "string") {
+    // Single page
+    pages = [
+      {
+        id: fileNames,
+        name: fileNames,
+        content: JSON.parse(contents) as SerializedNodes,
+      },
+    ];
+  } else if (
+    Array.isArray(contents) &&
+    Array.isArray(fileNames) &&
+    contents.length === fileNames.length
+  ) {
+    // Multiple pages
+    pages = contents.map((content: string, index: string | number) => ({
+      id: fileNames[index],
+      name: fileNames[index],
+      content: typeof content === "string" ? JSON.parse(content) : content,
+    }));
+  } else if (typeof contents === "object" && !Array.isArray(contents)) {
+    // Single page with object content
+    pages = [
+      {
+        id: Array.isArray(fileNames) ? fileNames[0] : fileNames,
+        name: Array.isArray(fileNames) ? fileNames[0] : fileNames,
+        content: contents,
+      },
+    ];
+  } else {
+    throw new Error("Invalid input format for contents or fileNames");
+  }
 
   const outputPath = path.join(currentFolder, projectName);
 

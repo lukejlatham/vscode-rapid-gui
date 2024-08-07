@@ -44,7 +44,7 @@ export class FileGenerator {
     this.createResourcesFile();
     this.createGitignore();
     this.createReadme();
-    this.copyDefaultAssets();
+    // this.copyDefaultAssets();
 
     pages.forEach((page) => {
       this.createPageXaml(page);
@@ -85,19 +85,19 @@ export class FileGenerator {
     this.createFile("MainWindow.xaml.cs", content);
   }
 
-  private copyDefaultAssets() {
-    const assetFiles = [
-      "Square44x44Logo.png",
-      "Square150x150Logo.png",
-      "Wide310x150Logo.png",
-      "SplashScreen.png",
-    ];
-    assetFiles.forEach((file) => {
-      const sourcePath = path.join(__dirname, "..", "resources", "DefaultAssets", file);
-      const destPath = path.join(this.outputPath, "Assets", file);
-      fs.copyFileSync(sourcePath, destPath);
-    });
-  }
+  // private copyDefaultAssets() {
+  //   const assetFiles = [
+  //     "Square44x44Logo.png",
+  //     "Square150x150Logo.png",
+  //     "Wide310x150Logo.png",
+  //     "SplashScreen.png",
+  //   ];
+  //   assetFiles.forEach((file) => {
+  //     const sourcePath = path.join(__dirname, "..", "resources", "DefaultAssets", file);
+  //     const destPath = path.join(this.outputPath, "Assets", file);
+  //     fs.copyFileSync(sourcePath, destPath);
+  //   });
+  // }
 
   private createPageXaml(page: Page) {
     const gridXaml = generateGridXaml(page);

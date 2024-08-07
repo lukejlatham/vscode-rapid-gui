@@ -36,12 +36,7 @@ export class MainWebviewPanel {
       }
 
       const projectFolder = workspaceFolder.uri.fsPath;
-      const xamlFolder = path.join(projectFolder, "Saved Pages");
-
-      // Create XAML_Output folder if it doesn't exist
-      if (!fs.existsSync(xamlFolder)) {
-        fs.mkdirSync(xamlFolder);
-      }
+      const jsonFolder = path.join(projectFolder, "Saved Pages");
 
       // After conversion, read and save each XAML file
       for (let i = 0; i < fileNames.length; i++) {
@@ -50,13 +45,13 @@ export class MainWebviewPanel {
 
         // Assuming convertToXaml saves files in a temporary location or returns content
         // You might need to adjust this part based on how convertToXaml works
-        const xamlContent = await convertToXaml(jsonContent, fileName, this._context);
+        await convertToXaml(contents, fileNames, this._context);
 
-        const xamlFilePath = path.join(xamlFolder, `${fileName}.xaml`);
-        fs.writeFileSync(xamlFilePath, xamlContent);
+        const xamlFilePath = path.join(jsonFolder, `${fileName}.json`);
+        const xamlContent = fs.readFileSync(xamlFilePath, "utf-8");
       }
 
-      vscode.window.showInformationMessage(`XAML files generated and saved in ${xamlFolder}`);
+      vscode.window.showInformationMessage(`XAML files generated and saved in ${jsonFolder}`);
     } catch (error) {
       console.error("Error in handleDownloadCode:", error);
       if (error instanceof Error) {
