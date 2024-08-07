@@ -11,7 +11,7 @@ const exampleLayout = {
       width: 10,
       height: 2,
       flexDirection: "row",
-      backgroundColor: "lightslategray",
+      backgroundColor: "LightAccent",
       contents:
         "This is the header section, containing the site logo, header text and navigation buttons.",
     },
@@ -22,7 +22,7 @@ const exampleLayout = {
       width: 7,
       height: 8,
       flexDirection: "column",
-      backgroundColor: "ghostwhite",
+      backgroundColor: "Main",
       contents:
         "This section includes the main content area where articles are displayed with pictures",
     },
@@ -33,7 +33,7 @@ const exampleLayout = {
       width: 3,
       height: 8,
       flexDirection: "column",
-      backgroundColor: "ghostwhite",
+      backgroundColor: "Main",
       contents: "The sidebar contains links to recent posts.",
     },
     {
@@ -43,7 +43,6 @@ const exampleLayout = {
       width: 10,
       height: 2,
       flexDirection: "row",
-      backgroundColor: "lightslategray",
       contents:
         "Footer section with links to privacy policy, contact information, and social media profiles.",
     },
@@ -52,7 +51,7 @@ const exampleLayout = {
 
 const systemMessage = {
   role: "system",
-  content: `You are a UI designer who creates perfect designs from a given sketch or description of a UI. You create your designs in terms of sections, each section containing child elements. An example layout is shown below:\n\n${exampleLayout}`,
+  content: `You are a UI designer who creates perfect app or website designs from a given sketch or text prompt. You create sections for components (on 10x10 grid starting at x=0 y=0), each component containing child elements. For backgroundColors prop, you can only use Main, LightAccent, or DarkAccent. An example layout is shown below:\n\n${exampleLayout}. `,
 };
 
 const textMessage = (textDescription: string) => ({
@@ -60,7 +59,7 @@ const textMessage = (textDescription: string) => ({
   content: [
     {
       type: "text",
-      text: `Create a UI layout from the following textual description: ${textDescription}`,
+      text: `Create a UI layout from the following textual description: ${textDescription}. Use creative license to interpret the description.`,
     },
   ],
 });

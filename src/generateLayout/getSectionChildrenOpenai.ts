@@ -77,17 +77,24 @@ import { ZodObject } from "zod";
 
 const systemMessage = {
   role: "system",
-  content: `You are a UI designer who fills in provided layouts. For each section, you provide the child elements and a description of each one. Try to be as detailed as possible and avoid generic names.
+  content: `You are a UI designer who fills in provided layouts. For each section, you provide the child elements needed and give a descriptive name that explains its purpose.
 
-Possible elements:
+Elements you can use more than once in a section:
 - Button
-- Label: use for headers and titles
-- Image 
-- TextBox
-- RadioButton
-- Checkbox
-- Input: use for fields
+- Label (titles)
+- Input
 - Icon
+- Dropdown
+- Slider
+
+Elements you can use only once in a section (as quite large):
+- Image 
+- RadioButton (series of options)
+- Checkbox (series of options)
+- TextBox (textArea style input)
+- Text (paragraph)
+
+Try to use a variety of elements and use lots of icons.
 `,
 };
 
@@ -96,7 +103,7 @@ const textMessage = (layout: string) => ({
   content: [
     {
       type: "text",
-      text: `Provide the child elements with descriptions for the following layout:\n\n ${layout}`,
+      text: `Provide the child elements for the following layout:\n\n ${layout}`,
     },
   ],
 });

@@ -6,6 +6,7 @@ import { ImageSettings } from "./Settings/ImageSettings";
 const useStyles = makeStyles({
   container: {
     display: "flex",
+    borderBox: "box-sizing",
   },
 });
 
@@ -40,6 +41,7 @@ export const ImageDefaultProps: ImageProps = {
 };
 
 Image.craft = {
+  displayName: "Image",
   props: ImageDefaultProps,
   related: {
     settings: ImageSettings,

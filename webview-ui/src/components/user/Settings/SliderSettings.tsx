@@ -21,6 +21,7 @@ export const SliderSettings: React.FC = () => {
         { label: "Step", content: "Set the step value for the slider.", propKey: "step", type: "spinButton" },
         { label: "Font Size", content: "Adjust the font size of the text.", propKey: "fontSize", type: "spinButton" },
         { label: "Font Color", content: "Adjust the color of the text.", propKey: "fontColor", type: "color" },
+        { label: "Slider Color", content: "Adjust the color of the slider.", propKey: "backgroundColor", type: "color" },
     ];
 
     const handleVisibilityChange = (tooltipKey: string, isVisible: boolean) => {

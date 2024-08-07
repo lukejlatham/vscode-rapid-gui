@@ -13,8 +13,8 @@ const useStyles = makeStyles({
   background: {
     width: '100%',
     height: '100%',
-    position: 'relative',
     overflow: 'auto',
+    border: '1px solid #666666',
   },
   gridCell: {
     border: '1px dashed #666666',
@@ -22,7 +22,6 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     alignItems: 'center',
     overflow: 'hidden',
-    position: 'relative',
   },
 });
 
@@ -55,7 +54,7 @@ export const Background: FC<BackgroundProps> = (props) => {
   useEffect(() => {
     const updateContainerHeight = () => {
       if (backgroundRef.current) {
-        setContainerHeight(backgroundRef.current.clientHeight);
+        setContainerHeight(backgroundRef.current.clientHeight*0.85);
       }
     };
     window.addEventListener('resize', updateContainerHeight);
@@ -81,9 +80,10 @@ export const Background: FC<BackgroundProps> = (props) => {
         appearance='filled'
         ref={backgroundRef}
         className={styles.background}
-        style={{ backgroundColor: initialBackgroundColor }}
+        
       >
         <ResponsiveGridLayout
+          style={{ backgroundColor: initialBackgroundColor }}
           className="layout"
           layout={initialLayout}
           cols={initialColumns}

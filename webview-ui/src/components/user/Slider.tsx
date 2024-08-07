@@ -8,7 +8,7 @@ import { SliderSettings } from './Settings/SliderSettings';
 export const Slider: UserComponent<SliderProps> = (props) => {
     const validatedProps = sliderSchema.parse(props);
 
-    const { header, min, max, step, fontSize, fontColor } = validatedProps;
+    const { header, min, max, step, fontSize, fontColor, backgroundColor} = validatedProps;
 
     const { connectors: { connect, drag } } = useNode();
 
@@ -31,7 +31,7 @@ export const Slider: UserComponent<SliderProps> = (props) => {
                 min={min}
                 max={max}
                 step={step}
-                style={{ fontSize: `${fontSize}px`, color: fontColor }}
+                style={{ fontSize: `${fontSize}px`, color: fontColor, accentColor: backgroundColor }}
             />
         </div>
     );
@@ -44,6 +44,7 @@ export const SliderDefaultProps: SliderProps = {
     step: 1,
     fontSize: 14,
     fontColor: '#FFFFFF',
+    backgroundColor: 'red',
 };
 
 Slider.craft = {

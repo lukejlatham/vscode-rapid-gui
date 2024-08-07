@@ -6,6 +6,7 @@ import {
   Uri,
   ViewColumn,
   ExtensionContext,
+  workspace,
 } from "vscode";
 import { getUri } from "../utilities/getUri";
 import { getNonce } from "../utilities/getNonce";
@@ -13,12 +14,8 @@ import { getAzureOpenaiApiKeys } from "../utilities/azureApiKeyStorage";
 import { handleFileSave, handleFileLoad } from "../utilities/projectSaveUtilities";
 import { processSketch, processTextDescription } from "../generateLayout/generateLayout";
 import { processCopilotMessages } from "../copilot";
-import * as fs from "fs";
-import * as path from "path";
+import { handleImageUpload } from "../utilities/imageSave";
 import { convertToXaml } from "../utilities/xamlConverter";
-import vscode from "vscode";
-import { AppGenerator } from "../WinUI3/generateapp";
-import { Page } from "../../webview-ui/src/types";
 
 export class MainWebviewPanel {
   public static currentPanel: MainWebviewPanel | undefined;
@@ -51,6 +48,7 @@ export class MainWebviewPanel {
         localResourceRoots: [
           Uri.joinPath(extensionUri, "out"),
           Uri.joinPath(extensionUri, "webview-ui/build"),
+          workspace.workspaceFolders?.[0]?.uri,
         ],
       });
 
@@ -124,14 +122,15 @@ export class MainWebviewPanel {
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
           <meta name="theme-color" content="#000000">
-          <meta http-equiv="Content-Security-Policy" content="
+                    <meta http-equiv="Content-Security-Policy" content="
             default-src 'none'; 
-            img-src https: vscode-resource:; 
+            img-src vscode-resource: https:; 
             script-src 'nonce-${nonce}' vscode-resource:; 
             style-src 'unsafe-inline' vscode-resource:;
             connect-src ${connectSrcUrls};
           ">
           <link rel="stylesheet" type="text/css" href="${stylesUri}">
+  
           <title>Hello World</title>
         </head>
         <body>
@@ -183,10 +182,21 @@ export class MainWebviewPanel {
             );
             webview.postMessage({ command: "textDescriptionProcessed", content: textDescription });
             return;
-
           case "aiUserMessage":
             const updatedMessages = await processCopilotMessages(message.content, this._context);
             webview.postMessage({ command: "aiCopilotMessage", content: updatedMessages });
+            return;
+          case "uploadImage":
+            const filePath = await handleImageUpload(
+              message.content,
+              message.filename,
+              this._context
+            );
+            if (filePath) {
+              const imageUri = webview.asWebviewUri(Uri.file(filePath)).toString();
+              window.showInformationMessage("Image saving command received.");
+              webview.postMessage({ command: "imageUploaded", filePath: imageUri });
+            }
             return;
           case "deletedPageAlert":
             window.showErrorMessage(message.message);

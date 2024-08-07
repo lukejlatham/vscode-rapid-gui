@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Dialog, DialogTrigger, DialogSurface, DialogBody, DialogTitle, DialogContent, DialogActions, Button } from '@fluentui/react-components';
 import { DrawImageRegular, TextAddRegular, Camera24Regular } from '@fluentui/react-icons';
 import { useNavigate } from 'react-router-dom';
-import { UploadDialog } from './ImageUpload/UploadDialog'; // Import the UploadDialog component
+import { UploadDialog } from './SketchUpload/UploadDialog'; // Import the UploadDialog component
 import { TextDialog } from './ImageUpload/TextDialog'; // Import the TextDialog component
 
 export const StartProjectDialog: React.FC = () => {
