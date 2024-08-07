@@ -1,7 +1,4 @@
 // JSONParser.ts, change anything that is not a type definition?
-import { SerializedNodes } from "@craftjs/core";
-
-export type CraftJSNode = SerializedNodes[string];
 
 export interface ParsedJSON {
   pages: {
