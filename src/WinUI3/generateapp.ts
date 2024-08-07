@@ -36,7 +36,7 @@ export class AppGenerator {
     this.projectStructureGenerator = new ProjectStructureGenerator(outputPath);
   }
 
-  public generateApp() {
+  public async generateApp() {
     this.projectStructureGenerator.createProjectStructure();
     this.fileGenerator.generateProjectFiles(this.pages);
     console.log(

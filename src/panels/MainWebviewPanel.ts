@@ -17,7 +17,8 @@ import * as fs from "fs";
 import * as path from "path";
 import { convertToXaml } from "../utilities/xamlConverter";
 import vscode from "vscode";
-import { parseJSON } from "../WinUI3/JsonParser";
+import { AppGenerator } from "../WinUI3/generateapp";
+import { Page } from "../../webview-ui/src/types";
 
 export class MainWebviewPanel {
   public static currentPanel: MainWebviewPanel | undefined;
@@ -30,53 +31,58 @@ export class MainWebviewPanel {
     try {
       const { contents, fileNames } = message;
 
-      if (
-        !Array.isArray(contents) ||
-        !Array.isArray(fileNames) ||
-        contents.length !== fileNames.length
-      ) {
-        throw new Error("Invalid input format");
-      }
-
+      // Get the current workspace folder
       const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
       if (!workspaceFolder) {
         throw new Error("No workspace folder is open");
       }
 
-      const projectFolder = workspaceFolder.uri.fsPath;
+      const projectName = await vscode.window.showInputBox({
+        prompt: "Enter a name for your WinUI 3 project",
+        placeHolder: "MyWinUI3Project",
+      });
+
+      if (!projectName) {
+        throw new Error("Project name is required");
+      }
+
+      const projectFolder = path.join(workspaceFolder.uri.fsPath, projectName);
+
       const jsonFolder = path.join(projectFolder, "Saved Pages");
 
-      if (!fs.existsSync(jsonFolder)) {
-        fs.mkdirSync(jsonFolder, { recursive: true });
-      }
+      const pages: Page[] = [];
 
       for (let i = 0; i < fileNames.length; i++) {
         const fileName = fileNames[i];
         const jsonContent = contents[i];
 
-        // Parse the content if it's a string
-        const parsedContent =
-          typeof jsonContent === "string" ? JSON.parse(jsonContent) : jsonContent;
+        const parsedContent = JSON.parse(jsonContent);
 
-        // Validate the parsed content
-        if (!parsedContent || typeof parsedContent !== "object" || !parsedContent.type) {
-          throw new Error(`Invalid content structure for file: ${fileName}`);
-        }
+        const page: Page = {
+          id: fileName,
+          name: fileName,
+          content: parsedContent,
+        };
 
-        // Convert to XAML
-        const xamlContent = await convertToXaml(parsedContent, fileName, this._context);
-
-        // Save the XAML file
-        const xamlFilePath = path.join(jsonFolder, `${fileName}.xaml`);
-        fs.writeFileSync(xamlFilePath, xamlContent, "utf-8");
+        pages.push(page);
       }
 
-      vscode.window.showInformationMessage(`XAML files generated and saved in ${jsonFolder}`);
+      const appGenerator = new AppGenerator(pages, projectFolder, projectName, this._context);
+      appGenerator.generateApp();
+
+      vscode.window.showInformationMessage(
+        `WinUI 3 project "${projectName}" generated successfully in ${projectFolder}`
+      );
     } catch (error) {
       console.error("Error in handleDownloadCode:", error);
-      vscode.window.showErrorMessage(`Failed to generate or save XAML files: ${error.message}`);
+      if (error instanceof Error) {
+        console.error("Error message:", error.message);
+        console.error("Error stack:", error.stack);
+      }
+      vscode.window.showErrorMessage(`Failed to generate WinUI 3 project: ${error.message}`);
     }
   }
+
   private constructor(panel: WebviewPanel, extensionUri: Uri, context: ExtensionContext) {
     this._panel = panel;
     this._context = context;
