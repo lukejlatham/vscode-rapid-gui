@@ -164,8 +164,15 @@ export class FileGenerator {
   }
 
   private createGitignore() {
-    const content = this.templateManager.getTemplate("gitignore");
-    this.createFile(".gitignore", content);
+    try {
+      const content = this.templateManager.getTemplate("gitignore");
+      this.createFile(".gitignore", content);
+    } catch (error) {
+      console.warn("Failed to create .gitignore file:", error.message);
+      // Optionally create a basic .gitignore file with common entries
+      const basicGitignore = "bin/\nobj/\n.vs/\n";
+      this.createFile(".gitignore", basicGitignore);
+    }
   }
 
   private createReadme() {
