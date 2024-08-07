@@ -6,6 +6,7 @@ import { ProjectStructureGenerator } from "../WinUI3/ProjectStructureGenerator";
 import { FileGenerator } from "../WinUI3/fileGenerator";
 import { Page } from "../../webview-ui/src/types";
 import { parseJSON, ParsedJSON } from "../WinUI3/JsonParser";
+import { AppGenerator } from "../WinUI3/generateapp";
 
 export async function convertToXaml(
   contents: object,
@@ -49,20 +50,8 @@ export async function convertToXaml(
     }
   }
 
-  const templateManager = new TemplateManager(context);
-  const projectStructureGenerator = new ProjectStructureGenerator(projectFolder);
-  const fileGenerator = new FileGenerator(
-    projectName,
-    projectFolder,
-    templateManager,
-    projectName,
-    `${projectName}.App`,
-    "CN=YourPublisherName",
-    `${projectName} Description`
-  );
-
-  projectStructureGenerator.createProjectStructure();
-  await fileGenerator.generateProjectFiles(pages);
+  const appGenerator = new AppGenerator(pages, projectFolder, projectName, context);
+  await appGenerator.generateApp();
 
   vscode.window.showInformationMessage(
     `WinUI 3 project "${projectName}" generated successfully in ${projectFolder}`
