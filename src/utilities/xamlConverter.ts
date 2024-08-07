@@ -30,22 +30,18 @@ export async function convertToXaml(
   const projectFolder = path.join(currentFolder, projectName);
 
   const pages: Page[] = [];
-
   for (const key in contents) {
     if (contents.hasOwnProperty(key) && fileNames.hasOwnProperty(key)) {
       const fileName = fileNames[key];
       const jsonContent = contents[key];
-
       console.log(`Processing page: ${fileName}`);
 
-      const parsedContent = JSON.parse(jsonContent);
-
+      const parsedJSON: ParsedJSON = parseJSON(jsonContent);
       const page: Page = {
         id: fileName,
         name: fileName,
-        content: parsedContent,
+        content: parsedJSON.pages[fileName].components,
       };
-
       pages.push(page);
     }
   }

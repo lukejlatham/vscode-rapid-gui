@@ -1,5 +1,3 @@
-import { generateGridXaml } from "./gridGenerator";
-import { generateComponentXaml } from "./componentGenerator";
 import { FileGenerator } from "./fileGenerator";
 import { TemplateManager } from "./TemplateManager";
 import { ProjectStructureGenerator } from "./ProjectStructureGenerator";
