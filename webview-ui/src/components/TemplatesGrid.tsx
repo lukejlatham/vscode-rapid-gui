@@ -6,6 +6,7 @@ import VideoGameSettings from '../data/layout_templates/VideoGameSettings.json'
 import Login from '../data/layout_templates/Login.json'
 import Website from '../data/layout_templates/Website.json'
 import FeedbackForm from '../data/layout_templates/FeedbackForm.json'
+import { DesktopRegular, GamesRegular, FormRegular, PersonPasskeyRegular } from '@fluentui/react-icons';
 import { useEditor } from '@craftjs/core';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -22,52 +23,35 @@ const useStyles = makeStyles({
     gap: '20px',
     paddingTop: '20px',
   },
-  webAppCard: {
-    width: '280px',
-    height: '250px',
-    color: tokens.colorNeutralForeground2,
-    background: tokens.colorNeutralBackground1,
-    transition: 'transform 0.2s',
-    ':hover': {
-      transform: 'scale(1.05)',
-      string: 'hover',
-    },
+  card: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '200px',
+    height: '100px',
+    ":hover": {
+      scale: 1.10,
+      transition: '0.3s',
+      backgroundColor: tokens.colorNeutralBackground1Hover,
+    }
   },
-  borderBoxed: {
-    border: '2px dashed #d6d6d6',
-    borderRadius: '1px',
-    padding: '80px',
-    paddingRight: '50px',
-    margin: '5px',
+  icon: {
+    fontSize: '48px',
   },
-  textContainer: {
-    bottom: '4px',
-    left: '10px',
-    color: '#8F8F8F',
-  },
-  title: {
-    fontSize: '16px',
-    color: '#FFFFFF',
-    paddingInlineStart: '5px',
-  },
-  description: {
-    fontSize: '14px',
-    color: '#8F8F8F',
-    paddingInlineStart: '5px',
-  },
+  name: {
+    textAlign: 'center',
+  }
 });
 
 const templates = [
-  { name: 'Website', data: {id: uuidv4(), name: 'Website', content: Website }},
-  { name: 'Login', data: {id: uuidv4(), name: 'Login Page', content: Login }},
-  { name: 'Video Game Settings', data: {id: uuidv4(), name: 'Video Game Settings', content: VideoGameSettings }},
-  { name: 'Feedback Form', data: {id: uuidv4(), name: 'Feedback Form', content: FeedbackForm }},
+  { name: 'Website Homepage', icon: <DesktopRegular/>, data: {id: uuidv4(), name: 'Website', content: Website }},
+  { name: 'Login Page', icon: <PersonPasskeyRegular/>, data: {id: uuidv4(), name: 'Login Page', content: Login }},
+  { name: 'Video Game Settings', icon: <GamesRegular/>, data: {id: uuidv4(), name: 'Video Game Settings', content: VideoGameSettings }},
+  { name: 'Feedback Form', icon: <FormRegular/>, data: {id: uuidv4(), name: 'Feedback Form', content: FeedbackForm }},
 ];
 
 const TemplatesGrid: React.FC = () => {
-  
-  const navigate = useNavigate();
-  const location = useLocation();
   const styles = useStyles();
 
   // useEffect(() => {
@@ -92,14 +76,9 @@ const TemplatesGrid: React.FC = () => {
     <div className={styles.templateContainer}>
       {templates.map((template) => (
         <Link to="/editing-interface" state={{id: template.data.id, name: template.data.name, content: template.data.content}}key={template.name} className={styles.cardLink}>
-        <Card appearance='filled' 
-        // onClick={() => handleTemplateClick(template.data)}
-        >
-          <div className={styles.borderBoxed}></div>
-          {/* <CardHeader image={loginImage} /> */}
-          <div className={styles.textContainer}>
-            <Body2 className={styles.title}>{template.name}</Body2>
-          </div>
+        <Card appearance='filled' className={styles.card}>
+          <CardHeader title={template.name} image={template.icon} className={styles.icon} />
+            <Body2 className={styles.name}>{template.name}</Body2>
         </Card>
         </Link>
       ))}
