@@ -9,6 +9,9 @@ export async function convertToXaml(
   fileNames: object,
   context: vscode.ExtensionContext
 ): Promise<void> {
+  console.log("Contents:", contents);
+  console.log("File names:", fileNames);
+
   const currentFolder = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
   if (!currentFolder) {
     throw new Error("No workspace folder is open");
@@ -33,16 +36,26 @@ export async function convertToXaml(
       const jsonContent = contents[key];
 
       console.log(`Processing page: ${fileName}`);
+      console.log("JSON Content:", jsonContent);
 
-      const parsedJSON: ParsedJSON = parseJSON(jsonContent);
-      const page: Page = {
-        id: fileName,
-        name: fileName,
-        content: parsedJSON.pages[fileName].components,
-      };
+      try {
+        const parsedJSON: ParsedJSON = parseJSON(jsonContent);
+        const page: Page = {
+          id: fileName,
+          name: fileName,
+          content: parsedJSON.pages[fileName].components,
+        };
 
-      pages.push(page);
+        pages.push(page);
+      } catch (error) {
+        console.error(`Error processing page ${fileName}:`, error);
+      }
     }
+  }
+
+  console.log("Number of pages created:", pages.length);
+  if (pages.length === 0) {
+    throw new Error("No pages were created. Check the input data.");
   }
 
   const appGenerator = new AppGenerator(pages, projectFolder, projectName, context);

@@ -35,17 +35,26 @@ export class AppGenerator {
   }
 
   public async generateApp() {
-    console.log(`Starting to generate WinUI 3 project "${this.projectName}"...`);
-    console.log(`Number of pages to generate: ${this.pages.length}`);
+    try {
+      console.log(`Starting to generate WinUI 3 project "${this.projectName}"...`);
+      console.log(`Number of pages to generate: ${this.pages.length}`);
 
-    this.projectStructureGenerator.createProjectStructure();
-    console.log("Project structure created.");
+      if (this.pages.length === 0) {
+        throw new Error("No pages to generate");
+      }
 
-    await this.fileGenerator.generateProjectFiles(this.pages);
-    console.log("Project files generated.");
+      this.projectStructureGenerator.createProjectStructure();
+      console.log("Project structure created.");
 
-    console.log(
-      `WinUI 3 project "${this.projectName}" generated successfully at ${this.outputPath}`
-    );
+      await this.fileGenerator.generateProjectFiles(this.pages);
+      console.log("Project files generated.");
+
+      console.log(
+        `WinUI 3 project "${this.projectName}" generated successfully at ${this.outputPath}`
+      );
+    } catch (error) {
+      console.error("Error generating app:", error);
+      throw error;
+    }
   }
 }

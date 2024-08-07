@@ -32,6 +32,10 @@ export class FileGenerator {
   }
 
   public generateProjectFiles(pages: Page[]) {
+    if (pages.length === 0) {
+      console.error("No pages to generate");
+      return;
+    }
     this.createAppXaml();
     this.createAppXamlCs();
     this.createMainWindowXaml(pages);
@@ -83,6 +87,11 @@ export class FileGenerator {
   }
 
   private createMainWindowXamlCs(pages: Page[]) {
+    if (pages.length === 0) {
+      console.error("No pages available to create MainWindow.xaml.cs");
+      return;
+    }
+
     const content = this.templateManager.fillTemplate("MainWindow.xaml.cs", {
       namespace: this.namespace,
       defaultPage: pages[0].name,
