@@ -27,63 +27,6 @@ export class MainWebviewPanel {
   private _disposables: Disposable[] = [];
   private static allowedUrls: Set<string> = new Set();
 
-  private async _handleDownloadCode(message: any) {
-    try {
-      const { contents, fileNames } = message;
-
-      const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
-      if (!workspaceFolder) {
-        throw new Error("No workspace folder is open");
-      }
-
-      const projectName = await vscode.window.showInputBox({
-        prompt: "Enter a name for your WinUI 3 project",
-        placeHolder: "MyWinUI3Project",
-      });
-
-      if (!projectName) {
-        throw new Error("Project name is required");
-      }
-
-      // const projectFolder = path.join(workspaceFolder.uri.fsPath, projectName);
-
-      // const jsonFolder = path.join(projectFolder, "Saved Pages");
-
-      const pages: Page[] = [];
-
-      for (let i = 0; i < fileNames.length; i++) {
-        const fileName = fileNames[i];
-        const jsonContent = contents[i];
-
-        console.log(`Processing page: ${fileName}`);
-
-        const parsedContent = JSON.parse(jsonContent);
-
-        const page: Page = {
-          id: fileName,
-          name: fileName,
-          content: parsedContent,
-        };
-
-        pages.push(page);
-      }
-
-      const appGenerator = new AppGenerator(pages, projectFolder, projectName, this._context);
-      appGenerator.generateApp();
-
-      vscode.window.showInformationMessage(
-        `WinUI 3 project "${projectName}" generated successfully in ${projectFolder}`
-      );
-    } catch (error) {
-      console.error("Error in handleDownloadCode:", error);
-      if (error instanceof Error) {
-        console.error("Error message:", error.message);
-        console.error("Error stack:", error.stack);
-      }
-      vscode.window.showErrorMessage(`Failed to generate WinUI 3 project: ${error.message}`);
-    }
-  }
-
   private constructor(panel: WebviewPanel, extensionUri: Uri, context: ExtensionContext) {
     this._panel = panel;
     this._context = context;
@@ -249,7 +192,7 @@ export class MainWebviewPanel {
             window.showErrorMessage(message.message);
             return;
           case "downloadCode":
-            await this._handleDownloadCode(message);
+            await convertToXaml(message.content, message.fileName, this._context);
             return;
         }
       },
