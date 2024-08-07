@@ -2,11 +2,28 @@
     x:Class="{{namespace}}.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="MainWindow"
+    xmlns:local="using:{{namespace}}"
+    Title="{{projectName}}"
     Height="450"
     Width="800">
     <Grid>
-        <!-- Placeholder for dynamically generated content -->
-        {{GRID_CONTENT}}
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <NavigationView x:Name="NavView" 
+                        Grid.Row="0" 
+                        IsSettingsVisible="False" 
+                        IsBackButtonVisible="Collapsed"
+                        SelectionChanged="NavView_SelectionChanged">
+            <NavigationView.MenuItems>
+                {{#each pages}}
+                <NavigationViewItem Content="{{this}}" Tag="{{this}}"/>
+                {{/each}}
+            </NavigationView.MenuItems>
+        </NavigationView>
+
+        <Frame x:Name="ContentFrame" Grid.Row="1"/>
     </Grid>
 </Window>

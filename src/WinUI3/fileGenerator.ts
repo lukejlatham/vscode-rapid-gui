@@ -2,9 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { TemplateManager } from "./TemplateManager";
 import { generateGridXaml } from "./gridGenerator";
-import { generateComponentXaml } from "./componentGenerator";
 import { Page } from "../../webview-ui/src/types";
-import { Node } from "./JsonParser";
 
 export class FileGenerator {
   private projectName: string;
@@ -36,8 +34,8 @@ export class FileGenerator {
   public generateProjectFiles(pages: Page[]) {
     this.createAppXaml();
     this.createAppXamlCs();
-    this.createMainWindowXaml();
-    this.createMainWindowXamlCs();
+    this.createMainWindowXaml(pages);
+    this.createMainWindowXamlCs(pages);
     this.createPackageAppxmanifest();
     this.createProjectFile();
     this.createLaunchSettings();
@@ -45,7 +43,6 @@ export class FileGenerator {
     this.createResourcesFile();
     this.createGitignore();
     this.createReadme();
-    // this.copyDefaultAssets();
 
     pages.forEach((page) => {
       this.createPageXaml(page);
@@ -60,61 +57,42 @@ export class FileGenerator {
 
   private createAppXaml() {
     const content = this.templateManager.fillTemplate("App.xaml", {
-      namespace: this.projectName,
+      namespace: this.namespace,
     });
     this.createFile("App.xaml", content);
   }
 
   private createAppXamlCs() {
     const content = this.templateManager.fillTemplate("App.xaml.cs", {
-      namespace: this.projectName,
+      namespace: this.namespace,
     });
     this.createFile("App.xaml.cs", content);
   }
 
-  private createMainWindowXaml() {
+  private createMainWindowXaml(pages: Page[]) {
     const content = this.templateManager.fillTemplate("MainWindow.xaml", {
-      namespace: this.projectName,
+      namespace: this.namespace,
+      pages: pages.map((page) => page.name).join(", "),
     });
     this.createFile("MainWindow.xaml", content);
   }
 
-  private createMainWindowXamlCs() {
+  private createMainWindowXamlCs(pages: Page[]) {
     const content = this.templateManager.fillTemplate("MainWindow.xaml.cs", {
-      namespace: this.projectName,
+      namespace: this.namespace,
+      defaultPage: pages[0].name,
     });
     this.createFile("MainWindow.xaml.cs", content);
   }
 
-  // private copyDefaultAssets() {
-  //   const assetFiles = [
-  //     "Square44x44Logo.png",
-  //     "Square150x150Logo.png",
-  //     "Wide310x150Logo.png",
-  //     "SplashScreen.png",
-  //   ];
-  //   assetFiles.forEach((file) => {
-  //     const sourcePath = path.join(__dirname, "..", "resources", "DefaultAssets", file);
-  //     const destPath = path.join(this.outputPath, "Assets", file);
-  //     fs.copyFileSync(sourcePath, destPath);
-  //   });
-  // }
-
   public generatePageXaml(page: Page): string {
     const gridXaml = generateGridXaml(page);
-    // const componentXaml = generateComponentXaml(page.content as { [key: string]: Node });
-    // const pageContent = gridXaml;
-
     const content = this.templateManager.fillTemplate("Page.xaml", {
-      namespace: this.projectName,
+      namespace: this.namespace,
       pageName: page.name,
       pageContent: gridXaml,
     });
-
-    const finalContent = content.replace("{{PAGE_CONTENT}}", gridXaml);
-    console.log(finalContent);
-
-    return finalContent;
+    return content;
   }
 
   private createPageXaml(page: Page) {
@@ -126,7 +104,7 @@ export class FileGenerator {
 
   private createPageXamlCs(pageName: string) {
     const content = this.templateManager.fillTemplate("Page.xaml.cs", {
-      namespace: this.projectName,
+      namespace: this.namespace,
       pageName: pageName,
     });
     this.createFile(`Pages/${pageName}.xaml.cs`, content);
@@ -134,7 +112,7 @@ export class FileGenerator {
 
   private createPackageAppxmanifest() {
     const content = this.templateManager.fillTemplate("Package.appxmanifest", {
-      namespace: this.projectName,
+      namespace: this.namespace,
       appName: this.projectName,
       appIdentity: this.appIdentity,
       publisher: this.publisher,
@@ -172,59 +150,14 @@ export class FileGenerator {
   }
 
   private createGitignore() {
-    const content = `
-  # Visual Studio files
-  .vs/
-  bin/
-  obj/
-  
-  # Build results
-  [Dd]ebug/
-  [Rr]elease/
-  x64/
-  x86/
-  [Aa][Rr][Mm]/
-  [Aa][Rr][Mm]64/
-  bld/
-  [Bb]in/
-  [Oo]bj/
-  [Ll]og/
-  
-  # NuGet Packages
-  *.nupkg
-  # The packages folder can be ignored because of Package Restore
-  **/packages/*
-  # except build/, which is used as an MSBuild target.
-  !**/packages/build/
-  `;
+    const content = this.templateManager.getTemplate("gitignore");
     this.createFile(".gitignore", content);
   }
 
   private createReadme() {
-    const content = `
-  # ${this.projectName}
-  
-  This is a WinUI 3 project generated automatically from your design!
-  
-  ## Getting Started
-  
-  1. Open the solution in Visual Studio 2019 or later.
-  2. Ensure you have the Windows App SDK installed.
-  3. Build and run the project.
-  
-  ## Project Structure
-  
-  - \`App.xaml\` and \`App.xaml.cs\`: Application entry point
-  - \`MainWindow.xaml\` and \`MainWindow.xaml.cs\`: Main window of the application
-  - \`Pages/\`: Contains individual pages of the application as XAML files that you created!
-  - \`Assets/\`: Contains application assets like icons and images!
-  
-  ## Dependencies
-  
-  - Microsoft.WindowsAppSDK
-  - Microsoft.Windows.SDK.BuildTools
-  
-  `;
+    const content = this.templateManager.fillTemplate("README.md", {
+      projectName: this.projectName,
+    });
     this.createFile("README.md", content);
   }
 }
