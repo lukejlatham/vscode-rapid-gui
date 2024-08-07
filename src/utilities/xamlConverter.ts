@@ -1,3 +1,5 @@
+// In xamlConverter.ts
+
 import * as vscode from "vscode";
 import * as path from "path";
 import { Page } from "../../webview-ui/src/types";
@@ -5,12 +7,16 @@ import { parseJSON, ParsedJSON } from "../WinUI3/JsonParser";
 import { AppGenerator } from "../WinUI3/generateapp";
 
 export async function convertToXaml(
-  contents: object,
-  fileNames: object,
+  contents: { [key: string]: string },
+  fileNames: { [key: string]: string },
   context: vscode.ExtensionContext
 ): Promise<void> {
   console.log("Contents:", contents);
-  console.log("File names:", fileNames);
+  console.log("FileNames:", fileNames);
+
+  if (!contents || !fileNames) {
+    throw new Error("Contents or fileNames is undefined");
+  }
 
   const currentFolder = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
   if (!currentFolder) {
@@ -54,6 +60,7 @@ export async function convertToXaml(
   }
 
   console.log("Number of pages created:", pages.length);
+
   if (pages.length === 0) {
     throw new Error("No pages were created. Check the input data.");
   }

@@ -202,7 +202,25 @@ export class MainWebviewPanel {
             window.showErrorMessage(message.message);
             return;
           case "downloadCode":
-            await convertToXaml(message.content, message.fileName, this._context);
+            try {
+              console.log("Received downloadCode command");
+              console.log("Message contents:", message.contents);
+              console.log("Message fileNames:", message.fileNames);
+
+              if (!message.contents || !message.fileNames) {
+                throw new Error("Missing contents or fileNames in the message");
+              }
+
+              await convertToXaml(message.contents, message.fileNames, this._context);
+              webview.postMessage({ command: "codeDownloaded", success: true });
+            } catch (error) {
+              console.error("Error in downloadCode:", error);
+              webview.postMessage({
+                command: "codeDownloaded",
+                success: false,
+                error: error.message,
+              });
+            }
             return;
         }
       },
