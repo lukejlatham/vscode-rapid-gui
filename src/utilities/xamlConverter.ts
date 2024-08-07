@@ -11,6 +11,7 @@ export async function convertToXaml(
   contents: string,
   fileName: string,
   context: vscode.ExtensionContext
+  // why context works here
 ): Promise<string> {
   const currentFolder = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
   if (!currentFolder) {
@@ -39,7 +40,6 @@ export async function convertToXaml(
   );
 
   const xamlContent = fileGenerator.generatePageXaml(page);
-  
 
   return xamlContent;
 }

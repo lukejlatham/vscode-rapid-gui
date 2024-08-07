@@ -45,9 +45,9 @@ export class MainWebviewPanel {
         throw new Error("Project name is required");
       }
 
-      const projectFolder = path.join(workspaceFolder.uri.fsPath, projectName);
+      // const projectFolder = path.join(workspaceFolder.uri.fsPath, projectName);
 
-      const jsonFolder = path.join(projectFolder, "Saved Pages");
+      // const jsonFolder = path.join(projectFolder, "Saved Pages");
 
       const pages: Page[] = [];
 
@@ -219,6 +219,7 @@ export class MainWebviewPanel {
             return;
           case "saveFile":
             await handleFileSave(message.contents, message.fileNames, this._context);
+            // check this
             return;
           case "loadFile":
             await handleFileLoad(
