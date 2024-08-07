@@ -91,35 +91,6 @@ export function activate(context: vscode.ExtensionContext) {
   const recentProjectsTreeViewProvider = new RecentProjectsTreeViewProvider(context);
   vscode.window.createTreeView("sideBarTree", { treeDataProvider: recentProjectsTreeViewProvider });
 }
-async function handleDownloadCode(message: any, context: vscode.ExtensionContext) {
-  try {
-    const { contents, fileNames } = message;
-
-    // Ask user for save location
-    const saveLocation = await vscode.window.showOpenDialog({
-      canSelectFiles: false,
-      canSelectFolders: true,
-      canSelectMany: false,
-      openLabel: "Select folder to save files",
-    });
-
-    if (saveLocation && saveLocation[0]) {
-      const folderPath = saveLocation[0].fsPath;
-
-      // Save each file
-      for (let i = 0; i < contents.length; i++) {
-        const fileName = `${fileNames[i]}.json`;
-        const filePath = path.join(folderPath, fileName);
-        fs.writeFileSync(filePath, contents[i]);
-      }
-
-      vscode.window.showInformationMessage("Files downloaded successfully!");
-    }
-  } catch (error) {
-    console.error("Error in handleDownloadCode:", error);
-    vscode.window.showErrorMessage("Failed to download files. Check console for details.");
-  }
-}
 
 export function deactivate() {}
 
