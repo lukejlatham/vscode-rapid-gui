@@ -20,6 +20,9 @@ import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import { EditorContent } from "./EditorContent";
 import { vscode } from '../../utilities/vscode';
+import { useLocation } from "react-router-dom";
+import { set } from "lodash";
+
 
 const useStyles = makeStyles({
     mainLayout: {
@@ -86,6 +89,18 @@ const EditingInterface: React.FC = () => {
     const [pages, setPages] = useState<Page[]>([createDefaultPage()]);
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
+    const location = useLocation();
+    const template = location.state;
+    console.log('template:', template);
+
+    useEffect(() => {
+        if (template) {
+          setPages([template] ? [template] : [createDefaultPage()])
+          setCurrentPageIndex(0);
+        }
+        setIsLoading(false);
+        }, [template]);
+
 
     // useEffect(() => {
     //     const loadPages = () => {
