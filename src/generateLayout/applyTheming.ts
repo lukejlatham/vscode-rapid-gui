@@ -1,15 +1,8 @@
 import { z } from "zod";
 import { fullLayoutSchema, ColorScheme, themedLayoutSchema } from "../../webview-ui/src/types";
-import { slateGreyScheme, orangeScheme } from "./themes";
+import { slateGreyScheme, orangeScheme, tetrisScheme } from "./themes";
 
-// Generated colors are always Main, LightAccent, or DarkAccent.
-
-// This function takes generated options and converts them to the actual colors of a random color scheme (from themes.ts).
-
-const possibleColorSchemes = [slateGreyScheme, orangeScheme];
-
-// Border colors are based on the selected background color - i.e., if the background color is Main, the border color will be the Main border color.
-// Set border color to match background for invisibility or contrast for visibility.
+const possibleColorSchemes = [slateGreyScheme, orangeScheme, tetrisScheme];
 
 const hasBackgroundColor = (
   obj: any
@@ -21,12 +14,21 @@ const hasFontColor = (
 ): obj is { props: { fontColor: "Main" | "LightAccent" | "DarkAccent" } } =>
   obj.props && "fontColor" in obj.props && typeof obj.props.fontColor === "string";
 
+const getRandomValue = (value: string | string[]): string => {
+  if (Array.isArray(value)) {
+    return value[Math.floor(Math.random() * value.length)];
+  }
+  return value;
+};
+
 const mapColor = (
   color: "Main" | "LightAccent" | "DarkAccent",
   colorType: keyof ColorScheme,
   colorScheme: ColorScheme
 ) => {
-  return colorScheme[colorType][color.toLowerCase() as keyof typeof colorScheme.sectionColors];
+  const colorValue =
+    colorScheme[colorType][color.toLowerCase() as keyof typeof colorScheme.sectionColors];
+  return getRandomValue(colorValue);
 };
 
 const applyThemeToSchema = (

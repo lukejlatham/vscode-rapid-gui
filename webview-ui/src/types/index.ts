@@ -341,13 +341,14 @@ export const generatedAllSectionsChildren = z.object({
 
 // Used in getSectionChildrenWithProps.ts
 
-const ColorEnum = z.enum(["Main", "LightAccent", "DarkAccent"]).default("Main");
+const ColorEnum = z
+  .enum(["Main", "LightAccent", "DarkAccent"])
+  .transform((val) => (["Main", "LightAccent", "DarkAccent"].includes(val) ? val : "Main"))
+  .default("Main");
 
 export const generateButtonSchema = z.object({
   type: z.literal("Button"),
   props: z.object({
-    width: z.number().int().default(80),
-    height: z.number().int().default(60),
     text: z.string().default("Button"),
     backgroundColor: ColorEnum,
   }),
@@ -434,7 +435,11 @@ export const generateDropdownSchema = z.object({
 export const generateIconSchema = z.object({
   type: z.literal("Icon"),
   props: z.object({
-    selectedIcon: z.string().default("VscAdd"),
+    selectedIcon: z
+      .string()
+      .regex(/Vsc[A-Z][a-z]+/)
+      .default("VscCircle")
+      .describe("Icon name from react-icons/vsc"),
     iconSize: z.number().default(24),
   }),
 });
@@ -542,29 +547,29 @@ export const craftjsNodeSchema = z.object({
 
 export type ColorScheme = {
   sectionColors: {
-    main: string;
-    lightaccent: string;
-    darkaccent: string;
+    main: string | string[];
+    lightaccent: string | string[];
+    darkaccent: string | string[];
   };
   sectionBorderColors: {
-    main: string;
-    lightaccent: string;
-    darkaccent: string;
+    main: string | string[];
+    lightaccent: string | string[];
+    darkaccent: string | string[];
   };
   elementColors: {
-    main: string;
-    lightaccent: string;
-    darkaccent: string;
+    main: string | string[];
+    lightaccent: string | string[];
+    darkaccent: string | string[];
   };
   elementBorderColors: {
-    main: string;
-    lightaccent: string;
-    darkaccent: string;
+    main: string | string[];
+    lightaccent: string | string[];
+    darkaccent: string | string[];
   };
   fontColors: {
-    main: string;
-    lightaccent: string;
-    darkaccent: string;
+    main: string | string[];
+    lightaccent: string | string[];
+    darkaccent: string | string[];
   };
 };
 
