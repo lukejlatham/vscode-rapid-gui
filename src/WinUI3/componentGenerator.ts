@@ -18,13 +18,13 @@ export function generateComponentXaml(
 ): string {
   let xaml = "";
   for (const [id, node] of Object.entries(content)) {
-    if (node.type.resolvedName === "GridCell") {
-      continue;
+    if (node.type.resolvedName !== "GridCell") {
+      xaml += generateSingleComponentXaml(node, indent);
     }
-    xaml += generateSingleComponentXaml(node, indent);
   }
   return xaml;
 }
+
 function generateSingleComponentXaml(node: Node, indent: string = ""): string {
   switch (node.type.resolvedName) {
     case "Button":

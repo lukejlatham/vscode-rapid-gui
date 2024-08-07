@@ -64,14 +64,18 @@ function generateGridContent(
 ): string {
   let xaml = "";
 
+  const idMapping: { [key: string]: string } = {};
+  Object.entries(content.ROOT.linkedNodes).forEach(([layoutIndex, nodeId]) => {
+    idMapping[layoutIndex] = nodeId;
+  });
+
   for (const item of layout) {
-    const node = content[item.i];
+    const nodeId = idMapping[item.i];
+    const node = nodeId ? content[nodeId] : null;
     if (node) {
       xaml += generateGridCell(content, item, node, indent);
     } else {
       console.warn(`Node not found for layout item: ${item.i}`);
-      console.warn(`Node issue is here: ${JSON.stringify(item, null, 2)}`);
-
       xaml += `${indent}<Grid Grid.Row="${item.y}" Grid.Column="${item.x}" Grid.RowSpan="${item.h}" Grid.ColumnSpan="${item.w}"/>\n`;
     }
   }
@@ -93,7 +97,7 @@ function generateGridCell(
                  VerticalAlignment="${mapFlexToAlignment(node.props.alignItems)}"
                  Margin="${node.props.gap || "0"}">\n`;
 
-    const childIds = [...node.nodes, ...Object.values(node.linkedNodes)];
+    // Process child nodes
     for (const childId of node.nodes) {
       const childNode = content[childId];
       if (childNode) {
@@ -105,9 +109,8 @@ function generateGridCell(
 
     xaml += `${indent}  </StackPanel>\n`;
   } else {
-    // If the node doesn't have children, generate it as a regular component
+    // If the node is not a GridCell, generate it as a regular component
     xaml += generateComponentXaml({ [layoutItem.i]: node }, indent + "  ");
-    console.warn(`Node ${layoutItem.i} is not a GridCell`);
   }
 
   xaml += `${indent}</Grid>\n`;
