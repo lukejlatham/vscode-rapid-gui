@@ -41,7 +41,7 @@ export const buttonSchema = z.object({
   displayName: z.string().optional().default("Button"),
   icon: z
     .union([z.enum(["none", "left", "right"]), z.string().refine((val) => val in VscIcons)])
-    .optional(),
+    .default("left"),
   bordercolor: z.string().optional().default("white"),
   shadowColor: z.string().optional().default("black"),
   shadowOffsetX: z.number().optional().default(1),
@@ -165,7 +165,7 @@ export const textBoxSchema = z.object({
   text: z.string().default(""),
   fontSize: z.number().default(14),
   fontColor: z.string().default("black"),
-  backgroundColor: z.string().default('#FFFFFF'),
+  backgroundColor: z.string().default("#FFFFFF"),
   borderColor: z.string().default("black"),
   placeholder: z.string().default("Enter text"),
   borderRadius: z.number().default(4),
@@ -178,7 +178,7 @@ export type TextBoxProps = z.infer<typeof textBoxSchema>;
 export const iconSchema = z.object({
   selectedIcon: z
     .string()
-    .transform((val) => (val in VscIcons ? val : "VscAdd"))
+    .transform((val) => (val in VscIcons ? val : "VscCircle"))
     .default("VscCircle") as z.ZodType<VscIconKeys>,
   iconSize: z.number().optional().default(24),
   iconColor: z.string().optional().default("lightslategrey"),
