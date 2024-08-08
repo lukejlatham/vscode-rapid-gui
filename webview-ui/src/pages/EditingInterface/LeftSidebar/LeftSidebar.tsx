@@ -44,10 +44,11 @@ const LeftSidebar: React.FC<{ classes: any, pages: Page[], setPages: React.Dispa
             <Header classes={localClasses} />
             <div className={localClasses.subtitleCentered}><Subtitle2>Component Library</Subtitle2></div>
             <Divider className={localClasses.divider} />
-            <ComponentButtons classes={localClasses} />
+            {/* <ComponentButtons classes={localClasses} /> */}
             <ProjectManagement classes={localClasses} pages={pages} setPages={setPages} currentPageIndex={currentPageIndex}/>
         </Card>
     );
 };
 
 export default LeftSidebar;
+ 
