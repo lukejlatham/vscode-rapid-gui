@@ -2,12 +2,12 @@ import { AzureOpenAI } from "openai";
 import Instructor from "@instructor-ai/instructor";
 import { ZodObject } from "zod";
 
-const exampleLayout = `[{"section":"Toolbar","children":[{"type":"Icon","props":{"selectedIcon":"VscAdd","iconSize":24}},{"type":"Icon","props":{"selectedIcon":"VscSearch","iconSize":24}},{"type":"Icon","props":{"selectedIcon":"VscSave","iconSize":24}},{"type":"Icon","props":{"selectedIcon":"VscEdit","iconSize":24}},{"type":"Icon","props":{"selectedIcon":"VscTrash","iconSize":24}},{"type":"Icon","props":{"selectedIcon":"VscSave","iconSize":24}},{"type":"Icon","props":{"selectedIcon":"VscHome","iconSize":24}}]},{"section":"SheetTabs","children":[{"type":"Button","props":{"width":80,"height":60,"text":"Sheet 1","backgroundColor":"DarkAccent"}},{"type":"Button","props":{"width":80,"height":60,"text":"Sheet 2","backgroundColor":"DarkAccent"}},{"type":"Button","props":{"width":80,"height":60,"text":"Add Sheet","backgroundColor":"DarkAccent"}}]},{"section":"Spreadsheet","children":[{"type":"TextBox","props":{"text":"Cell A1","fontColor":"Main"}},{"type":"TextBox","props":{"text":"Cell A2","fontColor":"Main"}},{"type":"TextBox","props":{"text":"Cell A3","fontColor":"Main"}},{"type":"TextBox","props":{"text":"Cell B1","fontColor":"Main"}},{"type":"TextBox","props":{"text":"Cell B2","fontColor":"Main"}},{"type":"TextBox","props":{"text":"Cell B3","fontColor":"Main"}},{"type":"Label","props":{"text":"Column A","bold":true,"italic":false,"fontColor":"Main"}},{"type":"Label","props":{"text":"Column B","bold":true,"italic":false,"fontColor":"Main"}}]}]`;
+// const exampleLayout = `[{"section":"Toolbar","children":[{"type":"Icon","props":{"selectedIcon":"VscAdd","iconSize":24}},{"type":"Icon","props":{"selectedIcon":"VscSearch","iconSize":24}},{"type":"Icon","props":{"selectedIcon":"VscSave","iconSize":24}},{"type":"Icon","props":{"selectedIcon":"VscEdit","iconSize":24}},{"type":"Icon","props":{"selectedIcon":"VscTrash","iconSize":24}},{"type":"Icon","props":{"selectedIcon":"VscSave","iconSize":24}},{"type":"Icon","props":{"selectedIcon":"VscHome","iconSize":24}}]},{"section":"SheetTabs","children":[{"type":"Button","props":{"width":80,"height":60,"text":"Sheet 1","backgroundColor":"DarkAccent"}},{"type":"Button","props":{"width":80,"height":60,"text":"Sheet 2","backgroundColor":"DarkAccent"}},{"type":"Button","props":{"width":80,"height":60,"text":"Add Sheet","backgroundColor":"DarkAccent"}}]},{"section":"Spreadsheet","children":[{"type":"TextBox","props":{"text":"Cell A1","fontColor":"Main"}},{"type":"TextBox","props":{"text":"Cell A2","fontColor":"Main"}},{"type":"TextBox","props":{"text":"Cell A3","fontColor":"Main"}},{"type":"TextBox","props":{"text":"Cell B1","fontColor":"Main"}},{"type":"TextBox","props":{"text":"Cell B2","fontColor":"Main"}},{"type":"TextBox","props":{"text":"Cell B3","fontColor":"Main"}},{"type":"Label","props":{"text":"Column A","bold":true,"italic":false,"fontColor":"Main"}},{"type":"Label","props":{"text":"Column B","bold":true,"italic":false,"fontColor":"Main"}}]}]`;
 
 const createSystemMessage = (layout: string) => {
   return {
     role: "system",
-    content: `You are a UI designer who refines layout properties. Only use Main, LightAccent, or DarkAccent for backgroundColors. All sections and their respective child elements are fixed. An example layout is shown below:\n\n${layout}. Make text cryptic/coy and intersperse gen z slang.`,
+    content: `You are a UI designer who refines child element this fixed layout: \n\n ${layout}\n\n. You will be given a list of children that will become the contents - the sections and elements choosen are fixed. Only use Main, LightAccent, or DarkAccent for backgroundColors. All sections and their respective child elements are fixed. Make text cryptic/coy and intersperse gen z slang.`,
   };
 };
 
@@ -16,7 +16,7 @@ const textMessage = (layout: string, childElements: string) => ({
   content: [
     {
       type: "text",
-      text: `Provide properties for this \n\n ${layout}\n\n with following child elements as contents: ${childElements}.`,
+      text: `Provide properties for with following child elements as contents: ${childElements}.`,
     },
   ],
 });

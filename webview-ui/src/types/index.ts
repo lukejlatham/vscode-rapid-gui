@@ -338,7 +338,7 @@ export const generatedSectionChildren = z.object({
 });
 
 export const generatedAllSectionsChildren = z.object({
-  sections: z.array(generatedSectionChildren).min(2).max(6),
+  sections: z.array(generatedSectionChildren).min(2).max(5),
 });
 
 // Used in getSectionChildrenWithProps.ts
@@ -377,7 +377,7 @@ export const generateInputSchema = z.object({
 export const generateLabelSchema = z.object({
   type: z.literal("Label"),
   props: z.object({
-    text: z.string().default("Header").describe("Short header"),
+    text: z.string().default("Header"),
     bold: z.boolean().default(true),
     italic: z.boolean().default(false),
     fontColor: ColorEnum,
@@ -412,7 +412,7 @@ export const generateTextBoxSchema = z.object({
 export const generateTextSchema = z.object({
   type: z.literal("Text"),
   props: z.object({
-    text: z.string().describe("Write short paragraph"),
+    text: z.string().describe("2/3 line paragraph"),
     fontColor: ColorEnum,
   }),
 });
@@ -457,9 +457,9 @@ const sectionSchema = z.object({
     width: z.number().int().max(10),
     height: z.number().int().max(10),
     backgroundColor: ColorEnum.describe("Use accent colors for headers and footers."),
-    flexDirection: z.enum(["row", "column"]).describe("Column if height > width, row otherwise."),
+    flexDirection: z.enum(["row", "column"]),
   }),
-  contents: z.string().describe("Detailed description of the sections purpose/contents."),
+  contents: z.string(),
 });
 
 export const layoutSchema = z.object({
@@ -495,7 +495,7 @@ export const fullSectionSchema = z.object({
   children: z.array(generatedFullElements).max(5),
 });
 
-export const fullLayoutSchema = z.array(fullSectionSchema).max(6);
+export const fullLayoutSchema = z.array(fullSectionSchema).max(5);
 
 export type FullLayoutSchema = z.infer<typeof fullLayoutSchema>;
 
