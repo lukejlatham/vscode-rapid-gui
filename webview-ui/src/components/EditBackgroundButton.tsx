@@ -14,7 +14,7 @@ export const EditBackgroundButton: UserComponent<{classes: any}> = ({classes}) =
             className={classes.button}
             icon={<TableEditRegular />}
             size='large' 
-            appearance='secondary'
+            appearance='primary'
             ref={(ref: HTMLButtonElement | null) => {
                 if (ref) {
                     select(ref, "ROOT");

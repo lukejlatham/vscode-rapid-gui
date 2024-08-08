@@ -18,14 +18,13 @@ const ProjectManagement: React.FC<{ classes: any, pages: Page[], setPages: React
     };
 
     return (
-        <>
-            <div className={classes.projectManagement}><Subtitle2>Project Management</Subtitle2></div>
-            <Divider className={classes.divider}></Divider>
+        <div className={classes.componentRoot}>
+            <Button size="large" className={classes.button} icon={<ArrowHookUpLeft24Regular />} appearance='outline' onClick={handleUndo}>Undo</Button>
+            <Button size="large" className={classes.button} icon={<ArrowHookUpRight24Regular />} appearance='outline' onClick={handleRedo}>Redo</Button>
             <SaveButton classes={classes} pages={pages} currentPageIndex={currentPageIndex}/>
             <LoadButton classes={classes} pages={pages} setPages={setPages}/>
-            <Button className={classes.button} icon={<ArrowHookUpRight24Regular />} appearance='outline' onClick={handleRedo}>Redo</Button>
-            <Button className={classes.button} icon={<ArrowHookUpLeft24Regular />} appearance='outline' onClick={handleUndo}>Undo</Button>
-        </>
+            
+        </div>
     );
 };
 
