@@ -3,6 +3,7 @@ import * as path from "path";
 import { TemplateManager } from "./TemplateManager";
 import { generateGridXaml } from "./gridGenerator";
 import { Page } from "../../webview-ui/src/types";
+import { v4 as uuidv4 } from "uuid";
 //working with pages, and should be all dynamic
 
 export class FileGenerator {
@@ -48,6 +49,7 @@ export class FileGenerator {
     this.createResourcesFile();
     this.createGitignore();
     this.createReadme();
+    this.createSolutionFile();
 
     pages.forEach((page) => {
       this.createPageXaml(page);
@@ -63,6 +65,10 @@ export class FileGenerator {
   private createAppXaml() {
     let content = this.templateManager.getTemplate("App.xaml");
     content = content.replace("{{namespace}}", this.namespace);
+    content = content.replace(
+      "<!-- Other merged dictionaries here -->",
+      "<!-- Add any additional resource dictionaries here -->"
+    );
     this.createFile("App.xaml", content);
   }
 
@@ -81,6 +87,10 @@ export class FileGenerator {
     content = content.replace("{{namespace}}", this.namespace);
     content = content.replace("{{projectName}}", this.projectName);
     content = content.replace("{{pageItems}}", pageItems);
+    content = content.replace(
+      'xmlns:local="using:{{namespace}}"',
+      `xmlns:local="using:${this.namespace}"`
+    );
 
     this.createFile("MainWindow.xaml", content);
   }
@@ -94,7 +104,6 @@ export class FileGenerator {
     let content = this.templateManager.getTemplate("MainWindow.xaml.cs");
 
     content = content.replace(/\{\{namespace\}\}/g, this.namespace);
-
     content = content.replace("{{defaultPage}}", pages[0].name);
 
     const pageTypeLogic = pages
@@ -108,7 +117,32 @@ export class FileGenerator {
       pageTypeLogic
     );
 
+    content = content.replace(
+      'Type pageType = Type.GetType($"{{namespace}}.{pageName}");',
+      `Type pageType = null;
+                switch (pageName)
+                {
+${pageTypeLogic}
+                }`
+    );
     this.createFile("MainWindow.xaml.cs", content);
+  }
+
+  private createSolutionFile() {
+    const projectGuid = uuidv4().toUpperCase();
+    const solutionGuid = uuidv4().toUpperCase();
+
+    let content = this.templateManager.getTemplate("SolutionFile.sln");
+    content = content.replace(/\{\{projectName\}\}/g, this.projectName);
+    content = content.replace(/\{\{projectGuid\}\}/g, projectGuid);
+    content = content.replace(/\{\{solutionGuid\}\}/g, solutionGuid);
+
+    const solutionFilePath = path.join(
+      path.dirname(this.outputPath),
+      `${this.projectName}.generated.sln`
+    );
+    fs.writeFileSync(solutionFilePath, content);
+    console.log(`Generated solution file: ${solutionFilePath}`);
   }
 
   public generatePageXaml(page: Page): string {
@@ -144,13 +178,17 @@ export class FileGenerator {
   }
 
   private createPackageAppxmanifest() {
-    const content = this.templateManager.fillTemplate("Package.appxmanifest", {
+    let content = this.templateManager.fillTemplate("Package.appxmanifest", {
       namespace: this.namespace,
       appName: this.projectName,
       appIdentity: this.appIdentity,
       publisher: this.publisher,
       appDescription: this.appDescription,
     });
+    content = content.replace(
+      "<DisplayName>YourAppName</DisplayName>",
+      `<DisplayName>${this.projectName}</DisplayName>`
+    );
     this.createFile("Package.appxmanifest", content);
   }
 
@@ -169,9 +207,8 @@ export class FileGenerator {
   }
 
   private createAppManifest() {
-    const content = this.templateManager.fillTemplate("app.manifest", {
-      appName: this.projectName,
-    });
+    let content = this.templateManager.getTemplate("app.manifest");
+    content = content.replace("{{projectName}}", this.projectName);
     this.createFile("app.manifest", content);
   }
 

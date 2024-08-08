@@ -88,6 +88,7 @@
   "devDependencies": {
     "@types/node": "^12.11.7",
     "@types/react-grid-layout": "^1.3.5",
+    "@types/uuid": "^10.0.0",
     "@types/vscode": "^1.90.0",
     "@typescript-eslint/eslint-plugin": "^4.14.1",
     "@typescript-eslint/parser": "^4.14.1",
@@ -100,20 +101,21 @@
     "@craftjs/core": "^0.2.8",
     "@fluentui/react-icons": "^2.0.252",
     "@instructor-ai/instructor": "^1.5.0",
+    "@types/node": "^14.14.31",
+    "@types/vscode": "^1.54.0",
     "@vscode/webview-ui-toolkit": "^1.4.0",
     "axios": "^1.7.2",
     "esbuild": "^0.23.0",
     "esbuild-plugin-env": "^1.1.1",
     "form-data": "^4.0.0",
+    "fs-extra": "^10.0.0",
     "openai": "^4.52.7",
     "react": "^18.3.1",
     "react-contenteditable": "^3.3.7",
     "react-dom": "^18.3.1",
     "react-grid-layout": "^1.4.4",
     "react-icons": "^5.2.1",
-    "zod": "^3.23.8",
-    "@types/node": "^14.14.31",
-    "@types/vscode": "^1.54.0",
-    "fs-extra": "^10.0.0"
+    "uuid": "^10.0.0",
+    "zod": "^3.23.8"
   }
 }
