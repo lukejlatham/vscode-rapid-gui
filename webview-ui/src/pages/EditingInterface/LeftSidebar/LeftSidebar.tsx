@@ -7,7 +7,7 @@ import { Page } from "../../../types";
 
 const useStyles = makeStyles({
     componentRoot: {
-        overflow: 'hidden',
+        overflow: 'scroll',
         display: 'flex',
         flexDirection: 'column',
         height: '100%',
@@ -15,7 +15,7 @@ const useStyles = makeStyles({
     },
     header: {
         display: 'flex',
-        justifyContent: 'space-around',
+        justifyContent: 'start',
         alignItems: 'center',
     },
     searchBox: {
