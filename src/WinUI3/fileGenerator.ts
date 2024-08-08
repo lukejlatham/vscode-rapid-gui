@@ -92,21 +92,20 @@ export class FileGenerator {
     }
 
     let content = this.templateManager.getTemplate("MainWindow.xaml.cs");
+
     content = content.replace(/\{\{namespace\}\}/g, this.namespace);
+
     content = content.replace("{{defaultPage}}", pages[0].name);
 
-    // Add a new replacement for the Type.GetType line
     const pageTypeLogic = pages
-      .map((page) => `case "${page.name}": pageType = typeof(${page.name}); break;`)
-      .join("\n                ");
+      .map(
+        (page) => `                    case "${page.name}": pageType = typeof(${page.name}); break;`
+      )
+      .join("\n");
 
     content = content.replace(
-      'Type pageType = Type.GetType($"{{namespace}}.{pageName}");',
-      `Type pageType = null;
-                  switch (pageName)
-                  {
-                      ${pageTypeLogic}
-                  }`
+      "                    // This will be replaced dynamically",
+      pageTypeLogic
     );
 
     this.createFile("MainWindow.xaml.cs", content);
