@@ -42,14 +42,20 @@ export class MainWebviewPanel {
     if (MainWebviewPanel.currentPanel) {
       MainWebviewPanel.currentPanel._panel.reveal(ViewColumn.One);
     } else {
-      const panel = window.createWebviewPanel("showMainWebviewPanel", "UI Studio", ViewColumn.One, {
-        enableScripts: true,
-        localResourceRoots: [
-          Uri.joinPath(extensionUri, "out"),
-          Uri.joinPath(extensionUri, "webview-ui/build"),
-          workspace.workspaceFolders?.[0]?.uri,
-        ],
-      });
+      const panel = window.createWebviewPanel(
+        "showMainWebviewPanel",
+        "UI Studio",
+        ViewColumn.One,
+        {
+          enableScripts: true,
+          retainContextWhenHidden: true,  // This preserves the webview state.
+          localResourceRoots: [
+            Uri.joinPath(extensionUri, "out"),
+            Uri.joinPath(extensionUri, "webview-ui/build"),
+            workspace.workspaceFolders?.[0]?.uri,
+          ],
+        }
+      );
 
       MainWebviewPanel.currentPanel = new MainWebviewPanel(panel, extensionUri, context);
     }
@@ -161,7 +167,7 @@ export class MainWebviewPanel {
             await handleFileSave(message.contents, message.fileNames, this._context);
             return;
           case "loadFile":
-            await handleFileLoad(this._context, 
+            await handleFileLoad(this._context,
               // message.fileName, 
               webview);
             return;
