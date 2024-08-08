@@ -1,9 +1,12 @@
 {
   "profiles": {
-    "{{projectName}}": {
+    "{{projectName}}(Package)": {
+      "commandName": "MsixPackage",
+      "nativeDebugging": true
+    },
+    "{{projectName}} (Unpackaged)": {
       "commandName": "Project",
-      "commandLineArgs": "",
-      "workingDirectory": "$(ProjectDir)"
+      "nativeDebugging": true
     }
   }
 }
