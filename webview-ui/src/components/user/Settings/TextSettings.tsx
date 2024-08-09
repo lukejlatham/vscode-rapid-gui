@@ -4,7 +4,6 @@ import { TextProps, TooltipConfigText as TooltipConfig } from "../../../types";
 import { useNode } from "@craftjs/core";
 import { Button } from "@fluentui/react-components";
 import { TextBoldFilled, TextItalicFilled, TextUnderlineFilled } from "@fluentui/react-icons";
-import './ButtonSettingsStyle.css'
 import { ComponentSettings } from "./ComponentSettings";
 
 export const TextSettings: React.FC = () => {

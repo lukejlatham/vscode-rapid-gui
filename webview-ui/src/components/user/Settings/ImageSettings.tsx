@@ -16,7 +16,6 @@ export const ImageSettings: React.FC = () => {
         { label: "Height", content: "Change the height of the image.", propKey: "height", type: "spinButton" },
     ];
 
-  
     return (
       <ComponentSettings componentProps={props} tooltips={tooltips}/>
     );
