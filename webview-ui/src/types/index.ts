@@ -52,6 +52,14 @@ export const buttonSchema = z.object({
 
 export type ButtonProps = z.infer<typeof buttonSchema>;
 
+export type ComponentProps = ButtonProps | CheckboxProps | ContainerProps | GridCellProps | DropdownProps | IconProps | ImageProps | InputProps | LabelProps | RadioButtonProps | SliderProps | TextBoxProps | TextProps;
+export type TooltipConfigs =  TooltipConfigButton | TooltipConfigCheckbox | TooltipConfigContainer | TooltipConfigDropdown | TooltipConfigGridCell | TooltipConfigIcon | TooltipConfigLabel | TooltipConfigImage | TooltipConfigInput | TooltipConfigRadio | TooltipConfigSlider | TooltipConfigText | TooltipConfigTextbox;
+
+export interface ComponentSettingsProps {
+  componentProps: ComponentProps;
+  tooltips: TooltipConfigs[];
+}
+
 export const checkboxSchema = z.object({
   header: z.string().default("Checkbox Header"),
   optionLabels: z.array(z.string()).default([]),
@@ -254,6 +262,27 @@ export type TooltipConfigInput = {
   type: "color" | "spinButton" | "text" | "alignment";
 };
 
+export type TooltipConfigLabel = {
+  label: string;
+  content: string;
+  propKey: keyof LabelProps;
+  type: "color" | "spinButton" | "text" | "textAlign" | "icon";
+};
+
+export type TooltipConfigText = {
+  label: string;
+  content: string;
+  propKey: keyof TextProps;
+  type: "color" | "spinButton" | "text" | "textAlign";
+};
+
+export type TooltipConfigTextbox = {
+  label: string;
+  content: string;
+  propKey: keyof TextBoxProps;
+  type: "color" | "spinButton" | "text";
+};
+
 export type TooltipConfigRadio = {
   label: string;
   content: string;
@@ -268,12 +297,6 @@ export type TooltipConfigDropdown = {
   type: "color" | "spinButton" | "text" | "options";
 };
 
-export type TooltipConfigText = {
-  label: string;
-  content: string;
-  propKey: keyof TextBoxProps;
-  type: "color" | "spinButton" | "text" | "alignment";
-};
 
 export type TooltipConfigIcon = {
   label: string;
