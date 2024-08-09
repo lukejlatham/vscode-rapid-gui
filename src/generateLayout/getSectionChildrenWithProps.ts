@@ -7,7 +7,7 @@ import { ZodObject } from "zod";
 const createSystemMessage = (layout: string) => {
   return {
     role: "system",
-    content: `You are a UI designer who refines child element this fixed layout: \n\n ${layout}\n\n. You will be given a list of children that will become the contents - the sections and elements choosen are fixed. Only use Main, LightAccent, or DarkAccent for backgroundColors. All sections and their respective child elements are fixed. Make text cryptic/coy and intersperse gen z slang.`,
+    content: `You are a UI designer who refines child elements for this fixed layout: \n\n ${layout}\n\n. You will be given a list of children that will become the contents - the sections and elements are fixed. Only use Main, LightAccent, or DarkAccent for backgroundColors.`,
   };
 };
 
