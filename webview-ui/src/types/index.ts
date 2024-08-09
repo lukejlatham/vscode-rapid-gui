@@ -34,8 +34,8 @@ export const buttonSchema = z.object({
   fontSize: z.number().default(16),
   fontColor: z.string().default("white"),
   borderRadius: z.number().default(4),
-  width: z.number().default(80),
-  height: z.number().default(60),
+  width: z.number().default(10),
+  height: z.number().default(10),
   text: z.string().default("Button"),
   alignment: z.enum(["left", "center", "right"]).default("center"),
   displayName: z.string().optional().default("Button"),
@@ -357,11 +357,11 @@ export const generatedElements = z.object({
 
 export const generatedSectionChildren = z.object({
   section: z.string(),
-  children: z.array(generatedElements).max(5),
+  children: z.array(generatedElements).max(8),
 });
 
 export const generatedAllSectionsChildren = z.object({
-  sections: z.array(generatedSectionChildren).min(2).max(5),
+  sections: z.array(generatedSectionChildren).min(2).max(6),
 });
 
 // Used in getSectionChildrenWithProps.ts
@@ -435,7 +435,7 @@ export const generateTextBoxSchema = z.object({
 export const generateTextSchema = z.object({
   type: z.literal("Text"),
   props: z.object({
-    text: z.string().describe("2/3 line paragraph"),
+    text: z.string(),
     fontColor: ColorEnum,
   }),
 });
@@ -466,27 +466,36 @@ export const generateIconSchema = z.object({
       .regex(/Vsc[A-Z][a-z]+/)
       .default("VscCircle")
       .describe("Icon name from react-icons/vsc"),
-    iconSize: z.number().default(24),
   }),
 });
 
 // Used in getSectionChildrenOpenai.ts
 
-const sectionSchema = z.object({
-  section: z.string(),
-  props: z.object({
-    xPosition: z.number().int().max(10),
-    yPosition: z.number().int().max(10),
-    width: z.number().int().max(10),
-    height: z.number().int().max(10),
-    backgroundColor: ColorEnum.describe("Use accent colors for headers and footers."),
-    flexDirection: z.enum(["row", "column"]),
-  }),
-  contents: z.string(),
-});
+const sectionSchema = z
+  .object({
+    section: z.string(),
+    props: z.object({
+      xPosition: z.number().int().max(10),
+      yPosition: z.number().int().max(10),
+      width: z.number().int().max(10),
+      height: z.number().int().max(10),
+      backgroundColor: ColorEnum.describe("Use accent colors for headers and footers."),
+    }),
+    contents: z.string(),
+  })
+  .transform((data) => {
+    const { width, height } = data.props;
+    return {
+      ...data,
+      props: {
+        ...data.props,
+        flexDirection: width > height ? "row" : "column",
+      },
+    };
+  });
 
 export const layoutSchema = z.object({
-  sections: z.array(sectionSchema).max(5),
+  sections: z.array(sectionSchema).max(6),
 });
 
 // Used in convertLayoutToNodes.ts
@@ -515,10 +524,10 @@ export const fullSectionSchema = z.object({
     flexDirection: z.enum(["row", "column"]),
     backgroundColor: ColorEnum,
   }),
-  children: z.array(generatedFullElements).max(5),
+  children: z.array(generatedFullElements).max(8),
 });
 
-export const fullLayoutSchema = z.array(fullSectionSchema).max(5);
+export const fullLayoutSchema = z.array(fullSectionSchema).max(6);
 
 export type FullLayoutSchema = z.infer<typeof fullLayoutSchema>;
 
@@ -614,6 +623,6 @@ export const themedSectionSchema = z.object({
 
 export type ThemedSectionSchema = z.infer<typeof themedSectionSchema>;
 
-export const themedLayoutSchema = z.array(themedSectionSchema).max(5);
+export const themedLayoutSchema = z.array(themedSectionSchema).max(6);
 
 export type ThemedLayoutSchema = z.infer<typeof themedSectionSchema>;
