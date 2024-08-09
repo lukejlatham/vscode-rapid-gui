@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "{{projectName}}(Package)": {
+    "{{projectName}} (Package)": {
       "commandName": "MsixPackage",
       "nativeDebugging": true
     },
