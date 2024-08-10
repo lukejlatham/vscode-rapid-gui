@@ -28,11 +28,12 @@ export const Image: UserComponent<ImageProps> = (props) => {
       if (ref) {
           connect(drag(ref));
       }
-  }} className={`${styles.container} ${selected ? select.select : ""} `}>
+  }}>
       <img
         src={src}
         alt={alt}
         style={{ width: `${width}%`, height: `auto` }}
+        className={`${styles.container} ${selected ? select.select : ""} `}
       />
      </div>
   );

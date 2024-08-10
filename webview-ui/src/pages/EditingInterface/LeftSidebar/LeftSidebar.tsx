@@ -26,6 +26,7 @@ const useStyles = makeStyles({
     button: {
         // fontSize: '10px',
         // padding: '20px'
+        cursor: 'move !important',
     },
 });
 

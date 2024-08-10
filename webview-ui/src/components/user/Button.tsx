@@ -40,7 +40,7 @@ export const Button: UserComponent<ButtonProps> = (props) => {
                         connect(drag(ref));
                     }
                 }}
-                className={`${styles.button} ${selected ? select.select : ""}`}
+                
                 style={{
                     color: fontColor,
                     backgroundColor,

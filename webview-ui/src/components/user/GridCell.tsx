@@ -2,6 +2,7 @@ import { UserComponent, useNode } from "@craftjs/core";
 import { GridCellProps, gridCellSchema } from '../../types';
 import { makeStyles } from "@fluentui/react-components";
 import { GridCellSettings } from "./Settings/GridCellSettings";
+import { useSelected } from "../../hooks/useSelected";
 
 const useStyles = makeStyles({
   container: {
@@ -51,12 +52,16 @@ export const GridCell: UserComponent<GridCellProps> = (props) => {
   const validatedProps = gridCellSchema.parse(props);
   
   const { justifyContent, flexDirection, alignItems, gap, children } = validatedProps;
-  const { connectors: { connect, drag } } = useNode();
+  const { connectors: { connect, drag }, selected } = useNode((state) => ({
+    selected: state.events.selected,
+}));
+
   const styles = useStyles();
+  const select = useSelected();
 
   return (
     <div ref={(ref: HTMLDivElement | null) => ref && connect(drag(ref))} 
-    className={`${styles.container} 
+    className={`${styles.container} ${selected ? select.selectedGrid : ""}
     ${justifyContent === 'flex-start' ? styles.justifyLeft : justifyContent === 'center' ? styles.justifyCenter : justifyContent === 'flex-end' ? styles.justifyRight : justifyContent === 'space-between' ? styles.justifySpaceBetween : styles.justifySpaceAround}
     ${flexDirection === 'row' ? styles.directionRow : styles.directionColumn}
     ${alignItems === 'flex-start' ? styles.alignStart : alignItems === 'center' ? styles.alignCenter : styles.alignEnd}`}
