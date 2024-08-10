@@ -2,13 +2,8 @@ import { Node } from "../JsonParser";
 
 export function generateLabelXaml(node: Node, indent: string = ""): string {
   const props = node.props;
-  let xaml = `${indent}<StackPanel Orientation="Horizontal" Spacing="5">\n`;
+  let xaml = `${indent}<TextBlock`;
 
-  if (props.icon === "left") {
-    xaml += `${indent}  <FontIcon Glyph="&#xE001;" />\n`; // Placeholder glyph, replace with actual icon
-  }
-
-  xaml += `${indent}  <TextBlock`;
   xaml += ` Text="${props.text}"`;
   xaml += ` FontSize="${props.fontSize}"`;
   xaml += ` Foreground="${props.fontColor}"`;
@@ -26,19 +21,22 @@ export function generateLabelXaml(node: Node, indent: string = ""): string {
 
   if (props.hyperlink) {
     xaml += ">\n";
-    xaml += `${indent}    <Hyperlink NavigateUri="${props.hyperlink}">\n`;
-    xaml += `${indent}      ${props.text}\n`;
-    xaml += `${indent}    </Hyperlink>\n`;
-    xaml += `${indent}  </TextBlock>\n`;
+    xaml += `${indent}  <Hyperlink NavigateUri="${props.hyperlink}">\n`;
+    xaml += `${indent}    <Run Text="${props.text}"/>\n`;
+    xaml += `${indent}  </Hyperlink>\n`;
+    xaml += `${indent}</TextBlock>`;
   } else {
-    xaml += " />\n";
+    xaml += " />";
   }
 
-  if (props.icon === "right") {
-    xaml += `${indent}  <FontIcon Glyph="&#xE001;" />\n`; // Placeholder glyph, replace with actual icon
+  // Wrap in a StackPanel if an icon is present
+  if (props.icon !== "none") {
+    xaml = `${indent}<StackPanel Orientation="Horizontal" Spacing="5">\n${
+      props.icon === "left" ? `${indent}  <FontIcon Glyph="&#xE001;" />\n` : ""
+    }${indent}  ${xaml}\n${
+      props.icon === "right" ? `${indent}  <FontIcon Glyph="&#xE001;" />\n` : ""
+    }${indent}</StackPanel>`;
   }
-
-  xaml += `${indent}</StackPanel>`;
 
   return xaml + "\n";
 }
