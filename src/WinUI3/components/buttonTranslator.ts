@@ -60,3 +60,5 @@ function generateButtonContent(props: any, indent: string): string {
 
   return content;
 }
+
+//hyperlink not supported in xaml
