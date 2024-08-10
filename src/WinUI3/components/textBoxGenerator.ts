@@ -9,15 +9,16 @@ export function generateTextBoxXaml(node: Node, indent: string = ""): string {
   xaml += ` FontSize="${props.fontSize}"`;
   xaml += ` Foreground="${props.fontColor}"`;
   xaml += ` Background="${props.backgroundColor}"`;
-  xaml += ` Height="${props.height}"`;
-  xaml += ` Width="${props.width}"`;
+  xaml += ` BorderBrush="${props.borderColor}"`;
+  xaml += ` BorderThickness="1"`;
   xaml += ` CornerRadius="${props.borderRadius}"`;
-
-  xaml += ` HorizontalAlignment="${
-    props.alignment.charAt(0).toUpperCase() + props.alignment.slice(1)
-  }"`;
   xaml += ` TextWrapping="Wrap"`;
   xaml += ` AcceptsReturn="True"`;
+
+  // Note: Resize functionality is not directly available in XAML
+  // We'll set a fixed width and height based on the default props
+  xaml += ` Width="${props.width}"`;
+  xaml += ` Height="${props.height}"`;
 
   xaml += " />";
 
