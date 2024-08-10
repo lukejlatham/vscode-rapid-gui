@@ -1,4 +1,5 @@
 import { Node } from "../JsonParser";
+import { generateComponentXaml } from "../componentGenerator";
 
 export function generateContainerXaml(node: Node, indent: string = ""): string {
   const props = node.props;
@@ -23,27 +24,26 @@ export function generateContainerXaml(node: Node, indent: string = ""): string {
   }
 
   // Content
-  xaml += `${indent}  <ItemsControl`;
-  xaml += ` ItemsPanel="{StaticResource ${
-    props.flexDirection === "column" ? "VerticalStackPanel" : "HorizontalStackPanel"
-  }}"`;
+  xaml += `${indent}  <StackPanel`;
+  xaml += ` Orientation="${props.flexDirection === "column" ? "Vertical" : "Horizontal"}"`;
+  xaml += ` HorizontalAlignment="${mapJustifyContentToAlignment(props.justifyContent)}"`;
+  xaml += ` VerticalAlignment="${mapAlignItemsToAlignment(props.alignItems)}"`;
+  xaml += ` Spacing="${props.gap}"`;
   xaml += ">\n";
-  xaml += `${indent}    <ItemsControl.ItemsPanel>\n`;
-  xaml += `${indent}      <ItemsPanelTemplate>\n`;
-  xaml += `${indent}        <StackPanel Orientation="${
-    props.flexDirection === "column" ? "Vertical" : "Horizontal"
-  }"\n`;
-  xaml += `${indent}                    HorizontalAlignment="${mapJustifyContentToAlignment(
-    props.justifyContent
-  )}"\n`;
-  xaml += `${indent}                    VerticalAlignment="${mapAlignItemsToAlignment(
-    props.alignItems
-  )}"\n`;
-  xaml += `${indent}                    Spacing="${props.gap}"/>\n`;
-  xaml += `${indent}      </ItemsPanelTemplate>\n`;
-  xaml += `${indent}    </ItemsControl.ItemsPanel>\n`;
-  xaml += `${indent}    <!-- Child elements go here -->\n`;
-  xaml += `${indent}  </ItemsControl>\n`;
+
+  // Generate child components
+  if (node.nodes && node.nodes.length > 0) {
+    for (const childId of node.nodes) {
+      if (node.linkedNodes && node.linkedNodes[childId]) {
+        const childNode = node.linkedNodes[childId];
+        xaml += generateComponentXaml({ [childId]: childNode }, indent + "    ");
+      } else {
+        console.warn(`Child node not found: ${childId}`);
+      }
+    }
+  }
+
+  xaml += `${indent}  </StackPanel>\n`;
   xaml += `${indent}</Border>`;
 
   return xaml + "\n";
