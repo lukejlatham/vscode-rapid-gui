@@ -40,7 +40,7 @@ export const Image: UserComponent<ImageProps> = (props) => {
 };
 
 export const ImageDefaultProps: ImageProps = {
-  src: "https://media.licdn.com/dms/image/C4E03AQFsOf9FqrVmPQ/profile-displayphoto-shrink_200_200/0/1642540398251?e=2147483647&v=beta&t=gVupFwbqLjIjBGMGLZ8o-Iyy6432u1VJbYRI_mxUziQ",
+  src: "https://media.licdn.com/dms/image/D4E03AQEiKLsSnfBkYA/profile-displayphoto-shrink_200_200/0/1698861415552?e=2147483647&v=beta&t=bHAs4bdRoFftlVT0m-Lmv5iqZYKwyZCDesXRwwbdu48",
   alt: "New image",
   width: 40,
   height: 0,

@@ -199,7 +199,7 @@ export const imageSchema = z.object({
   src: z
     .string()
     .default(
-      "https://media.licdn.com/dms/image/D4E22AQGL4EZgEpG2ag/feedshare-shrink_800/0/1719580422738?e=2147483647&v=beta&t=Nj786KjutiTxei_wgDDM40hcWFi5_-qqBIKM4jOa3Hc"
+      "https://media.licdn.com/dms/image/D4E03AQEiKLsSnfBkYA/profile-displayphoto-shrink_200_200/0/1698861415552?e=2147483647&v=beta&t=bHAs4bdRoFftlVT0m-Lmv5iqZYKwyZCDesXRwwbdu48",
     ),
   alt: z.string().default("New image"),
   width: z.number().default(90),
