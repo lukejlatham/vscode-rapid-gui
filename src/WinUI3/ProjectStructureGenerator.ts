@@ -11,7 +11,7 @@ export class ProjectStructureGenerator {
   public createProjectStructure() {
     this.createDirectory("");
     this.createDirectory("Assets");
-    this.createDirectory("Pages");
+    this.createDirectory("Views");
     this.createDirectory("Styles");
     this.createDirectory("Properties");
     this.createDirectory("Strings/en-us");
