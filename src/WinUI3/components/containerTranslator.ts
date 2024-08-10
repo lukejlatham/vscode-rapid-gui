@@ -1,27 +1,16 @@
-//Container -> <Border> or <Grid>
-
 import { Node } from "../JsonParser";
 
 export function generateContainerXaml(node: Node, indent: string = ""): string {
   const props = node.props;
-  let xaml = "";
+  let xaml = `${indent}<Border`;
 
-  if (props.flexDirection || props.justifyContent || props.alignItems) {
-    // Use Grid for flex-like properties
-    xaml += `${indent}<Grid`;
-  } else {
-    // Use Border for simpler containers
-    xaml += `${indent}<Border`;
-  }
-
-  // Common properties
   xaml += ` Background="${props.backgroundColor}"`;
   xaml += ` BorderBrush="${props.borderColor}"`;
-  xaml += ` BorderThickness="1"`;
+  xaml += ` BorderThickness="2"`;
   xaml += ` CornerRadius="${props.borderRadius}"`;
   xaml += ` Padding="${props.padding}"`;
-  xaml += ` Width="${props.width}%"`;
-  xaml += ` Height="${props.height}%"`;
+  xaml += ` Width="${props.width}*"`;
+  xaml += ` Height="${props.height}*"`;
 
   // Shadow effect
   if (props.shadowColor !== "transparent" && props.shadowBlur > 0) {
@@ -33,35 +22,29 @@ export function generateContainerXaml(node: Node, indent: string = ""): string {
     xaml += ">\n";
   }
 
-  // If it's a Grid, add flex-like properties
-  if (props.flexDirection || props.justifyContent || props.alignItems) {
-    xaml += `${indent}  <Grid.RowDefinitions>\n`;
-    xaml += `${indent}    <RowDefinition Height="*"/>\n`;
-    xaml += `${indent}  </Grid.RowDefinitions>\n`;
-    xaml += `${indent}  <Grid.ColumnDefinitions>\n`;
-    xaml += `${indent}    <ColumnDefinition Width="*"/>\n`;
-    xaml += `${indent}  </Grid.ColumnDefinitions>\n`;
-
-    xaml += `${indent}  <StackPanel`;
-    xaml += ` Orientation="${props.flexDirection === "column" ? "Vertical" : "Horizontal"}"`;
-    xaml += ` HorizontalAlignment="${mapJustifyContentToAlignment(props.justifyContent)}"`;
-    xaml += ` VerticalAlignment="${mapAlignItemsToAlignment(props.alignItems)}"`;
-    xaml += ` Spacing="${props.gap || 0}"`;
-    xaml += ">\n";
-
-    // Here you would add child elements
-    xaml += `${indent}    <!-- Child elements go here -->\n`;
-
-    xaml += `${indent}  </StackPanel>\n`;
-  } else {
-    // For Border, you might want to add a content presenter or other content here
-    xaml += `${indent}  <!-- Container content goes here -->\n`;
-  }
-
-  xaml +=
-    props.flexDirection || props.justifyContent || props.alignItems
-      ? `${indent}</Grid>`
-      : `${indent}</Border>`;
+  // Content
+  xaml += `${indent}  <ItemsControl`;
+  xaml += ` ItemsPanel="{StaticResource ${
+    props.flexDirection === "column" ? "VerticalStackPanel" : "HorizontalStackPanel"
+  }}"`;
+  xaml += ">\n";
+  xaml += `${indent}    <ItemsControl.ItemsPanel>\n`;
+  xaml += `${indent}      <ItemsPanelTemplate>\n`;
+  xaml += `${indent}        <StackPanel Orientation="${
+    props.flexDirection === "column" ? "Vertical" : "Horizontal"
+  }"\n`;
+  xaml += `${indent}                    HorizontalAlignment="${mapJustifyContentToAlignment(
+    props.justifyContent
+  )}"\n`;
+  xaml += `${indent}                    VerticalAlignment="${mapAlignItemsToAlignment(
+    props.alignItems
+  )}"\n`;
+  xaml += `${indent}                    Spacing="${props.gap}"/>\n`;
+  xaml += `${indent}      </ItemsPanelTemplate>\n`;
+  xaml += `${indent}    </ItemsControl.ItemsPanel>\n`;
+  xaml += `${indent}    <!-- Child elements go here -->\n`;
+  xaml += `${indent}  </ItemsControl>\n`;
+  xaml += `${indent}</Border>`;
 
   return xaml + "\n";
 }
