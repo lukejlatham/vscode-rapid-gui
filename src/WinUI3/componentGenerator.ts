@@ -15,7 +15,7 @@ import { Page } from "../../webview-ui/src/types";
 export function generateComponentXaml(
   content: { [key: string]: Node },
   indent: string = "",
-  projectPath: string
+  projectPath?: string
 ): string {
   let xaml = "";
   for (const [id, node] of Object.entries(content)) {
@@ -41,7 +41,7 @@ function generateSingleComponentXaml(node: Node, indent: string = "", projectPat
     case "RadioButton":
       return generateRadioButtonXaml(node, indent);
     case "Container":
-      return generateContainerXaml({ [node.custom.id || ""]: node }, indent, projectPath);
+      return generateContainerXaml({ [node.custom.id || ""]: node }, indent);
     case "Checkbox":
       return generateCheckboxXaml(node, indent);
     case "Slider":

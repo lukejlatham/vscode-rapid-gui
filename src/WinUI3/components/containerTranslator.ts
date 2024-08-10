@@ -28,7 +28,6 @@ export function generateContainerXaml(
   }
 
   // Content
-  xaml += ">\n";
   xaml += `${indent}  <StackPanel`;
   xaml += ` Orientation="${props.flexDirection === "column" ? "Vertical" : "Horizontal"}"`;
   xaml += ` HorizontalAlignment="${mapJustifyContentToAlignment(props.justifyContent)}"`;
@@ -39,12 +38,15 @@ export function generateContainerXaml(
   // Generate child components
   if (node.nodes && node.nodes.length > 0) {
     for (const childId of node.nodes) {
-      if (node.linkedNodes && node.linkedNodes[childId]) {
-        const childNode = node.linkedNodes[childId];
-        xaml += generateComponentXaml({ [childId]: childNode }, indent + "    ");
+      let childNode: Node | undefined;
+      if (node.linkedNodes && typeof node.linkedNodes[childId] === "object") {
+        childNode = node.linkedNodes[childId] as Node;
       } else if (content[childId]) {
-        // This handles the case where the child is not in linkedNodes but is in the content
-        xaml += generateComponentXaml({ [childId]: content[childId] }, indent + "    ");
+        childNode = content[childId];
+      }
+
+      if (childNode) {
+        xaml += generateComponentXaml({ [childId]: childNode }, indent + "    ");
       } else {
         console.warn(`Child node not found: ${childId}`);
       }
