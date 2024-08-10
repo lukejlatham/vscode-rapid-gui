@@ -1,4 +1,3 @@
-// textbox in winui3
 import { Node } from "../JsonParser";
 
 export function generateInputXaml(node: Node, indent: string = ""): string {
