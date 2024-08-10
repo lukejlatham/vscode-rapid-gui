@@ -14,18 +14,19 @@ import { Page } from "../../webview-ui/src/types";
 
 export function generateComponentXaml(
   content: { [key: string]: Node },
-  indent: string = ""
+  indent: string = "",
+  projectPath: string
 ): string {
   let xaml = "";
   for (const [id, node] of Object.entries(content)) {
     if (node.type.resolvedName !== "GridCell") {
-      xaml += generateSingleComponentXaml(node, indent);
+      xaml += generateSingleComponentXaml(node, indent, projectPath);
     }
   }
   return xaml;
 }
 
-function generateSingleComponentXaml(node: Node, indent: string = ""): string {
+function generateSingleComponentXaml(node: Node, indent: string = "", projectPath: string): string {
   switch (node.type.resolvedName) {
     case "Button":
       return generateButtonXaml(node, indent);
@@ -40,7 +41,7 @@ function generateSingleComponentXaml(node: Node, indent: string = ""): string {
     case "RadioButton":
       return generateRadioButtonXaml(node, indent);
     case "Container":
-      return generateContainerXaml(node, indent);
+      return generateContainerXaml({ [node.custom.id || ""]: node }, indent, projectPath);
     case "Checkbox":
       return generateCheckboxXaml(node, indent);
     case "Slider":
@@ -48,7 +49,7 @@ function generateSingleComponentXaml(node: Node, indent: string = ""): string {
     case "TextBox":
       return generateTextBoxXaml(node, indent);
     case "Image":
-      return generateImageXaml(node, indent);
+      return generateImageXaml(node, indent, projectPath);
     default:
       return `${indent}<!-- Unknown component type: ${node.type.resolvedName} -->\n`;
   }
