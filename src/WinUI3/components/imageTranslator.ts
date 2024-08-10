@@ -14,8 +14,8 @@ export function generateImageXaml(node: Node, indent: string = ""): string {
     xaml += ` AutomationProperties.Name="${props.alt}"`;
   }
 
-  xaml += ` Width="${props.width}"`;
-  xaml += ` Height="${props.height}"`;
+  xaml += ` Width="${props.width}*"`;
+  xaml += ` Height="${props.height}*"`;
 
   xaml += ` Stretch="Uniform"`;
 
