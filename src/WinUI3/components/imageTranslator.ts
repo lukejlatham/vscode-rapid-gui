@@ -15,19 +15,12 @@ export function generateImageXaml(node: Node, indent: string = ""): string {
   }
 
   xaml += ` Width="${props.width}*"`;
-  xaml += ` Height="${props.height}*"`;
+  // Note: Height is set to Auto to maintain aspect ratio
+  xaml += ` Height="Auto"`;
 
   xaml += ` Stretch="Uniform"`;
-
-  if (props.alignment) {
-    xaml += ` HorizontalAlignment="${capitalizeFirstLetter(props.alignment)}"`;
-  }
 
   xaml += " />";
 
   return xaml + "\n";
-}
-
-function capitalizeFirstLetter(string: string): string {
-  return string.charAt(0).toUpperCase() + string.slice(1);
 }
