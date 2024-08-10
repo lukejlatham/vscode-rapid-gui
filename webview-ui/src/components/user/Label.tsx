@@ -5,12 +5,14 @@ import { LabelProps, labelSchema, ContentEditableEvent } from "../../types";
 import { LabelSettings } from "./Settings/LabelSettings";
 import { Icon, IconDefaultProps } from "./Icon";
 import ContentEditable from "react-contenteditable";
+import { useSelected } from "../../hooks/useSelected";
 
 const useStyles = makeStyles({
   labelContainer: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    padding: "5px",
     gap: "5px",
   },
   labelContent: {
@@ -53,6 +55,7 @@ export const Label: UserComponent<LabelProps> = (props) => {
 
 
   const styles = useStyles();
+  const select = useSelected();
 
   const handleInput = (e: ContentEditableEvent) => {
     setProp((props: LabelProps) => (props.text = e.target.value), 500);
@@ -61,7 +64,7 @@ export const Label: UserComponent<LabelProps> = (props) => {
   return (
     <div
       ref={(ref: HTMLDivElement | null) => ref && connect(drag(ref))}
-      className={styles.labelContainer}
+      className={`${styles.labelContainer} ${selected ? select.select : ''}`}
       onClick={() => selected && userEditable && setEditable(true)}
     >
       {icon === "left" && <Element id="label_icon" is={Icon} {...IconDefaultProps} />}
@@ -88,7 +91,7 @@ export const LabelDefaultProps: LabelProps = {
   text: "New Label",
   textAlign: 'left',
   fontSize: 20,
-  fontColor: "black",
+  fontColor: "#FFFFFF",
   userEditable: true,
   icon: "none",
   hyperlink: "",

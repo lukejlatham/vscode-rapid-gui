@@ -4,6 +4,7 @@ import ContentEditable from "react-contenteditable";
 import { makeStyles } from "@fluentui/react-components";
 import { TextProps, textSchema, ContentEditableEvent } from "../../types";
 import { TextSettings } from "./Settings/TextSettings";
+import { useSelected } from "../../hooks/useSelected";
 
 const useStyles = makeStyles({
   textContainer: {
@@ -45,7 +46,6 @@ export const Text: UserComponent<TextProps> = (props) => {
 
   const { connectors: { connect, drag }, selected, actions: { setProp } } = useNode((node) => ({
     selected: node.events.selected,
-    dragged: node.events.dragged,
   }));
 
   const [editable, setEditable] = useState(false);
@@ -60,6 +60,7 @@ export const Text: UserComponent<TextProps> = (props) => {
   }, [selected, userEditable]);
 
   const styles = useStyles();
+  const select = useSelected();
 
   const handleInput = (e: ContentEditableEvent) => {
     setProp((props: TextProps) => (props.text = e.target.value), 500);
@@ -68,7 +69,7 @@ export const Text: UserComponent<TextProps> = (props) => {
   return (
     <div
       ref={(ref: HTMLDivElement | null) => ref && connect(drag(ref))}
-      className={styles.textContainer}
+      className={`${styles.textContainer} ${selected ? select.select : ""}`}
       onClick={() => selected && userEditable && setEditable(true)}
     >
       <ContentEditable

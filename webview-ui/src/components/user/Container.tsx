@@ -3,7 +3,7 @@ import { ContainerProps, containerSchema  } from "../../types";
 import { makeStyles } from "@fluentui/react-components";
 import { ContainerSettings } from "./Settings/ContainerSettings";
 // import { ContainerSettings } from "./Settings/ContainerSettings";
-
+import { useSelected } from "../../hooks/useSelected";
 
 const useStyles = makeStyles({
     container: {
@@ -54,18 +54,23 @@ export const Container: UserComponent<ContainerProps> = (props) => {
   const validatedProps = containerSchema.parse(props);
   const { children, height, width, backgroundColor, borderRadius, borderColor, padding, flexDirection, justifyContent, alignItems, shadowBlur, shadowColor, shadowOffsetX, shadowOffsetY, gap } = validatedProps;
 
-    const { connectors: { connect, drag } } = useNode();
+  const { connectors: { connect, drag }, selected } = useNode((state) => ({
+    selected: state.events.selected,
+}));
     const styles = useStyles();
+    const select = useSelected();
     const divStyle = {
         backgroundColor: backgroundColor,
         borderRadius: `${borderRadius}px`,
-        border: `2px solid ${borderColor}`,
+        border: `${selected ? select.select : `1px solid ${borderColor}`}`,
         padding: padding,
         height: `${height}%`,
         width: `${width}%`,
         gap: `${gap}px`,
         boxShadow: `${shadowOffsetX}px ${shadowOffsetY}px ${shadowBlur}px ${shadowColor}`,
         };
+
+    
 
     return (
         <div ref={(ref: HTMLDivElement | null) => ref && connect(drag(ref))} 

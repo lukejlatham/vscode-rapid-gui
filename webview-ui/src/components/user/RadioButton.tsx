@@ -3,7 +3,7 @@ import { useNode, UserComponent } from '@craftjs/core';
 import { makeStyles } from '@fluentui/react-components';
 import { RadioButtonProps, radioButtonSchema } from '../../types';
 import { RadioButtonSettings } from './Settings/RadioButtonSettings';
-
+import { useSelected } from "../../hooks/useSelected";
 
 const useStyles = makeStyles({
     radioButtons: {
@@ -18,10 +18,13 @@ export const RadioButton: UserComponent<RadioButtonProps> = (props) => {
 
     const { header, optionLabels, fontSize, fontColor, direction } = validatedProps;
     
-    const { connectors: { connect, drag } } = useNode();
+    const { connectors: { connect, drag }, selected } = useNode((state) => ({
+        selected: state.events.selected,
+    }));
     const [selectedButton, setSelectedButton] = useState<number>(0);
 
     const styles = useStyles();
+    const select = useSelected();
 
     const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedButton(Number(event.target.value));
@@ -34,6 +37,7 @@ export const RadioButton: UserComponent<RadioButtonProps> = (props) => {
                     connect(drag(ref));
                 }
             }}
+            className={`${selected ? select.select : ""}`}
         >
             <label style={{ fontSize: `${fontSize}px`, color: fontColor }}>{header}</label>
             <div className={styles.radioButtons} style={{ flexDirection: direction }}>

@@ -2,6 +2,7 @@ import { useNode, UserComponent } from '@craftjs/core';
 import { makeStyles } from '@fluentui/react-components';
 import {checkboxSchema, CheckboxProps } from '../../types';
 import { CheckboxSettings } from './Settings/CheckboxSettings';
+import { useSelected } from "../../hooks/useSelected";
 
 const useStyles = makeStyles({
     checkboxes: {
@@ -16,12 +17,12 @@ export const Checkbox: UserComponent<CheckboxProps> = (props) => {
 
     const { header, numberOfBoxes, optionLabels, fontSize, fontColor, direction } = validatedProps;
 
-    const { connectors: { connect, drag } } = useNode((state) => ({
+    const { connectors: { connect, drag }, selected } = useNode((state) => ({
         selected: state.events.selected,
-        dragged: state.events.dragged,
     }));
 
     const styles = useStyles();
+    const select = useSelected();
 
     return (
         <div
@@ -30,6 +31,7 @@ export const Checkbox: UserComponent<CheckboxProps> = (props) => {
                     connect(drag(ref));
                 }
             }}
+            className={`${selected ? select.select : ""}`}
         >
             <label style={{ fontSize: fontSize, color: fontColor }}>{header}</label>
             <div className={styles.checkboxes} style={{flexDirection: direction}}>

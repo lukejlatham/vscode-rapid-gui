@@ -3,6 +3,7 @@ import { useNode, UserComponent } from '@craftjs/core';
 import { makeStyles } from '@fluentui/react-components';
 import { DropdownProps, dropdownSchema } from '../../types';
 import { DropdownSettings } from './Settings/DropdownSettings';
+import { useSelected } from "../../hooks/useSelected";
 
 const useStyles = makeStyles({
     dropdown: {
@@ -17,10 +18,13 @@ export const Dropdown: UserComponent<DropdownProps> = (props) => {
 
     const { header, optionLabels, numberOfOptions, fontSize, fontColor } = validatedProps;
     
-    const { connectors: { connect, drag } } = useNode();
+    const { connectors: { connect, drag }, selected } = useNode((state) => ({
+        selected: state.events.selected,
+    }));
     const [selectedOption, setSelectedOption] = useState<number>(0);
 
     const styles = useStyles();
+    const select = useSelected();
 
     const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedOption(Number(event.target.value));
@@ -28,7 +32,7 @@ export const Dropdown: UserComponent<DropdownProps> = (props) => {
 
     return (
         <div
-        className={styles.dropdown}
+        className={`${styles.dropdown} ${selected ? select.select : ""}`}
             ref={(ref: HTMLDivElement | null) => {
                 if (ref) {
                     connect(drag(ref));

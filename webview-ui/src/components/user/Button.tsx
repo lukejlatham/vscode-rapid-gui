@@ -3,11 +3,9 @@ import { makeStyles } from "@fluentui/react-components";
 import { buttonSchema, ButtonProps } from '../../types';
 import { ButtonSettings } from "./Settings/ButtonSettings";
 import { Icon, IconDefaultProps } from "./Icon";
+import { useSelected } from "../../hooks/useSelected";
 
 const useStyles = makeStyles({
-    container: {
-        display: "flex",
-    },
     button: {
         border: "none",
         textAlign: "center",
@@ -25,31 +23,39 @@ export const Button: UserComponent<ButtonProps> = (props) => {
     const validatedProps = buttonSchema.parse(props);
 
     const { backgroundColor, fontColor, fontSize, borderRadius, text, width, height, bordercolor, shadowBlur, shadowColor, shadowOffsetX, shadowOffsetY, icon } = validatedProps;
-    const { connectors: { connect, drag } } = useNode();
+    const { connectors: { connect, drag }, selected } = useNode((node) => ({
+        selected: node.events.selected,
+    }));
+
     const styles = useStyles();
+    const select = useSelected();
 
     return (
-        <button
-            ref={(ref: HTMLButtonElement | null) => {
-                if (ref) {
-                    connect(drag(ref));
-                }
-            }}
-            className={styles.button}
-            style={{
-                color: fontColor,
-                backgroundColor,
-                fontSize: `${fontSize}px`,
-                borderRadius: `${borderRadius}px`,
-                padding: `${height}px ${width}px`,
-                border: `2px solid ${bordercolor}`,
-                boxShadow: `${shadowOffsetX}px ${shadowOffsetY}px ${shadowBlur}px ${shadowColor}`,
-            }}
+        <div
+        className={`${selected ? select.select : ""}`}
         >
-            {icon === "left" && <Element id="button_icon" is={Icon} {...IconDefaultProps} />}
-            {text}
-            {icon === "right" && <Element id="button_icon" is={Icon} {...IconDefaultProps} />}
-        </button>
+            <button
+                ref={(ref: HTMLButtonElement | null) => {
+                    if (ref) {
+                        connect(drag(ref));
+                    }
+                }}
+                className={`${styles.button} ${selected ? select.select : ""}`}
+                style={{
+                    color: fontColor,
+                    backgroundColor,
+                    fontSize: `${fontSize}px`,
+                    borderRadius: `${borderRadius}px`,
+                    padding: `${height}px ${width}px`,
+                    border: `2px solid ${bordercolor}`,
+                    boxShadow: `${shadowOffsetX}px ${shadowOffsetY}px ${shadowBlur}px ${shadowColor}`,
+                }}
+            >
+                {icon === "left" && <Element id="button_icon" is={Icon} {...IconDefaultProps} />}
+                {text}
+                {icon === "right" && <Element id="button_icon" is={Icon} {...IconDefaultProps} />}
+            </button>
+        </div>
     );
 }
 
