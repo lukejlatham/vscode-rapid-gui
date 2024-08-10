@@ -23,7 +23,7 @@ const useStyles = makeStyles({
         paddingTop: '20px',
         textAlign: 'center',
     },
-    button: {
+    componentButtons: {
         // fontSize: '10px',
         // padding: '20px'
         cursor: 'move !important',

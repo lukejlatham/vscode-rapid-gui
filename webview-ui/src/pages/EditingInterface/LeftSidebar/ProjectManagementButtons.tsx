@@ -19,8 +19,8 @@ const ProjectManagement: React.FC<{ classes: any, pages: Page[], setPages: React
 
     return (
         <div className={classes.componentRoot}>
-            <Button size="large" className={classes.button} icon={<ArrowHookUpLeft24Regular />} appearance='outline' onClick={handleUndo}>Undo</Button>
-            <Button size="large" className={classes.button} icon={<ArrowHookUpRight24Regular />} appearance='outline' onClick={handleRedo}>Redo</Button>
+            <Button size="large" className={classes.button} icon={<ArrowHookUpLeft24Regular />} onClick={handleUndo}>Undo</Button>
+            <Button size="large" className={classes.button} icon={<ArrowHookUpRight24Regular />} onClick={handleRedo}>Redo</Button>
             <SaveButton classes={classes} pages={pages} currentPageIndex={currentPageIndex}/>
             <LoadButton classes={classes} pages={pages} setPages={setPages}/>
             

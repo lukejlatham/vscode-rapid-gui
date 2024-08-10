@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from 'uuid'; // Import uuidv4
 
 
 const LoadButton: React.FC<{classes: any, pages: Page[], setPages: React.Dispatch<React.SetStateAction<Page[]>>}> = ({ classes, pages, setPages }) => {
-    const { actions } = useEditor();
+
 
 
     const handleLoad = () => {
@@ -48,7 +48,7 @@ const LoadButton: React.FC<{classes: any, pages: Page[], setPages: React.Dispatc
     }, [setPages]);
 
     return (
-        <Button size="large" className={classes.button} icon={<Folder24Regular />} appearance='outline' onClick={handleLoad}>Load</Button>
+        <Button size="large" className={classes.button} icon={<Folder24Regular />} onClick={handleLoad}>Load</Button>
     );
 };
 
