@@ -1,5 +1,5 @@
 import { useNode, UserComponent, Element } from "@craftjs/core";
-import { makeStyles } from "@fluentui/react-components";
+import { makeStyles} from "@fluentui/react-components";
 import { buttonSchema, ButtonProps } from '../../types';
 import { ButtonSettings } from "./Settings/ButtonSettings";
 import { Icon, IconDefaultProps } from "./Icon";
@@ -29,27 +29,28 @@ export const Button: UserComponent<ButtonProps> = (props) => {
     const styles = useStyles();
 
     return (
-        <button
-            ref={(ref: HTMLButtonElement | null) => {
-                if (ref) {
-                    connect(drag(ref));
-                }
-            }}
-            className={styles.button}
-            style={{
-                color: fontColor,
-                backgroundColor,
-                fontSize: `${fontSize}px`,
-                borderRadius: `${borderRadius}px`,
-                padding: `${height}px ${width}px`,
-                border: `2px solid ${bordercolor}`,
-                boxShadow: `${shadowOffsetX}px ${shadowOffsetY}px ${shadowBlur}px ${shadowColor}`,
-            }}
-        >
-            {icon === "left" && <Element id="button_icon" is={Icon} {...IconDefaultProps} />}
-            {text}
-            {icon === "right" && <Element id="button_icon" is={Icon} {...IconDefaultProps} />}
-        </button>
+            <button
+                ref={(ref: HTMLButtonElement | null) => {
+                    if (ref) {
+                        connect(drag(ref));
+                    }
+                }}
+                className={styles.button}
+                style={{
+                    color: fontColor,
+                    backgroundColor,
+                    fontSize: `${fontSize}px`,
+                    borderRadius: `${borderRadius}px`,
+                    width: `${width}%`,
+                    height: `${height}%`,
+                    border: `2px solid ${bordercolor}`,
+                    boxShadow: `${shadowOffsetX}px ${shadowOffsetY}px ${shadowBlur}px ${shadowColor}`,
+                }}
+            >   
+            {icon ==="left" && <Element id="button_icon" is={Icon} {...IconDefaultProps} />}
+                {text}
+            {icon ==="right" && <Element id="button_icon" is={Icon} {...IconDefaultProps} />}
+            </button>
     );
 }
 
@@ -60,8 +61,8 @@ export const ButtonDefaultProps: ButtonProps = {
     fontSize: 20,
     borderRadius: 4,
     text: "New Button",
-    width: 10,
-    height: 10,
+    width: 60,
+    height: 12,
     alignment: "left",
     icon: "none",
     bordercolor: "#666666",
@@ -73,7 +74,6 @@ export const ButtonDefaultProps: ButtonProps = {
 };
 
 (Button as any).craft = {
-    displayName: "Button",
     props: ButtonDefaultProps,
     related: {
         settings: ButtonSettings

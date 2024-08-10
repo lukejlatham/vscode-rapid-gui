@@ -2,56 +2,56 @@ import { AzureOpenAI } from "openai";
 import Instructor from "@instructor-ai/instructor";
 import { layoutSchema } from "../../webview-ui/src/types";
 
-// const exampleLayout = {
-//   sections: [
-//     {
-//       name: "Header",
-//       xPosition: 0,
-//       yPosition: 0,
-//       width: 10,
-//       height: 2,
-//       flexDirection: "row",
-//       backgroundColor: "LightAccent",
-//       contents:
-//         "This is the header section, containing the site logo, header text and navigation buttons.",
-//     },
-//     {
-//       name: "MainContent",
-//       xPosition: 0,
-//       yPosition: 2,
-//       width: 7,
-//       height: 8,
-//       flexDirection: "column",
-//       backgroundColor: "Main",
-//       contents:
-//         "This section includes the main content area where articles are displayed with pictures",
-//     },
-//     {
-//       name: "Sidebar",
-//       xPosition: 7,
-//       yPosition: 2,
-//       width: 3,
-//       height: 8,
-//       flexDirection: "column",
-//       backgroundColor: "Main",
-//       contents: "The sidebar contains links to recent posts.",
-//     },
-//     {
-//       name: "Footer",
-//       xPosition: 0,
-//       yPosition: 10,
-//       width: 10,
-//       height: 2,
-//       flexDirection: "row",
-//       contents:
-//         "Footer section with links to privacy policy, contact information, and social media profiles.",
-//     },
-//   ],
-// };
+const exampleLayout = {
+  sections: [
+    {
+      name: "Header",
+      xPosition: 0,
+      yPosition: 0,
+      width: 10,
+      height: 2,
+      flexDirection: "row",
+      backgroundColor: "LightAccent",
+      contents:
+        "This is the header section, containing the site logo, header text and navigation buttons.",
+    },
+    {
+      name: "MainContent",
+      xPosition: 0,
+      yPosition: 2,
+      width: 7,
+      height: 8,
+      flexDirection: "column",
+      backgroundColor: "Main",
+      contents:
+        "This section includes the main content area where articles are displayed with pictures",
+    },
+    {
+      name: "Sidebar",
+      xPosition: 7,
+      yPosition: 2,
+      width: 3,
+      height: 8,
+      flexDirection: "column",
+      backgroundColor: "Main",
+      contents: "The sidebar contains links to recent posts.",
+    },
+    {
+      name: "Footer",
+      xPosition: 0,
+      yPosition: 10,
+      width: 10,
+      height: 2,
+      flexDirection: "row",
+      contents:
+        "Footer section with links to privacy policy, contact information, and social media profiles.",
+    },
+  ],
+};
 
 const systemMessage = {
   role: "system",
-  content: `You are a UI designer who creates perfect app or website designs from a given sketch or text prompt. FOR EACH COMPONENT - CREATE A NEW SECTION. For backgroundColors prop, you can only use Main, LightAccent, or DarkAccent.' `,
+  content: `You are a UI designer who creates perfect app or website designs from a given sketch or text prompt. You create sections for components (on 10x10 grid starting at x=0 y=0), each component containing child elements. For backgroundColors prop, you can only use Main, LightAccent, or DarkAccent. An example layout is shown below:\n\n${exampleLayout}. `,
 };
 
 const textMessage = (textDescription: string) => ({
@@ -59,7 +59,7 @@ const textMessage = (textDescription: string) => ({
   content: [
     {
       type: "text",
-      text: `Create a UI layout from the following textual description: ${textDescription}. Be creative in your interpretation of the prompt - use many sections`,
+      text: `Create a UI layout from the following textual description: ${textDescription}. Use creative license to interpret the description.`,
     },
   ],
 });

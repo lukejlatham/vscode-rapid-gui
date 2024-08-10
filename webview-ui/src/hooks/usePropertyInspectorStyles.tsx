@@ -43,8 +43,12 @@ export const usePropertyInspectorStyles = makeStyles({
     buttonContainer: {
         display: "flex",
         flexDirection: "row",
-        justifyContent: "center",
-        gap: "10px",
-        padding: "8px",
+        gap: "5px",
+    },
+    activeButton: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginTop: "10px",
     },
 });

@@ -16,7 +16,6 @@ import {
 } from '@fluentui/react-components';
 import { ArrowUpload24Regular, CheckmarkCircle24Filled, CircleHint24Filled } from '@fluentui/react-icons';
 import { handleTextUpload } from './handleTextUpload';
-import { v4 as uuidv4 } from 'uuid';
 
 const useStyles = makeStyles({
   content: {
@@ -81,8 +80,11 @@ export const TextDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose }) => 
         setLoading(false);
         setCurrentStage(PROCESSING_STAGES.length);
 
-        navigate('/editing-interface', { state: { text: { id: uuidv4(), name: 'Page 1', content: JSON.parse(message.content) } } });
+        navigate('/editing-interface');
 
+        setTimeout(() => {
+          window.postMessage({ command: 'loadTree', data: message.content });
+        }, 100);
       }
     };
 

@@ -17,7 +17,6 @@ import {
 } from '@fluentui/react-components';
 import { Image24Regular, ArrowUpload24Regular, CheckmarkCircle24Filled, CircleHint24Filled } from '@fluentui/react-icons';
 import { handleSketchUpload } from './handleSketchUpload';
-import { v4 as uuidv4 } from 'uuid';
 
 declare const vscode: any;
 
@@ -91,8 +90,11 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose }) =
         setLoading(false);
         setCurrentStage(PROCESSING_STAGES.length);
 
-        navigate('/editing-interface', { state: { sketch: {id: uuidv4(), name: 'Page 1', content: JSON.parse(message.content)} } });
-        
+        navigate('/editing-interface');
+
+        setTimeout(() => {
+          window.postMessage({ command: 'loadTree', data: message.content });
+        }, 100);
       }
     };
 

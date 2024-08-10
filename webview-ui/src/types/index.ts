@@ -34,14 +34,14 @@ export const buttonSchema = z.object({
   fontSize: z.number().default(16),
   fontColor: z.string().default("white"),
   borderRadius: z.number().default(4),
-  width: z.number().default(10),
-  height: z.number().default(10),
+  width: z.number().default(80),
+  height: z.number().default(60),
   text: z.string().default("Button"),
   alignment: z.enum(["left", "center", "right"]).default("center"),
   displayName: z.string().optional().default("Button"),
   icon: z
     .union([z.enum(["none", "left", "right"]), z.string().refine((val) => val in VscIcons)])
-    .default("left"),
+    .optional(),
   bordercolor: z.string().optional().default("white"),
   shadowColor: z.string().optional().default("black"),
   shadowOffsetX: z.number().optional().default(1),
@@ -51,14 +51,6 @@ export const buttonSchema = z.object({
 });
 
 export type ButtonProps = z.infer<typeof buttonSchema>;
-
-export type ComponentProps = ButtonProps | CheckboxProps | ContainerProps | GridCellProps | DropdownProps | IconProps | ImageProps | InputProps | LabelProps | RadioButtonProps | SliderProps | TextBoxProps | TextProps;
-export type TooltipConfigs =  TooltipConfigButton | TooltipConfigCheckbox | TooltipConfigContainer | TooltipConfigDropdown | TooltipConfigGridCell | TooltipConfigIcon | TooltipConfigLabel | TooltipConfigImage | TooltipConfigInput | TooltipConfigRadio | TooltipConfigSlider | TooltipConfigText | TooltipConfigTextbox;
-
-export interface ComponentSettingsProps {
-  componentProps: ComponentProps;
-  tooltips: TooltipConfigs[];
-}
 
 export const checkboxSchema = z.object({
   header: z.string().default("Checkbox Header"),
@@ -121,7 +113,6 @@ export const inputSchema = z.object({
   fontSize: z.number().default(14),
   fontColor: z.string().default("black"),
   backgroundColor: z.string().default("white"),
-  borderColor: z.string().default("black"),
   placeholder: z.string().default("Enter text"),
   borderRadius: z.number().default(4),
 });
@@ -170,15 +161,15 @@ export const sliderSchema = z.object({
 export type SliderProps = z.infer<typeof sliderSchema>;
 
 export const textBoxSchema = z.object({
-  text: z.string().default(""),
+  text: z.string().default("Text Box"),
   fontSize: z.number().default(14),
   fontColor: z.string().default("black"),
-  backgroundColor: z.string().default("#FFFFFF"),
-  borderColor: z.string().default("black"),
+  backgroundColor: z.string().default("white"),
   placeholder: z.string().default("Enter text"),
   borderRadius: z.number().default(4),
   height: z.number().default(100),
   width: z.number().default(100),
+  alignment: z.enum(["left", "center", "right"]).default("left"),
 });
 
 export type TextBoxProps = z.infer<typeof textBoxSchema>;
@@ -186,7 +177,7 @@ export type TextBoxProps = z.infer<typeof textBoxSchema>;
 export const iconSchema = z.object({
   selectedIcon: z
     .string()
-    .transform((val) => (val in VscIcons ? val : "VscCircle"))
+    .transform((val) => (val in VscIcons ? val : "VscAdd"))
     .default("VscCircle") as z.ZodType<VscIconKeys>,
   iconSize: z.number().optional().default(24),
   iconColor: z.string().optional().default("lightslategrey"),
@@ -262,27 +253,6 @@ export type TooltipConfigInput = {
   type: "color" | "spinButton" | "text" | "alignment";
 };
 
-export type TooltipConfigLabel = {
-  label: string;
-  content: string;
-  propKey: keyof LabelProps;
-  type: "color" | "spinButton" | "text" | "textAlign" | "icon";
-};
-
-export type TooltipConfigText = {
-  label: string;
-  content: string;
-  propKey: keyof TextProps;
-  type: "color" | "spinButton" | "text" | "textAlign";
-};
-
-export type TooltipConfigTextbox = {
-  label: string;
-  content: string;
-  propKey: keyof TextBoxProps;
-  type: "color" | "spinButton" | "text";
-};
-
 export type TooltipConfigRadio = {
   label: string;
   content: string;
@@ -297,6 +267,12 @@ export type TooltipConfigDropdown = {
   type: "color" | "spinButton" | "text" | "options";
 };
 
+export type TooltipConfigText = {
+  label: string;
+  content: string;
+  propKey: keyof TextBoxProps;
+  type: "color" | "spinButton" | "text" | "alignment";
+};
 
 export type TooltipConfigIcon = {
   label: string;
@@ -357,7 +333,7 @@ export const generatedElements = z.object({
 
 export const generatedSectionChildren = z.object({
   section: z.string(),
-  children: z.array(generatedElements).max(8),
+  children: z.array(generatedElements).max(5),
 });
 
 export const generatedAllSectionsChildren = z.object({
@@ -400,7 +376,7 @@ export const generateInputSchema = z.object({
 export const generateLabelSchema = z.object({
   type: z.literal("Label"),
   props: z.object({
-    text: z.string().default("Header"),
+    text: z.string().default("Header").describe("Short header"),
     bold: z.boolean().default(true),
     italic: z.boolean().default(false),
     fontColor: ColorEnum,
@@ -435,7 +411,7 @@ export const generateTextBoxSchema = z.object({
 export const generateTextSchema = z.object({
   type: z.literal("Text"),
   props: z.object({
-    text: z.string(),
+    text: z.string().describe("Write short paragraph"),
     fontColor: ColorEnum,
   }),
 });
@@ -466,36 +442,27 @@ export const generateIconSchema = z.object({
       .regex(/Vsc[A-Z][a-z]+/)
       .default("VscCircle")
       .describe("Icon name from react-icons/vsc"),
+    iconSize: z.number().default(24),
   }),
 });
 
 // Used in getSectionChildrenOpenai.ts
 
-const sectionSchema = z
-  .object({
-    section: z.string(),
-    props: z.object({
-      xPosition: z.number().int().max(10),
-      yPosition: z.number().int().max(10),
-      width: z.number().int().max(10),
-      height: z.number().int().max(10),
-      backgroundColor: ColorEnum.describe("Use accent colors for headers and footers."),
-    }),
-    contents: z.string(),
-  })
-  .transform((data) => {
-    const { width, height } = data.props;
-    return {
-      ...data,
-      props: {
-        ...data.props,
-        flexDirection: width > height ? "row" : "column",
-      },
-    };
-  });
+const sectionSchema = z.object({
+  section: z.string(),
+  props: z.object({
+    xPosition: z.number().int().max(10),
+    yPosition: z.number().int().max(10),
+    width: z.number().int().max(10),
+    height: z.number().int().max(10),
+    backgroundColor: ColorEnum.describe("Use accent colors for headers and footers."),
+    flexDirection: z.enum(["row", "column"]).describe("Column if height > width, row otherwise."),
+  }),
+  contents: z.string().describe("Detailed description of the sections purpose/contents."),
+});
 
 export const layoutSchema = z.object({
-  sections: z.array(sectionSchema).max(6),
+  sections: z.array(sectionSchema).max(5),
 });
 
 // Used in convertLayoutToNodes.ts
@@ -524,7 +491,7 @@ export const fullSectionSchema = z.object({
     flexDirection: z.enum(["row", "column"]),
     backgroundColor: ColorEnum,
   }),
-  children: z.array(generatedFullElements).max(8),
+  children: z.array(generatedFullElements).max(5),
 });
 
 export const fullLayoutSchema = z.array(fullSectionSchema).max(6);
@@ -623,6 +590,6 @@ export const themedSectionSchema = z.object({
 
 export type ThemedSectionSchema = z.infer<typeof themedSectionSchema>;
 
-export const themedLayoutSchema = z.array(themedSectionSchema).max(6);
+export const themedLayoutSchema = z.array(themedSectionSchema).max(5);
 
 export type ThemedLayoutSchema = z.infer<typeof themedSectionSchema>;

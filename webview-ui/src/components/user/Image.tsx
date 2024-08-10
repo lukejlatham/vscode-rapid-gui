@@ -27,17 +27,17 @@ export const Image: UserComponent<ImageProps> = (props) => {
       <img
         src={src}
         alt={alt}
-        style={{ width: `${width}%`, height: `auto` }}
+        style={{ width: `${width}%`, height: `${height}%` }}
       />
      </div>
   );
 };
 
 export const ImageDefaultProps: ImageProps = {
-  src: "https://media.licdn.com/dms/image/C4E03AQFsOf9FqrVmPQ/profile-displayphoto-shrink_200_200/0/1642540398251?e=2147483647&v=beta&t=gVupFwbqLjIjBGMGLZ8o-Iyy6432u1VJbYRI_mxUziQ",
+  src: "https://media.licdn.com/dms/image/D4E22AQGL4EZgEpG2ag/feedshare-shrink_800/0/1719580422738?e=2147483647&v=beta&t=Nj786KjutiTxei_wgDDM40hcWFi5_-qqBIKM4jOa3Hc",
   alt: "New image",
-  width: 40,
-  height: 0,
+  width: 80,
+  height: 80,
 };
 
 Image.craft = {

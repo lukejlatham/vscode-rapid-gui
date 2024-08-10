@@ -4,16 +4,28 @@ import { TextBoxProps, textBoxSchema } from '../../types';
 import { TextBoxSettings } from './Settings/TextboxSettings';
 
 const useStyles = makeStyles({
+    container: {
+        display: "flex",
+    },
+    justifyLeft: {
+        justifyContent: "flex-start",
+    },
+    justifyCenter: {
+        justifyContent: "center",
+    },
+    justifyRight: {
+        justifyContent: "flex-end",
+    },
     textBox: {
-        resize: "both",
-        fontFamily: "inherit",
+        width: "100%",
+        resize: "none",
     },
 });
 
 export const TextBox: UserComponent<TextBoxProps> = (props) => {
     const validatedProps = textBoxSchema.parse(props);
 
-    const { text, fontSize, fontColor, backgroundColor, borderColor, placeholder, borderRadius } = validatedProps;
+    const { text, fontSize, fontColor, backgroundColor, placeholder, height, width, borderRadius, alignment } = validatedProps;
     
     const {
         connectors: { connect, drag },
@@ -25,20 +37,23 @@ export const TextBox: UserComponent<TextBoxProps> = (props) => {
     const styles = useStyles();
 
     return (
+        <div
+            ref={(ref: HTMLDivElement | null) => ref && connect(drag(ref))}
+            className={`${styles.container} ${alignment === "left" ? styles.justifyLeft : alignment === "center" ? styles.justifyCenter : styles.justifyRight}`}
+        >
             <textarea
-                ref={(ref: HTMLTextAreaElement | null) => ref && connect(drag(ref))}
                 placeholder={placeholder}
                 className={styles.textBox}
                 style={{
                     fontSize: `${fontSize}px`,
                     color: fontColor,
                     backgroundColor: backgroundColor,
-                    borderRadius: `${borderRadius}px`,
-                    borderColor: `${borderColor}`,
+                    borderRadius: `${borderRadius}px`
                 }}
             >
                 {text}
             </textarea>
+        </div>
     );
 };
 
@@ -46,16 +61,16 @@ export const TextBoxDefaultProps: TextBoxProps = {
     text: '',
     fontSize: 16,
     fontColor: 'black',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: 'white',
     placeholder: 'Placeholder...',
     height: 100,
     width: 200,
     borderRadius: 5,
-    borderColor: 'black',
+    alignment: "left"
 }
 
 TextBox.craft = {
-    displayName: 'Multi-line Input',
+    displayName: 'TextBox',
     props: TextBoxDefaultProps,
     related: {
         settings: TextBoxSettings

@@ -7,7 +7,7 @@
         "props": {
             "rows": 8,
             "columns": 10,
-            "lockedGrid": true,
+            "lockedGrid": false,
             "backgroundColor": "#ffffff",
             "layout": [
                 {
@@ -159,6 +159,24 @@
         "nodes": [],
         "linkedNodes": {}
     },
+    "HeaderIcon1": {
+        "type": {
+            "resolvedName": "Icon"
+        },
+        "isCanvas": false,
+        "props": {
+            "selectedIcon": "VscComment",
+            "iconSize": 24,
+            "iconColor": "lightslategrey",
+            "hyperlink": ""
+        },
+        "displayName": "Icon",
+        "custom": {},
+        "parent": "HeaderContainer",
+        "hidden": false,
+        "nodes": [],
+        "linkedNodes": {}
+    },
     "NameInputGridCell": {
         "type": {
             "resolvedName": "GridCell"
@@ -220,7 +238,7 @@
         "props": {
             "text": "Fist Name",
             "textAlign": "left",
-            "fontSize": 20,
+            "fontSize": 16,
             "fontColor": "darkslategrey",
             "userEditable": true,
             "icon": "none",
@@ -242,14 +260,13 @@
         },
         "isCanvas": false,
         "props": {
-            "fontSize": 20,
+            "fontSize": 14,
             "fontColor": "darkslategrey",
             "backgroundColor": "white",
-            "borderColor": "#000000",
             "placeholder": "Enter...",
             "borderRadius": 4
         },
-        "displayName": "Single Line Input",
+        "displayName": "Input",
         "custom": {},
         "parent": "NameInputContainer",
         "hidden": false,
@@ -317,7 +334,7 @@
         "props": {
             "text": "Service Quality",
             "textAlign": "left",
-            "fontSize": 20,
+            "fontSize": 16,
             "fontColor": "darkslategrey",
             "userEditable": true,
             "icon": "none",
@@ -331,9 +348,7 @@
         "parent": "ServiceQualityContainer",
         "hidden": false,
         "nodes": [],
-        "linkedNodes": {
-            "label_icon": "SlrBjvNO0d"
-        }
+        "linkedNodes": {}
     },
     "ServiceQualityRadioButton1": {
         "type": {
@@ -350,7 +365,7 @@
                 "Average",
                 "Poor"
             ],
-            "fontSize": 16,
+            "fontSize": 14,
             "fontColor": "black",
             "direction": "row"
         },
@@ -410,7 +425,7 @@
         "hidden": false,
         "nodes": [
             "SuggestionsLabel0",
-            "K-2HEgueoV"
+            "SuggestionsTextBox1"
         ],
         "linkedNodes": {}
     },
@@ -422,7 +437,7 @@
         "props": {
             "text": "Suggestions",
             "textAlign": "left",
-            "fontSize": 20,
+            "fontSize": 22,
             "fontColor": "darkslategrey",
             "userEditable": true,
             "icon": "none",
@@ -436,9 +451,30 @@
         "parent": "SuggestionsContainer",
         "hidden": false,
         "nodes": [],
-        "linkedNodes": {
-            "label_icon": "WmMAenVuWJ"
-        }
+        "linkedNodes": {}
+    },
+    "SuggestionsTextBox1": {
+        "type": {
+            "resolvedName": "TextBox"
+        },
+        "isCanvas": false,
+        "props": {
+            "text": "Text Box",
+            "fontSize": 14,
+            "fontColor": "darkslategrey",
+            "backgroundColor": "white",
+            "placeholder": "Type here...",
+            "height": 100,
+            "width": 100,
+            "borderRadius": 0,
+            "alignment": "left"
+        },
+        "displayName": "TextBox",
+        "custom": {},
+        "parent": "SuggestionsContainer",
+        "hidden": false,
+        "nodes": [],
+        "linkedNodes": {}
     },
     "SubmitButtonGridCell": {
         "type": {
@@ -502,7 +538,7 @@
             "fontColor": "#ffffff",
             "displayName": "Button",
             "fontSize": 16,
-            "borderRadius": 5,
+            "borderRadius": 10,
             "text": "Submit",
             "width": 40,
             "height": 60,
@@ -584,7 +620,7 @@
         "props": {
             "text": "Last Name",
             "textAlign": "left",
-            "fontSize": 20,
+            "fontSize": 16,
             "fontColor": "#2f4f4f",
             "userEditable": true,
             "icon": "none",
@@ -593,7 +629,7 @@
             "italic": false,
             "underline": false
         },
-        "displayName": "Label",
+        "displayName": "ZM",
         "custom": {},
         "parent": "b8eJnrdkGQ",
         "hidden": false,
@@ -606,14 +642,13 @@
         },
         "isCanvas": false,
         "props": {
-            "fontSize": 20,
+            "fontSize": 14,
             "fontColor": "darkslategrey",
             "backgroundColor": "white",
-            "borderColor": "#000000",
             "placeholder": "Enter...",
             "borderRadius": 4
         },
-        "displayName": "Single Line Input",
+        "displayName": "Input",
         "custom": {},
         "parent": "b8eJnrdkGQ",
         "hidden": false,
@@ -634,83 +669,6 @@
         "displayName": "Icon",
         "custom": {},
         "parent": "SubmitButtonButton0",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "K-2HEgueoV": {
-        "type": {
-            "resolvedName": "TextBox"
-        },
-        "isCanvas": false,
-        "props": {
-            "text": "",
-            "fontSize": 16,
-            "fontColor": "black",
-            "backgroundColor": "#FFFFFF",
-            "placeholder": "Enter your suggestions here...",
-            "height": 100,
-            "width": 200,
-            "borderRadius": 5,
-            "borderColor": "black"
-        },
-        "displayName": "Multi-line Input",
-        "custom": {},
-        "parent": "SuggestionsContainer",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "SlrBjvNO0d": {
-        "type": {
-            "resolvedName": "Icon"
-        },
-        "isCanvas": false,
-        "props": {
-            "selectedIcon": "VscStarEmpty",
-            "iconSize": 24,
-            "iconColor": "#2f4f4f",
-            "hyperlink": ""
-        },
-        "displayName": "Icon",
-        "custom": {},
-        "parent": "ServiceQualityLabel0",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "WmMAenVuWJ": {
-        "type": {
-            "resolvedName": "Icon"
-        },
-        "isCanvas": false,
-        "props": {
-            "selectedIcon": "VscHome",
-            "iconSize": 24,
-            "iconColor": "#lightslategray",
-            "hyperlink": ""
-        },
-        "displayName": "Icon",
-        "custom": {},
-        "parent": "SuggestionsLabel0",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "HeaderIcon1": {
-        "type": {
-            "resolvedName": "Icon"
-        },
-        "isCanvas": false,
-        "props": {
-            "selectedIcon": "VscComment",
-            "iconSize": 24,
-            "iconColor": "lightslategrey",
-            "hyperlink": ""
-        },
-        "displayName": "Icon",
-        "custom": {},
-        "parent": "HeaderContainer",
         "hidden": false,
         "nodes": [],
         "linkedNodes": {}

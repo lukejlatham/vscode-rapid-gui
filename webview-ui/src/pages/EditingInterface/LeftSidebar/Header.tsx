@@ -10,11 +10,12 @@ const Header: React.FC<{ classes: any }> = ({ classes }) => {
     return (
         <div className={classes.header}>
             <Button
-                appearance="secondary"
-                aria-label="Back"
+                appearance="outline"
+                aria-label="Close"
                 icon={<BackButtonIcon />}
                 onClick={() => navigate(-1)}
-            >Back</Button>
+            />
+            <Subtitle1>Project Name</Subtitle1>
         </div>
     );
 };
