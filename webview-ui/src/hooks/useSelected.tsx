@@ -2,8 +2,8 @@ import { makeStyles, tokens } from "@fluentui/react-components";
 
 export const useSelected = makeStyles({
     select: {
-        border: `3px dashed ${tokens.colorNeutralStroke1}`,
+        border: `3px dashed ${tokens.colorNeutralStroke1} !important`,
         cursor: "move",
-        padding: "5px",
+        padding: "2px",
     },
 });
