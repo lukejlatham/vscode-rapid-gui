@@ -91,7 +91,7 @@ export const ContainerDefaultProps: ContainerProps = {
     backgroundColor: "#292929",
     borderRadius: 5,
     borderColor: "#666666",
-    padding: 0,
+    padding: 5,
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",

@@ -1,12 +1,13 @@
-import React, {useCallback, useEffect} from "react";
-import { Input, Label, SpinButton, Radio, RadioGroup, SpinButtonChangeEvent, SpinButtonOnChangeData, Tooltip, useId, mergeClasses } from "@fluentui/react-components";
+import React, { useCallback, useEffect } from "react";
+import { Input, Label, SpinButton, Radio, Slider,SliderOnChangeData, RadioGroup, SpinButtonChangeEvent, SpinButtonOnChangeData, Tooltip, useId, mergeClasses } from "@fluentui/react-components";
 import { Info16Regular } from "@fluentui/react-icons";
 import { useNode } from "@craftjs/core";
 import { usePropertyInspectorStyles } from "../../../hooks/usePropertyInspectorStyles";
 import { ComponentSettingsProps, CheckboxProps, RadioButtonProps, DropdownProps, ImageProps } from "../../../types";
 import { UserImageUploadButton } from "../../UserImageUploadButton";
+import { Hover } from "vscode";
 
-export const ComponentSettings: React.FC<ComponentSettingsProps> = ({ componentProps, tooltips}) => {
+export const ComponentSettings: React.FC<ComponentSettingsProps> = ({ componentProps, tooltips }) => {
     const { actions: { setProp }, props } = useNode(node => ({
         props: node.data.props as typeof componentProps
     }));
@@ -22,7 +23,7 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({ componentP
     };
 
     // Default option labels for checkboxes, radio buttons, and dropdowns
-    const defaultOptionLabels = (count: number) => 
+    const defaultOptionLabels = (count: number) =>
         Array.from({ length: count }, (_, i) => `Option ${i + 1}`);
 
     // Update option labels based on the number of options
@@ -54,20 +55,20 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({ componentP
     // Handle image upload
     const handleImageUpload = (filePath: string) => {
         setProp((props: ImageProps) => {
-          props.src = filePath;
+            props.src = filePath;
         }, 1000);
-      };
+    };
 
 
     return (
         <div className={propInspector.settingsContainer}>
             { // Display image upload button if the component has an 'src' prop
-            'src' in props && (
-                <UserImageUploadButton onUpload={handleImageUpload} />
-            )}
+                'src' in props && (
+                    <UserImageUploadButton onUpload={handleImageUpload} />
+                )}
             {tooltips.map((tooltip, index) => {
                 const propValue = props[tooltip.propKey as keyof typeof props];
-                
+
                 return (
                     <div key={index}>
                         <div aria-owns={visibleTooltip === tooltip.propKey ? contentId : undefined} className={propInspector.label}>
@@ -99,16 +100,30 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({ componentP
                                     (props[tooltip.propKey as keyof typeof props] as string) = e.target.value;
                                 })}
                             />
-                        ) : tooltip.type === "spinButton" ? (
+                        ) : tooltip.type === "slider" ? (
+                            <div className={propInspector.sliderSection}>
+                                <Label>{propValue}</Label>
+                                <Slider
+                                    className={propInspector.slider}
+                                    defaultValue={propValue as number}
+                                    onChange={(e: React.FormEvent<HTMLInputElement>, data: SliderOnChangeData) => {
+                                        setProp((props: typeof componentProps) => {
+                                            (props[tooltip.propKey as keyof typeof props] as number) = data.value;
+                                        }, 1000);
+                                    }}
+                                />
+                            </div>
+                        )  : tooltip.type === "spinButton" ? (
                             <SpinButton
-                                className={propInspector.spinButton}
                                 defaultValue={propValue as number}
-                                onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
-                                    const value = data.value ? data.value : 0;
+                                min={1}
+                                max={15}
+                                onChange={(e: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
                                     setProp((props: typeof componentProps) => {
-                                        (props[tooltip.propKey as keyof typeof props] as number) = value;
+                                        (props[tooltip.propKey as keyof typeof props] as number) = data.value as number;
                                     }, 1000);
                                 }}
+                                className={propInspector.spinButton}
                             />
                         ) : tooltip.type === "text" ? (
                             <Input
@@ -165,23 +180,23 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({ componentP
                             </RadioGroup>
                         ) : tooltip.type === "options" && 'optionLabels' in props ? (
                             <div className={propInspector.optionLabels}>
-                              {propsWithOptions.optionLabels.map((label, index) => (
-                                <div key={index}>
-                                  <Input
-                                    className={propInspector.textInput}
-                                    type="text"
-                                    defaultValue={label}
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                      setProp((props: typeof propsWithOptions) => {
-                                        props.optionLabels[index] = e.target.value;
-                                      });
-                                    }}
-                                  />
-                                </div>
-                              ))}
+                                {propsWithOptions.optionLabels.map((label, index) => (
+                                    <div key={index}>
+                                        <Input
+                                            className={propInspector.textInput}
+                                            type="text"
+                                            defaultValue={label}
+                                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                                setProp((props: typeof propsWithOptions) => {
+                                                    props.optionLabels[index] = e.target.value;
+                                                });
+                                            }}
+                                        />
+                                    </div>
+                                ))}
                             </div>
-                          ) : null
-                    }
+                        ) : null
+                        }
                     </div>
                 );
             })}

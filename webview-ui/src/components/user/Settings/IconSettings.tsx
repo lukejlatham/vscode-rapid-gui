@@ -91,7 +91,7 @@ export const IconSettings: React.FC = () => {
 
     // Tooltip configuration
     const tooltips: TooltipConfig[] = [
-        { label: "Icon Size", content: "Adjust the size of the icon.", propKey: "iconSize", type: "spinButton" },
+        { label: "Icon Size", content: "Adjust the size of the icon.", propKey: "iconSize", type: "slider" },
         { label: "Icon Color", content: "Change the color of the icon.", propKey: "iconColor", type: "color" },
         { label: "Hyperlink", content: "Add a hyperlink to the icon.", propKey: "hyperlink", type: "text" },
     ];

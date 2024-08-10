@@ -14,7 +14,7 @@ export const TextSettings: React.FC = () => {
     const styles = usePropertyInspectorStyles();
 
     const tooltips: TooltipConfig[] = [
-        { label: "Font Size", content: "Adjust the size of the text.", propKey: "fontSize", type: "spinButton" },
+        { label: "Font Size", content: "Adjust the size of the text.", propKey: "fontSize", type: "slider" },
         { label: "Font Color", content: "Change the text colour of the label.", propKey: "fontColor", type: "color" },
         { label: "Text", content: "Edit the text", propKey: "text", type: "text" },
         { label: "Alignment", content: "Set the text alignment.", propKey: "textAlign", type: "textAlign" },

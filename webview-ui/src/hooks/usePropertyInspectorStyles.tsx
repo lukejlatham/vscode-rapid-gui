@@ -47,4 +47,12 @@ export const usePropertyInspectorStyles = makeStyles({
         gap: "10px",
         padding: "8px",
     },
+    sliderSection: {
+        width: "100%",
+        display: "flex",
+        alignItems: "center",
+    },
+    slider: {
+        flexGrow: 1,
+    }
 });

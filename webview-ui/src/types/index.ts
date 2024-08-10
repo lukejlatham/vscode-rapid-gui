@@ -84,7 +84,7 @@ export const containerSchema = z.object({
   backgroundColor: z.string().default("ghostwhite"),
   borderRadius: z.number().default(5),
   borderColor: z.string().optional().default("black"),
-  padding: z.number().default(0),
+  padding: z.number().default(5),
   shadowColor: z.string().optional().default("black"),
   shadowOffsetX: z.number().optional().default(1),
   shadowOffsetY: z.number().optional().default(1),
@@ -238,63 +238,63 @@ export type TooltipConfigButton = {
   label: string;
   content: string;
   propKey: keyof ButtonProps;
-  type: "color" | "spinButton" | "text" | "icon";
+  type: "color" | "spinButton" | "text" | "icon" | "slider";
 };
 
 export type TooltipConfigCheckbox = {
   label: string;
   content: string;
   propKey: keyof CheckboxProps;
-  type: "color" | "spinButton" | "text" | "options" | "direction";
+  type: "color" | "spinButton" | "text" | "options" | "direction" | "slider";
 };
 
 export type TooltipConfigGridCell = {
   label: string;
   content: string;
   propKey: keyof GridCellProps;
-  type: "color" | "spinButton" | "text" | "alignItems" | "justifyContent" | "direction";
+  type: "color" | "spinButton" | "text" | "alignItems" | "justifyContent" | "direction" | "slider";
 };
 
 export type TooltipConfigInput = {
   label: string;
   content: string;
   propKey: keyof InputProps;
-  type: "color" | "spinButton" | "text" | "alignment";
+  type: "color" | "spinButton" | "text" | "alignment" | "slider";
 };
 
 export type TooltipConfigLabel = {
   label: string;
   content: string;
   propKey: keyof LabelProps;
-  type: "color" | "spinButton" | "text" | "textAlign" | "icon";
+  type: "color" | "spinButton" | "text" | "textAlign" | "icon" | "slider";
 };
 
 export type TooltipConfigText = {
   label: string;
   content: string;
   propKey: keyof TextProps;
-  type: "color" | "spinButton" | "text" | "textAlign";
+  type: "color" | "spinButton" | "text" | "textAlign" | "slider";
 };
 
 export type TooltipConfigTextbox = {
   label: string;
   content: string;
   propKey: keyof TextBoxProps;
-  type: "color" | "spinButton" | "text";
+  type: "color" | "spinButton" | "text" | "slider";
 };
 
 export type TooltipConfigRadio = {
   label: string;
   content: string;
   propKey: keyof RadioButtonProps;
-  type: "color" | "spinButton" | "text" | "options" | "direction";
+  type: "color" | "spinButton" | "text" | "options" | "direction" | "slider";
 };
 
 export type TooltipConfigDropdown = {
   label: string;
   content: string;
   propKey: keyof DropdownProps;
-  type: "color" | "spinButton" | "text" | "options";
+  type: "color" | "spinButton" | "text" | "options" | "slider";
 };
 
 
@@ -302,28 +302,28 @@ export type TooltipConfigIcon = {
   label: string;
   content: string;
   propKey: keyof IconProps;
-  type: "color" | "spinButton" | "text";
+  type: "color" | "spinButton" | "text" | "slider";
 };
 
 export interface TooltipConfigImage {
   label: string;
   content: string;
   propKey: keyof ImageProps;
-  type: "spinButton" | "text";
+  type: "spinButton" | "text" | "slider";
 }
 
 export interface TooltipConfigContainer {
   label: string;
   content: string;
   propKey: keyof ContainerProps;
-  type: "color" | "spinButton" | "text" | "justifyContent" | "alignItems" | "direction";
+  type: "color" | "spinButton" | "text" | "justifyContent" | "alignItems" | "direction" | "slider";
 }
 
 export interface TooltipConfigSlider {
   label: string;
   content: string;
   propKey: keyof SliderProps;
-  type: "color" | "spinButton" | "text";
+  type: "color" | "spinButton" | "text" | "slider";
 }
 
 export interface Page {
