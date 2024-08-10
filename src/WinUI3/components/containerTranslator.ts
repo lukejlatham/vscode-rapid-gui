@@ -1,7 +1,11 @@
 import { Node } from "../JsonParser";
 import { generateComponentXaml } from "../componentGenerator";
 
-export function generateContainerXaml(node: Node, indent: string = ""): string {
+export function generateContainerXaml(
+  content: { [key: string]: Node },
+  indent: string = ""
+): string {
+  const node = Object.values(content)[0];
   const props = node.props;
   let xaml = `${indent}<Border`;
 
@@ -24,6 +28,7 @@ export function generateContainerXaml(node: Node, indent: string = ""): string {
   }
 
   // Content
+  xaml += ">\n";
   xaml += `${indent}  <StackPanel`;
   xaml += ` Orientation="${props.flexDirection === "column" ? "Vertical" : "Horizontal"}"`;
   xaml += ` HorizontalAlignment="${mapJustifyContentToAlignment(props.justifyContent)}"`;
@@ -37,6 +42,9 @@ export function generateContainerXaml(node: Node, indent: string = ""): string {
       if (node.linkedNodes && node.linkedNodes[childId]) {
         const childNode = node.linkedNodes[childId];
         xaml += generateComponentXaml({ [childId]: childNode }, indent + "    ");
+      } else if (content[childId]) {
+        // This handles the case where the child is not in linkedNodes but is in the content
+        xaml += generateComponentXaml({ [childId]: content[childId] }, indent + "    ");
       } else {
         console.warn(`Child node not found: ${childId}`);
       }
