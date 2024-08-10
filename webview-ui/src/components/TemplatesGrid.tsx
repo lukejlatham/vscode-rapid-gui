@@ -1,13 +1,11 @@
-import React, {useEffect} from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Card, CardHeader, Text, Body2, makeStyles, tokens } from '@fluentui/react-components';
-import loginImage from '../assets/Login.png'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Card, CardHeader, Body2, makeStyles, tokens } from '@fluentui/react-components';
 import VideoGameSettings from '../data/layout_templates/VideoGameSettings.json'
 import Login from '../data/layout_templates/Login.json'
 import Website from '../data/layout_templates/Website.json'
 import FeedbackForm from '../data/layout_templates/FeedbackForm.json'
 import { DesktopRegular, GamesRegular, FormRegular, PersonPasskeyRegular } from '@fluentui/react-icons';
-import { useEditor } from '@craftjs/core';
 import { v4 as uuidv4 } from 'uuid';
 
 const useStyles = makeStyles({
@@ -54,28 +52,10 @@ const templates = [
 const TemplatesGrid: React.FC = () => {
   const styles = useStyles();
 
-  // useEffect(() => {
-  //   // Check if we've just navigated to the editing interface
-  //   if (location.pathname === '/editing-interface' && location.state?.templateData) {
-  //     // After a short delay, send the loadTree message
-  //     const timer = setTimeout(() => {
-  //       window.postMessage({ command: 'loadTree', data: location.state.templateData }, '*');
-  //     }, 100);
-
-  //     return () => clearTimeout(timer);
-  //   }
-  // }, [location]);
-
-  // function handleTemplateClick(data: any) {
-  //   // Navigate to the editing interface with template data in state
-  //   console.log('the template:', data);
-  //   navigate('/editing-interface', { state: { templateData: data } });
-  // }
-
   return (
     <div className={styles.templateContainer}>
       {templates.map((template) => (
-        <Link to="/editing-interface" state={{id: template.data.id, name: template.data.name, content: template.data.content}}key={template.name} className={styles.cardLink}>
+        <Link to="/editing-interface" state={{template: { id: template.data.id, name: template.data.name, content: template.data.content}}}key={template.name} className={styles.cardLink}>
         <Card appearance='filled' className={styles.card}>
           <CardHeader title={template.name} image={template.icon} className={styles.icon} />
             <Body2 className={styles.name}>{template.name}</Body2>

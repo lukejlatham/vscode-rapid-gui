@@ -90,53 +90,31 @@ const EditingInterface: React.FC = () => {
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
     const location = useLocation();
-    const template = location.state;
-    console.log('template:', template);
+
+    // setting template if state has template
+    const template = location.state?.template;
+    console.log('Template: ', template);
+
+    const sketch = location.state?.sketch;
+    console.log('Sketch sent: ', sketch);
+
+    const text = location.state?.text;
+    console.log('Text sent: ', text);
 
     useEffect(() => {
         if (template) {
-          setPages([template] ? [template] : [createDefaultPage()])
+          setPages([template])
+          setCurrentPageIndex(0);
+        } else if (sketch) {
+          setPages([sketch])
+          setCurrentPageIndex(0);
+        } else if (text) {
+          setPages([text])
           setCurrentPageIndex(0);
         }
         setIsLoading(false);
-        }, [template]);
+        }, [template, sketch, text]);
 
-
-    // useEffect(() => {
-    //     const loadPages = () => {
-    //       try {
-    //         const storedPages = localStorage.getItem(LOCAL_STORAGE_KEY);
-    //         if (storedPages) {
-    //           console.log('Stored pages: ', storedPages);
-    //           const parsedPages = JSON.parse(storedPages);
-    //           console.log('Parsed pages: ', parsedPages);
-    //           if (Array.isArray(parsedPages) && parsedPages.length > 0) {
-    //             setPages(parsedPages);
-    //           } else {
-    //             console.warn('Stored pages were in an unexpected format. Creating a default page.');
-    //             setPages([createDefaultPage()]);
-    //           }
-    //         } else {
-    //           console.log('No stored pages found. Creating a default page.');
-    //           setPages([createDefaultPage()]);
-    //         }
-    //       } catch (error) {
-    //         console.error('Error loading pages:', error);
-    //         setPages([createDefaultPage()]);
-    //       } finally {
-    //         setIsLoading(false);
-    //       }
-    //     };
-    
-    //     loadPages();
-    //   }, []);
-    
-
-      // useEffect(() => {
-      //   if (!isLoading) {
-      //     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(pages));
-      //   }
-      // }, [pages, isLoading]);
 
       const addPage = () => {
         const newPage = createDefaultPage();

@@ -48,7 +48,7 @@ const LoadButton: React.FC<{classes: any, pages: Page[], setPages: React.Dispatc
     }, [setPages]);
 
     return (
-        <Button className={classes.button} icon={<Folder24Regular />} appearance='outline' onClick={handleLoad}>Load</Button>
+        <Button size="large" className={classes.button} icon={<Folder24Regular />} appearance='outline' onClick={handleLoad}>Load</Button>
     );
 };
 

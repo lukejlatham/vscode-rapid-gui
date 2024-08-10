@@ -4,7 +4,7 @@ import { InputSettings } from './Settings/InputSettings';
 
 export const Input: UserComponent<InputProps> = (props) => {
     const validatedProps = inputSchema.parse(props);
-    const { fontSize, fontColor, backgroundColor, placeholder, borderRadius } = validatedProps;
+    const { fontSize, fontColor, backgroundColor, placeholder, borderRadius, borderColor } = validatedProps;
     
     const { connectors: { connect, drag } } = useNode((state) => ({
         selected: state.events.selected,
@@ -24,7 +24,7 @@ export const Input: UserComponent<InputProps> = (props) => {
             color: fontColor,
             backgroundColor: backgroundColor,
             borderRadius: borderRadius,
-            border: 'none',
+            borderColor: borderColor,
         }}
         />
     );
@@ -34,12 +34,13 @@ export const InputDefaultProps: InputProps = {
     fontSize: 16,
     fontColor: '#000000',
     backgroundColor: '#FFFFFF',
+    borderColor: '#000000',
     placeholder: 'Enter text here...',
     borderRadius: 4,
 };
 
 Input.craft = {
-    displayName: 'Input',
+    displayName: 'Single Line Input',
     props: InputDefaultProps,
     related: {
         settings: InputSettings,

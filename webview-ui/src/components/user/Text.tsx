@@ -7,7 +7,7 @@ import { TextSettings } from "./Settings/TextSettings";
 
 const useStyles = makeStyles({
   textContainer: {
-    cursor: "pointer",
+    cursor: "text",
   },
   textContent: {
     margin: 0,
@@ -41,7 +41,7 @@ const useStyles = makeStyles({
 export const Text: UserComponent<TextProps> = (props) => {
   const validatedProps = textSchema.parse(props);
 
-  const { text, fontSize, fontColor, userEditable, textAlign, bold, italic, underline, hyperlink } = validatedProps;
+  const { text, fontSize, fontColor, userEditable, textAlign, bold, italic, underline } = validatedProps;
 
   const { connectors: { connect, drag }, selected, actions: { setProp } } = useNode((node) => ({
     selected: node.events.selected,
@@ -102,6 +102,7 @@ export const TextDefaultProps: TextProps = {
 };
 
 (Text as any).craft = {
+  displayName: "Paragraph",
   props: TextDefaultProps,
   related: {
     settings: TextSettings,

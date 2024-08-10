@@ -209,7 +209,7 @@
         "props": {
             "height": 100,
             "width": 100,
-            "backgroundColor": "#ffffff",
+            "backgroundColor": "#292929",
             "borderRadius": 5,
             "borderColor": "#666666",
             "padding": 0,
@@ -240,7 +240,7 @@
             "text": "App/Website Name",
             "textAlign": "left",
             "fontSize": 24,
-            "fontColor": "#4c00ff",
+            "fontColor": "#ffffff",
             "userEditable": true,
             "icon": "none",
             "hyperlink": "",
@@ -248,7 +248,7 @@
             "italic": false,
             "underline": false
         },
-        "displayName": "ZM",
+        "displayName": "Label",
         "custom": {},
         "parent": "33p_SEox4I",
         "hidden": false,
@@ -265,7 +265,7 @@
             "width": 100,
             "backgroundColor": "#292929",
             "borderRadius": 5,
-            "borderColor": "#666666",
+            "borderColor": "#292929",
             "padding": 10,
             "flexDirection": "column",
             "justifyContent": "center",
@@ -342,7 +342,7 @@
             "shadowOffsetY": 0,
             "shadowBlur": 0
         },
-        "displayName": "KM",
+        "displayName": "Button",
         "custom": {},
         "parent": "LGSoOvNEYX",
         "hidden": false,
@@ -373,7 +373,7 @@
             "shadowOffsetY": 0,
             "shadowBlur": 0
         },
-        "displayName": "KM",
+        "displayName": "Button",
         "custom": {},
         "parent": "LGSoOvNEYX",
         "hidden": false,
@@ -435,7 +435,7 @@
             "italic": false,
             "underline": false
         },
-        "displayName": "ZM",
+        "displayName": "Label",
         "custom": {},
         "parent": "QlPeCBlTSy",
         "hidden": false,
@@ -451,10 +451,11 @@
             "fontSize": 20,
             "fontColor": "#000000",
             "backgroundColor": "#FFFFFF",
+            "borderColor": "#000000",
             "placeholder": "Enter your username...",
-            "borderRadius": 2
+            "borderRadius": 5
         },
-        "displayName": "Input",
+        "displayName": "Single Line Input",
         "custom": {},
         "parent": "QlPeCBlTSy",
         "hidden": false,
@@ -478,7 +479,7 @@
             "italic": false,
             "underline": false
         },
-        "displayName": "ZM",
+        "displayName": "Label",
         "custom": {},
         "parent": "QlPeCBlTSy",
         "hidden": false,
@@ -494,10 +495,11 @@
             "fontSize": 20,
             "fontColor": "#000000",
             "backgroundColor": "#FFFFFF",
+            "borderColor": "#000000",
             "placeholder": "Enter your password...",
-            "borderRadius": 2
+            "borderRadius": 5
         },
-        "displayName": "Input",
+        "displayName": "Single Line Input",
         "custom": {},
         "parent": "QlPeCBlTSy",
         "hidden": false,
