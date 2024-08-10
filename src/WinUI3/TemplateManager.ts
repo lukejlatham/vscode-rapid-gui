@@ -47,4 +47,8 @@ export class TemplateManager {
   public addTemplate(templateName: string, templateContent: string) {
     this.templates.set(templateName, templateContent);
   }
+
+  public getTemplatesPath(): string {
+    return this.templatesPath;
+  }
 }

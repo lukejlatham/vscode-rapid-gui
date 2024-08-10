@@ -50,6 +50,7 @@ export class FileGenerator {
     this.createGitignore();
     this.createReadme();
     this.createSolutionFile();
+    this.copyAssetImages();
 
     pages.forEach((page) => {
       this.createPageXaml(page);
@@ -274,5 +275,23 @@ ${pageTypeLogic}
   
   `;
     this.createFile("README.md", content);
+  }
+
+  private copyAssetImages() {
+    const templateAssetsPath = path.join(this.templateManager.getTemplatesPath(), "Assets");
+    const projectAssetsPath = path.join(this.outputPath, "Assets");
+
+    if (fs.existsSync(templateAssetsPath)) {
+      if (!fs.existsSync(projectAssetsPath)) {
+        fs.mkdirSync(projectAssetsPath, { recursive: true });
+      }
+
+      const assetFiles = fs.readdirSync(templateAssetsPath);
+      for (const file of assetFiles) {
+        const srcPath = path.join(templateAssetsPath, file);
+        const destPath = path.join(projectAssetsPath, file);
+        fs.copyFileSync(srcPath, destPath);
+      }
+    }
   }
 }
