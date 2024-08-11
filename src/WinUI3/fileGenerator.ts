@@ -62,6 +62,10 @@ export class FileGenerator {
 
   private createFile(fileName: string, content: string) {
     const filePath = path.join(this.outputPath, fileName);
+    const dirPath = path.dirname(filePath);
+    if (!fs.existsSync(dirPath)) {
+      fs.mkdirSync(dirPath, { recursive: true });
+    }
     fs.writeFileSync(filePath, content);
   }
 
@@ -177,7 +181,7 @@ ${pageTypeLogic}
       namespace: this.namespace,
       pageName: pageName,
     });
-    this.createFile(`Pages/${pageName}.xaml.cs`, content);
+    this.createFile(`Views/${pageName}.xaml.cs`, content);
   }
 
   private createPackageAppxmanifest() {

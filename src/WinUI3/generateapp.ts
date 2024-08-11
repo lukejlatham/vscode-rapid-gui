@@ -3,6 +3,7 @@ import { TemplateManager } from "./TemplateManager";
 import { ProjectStructureGenerator } from "./ProjectStructureGenerator";
 import { Page } from "../../webview-ui/src/types";
 import * as vscode from "vscode";
+import * as path from "path";
 
 export class AppGenerator {
   private pages: Page[];
@@ -19,7 +20,7 @@ export class AppGenerator {
     context: vscode.ExtensionContext
   ) {
     this.pages = pages;
-    this.outputPath = outputPath;
+    this.outputPath = path.join(outputPath, projectName);
     this.projectName = projectName;
     this.templateManager = new TemplateManager(context);
     this.fileGenerator = new FileGenerator(
