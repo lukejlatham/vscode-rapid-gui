@@ -51,6 +51,8 @@ export class FileGenerator {
     this.createReadme();
     this.createSolutionFile();
     this.copyAssetImages();
+    this.createDirectoryBuildProps();
+    this.createPublishProfiles();
 
     pages.forEach((page) => {
       this.createPageXaml(page);
@@ -200,13 +202,6 @@ ${pageTypeLogic}
     this.createFile(`${this.projectName}.csproj`, content);
   }
 
-  private createLaunchSettings() {
-    const content = this.templateManager.fillTemplate("launchSettings.json", {
-      projectName: this.projectName,
-    });
-    this.createFile("Properties/launchSettings.json", content);
-  }
-
   private createAppManifest() {
     let content = this.templateManager.getTemplate("app.manifest");
     content = content.replace("{{projectName}}", this.projectName);
@@ -217,7 +212,53 @@ ${pageTypeLogic}
     const content = this.templateManager.fillTemplate("Resources.resw", {
       appName: this.projectName,
     });
-    this.createFile("Strings/en-us/Resources.resw", content);
+    this.createFile("Strings\\en-US\\Resources.resw", content);
+  }
+
+  private createLaunchSettings() {
+    const content = `{
+  "profiles": {
+    "${this.projectName} (Unpackaged)": {
+      "commandName": "Project",
+      "nativeDebugging": true,
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}`;
+    this.createFile("Properties/launchSettings.json", content);
+  }
+
+  // New method
+  private createDirectoryBuildProps() {
+    const content = `<Project>
+  <PropertyGroup>
+    <WindowsAppSDKVersion>1.4.231115000</WindowsAppSDKVersion>
+  </PropertyGroup>
+</Project>`;
+    this.createFile("Directory.Build.props", content);
+  }
+
+  // New method
+  private createPublishProfiles() {
+    const architectures = ["x86", "x64", "arm64"];
+    architectures.forEach((arch) => {
+      const content = `<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PublishProtocol>FileSystem</PublishProtocol>
+    <Platform>${arch}</Platform>
+    <RuntimeIdentifier>win10-${arch}</RuntimeIdentifier>
+    <PublishDir>bin\\$(Configuration)\\$(TargetFramework)\\$(RuntimeIdentifier)\\publish\\</PublishDir>
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>False</PublishSingleFile>
+    <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
+    <PublishReadyToRun Condition="'$(Configuration)' == 'Release'">True</PublishReadyToRun>
+   </PropertyGroup>
+</Project>`;
+      this.createFile(`Properties\\PublishProfiles\\win-${arch}.pubxml`, content);
+    });
   }
 
   private createGitignore() {

@@ -1,12 +1,11 @@
 {
   "profiles": {
-    "{{projectName}} (Package)": {
-      "commandName": "MsixPackage",
-      "nativeDebugging": true
-    },
     "{{projectName}} (Unpackaged)": {
       "commandName": "Project",
-      "nativeDebugging": true
+      "nativeDebugging": true,
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
     }
   }
 }
