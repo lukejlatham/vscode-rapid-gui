@@ -62,10 +62,15 @@ export async function convertToXaml(
     throw new Error("No pages were created. Check the input data.");
   }
 
-  const appGenerator = new AppGenerator(pages, projectFolder, projectName, context);
-  await appGenerator.generateApp();
+  try {
+    const appGenerator = new AppGenerator(pages, projectFolder, projectName, context);
+    await appGenerator.generateApp();
 
-  vscode.window.showInformationMessage(
-    `WinUI 3 project "${projectName}" generated successfully in ${projectFolder}`
-  );
+    vscode.window.showInformationMessage(
+      `WinUI 3 project "${projectName}" generated successfully in ${projectFolder}`
+    );
+  } catch (error) {
+    console.error("Error generating WinUI 3 project:", error);
+    vscode.window.showErrorMessage(`Failed to generate WinUI 3 project: ${error.message}`);
+  }
 }

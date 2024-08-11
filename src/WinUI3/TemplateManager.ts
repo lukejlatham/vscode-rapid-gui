@@ -15,10 +15,23 @@ export class TemplateManager {
   private loadTemplates() {
     const templateFiles = fs.readdirSync(this.templatesPath);
     for (const file of templateFiles) {
-      const templateName = path.parse(file).name;
-      const templateContent = fs.readFileSync(path.join(this.templatesPath, file), "utf-8");
-      this.templates.set(templateName, templateContent);
+      const filePath = path.join(this.templatesPath, file);
+      if (fs.statSync(filePath).isFile()) {
+        const templateName = path.parse(file).name;
+        const templateContent = fs.readFileSync(filePath, "utf-8");
+        this.templates.set(templateName, templateContent);
+      }
     }
+  }
+
+  public checkRequiredTemplates(requiredTemplates: string[]): boolean {
+    for (const template of requiredTemplates) {
+      if (!this.templates.has(template)) {
+        console.error(`Required template not found: ${template}`);
+        return false;
+      }
+    }
+    return true;
   }
 
   public fillTemplate(templateName: string, data: Record<string, string>): string {
