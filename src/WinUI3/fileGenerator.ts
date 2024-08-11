@@ -212,52 +212,37 @@ ${pageTypeLogic}
     const content = this.templateManager.fillTemplate("Resources.resw", {
       appName: this.projectName,
     });
-    this.createFile("Strings\\en-US\\Resources.resw", content);
+    this.createFile("Strings/en-US/Resources.resw", content);
   }
 
   private createLaunchSettings() {
-    const content = `{
-  "profiles": {
-    "${this.projectName} (Unpackaged)": {
-      "commandName": "Project",
-      "nativeDebugging": true,
-      "environmentVariables": {
-        "DOTNET_ENVIRONMENT": "Development"
-      }
-    }
-  }
-}`;
+    let content = this.templateManager.getTemplate("launchSettings.json");
+    content = content.replace("{{projectName}}", this.projectName);
     this.createFile("Properties/launchSettings.json", content);
   }
 
-  // New method
   private createDirectoryBuildProps() {
-    const content = `<Project>
-  <PropertyGroup>
-    <WindowsAppSDKVersion>1.4.231115000</WindowsAppSDKVersion>
-  </PropertyGroup>
-</Project>`;
+    const content = this.templateManager.getTemplate("Directory.Build.props");
     this.createFile("Directory.Build.props", content);
   }
 
-  // New method
   private createPublishProfiles() {
     const architectures = ["x86", "x64", "arm64"];
     architectures.forEach((arch) => {
       const content = `<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <PublishProtocol>FileSystem</PublishProtocol>
-    <Platform>${arch}</Platform>
-    <RuntimeIdentifier>win10-${arch}</RuntimeIdentifier>
-    <PublishDir>bin\\$(Configuration)\\$(TargetFramework)\\$(RuntimeIdentifier)\\publish\\</PublishDir>
-    <SelfContained>true</SelfContained>
-    <PublishSingleFile>False</PublishSingleFile>
-    <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
-    <PublishReadyToRun Condition="'$(Configuration)' == 'Release'">True</PublishReadyToRun>
-   </PropertyGroup>
-</Project>`;
-      this.createFile(`Properties\\PublishProfiles\\win-${arch}.pubxml`, content);
+  <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+      <PublishProtocol>FileSystem</PublishProtocol>
+      <Platform>${arch}</Platform>
+      <RuntimeIdentifier>win10-${arch}</RuntimeIdentifier>
+      <PublishDir>bin\\$(Configuration)\\$(TargetFramework)\\$(RuntimeIdentifier)\\publish\\</PublishDir>
+      <SelfContained>true</SelfContained>
+      <PublishSingleFile>False</PublishSingleFile>
+      <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
+      <PublishReadyToRun Condition="'$(Configuration)' == 'Release'">True</PublishReadyToRun>
+     </PropertyGroup>
+  </Project>`;
+      this.createFile(`Properties/PublishProfiles/win-${arch}.pubxml`, content);
     });
   }
 

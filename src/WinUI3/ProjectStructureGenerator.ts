@@ -13,8 +13,8 @@ export class ProjectStructureGenerator {
     this.createDirectory("Assets");
     this.createDirectory("Views");
     this.createDirectory("Styles");
-    this.createDirectory("Properties\\PublishProfiles");
-    this.createDirectory("Strings\\en-US");
+    this.createDirectory("Properties/PublishProfiles");
+    this.createDirectory("Strings/en-us");
   }
 
   private createDirectory(dirPath: string) {
