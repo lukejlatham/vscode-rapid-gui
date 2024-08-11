@@ -13,6 +13,7 @@ import { EditBackgroundButton } from '../../../components/EditBackgroundButton';
 import { Text, TextDefaultProps } from '../../../components/user/Text';
 import { Dropdown, DropdownDefaultProps } from '../../../components/user/Dropdown';
 import { Slider, SliderDefaultProps } from '../../../components/user/Slider';
+import { LockGridSwitch } from '../../../components/LockGridSwitch';
 import {
     Image24Regular,
     TextboxRegular,
@@ -48,68 +49,71 @@ const ComponentButtons: React.FC<{ classes: any }> = ({ classes }) => {
     return (
         <div className={classes.componentRoot}>
             <Button 
-            className={classes.button} icon={<ButtonIcon />} size='large' appearance='secondary' ref={ref => {
+            className={classes.componentButtons} icon={<ButtonIcon />} size='large' appearance='secondary' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <UserButton {...ButtonDefaultProps} />);
                 }
             }}>Button</Button>
-            <Button className={classes.button} icon={<LabelIcon />} size='large' appearance='secondary'  ref={ref => {
+            <Button className={classes.componentButtons} icon={<LabelIcon />} size='large' appearance='secondary'  ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Label {...LabelDefaultProps} />);
                 }
             }}>Label</Button>               
-            <Button className={classes.button} icon={<InputIcon />} size='large' appearance='secondary'  ref={ref => {
+            <Button className={classes.componentButtons} icon={<InputIcon />} size='large' appearance='secondary'  ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Input {...InputDefaultProps} />);
                 }
             }}>Single-Line Input</Button>
-            <Button className={classes.button} icon={<TextBoxIcon />} size='large' appearance='secondary' ref={ref => {
+            <Button className={classes.componentButtons} icon={<TextBoxIcon />} size='large' appearance='secondary' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <TextBox {...TextBoxDefaultProps} />);
                 }
             }}>Multi-Line Input</Button>
-            <Button className={classes.button} icon={<TextAlignLeftFilled />} size='large' appearance='secondary' ref={ref => {
+            <Button className={classes.componentButtons} icon={<TextAlignLeftFilled />} size='large' appearance='secondary' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Text {...TextDefaultProps} />);
                 }
             }}>Paragraph</Button>
-            <Button className={classes.button} icon={<ImageIcon />} size='large' appearance='secondary' ref={ref => {
+            <Button className={classes.componentButtons} icon={<ImageIcon />} size='large' appearance='secondary' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Image {...ImageDefaultProps} />);
                 }
             }}>Image</Button>
-            <Button className={classes.button} icon={<RadioButtonFilled />} size='large' appearance='secondary' ref={ref => {
+            <Button className={classes.componentButtons} icon={<RadioButtonFilled />} size='large' appearance='secondary' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <RadioButton {...RadioButtonDefaultProps} />);
                 }
             }}>Radio Buttons</Button>
-            <Button className={classes.button} icon={<CheckboxIcon />} size='large' appearance='secondary' ref={ref => {
+            <Button className={classes.componentButtons} icon={<CheckboxIcon />} size='large' appearance='secondary' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Checkbox {...CheckboxDefaultProps} />);
                 }
             }}>Checkbox</Button>
-            <Button className={classes.button} icon={<TextBulletListCheckmarkFilled />} size='large' appearance='secondary' ref={ref => {
+            <Button className={classes.componentButtons} icon={<TextBulletListCheckmarkFilled />} size='large' appearance='secondary' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Dropdown {...DropdownDefaultProps} />);
                 }
             }}>Dropdown</Button>
-            <Button className={classes.button} icon={<OptionsRegular />} size='large' appearance='secondary' ref={ref => {
+            <Button className={classes.componentButtons} icon={<OptionsRegular />} size='large' appearance='secondary' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Slider {...SliderDefaultProps} />);
                 }
             }}>Slider</Button>
-            <Button className={classes.button} icon={<EmojiRegular />} size='large' appearance='secondary' ref={ref => {
+            <Button className={classes.componentButtons} icon={<EmojiRegular />} size='large' appearance='secondary' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Icon {...IconDefaultProps} />);
                 }
             }}>Icon</Button>
-            <Button className={classes.button} icon={<CardUiRegular />} size='large' appearance='secondary' ref={ref => {
+            <Button className={classes.componentButtons} icon={<CardUiRegular />} size='large' appearance='secondary' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Element is={Container} {...ContainerDefaultProps} canvas />);
                 }
             }}>Container</Button>
-            <Divider className={classes.divider}> Layout </Divider>
+            <Divider> Layout </Divider>
             <EditBackgroundButton classes={classes}/>
+            <div className={classes.switchContainer}>
+            <LockGridSwitch />
+            </div>
         </div>
     );
 };

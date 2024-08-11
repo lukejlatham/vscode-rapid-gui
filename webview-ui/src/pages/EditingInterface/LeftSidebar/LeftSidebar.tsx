@@ -28,6 +28,12 @@ const useStyles = makeStyles({
         // padding: '20px'
         cursor: 'move !important',
     },
+    switchContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+    }
 });
 
 const LeftSidebar: React.FC<{ classes: any, pages: Page[], setPages: React.Dispatch<React.SetStateAction<Page[]>>, currentPageIndex: number; }> = ({ classes, pages, setPages, currentPageIndex }) => {

@@ -88,15 +88,8 @@ export const BackgroundSettings: React.FC = () => {
             ))}
             <div className={styles.addAndLockButtons}>
             <Button
-                // add tooltip to explain this button
-                icon={props.lockedGrid ? <LockClosedRegular /> : <LockOpenRegular />}
-                onClick={() => setProp(nodeID, (props: BackgroundProps) => {
-                    props.lockedGrid = !props.lockedGrid;
-                })}>
-                {props.lockedGrid ? 'Unlock Grid' : 'Lock Grid'}
-            </Button>
-            <Button
             icon={<AddSquareRegular/>}
+            size="large"
             onClick={() => setProp(nodeID, (props: BackgroundProps) => {
                 const newItem = {
                     i: (props.layout.length > 0 ? (parseInt(props.layout[props.layout.length - 1].i) + 1).toString() : '0'),
@@ -111,7 +104,7 @@ export const BackgroundSettings: React.FC = () => {
             }
             )}
             >
-                Add Item
+                Add Grid Cell
             </Button>
             </div>
         </div>
