@@ -72,10 +72,6 @@ export class FileGenerator {
   private createAppXaml() {
     let content = this.templateManager.getTemplate("App.xaml");
     content = content.replace("{{namespace}}", this.namespace);
-    content = content.replace(
-      "<!-- Other merged dictionaries here -->",
-      "<!-- Add any additional resource dictionaries here -->"
-    );
     this.createFile("App.xaml", content);
   }
 
