@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Switch } from "@fluentui/react-components";
-import { BackgroundProps } from "../types";
+import { Switch, Tooltip} from "@fluentui/react-components";
+import { BackgroundProps } from "../../../types";
 import { useEditor } from "@craftjs/core";
 
 
@@ -27,6 +27,12 @@ export const LockGridSwitch = () => {
     };
 
     return (
+        <div>
+        <Tooltip
+        content={checked ? "Unlocking the grid allows you to move and resize cells freely on the canvas." : "Locking the grid will snap cells to the grid, and prevent them from being moved or resized."}
+        relationship="description"
+        positioning="after"
+      >
         <Switch
             style={{ width: "100%" }}
             checked={checked}
@@ -34,5 +40,7 @@ export const LockGridSwitch = () => {
             labelPosition="above"
             label={checked ? "Grid Locked" : "Grid Unlocked"}
         />
+        </Tooltip>
+        </div>
     );
 };

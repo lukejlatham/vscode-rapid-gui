@@ -13,7 +13,7 @@ import { EditBackgroundButton } from '../../../components/EditBackgroundButton';
 import { Text, TextDefaultProps } from '../../../components/user/Text';
 import { Dropdown, DropdownDefaultProps } from '../../../components/user/Dropdown';
 import { Slider, SliderDefaultProps } from '../../../components/user/Slider';
-import { LockGridSwitch } from '../../../components/LockGridSwitch';
+import { LockGridSwitch } from './LockGridSwitch';
 import {
     Image24Regular,
     TextboxRegular,
@@ -109,11 +109,6 @@ const ComponentButtons: React.FC<{ classes: any }> = ({ classes }) => {
                     connectors.create(ref, <Element is={Container} {...ContainerDefaultProps} canvas />);
                 }
             }}>Container</Button>
-            <Divider> Layout </Divider>
-            <EditBackgroundButton classes={classes}/>
-            <div className={classes.switchContainer}>
-            <LockGridSwitch />
-            </div>
         </div>
     );
 };

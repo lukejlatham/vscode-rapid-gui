@@ -4,6 +4,7 @@ import Header from './Header';
 import ComponentButtons from './ComponentButtons';
 import ProjectManagement from './ProjectManagementButtons';
 import { Page } from "../../../types";
+import LayoutManagement from './LayoutManagement';
 
 const useStyles = makeStyles({
     componentRoot: {
@@ -28,12 +29,6 @@ const useStyles = makeStyles({
         // padding: '20px'
         cursor: 'move !important',
     },
-    switchContainer: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '100%',
-    }
 });
 
 const LeftSidebar: React.FC<{ classes: any, pages: Page[], setPages: React.Dispatch<React.SetStateAction<Page[]>>, currentPageIndex: number; }> = ({ classes, pages, setPages, currentPageIndex }) => {
@@ -52,6 +47,12 @@ const LeftSidebar: React.FC<{ classes: any, pages: Page[], setPages: React.Dispa
                 multiple
                 collapsible
             >
+                <AccordionItem value="Layout">
+                    <AccordionHeader size="large">Layout</AccordionHeader>
+                    <AccordionPanel>
+                        <LayoutManagement classes={classes} />
+                    </AccordionPanel>
+                </AccordionItem>
                 <AccordionItem value="ProjectManagement">
                     <AccordionHeader size="large">Project Management</AccordionHeader>
                     <AccordionPanel>
