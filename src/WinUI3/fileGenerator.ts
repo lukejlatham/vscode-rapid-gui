@@ -47,7 +47,7 @@ export class FileGenerator {
     this.createLaunchSettings();
     this.createAppManifest();
     this.createResourcesFile();
-    this.createGitignore();
+    // this.createGitignore();
     this.createReadme();
     this.createSolutionFile();
     this.copyAssetImages();
@@ -261,34 +261,34 @@ ${pageTypeLogic}
     });
   }
 
-  private createGitignore() {
-    const content = `
-  # Visual Studio files
-  .vs/
-  bin/
-  obj/
-  
-  # Build results
-  [Dd]ebug/
-  [Rr]elease/
-  x64/
-  x86/
-  [Aa][Rr][Mm]/
-  [Aa][Rr][Mm]64/
-  bld/
-  [Bb]in/
-  [Oo]bj/
-  [Ll]og/
-  
-  # NuGet Packages
-  *.nupkg
-  # The packages folder can be ignored because of Package Restore
-  **/packages/*
-  # except build/, which is used as an MSBuild target.
-  !**/packages/build/
-  `;
-    this.createFile(".gitignore", content);
-  }
+  // private createGitignore() {
+  //   const content = `
+  // # Visual Studio files
+  // .vs/
+  // bin/
+  // obj/
+
+  // # Build results
+  // [Dd]ebug/
+  // [Rr]elease/
+  // x64/
+  // x86/
+  // [Aa][Rr][Mm]/
+  // [Aa][Rr][Mm]64/
+  // bld/
+  // [Bb]in/
+  // [Oo]bj/
+  // [Ll]og/
+
+  // # NuGet Packages
+  // *.nupkg
+  // # The packages folder can be ignored because of Package Restore
+  // **/packages/*
+  // # except build/, which is used as an MSBuild target.
+  // !**/packages/build/
+  // `;
+  //   this.createFile(".gitignore", content);
+  // }
 
   private createReadme() {
     const content = `
