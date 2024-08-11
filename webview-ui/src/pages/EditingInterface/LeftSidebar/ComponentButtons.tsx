@@ -21,7 +21,7 @@ import {
     Button20Regular,
     Button20Filled,
     TextT24Regular,
-    Password24Regular,
+    PasswordRegular,
     Password24Filled,
     RadioButtonFilled,
     CheckboxCheckedFilled,
@@ -39,7 +39,7 @@ const ButtonIcon = bundleIcon(Button20Filled, Button20Regular);
 const LabelIcon = bundleIcon(TextT24Regular, TextT24Regular);
 const ImageIcon = bundleIcon(Image24Regular, Image24Regular);
 const TextBoxIcon = bundleIcon(TextboxRegular, TextboxRegular);
-const InputIcon = bundleIcon(Password24Regular, Password24Filled);
+const InputIcon = bundleIcon(PasswordRegular, Password24Filled);
 const CheckboxIcon = bundleIcon(CheckboxCheckedFilled, CheckboxCheckedRegular);
 // const TextIcon = bundleIcon(SlideTextRegular, SlideTextRegular);
 
@@ -59,7 +59,7 @@ const ComponentButtons: React.FC<{ classes: any }> = ({ classes }) => {
                     connectors.create(ref, <Label {...LabelDefaultProps} />);
                 }
             }}>Label</Button>               
-            <Button className={classes.componentButtons} icon={<InputIcon />} size='large' appearance='secondary'  ref={ref => {
+            <Button className={classes.componentButtons} icon={<PasswordRegular />} size='large' appearance='secondary'  ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Input {...InputDefaultProps} />);
                 }

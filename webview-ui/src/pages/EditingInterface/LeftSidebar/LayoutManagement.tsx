@@ -5,9 +5,9 @@ import { LockGridSwitch } from './LockGridSwitch';
 
 const LayoutManagement: React.FC<{classes: any}> = ({classes}) => {
     return (
-        <div className={classes.componentRoot}>
+        <div className={classes.layoutManagement}>
+            <LockGridSwitch classes={classes} />
             <EditBackgroundButton classes={classes}/>
-            <LockGridSwitch />
         </div>
     );
 };

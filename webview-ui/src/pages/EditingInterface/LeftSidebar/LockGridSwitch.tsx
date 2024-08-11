@@ -5,7 +5,7 @@ import { useEditor } from "@craftjs/core";
 
 
 
-export const LockGridSwitch = () => {
+export const LockGridSwitch: React.FC<{classes: any}> = ({classes}) => {
     const [checked, setChecked] = useState(true);
     const { query, actions: { setProp } } = useEditor();
     const node = query.node("ROOT").get();
@@ -27,7 +27,7 @@ export const LockGridSwitch = () => {
     };
 
     return (
-        <div>
+        <div className={classes.switchContainer}>
         <Tooltip
         content={checked ? "Unlocking the grid allows you to move and resize cells freely on the canvas." : "Locking the grid will snap cells to the grid, and prevent them from being moved or resized."}
         relationship="description"

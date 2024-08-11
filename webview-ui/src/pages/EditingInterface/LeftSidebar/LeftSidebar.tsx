@@ -16,6 +16,7 @@ import ProjectManagement from "./ProjectManagementButtons";
 import { Page } from "../../../types";
 import LayoutManagement from "./LayoutManagement";
 import PagesButtons from "./PagesManagement";
+import { GridFilled, DocumentMultipleFilled, DocumentFolderFilled, LibraryFilled} from "@fluentui/react-icons";
 
 const useStyles = makeStyles({
   componentRoot: {
@@ -40,6 +41,27 @@ const useStyles = makeStyles({
     // padding: '20px'
     cursor: "move !important",
   },
+  layoutManagement: {
+    // width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    // alignContent : "center",
+    // alignItems: "center",
+    gap: "5px",
+    // padding: "5px",
+    marginTop: "10px",
+  },
+  switchContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    borderRadius: '5px',
+    paddingTop: '5px',
+    paddingBottom: '5px',
+    border: '1px solid #666666',
+}
 });
 
 const LeftSidebar: React.FC<{
@@ -78,13 +100,13 @@ const handleToggle: AccordionToggleEventHandler<string> = (event, data) => {
       <Header classes={localClasses} />
       <Accordion openItems={openItems} onToggle={handleToggle} multiple collapsible>
         <AccordionItem value="Layout">
-          <AccordionHeader size="extra-large">Layout</AccordionHeader>
+          <AccordionHeader size="extra-large" icon={<GridFilled/>}>Layout</AccordionHeader>
           <AccordionPanel>
             <LayoutManagement classes={localClasses} />
           </AccordionPanel>
         </AccordionItem>
         <AccordionItem value="Pages">
-          <AccordionHeader size="extra-large">Pages</AccordionHeader>
+          <AccordionHeader size="extra-large" icon={<DocumentMultipleFilled/>} >Pages</AccordionHeader>
           <AccordionPanel>
             <PagesButtons
               classes={localClasses}
@@ -101,7 +123,7 @@ const handleToggle: AccordionToggleEventHandler<string> = (event, data) => {
           </AccordionPanel>
         </AccordionItem>
         <AccordionItem value="ProjectManagement">
-          <AccordionHeader size="extra-large">Project Management</AccordionHeader>
+          <AccordionHeader size="extra-large" icon={<DocumentFolderFilled/>}>Project Management</AccordionHeader>
           <AccordionPanel>
             <ProjectManagement
               classes={localClasses}
@@ -112,7 +134,7 @@ const handleToggle: AccordionToggleEventHandler<string> = (event, data) => {
           </AccordionPanel>
         </AccordionItem>
         <AccordionItem value="ComponentLibrary">
-          <AccordionHeader size="extra-large">Component Library</AccordionHeader>
+          <AccordionHeader size="extra-large" icon={<LibraryFilled/>}>Component Library</AccordionHeader>
           <AccordionPanel>
             <ComponentButtons classes={localClasses} />
           </AccordionPanel>

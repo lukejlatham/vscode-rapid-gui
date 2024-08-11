@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Select } from '@fluentui/react-components';
 import { RenamePageDialog } from '../../../components/RenamePageDialog';
-import { DocumentOnePageAddRegular, DeleteRegular, SquareEraserRegular} from '@fluentui/react-icons';
+import { DocumentAddRegular, DeleteRegular, SquareEraserRegular} from '@fluentui/react-icons';
 import { Page } from '../../../types';
 
 const PagesButtons: React.FC<{ 
@@ -33,7 +33,7 @@ const PagesButtons: React.FC<{
                         ))}
                     </Select>
                     <Button
-                        icon={<DocumentOnePageAddRegular />}
+                        icon={<DocumentAddRegular />}
                         size='large'
                         onClick={() => {
                             updateCurrentPage(); // Save current page before adding new
