@@ -3,7 +3,7 @@ import * as path from "path";
 import * as fs from "fs";
 import { Page } from "../../webview-ui/src/types";
 import { TemplateManager } from "./TemplateManager";
-import { FileGenerator } from "./FileGenerator";
+import { HtmlCssGenerator } from "./HtmlCssGenerator";
 import { ProjectStructureGenerator } from "./ProjectStructureGenerator";
 
 export class AppGenerator {
@@ -11,7 +11,7 @@ export class AppGenerator {
   private outputPath: string;
   private projectName: string;
   private templateManager: TemplateManager;
-  private fileGenerator: FileGenerator;
+  private fileGenerator: HtmlCssGenerator;
   private projectStructureGenerator: ProjectStructureGenerator;
 
   constructor(
@@ -24,7 +24,7 @@ export class AppGenerator {
     this.outputPath = path.join(outputPath, projectName);
     this.projectName = projectName;
     this.templateManager = new TemplateManager(context);
-    this.fileGenerator = new FileGenerator(this.outputPath, this.templateManager);
+    this.fileGenerator = new HtmlCssGenerator(this.pages, this.outputPath, this.projectName);
     this.projectStructureGenerator = new ProjectStructureGenerator(
       this.outputPath,
       this.projectName
