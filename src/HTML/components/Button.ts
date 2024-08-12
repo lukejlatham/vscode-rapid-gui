@@ -1,6 +1,6 @@
 import { Node } from "../JSONParser";
 
-export function generateButtonHtml(node: Node): string {
+export function generateButtonHtml(node: Node, indent: string = ""): string {
   const props = node.props;
   const iconHtml =
     props.icon !== "none"

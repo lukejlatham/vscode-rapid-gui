@@ -1,15 +1,15 @@
 import { ParsedJSON, Node } from "./JSONParser";
-import { generateButtonHtml } from "./components/Button";
-import { generateLabelHtml } from "./components/Label";
-import { generateIconHtml } from "./components/Icon";
-import { generateInputHtml } from "./components/Input";
-import { generateTextHtml } from "./components/Text";
-import { generateRadioButtonHtml } from "./components/RadioButton";
-import { generateContainerHtml } from "./components/Container";
-import { generateCheckboxHtml } from "./components/Checkbox";
-import { generateSliderHtml } from "./components/Slider";
-import { generateTextBoxHtml } from "./components/TextBox";
-import { generateImageHtml } from "./components/Image";
+import { generateButtonHtml, generateButtonCss } from "./components/Button";
+import { generateLabelHtml, generateLabelCss } from "./components/Label";
+import { generateIconHtml, generateIconCss } from "./components/Icon";
+import { generateInputHtml, generateInputCss } from "./components/Input";
+import { generateTextHtml, generateTextCss } from "./components/Text";
+import { generateRadioButtonHtml, generateRadioButtonCss } from "./components/RadioButton";
+import { generateContainerHtml, generateContainerCss } from "./components/Container";
+import { generateCheckboxHtml, generateCheckboxCss } from "./components/Checkbox";
+import { generateSliderHtml, generateSliderCss } from "./components/Slider";
+import { generateTextBoxHtml, generateTextBoxCss } from "./components/TextBox";
+import { generateImageHtml, generateImageCss } from "./components/Image";
 
 export function generateComponentHtml(
   parsedJSON: ParsedJSON,
@@ -28,7 +28,27 @@ export function generateComponentHtml(
   return html;
 }
 
-function generateSingleComponentHtml(node: Node, indent: string = "", projectPath: string): string {
+export function generateComponentCss(
+  parsedJSON: ParsedJSON,
+  pageName: string,
+  indent: string = ""
+): string {
+  const page = parsedJSON.pages[pageName];
+  let css = "";
+
+  for (const [id, node] of Object.entries(page.components)) {
+    if (node.type.resolvedName !== "GridCell") {
+      css += generateSingleComponentCss(node, indent);
+    }
+  }
+  return css;
+}
+
+function generateSingleComponentHtml(
+  node: Node,
+  indent: string = "",
+  projectPath?: string
+): string {
   switch (node.type.resolvedName) {
     case "Button":
       return generateButtonHtml(node, indent);
@@ -54,5 +74,34 @@ function generateSingleComponentHtml(node: Node, indent: string = "", projectPat
       return generateImageHtml(node, indent, projectPath);
     default:
       return `${indent}<!-- Unknown component type: ${node.type.resolvedName} -->\n`;
+  }
+}
+
+function generateSingleComponentCss(node: Node, indent: string = ""): string {
+  switch (node.type.resolvedName) {
+    case "Button":
+      return generateButtonCss(node, indent);
+    case "Input":
+      return generateInputCss(node, indent);
+    case "Text":
+      return generateTextCss(node, indent);
+    case "Label":
+      return generateLabelCss(node, indent);
+    case "Icon":
+      return generateIconCss(node, indent);
+    case "RadioButton":
+      return generateRadioButtonCss(node, indent);
+    case "Container":
+      return generateContainerCss({ [node.custom.id || ""]: node }, indent);
+    case "Checkbox":
+      return generateCheckboxCss(node, indent);
+    case "Slider":
+      return generateSliderCss(node, indent);
+    case "TextBox":
+      return generateTextBoxCss(node, indent);
+    case "Image":
+      return generateImageCss(node, indent);
+    default:
+      return `${indent}/* Unknown component type: ${node.type.resolvedName} */\n`;
   }
 }
