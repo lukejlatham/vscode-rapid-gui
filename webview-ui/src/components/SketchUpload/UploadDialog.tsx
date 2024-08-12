@@ -62,6 +62,7 @@ const useStyles = makeStyles({
 interface UploadDialogProps {
   isOpen: boolean;
   onClose: () => void;
+  closeStartDialog: () => void;
 }
 
 const PROCESSING_STAGES = [
@@ -70,7 +71,7 @@ const PROCESSING_STAGES = [
   "Refining properties",
 ];
 
-export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose }) => {
+export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose, closeStartDialog }) => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [uiDescription, setUIDescription] = useState<string | null>(null);
@@ -90,8 +91,10 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose }) =
         setUIDescription(message.description);
         setLoading(false);
         setCurrentStage(PROCESSING_STAGES.length);
-
-        navigate('/editing-interface', { state: { sketch: {id: uuidv4(), name: 'Page 1', content: JSON.parse(message.content)} } });
+        
+        onClose();
+        closeStartDialog();
+        navigate('/', { state: { sketch: {id: uuidv4(), name: 'Page 1', content: JSON.parse(message.content)} } });
         
       }
     };

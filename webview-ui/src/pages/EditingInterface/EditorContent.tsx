@@ -4,6 +4,7 @@ import Canvas from "./Canvas";
 import LeftSidebar from "./LeftSidebar/LeftSidebar";
 import { useEffect, useCallback } from "react";
 import { SerializedNodes, useEditor } from "@craftjs/core";
+import { StartProjectDialog } from "../../components/StartProjectDialog";
 
 interface EditorContentProps {
   pages: Page[];
@@ -75,6 +76,7 @@ export const EditorContent: React.FC<EditorContentProps> = ({
           updateCurrentPage={updateCurrentPage}
         />
       </div>
+      <StartProjectDialog />
       <div className={classes.mainContent}>
         <div className={classes.canvas}>
           <Canvas classes={classes} />

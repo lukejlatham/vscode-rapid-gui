@@ -21,7 +21,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { EditorContent } from "./EditorContent";
 import { vscode } from '../../utilities/vscode';
 import { useLocation } from "react-router-dom";
-import { set } from "lodash";
 
 
 const useStyles = makeStyles({
@@ -138,15 +137,17 @@ const EditingInterface: React.FC = () => {
         }
       };
     
-      // if (isLoading) {
-      //   return <div>Loading...</div>;
-      // }
+ 
 
       const clearPage = (index: number) => {
         setPages(prevPages => prevPages.map((page, i) => 
           i === index ? { ...page, content: { ROOT: createDefaultPage().content.ROOT } } : page
         ));
         renamePage(index, `Page ${index + 1}`);
+      }
+      
+      if (isLoading) {
+        return <div>Loading...</div>;
       }
 
     return (

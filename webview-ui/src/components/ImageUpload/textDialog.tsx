@@ -53,6 +53,7 @@ const useStyles = makeStyles({
 interface UploadDialogProps {
   isOpen: boolean;
   onClose: () => void;
+  closeStartDialog: () => void;
 }
 
 const PROCESSING_STAGES = [
@@ -61,7 +62,7 @@ const PROCESSING_STAGES = [
   "Refining properties",
 ];
 
-export const TextDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose }) => {
+export const TextDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose, closeStartDialog }) => {
   const [textInput, setTextInput] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [uiDescription, setUIDescription] = useState<string | null>(null);
@@ -81,8 +82,9 @@ export const TextDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose }) => 
         setLoading(false);
         setCurrentStage(PROCESSING_STAGES.length);
 
-        navigate('/editing-interface', { state: { text: { id: uuidv4(), name: 'Page 1', content: JSON.parse(message.content) } } });
-
+        navigate('/', { state: { text: { id: uuidv4(), name: 'Page 1', content: JSON.parse(message.content) } } });
+        onClose();
+        closeStartDialog();
       }
     };
 
@@ -91,7 +93,7 @@ export const TextDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose }) => 
     return () => {
       window.removeEventListener('message', handleMessage);
     };
-  }, [navigate]);
+  }, [navigate, closeStartDialog, onClose]);
 
   const handleProcessText = async () => {
     if (textInput) {
