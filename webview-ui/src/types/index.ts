@@ -369,7 +369,7 @@ export const generatedElements = z.object({
     "Label",
     "Image",
     // "TextBox",
-    "RadioButton",
+    "RadioButtons",
     "Checkboxes",
     "Input",
     "Text",

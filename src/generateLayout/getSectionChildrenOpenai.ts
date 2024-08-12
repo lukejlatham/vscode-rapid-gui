@@ -91,7 +91,7 @@ Elements you can use more than once per component:
 
 Elements that fill out a whole section:
 - RadioButtons
-- Checkboxes (this is a series of checkboxeses)
+- Checkboxes 
 
 You make sections varied but limit the complexity within each section. Use lots of icons`,
 };
