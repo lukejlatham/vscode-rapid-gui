@@ -116,7 +116,11 @@ function generateNodeHtml(
 
   // Generate HTML for the current node
   html += generateComponentHtml(
-    { pages: { [pageName || ""]: { root: content.ROOT, components: content } } },
+    {
+      pages: {
+        [pageName || ""]: { root: content.ROOT, components: content, layout: [] as LayoutItem[] },
+      },
+    },
     pageName || "",
     projectPath
   );
@@ -140,7 +144,11 @@ function generateAllComponentsCss(content: { [key: string]: Node }, pageName: st
   let css = "";
   for (const node of Object.values(content)) {
     css += generateComponentCss(
-      { pages: { [pageName]: { root: content.ROOT, components: content } } },
+      {
+        pages: {
+          [pageName]: { root: content.ROOT, components: content, layout: [] as LayoutItem[] },
+        },
+      },
       pageName
     );
   }
