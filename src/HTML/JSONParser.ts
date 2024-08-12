@@ -42,13 +42,21 @@ export interface Node {
 
 export function parseJSON(jsonData: any): ParsedJSON {
   try {
-    // Assuming jsonData is already an object, not a string
-    const pages: { [pageName: string]: PageStructure } = {};
+    console.log("Parsing JSON data:", JSON.stringify(jsonData, null, 2));
 
-    // Use a default page name if not provided
-    const pageName = "default";
+    if (typeof jsonData === "string") {
+      jsonData = JSON.parse(jsonData);
+    }
+
+    if (!jsonData || typeof jsonData !== "object") {
+      throw new Error("Invalid JSON data: expected an object");
+    }
 
     validatePageStructure(jsonData);
+
+    const pages: { [pageName: string]: PageStructure } = {};
+    const pageName = "default";
+
     pages[pageName] = {
       root: jsonData.ROOT as Node,
       layout: parseRootLayout(jsonData.ROOT as Node),
@@ -63,7 +71,9 @@ export function parseJSON(jsonData: any): ParsedJSON {
 }
 
 function validatePageStructure(pageData: any) {
+  console.log("Validating page structure:", JSON.stringify(pageData, null, 2));
   if (!pageData.ROOT) {
+    console.error("Full page data:", JSON.stringify(pageData, null, 2));
     throw new Error("Page JSON is missing ROOT node");
   }
   if (!pageData.ROOT.props) {

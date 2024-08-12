@@ -54,8 +54,23 @@ export class FileGenerator {
   }
 
   private generatePageHtmlContent(page: Page): string {
-    const parsedJSON: ParsedJSON = parseJSON(JSON.stringify(page.content));
-    return generateGridHtml(page, this.outputPath);
+    try {
+      console.log("Raw page content:", JSON.stringify(page.content, null, 2));
+
+      const jsonData = typeof page.content === "string" ? JSON.parse(page.content) : page.content;
+
+      console.log("Parsed JSON data:", JSON.stringify(jsonData, null, 2));
+
+      if (!jsonData.ROOT) {
+        throw new Error("ROOT node is missing in the JSON structure");
+      }
+
+      const parsedJSON: ParsedJSON = parseJSON(jsonData);
+      return generateGridHtml(page, this.outputPath);
+    } catch (error) {
+      console.error("Error in generatePageHtmlContent:", error);
+      throw error;
+    }
   }
 
   private createCssFile(pages: Page[]) {
