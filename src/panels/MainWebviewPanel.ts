@@ -15,6 +15,7 @@ import { handleFileSave, handleFileLoad } from "../utilities/projectSaveUtilitie
 import { processSketch, processTextDescription } from "../generateLayout/generateLayout";
 import { processCopilotMessages } from "../copilot";
 import { handleImageUpload } from "../utilities/imageSave";
+import { convertToHtml } from "../utilities/convertToHtml";
 
 export class MainWebviewPanel {
   public static currentPanel: MainWebviewPanel | undefined;
@@ -42,20 +43,15 @@ export class MainWebviewPanel {
     if (MainWebviewPanel.currentPanel) {
       MainWebviewPanel.currentPanel._panel.reveal(ViewColumn.One);
     } else {
-      const panel = window.createWebviewPanel(
-        "showMainWebviewPanel",
-        "UI Studio",
-        ViewColumn.One,
-        {
-          enableScripts: true,
-          retainContextWhenHidden: true,  // This preserves the webview state.
-          localResourceRoots: [
-            Uri.joinPath(extensionUri, "out"),
-            Uri.joinPath(extensionUri, "webview-ui/build"),
-            workspace.workspaceFolders?.[0]?.uri,
-          ],
-        }
-      );
+      const panel = window.createWebviewPanel("showMainWebviewPanel", "UI Studio", ViewColumn.One, {
+        enableScripts: true,
+        retainContextWhenHidden: true, // This preserves the webview state.
+        localResourceRoots: [
+          Uri.joinPath(extensionUri, "out"),
+          Uri.joinPath(extensionUri, "webview-ui/build"),
+          workspace.workspaceFolders?.[0]?.uri,
+        ],
+      });
 
       MainWebviewPanel.currentPanel = new MainWebviewPanel(panel, extensionUri, context);
     }
@@ -167,9 +163,11 @@ export class MainWebviewPanel {
             await handleFileSave(message.contents, message.fileNames, this._context);
             return;
           case "loadFile":
-            await handleFileLoad(this._context,
-              // message.fileName, 
-              webview);
+            await handleFileLoad(
+              this._context,
+              // message.fileName,
+              webview
+            );
             return;
           case "processSketch":
             const sketchDescription = await processSketch(message.content, this._context, webview);
@@ -201,6 +199,33 @@ export class MainWebviewPanel {
             return;
           case "deletedPageAlert":
             window.showErrorMessage(message.message);
+            return;
+          case "downloadCode":
+            try {
+              console.log("Received downloadCode command");
+              console.log("Message contents:", message.contents);
+              console.log("Message fileNames:", message.fileNames);
+              console.log("Output type:", message.outputType);
+
+              if (!message.contents || !message.fileNames) {
+                throw new Error("Missing contents or fileNames in the message");
+              }
+
+              if (message.outputType === "html") {
+                await convertToHtml(message.contents, message.fileNames, this._context);
+              } else {
+                // await convertToXaml(message.contents, message.fileNames, this._context);
+                console.log("WinUI3 code generation is not yet implemented.");
+              }
+              webview.postMessage({ command: "codeDownloaded", success: true });
+            } catch (error) {
+              console.error("Error in downloadCode:", error);
+              webview.postMessage({
+                command: "codeDownloaded",
+                success: false,
+                error: error.message,
+              });
+            }
             return;
         }
       },
