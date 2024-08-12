@@ -1,0 +1,18 @@
+# {{projectName}}
+
+This is the {{projectName}} project.
+
+## Project Structure
+- **index.html:** Main entry point of the web application.
+- **css/styles.css:** Stylesheet for the web application.
+- **js/main.js:** Main JavaScript file for the web application.
+
+## Instructions
+
+1. Open `index.html` in your browser to view the application.
+2. Modify `styles.css` to change the styling.
+3. Modify `main.js` to change the JavaScript functionality.
+
+## Additional Notes
+
+Feel free to customize and extend this project as needed.
