@@ -22,7 +22,8 @@ export function generateComponentHtml(
   let html = "";
 
   for (const node of Object.values(page.components)) {
-    if (node.type.resolvedName !== "GridCell") {
+    // Avoid re-processing the Background component inside itself
+    if (node.type.resolvedName !== "Background") {
       html += generateSingleComponentHtml(node, page.components, projectPath);
     }
   }
@@ -34,7 +35,8 @@ export function generateComponentCss(parsedJSON: ParsedJSON, pageName: string): 
   let css = "";
 
   for (const node of Object.values(page.components)) {
-    if (node.type.resolvedName !== "GridCell") {
+    // Avoid re-processing the Background component
+    if (node.type.resolvedName !== "Background") {
       css += generateSingleComponentCss(node, page.components);
     }
   }
@@ -69,10 +71,10 @@ function generateSingleComponentHtml(
       return generateTextBoxHtml(node);
     case "Image":
       return generateImageHtml(node, projectPath);
-    case "Background":
-      return generateBackgroundHtml(node, content, projectPath);
     case "GridCell":
       return generateGridCellHtml(node, content, projectPath);
+    case "Background":
+      return generateBackgroundHtml(node, content, projectPath);
     default:
       return `<!-- Unknown component type: ${node.type.resolvedName} -->\n`;
   }
@@ -102,10 +104,10 @@ function generateSingleComponentCss(node: Node, content: { [key: string]: Node }
       return generateTextBoxCss(node);
     case "Image":
       return generateImageCss(node);
-    case "Background":
-      return generateBackgroundCss(node, content);
     case "GridCell":
       return generateGridCellCss(node, content);
+    case "Background":
+      return generateBackgroundCss(node, content);
     default:
       return `/* Unknown component type: ${node.type.resolvedName} */\n`;
   }

@@ -1,5 +1,6 @@
 import { Node } from "../JSONParser";
-import { generateComponentHtml, generateComponentCss } from "../componentGenerator";
+import { generateGridCellHtml } from "./GridCell"; // Assuming GridCell handles child components
+import { generateComponentCss } from "../componentGenerator";
 
 export function generateBackgroundHtml(
   node: Node,
@@ -15,11 +16,12 @@ export function generateBackgroundHtml(
       html += `<div class="grid-cell" style="grid-area: ${item.y + 1} / ${item.x + 1} / span ${
         item.h
       } / span ${item.w};">`;
-      html += generateComponentHtml(
-        { pages: { temp: { components: content, root: cellNode, layout: [] } } },
-        "temp",
-        projectPath
-      );
+
+      // Handle non-background children only
+      if (cellNode.type.resolvedName !== "Background") {
+        html += generateGridCellHtml(cellNode, content, projectPath);
+      }
+
       html += `</div>`;
     }
   });
