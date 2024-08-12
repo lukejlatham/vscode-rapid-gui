@@ -55,21 +55,21 @@ export class FileGenerator {
 
   private generatePageHtmlContent(page: Page): string {
     try {
+      console.log("Generating content for page:", page.name);
       console.log("Raw page content:", JSON.stringify(page.content, null, 2));
 
-      const jsonData = typeof page.content === "string" ? JSON.parse(page.content) : page.content;
+      if (typeof page.content === "string") {
+        page.content = JSON.parse(page.content);
+      }
 
-      console.log("Parsed JSON data:", JSON.stringify(jsonData, null, 2));
-
-      if (!jsonData.ROOT) {
+      if (!page.content || !page.content.ROOT) {
         throw new Error("ROOT node is missing in the JSON structure");
       }
 
-      const parsedJSON: ParsedJSON = parseJSON(jsonData);
       return generateGridHtml(page, this.outputPath);
     } catch (error) {
       console.error("Error in generatePageHtmlContent:", error);
-      throw error;
+      return `<p>Error generating content for ${page.name}: ${error.message}</p>`;
     }
   }
 
