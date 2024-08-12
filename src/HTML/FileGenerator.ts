@@ -24,7 +24,8 @@ export class FileGenerator {
       return;
     }
 
-    this.createHtmlFiles(pages);
+    this.createMainIndexHtml(pages);
+    this.createPageFiles(pages);
     this.createMainCssFile();
     this.createJsFile();
     this.createReadme();
@@ -40,15 +41,36 @@ export class FileGenerator {
     fs.writeFileSync(filePath, content);
   }
 
-  private createHtmlFiles(pages: Page[]) {
+  private createMainIndexHtml(pages: Page[]) {
+    let content = this.templateManager.getTemplate("index.html");
+    content = content.replace(/{{projectName}}/g, this.projectName);
+    content = content.replace("{{pageTitle}}", "Home");
+    content = content.replace("{{content}}", this.generateNavigation(pages));
+    // Keep the main index.html using the general styles.css
+    this.createFile("index.html", content);
+  }
+
+  private generateNavigation(pages: Page[]): string {
+    return `
+      <nav>
+        <ul>
+          ${pages.map((page) => `<li><a href="${page.name}.html">${page.name}</a></li>`).join("\n")}
+        </ul>
+      </nav>
+    `;
+  }
+
+  private createPageFiles(pages: Page[]) {
     pages.forEach((page) => {
       const pageContent = this.generatePageHtmlContent(page);
       const pageCss = generateGridCss(page);
 
       let content = this.templateManager.getTemplate("index.html");
-      content = content.replace("{{projectName}}", this.projectName);
+      content = content.replace(/{{projectName}}/g, this.projectName);
       content = content.replace("{{pageTitle}}", page.name);
       content = content.replace("{{content}}", pageContent);
+      // Replace the CSS link to use the page-specific CSS
+      content = content.replace('href="css/styles.css"', `href="css/${page.name}.css"`);
 
       this.createFile(`${page.name}.html`, content);
       this.createFile(`css/${page.name}.css`, pageCss);
@@ -77,14 +99,14 @@ export class FileGenerator {
 
   private createMainCssFile() {
     let cssContent = this.templateManager.getTemplate("styles.css");
-    cssContent = cssContent.replace("{{projectName}}", this.projectName);
+    cssContent = cssContent.replace(/{{projectName}}/g, this.projectName);
     cssContent = cssContent.replace("{{dynamicStyles}}", "");
     this.createFile("css/styles.css", cssContent);
   }
 
   private createJsFile() {
     let jsContent = this.templateManager.getTemplate("main.js");
-    jsContent = jsContent.replace("{{projectName}}", this.projectName);
+    jsContent = jsContent.replace(/{{projectName}}/g, this.projectName);
     jsContent = jsContent.replace("{{dynamicScripts}}", "");
     this.createFile("js/main.js", jsContent);
   }
