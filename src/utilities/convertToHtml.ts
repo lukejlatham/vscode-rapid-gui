@@ -47,7 +47,7 @@ export async function convertToHtml(
     console.log("JSON Content:", jsonContent);
 
     try {
-      const parsedContent = JSON.parse(jsonContent) as any;
+      const parsedContent = JSON.parse(jsonContent);
       console.log("Parsed content:", JSON.stringify(parsedContent, null, 2));
 
       const page: Page = {
