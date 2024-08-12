@@ -17,6 +17,7 @@ export function generateBackgroundHtml(
       } / span ${item.w};">`;
       html += generateComponentHtml(
         { pages: { temp: { components: content, root: cellNode, layout: [] } } },
+        "temp",
         projectPath
       );
       html += `</div>`;
