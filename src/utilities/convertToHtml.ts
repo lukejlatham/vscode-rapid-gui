@@ -47,14 +47,13 @@ export async function convertToHtml(
     console.log(`Processing page: ${fileName}`);
 
     try {
+      // Use the custom parseJSON function instead of JSON.parse
       const parsedJSON: ParsedJSON = parseJSON(jsonContent);
-      const pageName = Object.keys(parsedJSON.pages)[0];
-      const pageStructure = parsedJSON.pages[pageName];
 
       const page: Page = {
         id: fileName,
         name: fileName,
-        content: pageStructure,
+        content: parsedJSON.pages[fileName], // Assuming the page is stored with the fileName as key
       };
       pages.push(page);
     } catch (error) {
