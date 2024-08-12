@@ -3,7 +3,6 @@ import * as path from "path";
 import * as fs from "fs";
 import { Page } from "../../webview-ui/src/types";
 import { AppGenerator } from "../HTML/AppGenerator";
-import { parseJSON, ParsedJSON } from "../HTML/JSONParser";
 
 export async function convertToHtml(
   contents: string[],
@@ -48,13 +47,13 @@ export async function convertToHtml(
     console.log("JSON Content:", jsonContent);
 
     try {
-      // Use the custom parseJSON function instead of JSON.parse
-      const parsedcontent = JSON.parse(jsonContent);
-      console.log("Parsed content:", JSON.stringify(parsedcontent, null, 2));
+      const parsedContent = JSON.parse(jsonContent) as any;
+      console.log("Parsed content:", JSON.stringify(parsedContent, null, 2));
+
       const page: Page = {
         id: fileName,
         name: fileName,
-        content: JSON.parse(jsonContent),
+        content: parsedContent,
       };
       console.log("Created Page object:", JSON.stringify(page, null, 2));
       pages.push(page);
