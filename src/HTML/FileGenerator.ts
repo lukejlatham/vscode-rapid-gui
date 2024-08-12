@@ -3,7 +3,6 @@ import * as path from "path";
 import { TemplateManager } from "./TemplateManager";
 import { Page } from "../../webview-ui/src/types";
 import { ProjectStructureGenerator } from "./ProjectStructureGenerator";
-import { generateComponentHtml, generateComponentCss } from "./componentGenerator";
 import { Node } from "./JSONParser";
 import { generateGridCss, generateGridHtml } from "./GridGenerator";
 
@@ -75,23 +74,6 @@ export class FileGenerator {
       this.createFile(`${page.name}.html`, content);
       this.createFile(`css/${page.name}.css`, pageCss);
     });
-  }
-
-  private transformPageContentToStructure(content: any): {
-    root: Node;
-    components: { [key: string]: Node };
-    layout: any[];
-  } {
-    // Assuming content.ROOT is of type SerializedNode, transform it to match Node
-    const root: Node = content.ROOT as Node; // Cast to Node or implement necessary transformation
-    const components: { [key: string]: Node } = content as { [key: string]: Node }; // Cast to components object
-    const layout: any[] = []; // Assume an empty layout or transform as needed
-
-    return {
-      root,
-      components,
-      layout,
-    };
   }
 
   private generatePageHtmlContent(page: Page): string {
