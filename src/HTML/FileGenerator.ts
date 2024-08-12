@@ -2,9 +2,9 @@ import * as fs from "fs";
 import * as path from "path";
 import { TemplateManager } from "./TemplateManager";
 import { Page } from "../../webview-ui/src/types";
-import { generateGridHtml, generateGridCss } from "./GridGenerator";
 import { ProjectStructureGenerator } from "./ProjectStructureGenerator";
-import { generateComponentHtml } from "./componentGenerator";
+import { generateComponentHtml, generateComponentCss } from "./componentGenerator";
+import { Node } from "./JSONParser";
 
 export class FileGenerator {
   private projectName: string;
@@ -47,7 +47,6 @@ export class FileGenerator {
     content = content.replace(/{{projectName}}/g, this.projectName);
     content = content.replace("{{pageTitle}}", "Home");
     content = content.replace("{{content}}", this.generateNavigation(pages));
-    // Keep the main index.html using the general styles.css
     this.createFile("index.html", content);
   }
 
@@ -64,18 +63,45 @@ export class FileGenerator {
   private createPageFiles(pages: Page[]) {
     pages.forEach((page) => {
       const pageContent = this.generatePageHtmlContent(page);
-      const pageCss = generateGridCss(page);
+
+      // Transform page.content into a structure that matches PageStructure
+      const pageStructure = this.transformPageContentToStructure(page.content);
+
+      const pageCss = generateComponentCss(
+        {
+          pages: {
+            [page.name]: pageStructure,
+          },
+        },
+        page.name
+      );
 
       let content = this.templateManager.getTemplate("index.html");
       content = content.replace(/{{projectName}}/g, this.projectName);
       content = content.replace("{{pageTitle}}", page.name);
       content = content.replace("{{content}}", pageContent);
-      // Replace the CSS link to use the page-specific CSS
       content = content.replace('href="css/styles.css"', `href="css/${page.name}.css"`);
 
       this.createFile(`${page.name}.html`, content);
       this.createFile(`css/${page.name}.css`, pageCss);
     });
+  }
+
+  private transformPageContentToStructure(content: any): {
+    root: Node;
+    components: { [key: string]: Node };
+    layout: any[];
+  } {
+    // Assuming content.ROOT is of type SerializedNode, transform it to match Node
+    const root: Node = content.ROOT as Node; // Cast to Node or implement necessary transformation
+    const components: { [key: string]: Node } = content as { [key: string]: Node }; // Cast to components object
+    const layout: any[] = []; // Assume an empty layout or transform as needed
+
+    return {
+      root,
+      components,
+      layout,
+    };
   }
 
   private generatePageHtmlContent(page: Page): string {
@@ -87,14 +113,14 @@ export class FileGenerator {
         page.content = JSON.parse(page.content);
       }
 
-      if (!page.content || !page.content.ROOT) {
+      if (!page.content || typeof page.content !== "object" || !page.content.ROOT) {
         throw new Error("ROOT node is missing in the JSON structure");
       }
 
       return generateComponentHtml(
         {
           pages: {
-            [page.name]: { root: page.content.ROOT, components: page.content, layout: [] },
+            [page.name]: this.transformPageContentToStructure(page.content),
           },
         },
         page.name,
