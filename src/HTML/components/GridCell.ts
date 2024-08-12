@@ -1,5 +1,5 @@
 import { Node } from "../JSONParser";
-import { generateComponentHtml, generateComponentCss } from "../componentGenerator";
+import { generateComponentHtml } from "../componentGenerator";
 
 export function generateGridCellHtml(
   node: Node,
@@ -26,8 +26,4 @@ export function generateGridCellHtml(
 
   html += `</div>`;
   return html;
-}
-
-export function generateGridCellCss(node: Node, content: { [key: string]: Node }): string {
-  return ``; // The styles are applied inline in the HTML
 }

@@ -5,6 +5,7 @@ import { Page } from "../../webview-ui/src/types";
 import { ProjectStructureGenerator } from "./ProjectStructureGenerator";
 import { generateComponentHtml, generateComponentCss } from "./componentGenerator";
 import { Node } from "./JSONParser";
+import { generateGridCss, generateGridHtml } from "./GridGenerator";
 
 export class FileGenerator {
   private projectName: string;
@@ -63,18 +64,7 @@ export class FileGenerator {
   private createPageFiles(pages: Page[]) {
     pages.forEach((page) => {
       const pageContent = this.generatePageHtmlContent(page);
-
-      // Transform page.content into a structure that matches PageStructure
-      const pageStructure = this.transformPageContentToStructure(page.content);
-
-      const pageCss = generateComponentCss(
-        {
-          pages: {
-            [page.name]: pageStructure,
-          },
-        },
-        page.name
-      );
+      const pageCss = generateGridCss(page);
 
       let content = this.templateManager.getTemplate("index.html");
       content = content.replace(/{{projectName}}/g, this.projectName);
@@ -117,15 +107,7 @@ export class FileGenerator {
         throw new Error("ROOT node is missing in the JSON structure");
       }
 
-      return generateComponentHtml(
-        {
-          pages: {
-            [page.name]: this.transformPageContentToStructure(page.content),
-          },
-        },
-        page.name,
-        this.outputPath
-      );
+      return generateGridHtml(page, this.outputPath);
     } catch (error) {
       console.error("Error in generatePageHtmlContent:", error);
       return `<p>Error generating content for ${page.name}: ${error.message}</p>`;

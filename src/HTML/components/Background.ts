@@ -1,6 +1,5 @@
 import { Node } from "../JSONParser";
-import { generateGridCellHtml } from "./GridCell"; // Assuming GridCell handles child components
-import { generateComponentCss } from "../componentGenerator";
+import { generateGridCellHtml } from "./GridCell";
 
 export function generateBackgroundHtml(
   node: Node,
