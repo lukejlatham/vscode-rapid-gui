@@ -3,7 +3,7 @@ import * as path from "path";
 import * as fs from "fs";
 import { Page } from "../../webview-ui/src/types";
 import { TemplateManager } from "./TemplateManager";
-import { HtmlCssGenerator } from "./HtmlCssGenerator";
+import { FileGenerator } from "./FileGenerator";
 import { ProjectStructureGenerator } from "./ProjectStructureGenerator";
 
 export class AppGenerator {

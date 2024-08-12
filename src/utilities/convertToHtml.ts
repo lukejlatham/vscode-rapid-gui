@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import * as path from "path";
 import * as fs from "fs";
 import { Page } from "../../webview-ui/src/types";
-import { HtmlCssGenerator } from "../HTML/HtmlCssGenerator";
+import { AppGenerator } from "../HTML/AppGenerator";
 
 export async function convertToHtml(
   contents: string[],
@@ -65,8 +65,8 @@ export async function convertToHtml(
   }
 
   try {
-    const generator = new HtmlCssGenerator(pages, projectFolder, projectName);
-    await generator.generateFiles();
+    const generator = new AppGenerator(pages, projectFolder, projectName, context);
+    await generator.generateApp();
 
     vscode.window.showInformationMessage(
       `HTML/CSS project "${projectName}" generated successfully in ${projectFolder}`
