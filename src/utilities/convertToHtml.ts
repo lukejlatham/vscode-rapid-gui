@@ -45,16 +45,18 @@ export async function convertToHtml(
     const jsonContent = contents[i];
 
     console.log(`Processing page: ${fileName}`);
+    console.log("JSON Content:", jsonContent);
 
     try {
       // Use the custom parseJSON function instead of JSON.parse
-      const parsedJSON: ParsedJSON = parseJSON(jsonContent);
-
+      const parsedcontent = JSON.parse(jsonContent);
+      console.log("Parsed content:", JSON.stringify(parsedcontent, null, 2));
       const page: Page = {
         id: fileName,
         name: fileName,
-        content: parsedJSON.pages[fileName], // Assuming the page is stored with the fileName as key
+        content: JSON.parse(jsonContent),
       };
+      console.log("Created Page object:", JSON.stringify(page, null, 2));
       pages.push(page);
     } catch (error) {
       console.error(`Error processing page ${fileName}:`, error);
