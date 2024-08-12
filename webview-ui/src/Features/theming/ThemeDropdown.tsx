@@ -8,7 +8,7 @@ import {
 } from "@fluentui/react-components";
 import { WindowBrushFilled } from "@fluentui/react-icons";
 import type { DropdownProps } from "@fluentui/react-components";
-import { useEditor } from "@craftjs/core";
+import { QueryMethods, useEditor } from "@craftjs/core";
 import { themeList } from "./themes"; // Adjust the import path as necessary
 
 const useStyles = makeStyles({
@@ -39,15 +39,59 @@ export const ThemeDropdown = (props: Partial<DropdownProps>) => {
     if (theme) {
       const nodes = query.getNodes();
 
-      const containerNodeIds = Object.keys(nodes).filter((id) => {
+      Object.keys(nodes).forEach((id) => {
         const node = query.node(id).get();
-        return node.data.displayName === "Container";
-      });
 
-      containerNodeIds.forEach((id) => {
-        actions.setProp(id, (props) => {
-          props.backgroundColor = theme.scheme.sectionColors.main;
-        });
+
+        if (node.data.displayName === "Background") {
+          actions.setProp(id, (props) => {
+            props.backgroundColor = theme.scheme.sectionColors.darkaccent;
+          });
+        }
+
+        // This applies the theme to the container - depending on the parent  
+        if (node.data.displayName === "Container") {
+          const nodeParentId = node.data.parent;
+
+          if (nodeParentId) {
+            const parent = query.node(nodeParentId).get();
+
+            if (parent.data.displayName === "Container") {
+              actions.setProp(id, (props) => {
+                props.backgroundColor = theme.scheme.elementColors.lightaccent;
+                props.borderColor = theme.scheme.elementBorderColors.lightaccent;
+              });
+            } else {
+              actions.setProp(id, (props) => {
+                props.backgroundColor = theme.scheme.sectionColors.main;
+                props.borderColor = theme.scheme.sectionBorderColors.main;
+              });
+            }
+          } else {
+            actions.setProp(id, (props) => {
+              props.backgroundColor = theme.scheme.sectionColors.darkaccent;
+              props.borderColor = theme.scheme.sectionBorderColors.darkaccent;
+            });
+          }
+        }
+
+        if (node.data.props && !node.data.isCanvas) {
+          if (node.data.props.backgroundColor) {
+            actions.setProp(id, (props) => {
+              props.backgroundColor = theme.scheme.elementColors.main;
+            });
+          }
+          if (node.data.props.borderColor) {
+            actions.setProp(id, (props) => {
+              props.borderColor = theme.scheme.elementBorderColors.main;
+            });
+          }
+          if (node.data.props.fontColor) {
+            actions.setProp(id, (props) => {
+              props.fontColor = theme.scheme.fontColors.main;
+            });
+          }
+        }
       });
     }
   };
