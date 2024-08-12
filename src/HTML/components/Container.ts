@@ -4,10 +4,15 @@ import { generateComponentHtml, generateComponentCss } from "../componentGenerat
 export function generateContainerHtml(node: Node, content: { [key: string]: Node }): string {
   const props = node.props;
   let childrenHtml = "";
+
   node.nodes.forEach((childId) => {
     const childNode = content[childId];
     if (childNode) {
-      childrenHtml += generateComponentHtml({ [childId]: childNode }, "", "");
+      childrenHtml += generateComponentHtml(
+        { pages: { [node.custom.id || ""]: { root: content[childId], components: content } } },
+        node.custom.id || "",
+        ""
+      );
     }
   });
 
@@ -45,7 +50,10 @@ export function generateContainerCss(node: Node, content: { [key: string]: Node 
   node.nodes.forEach((childId) => {
     const childNode = content[childId];
     if (childNode) {
-      css += generateComponentCss({ [childId]: childNode });
+      css += generateComponentCss(
+        { pages: { [node.custom.id || ""]: { root: content[childId], components: content } } },
+        node.custom.id || ""
+      );
     }
   });
 

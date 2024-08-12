@@ -1,8 +1,8 @@
-// GridGenerator.ts
+import { LayoutItem, Node, ParsedJSON } from "./JSONParser";
 import { generateComponentHtml, generateComponentCss } from "./componentGenerator";
 import { Page } from "../../webview-ui/src/types";
 
-export function generateGridHtml(page: Page): string {
+export function generateGridHtml(page: Page, projectPath?: string): string {
   console.log("Generating HTML for page:", JSON.stringify(page, null, 2));
 
   if (typeof page.content === "string") {
@@ -18,15 +18,17 @@ export function generateGridHtml(page: Page): string {
 
   const rootNode = page.content.ROOT as Node;
 
-  let html = `<div id="RootGrid" class="root-grid">`;
+  let html = `<div id="RootGrid" class="root-grid">\n`;
 
   html += generateGridContent(
     page.content as { [key: string]: Node },
     rootNode.props.layout || [],
-    "  "
+    page.content.ROOT.linkedNodes,
+    projectPath,
+    page.name // Passing the page name to functions
   );
 
-  html += "</div>\n";
+  html += `</div>\n`;
   console.log("Generated HTML:", html);
   return html;
 }
@@ -34,45 +36,54 @@ export function generateGridHtml(page: Page): string {
 export function generateGridCss(page: Page): string {
   const rootNode = page.content.ROOT as Node;
   let css = `.root-grid {
-  display: grid;
-  grid-template-rows: repeat(${rootNode.props.rows}, 1fr);
-  grid-template-columns: repeat(${rootNode.props.columns}, 1fr);
-  background-color: ${rootNode.props.backgroundColor || "transparent"};
-  width: 100%;
-  height: 100%;
-}\n`;
+    display: grid;
+    grid-template-rows: repeat(${rootNode.props.rows}, 1fr);
+    grid-template-columns: repeat(${rootNode.props.columns}, 1fr);
+    gap: ${rootNode.props.gap || "10px"};
+    background-color: ${rootNode.props.backgroundColor || "transparent"};
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }\n`;
 
-  // Add CSS for grid items
+  // Add CSS for grid items based on their layout
   rootNode.props.layout.forEach((item: LayoutItem, index: number) => {
-    css += `.grid-item-${index} {
-  grid-row: ${item.y + 1} / span ${item.h};
-  grid-column: ${item.x + 1} / span ${item.w};
-}\n`;
+    css += generateGridItemCss(item, index);
   });
 
+  // Generate CSS for all components
+  css += generateAllComponentsCss(page.content as { [key: string]: Node }, page.name); // Passing page name
+
   return css;
+}
+
+function generateGridItemCss(item: LayoutItem, index: number): string {
+  return `.grid-item-${index} {
+    grid-row: ${item.y + 1} / span ${item.h};
+    grid-column: ${item.x + 1} / span ${item.w};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }\n`;
 }
 
 function generateGridContent(
   content: { [key: string]: Node },
   layout: LayoutItem[],
-  indent: string
+  linkedNodes: { [key: string]: string },
+  projectPath?: string,
+  pageName?: string
 ): string {
   let html = "";
 
-  const idMapping: { [key: string]: string } = {};
-  Object.entries(content.ROOT.linkedNodes).forEach(([layoutIndex, nodeId]) => {
-    idMapping[layoutIndex] = nodeId;
-  });
-
   layout.forEach((item, index) => {
-    const nodeId = idMapping[item.i];
+    const nodeId = linkedNodes[item.i];
     const node = nodeId ? content[nodeId] : null;
     if (node) {
-      html += generateGridCell(content, item, node, indent, index);
+      html += generateGridCell(content, node, index, projectPath, pageName);
     } else {
       console.warn(`Node not found for layout item: ${item.i}`);
-      html += `${indent}<div class="grid-item-${index}"></div>\n`;
+      html += `<div class="grid-item-${index}"></div>\n`;
     }
   });
 
@@ -81,78 +92,57 @@ function generateGridContent(
 
 function generateGridCell(
   content: { [key: string]: Node },
-  layoutItem: LayoutItem,
   node: Node,
-  indent: string,
-  index: number
+  index: number,
+  projectPath?: string,
+  pageName?: string
 ): string {
-  let html = `${indent}<div class="grid-item-${index}`;
+  let html = `<div class="grid-item-${index}">\n`;
 
-  if (node.type.resolvedName === "GridCell") {
-    html += ` grid-cell" style="
-      display: flex;
-      flex-direction: ${node.props.flexDirection || "column"};
-      justify-content: ${mapFlexToJustify(node.props.justifyContent)};
-      align-items: ${mapFlexToAlign(node.props.alignItems)};
-      gap: ${node.props.gap || "0"}px;
-    ">\n`;
+  // Recursively generate HTML for the node and its children
+  html += generateNodeHtml(content, node, projectPath, pageName);
 
-    // Process child nodes
+  html += `</div>\n`;
+  return html;
+}
+
+function generateNodeHtml(
+  content: { [key: string]: Node },
+  node: Node,
+  projectPath?: string,
+  pageName?: string
+): string {
+  let html = "";
+
+  // Generate HTML for the current node
+  html += generateComponentHtml(
+    { pages: { [pageName || ""]: { root: content.ROOT, components: content } } },
+    pageName || "",
+    projectPath
+  );
+
+  // If the node is a container with children, process them recursively
+  if (node.nodes && node.nodes.length > 0) {
     for (const childId of node.nodes) {
       const childNode = content[childId];
       if (childNode) {
-        html += generateComponentHtml({ [childId]: childNode }, indent + "  ");
+        html += generateNodeHtml(content, childNode, projectPath, pageName);
       } else {
         console.warn(`Child node not found: ${childId}`);
       }
     }
-  } else {
-    // If the node is not a GridCell, generate it as a regular component
-    html += `">\n${generateComponentHtml({ [layoutItem.i]: node }, indent + "  ")}`;
   }
 
-  html += `${indent}</div>\n`;
   return html;
 }
 
-function mapFlexToJustify(flexValue: string): string {
-  switch (flexValue) {
-    case "flex-start":
-      return "flex-start";
-    case "flex-end":
-      return "flex-end";
-    case "center":
-      return "center";
-    case "space-between":
-      return "space-between";
-    case "space-around":
-      return "space-around";
-    default:
-      return "flex-start";
-  }
-}
-
-function mapFlexToAlign(flexValue: string): string {
-  switch (flexValue) {
-    case "flex-start":
-      return "flex-start";
-    case "flex-end":
-      return "flex-end";
-    case "center":
-      return "center";
-    case "stretch":
-      return "stretch";
-    default:
-      return "stretch";
-  }
-}
-
-export function generateGridComponentCss(content: { [key: string]: Node }): string {
+function generateAllComponentsCss(content: { [key: string]: Node }, pageName: string): string {
   let css = "";
-  Object.values(content).forEach((node) => {
-    if (node.type.resolvedName !== "GridCell") {
-      css += generateComponentCss({ [node.id]: node });
-    }
-  });
+  for (const node of Object.values(content)) {
+    css += generateComponentCss(
+      { pages: { [pageName]: { root: content.ROOT, components: content } } },
+      pageName
+    );
+  }
   return css;
 }
