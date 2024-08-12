@@ -206,7 +206,7 @@ function generateSectionNodes(sections: ThemedLayoutSchema[]): { [key: string]: 
         case "Label":
           childProps = labelSchema.parse(child.props);
           break;
-        case "RadioButton":
+        case "RadioButtons":
           childProps = radioButtonSchema.parse(child.props);
           break;
         case "TextBox":

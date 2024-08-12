@@ -13,7 +13,7 @@ const useStyles = makeStyles({
     },
 });
 
-export const RadioButton: UserComponent<RadioButtonProps> = (props) => {
+export const RadioButtons: UserComponent<RadioButtonProps> = (props) => {
     const validatedProps = radioButtonSchema.parse(props);
 
     const { header, optionLabels, fontSize, fontColor, direction } = validatedProps;
@@ -59,7 +59,7 @@ export const RadioButton: UserComponent<RadioButtonProps> = (props) => {
 };
 
 
-export const RadioButtonDefaultProps: RadioButtonProps = {
+export const RadioButtonsDefaultProps: RadioButtonProps = {
     header: 'Radio Buttons',
     numberOfButtons: 2,
     optionLabels: ['Option 1', 'Option 2'],
@@ -68,9 +68,9 @@ export const RadioButtonDefaultProps: RadioButtonProps = {
     direction: "row"
 };
 
-RadioButton.craft = {
-    displayName: 'Radio Button',
-    props: RadioButtonDefaultProps,
+RadioButtons.craft = {
+    displayName: 'Radio Buttons',
+    props: RadioButtonsDefaultProps,
     related: {
         settings: RadioButtonSettings,
     },

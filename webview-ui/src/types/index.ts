@@ -52,8 +52,34 @@ export const buttonSchema = z.object({
 
 export type ButtonProps = z.infer<typeof buttonSchema>;
 
-export type ComponentProps = ButtonProps | CheckboxProps | ContainerProps | GridCellProps | DropdownProps | IconProps | ImageProps | InputProps | LabelProps | RadioButtonProps | SliderProps | TextBoxProps | TextProps;
-export type TooltipConfigs =  TooltipConfigButton | TooltipConfigCheckbox | TooltipConfigContainer | TooltipConfigDropdown | TooltipConfigGridCell | TooltipConfigIcon | TooltipConfigLabel | TooltipConfigImage | TooltipConfigInput | TooltipConfigRadio | TooltipConfigSlider | TooltipConfigText | TooltipConfigTextbox;
+export type ComponentProps =
+  | ButtonProps
+  | CheckboxProps
+  | ContainerProps
+  | GridCellProps
+  | DropdownProps
+  | IconProps
+  | ImageProps
+  | InputProps
+  | LabelProps
+  | RadioButtonProps
+  | SliderProps
+  | TextBoxProps
+  | TextProps;
+export type TooltipConfigs =
+  | TooltipConfigButton
+  | TooltipConfigCheckbox
+  | TooltipConfigContainer
+  | TooltipConfigDropdown
+  | TooltipConfigGridCell
+  | TooltipConfigIcon
+  | TooltipConfigLabel
+  | TooltipConfigImage
+  | TooltipConfigInput
+  | TooltipConfigRadio
+  | TooltipConfigSlider
+  | TooltipConfigText
+  | TooltipConfigTextbox;
 
 export interface ComponentSettingsProps {
   componentProps: ComponentProps;
@@ -147,7 +173,7 @@ export const labelSchema = z.object({
 export type LabelProps = z.infer<typeof labelSchema>;
 
 export const radioButtonSchema = z.object({
-  header: z.string().default("Radio Button Header"),
+  header: z.string().default(""),
   numberOfButtons: z.number().default(2),
   optionLabels: z.array(z.string()).default([]),
   fontSize: z.number().default(14),
@@ -199,7 +225,7 @@ export const imageSchema = z.object({
   src: z
     .string()
     .default(
-      "https://media.licdn.com/dms/image/D4E03AQEiKLsSnfBkYA/profile-displayphoto-shrink_200_200/0/1698861415552?e=2147483647&v=beta&t=bHAs4bdRoFftlVT0m-Lmv5iqZYKwyZCDesXRwwbdu48",
+      "https://media.licdn.com/dms/image/D4E03AQEiKLsSnfBkYA/profile-displayphoto-shrink_200_200/0/1698861415552?e=2147483647&v=beta&t=bHAs4bdRoFftlVT0m-Lmv5iqZYKwyZCDesXRwwbdu48"
     ),
   alt: z.string().default("New image"),
   width: z.number().default(90),
@@ -296,7 +322,6 @@ export type TooltipConfigDropdown = {
   propKey: keyof DropdownProps;
   type: "color" | "spinButton" | "text" | "options" | "slider";
 };
-
 
 export type TooltipConfigIcon = {
   label: string;
@@ -409,9 +434,9 @@ export const generateLabelSchema = z.object({
 });
 
 export const generateRadioButtonSchema = z.object({
-  type: z.literal("RadioButton"),
+  type: z.literal("RadioButtons"),
   props: z.object({
-    header: z.string().default("Radio Button Header"),
+    header: z.string().default(""),
     numberOfButtons: z.number().default(2),
     optionLabels: z.array(z.string()).default([]),
     direction: z.enum(["row", "column"]).default("row"),

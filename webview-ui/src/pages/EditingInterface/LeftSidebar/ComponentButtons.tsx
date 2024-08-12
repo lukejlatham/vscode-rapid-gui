@@ -6,7 +6,7 @@ import { Button as UserButton, ButtonDefaultProps } from "../../../components/us
 import { TextBox, TextBoxDefaultProps } from '../../../components/user/TextBox';
 import { Image, ImageDefaultProps } from '../../../components/user/Image';
 import { Input, InputDefaultProps } from '../../../components/user/Input';
-import { RadioButton, RadioButtonDefaultProps } from '../../../components/user/RadioButton';
+import { RadioButtons, RadioButtonsDefaultProps } from '../../../components/user/RadioButton';
 import { Checkbox, CheckboxDefaultProps } from '../../../components/user/Checkbox';
 import { Icon, IconDefaultProps } from '../../../components/user/Icon';
 import { EditBackgroundButton } from '../../../components/EditBackgroundButton';
@@ -80,7 +80,7 @@ const ComponentButtons: React.FC<{ classes: any }> = ({ classes }) => {
             }}>Image</Button>
             <Button className={classes.button} icon={<RadioButtonFilled />} size='large' appearance='secondary' ref={ref => {
                 if (ref !== null) {
-                    connectors.create(ref, <RadioButton {...RadioButtonDefaultProps} />);
+                    connectors.create(ref, <RadioButtons {...RadioButtonsDefaultProps} />);
                 }
             }}>Radio Buttons</Button>
             <Button className={classes.button} icon={<CheckboxIcon />} size='large' appearance='secondary' ref={ref => {
