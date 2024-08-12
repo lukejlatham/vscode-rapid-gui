@@ -10,6 +10,8 @@ import { generateCheckboxHtml, generateCheckboxCss } from "./components/Checkbox
 import { generateSliderHtml, generateSliderCss } from "./components/Slider";
 import { generateTextBoxHtml, generateTextBoxCss } from "./components/TextBox";
 import { generateImageHtml, generateImageCss } from "./components/Image";
+import { generateBackgroundHtml, generateBackgroundCss } from "./components/Background";
+import { generateGridCellHtml, generateGridCellCss } from "./components/GridCell";
 
 export function generateComponentHtml(
   parsedJSON: ParsedJSON,
@@ -67,6 +69,10 @@ function generateSingleComponentHtml(
       return generateTextBoxHtml(node);
     case "Image":
       return generateImageHtml(node, projectPath);
+    case "Background":
+      return generateBackgroundHtml(node, content, projectPath);
+    case "GridCell":
+      return generateGridCellHtml(node, content, projectPath);
     default:
       return `<!-- Unknown component type: ${node.type.resolvedName} -->\n`;
   }
@@ -96,6 +102,10 @@ function generateSingleComponentCss(node: Node, content: { [key: string]: Node }
       return generateTextBoxCss(node);
     case "Image":
       return generateImageCss(node);
+    case "Background":
+      return generateBackgroundCss(node, content);
+    case "GridCell":
+      return generateGridCellCss(node, content);
     default:
       return `/* Unknown component type: ${node.type.resolvedName} */\n`;
   }

@@ -4,6 +4,7 @@ import { TemplateManager } from "./TemplateManager";
 import { Page } from "../../webview-ui/src/types";
 import { generateGridHtml, generateGridCss } from "./GridGenerator";
 import { ProjectStructureGenerator } from "./ProjectStructureGenerator";
+import { generateComponentHtml } from "./componentGenerator";
 
 export class FileGenerator {
   private projectName: string;
@@ -90,7 +91,15 @@ export class FileGenerator {
         throw new Error("ROOT node is missing in the JSON structure");
       }
 
-      return generateGridHtml(page, this.outputPath);
+      return generateComponentHtml(
+        {
+          pages: {
+            [page.name]: { root: page.content.ROOT, components: page.content, layout: [] },
+          },
+        },
+        page.name,
+        this.outputPath
+      );
     } catch (error) {
       console.error("Error in generatePageHtmlContent:", error);
       return `<p>Error generating content for ${page.name}: ${error.message}</p>`;
