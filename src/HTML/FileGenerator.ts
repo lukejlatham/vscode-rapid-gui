@@ -2,9 +2,9 @@ import * as fs from "fs";
 import * as path from "path";
 import { TemplateManager } from "./TemplateManager";
 import { Page } from "../../webview-ui/src/types";
-import { ProjectStructureGenerator } from "./ProjectStructureGenerator";
 import { Node } from "./JSONParser";
 import { generateGridCss, generateGridHtml } from "./GridGenerator";
+import { ProjectStructureGenerator } from "./ProjectStructureGenerator";
 
 export class FileGenerator {
   private projectName: string;

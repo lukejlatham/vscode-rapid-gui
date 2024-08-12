@@ -37,8 +37,8 @@ export function generateBackgroundCss(node: Node, content: { [key: string]: Node
   // Dynamically set the grid-template-rows and grid-template-columns based on the JSON data
   let css = `.background {
     display: grid;
-    grid-template-rows: repeat(${node.props.rows}, 1fr);
-    grid-template-columns: repeat(${node.props.columns}, 1fr);
+    grid-template-rows: ${node.props.rows.map((row: any) => row).join(" ")};
+    grid-template-columns: ${node.props.columns.map((col: any) => col).join(" ")};
     gap: ${node.props.gap || "10px"};
     background-color: ${node.props.backgroundColor};
     width: 100%;
