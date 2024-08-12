@@ -47,16 +47,14 @@ export async function convertToHtml(
     console.log("JSON Content:", jsonContent);
 
     try {
+      // Unescape the JSON string if necessary
       const unescapedContent = JSON.parse(jsonContent);
       console.log("Unescaped content:", JSON.stringify(unescapedContent, null, 2));
-
-      const parsedContent = JSON.parse(unescapedContent);
-      console.log("Parsed content:", JSON.stringify(parsedContent, null, 2));
 
       const page: Page = {
         id: fileName,
         name: fileName,
-        content: parsedContent,
+        content: unescapedContent,
       };
       console.log("Created Page object:", JSON.stringify(page, null, 2));
       pages.push(page);
