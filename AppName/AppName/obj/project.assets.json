@@ -1225,11 +1225,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Georges\\source\\repos\\AppName\\AppName\\AppName.csproj",
+      "projectUniqueName": "C:\\Users\\Georges\\Desktop\\vscode-rapid-gui\\AppName\\AppName\\AppName.csproj",
       "projectName": "AppName",
-      "projectPath": "C:\\Users\\Georges\\source\\repos\\AppName\\AppName\\AppName.csproj",
+      "projectPath": "C:\\Users\\Georges\\Desktop\\vscode-rapid-gui\\AppName\\AppName\\AppName.csproj",
       "packagesPath": "C:\\Users\\Georges\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Georges\\source\\repos\\AppName\\AppName\\obj\\",
+      "outputPath": "C:\\Users\\Georges\\Desktop\\vscode-rapid-gui\\AppName\\AppName\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
