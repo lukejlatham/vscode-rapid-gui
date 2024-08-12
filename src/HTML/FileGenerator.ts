@@ -2,6 +2,8 @@ import * as fs from "fs";
 import * as path from "path";
 import { TemplateManager } from "./TemplateManager";
 import { Page } from "../../webview-ui/src/types";
+import { generateGridHtml, generateGridCss } from "./GridGenerator";
+import { ParsedJSON, parseJSON } from "./JSONParser";
 
 export class FileGenerator {
   private projectName: string;
@@ -21,7 +23,7 @@ export class FileGenerator {
     }
 
     this.createHtmlFiles(pages);
-    this.createCssFile();
+    this.createCssFile(pages);
     this.createJsFile();
     this.createReadme();
     this.copyAssetImages();
@@ -43,6 +45,7 @@ export class FileGenerator {
 
       content = this.templateManager.fillTemplate("index.html", {
         projectName: this.projectName,
+        pageTitle: page.name,
         content: pageContent,
       });
 
@@ -51,18 +54,17 @@ export class FileGenerator {
   }
 
   private generatePageHtmlContent(page: Page): string {
-    // Implement logic to convert the page's content (likely JSON) to HTML.
-    // This function should return the HTML content as a string.
-    let htmlContent = "";
-    // Example pseudo-code:
-    // page.content.forEach(component => {
-    //   htmlContent += `<div>${component}</div>`;
-    // });
-    return htmlContent;
+    const parsedJSON: ParsedJSON = parseJSON(JSON.stringify(page.content));
+    return generateGridHtml(page, this.outputPath);
   }
 
-  private createCssFile() {
-    const cssContent = this.templateManager.getTemplate("styles.css");
+  private createCssFile(pages: Page[]) {
+    let cssContent = this.templateManager.getTemplate("styles.css");
+
+    pages.forEach((page) => {
+      cssContent += generateGridCss(page);
+    });
+
     this.createFile("css/styles.css", cssContent);
   }
 
