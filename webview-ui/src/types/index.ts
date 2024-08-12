@@ -36,12 +36,16 @@ export const buttonSchema = z.object({
   borderRadius: z.number().default(4),
   width: z.number().default(10),
   height: z.number().default(10),
-  text: z.string().default("Button"),
+  text: z.string().optional().default("Button"),
   alignment: z.enum(["left", "center", "right"]).default("center"),
   displayName: z.string().optional().default("Button"),
-  icon: z
+  iconPosition: z
     .union([z.enum(["none", "left", "right"]), z.string().refine((val) => val in VscIcons)])
     .default("left"),
+  selectedIcon: z
+    .string()
+    .transform((val) => (val in VscIcons ? val : "VscCircle"))
+    .default("VscCircle") as z.ZodType<VscIconKeys>,
   bordercolor: z.string().optional().default("white"),
   shadowColor: z.string().optional().default("black"),
   shadowOffsetX: z.number().optional().default(1),

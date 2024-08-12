@@ -22,7 +22,7 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({ componentP
         setVisibleTooltip(isVisible ? tooltipKey : null);
     };
 
-    // Default option labels for checkboxeses, radio buttons, and dropdowns
+    // Default option labels for checkboxes, radio buttons, and dropdowns
     const defaultOptionLabels = (count: number) =>
         Array.from({ length: count }, (_, i) => `Option ${i + 1}`);
 

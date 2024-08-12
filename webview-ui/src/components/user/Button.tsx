@@ -2,27 +2,36 @@ import { useNode, UserComponent, Element } from "@craftjs/core";
 import { makeStyles } from "@fluentui/react-components";
 import { buttonSchema, ButtonProps } from '../../types';
 import { ButtonSettings } from "./Settings/ButtonSettings";
-import { Icon, IconDefaultProps } from "./Icon";
 import { useSelected } from "../../hooks/useSelected";
+import * as VscIcons from "react-icons/vsc";
 
 const useStyles = makeStyles({
     button: {
         border: "none",
         textAlign: "center",
         display: "flex",
-        gap: "5px",
-        justifyContent: "center",
-        alignItems: "center",
+        gap: "5px", 
+        justifyContent: "center", 
+        alignItems: "center", 
         maxWidth: "100%",
         maxHeight: "100%",
         cursor: "pointer",
+    },
+    icon: {
+        display: "inline-flex", 
+        alignItems: "center", 
+        verticalAlign: "middle", 
+    },
+    text: {
+        display: "inline-flex", 
+        alignItems: "center", 
     },
 });
 
 export const Button: UserComponent<ButtonProps> = (props) => {
     const validatedProps = buttonSchema.parse(props);
 
-    const { backgroundColor, fontColor, fontSize, borderRadius, text, width, height, bordercolor, shadowBlur, shadowColor, shadowOffsetX, shadowOffsetY, icon } = validatedProps;
+    const { backgroundColor, fontColor, fontSize, borderRadius, text, width, height, bordercolor, shadowBlur, shadowColor, shadowOffsetX, shadowOffsetY, iconPosition, selectedIcon } = validatedProps;
     const { connectors: { connect, drag }, selected } = useNode((node) => ({
         selected: node.events.selected,
     }));
@@ -30,17 +39,17 @@ export const Button: UserComponent<ButtonProps> = (props) => {
     const styles = useStyles();
     const select = useSelected();
 
+    const IconComponent = selectedIcon ? VscIcons[selectedIcon] as React.ComponentType<any> : undefined;
+
     return (
-        <div
-        className={`${selected ? select.select : ""}`}
-        >
+        <div className={`${selected ? select.select : ""}`}>
             <button
                 ref={(ref: HTMLButtonElement | null) => {
                     if (ref) {
                         connect(drag(ref));
                     }
                 }}
-                
+                className={styles.button}
                 style={{
                     color: fontColor,
                     backgroundColor,
@@ -51,13 +60,24 @@ export const Button: UserComponent<ButtonProps> = (props) => {
                     boxShadow: `${shadowOffsetX}px ${shadowOffsetY}px ${shadowBlur}px ${shadowColor}`,
                 }}
             >
-                {icon === "left" && <Element id="button_icon" is={Icon} {...IconDefaultProps} />}
-                {text}
-                {icon === "right" && <Element id="button_icon" is={Icon} {...IconDefaultProps} />}
+                {iconPosition === "left" && IconComponent && (
+                    <span className={styles.icon}>
+                        <IconComponent size={fontSize} color={fontColor} />
+                    </span>
+                )}
+                {text && (
+                    <span className={styles.text}>{text}</span>
+                )}
+                {iconPosition === "right" && IconComponent && (
+                    <span className={styles.icon}>
+                        <IconComponent size={fontSize} color={fontColor} />
+                    </span>
+                )}
             </button>
         </div>
     );
-}
+};
+
 
 export const ButtonDefaultProps: ButtonProps = {
     backgroundColor: "#778899",
@@ -69,7 +89,8 @@ export const ButtonDefaultProps: ButtonProps = {
     width: 10,
     height: 10,
     alignment: "left",
-    icon: "none",
+    iconPosition: "none",
+    selectedIcon: "VscPrimitiveSquare",
     bordercolor: "#666666",
     shadowColor: "transparent",
     shadowOffsetX: 0,
