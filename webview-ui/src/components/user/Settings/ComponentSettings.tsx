@@ -3,7 +3,7 @@ import { Input, Label, SpinButton, Radio, Slider,SliderOnChangeData, RadioGroup,
 import { Info16Regular } from "@fluentui/react-icons";
 import { useNode } from "@craftjs/core";
 import { usePropertyInspectorStyles } from "../../../hooks/usePropertyInspectorStyles";
-import { ComponentSettingsProps, CheckboxProps, RadioButtonProps, DropdownProps, ImageProps } from "../../../types";
+import { ComponentSettingsProps, CheckboxesProps, RadioButtonProps, DropdownProps, ImageProps } from "../../../types";
 import { UserImageUploadButton } from "../../UserImageUploadButton";
 import { Hover } from "vscode";
 
@@ -13,7 +13,7 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({ componentP
     }));
 
 
-    const propsWithOptions = (props as CheckboxProps || props as RadioButtonProps || props as DropdownProps);
+    const propsWithOptions = (props as CheckboxesProps || props as RadioButtonProps || props as DropdownProps);
     const propInspector = usePropertyInspectorStyles();
     const contentId = useId("content");
     const [visibleTooltip, setVisibleTooltip] = React.useState<string | null>(null);
@@ -22,7 +22,7 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({ componentP
         setVisibleTooltip(isVisible ? tooltipKey : null);
     };
 
-    // Default option labels for checkboxes, radio buttons, and dropdowns
+    // Default option labels for checkboxeses, radio buttons, and dropdowns
     const defaultOptionLabels = (count: number) =>
         Array.from({ length: count }, (_, i) => `Option ${i + 1}`);
 
@@ -43,7 +43,7 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({ componentP
     // Update option labels when the number of options changes
     useEffect(() => {
         if ('numberOfBoxes' in props) {
-            updateOptionLabels((props as CheckboxProps).numberOfBoxes);
+            updateOptionLabels((props as CheckboxesProps).numberOfBoxes);
         }
         else if ('numberOfButtons' in props) {
             updateOptionLabels((props as RadioButtonProps).numberOfButtons);

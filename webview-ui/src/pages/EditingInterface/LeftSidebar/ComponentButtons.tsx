@@ -7,7 +7,7 @@ import { TextBox, TextBoxDefaultProps } from '../../../components/user/TextBox';
 import { Image, ImageDefaultProps } from '../../../components/user/Image';
 import { Input, InputDefaultProps } from '../../../components/user/Input';
 import { RadioButtons, RadioButtonsDefaultProps } from '../../../components/user/RadioButton';
-import { Checkbox, CheckboxDefaultProps } from '../../../components/user/Checkbox';
+import { Checkboxes, CheckboxesDefaultProps } from '../../../components/user/Checkboxes';
 import { Icon, IconDefaultProps } from '../../../components/user/Icon';
 import { EditBackgroundButton } from '../../../components/EditBackgroundButton';
 import { Text, TextDefaultProps } from '../../../components/user/Text';
@@ -39,7 +39,7 @@ const LabelIcon = bundleIcon(TextT24Regular, TextT24Regular);
 const ImageIcon = bundleIcon(Image24Regular, Image24Regular);
 const TextBoxIcon = bundleIcon(TextboxRegular, TextboxRegular);
 const InputIcon = bundleIcon(Password24Regular, Password24Filled);
-const CheckboxIcon = bundleIcon(CheckboxCheckedFilled, CheckboxCheckedRegular);
+const CheckboxesIcon = bundleIcon(CheckboxCheckedFilled, CheckboxCheckedRegular);
 // const TextIcon = bundleIcon(SlideTextRegular, SlideTextRegular);
 
 const ComponentButtons: React.FC<{ classes: any }> = ({ classes }) => {
@@ -83,11 +83,11 @@ const ComponentButtons: React.FC<{ classes: any }> = ({ classes }) => {
                     connectors.create(ref, <RadioButtons {...RadioButtonsDefaultProps} />);
                 }
             }}>Radio Buttons</Button>
-            <Button className={classes.button} icon={<CheckboxIcon />} size='large' appearance='secondary' ref={ref => {
+            <Button className={classes.button} icon={<CheckboxesIcon />} size='large' appearance='secondary' ref={ref => {
                 if (ref !== null) {
-                    connectors.create(ref, <Checkbox {...CheckboxDefaultProps} />);
+                    connectors.create(ref, <Checkboxes {...CheckboxesDefaultProps} />);
                 }
-            }}>Checkbox</Button>
+            }}>Checkboxes</Button>
             <Button className={classes.button} icon={<TextBulletListCheckmarkFilled />} size='large' appearance='secondary' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Dropdown {...DropdownDefaultProps} />);

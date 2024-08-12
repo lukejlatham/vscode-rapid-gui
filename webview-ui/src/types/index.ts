@@ -54,7 +54,7 @@ export type ButtonProps = z.infer<typeof buttonSchema>;
 
 export type ComponentProps =
   | ButtonProps
-  | CheckboxProps
+  | CheckboxesProps
   | ContainerProps
   | GridCellProps
   | DropdownProps
@@ -68,7 +68,7 @@ export type ComponentProps =
   | TextProps;
 export type TooltipConfigs =
   | TooltipConfigButton
-  | TooltipConfigCheckbox
+  | TooltipConfigCheckboxes
   | TooltipConfigContainer
   | TooltipConfigDropdown
   | TooltipConfigGridCell
@@ -86,8 +86,8 @@ export interface ComponentSettingsProps {
   tooltips: TooltipConfigs[];
 }
 
-export const checkboxSchema = z.object({
-  header: z.string().default("Checkbox Header"),
+export const checkboxesSchema = z.object({
+  header: z.string().default("Checkboxes Header"),
   optionLabels: z.array(z.string()).default([]),
   numberOfBoxes: z.number().default(1),
   fontSize: z.number().default(14),
@@ -95,7 +95,7 @@ export const checkboxSchema = z.object({
   direction: z.enum(["row", "column"]).default("row"),
 });
 
-export type CheckboxProps = z.infer<typeof checkboxSchema>;
+export type CheckboxesProps = z.infer<typeof checkboxesSchema>;
 
 export const containerSchema = z.object({
   height: z.number().default(100),
@@ -267,10 +267,10 @@ export type TooltipConfigButton = {
   type: "color" | "spinButton" | "text" | "icon" | "slider";
 };
 
-export type TooltipConfigCheckbox = {
+export type TooltipConfigCheckboxes = {
   label: string;
   content: string;
-  propKey: keyof CheckboxProps;
+  propKey: keyof CheckboxesProps;
   type: "color" | "spinButton" | "text" | "options" | "direction" | "slider";
 };
 
@@ -370,7 +370,7 @@ export const generatedElements = z.object({
     "Image",
     // "TextBox",
     "RadioButton",
-    "Checkbox",
+    "Checkboxes",
     "Input",
     "Text",
     "Icon",
@@ -405,8 +405,8 @@ export const generateButtonSchema = z.object({
   }),
 });
 
-export const generateCheckboxSchema = z.object({
-  type: z.literal("Checkbox"),
+export const generateCheckboxesSchema = z.object({
+  type: z.literal("Checkboxes"),
   props: z.object({
     optionLabels: z.array(z.string()).default([]),
     numberOfBoxes: z.number().default(2),
@@ -527,7 +527,7 @@ export const layoutSchema = z.object({
 
 export const generatedFullElements = z.union([
   generateButtonSchema,
-  generateCheckboxSchema,
+  generateCheckboxesSchema,
   generateIconSchema,
   generateInputSchema,
   generateLabelSchema,

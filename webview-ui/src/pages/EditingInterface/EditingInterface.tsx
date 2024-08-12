@@ -7,7 +7,7 @@ import { Image } from '../../components/user/Image';
 import { Background } from '../../components/user/Background';
 import { Input } from "../../components/user/Input";
 import { RadioButtons } from "../../components/user/RadioButton";
-import { Checkbox } from "../../components/user/Checkbox";
+import { Checkboxes } from "../../components/user/Checkboxes";
 import { Icon } from "../../components/user/Icon";
 import { GridCell } from "../../components/user/GridCell";
 import { Container } from "../../components/user/Container";
@@ -150,7 +150,7 @@ const EditingInterface: React.FC = () => {
       }
 
     return (
-        <Editor resolver={{ Background, Text, Label, Button, TextBox, Image, Input, RadioButtons, Checkbox, GridCell, Icon, EditBackgroundButton, Container, Dropdown, Slider }}>
+        <Editor resolver={{ Background, Text, Label, Button, TextBox, Image, Input, RadioButtons, Checkboxes, GridCell, Icon, EditBackgroundButton, Container, Dropdown, Slider }}>
             <EditorContent
                 pages={pages}
                 currentPageIndex={currentPageIndex}

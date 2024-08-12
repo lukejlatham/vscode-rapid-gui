@@ -1,883 +1,851 @@
 {
-    "ROOT": {
-        "type": {
-            "resolvedName": "Background"
+  "ROOT": {
+    "type": {
+      "resolvedName": "Background"
+    },
+    "isCanvas": true,
+    "props": {
+      "rows": 10,
+      "columns": 10,
+      "lockedGrid": true,
+      "backgroundColor": "#292929",
+      "layout": [
+        {
+          "i": "0",
+          "x": 0,
+          "y": 0,
+          "w": 10,
+          "h": 1
         },
-        "isCanvas": true,
-        "props": {
-            "rows": 10,
-            "columns": 10,
-            "lockedGrid": true,
-            "backgroundColor": "#292929",
-            "layout": [
-                {
-                    "i": "0",
-                    "x": 0,
-                    "y": 0,
-                    "w": 10,
-                    "h": 1
-                },
-                {
-                    "i": "1",
-                    "x": 0,
-                    "y": 1,
-                    "w": 5,
-                    "h": 4
-                },
-                {
-                    "i": "2",
-                    "x": 5,
-                    "y": 1,
-                    "w": 5,
-                    "h": 4
-                },
-                {
-                    "i": "3",
-                    "x": 0,
-                    "y": 5,
-                    "w": 10,
-                    "h": 4
-                },
-                {
-                    "i": "4",
-                    "x": 0,
-                    "y": 9,
-                    "w": 10,
-                    "h": 1
-                }
-            ]
+        {
+          "i": "1",
+          "x": 0,
+          "y": 1,
+          "w": 5,
+          "h": 4
         },
-        "displayName": "Background",
-        "custom": {},
-        "parent": null,
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {
-            "0": "HeaderGridCell",
-            "1": "AudioSettingsGridCell",
-            "2": "VideoSettingsGridCell",
-            "3": "ControlSettingsGridCell",
-            "4": "FooterGridCell"
+        {
+          "i": "2",
+          "x": 5,
+          "y": 1,
+          "w": 5,
+          "h": 4
+        },
+        {
+          "i": "3",
+          "x": 0,
+          "y": 5,
+          "w": 10,
+          "h": 4
+        },
+        {
+          "i": "4",
+          "x": 0,
+          "y": 9,
+          "w": 10,
+          "h": 1
         }
+      ]
     },
-    "HeaderGridCell": {
-        "type": {
-            "resolvedName": "GridCell"
-        },
-        "isCanvas": true,
-        "props": {
-            "flexDirection": "row",
-            "justifyContent": "center",
-            "alignItems": "center",
-            "gap": 10
-        },
-        "displayName": "Grid Cell",
-        "custom": {
-            "id": "0"
-        },
-        "parent": "ROOT",
-        "hidden": false,
-        "nodes": [
-            "HeaderContainer"
-        ],
-        "linkedNodes": {}
-    },
-    "HeaderContainer": {
-        "type": {
-            "resolvedName": "Container"
-        },
-        "isCanvas": true,
-        "props": {
-            "height": 100,
-            "width": 100,
-            "backgroundColor": "#FFD4A3",
-            "borderRadius": 5,
-            "borderColor": "#002B5D",
-            "padding": 0,
-            "flexDirection": "row",
-            "justifyContent": "space-around",
-            "alignItems": "center",
-            "gap": 10,
-            "shadowColor": "black",
-            "shadowOffsetX": 1,
-            "shadowOffsetY": 1,
-            "shadowBlur": 3
-        },
-        "displayName": "Container",
-        "custom": {},
-        "parent": "HeaderGridCell",
-        "hidden": false,
-        "nodes": [
-            "HeaderLabel0",
-            "HeaderButton2"
-        ],
-        "linkedNodes": {}
-    },
-    "HeaderLabel0": {
-        "type": {
-            "resolvedName": "Label"
-        },
-        "isCanvas": false,
-        "props": {
-            "text": "Settings",
-            "textAlign": "left",
-            "fontSize": 22,
-            "fontColor": "#8B4513",
-            "userEditable": true,
-            "icon": "none",
-            "hyperlink": "",
-            "bold": true,
-            "italic": false,
-            "underline": false
-        },
-        "displayName": "Label",
-        "custom": {},
-        "parent": "HeaderContainer",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "HeaderButton2": {
-        "type": {
-            "resolvedName": "Button"
-        },
-        "isCanvas": false,
-        "props": {
-            "backgroundColor": "#ffedd5",
-            "fontColor": "#8b4512",
-            "displayName": "Button",
-            "fontSize": 16,
-            "borderRadius": 4,
-            "text": "Back",
-            "width": 17,
-            "height": 60,
-            "alignment": "center",
-            "icon": "left",
-            "bordercolor": "white",
-            "shadowColor": "black",
-            "shadowOffsetX": 1,
-            "shadowOffsetY": 1,
-            "shadowBlur": 3
-        },
-        "displayName": "Button",
-        "custom": {},
-        "parent": "HeaderContainer",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {
-            "button_icon": "B5tIb924sg"
-        }
-    },
-    "AudioSettingsGridCell": {
-        "type": {
-            "resolvedName": "GridCell"
-        },
-        "isCanvas": true,
-        "props": {
-            "flexDirection": "row",
-            "justifyContent": "center",
-            "alignItems": "center",
-            "gap": 10
-        },
-        "displayName": "Grid Cell",
-        "custom": {
-            "id": "1"
-        },
-        "parent": "ROOT",
-        "hidden": false,
-        "nodes": [
-            "AudioSettingsContainer"
-        ],
-        "linkedNodes": {}
-    },
-    "AudioSettingsContainer": {
-        "type": {
-            "resolvedName": "Container"
-        },
-        "isCanvas": true,
-        "props": {
-            "height": 100,
-            "width": 100,
-            "backgroundColor": "ghostwhite",
-            "borderRadius": 5,
-            "borderColor": "#FFB870",
-            "padding": 0,
-            "flexDirection": "column",
-            "justifyContent": "space-around",
-            "alignItems": "center",
-            "gap": 10,
-            "shadowColor": "black",
-            "shadowOffsetX": 1,
-            "shadowOffsetY": 1,
-            "shadowBlur": 3
-        },
-        "displayName": "Container",
-        "custom": {},
-        "parent": "AudioSettingsGridCell",
-        "hidden": false,
-        "nodes": [
-            "AudioSettingsLabel0",
-            "AudioSettingsSlider1",
-            "AudioSettingsSlider2",
-            "AudioSettingsSlider3",
-            "AudioSettingsCheckbox4"
-        ],
-        "linkedNodes": {}
-    },
-    "AudioSettingsLabel0": {
-        "type": {
-            "resolvedName": "Label"
-        },
-        "isCanvas": false,
-        "props": {
-            "text": "Audio Settings",
-            "textAlign": "left",
-            "fontSize": 22,
-            "fontColor": "#6F4E37",
-            "userEditable": true,
-            "icon": "none",
-            "hyperlink": "",
-            "bold": true,
-            "italic": false,
-            "underline": false
-        },
-        "displayName": "Label",
-        "custom": {},
-        "parent": "AudioSettingsContainer",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "AudioSettingsSlider1": {
-        "type": {
-            "resolvedName": "Slider"
-        },
-        "isCanvas": false,
-        "props": {
-            "header": "Master Volume",
-            "min": 0,
-            "max": 100,
-            "step": 1,
-            "fontSize": 14,
-            "fontColor": "black",
-            "backgroundColor": "#FFEDD5"
-        },
-        "displayName": "Slider",
-        "custom": {},
-        "parent": "AudioSettingsContainer",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "AudioSettingsSlider2": {
-        "type": {
-            "resolvedName": "Slider"
-        },
-        "isCanvas": false,
-        "props": {
-            "header": "Sound Effects",
-            "min": 0,
-            "max": 100,
-            "step": 1,
-            "fontSize": 14,
-            "fontColor": "black",
-            "backgroundColor": "#FFEDD5"
-        },
-        "displayName": "Slider",
-        "custom": {},
-        "parent": "AudioSettingsContainer",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "AudioSettingsSlider3": {
-        "type": {
-            "resolvedName": "Slider"
-        },
-        "isCanvas": false,
-        "props": {
-            "header": "Music",
-            "min": 0,
-            "max": 100,
-            "step": 1,
-            "fontSize": 14,
-            "fontColor": "black",
-            "backgroundColor": "#FFEDD5"
-        },
-        "displayName": "Slider",
-        "custom": {},
-        "parent": "AudioSettingsContainer",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "AudioSettingsCheckbox4": {
-        "type": {
-            "resolvedName": "Checkbox"
-        },
-        "isCanvas": false,
-        "props": {
-            "header": "Checkbox Header",
-            "numberOfBoxes": 2,
-            "optionLabels": [
-                "Enable 3D Sound",
-                "Enable Surround Sound"
-            ],
-            "fontSize": 14,
-            "fontColor": "black",
-            "direction": "column"
-        },
-        "displayName": "Checkbox",
-        "custom": {},
-        "parent": "AudioSettingsContainer",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "VideoSettingsGridCell": {
-        "type": {
-            "resolvedName": "GridCell"
-        },
-        "isCanvas": true,
-        "props": {
-            "flexDirection": "row",
-            "justifyContent": "center",
-            "alignItems": "center",
-            "gap": 10
-        },
-        "displayName": "Grid Cell",
-        "custom": {
-            "id": "2"
-        },
-        "parent": "ROOT",
-        "hidden": false,
-        "nodes": [
-            "VideoSettingsContainer"
-        ],
-        "linkedNodes": {}
-    },
-    "VideoSettingsContainer": {
-        "type": {
-            "resolvedName": "Container"
-        },
-        "isCanvas": true,
-        "props": {
-            "height": 100,
-            "width": 100,
-            "backgroundColor": "ghostwhite",
-            "borderRadius": 5,
-            "borderColor": "#FFB870",
-            "padding": 0,
-            "flexDirection": "column",
-            "justifyContent": "space-around",
-            "alignItems": "center",
-            "gap": 10,
-            "shadowColor": "black",
-            "shadowOffsetX": 1,
-            "shadowOffsetY": 1,
-            "shadowBlur": 3
-        },
-        "displayName": "Container",
-        "custom": {},
-        "parent": "VideoSettingsGridCell",
-        "hidden": false,
-        "nodes": [
-            "VideoSettingsLabel0",
-            "VideoSettingsDropdown1",
-            "VideoSettingsCheckbox2",
-            "VideoSettingsCheckbox3",
-            "VideoSettingsSlider4"
-        ],
-        "linkedNodes": {}
-    },
-    "VideoSettingsLabel0": {
-        "type": {
-            "resolvedName": "Label"
-        },
-        "isCanvas": false,
-        "props": {
-            "text": "Video Settings",
-            "textAlign": "left",
-            "fontSize": 22,
-            "fontColor": "#6F4E37",
-            "userEditable": true,
-            "icon": "none",
-            "hyperlink": "",
-            "bold": true,
-            "italic": false,
-            "underline": false
-        },
-        "displayName": "Label",
-        "custom": {},
-        "parent": "VideoSettingsContainer",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "VideoSettingsDropdown1": {
-        "type": {
-            "resolvedName": "Dropdown"
-        },
-        "isCanvas": false,
-        "props": {
-            "header": "Resolution",
-            "numberOfOptions": 2,
-            "optionLabels": [
-                "Option 1",
-                "Option 2"
-            ],
-            "fontSize": 14,
-            "fontColor": "darkslategrey",
-            "min": 0,
-            "max": 100,
-            "step": 1,
-            "backgroundColor": "red"
-        },
-        "displayName": "Dropdown",
-        "custom": {},
-        "parent": "VideoSettingsContainer",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "VideoSettingsCheckbox2": {
-        "type": {
-            "resolvedName": "Checkbox"
-        },
-        "isCanvas": false,
-        "props": {
-            "header": "Checkbox Header",
-            "numberOfBoxes": 1,
-            "optionLabels": [
-                "Enable V-Sync"
-            ],
-            "fontSize": 14,
-            "fontColor": "black",
-            "direction": "row"
-        },
-        "displayName": "Checkbox",
-        "custom": {},
-        "parent": "VideoSettingsContainer",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "VideoSettingsCheckbox3": {
-        "type": {
-            "resolvedName": "Checkbox"
-        },
-        "isCanvas": false,
-        "props": {
-            "header": "Checkbox Header",
-            "numberOfBoxes": 1,
-            "optionLabels": [
-                "Enable Fullscreen"
-            ],
-            "fontSize": 14,
-            "fontColor": "black",
-            "direction": "row"
-        },
-        "displayName": "Checkbox",
-        "custom": {},
-        "parent": "VideoSettingsContainer",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "VideoSettingsSlider4": {
-        "type": {
-            "resolvedName": "Slider"
-        },
-        "isCanvas": false,
-        "props": {
-            "header": "Brightness",
-            "min": 0,
-            "max": 100,
-            "step": 1,
-            "fontSize": 14,
-            "fontColor": "black",
-            "backgroundColor": "#FFEDD5"
-        },
-        "displayName": "Slider",
-        "custom": {},
-        "parent": "VideoSettingsContainer",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "ControlSettingsGridCell": {
-        "type": {
-            "resolvedName": "GridCell"
-        },
-        "isCanvas": true,
-        "props": {
-            "flexDirection": "row",
-            "justifyContent": "center",
-            "alignItems": "center",
-            "gap": 10
-        },
-        "displayName": "Grid Cell",
-        "custom": {
-            "id": "3"
-        },
-        "parent": "ROOT",
-        "hidden": false,
-        "nodes": [
-            "ControlSettingsContainer"
-        ],
-        "linkedNodes": {}
-    },
-    "ControlSettingsContainer": {
-        "type": {
-            "resolvedName": "Container"
-        },
-        "isCanvas": true,
-        "props": {
-            "height": 100,
-            "width": 100,
-            "backgroundColor": "ghostwhite",
-            "borderRadius": 5,
-            "borderColor": "#FFB870",
-            "padding": 0,
-            "flexDirection": "column",
-            "justifyContent": "space-around",
-            "alignItems": "center",
-            "gap": 0,
-            "shadowColor": "black",
-            "shadowOffsetX": 1,
-            "shadowOffsetY": 1,
-            "shadowBlur": 3
-        },
-        "displayName": "Container",
-        "custom": {},
-        "parent": "ControlSettingsGridCell",
-        "hidden": false,
-        "nodes": [
-            "ControlSettingsLabel0",
-            "q9wBEzERuP"
-        ],
-        "linkedNodes": {}
-    },
-    "ControlSettingsLabel0": {
-        "type": {
-            "resolvedName": "Label"
-        },
-        "isCanvas": false,
-        "props": {
-            "text": "Control Settings",
-            "textAlign": "left",
-            "fontSize": 22,
-            "fontColor": "#6F4E37",
-            "userEditable": true,
-            "icon": "none",
-            "hyperlink": "",
-            "bold": true,
-            "italic": false,
-            "underline": false
-        },
-        "displayName": "Label",
-        "custom": {},
-        "parent": "ControlSettingsContainer",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "ControlSettingsButton1": {
-        "type": {
-            "resolvedName": "Button"
-        },
-        "isCanvas": false,
-        "props": {
-            "backgroundColor": "#FFEDD5",
-            "fontColor": "#6f4e36",
-            "displayName": "Button",
-            "fontSize": 16,
-            "borderRadius": 4,
-            "text": "Customize Key Bindings",
-            "width": 40,
-            "height": 35,
-            "alignment": "center",
-            "icon": "left",
-            "bordercolor": "white",
-            "shadowColor": "black",
-            "shadowOffsetX": 1,
-            "shadowOffsetY": 1,
-            "shadowBlur": 3
-        },
-        "displayName": "Button",
-        "custom": {},
-        "parent": "q9wBEzERuP",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {
-            "button_icon": "1FifCDX8QO"
-        }
-    },
-    "ControlSettingsButton2": {
-        "type": {
-            "resolvedName": "Button"
-        },
-        "isCanvas": false,
-        "props": {
-            "backgroundColor": "#FFEDD5",
-            "fontColor": "#6f4e36",
-            "displayName": "Button",
-            "fontSize": 16,
-            "borderRadius": 4,
-            "text": "Customize Controller Layout",
-            "width": 40,
-            "height": 35,
-            "alignment": "center",
-            "icon": "right",
-            "bordercolor": "white",
-            "shadowColor": "black",
-            "shadowOffsetX": 1,
-            "shadowOffsetY": 1,
-            "shadowBlur": 3
-        },
-        "displayName": "Button",
-        "custom": {},
-        "parent": "q9wBEzERuP",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {
-            "button_icon": "yRP6zTgwvl"
-        }
-    },
-    "FooterGridCell": {
-        "type": {
-            "resolvedName": "GridCell"
-        },
-        "isCanvas": true,
-        "props": {
-            "flexDirection": "row",
-            "justifyContent": "center",
-            "alignItems": "center",
-            "gap": 10
-        },
-        "displayName": "Grid Cell",
-        "custom": {
-            "id": "4"
-        },
-        "parent": "ROOT",
-        "hidden": false,
-        "nodes": [
-            "FooterContainer"
-        ],
-        "linkedNodes": {}
-    },
-    "FooterContainer": {
-        "type": {
-            "resolvedName": "Container"
-        },
-        "isCanvas": true,
-        "props": {
-            "height": 100,
-            "width": 100,
-            "backgroundColor": "#FFB870",
-            "borderRadius": 5,
-            "borderColor": "#00438F",
-            "padding": 0,
-            "flexDirection": "row",
-            "justifyContent": "space-around",
-            "alignItems": "center",
-            "gap": 10,
-            "shadowColor": "black",
-            "shadowOffsetX": 1,
-            "shadowOffsetY": 1,
-            "shadowBlur": 3
-        },
-        "displayName": "Container",
-        "custom": {},
-        "parent": "FooterGridCell",
-        "hidden": false,
-        "nodes": [
-            "FooterButton0",
-            "FooterButton1"
-        ],
-        "linkedNodes": {}
-    },
-    "FooterButton0": {
-        "type": {
-            "resolvedName": "Button"
-        },
-        "isCanvas": false,
-        "props": {
-            "backgroundColor": "#31383E",
-            "fontColor": "white",
-            "displayName": "Button",
-            "fontSize": 16,
-            "borderRadius": 4,
-            "text": "Save",
-            "width": 40,
-            "height": 60,
-            "alignment": "center",
-            "icon": "left",
-            "bordercolor": "white",
-            "shadowColor": "black",
-            "shadowOffsetX": 1,
-            "shadowOffsetY": 1,
-            "shadowBlur": 3
-        },
-        "displayName": "Button",
-        "custom": {},
-        "parent": "FooterContainer",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {
-            "button_icon": "_FNk7LZK9d"
-        }
-    },
-    "FooterButton1": {
-        "type": {
-            "resolvedName": "Button"
-        },
-        "isCanvas": false,
-        "props": {
-            "backgroundColor": "#31383E",
-            "fontColor": "white",
-            "displayName": "Button",
-            "fontSize": 16,
-            "borderRadius": 4,
-            "text": "Cancel",
-            "width": 40,
-            "height": 60,
-            "alignment": "center",
-            "icon": "left",
-            "bordercolor": "white",
-            "shadowColor": "black",
-            "shadowOffsetX": 1,
-            "shadowOffsetY": 1,
-            "shadowBlur": 3
-        },
-        "displayName": "Button",
-        "custom": {},
-        "parent": "FooterContainer",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {
-            "button_icon": "egEc1rek2J"
-        }
-    },
-    "B5tIb924sg": {
-        "type": {
-            "resolvedName": "Icon"
-        },
-        "isCanvas": false,
-        "props": {
-            "selectedIcon": "VscArrowLeft",
-            "iconSize": 24,
-            "iconColor": "#lightslategray",
-            "hyperlink": ""
-        },
-        "displayName": "Icon",
-        "custom": {},
-        "parent": "HeaderButton2",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "1FifCDX8QO": {
-        "type": {
-            "resolvedName": "Icon"
-        },
-        "isCanvas": false,
-        "props": {
-            "selectedIcon": "VscRecordKeys",
-            "iconSize": 15,
-            "iconColor": "#lightslategray",
-            "hyperlink": ""
-        },
-        "displayName": "Icon",
-        "custom": {},
-        "parent": "ControlSettingsButton1",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "yRP6zTgwvl": {
-        "type": {
-            "resolvedName": "Icon"
-        },
-        "isCanvas": false,
-        "props": {
-            "selectedIcon": "VscGame",
-            "iconSize": 15,
-            "iconColor": "#lightslategray",
-            "hyperlink": ""
-        },
-        "displayName": "Icon",
-        "custom": {},
-        "parent": "ControlSettingsButton2",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "_FNk7LZK9d": {
-        "type": {
-            "resolvedName": "Icon"
-        },
-        "isCanvas": false,
-        "props": {
-            "selectedIcon": "VscSave",
-            "iconSize": 20,
-            "iconColor": "#lightslategray",
-            "hyperlink": ""
-        },
-        "displayName": "Icon",
-        "custom": {},
-        "parent": "FooterButton0",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "egEc1rek2J": {
-        "type": {
-            "resolvedName": "Icon"
-        },
-        "isCanvas": false,
-        "props": {
-            "selectedIcon": "VscChromeClose",
-            "iconSize": 20,
-            "iconColor": "#lightslategray",
-            "hyperlink": ""
-        },
-        "displayName": "Icon",
-        "custom": {},
-        "parent": "FooterButton1",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "q9wBEzERuP": {
-        "type": {
-            "resolvedName": "Container"
-        },
-        "isCanvas": true,
-        "props": {
-            "height": 50,
-            "width": 100,
-            "backgroundColor": "#f8f8ff",
-            "borderRadius": 5,
-            "borderColor": "#f8f8ff",
-            "padding": 0,
-            "flexDirection": "row",
-            "justifyContent": "space-around",
-            "alignItems": "center",
-            "gap": 10,
-            "shadowColor": "black",
-            "shadowOffsetX": 0,
-            "shadowOffsetY": 0,
-            "shadowBlur": 0
-        },
-        "displayName": "Container",
-        "custom": {},
-        "parent": "ControlSettingsContainer",
-        "hidden": false,
-        "nodes": [
-            "ControlSettingsButton1",
-            "ControlSettingsButton2"
-        ],
-        "linkedNodes": {}
+    "displayName": "Background",
+    "custom": {},
+    "parent": null,
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {
+      "0": "HeaderGridCell",
+      "1": "AudioSettingsGridCell",
+      "2": "VideoSettingsGridCell",
+      "3": "ControlSettingsGridCell",
+      "4": "FooterGridCell"
     }
+  },
+  "HeaderGridCell": {
+    "type": {
+      "resolvedName": "GridCell"
+    },
+    "isCanvas": true,
+    "props": {
+      "flexDirection": "row",
+      "justifyContent": "center",
+      "alignItems": "center",
+      "gap": 10
+    },
+    "displayName": "Grid Cell",
+    "custom": {
+      "id": "0"
+    },
+    "parent": "ROOT",
+    "hidden": false,
+    "nodes": ["HeaderContainer"],
+    "linkedNodes": {}
+  },
+  "HeaderContainer": {
+    "type": {
+      "resolvedName": "Container"
+    },
+    "isCanvas": true,
+    "props": {
+      "height": 100,
+      "width": 100,
+      "backgroundColor": "#FFD4A3",
+      "borderRadius": 5,
+      "borderColor": "#002B5D",
+      "padding": 0,
+      "flexDirection": "row",
+      "justifyContent": "space-around",
+      "alignItems": "center",
+      "gap": 10,
+      "shadowColor": "black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 3
+    },
+    "displayName": "Container",
+    "custom": {},
+    "parent": "HeaderGridCell",
+    "hidden": false,
+    "nodes": ["HeaderLabel0", "HeaderButton2"],
+    "linkedNodes": {}
+  },
+  "HeaderLabel0": {
+    "type": {
+      "resolvedName": "Label"
+    },
+    "isCanvas": false,
+    "props": {
+      "text": "Settings",
+      "textAlign": "left",
+      "fontSize": 22,
+      "fontColor": "#8B4513",
+      "userEditable": true,
+      "icon": "none",
+      "hyperlink": "",
+      "bold": true,
+      "italic": false,
+      "underline": false
+    },
+    "displayName": "Label",
+    "custom": {},
+    "parent": "HeaderContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "HeaderButton2": {
+    "type": {
+      "resolvedName": "Button"
+    },
+    "isCanvas": false,
+    "props": {
+      "backgroundColor": "#ffedd5",
+      "fontColor": "#8b4512",
+      "displayName": "Button",
+      "fontSize": 16,
+      "borderRadius": 4,
+      "text": "Back",
+      "width": 17,
+      "height": 60,
+      "alignment": "center",
+      "icon": "left",
+      "bordercolor": "white",
+      "shadowColor": "black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 3
+    },
+    "displayName": "Button",
+    "custom": {},
+    "parent": "HeaderContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {
+      "button_icon": "B5tIb924sg"
+    }
+  },
+  "AudioSettingsGridCell": {
+    "type": {
+      "resolvedName": "GridCell"
+    },
+    "isCanvas": true,
+    "props": {
+      "flexDirection": "row",
+      "justifyContent": "center",
+      "alignItems": "center",
+      "gap": 10
+    },
+    "displayName": "Grid Cell",
+    "custom": {
+      "id": "1"
+    },
+    "parent": "ROOT",
+    "hidden": false,
+    "nodes": ["AudioSettingsContainer"],
+    "linkedNodes": {}
+  },
+  "AudioSettingsContainer": {
+    "type": {
+      "resolvedName": "Container"
+    },
+    "isCanvas": true,
+    "props": {
+      "height": 100,
+      "width": 100,
+      "backgroundColor": "ghostwhite",
+      "borderRadius": 5,
+      "borderColor": "#FFB870",
+      "padding": 0,
+      "flexDirection": "column",
+      "justifyContent": "space-around",
+      "alignItems": "center",
+      "gap": 10,
+      "shadowColor": "black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 3
+    },
+    "displayName": "Container",
+    "custom": {},
+    "parent": "AudioSettingsGridCell",
+    "hidden": false,
+    "nodes": [
+      "AudioSettingsLabel0",
+      "AudioSettingsSlider1",
+      "AudioSettingsSlider2",
+      "AudioSettingsSlider3",
+      "AudioSettingsCheckboxes4"
+    ],
+    "linkedNodes": {}
+  },
+  "AudioSettingsLabel0": {
+    "type": {
+      "resolvedName": "Label"
+    },
+    "isCanvas": false,
+    "props": {
+      "text": "Audio Settings",
+      "textAlign": "left",
+      "fontSize": 22,
+      "fontColor": "#6F4E37",
+      "userEditable": true,
+      "icon": "none",
+      "hyperlink": "",
+      "bold": true,
+      "italic": false,
+      "underline": false
+    },
+    "displayName": "Label",
+    "custom": {},
+    "parent": "AudioSettingsContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "AudioSettingsSlider1": {
+    "type": {
+      "resolvedName": "Slider"
+    },
+    "isCanvas": false,
+    "props": {
+      "header": "Master Volume",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "fontSize": 14,
+      "fontColor": "black",
+      "backgroundColor": "#FFEDD5"
+    },
+    "displayName": "Slider",
+    "custom": {},
+    "parent": "AudioSettingsContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "AudioSettingsSlider2": {
+    "type": {
+      "resolvedName": "Slider"
+    },
+    "isCanvas": false,
+    "props": {
+      "header": "Sound Effects",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "fontSize": 14,
+      "fontColor": "black",
+      "backgroundColor": "#FFEDD5"
+    },
+    "displayName": "Slider",
+    "custom": {},
+    "parent": "AudioSettingsContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "AudioSettingsSlider3": {
+    "type": {
+      "resolvedName": "Slider"
+    },
+    "isCanvas": false,
+    "props": {
+      "header": "Music",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "fontSize": 14,
+      "fontColor": "black",
+      "backgroundColor": "#FFEDD5"
+    },
+    "displayName": "Slider",
+    "custom": {},
+    "parent": "AudioSettingsContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "AudioSettingsCheckboxes4": {
+    "type": {
+      "resolvedName": "Checkboxes"
+    },
+    "isCanvas": false,
+    "props": {
+      "header": "Checkboxes Header",
+      "numberOfBoxes": 2,
+      "optionLabels": ["Enable 3D Sound", "Enable Surround Sound"],
+      "fontSize": 14,
+      "fontColor": "black",
+      "direction": "column"
+    },
+    "displayName": "Checkboxes",
+    "custom": {},
+    "parent": "AudioSettingsContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "VideoSettingsGridCell": {
+    "type": {
+      "resolvedName": "GridCell"
+    },
+    "isCanvas": true,
+    "props": {
+      "flexDirection": "row",
+      "justifyContent": "center",
+      "alignItems": "center",
+      "gap": 10
+    },
+    "displayName": "Grid Cell",
+    "custom": {
+      "id": "2"
+    },
+    "parent": "ROOT",
+    "hidden": false,
+    "nodes": ["VideoSettingsContainer"],
+    "linkedNodes": {}
+  },
+  "VideoSettingsContainer": {
+    "type": {
+      "resolvedName": "Container"
+    },
+    "isCanvas": true,
+    "props": {
+      "height": 100,
+      "width": 100,
+      "backgroundColor": "ghostwhite",
+      "borderRadius": 5,
+      "borderColor": "#FFB870",
+      "padding": 0,
+      "flexDirection": "column",
+      "justifyContent": "space-around",
+      "alignItems": "center",
+      "gap": 10,
+      "shadowColor": "black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 3
+    },
+    "displayName": "Container",
+    "custom": {},
+    "parent": "VideoSettingsGridCell",
+    "hidden": false,
+    "nodes": [
+      "VideoSettingsLabel0",
+      "VideoSettingsDropdown1",
+      "VideoSettingsCheckboxes2",
+      "VideoSettingsCheckboxes3",
+      "VideoSettingsSlider4"
+    ],
+    "linkedNodes": {}
+  },
+  "VideoSettingsLabel0": {
+    "type": {
+      "resolvedName": "Label"
+    },
+    "isCanvas": false,
+    "props": {
+      "text": "Video Settings",
+      "textAlign": "left",
+      "fontSize": 22,
+      "fontColor": "#6F4E37",
+      "userEditable": true,
+      "icon": "none",
+      "hyperlink": "",
+      "bold": true,
+      "italic": false,
+      "underline": false
+    },
+    "displayName": "Label",
+    "custom": {},
+    "parent": "VideoSettingsContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "VideoSettingsDropdown1": {
+    "type": {
+      "resolvedName": "Dropdown"
+    },
+    "isCanvas": false,
+    "props": {
+      "header": "Resolution",
+      "numberOfOptions": 2,
+      "optionLabels": ["Option 1", "Option 2"],
+      "fontSize": 14,
+      "fontColor": "darkslategrey",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "backgroundColor": "red"
+    },
+    "displayName": "Dropdown",
+    "custom": {},
+    "parent": "VideoSettingsContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "VideoSettingsCheckboxes2": {
+    "type": {
+      "resolvedName": "Checkboxes"
+    },
+    "isCanvas": false,
+    "props": {
+      "header": "Checkboxes Header",
+      "numberOfBoxes": 1,
+      "optionLabels": ["Enable V-Sync"],
+      "fontSize": 14,
+      "fontColor": "black",
+      "direction": "row"
+    },
+    "displayName": "Checkboxes",
+    "custom": {},
+    "parent": "VideoSettingsContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "VideoSettingsCheckboxes3": {
+    "type": {
+      "resolvedName": "Checkboxes"
+    },
+    "isCanvas": false,
+    "props": {
+      "header": "Checkboxes Header",
+      "numberOfBoxes": 1,
+      "optionLabels": ["Enable Fullscreen"],
+      "fontSize": 14,
+      "fontColor": "black",
+      "direction": "row"
+    },
+    "displayName": "Checkboxes",
+    "custom": {},
+    "parent": "VideoSettingsContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "VideoSettingsSlider4": {
+    "type": {
+      "resolvedName": "Slider"
+    },
+    "isCanvas": false,
+    "props": {
+      "header": "Brightness",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "fontSize": 14,
+      "fontColor": "black",
+      "backgroundColor": "#FFEDD5"
+    },
+    "displayName": "Slider",
+    "custom": {},
+    "parent": "VideoSettingsContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "ControlSettingsGridCell": {
+    "type": {
+      "resolvedName": "GridCell"
+    },
+    "isCanvas": true,
+    "props": {
+      "flexDirection": "row",
+      "justifyContent": "center",
+      "alignItems": "center",
+      "gap": 10
+    },
+    "displayName": "Grid Cell",
+    "custom": {
+      "id": "3"
+    },
+    "parent": "ROOT",
+    "hidden": false,
+    "nodes": ["ControlSettingsContainer"],
+    "linkedNodes": {}
+  },
+  "ControlSettingsContainer": {
+    "type": {
+      "resolvedName": "Container"
+    },
+    "isCanvas": true,
+    "props": {
+      "height": 100,
+      "width": 100,
+      "backgroundColor": "ghostwhite",
+      "borderRadius": 5,
+      "borderColor": "#FFB870",
+      "padding": 0,
+      "flexDirection": "column",
+      "justifyContent": "space-around",
+      "alignItems": "center",
+      "gap": 0,
+      "shadowColor": "black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 3
+    },
+    "displayName": "Container",
+    "custom": {},
+    "parent": "ControlSettingsGridCell",
+    "hidden": false,
+    "nodes": ["ControlSettingsLabel0", "q9wBEzERuP"],
+    "linkedNodes": {}
+  },
+  "ControlSettingsLabel0": {
+    "type": {
+      "resolvedName": "Label"
+    },
+    "isCanvas": false,
+    "props": {
+      "text": "Control Settings",
+      "textAlign": "left",
+      "fontSize": 22,
+      "fontColor": "#6F4E37",
+      "userEditable": true,
+      "icon": "none",
+      "hyperlink": "",
+      "bold": true,
+      "italic": false,
+      "underline": false
+    },
+    "displayName": "Label",
+    "custom": {},
+    "parent": "ControlSettingsContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "ControlSettingsButton1": {
+    "type": {
+      "resolvedName": "Button"
+    },
+    "isCanvas": false,
+    "props": {
+      "backgroundColor": "#FFEDD5",
+      "fontColor": "#6f4e36",
+      "displayName": "Button",
+      "fontSize": 16,
+      "borderRadius": 4,
+      "text": "Customize Key Bindings",
+      "width": 40,
+      "height": 35,
+      "alignment": "center",
+      "icon": "left",
+      "bordercolor": "white",
+      "shadowColor": "black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 3
+    },
+    "displayName": "Button",
+    "custom": {},
+    "parent": "q9wBEzERuP",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {
+      "button_icon": "1FifCDX8QO"
+    }
+  },
+  "ControlSettingsButton2": {
+    "type": {
+      "resolvedName": "Button"
+    },
+    "isCanvas": false,
+    "props": {
+      "backgroundColor": "#FFEDD5",
+      "fontColor": "#6f4e36",
+      "displayName": "Button",
+      "fontSize": 16,
+      "borderRadius": 4,
+      "text": "Customize Controller Layout",
+      "width": 40,
+      "height": 35,
+      "alignment": "center",
+      "icon": "right",
+      "bordercolor": "white",
+      "shadowColor": "black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 3
+    },
+    "displayName": "Button",
+    "custom": {},
+    "parent": "q9wBEzERuP",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {
+      "button_icon": "yRP6zTgwvl"
+    }
+  },
+  "FooterGridCell": {
+    "type": {
+      "resolvedName": "GridCell"
+    },
+    "isCanvas": true,
+    "props": {
+      "flexDirection": "row",
+      "justifyContent": "center",
+      "alignItems": "center",
+      "gap": 10
+    },
+    "displayName": "Grid Cell",
+    "custom": {
+      "id": "4"
+    },
+    "parent": "ROOT",
+    "hidden": false,
+    "nodes": ["FooterContainer"],
+    "linkedNodes": {}
+  },
+  "FooterContainer": {
+    "type": {
+      "resolvedName": "Container"
+    },
+    "isCanvas": true,
+    "props": {
+      "height": 100,
+      "width": 100,
+      "backgroundColor": "#FFB870",
+      "borderRadius": 5,
+      "borderColor": "#00438F",
+      "padding": 0,
+      "flexDirection": "row",
+      "justifyContent": "space-around",
+      "alignItems": "center",
+      "gap": 10,
+      "shadowColor": "black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 3
+    },
+    "displayName": "Container",
+    "custom": {},
+    "parent": "FooterGridCell",
+    "hidden": false,
+    "nodes": ["FooterButton0", "FooterButton1"],
+    "linkedNodes": {}
+  },
+  "FooterButton0": {
+    "type": {
+      "resolvedName": "Button"
+    },
+    "isCanvas": false,
+    "props": {
+      "backgroundColor": "#31383E",
+      "fontColor": "white",
+      "displayName": "Button",
+      "fontSize": 16,
+      "borderRadius": 4,
+      "text": "Save",
+      "width": 40,
+      "height": 60,
+      "alignment": "center",
+      "icon": "left",
+      "bordercolor": "white",
+      "shadowColor": "black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 3
+    },
+    "displayName": "Button",
+    "custom": {},
+    "parent": "FooterContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {
+      "button_icon": "_FNk7LZK9d"
+    }
+  },
+  "FooterButton1": {
+    "type": {
+      "resolvedName": "Button"
+    },
+    "isCanvas": false,
+    "props": {
+      "backgroundColor": "#31383E",
+      "fontColor": "white",
+      "displayName": "Button",
+      "fontSize": 16,
+      "borderRadius": 4,
+      "text": "Cancel",
+      "width": 40,
+      "height": 60,
+      "alignment": "center",
+      "icon": "left",
+      "bordercolor": "white",
+      "shadowColor": "black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 3
+    },
+    "displayName": "Button",
+    "custom": {},
+    "parent": "FooterContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {
+      "button_icon": "egEc1rek2J"
+    }
+  },
+  "B5tIb924sg": {
+    "type": {
+      "resolvedName": "Icon"
+    },
+    "isCanvas": false,
+    "props": {
+      "selectedIcon": "VscArrowLeft",
+      "iconSize": 24,
+      "iconColor": "#lightslategray",
+      "hyperlink": ""
+    },
+    "displayName": "Icon",
+    "custom": {},
+    "parent": "HeaderButton2",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "1FifCDX8QO": {
+    "type": {
+      "resolvedName": "Icon"
+    },
+    "isCanvas": false,
+    "props": {
+      "selectedIcon": "VscRecordKeys",
+      "iconSize": 15,
+      "iconColor": "#lightslategray",
+      "hyperlink": ""
+    },
+    "displayName": "Icon",
+    "custom": {},
+    "parent": "ControlSettingsButton1",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "yRP6zTgwvl": {
+    "type": {
+      "resolvedName": "Icon"
+    },
+    "isCanvas": false,
+    "props": {
+      "selectedIcon": "VscGame",
+      "iconSize": 15,
+      "iconColor": "#lightslategray",
+      "hyperlink": ""
+    },
+    "displayName": "Icon",
+    "custom": {},
+    "parent": "ControlSettingsButton2",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "_FNk7LZK9d": {
+    "type": {
+      "resolvedName": "Icon"
+    },
+    "isCanvas": false,
+    "props": {
+      "selectedIcon": "VscSave",
+      "iconSize": 20,
+      "iconColor": "#lightslategray",
+      "hyperlink": ""
+    },
+    "displayName": "Icon",
+    "custom": {},
+    "parent": "FooterButton0",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "egEc1rek2J": {
+    "type": {
+      "resolvedName": "Icon"
+    },
+    "isCanvas": false,
+    "props": {
+      "selectedIcon": "VscChromeClose",
+      "iconSize": 20,
+      "iconColor": "#lightslategray",
+      "hyperlink": ""
+    },
+    "displayName": "Icon",
+    "custom": {},
+    "parent": "FooterButton1",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "q9wBEzERuP": {
+    "type": {
+      "resolvedName": "Container"
+    },
+    "isCanvas": true,
+    "props": {
+      "height": 50,
+      "width": 100,
+      "backgroundColor": "#f8f8ff",
+      "borderRadius": 5,
+      "borderColor": "#f8f8ff",
+      "padding": 0,
+      "flexDirection": "row",
+      "justifyContent": "space-around",
+      "alignItems": "center",
+      "gap": 10,
+      "shadowColor": "black",
+      "shadowOffsetX": 0,
+      "shadowOffsetY": 0,
+      "shadowBlur": 0
+    },
+    "displayName": "Container",
+    "custom": {},
+    "parent": "ControlSettingsContainer",
+    "hidden": false,
+    "nodes": ["ControlSettingsButton1", "ControlSettingsButton2"],
+    "linkedNodes": {}
+  }
 }

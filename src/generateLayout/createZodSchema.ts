@@ -2,7 +2,7 @@ import { z } from "zod";
 import { generatedElements } from "../../webview-ui/src/types";
 import {
   generateButtonSchema,
-  generateCheckboxSchema,
+  generateCheckboxesSchema,
   generateInputSchema,
   generateLabelSchema,
   generateRadioButtonSchema,
@@ -16,7 +16,7 @@ import {
 
 const childSchemaMap = {
   Button: generateButtonSchema,
-  Checkbox: generateCheckboxSchema,
+  Checkboxes: generateCheckboxesSchema,
   Input: generateInputSchema,
   Label: generateLabelSchema,
   RadioButton: generateRadioButtonSchema,
