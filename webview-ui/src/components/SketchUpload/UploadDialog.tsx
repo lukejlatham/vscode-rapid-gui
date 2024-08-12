@@ -18,6 +18,8 @@ import {
 import { Image24Regular, ArrowUpload24Regular, CheckmarkCircle24Filled, CircleHint24Filled } from '@fluentui/react-icons';
 import { handleSketchUpload } from './handleSketchUpload';
 import { v4 as uuidv4 } from 'uuid';
+import { Page } from '../../types';
+
 
 declare const vscode: any;
 
@@ -63,6 +65,9 @@ interface UploadDialogProps {
   isOpen: boolean;
   onClose: () => void;
   closeStartDialog: () => void;
+  mode: string;
+  pages: Page[];
+  setPages: (pages: Page[]) => void;
 }
 
 const PROCESSING_STAGES = [
@@ -71,7 +76,7 @@ const PROCESSING_STAGES = [
   "Refining properties",
 ];
 
-export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose, closeStartDialog }) => {
+export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose, closeStartDialog, mode, pages, setPages }) => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [uiDescription, setUIDescription] = useState<string | null>(null);
@@ -92,9 +97,18 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose, clo
         setLoading(false);
         setCurrentStage(PROCESSING_STAGES.length);
         
+        const sketch = {id: uuidv4(), name: 'Page 1', content: JSON.parse(message.content)};
+        if (mode === 'start') {
+          setPages([sketch]);
+        }
+        else if (mode === 'add') {
+          setPages([...pages, sketch]);
+        }
+
         onClose();
         closeStartDialog();
-        navigate('/', { state: { sketch: {id: uuidv4(), name: 'Page 1', content: JSON.parse(message.content)} } });
+        
+        // navigate('/', { state: { mode: mode, sketch: {id: uuidv4(), name: 'Page 1', content: JSON.parse(message.content)} } });
         
       }
     };
@@ -104,7 +118,7 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose, clo
     return () => {
       window.removeEventListener('message', handleMessage);
     };
-  }, [navigate]);
+  }, [navigate, closeStartDialog, onClose, mode, setPages]);
 
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {

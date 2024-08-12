@@ -7,22 +7,21 @@ import { TemplatesDialog } from '../pages/EditingInterface/TemplatesDialog';
 import { useNavigate } from 'react-router-dom';
 import { Page } from '../types';
 
-interface StartProjectDialogProps {
-  isOpen: boolean;
-  onClose: () => void;
-  pages: Page[];
-setPages: (pages: Page[]) => void;
+interface AddPageDialogDialogProps {
+    isOpen: boolean;
+    onClose: () => void;
+    pages: Page[];
+    setPages: (pages: Page[]) => void;
 }
 
-export const StartProjectDialog: React.FC<StartProjectDialogProps> = ({ isOpen, onClose, pages, setPages }) => {
+export const AddPageDialog: React.FC<AddPageDialogDialogProps> = ({ isOpen, onClose, pages, setPages }) => {
     const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false);
     const [isTextDialogOpen, setIsTextDialogOpen] = useState(false);
     const [isTemplatesDialogOpen, setIsTemplatesDialogOpen] = useState(false);
     const navigate = useNavigate();
-    const mode = "start";
-
+    const mode = "add"
     const handleScratch = () => {
-        setPages([]);
+        navigate('/', { state: { mode: mode } });
         onClose();
     }
 
@@ -31,9 +30,9 @@ export const StartProjectDialog: React.FC<StartProjectDialogProps> = ({ isOpen, 
             <Dialog modalType='alert' open={isOpen} onOpenChange={(event, data) => onClose()}>
                 <DialogSurface>
                     <DialogBody>
-                        <DialogTitle>Welcome to AI Visual Designer<SparkleFilled/></DialogTitle>
+                        <DialogTitle>New Page<SparkleFilled /></DialogTitle>
                         <DialogContent>
-                            Choose how you would like to begin your project
+                            Choose how you would like to add a new page
                         </DialogContent>
                         <DialogActions fluid>
                             <Button onClick={handleScratch} size='large' appearance="secondary" icon={<DrawImageRegular />}>Scratch</Button>

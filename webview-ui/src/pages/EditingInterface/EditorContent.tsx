@@ -5,6 +5,7 @@ import LeftSidebar from "./LeftSidebar/LeftSidebar";
 import { useEffect, useCallback, useState } from "react";
 import { SerializedNodes, useEditor } from "@craftjs/core";
 import { StartProjectDialog } from "../../components/StartProjectDialog";
+import { AddPageDialog } from "../../components/AddPageDialog";
 
 interface EditorContentProps {
   pages: Page[];
@@ -31,6 +32,7 @@ export const EditorContent: React.FC<EditorContentProps> = ({
 }) => {
   const { actions, query } = useEditor();
   const [isStartProjectDialogOpen, setIsStartProjectDialogOpen] = useState(true);
+  const [isAddPageDialogOpen, setIsAddPageDialogOpen] = useState(false);
 
   useEffect(() => {
     if (pages[currentPageIndex]) {
@@ -61,11 +63,6 @@ export const EditorContent: React.FC<EditorContentProps> = ({
     }
   }, [currentPageIndex, query, setPages]);
 
-  const handleAddPage = () => {
-    addPage();
-    setIsStartProjectDialogOpen(true);
-  };
-
   return (
     <div className={classes.mainLayout}>
       <div className={classes.leftSidebar}>
@@ -75,18 +72,26 @@ export const EditorContent: React.FC<EditorContentProps> = ({
           setPages={setPages}
           currentPageIndex={currentPageIndex}
           setCurrentPageIndex={setCurrentPageIndex}
-          addPage={handleAddPage}
           renamePage={renamePage}
           deletePage={deletePage}
           clearPage={clearPage}
           updateCurrentPage={updateCurrentPage}
           openStartProjectDialog={() => setIsStartProjectDialogOpen(true)}
+          openAddPageDialog={() => setIsAddPageDialogOpen(true)}
         />
       </div>
       <StartProjectDialog
         isOpen={isStartProjectDialogOpen}
         onClose={() => setIsStartProjectDialogOpen(false)}
+        pages={pages}
+        setPages={setPages}
       />
+      <AddPageDialog
+        isOpen={isAddPageDialogOpen}
+        onClose={() => setIsAddPageDialogOpen(false)}
+        pages={pages}
+        setPages={setPages}
+        />
       <div className={classes.mainContent}>
         <div className={classes.canvas}>
           <Canvas classes={classes} />

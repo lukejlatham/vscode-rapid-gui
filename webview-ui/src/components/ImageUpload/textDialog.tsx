@@ -17,6 +17,7 @@ import {
 import { ArrowUpload24Regular, CheckmarkCircle24Filled, CircleHint24Filled } from '@fluentui/react-icons';
 import { handleTextUpload } from './handleTextUpload';
 import { v4 as uuidv4 } from 'uuid';
+import { Page } from '../../types';
 
 const useStyles = makeStyles({
   content: {
@@ -54,6 +55,9 @@ interface UploadDialogProps {
   isOpen: boolean;
   onClose: () => void;
   closeStartDialog: () => void;
+  mode: string;
+  pages: Page[];
+  setPages: (pages: Page[]) => void;
 }
 
 const PROCESSING_STAGES = [
@@ -62,7 +66,7 @@ const PROCESSING_STAGES = [
   "Refining properties",
 ];
 
-export const TextDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose, closeStartDialog }) => {
+export const TextDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose, closeStartDialog, mode, pages, setPages }) => {
   const [textInput, setTextInput] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [uiDescription, setUIDescription] = useState<string | null>(null);
@@ -82,7 +86,14 @@ export const TextDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose, close
         setLoading(false);
         setCurrentStage(PROCESSING_STAGES.length);
 
-        navigate('/', { state: { text: { id: uuidv4(), name: 'Page 1', content: JSON.parse(message.content) } } });
+        const text = { id: uuidv4(), name: 'Page 1', content: JSON.parse(message.content) };
+        
+        if (mode === 'start') {
+          setPages([text]);
+        }
+        else if (mode === 'add') {
+          setPages([...pages, text]);
+        }
         onClose();
         closeStartDialog();
       }
@@ -93,7 +104,7 @@ export const TextDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose, close
     return () => {
       window.removeEventListener('message', handleMessage);
     };
-  }, [navigate, closeStartDialog, onClose]);
+  }, [navigate, closeStartDialog, onClose, mode, setPages]);
 
   const handleProcessText = async () => {
     if (textInput) {

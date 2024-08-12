@@ -16,6 +16,7 @@ import Website from '../../data/layout_templates/Website.json'
 import FeedbackForm from '../../data/layout_templates/FeedbackForm.json'
 import { DesktopRegular, GamesRegular, FormRegular, PersonPasskeyRegular } from '@fluentui/react-icons';
 import { v4 as uuidv4 } from 'uuid';
+import { Page } from '../../types';
 
 const useStyles = makeStyles({
     cardLink: {
@@ -62,14 +63,23 @@ interface TemplatesDialogProps {
     isOpen: boolean;
     onClose: () => void;
     closeStartDialog: () => void;
+    mode: string;
+    pages: Page[];
+    setPages: (pages: Page[]) => void;
 }
 
-export const TemplatesDialog: React.FC<TemplatesDialogProps> = ({ isOpen, onClose, closeStartDialog }) => {
+export const TemplatesDialog: React.FC<TemplatesDialogProps> = ({ isOpen, onClose, closeStartDialog, mode, pages, setPages }) => {
 
     const navigate = useNavigate();
-  const styles = useStyles();
+    const styles = useStyles();
+
     const handleTemplateClick = (t: any) => {
-        (navigate('/', { state: {template: { id: t.data.id, name: t.data.name, content: t.data.content}}}));
+        if (mode === 'start') {
+            setPages([t.data])
+        }
+        else if (mode === 'add') {
+            setPages([...pages, t.data])
+        }
         onClose();
         closeStartDialog();
     }

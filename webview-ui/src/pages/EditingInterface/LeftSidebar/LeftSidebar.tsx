@@ -72,24 +72,25 @@ const LeftSidebar: React.FC<{
   setPages: React.Dispatch<React.SetStateAction<Page[]>>;
   currentPageIndex: number;
   setCurrentPageIndex: (index: number) => void;
-  addPage: () => void;
   renamePage: (index: number, newName: string) => void;
   deletePage: (index: number) => void;
   clearPage: (index: number) => void;
   updateCurrentPage: () => void;
   openStartProjectDialog: () => void;
+  openAddPageDialog: () => void;
+  
 }> = ({
   classes,
   pages,
   setPages,
   currentPageIndex,
   setCurrentPageIndex,
-  addPage,
   renamePage,
   deletePage,
   clearPage,
   updateCurrentPage,
-  openStartProjectDialog
+  openStartProjectDialog,
+  openAddPageDialog
 }) => {
 
     const localClasses = useStyles();
@@ -102,8 +103,15 @@ const LeftSidebar: React.FC<{
     const navigate = useNavigate();
 
     const handleStartProject = () => {
+      // closing all accordions
+      setOpenItems([]);
+
+      // clearing pages and setting current page index to 0
+      setPages([]);
+      setCurrentPageIndex(0);
+
+      // opening start project dialog
       openStartProjectDialog();
-      navigate("/");
     };
 
     return (
@@ -123,13 +131,13 @@ const LeftSidebar: React.FC<{
                 classes={localClasses}
                 pages={pages}
                 setPages={setPages}
-                addPage={addPage}
                 renamePage={renamePage}
                 deletePage={deletePage}
                 clearPage={clearPage}
                 updateCurrentPage={updateCurrentPage}
                 currentPageIndex={currentPageIndex}
                 setCurrentPageIndex={setCurrentPageIndex}
+                openAddPageDialog={openAddPageDialog}
               />
             </AccordionPanel>
           </AccordionItem>
