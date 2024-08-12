@@ -21,7 +21,7 @@ export function generateComponentHtml(
 
   for (const node of Object.values(page.components)) {
     if (node.type.resolvedName !== "GridCell") {
-      html += generateSingleComponentHtml(node, projectPath);
+      html += generateSingleComponentHtml(node, page.components, projectPath);
     }
   }
   return html;
@@ -33,13 +33,17 @@ export function generateComponentCss(parsedJSON: ParsedJSON, pageName: string): 
 
   for (const node of Object.values(page.components)) {
     if (node.type.resolvedName !== "GridCell") {
-      css += generateSingleComponentCss(node);
+      css += generateSingleComponentCss(node, page.components);
     }
   }
   return css;
 }
 
-function generateSingleComponentHtml(node: Node, projectPath?: string): string {
+function generateSingleComponentHtml(
+  node: Node,
+  content: { [key: string]: Node },
+  projectPath?: string
+): string {
   switch (node.type.resolvedName) {
     case "Button":
       return generateButtonHtml(node);
@@ -54,7 +58,7 @@ function generateSingleComponentHtml(node: Node, projectPath?: string): string {
     case "RadioButton":
       return generateRadioButtonHtml(node);
     case "Container":
-      return generateContainerHtml({ [node.custom.id || ""]: node });
+      return generateContainerHtml(node, content);
     case "Checkbox":
       return generateCheckboxHtml(node);
     case "Slider":
@@ -68,7 +72,7 @@ function generateSingleComponentHtml(node: Node, projectPath?: string): string {
   }
 }
 
-function generateSingleComponentCss(node: Node): string {
+function generateSingleComponentCss(node: Node, content: { [key: string]: Node }): string {
   switch (node.type.resolvedName) {
     case "Button":
       return generateButtonCss(node);
@@ -83,7 +87,7 @@ function generateSingleComponentCss(node: Node): string {
     case "RadioButton":
       return generateRadioButtonCss(node);
     case "Container":
-      return generateContainerCss({ [node.custom.id || ""]: node });
+      return generateContainerCss(node, content);
     case "Checkbox":
       return generateCheckboxCss(node);
     case "Slider":
