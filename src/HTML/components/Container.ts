@@ -1,4 +1,4 @@
-import { Node } from "../JSONParser";
+import { Node, LayoutItem } from "../JSONParser";
 import { generateComponentHtml, generateComponentCss } from "../componentGenerator";
 
 export function generateContainerHtml(node: Node, content: { [key: string]: Node }): string {
@@ -9,7 +9,15 @@ export function generateContainerHtml(node: Node, content: { [key: string]: Node
     const childNode = content[childId];
     if (childNode) {
       childrenHtml += generateComponentHtml(
-        { pages: { [node.custom.id || ""]: { root: content[childId], components: content } } },
+        {
+          pages: {
+            [node.custom.id || ""]: {
+              root: content[childId],
+              components: content,
+              layout: [] as LayoutItem[],
+            },
+          },
+        },
         node.custom.id || "",
         ""
       );
@@ -51,7 +59,15 @@ export function generateContainerCss(node: Node, content: { [key: string]: Node 
     const childNode = content[childId];
     if (childNode) {
       css += generateComponentCss(
-        { pages: { [node.custom.id || ""]: { root: content[childId], components: content } } },
+        {
+          pages: {
+            [node.custom.id || ""]: {
+              root: content[childId],
+              components: content,
+              layout: [] as LayoutItem[],
+            },
+          },
+        },
         node.custom.id || ""
       );
     }
