@@ -73,8 +73,6 @@ function generateSingleComponentHtml(
       return generateImageHtml(node, projectPath);
     case "GridCell":
       return generateGridCellHtml(node, content, projectPath);
-    case "Background":
-      return generateBackgroundHtml(node, content, projectPath);
     default:
       return `<!-- Unknown component type: ${node.type.resolvedName} -->\n`;
   }
@@ -106,8 +104,6 @@ function generateSingleComponentCss(node: Node, content: { [key: string]: Node }
       return generateImageCss(node);
     case "GridCell":
       return generateGridCellCss(node, content);
-    case "Background":
-      return generateBackgroundCss(node, content);
     default:
       return `/* Unknown component type: ${node.type.resolvedName} */\n`;
   }
