@@ -3,15 +3,12 @@ import * as path from "path";
 import { Page } from "../../webview-ui/src/types";
 import { TemplateManager } from "./TemplateManager";
 import { FileGenerator } from "./FileGenerator";
-import { ProjectStructureGenerator } from "./ProjectStructureGenerator";
 
 export class AppGenerator {
   private pages: Page[];
   private outputPath: string;
   private projectName: string;
-  private templateManager: TemplateManager;
   private fileGenerator: FileGenerator;
-  private projectStructureGenerator: ProjectStructureGenerator;
 
   constructor(
     pages: Page[],
@@ -20,14 +17,10 @@ export class AppGenerator {
     context: vscode.ExtensionContext
   ) {
     this.pages = pages;
-    this.outputPath = path.join(outputPath, projectName);
+    this.outputPath = outputPath; // Don't join with projectName here
     this.projectName = projectName;
-    this.templateManager = new TemplateManager(context);
-    this.fileGenerator = new FileGenerator(this.projectName, this.outputPath, this.templateManager);
-    this.projectStructureGenerator = new ProjectStructureGenerator(
-      this.outputPath,
-      this.projectName
-    );
+    const templateManager = new TemplateManager(context);
+    this.fileGenerator = new FileGenerator(this.projectName, this.outputPath, templateManager);
   }
 
   public async generateApp() {
@@ -39,14 +32,13 @@ export class AppGenerator {
         throw new Error("No pages to generate");
       }
 
-      this.projectStructureGenerator.generateStructure();
-      console.log("Project structure created.");
-
       this.fileGenerator.generateProjectFiles(this.pages);
       console.log("Project files generated.");
 
+      // Get the actual output path from the FileGenerator
+      const actualOutputPath = path.join(this.outputPath, this.projectName);
       console.log(
-        `HTML/CSS project "${this.projectName}" generated successfully at ${this.outputPath}`
+        `HTML/CSS project "${this.projectName}" generated successfully at ${actualOutputPath}`
       );
     } catch (error) {
       console.error("Error generating app:", error);

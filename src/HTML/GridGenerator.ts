@@ -25,7 +25,7 @@ export function generateGridHtml(page: Page, projectPath?: string): string {
     rootNode.props.layout || [],
     page.content.ROOT.linkedNodes,
     projectPath,
-    page.name // Passing the page name to functions
+    page.name
   );
 
   html += `</div>\n`;

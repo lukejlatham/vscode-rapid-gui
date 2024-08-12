@@ -3,7 +3,7 @@ import * as path from "path";
 import { TemplateManager } from "./TemplateManager";
 import { Page } from "../../webview-ui/src/types";
 import { generateGridHtml, generateGridCss } from "./GridGenerator";
-import { ParsedJSON, parseJSON } from "./JSONParser";
+import { ProjectStructureGenerator } from "./ProjectStructureGenerator";
 
 export class FileGenerator {
   private projectName: string;
@@ -11,8 +11,10 @@ export class FileGenerator {
   private templateManager: TemplateManager;
 
   constructor(projectName: string, outputPath: string, templateManager: TemplateManager) {
+    const structureGenerator = new ProjectStructureGenerator(outputPath, projectName);
+    structureGenerator.generateStructure();
+    this.outputPath = structureGenerator.getOutputPath();
     this.projectName = projectName;
-    this.outputPath = outputPath;
     this.templateManager = templateManager;
   }
 
@@ -23,7 +25,7 @@ export class FileGenerator {
     }
 
     this.createHtmlFiles(pages);
-    this.createCssFile(pages);
+    this.createMainCssFile();
     this.createJsFile();
     this.createReadme();
     this.copyAssetImages();
@@ -40,16 +42,16 @@ export class FileGenerator {
 
   private createHtmlFiles(pages: Page[]) {
     pages.forEach((page) => {
-      let content = this.templateManager.getTemplate("index.html");
       const pageContent = this.generatePageHtmlContent(page);
+      const pageCss = generateGridCss(page);
 
-      content = this.templateManager.fillTemplate("index.html", {
-        projectName: this.projectName,
-        pageTitle: page.name,
-        content: pageContent,
-      });
+      let content = this.templateManager.getTemplate("index.html");
+      content = content.replace("{{projectName}}", this.projectName);
+      content = content.replace("{{pageTitle}}", page.name);
+      content = content.replace("{{content}}", pageContent);
 
       this.createFile(`${page.name}.html`, content);
+      this.createFile(`css/${page.name}.css`, pageCss);
     });
   }
 
@@ -73,18 +75,17 @@ export class FileGenerator {
     }
   }
 
-  private createCssFile(pages: Page[]) {
+  private createMainCssFile() {
     let cssContent = this.templateManager.getTemplate("styles.css");
-
-    pages.forEach((page) => {
-      cssContent += generateGridCss(page);
-    });
-
+    cssContent = cssContent.replace("{{projectName}}", this.projectName);
+    cssContent = cssContent.replace("{{dynamicStyles}}", "");
     this.createFile("css/styles.css", cssContent);
   }
 
   private createJsFile() {
-    const jsContent = this.templateManager.getTemplate("main.js");
+    let jsContent = this.templateManager.getTemplate("main.js");
+    jsContent = jsContent.replace("{{projectName}}", this.projectName);
+    jsContent = jsContent.replace("{{dynamicScripts}}", "");
     this.createFile("js/main.js", jsContent);
   }
 
