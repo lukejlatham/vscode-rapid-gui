@@ -1,4 +1,4 @@
-import { ColorScheme } from "../../webview-ui/src/types";
+import { ColorScheme } from "../../types";
 
 export const slateGreyScheme: ColorScheme = {
   sectionColors: {
@@ -91,3 +91,9 @@ export const tetrisScheme: ColorScheme = {
     darkaccent: "#8B4513", // Darker brown for dark accent text
   },
 };
+
+export const themeList = [
+  { name: "slateGreyScheme", scheme: slateGreyScheme },
+  { name: "orangeScheme", scheme: orangeScheme },
+  { name: "tetrisScheme", scheme: tetrisScheme },
+];
