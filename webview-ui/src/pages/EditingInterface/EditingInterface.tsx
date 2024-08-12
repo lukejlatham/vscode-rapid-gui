@@ -21,6 +21,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { EditorContent } from "./EditorContent";
 import { vscode } from '../../utilities/vscode';
 import { useLocation } from "react-router-dom";
+import { set } from "lodash";
 
 
 const useStyles = makeStyles({
@@ -102,13 +103,17 @@ const EditingInterface: React.FC = () => {
 
     useEffect(() => {
         if (template) {
-          setPages([template])
+          // setPages([template])
+          setPages([template]);
           setCurrentPageIndex(0);
         } else if (sketch) {
           setPages([sketch])
           setCurrentPageIndex(0);
         } else if (text) {
           setPages([text])
+          setCurrentPageIndex(0);
+        } else {
+          setPages([createDefaultPage()]);
           setCurrentPageIndex(0);
         }
         setIsLoading(false);
@@ -145,7 +150,7 @@ const EditingInterface: React.FC = () => {
         ));
         renamePage(index, `Page ${index + 1}`);
       }
-      
+
       if (isLoading) {
         return <div>Loading...</div>;
       }

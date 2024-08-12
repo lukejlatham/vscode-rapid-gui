@@ -2,7 +2,7 @@ import { Page } from "../../types";
 import RightSidebar from "./RightSidebar/RightSidebar";
 import Canvas from "./Canvas";
 import LeftSidebar from "./LeftSidebar/LeftSidebar";
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useState } from "react";
 import { SerializedNodes, useEditor } from "@craftjs/core";
 import { StartProjectDialog } from "../../components/StartProjectDialog";
 
@@ -30,6 +30,7 @@ export const EditorContent: React.FC<EditorContentProps> = ({
   clearPage,
 }) => {
   const { actions, query } = useEditor();
+  const [isStartProjectDialogOpen, setIsStartProjectDialogOpen] = useState(true);
 
   useEffect(() => {
     if (pages[currentPageIndex]) {
@@ -60,6 +61,11 @@ export const EditorContent: React.FC<EditorContentProps> = ({
     }
   }, [currentPageIndex, query, setPages]);
 
+  const handleAddPage = () => {
+    addPage();
+    setIsStartProjectDialogOpen(true);
+  };
+
   return (
     <div className={classes.mainLayout}>
       <div className={classes.leftSidebar}>
@@ -69,14 +75,18 @@ export const EditorContent: React.FC<EditorContentProps> = ({
           setPages={setPages}
           currentPageIndex={currentPageIndex}
           setCurrentPageIndex={setCurrentPageIndex}
-          addPage={addPage}
+          addPage={handleAddPage}
           renamePage={renamePage}
           deletePage={deletePage}
           clearPage={clearPage}
           updateCurrentPage={updateCurrentPage}
+          openStartProjectDialog={() => setIsStartProjectDialogOpen(true)}
         />
       </div>
-      <StartProjectDialog />
+      <StartProjectDialog
+        isOpen={isStartProjectDialogOpen}
+        onClose={() => setIsStartProjectDialogOpen(false)}
+      />
       <div className={classes.mainContent}>
         <div className={classes.canvas}>
           <Canvas classes={classes} />

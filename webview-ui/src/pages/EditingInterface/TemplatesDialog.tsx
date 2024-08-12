@@ -69,7 +69,7 @@ export const TemplatesDialog: React.FC<TemplatesDialogProps> = ({ isOpen, onClos
     const navigate = useNavigate();
   const styles = useStyles();
     const handleTemplateClick = (t: any) => {
-        (navigate('/', {state: {template: { id: t.data.id, name: t.data.name, content: t.data.content}}}));
+        (navigate('/', { state: {template: { id: t.data.id, name: t.data.name, content: t.data.content}}}));
         onClose();
         closeStartDialog();
     }

@@ -3,6 +3,7 @@ import {
   makeStyles,
   Divider,
   Subtitle2,
+  Button,
   Card,
   Accordion,
   AccordionHeader,
@@ -11,12 +12,13 @@ import {
   AccordionToggleEventHandler,
 } from "@fluentui/react-components";
 import Header from "./Header";
+import { useNavigate } from "react-router-dom";
 import ComponentButtons from "./ComponentButtons";
 import ProjectManagement from "./ProjectManagementButtons";
 import { Page } from "../../../types";
 import LayoutManagement from "./LayoutManagement";
 import PagesButtons from "./PagesManagement";
-import { GridFilled, DocumentMultipleFilled, DocumentFolderFilled, LibraryFilled} from "@fluentui/react-icons";
+import { GridFilled, DocumentMultipleFilled, DocumentFolderFilled, LibraryFilled } from "@fluentui/react-icons";
 
 const useStyles = makeStyles({
   componentRoot: {
@@ -61,7 +63,7 @@ const useStyles = makeStyles({
     paddingTop: '5px',
     paddingBottom: '5px',
     border: '1px solid #666666',
-}
+  }
 });
 
 const LeftSidebar: React.FC<{
@@ -75,6 +77,7 @@ const LeftSidebar: React.FC<{
   deletePage: (index: number) => void;
   clearPage: (index: number) => void;
   updateCurrentPage: () => void;
+  openStartProjectDialog: () => void;
 }> = ({
   classes,
   pages,
@@ -86,62 +89,71 @@ const LeftSidebar: React.FC<{
   deletePage,
   clearPage,
   updateCurrentPage,
+  openStartProjectDialog
 }) => {
-  const localClasses = useStyles();
-//   const [openItems, setOpenItems] = useState(["ComponentLibrary", "ProjectManagement", "Layout", "Pages"]);
-const [openItems, setOpenItems] = useState([""]);
-  
-const handleToggle: AccordionToggleEventHandler<string> = (event, data) => {
-    setOpenItems(data.openItems);
-  };
 
-  return (
-    <Card className={`${classes.componentRoot} ${localClasses.componentRoot}`}>
-      <Header classes={localClasses} />
-      <Accordion openItems={openItems} onToggle={handleToggle} multiple collapsible>
-        <AccordionItem value="Layout">
-          <AccordionHeader size="extra-large" icon={<GridFilled/>}>Layout</AccordionHeader>
-          <AccordionPanel>
-            <LayoutManagement classes={localClasses} />
-          </AccordionPanel>
-        </AccordionItem>
-        <AccordionItem value="Pages">
-          <AccordionHeader size="extra-large" icon={<DocumentMultipleFilled/>} >Pages</AccordionHeader>
-          <AccordionPanel>
-            <PagesButtons
-              classes={localClasses}
-              pages={pages}
-              setPages={setPages}
-              addPage={addPage}
-              renamePage={renamePage}
-              deletePage={deletePage}
-              clearPage={clearPage}
-              updateCurrentPage={updateCurrentPage}
-              currentPageIndex={currentPageIndex}
-              setCurrentPageIndex={setCurrentPageIndex}
-            />
-          </AccordionPanel>
-        </AccordionItem>
-        <AccordionItem value="ProjectManagement">
-          <AccordionHeader size="extra-large" icon={<DocumentFolderFilled/>}>Project Management</AccordionHeader>
-          <AccordionPanel>
-            <ProjectManagement
-              classes={localClasses}
-              pages={pages}
-              setPages={setPages}
-              currentPageIndex={currentPageIndex}
-            />
-          </AccordionPanel>
-        </AccordionItem>
-        <AccordionItem value="ComponentLibrary">
-          <AccordionHeader size="extra-large" icon={<LibraryFilled/>}>Component Library</AccordionHeader>
-          <AccordionPanel>
-            <ComponentButtons classes={localClasses} />
-          </AccordionPanel>
-        </AccordionItem>
-      </Accordion>
-    </Card>
-  );
-};
+    const localClasses = useStyles();
+    const [openItems, setOpenItems] = useState([""]);
+
+    const handleToggle: AccordionToggleEventHandler<string> = (event, data) => {
+      setOpenItems(data.openItems);
+    };
+
+    const navigate = useNavigate();
+
+    const handleStartProject = () => {
+      openStartProjectDialog();
+      navigate("/");
+    };
+
+    return (
+      <Card className={`${classes.componentRoot} ${localClasses.componentRoot}`}>
+        <Header classes={localClasses} />
+        <Accordion openItems={openItems} onToggle={handleToggle} multiple collapsible>
+          <AccordionItem value="Layout">
+            <AccordionHeader size="extra-large" icon={<GridFilled />}>Layout</AccordionHeader>
+            <AccordionPanel>
+              <LayoutManagement classes={localClasses} />
+            </AccordionPanel>
+          </AccordionItem>
+          <AccordionItem value="Pages">
+            <AccordionHeader size="extra-large" icon={<DocumentMultipleFilled />} >Pages</AccordionHeader>
+            <AccordionPanel>
+              <PagesButtons
+                classes={localClasses}
+                pages={pages}
+                setPages={setPages}
+                addPage={addPage}
+                renamePage={renamePage}
+                deletePage={deletePage}
+                clearPage={clearPage}
+                updateCurrentPage={updateCurrentPage}
+                currentPageIndex={currentPageIndex}
+                setCurrentPageIndex={setCurrentPageIndex}
+              />
+            </AccordionPanel>
+          </AccordionItem>
+          <AccordionItem value="ProjectManagement">
+            <AccordionHeader size="extra-large" icon={<DocumentFolderFilled />}>Project Management</AccordionHeader>
+            <AccordionPanel>
+              <ProjectManagement
+                classes={localClasses}
+                pages={pages}
+                setPages={setPages}
+                currentPageIndex={currentPageIndex}
+              />
+            </AccordionPanel>
+          </AccordionItem>
+          <AccordionItem value="ComponentLibrary">
+            <AccordionHeader size="extra-large" icon={<LibraryFilled />}>Component Library</AccordionHeader>
+            <AccordionPanel>
+              <ComponentButtons classes={localClasses} />
+            </AccordionPanel>
+          </AccordionItem>
+        </Accordion>
+        <Button onClick={handleStartProject}>+ Start New Project</Button>
+      </Card>
+    );
+  };
 
 export default LeftSidebar;

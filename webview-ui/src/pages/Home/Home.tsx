@@ -26,7 +26,7 @@ const Home: React.FC = () => {
             <Title1 color='e8ebfa'>Welcome to UI Studio</Title1>
             <div style={{ paddingTop: "15px" }}>
                 <ImageUploadButton />
-                <StartProjectDialog />
+                {/* <StartProjectDialog /> */}
             </div>
             <div style={{ paddingTop: "30px" }}>
                 <Body2>Project Templates</Body2>
