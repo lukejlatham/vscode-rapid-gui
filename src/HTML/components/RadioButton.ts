@@ -1,29 +1,20 @@
-// components/RadioButton.ts
+import { Node } from "../JSONParser";
 
-interface RadioButtonProps {
-  id: string;
-  name: string;
-  options: string[];
-  label: string;
-  fontColor: string;
-  fontSize: number;
-  direction: "row" | "column";
-}
-
-export function generateRadioButtonHtml(props: RadioButtonProps): string {
+export function generateRadioButtonHtml(node: Node): string {
+  const props = node.props;
   const options = props.options
     .map(
       (option, index) => `
       <div class="radio-option">
-        <input type="radio" id="${props.id}-${index}" name="${props.name}" value="${option}">
-        <label for="${props.id}-${index}">${option}</label>
+        <input type="radio" id="${node.custom.id}-${index}" name="${props.name}" value="${option}">
+        <label for="${node.custom.id}-${index}">${option}</label>
       </div>
     `
     )
     .join("\n");
 
   return `
-  <div class="radio-group-container ${props.id}">
+  <div class="radio-group-container ${node.custom.id}">
     <label class="radio-group-label">${props.label}</label>
     <div class="radio-options ${props.direction}">
       ${options}
@@ -32,32 +23,33 @@ export function generateRadioButtonHtml(props: RadioButtonProps): string {
   `;
 }
 
-export function generateRadioButtonCss(props: RadioButtonProps): string {
+export function generateRadioButtonCss(node: Node): string {
+  const props = node.props;
   return `
-  .radio-group-container.${props.id} {
+  .radio-group-container.${node.custom.id} {
     display: flex;
     flex-direction: column;
   }
   
-  .radio-group-container.${props.id} .radio-group-label {
+  .radio-group-container.${node.custom.id} .radio-group-label {
     color: ${props.fontColor};
     font-size: ${props.fontSize}px;
     margin-bottom: 5px;
   }
   
-  .radio-group-container.${props.id} .radio-options {
+  .radio-group-container.${node.custom.id} .radio-options {
     display: flex;
     flex-direction: ${props.direction};
   }
   
-  .radio-group-container.${props.id} .radio-option {
+  .radio-group-container.${node.custom.id} .radio-option {
     display: flex;
     align-items: center;
     margin-right: 10px;
     margin-bottom: 5px;
   }
   
-  .radio-group-container.${props.id} .radio-option label {
+  .radio-group-container.${node.custom.id} .radio-option label {
     color: ${props.fontColor};
     font-size: ${props.fontSize}px;
     margin-left: 5px;

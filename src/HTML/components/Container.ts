@@ -1,43 +1,27 @@
-// components/Container.ts
+import { Node } from "../JSONParser";
+import { generateComponentHtml, generateComponentCss } from "../componentGenerator";
 
-import { Component } from "./Component"; // You'll need to define this interface
-import { generateComponentHtml, generateComponentCss } from "../componentGenerator"; // You'll need to implement these functions
-
-interface ContainerProps {
-  id: string;
-  backgroundColor: string;
-  borderColor: string;
-  borderRadius: number;
-  padding: number;
-  width: number;
-  height: number;
-  flexDirection: "row" | "column";
-  justifyContent: "flex-start" | "flex-end" | "center" | "space-between" | "space-around";
-  alignItems: "flex-start" | "flex-end" | "center" | "stretch";
-  gap: number;
-  shadowColor?: string;
-  shadowBlur?: number;
-  shadowOffsetX?: number;
-  shadowOffsetY?: number;
-  children: Component[];
-}
-
-export function generateContainerHtml(props: ContainerProps): string {
+export function generateContainerHtml(node: Node, content: { [key: string]: Node }): string {
+  const props = node.props;
   let childrenHtml = "";
-  props.children.forEach((child) => {
-    childrenHtml += generateComponentHtml(child);
+  node.nodes.forEach((childId) => {
+    const childNode = content[childId];
+    if (childNode) {
+      childrenHtml += generateComponentHtml({ [childId]: childNode }, "", "");
+    }
   });
 
   return `
-<div id="${props.id}" class="container ${props.id}">
+<div id="${node.custom.id}" class="container ${node.custom.id}">
   ${childrenHtml}
 </div>
 `;
 }
 
-export function generateContainerCss(props: ContainerProps): string {
+export function generateContainerCss(node: Node, content: { [key: string]: Node }): string {
+  const props = node.props;
   let css = `
-.container.${props.id} {
+.container.${node.custom.id} {
   background-color: ${props.backgroundColor};
   border: 2px solid ${props.borderColor};
   border-radius: ${props.borderRadius}px;
@@ -58,8 +42,11 @@ export function generateContainerCss(props: ContainerProps): string {
   css += "}\n";
 
   // Generate CSS for child components
-  props.children.forEach((child) => {
-    css += generateComponentCss(child);
+  node.nodes.forEach((childId) => {
+    const childNode = content[childId];
+    if (childNode) {
+      css += generateComponentCss({ [childId]: childNode });
+    }
   });
 
   return css;

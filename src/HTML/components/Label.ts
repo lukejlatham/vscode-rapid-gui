@@ -1,25 +1,18 @@
-// components/Label.ts
+import { Node } from "../JSONParser";
 
-interface LabelProps {
-  id: string;
-  text: string;
-  fontColor: string;
-  fontSize: number;
-  fontWeight: "normal" | "bold" | "lighter";
-  textAlign: "left" | "center" | "right";
-}
-
-export function generateLabelHtml(props: LabelProps): string {
+export function generateLabelHtml(node: Node): string {
+  const props = node.props;
   return `
-  <label id="${props.id}" class="custom-label ${props.id}">
+  <label id="${node.custom.id}" class="custom-label ${node.custom.id}">
     ${props.text}
   </label>
   `;
 }
 
-export function generateLabelCss(props: LabelProps): string {
+export function generateLabelCss(node: Node): string {
+  const props = node.props;
   return `
-  .custom-label.${props.id} {
+  .custom-label.${node.custom.id} {
     color: ${props.fontColor};
     font-size: ${props.fontSize}px;
     font-weight: ${props.fontWeight};

@@ -1,41 +1,30 @@
-// components/TextBox.ts
+import { Node } from "../JSONParser";
 
-interface TextBoxProps {
-  id: string;
-  label: string;
-  placeholder: string;
-  fontColor: string;
-  fontSize: number;
-  backgroundColor: string;
-  borderColor: string;
-  borderRadius: number;
-  width: number;
-  height: number;
-}
-
-export function generateTextBoxHtml(props: TextBoxProps): string {
+export function generateTextBoxHtml(node: Node): string {
+  const props = node.props;
   return `
-  <div class="textbox-container ${props.id}">
-    <label for="${props.id}">${props.label}</label>
-    <textarea id="${props.id}" placeholder="${props.placeholder}"></textarea>
+  <div class="textbox-container ${node.custom.id}">
+    <label for="${node.custom.id}">${props.label}</label>
+    <textarea id="${node.custom.id}" placeholder="${props.placeholder}"></textarea>
   </div>
   `;
 }
 
-export function generateTextBoxCss(props: TextBoxProps): string {
+export function generateTextBoxCss(node: Node): string {
+  const props = node.props;
   return `
-  .textbox-container.${props.id} {
+  .textbox-container.${node.custom.id} {
     display: flex;
     flex-direction: column;
   }
   
-  .textbox-container.${props.id} label {
+  .textbox-container.${node.custom.id} label {
     color: ${props.fontColor};
     font-size: ${props.fontSize}px;
     margin-bottom: 5px;
   }
   
-  .textbox-container.${props.id} textarea {
+  .textbox-container.${node.custom.id} textarea {
     color: ${props.fontColor};
     font-size: ${props.fontSize}px;
     background-color: ${props.backgroundColor};

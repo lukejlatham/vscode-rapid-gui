@@ -1,22 +1,7 @@
-interface ButtonProps {
-  id: string;
-  text: string;
-  fontColor: string;
-  backgroundColor: string;
-  fontSize: number;
-  width: number;
-  height: number;
-  borderRadius: number;
-  borderColor: string;
-  icon?: "none" | "left" | "right";
-  shadowColor?: string;
-  shadowBlur?: number;
-  shadowOffsetX?: number;
-  shadowOffsetY?: number;
-  hyperlink?: string;
-}
+import { Node } from "../JSONParser";
 
-export function generateButtonHtml(props: ButtonProps): string {
+export function generateButtonHtml(node: Node): string {
+  const props = node.props;
   const iconHtml =
     props.icon !== "none"
       ? `<i class="icon ${props.icon === "left" ? "icon-left" : "icon-right"}"></i>`
@@ -26,7 +11,7 @@ export function generateButtonHtml(props: ButtonProps): string {
     props.icon === "right" ? iconHtml : ""
   }`;
 
-  const button = `<button id="${props.id}" class="custom-button ${props.id}">
+  const button = `<button id="${node.custom.id}" class="custom-button ${node.custom.id}">
       ${content}
     </button>`;
 
@@ -37,9 +22,10 @@ export function generateButtonHtml(props: ButtonProps): string {
   return button;
 }
 
-export function generateButtonCss(props: ButtonProps): string {
+export function generateButtonCss(node: Node): string {
+  const props = node.props;
   return `
-  .custom-button.${props.id} {
+  .custom-button.${node.custom.id} {
     color: ${props.fontColor};
     background-color: ${props.backgroundColor};
     font-size: ${props.fontSize}px;
@@ -59,7 +45,7 @@ export function generateButtonCss(props: ButtonProps): string {
     }
   }
   
-  .custom-button.${props.id} .icon {
+  .custom-button.${node.custom.id} .icon {
     ${props.icon === "left" ? "margin-right: 5px;" : ""}
     ${props.icon === "right" ? "margin-left: 5px;" : ""}
   }

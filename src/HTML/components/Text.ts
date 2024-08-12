@@ -1,27 +1,18 @@
-// components/Text.ts
+import { Node } from "../JSONParser";
 
-interface TextProps {
-  id: string;
-  text: string;
-  fontColor: string;
-  fontSize: number;
-  fontWeight: "normal" | "bold" | "lighter";
-  textAlign: "left" | "center" | "right" | "justify";
-  italic?: boolean;
-  underline?: boolean;
-}
-
-export function generateTextHtml(props: TextProps): string {
+export function generateTextHtml(node: Node): string {
+  const props = node.props;
   return `
-  <p id="${props.id}" class="custom-text ${props.id}">
+  <p id="${node.custom.id}" class="custom-text ${node.custom.id}">
     ${props.text}
   </p>
   `;
 }
 
-export function generateTextCss(props: TextProps): string {
+export function generateTextCss(node: Node): string {
+  const props = node.props;
   return `
-  .custom-text.${props.id} {
+  .custom-text.${node.custom.id} {
     color: ${props.fontColor};
     font-size: ${props.fontSize}px;
     font-weight: ${props.fontWeight};
