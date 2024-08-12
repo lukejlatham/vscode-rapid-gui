@@ -5,12 +5,10 @@ export class ProjectStructureGenerator {
   constructor(private projectFolder: string, private projectName: string) {}
 
   generateStructure(): void {
-    // Create main project folder
     if (!fs.existsSync(this.projectFolder)) {
       fs.mkdirSync(this.projectFolder, { recursive: true });
     }
 
-    // Create subfolders
     const folders = ["css", "js", "images"];
     folders.forEach((folder) => {
       const folderPath = path.join(this.projectFolder, folder);
@@ -19,7 +17,6 @@ export class ProjectStructureGenerator {
       }
     });
 
-    // Create initial files
     this.createFile(
       "index.html",
       '<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>' +
