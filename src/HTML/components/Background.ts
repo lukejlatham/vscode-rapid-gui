@@ -9,7 +9,7 @@ export function generateBackgroundHtml(
 ): string {
   let html = `<div class="background" style="background-color: ${node.props.backgroundColor};">`;
 
-  // Iterate through the layout array from the JSON to determine the position of each grid cell
+  // Iterate through the layout array from the JSON to determine the position and size of each grid cell
   node.props.layout.forEach((item: any) => {
     const cellNodeId = node.linkedNodes[item.i];
     const cellNode = content[cellNodeId];
@@ -34,6 +34,7 @@ export function generateBackgroundHtml(
 
 // Function to generate the CSS for the background and grid cells
 export function generateBackgroundCss(node: Node, content: { [key: string]: Node }): string {
+  // Dynamically set the grid-template-rows and grid-template-columns based on the JSON data
   let css = `.background {
     display: grid;
     grid-template-rows: repeat(${node.props.rows}, 1fr);
