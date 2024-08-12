@@ -40,24 +40,25 @@ export interface Node {
   linkedNodes: { [key: string]: string };
 }
 
-export function parseJSON(jsonString: string): ParsedJSON {
+export function parseJSON(jsonData: any): ParsedJSON {
   try {
-    const json = JSON.parse(jsonString) as { [pageName: string]: any };
+    // Assuming jsonData is already an object, not a string
     const pages: { [pageName: string]: PageStructure } = {};
 
-    for (const [pageName, pageData] of Object.entries(json)) {
-      validatePageStructure(pageData);
-      pages[pageName] = {
-        root: pageData.ROOT as Node,
-        layout: parseRootLayout(pageData.ROOT as Node),
-        components: extractComponents(pageData as { [key: string]: Node }),
-      };
-    }
+    // Use a default page name if not provided
+    const pageName = "default";
+
+    validatePageStructure(jsonData);
+    pages[pageName] = {
+      root: jsonData.ROOT as Node,
+      layout: parseRootLayout(jsonData.ROOT as Node),
+      components: extractComponents(jsonData as { [key: string]: Node }),
+    };
 
     return { pages };
   } catch (error) {
-    console.error("Failed to parse JSON", error);
-    throw new Error(`Failed to parse JSON: ${(error as Error).message}`);
+    console.error("Failed to process JSON", error);
+    throw new Error(`Failed to process JSON: ${(error as Error).message}`);
   }
 }
 
