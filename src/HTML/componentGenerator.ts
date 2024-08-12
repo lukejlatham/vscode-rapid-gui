@@ -14,94 +14,85 @@ import { generateImageHtml, generateImageCss } from "./components/Image";
 export function generateComponentHtml(
   parsedJSON: ParsedJSON,
   pageName: string,
-  indent: string = "",
   projectPath?: string
 ): string {
   const page = parsedJSON.pages[pageName];
   let html = "";
 
-  for (const [id, node] of Object.entries(page.components)) {
+  for (const node of Object.values(page.components)) {
     if (node.type.resolvedName !== "GridCell") {
-      html += generateSingleComponentHtml(node, indent, projectPath);
+      html += generateSingleComponentHtml(node, projectPath);
     }
   }
   return html;
 }
 
-export function generateComponentCss(
-  parsedJSON: ParsedJSON,
-  pageName: string,
-  indent: string = ""
-): string {
+export function generateComponentCss(parsedJSON: ParsedJSON, pageName: string): string {
   const page = parsedJSON.pages[pageName];
   let css = "";
 
-  for (const [id, node] of Object.entries(page.components)) {
+  for (const node of Object.values(page.components)) {
     if (node.type.resolvedName !== "GridCell") {
-      css += generateSingleComponentCss(node, indent);
+      css += generateSingleComponentCss(node);
     }
   }
   return css;
 }
 
-function generateSingleComponentHtml(
-  node: Node,
-  indent: string = "",
-  projectPath?: string
-): string {
+function generateSingleComponentHtml(node: Node, projectPath?: string): string {
   switch (node.type.resolvedName) {
     case "Button":
-      return generateButtonHtml(node, indent);
+      return generateButtonHtml(node);
     case "Input":
-      return generateInputHtml(node, indent);
+      return generateInputHtml(node);
     case "Text":
-      return generateTextHtml(node, indent);
+      return generateTextHtml(node);
     case "Label":
-      return generateLabelHtml(node, indent);
+      return generateLabelHtml(node);
     case "Icon":
-      return generateIconHtml(node, indent);
+      return generateIconHtml(node);
     case "RadioButton":
-      return generateRadioButtonHtml(node, indent);
+      return generateRadioButtonHtml(node);
     case "Container":
-      return generateContainerHtml({ [node.custom.id || ""]: node }, indent);
+      return generateContainerHtml({ [node.custom.id || ""]: node });
     case "Checkbox":
-      return generateCheckboxHtml(node, indent);
+      return generateCheckboxHtml(node);
     case "Slider":
-      return generateSliderHtml(node, indent);
+      return generateSliderHtml(node);
     case "TextBox":
-      return generateTextBoxHtml(node, indent);
+      return generateTextBoxHtml(node);
     case "Image":
-      return generateImageHtml(node, indent, projectPath);
+      return generateImageHtml(node, projectPath);
     default:
-      return `${indent}<!-- Unknown component type: ${node.type.resolvedName} -->\n`;
+      return `<!-- Unknown component type: ${node.type.resolvedName} -->\n`;
   }
 }
 
-function generateSingleComponentCss(node: Node, indent: string = ""): string {
+function generateSingleComponentCss(node: Node): string {
   switch (node.type.resolvedName) {
     case "Button":
-      return generateButtonCss(node, indent);
+      return generateButtonCss(node);
     case "Input":
-      return generateInputCss(node, indent);
+      return generateInputCss(node);
     case "Text":
-      return generateTextCss(node, indent);
+      return generateTextCss(node);
     case "Label":
-      return generateLabelCss(node, indent);
+      return generateLabelCss(node);
     case "Icon":
-      return generateIconCss(node, indent);
+      return generateIconCss(node);
     case "RadioButton":
-      return generateRadioButtonCss(node, indent);
+      return generateRadioButtonCss(node);
     case "Container":
-      return generateContainerCss({ [node.custom.id || ""]: node }, indent);
+      return generateContainerCss({ [node.custom.id || ""]: node });
     case "Checkbox":
-      return generateCheckboxCss(node, indent);
+      return generateCheckboxCss(node);
     case "Slider":
-      return generateSliderCss(node, indent);
+      return generateSliderCss(node);
     case "TextBox":
-      return generateTextBoxCss(node, indent);
+      return generateTextBoxCss(node);
     case "Image":
-      return generateImageCss(node, indent);
+      return generateImageCss(node);
     default:
-      return `${indent}/* Unknown component type: ${node.type.resolvedName} */\n`;
+      return `/* Unknown component type: ${node.type.resolvedName} */\n`;
   }
 }
