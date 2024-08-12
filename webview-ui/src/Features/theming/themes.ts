@@ -2,7 +2,7 @@ import { ColorScheme } from "../../types";
 
 export const slateGreyScheme: ColorScheme = {
   sectionColors: {
-    main: "#F8F8FF",
+    main: "black",
     lightaccent: "#778899",
     darkaccent: "#3E3138",
   },
