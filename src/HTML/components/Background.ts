@@ -1,7 +1,5 @@
 import { generateComponentHtml } from "../componentGenerator";
 import { Node } from "../JSONParser";
-//working!!!!
-//lots to do
 
 export function generateBackgroundHtml(
   node: Node,
@@ -46,12 +44,13 @@ function generateGridCellContent(
 
   return cellContent;
 }
+
 export function generateBackgroundCss(node: Node, content: { [key: string]: Node }): string {
   let css = `
   body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: ${node.props.backgroundColor};
+    background-color: ${node.props.backgroundColor || "#ffffff"};
   }
 
   .grid-container {
@@ -59,8 +58,8 @@ export function generateBackgroundCss(node: Node, content: { [key: string]: Node
     grid-template-columns: repeat(${node.props.columns}, 1fr);
     grid-template-rows: repeat(${node.props.rows}, 1fr);
     gap: ${node.props.gap || "10px"};
-    height: 100vh;
-    padding: 20px;
+    min-height: 100vh;
+    padding: ${node.props.padding || "20px"};
     box-sizing: border-box;
     grid-auto-flow: dense;
   }
@@ -69,18 +68,24 @@ export function generateBackgroundCss(node: Node, content: { [key: string]: Node
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 0;
     box-sizing: border-box;
+    overflow: hidden;
   }
 
   .content {
-    display: flex;
-    flex-wrap: wrap; 
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
     width: 100%;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  @media (max-width: 768px) {
+    .grid-container {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+    }
   }
   `;
 
