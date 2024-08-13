@@ -37,7 +37,7 @@ export const Checkboxes: UserComponent<CheckboxesProps> = (props) => {
             <div className={styles.checkboxes} style={{flexDirection: direction}}>
                 {optionLabels.map((optionLabel, index) => (
                     <div key={index}>
-                        <input type="checkboxes" id={optionLabel} name={optionLabel} />
+                        <input type="checkbox" id={optionLabel} name={optionLabel} />
                         <label style={{ fontSize: `${fontSize}px`, color: fontColor }}>{optionLabel}</label>
                     </div>
                 ))}
