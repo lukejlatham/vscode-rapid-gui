@@ -1,6 +1,5 @@
 import * as vscode from "vscode";
 import { MainWebviewPanel } from "./panels/MainWebviewPanel";
-import { RecentProjectsTreeViewProvider } from "./panels/SideBarPanel/RecentProjectsTreeviewProvider";
 import {
   getAzureOpenaiApiKeys,
   getAzureOpenaiApiEndpoint,
@@ -13,31 +12,6 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.commands.registerCommand("mainWebviewPanel.showMainWebviewPanel", () => {
       MainWebviewPanel.render(context.extensionUri, context);
-    })
-  );
-
-  // Commands for creating projects
-  context.subscriptions.push(
-    vscode.commands.registerCommand("extension.createProjectFromScratch", () => {
-      vscode.commands.executeCommand("mainWebviewPanel.showMainWebviewPanel");
-    })
-  );
-
-  context.subscriptions.push(
-    vscode.commands.registerCommand("extension.createProjectFromTemplate", () => {
-      vscode.commands.executeCommand("mainWebviewPanel.showMainWebviewPanel");
-    })
-  );
-
-  context.subscriptions.push(
-    vscode.commands.registerCommand("extension.createProjectFromSketch", () => {
-      vscode.commands.executeCommand("mainWebviewPanel.showMainWebviewPanel");
-    })
-  );
-
-  context.subscriptions.push(
-    vscode.commands.registerCommand("extension.createProjectFromText", () => {
-      vscode.commands.executeCommand("mainWebviewPanel.showMainWebviewPanel");
     })
   );
 
@@ -75,42 +49,6 @@ export function activate(context: vscode.ExtensionContext) {
       getGpt4oDeploymentName(context)
     )
   );
-
-  // Register the custom view with buttons
-  const buttonTreeViewProvider = new ButtonTreeViewProvider();
-  vscode.window.registerTreeDataProvider("sideBarButtons", buttonTreeViewProvider);
-
-  // Register the tree view provider
-  const recentProjectsTreeViewProvider = new RecentProjectsTreeViewProvider(context);
-  vscode.window.createTreeView("sideBarTree", { treeDataProvider: recentProjectsTreeViewProvider });
 }
 
 export function deactivate() {}
-
-class ButtonTreeViewProvider implements vscode.TreeDataProvider<ButtonItem> {
-  constructor() {}
-
-  getTreeItem(element: ButtonItem): vscode.TreeItem {
-    return element;
-  }
-
-  getChildren(element?: ButtonItem): vscode.ProviderResult<ButtonItem[]> {
-    if (!element) {
-      return [new ButtonItem("Create Project from Scratch", "extension.createProjectFromScratch")];
-    }
-    return [];
-  }
-}
-
-class ButtonItem extends vscode.TreeItem {
-  constructor(public readonly label: string, private commandId: string) {
-    super(label, vscode.TreeItemCollapsibleState.None);
-    this.command = {
-      command: this.commandId,
-      title: this.label,
-      tooltip: this.label,
-    };
-    this.contextValue = "buttonItem";
-    this.iconPath = new vscode.ThemeIcon("play-circle");
-  }
-}
