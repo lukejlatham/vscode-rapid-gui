@@ -32,12 +32,12 @@ const useStyles = makeStyles({
     gap: '10px',
     alignSelf: 'center',
   },
-  leftSidebar: {
-    flex: '0 0 200px',
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
-  },
+  // leftSidebar: {
+  //   flex: '0 0 200px',
+  //   display: 'flex',
+  //   flexDirection: 'column',
+  //   height: '100%',
+  // },
   mainContent: {
     flexGrow: 1,
     display: 'flex',

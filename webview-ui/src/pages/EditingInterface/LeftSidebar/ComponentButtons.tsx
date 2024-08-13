@@ -49,62 +49,62 @@ const ComponentButtons: React.FC<{ classes: any }> = ({ classes }) => {
     return (
         <div className={classes.componentRoot}>
             <Button 
-            className={classes.componentButtons} icon={<ButtonIcon />} size='large' appearance='secondary' ref={ref => {
+            className={classes.componentButtons} icon={<ButtonIcon />} size='medium' appearance='secondary' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <UserButton {...ButtonDefaultProps} />);
                 }
             }}>Button</Button>
-            <Button className={classes.componentButtons} icon={<LabelIcon />} size='large' appearance='secondary'  ref={ref => {
+            <Button className={classes.componentButtons} icon={<LabelIcon />} size='medium' appearance='secondary'  ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Label {...LabelDefaultProps} />);
                 }
             }}>Label</Button>               
-            <Button className={classes.componentButtons} icon={<PasswordRegular />} size='large' appearance='secondary'  ref={ref => {
+            <Button className={classes.componentButtons} icon={<PasswordRegular />} size='medium' appearance='secondary'  ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Input {...InputDefaultProps} />);
                 }
             }}>Single-Line Input</Button>
-            <Button className={classes.componentButtons} icon={<TextBoxIcon />} size='large' appearance='secondary' ref={ref => {
+            <Button className={classes.componentButtons} icon={<TextBoxIcon />} size='medium' appearance='secondary' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <TextBox {...TextBoxDefaultProps} />);
                 }
             }}>Multi-Line Input</Button>
-            <Button className={classes.componentButtons} icon={<TextAlignLeftFilled />} size='large' appearance='secondary' ref={ref => {
+            <Button className={classes.componentButtons} icon={<TextAlignLeftFilled />} size='medium' appearance='secondary' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Text {...TextDefaultProps} />);
                 }
             }}>Paragraph</Button>
-            <Button className={classes.componentButtons} icon={<ImageIcon />} size='large' appearance='secondary' ref={ref => {
+            <Button className={classes.componentButtons} icon={<ImageIcon />} size='medium' appearance='secondary' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Image {...ImageDefaultProps} />);
                 }
             }}>Image</Button>
-            <Button className={classes.componentButtons} icon={<RadioButtonFilled />} size='large' appearance='secondary' ref={ref => {
+            <Button className={classes.componentButtons} icon={<RadioButtonFilled />} size='medium' appearance='secondary' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <RadioButtons {...RadioButtonsDefaultProps} />);
                 }
             }}>Radio Buttons</Button>
-            <Button className={classes.componentButtons} icon={<CheckboxesIcon />} size='large' appearance='secondary' ref={ref => {
+            <Button className={classes.componentButtons} icon={<CheckboxesIcon />} size='medium' appearance='secondary' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Checkboxes {...CheckboxesDefaultProps} />);
                 }
             }}>Checkbox</Button>
-            <Button className={classes.componentButtons} icon={<TextBulletListCheckmarkFilled />} size='large' appearance='secondary' ref={ref => {
+            <Button className={classes.componentButtons} icon={<TextBulletListCheckmarkFilled />} size='medium' appearance='secondary' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Dropdown {...DropdownDefaultProps} />);
                 }
             }}>Dropdown</Button>
-            <Button className={classes.componentButtons} icon={<OptionsRegular />} size='large' appearance='secondary' ref={ref => {
+            <Button className={classes.componentButtons} icon={<OptionsRegular />} size='medium' appearance='secondary' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Slider {...SliderDefaultProps} />);
                 }
             }}>Slider</Button>
-            <Button className={classes.componentButtons} icon={<EmojiRegular />} size='large' appearance='secondary' ref={ref => {
+            <Button className={classes.componentButtons} icon={<EmojiRegular />} size='medium' appearance='secondary' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Icon {...IconDefaultProps} />);
                 }
             }}>Icon</Button>
-            <Button className={classes.componentButtons} icon={<CardUiRegular />} size='large' appearance='secondary' ref={ref => {
+            <Button className={classes.componentButtons} icon={<CardUiRegular />} size='medium' appearance='secondary' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Element is={Container} {...ContainerDefaultProps} canvas />);
                 }

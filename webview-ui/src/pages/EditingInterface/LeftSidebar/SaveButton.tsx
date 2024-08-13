@@ -33,7 +33,7 @@ const SaveButton: React.FC<{ classes: any, pages: Page[], currentPageIndex: numb
 
     return (
         <>
-            <Button size="large" className={classes.button} icon={<DocumentSave24Regular />}
+            <Button size="medium" className={classes.button} icon={<DocumentSave24Regular />}
                 onClick={handleSave}>Save</Button>
         </>
     );

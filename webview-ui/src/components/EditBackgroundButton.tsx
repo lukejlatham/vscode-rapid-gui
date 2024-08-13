@@ -11,7 +11,7 @@ export const EditBackgroundButton: UserComponent<{classes: any}> = ({classes}) =
         <Button
             className={classes.button}
             icon={<TableEditRegular />}
-            size='large' 
+            size='medium' 
             appearance='primary'
             ref={(ref: HTMLButtonElement | null) => {
                 if (ref) {
@@ -19,7 +19,7 @@ export const EditBackgroundButton: UserComponent<{classes: any}> = ({classes}) =
                 }
             }}
         >
-            Edit Background
+            Edit Grid
         </Button>
     );
 };

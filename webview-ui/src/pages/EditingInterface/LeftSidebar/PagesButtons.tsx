@@ -25,7 +25,7 @@ const PagesButtons: React.FC<{
         {currentPage && (
             <div className={classes.componentRoot}>
                 <Select
-                    size='large'
+                    size='medium'
                     value={currentPageIndex}
                     onChange={(e) => {
                         updateCurrentPage(); // Save current page before switching
@@ -38,7 +38,7 @@ const PagesButtons: React.FC<{
                 </Select>
                 <Button
                     icon={<DocumentAddRegular />}
-                    size='large'
+                    size='medium'
                     onClick={() => {
                         updateCurrentPage(); // Save current page before adding new
                         openAddPageDialog();
@@ -55,7 +55,7 @@ const PagesButtons: React.FC<{
                 />
                 <Button
                     icon={<DeleteRegular />}
-                    size='large'
+                    size='medium'
                     onClick={() => {
                         deletePage(currentPageIndex);
                     }}
@@ -63,7 +63,7 @@ const PagesButtons: React.FC<{
                     Delete
                 </Button>
                 <Button
-                    size='large'
+                    size='medium'
                     icon={<SquareEraserRegular />}
                     onClick={() => {
                         clearPage(currentPageIndex);

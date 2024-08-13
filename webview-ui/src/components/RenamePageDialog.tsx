@@ -46,7 +46,7 @@ export const RenamePageDialog: React.FC<RenamePageDialogProps> = ({ currentPageN
         <>
             <Dialog open={isOpen}>
                 <DialogTrigger disableButtonEnhancement>
-                    <Button icon={<DocumentEditRegular />} size="large" onClick={() => setIsOpen(true)}>Rename</Button>
+                    <Button icon={<DocumentEditRegular />} size="medium" onClick={() => setIsOpen(true)}>Rename</Button>
                 </DialogTrigger>
                 <DialogSurface aria-describedby={undefined}>
                     <form onSubmit={handleSubmit}>
