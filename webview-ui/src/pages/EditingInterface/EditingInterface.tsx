@@ -27,6 +27,7 @@ import { add, set } from "lodash";
 const useStyles = makeStyles({
   mainLayout: {
     display: 'flex',
+    padding: '0px',
     height: '100vh',
     width: '100vw',
     gap: '10px',
