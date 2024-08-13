@@ -93,11 +93,11 @@ function generateSingleComponentCss(node: Node, content: { [key: string]: Node }
       return generateLabelCss(node);
     case "Icon":
       return generateIconCss(node);
-    case "RadioButton":
+    case "RadioButtons":
       return generateRadioButtonCss(node);
     case "Container":
       return generateContainerCss(node, content);
-    case "Checkbox":
+    case "Checkboxes":
       return generateCheckboxCss(node);
     case "Slider":
       return generateSliderCss(node);
