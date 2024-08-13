@@ -6,13 +6,13 @@ import English from '../lang/en.json';
 export const LanguageContext = React.createContext();
 
 // const loc = navigator.language || 'fr';
-const loc = 'fr';
+const loc = 'en';
 
 let lang
 if (loc === 'fr') {
     lang = French;
 }
-else {
+else if (loc === 'en') {
     lang = English;
 }
 
@@ -25,7 +25,7 @@ const Wrapper = (props) => {
         setLocale(newLocale);
         if (newLocale === 'fr') {
             setMessages(French);
-        } else {
+        } else if (newLocale === 'en') {
             setMessages(English);
         }
     }

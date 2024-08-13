@@ -119,6 +119,7 @@ export const ThemeDropdown: React.FC<Partial<DropdownProps>> = (props) => {
           }
         }}
         {...props}
+        placeholder="Select a theme"
       >
         {themeList.map((theme) => {
           const sectionColor = getColor(theme.scheme.sectionColors.main);
