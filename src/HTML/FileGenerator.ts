@@ -85,23 +85,11 @@ export class FileGenerator {
       content = content.replace('href="css/styles.css"', `href="css/${page.name}.css"`);
 
       // Add icon sprite only if the page uses icons
-      if (this.pageUsesIcons(page)) {
-        content = content.replace("</body>", `${iconSprite}\n</body>`);
-      }
+      content = content.replace("</body>", `${iconSprite}\n</body>`);
 
       this.createFile(`${page.name}.html`, content);
       this.createFile(`css/${page.name}.css`, gridCss + componentCss);
     });
-  }
-
-  private pageUsesIcons(page: Page): boolean {
-    const content = page.content as { [key: string]: Node };
-    for (const nodeId in content) {
-      if (content[nodeId].type.resolvedName === "Icon") {
-        return true;
-      }
-    }
-    return false;
   }
 
   private generateComponentCss(content: { [key: string]: Node }): string {

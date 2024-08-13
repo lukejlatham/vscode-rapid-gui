@@ -10,6 +10,7 @@ import { generateCheckboxHtml, generateCheckboxCss } from "./components/Checkbox
 import { generateSliderHtml, generateSliderCss } from "./components/Slider";
 import { generateTextBoxHtml, generateTextBoxCss } from "./components/TextBox";
 import { generateImageHtml, generateImageCss } from "./components/Image";
+import { generateDropdownHtml, generateDropdownCss } from "./components/Dropdown";
 
 let componentCounters: { [key: string]: number } = {};
 
@@ -76,6 +77,8 @@ function generateSingleComponentHtml(
       return generateTextBoxHtml(node);
     case "Image":
       return generateImageHtml(node, projectPath);
+    case "Dropdown":
+      return generateDropdownHtml(node);
     default:
       return `<!-- Unknown component type: ${node.type.resolvedName} -->\n`;
   }
@@ -105,6 +108,8 @@ function generateSingleComponentCss(node: Node, content: { [key: string]: Node }
       return generateTextBoxCss(node);
     case "Image":
       return generateImageCss(node);
+    case "Dropdown":
+      return generateDropdownCss(node);
     default:
       return `/* Unknown component type: ${node.type.resolvedName} */\n`;
   }
