@@ -93,7 +93,7 @@ Elements that fill out a whole section:
 - RadioButtons
 - Checkboxes 
 
-You make sections varied but limit the complexity within each section. Use lots of icons`,
+Don't use too many elements per section (4 or less). Use a wide variety of elements across sections.`,
 };
 
 const textMessage = (layout: string) => ({

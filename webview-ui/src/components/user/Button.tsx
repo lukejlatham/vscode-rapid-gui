@@ -85,7 +85,7 @@ export const ButtonDefaultProps: ButtonProps = {
     displayName: "Button",
     fontSize: 20,
     borderRadius: 4,
-    text: "New Button",
+    text: "",
     width: 10,
     height: 10,
     alignment: "left",

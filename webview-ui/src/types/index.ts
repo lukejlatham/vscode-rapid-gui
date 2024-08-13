@@ -34,9 +34,9 @@ export const buttonSchema = z.object({
   fontSize: z.number().default(16),
   fontColor: z.string().default("white"),
   borderRadius: z.number().default(4),
-  width: z.number().default(10),
+  width: z.number().default(20),
   height: z.number().default(10),
-  text: z.string().optional().default("Button"),
+  text: z.string().optional(),
   alignment: z.enum(["left", "center", "right"]).default("center"),
   displayName: z.string().optional().default("Button"),
   iconPosition: z
@@ -91,7 +91,7 @@ export interface ComponentSettingsProps {
 }
 
 export const checkboxesSchema = z.object({
-  header: z.string().default("Checkboxes Header"),
+  header: z.string().default(""),
   optionLabels: z.array(z.string()).default([]),
   numberOfBoxes: z.number().default(1),
   fontSize: z.number().default(14),
@@ -194,7 +194,7 @@ export const sliderSchema = z.object({
   step: z.number().default(1),
   fontSize: z.number().default(14),
   fontColor: z.string().default("black"),
-  backgroundColor: z.string().default("red"),
+  backgroundColor: z.string().default("lightslategray"),
 });
 
 export type SliderProps = z.infer<typeof sliderSchema>;
@@ -226,14 +226,9 @@ export const iconSchema = z.object({
 export type IconProps = z.infer<typeof iconSchema>;
 
 export const imageSchema = z.object({
-  src: z
-    .string()
-    .default(
-      "https://media.licdn.com/dms/image/D4E03AQEiKLsSnfBkYA/profile-displayphoto-shrink_200_200/0/1698861415552?e=2147483647&v=beta&t=bHAs4bdRoFftlVT0m-Lmv5iqZYKwyZCDesXRwwbdu48"
-    ),
-  alt: z.string().default("New image"),
-  width: z.number().default(90),
-  height: z.number().default(90),
+  src: z.string().default(`https://placehold.co/400`),
+  alt: z.string().default("Placeholder image"),
+  width: z.number().default(80),
   alignment: z.enum(["left", "center", "right"]).optional(),
 });
 
@@ -403,7 +398,7 @@ const ColorEnum = z
 export const generateButtonSchema = z.object({
   type: z.literal("Button"),
   props: z.object({
-    text: z.string().default("Button"),
+    selectedIcon: z.string().describe("Icon name from react-icons/vsc"),
     backgroundColor: ColorEnum,
     fontColor: ColorEnum,
   }),
@@ -414,14 +409,12 @@ export const generateCheckboxesSchema = z.object({
   props: z.object({
     optionLabels: z.array(z.string()).default([]),
     numberOfBoxes: z.number().default(2),
-    direction: z.enum(["row", "column"]).default("row"),
   }),
 });
 
 export const generateInputSchema = z.object({
   type: z.literal("Input"),
   props: z.object({
-    placeholder: z.string().default("Enter text"),
     fontColor: ColorEnum,
   }),
 });
@@ -431,7 +424,6 @@ export const generateLabelSchema = z.object({
   props: z.object({
     text: z.string().default("Header"),
     bold: z.boolean().default(true),
-    italic: z.boolean().default(false),
     fontColor: ColorEnum,
     fontSize: z.number(),
   }),
@@ -443,7 +435,6 @@ export const generateRadioButtonSchema = z.object({
     header: z.string().default(""),
     numberOfButtons: z.number().default(2),
     optionLabels: z.array(z.string()).default([]),
-    direction: z.enum(["row", "column"]).default("row"),
   }),
 });
 
@@ -464,7 +455,6 @@ export const generateTextBoxSchema = z.object({
 export const generateTextSchema = z.object({
   type: z.literal("Text"),
   props: z.object({
-    text: z.string(),
     fontColor: ColorEnum,
   }),
 });
@@ -473,7 +463,6 @@ export const generateSliderSchema = z.object({
   type: z.literal("Slider"),
   props: z.object({
     backgroundColor: ColorEnum,
-    header: z.string().default(""),
   }),
 });
 
@@ -483,7 +472,6 @@ export const generateDropdownSchema = z.object({
     header: z.string().default(""),
     optionLabels: z.array(z.string()).default(["Option 1", "Option 2"]),
     numberOfOptions: z.number().default(2),
-    fontColor: ColorEnum,
   }),
 });
 
@@ -500,28 +488,18 @@ export const generateIconSchema = z.object({
 
 // Used in getSectionChildrenOpenai.ts
 
-const sectionSchema = z
-  .object({
-    section: z.string(),
-    props: z.object({
-      xPosition: z.number().int().max(10),
-      yPosition: z.number().int().max(10),
-      width: z.number().int().max(10),
-      height: z.number().int().max(10),
-      backgroundColor: ColorEnum.describe("Use accent colors for headers and footers."),
-    }),
-    contents: z.string(),
-  })
-  .transform((data) => {
-    const { width, height } = data.props;
-    return {
-      ...data,
-      props: {
-        ...data.props,
-        flexDirection: width > height ? "row" : "column",
-      },
-    };
-  });
+const sectionSchema = z.object({
+  section: z.string(),
+  props: z.object({
+    xPosition: z.number().int().max(10),
+    yPosition: z.number().int().max(10),
+    width: z.number().int().max(10),
+    height: z.number().int().max(10),
+    backgroundColor: ColorEnum.describe("Use accent colors for headers and footers."),
+    flexDirection: z.enum(["row", "column"]),
+  }),
+  contents: z.string().describe("One line on purpose, one line on contents."),
+});
 
 export const layoutSchema = z.object({
   sections: z.array(sectionSchema).max(6),
