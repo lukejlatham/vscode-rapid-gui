@@ -26,9 +26,9 @@ const RightSidebar: React.FC<{ classes: any }> = ({ classes }) => {
     return (
         <div className={`${classes.rightSidebar} ${localClasses.sidebar}`}>
                 <PropertyInspector />
-            <Card className={`${localClasses.propertyInspector} ${localClasses.copilotItem}`}>
+            {/* <Card className={`${localClasses.propertyInspector} ${localClasses.copilotItem}`}>
                 <ThemeDropdown />
-            </Card>
+            </Card> */}
         </div>
     );
 };

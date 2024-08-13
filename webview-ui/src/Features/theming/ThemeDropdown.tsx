@@ -110,6 +110,7 @@ export const ThemeDropdown: React.FC<Partial<DropdownProps>> = (props) => {
   return (
     <div className={styles.container}>
       <Dropdown
+        size="medium"
         aria-labelledby={dropdownId}
         onOptionSelect={(event, data) => {
           if (data.optionValue) {
@@ -150,7 +151,7 @@ export const ThemeDropdown: React.FC<Partial<DropdownProps>> = (props) => {
 
       <Button
         icon={<WindowBrushFilled />}
-        size="large"
+        size="medium"
         appearance="primary"
         onClick={handleApplyTheme}
       >

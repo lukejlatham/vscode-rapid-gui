@@ -13,20 +13,18 @@ import ComponentButtons from "./ComponentButtons";
 import ProjectManagement from "./ProjectManagementButtons";
 import LayoutManagement from "./LayoutManagement";
 import PagesButtons from "./PagesButtons";
+import { ThemeDropdown } from "../../../Features/theming/ThemeDropdown";
 import { Page } from "../../../types";
 import {
   GridFilled,
   GridRegular,
   DocumentMultipleFilled,
   DocumentMultipleRegular,
-  DocumentFolderFilled,
-  DocumentFolderRegular,
   ColorFilled,
   ColorRegular,
   LibraryFilled,
   LibraryRegular,
   AddFilled,
-  bundleIcon
 } from "@fluentui/react-icons";
 
 const useStyles = makeStyles({
@@ -68,7 +66,6 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    padding: '10px',
     gap: '10px',
   },
   switchContainer: {
@@ -136,15 +133,8 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
             openAddPageDialog={openAddPageDialog}
           />
         );
-      case "ProjectManagement":
-        return (
-          <ProjectManagement
-            classes={localClasses}
-            pages={pages}
-            setPages={setPages}
-            currentPageIndex={currentPageIndex}
-          />
-        );
+      case "Theme":
+        return <ThemeDropdown />;
       case "ComponentLibrary":
         return <ComponentButtons classes={localClasses} />;
       default:
