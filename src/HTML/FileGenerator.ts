@@ -62,9 +62,15 @@ export class FileGenerator {
     `;
   }
 
+  private resetComponentCounters() {
+    const componentCounters = {};
+  }
+
   private createPageFiles(pages: Page[]) {
     pages.forEach((page) => {
+      this.resetComponentCounters();
       const pageContent = this.generatePageHtmlContent(page);
+      this.resetComponentCounters();
       const gridCss = generateBackgroundCss(
         page.content.ROOT as Node,
         page.content as { [key: string]: Node }

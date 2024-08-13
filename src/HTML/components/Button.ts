@@ -2,6 +2,11 @@ import { Node } from "../JSONParser";
 
 let buttonCounter = 0;
 
+function percentToPx(percent: number, dimension: "width" | "height"): number {
+  const baseSize = dimension === "width" ? 1920 : 1080; // Assuming a 1920x1080 base resolution
+  return Math.round((percent / 100) * baseSize);
+}
+
 export function generateButtonHtml(node: Node, indent: string = ""): string {
   const props = node.props;
   buttonCounter++;
@@ -32,13 +37,16 @@ export function generateButtonCss(node: Node): string {
   buttonCounter++;
   const buttonId = `button${buttonCounter}`;
 
+  const widthPx = percentToPx(props.width, "width");
+  const heightPx = percentToPx(props.height, "height");
+
   return `
   .custom-button.${buttonId} {
     color: ${props.fontColor};
     background-color: ${props.backgroundColor};
     font-size: ${props.fontSize}px;
-    width: ${props.width}px;
-    height: ${props.height}px;
+    width: ${widthPx}px;
+    height: ${heightPx}px;
     border-radius: ${props.borderRadius}px;
     border: 2px solid ${props.borderColor};
     cursor: pointer;
