@@ -6,6 +6,7 @@ import { Node } from "./JSONParser";
 import { generateGridCss, generateGridHtml } from "./GridGenerator";
 import { ProjectStructureGenerator } from "./ProjectStructureGenerator";
 import { generateBackgroundCss } from "./components/Background";
+import { generateComponentCss } from "./componentGenerator";
 
 export class FileGenerator {
   private projectName: string;
@@ -64,10 +65,11 @@ export class FileGenerator {
   private createPageFiles(pages: Page[]) {
     pages.forEach((page) => {
       const pageContent = this.generatePageHtmlContent(page);
-      const pageCss = generateBackgroundCss(
+      const gridCss = generateBackgroundCss(
         page.content.ROOT as Node,
         page.content as { [key: string]: Node }
       );
+      const componentCss = this.generateComponentCss(page.content as { [key: string]: Node });
 
       let content = this.templateManager.getTemplate("index.html");
       content = content.replace(/{{projectName}}/g, this.projectName);
@@ -76,8 +78,21 @@ export class FileGenerator {
       content = content.replace('href="css/styles.css"', `href="css/${page.name}.css"`);
 
       this.createFile(`${page.name}.html`, content);
-      this.createFile(`css/${page.name}.css`, pageCss);
+      this.createFile(`css/${page.name}.css`, gridCss + componentCss);
     });
+  }
+  private generateComponentCss(content: { [key: string]: Node }): string {
+    let css = "";
+    for (const nodeId in content) {
+      if (nodeId !== "ROOT") {
+        const node = content[nodeId];
+        css += generateComponentCss(
+          { pages: { temp: { components: content, root: node, layout: [] } } },
+          "temp"
+        );
+      }
+    }
+    return css;
   }
 
   private generatePageHtmlContent(page: Page): string {

@@ -24,15 +24,9 @@ export function generateComponentHtml(
 
 export function generateComponentCss(parsedJSON: ParsedJSON, pageName: string): string {
   const page = parsedJSON.pages[pageName];
-  let css = "";
+  const node = page.root;
 
-  for (const node of Object.values(page.components)) {
-    // Avoid re-processing the Background component
-    if (node.type.resolvedName !== "Background") {
-      css += generateSingleComponentCss(node, page.components);
-    }
-  }
-  return css;
+  return generateSingleComponentCss(node, page.components);
 }
 
 function generateSingleComponentHtml(
