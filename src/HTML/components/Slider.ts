@@ -46,61 +46,20 @@ export function generateSliderCss(node: Node): string {
     -webkit-appearance: none;
     width: 100%;
     height: 10px;
-    background: transparent;
+    border-radius: 5px;
+    background: ${props.backgroundColor}; 
     outline: none;
     margin: 10px 0;
-  }
-
-  .slider-container.${node.custom.id} input[type="range"]::-webkit-slider-runnable-track {
-    width: 100%;
-    height: 10px;
-    background: white; /* White background for the unfilled track */
-    border: 1px solid black; /* Black border around the track */
-    border-radius: 5px;
-  }
-
+    accent-color: ${props.backgroundColor}; 
+  
   .slider-container.${node.custom.id} input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: ${props.backgroundColor}; /* Dynamic color for the thumb */
+    background: ${props.backgroundColor};
     cursor: pointer;
-    position: relative;
-    z-index: 2;
-  }
-
-  .slider-container.${node.custom.id} input[type="range"]::-moz-range-track {
-    width: 100%;
-    height: 10px;
-    background: white; /* White background for the unfilled track */
-    border: 1px solid black; /* Black border around the track */
-    border-radius: 5px;
-  }
-
-  .slider-container.${node.custom.id} input[type="range"]::-moz-range-progress {
-    background-color: ${props.backgroundColor}; /* Dynamic color for the filled portion */
-    border-radius: 5px;
-  }
-
-  .slider-container.${node.custom.id} input[type="range"]::-ms-track {
-    width: 100%;
-    height: 10px;
-    background: transparent;
-    border-color: transparent;
-    color: transparent;
-  }
-
-  .slider-container.${node.custom.id} input[type="range"]::-ms-fill-lower {
-    background-color: ${props.backgroundColor}; /* Dynamic color for the filled portion */
-    border-radius: 5px;
-  }
-
-  .slider-container.${node.custom.id} input[type="range"]::-ms-fill-upper {
-    background: white; /* White background for the unfilled track */
-    border: 1px solid black; /* Black border around the track */
-    border-radius: 5px;
   }
   
   .slider-container.${node.custom.id} output {
