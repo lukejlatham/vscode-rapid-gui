@@ -6,7 +6,7 @@ import {
   TabList,
   Tab,
   Divider,
-  tokens
+  tokens,
 } from "@fluentui/react-components";
 import Header from "./Header";
 import ComponentButtons from "./ComponentButtons";
@@ -16,10 +16,17 @@ import PagesButtons from "./PagesButtons";
 import { Page } from "../../../types";
 import {
   GridFilled,
+  GridRegular,
   DocumentMultipleFilled,
+  DocumentMultipleRegular,
   DocumentFolderFilled,
+  DocumentFolderRegular,
+  ColorFilled,
+  ColorRegular,
   LibraryFilled,
-  AddFilled
+  LibraryRegular,
+  AddFilled,
+  bundleIcon
 } from "@fluentui/react-icons";
 
 const useStyles = makeStyles({
@@ -33,22 +40,18 @@ const useStyles = makeStyles({
     padding: "5px",
   },
   contentContainer: {
-    marginTop: "10px",
     padding: "5px",
-    flex: "1 0 auto",
   },
   sidebar: {
     display: "flex",
     justifyContent: "start",
     overflow: "scroll",
     height: "100%",
-    // flex: "1 1 auto",
 
   },
   tabsBar: {
     padding: "10px",
     display: "flex",
-    flex: "1 0 auto",
     flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "start",
@@ -108,6 +111,12 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
   const localClasses = useStyles();
   const [selectedTab, setSelectedTab] = useState<string>("");
 
+  const PagesIcon = selectedTab === "Pages" ? DocumentMultipleFilled : DocumentMultipleRegular;
+  const LayoutIcon = selectedTab === "Layout" ? GridFilled : GridRegular;
+  const ThemeIcon = selectedTab === "Theme" ? ColorFilled : ColorRegular;
+  const ComponentLibraryIcon = selectedTab === "ComponentLibrary" ? LibraryFilled : LibraryRegular;
+
+
   const renderContent = () => {
     switch (selectedTab) {
       case "Layout":
@@ -161,27 +170,27 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
         appearance="subtle"
         size="medium"
       >
-        <Tab icon={<GridFilled />} value="Layout" aria-label="Layout" >
+        <Tab icon={<LayoutIcon />} value="Layout" aria-label="Layout" >
         Layout
         </Tab>
         <Tab
-          icon={<DocumentMultipleFilled />}
+          icon={<PagesIcon />}
           value="Pages"
           aria-label="Pages"
         > Pages </Tab>
         <Tab
-          icon={<DocumentFolderFilled />}
+          icon={<ThemeIcon />}
           value="Theme"
           aria-label="Theme"
         >
           Theme
         </Tab>
         <Tab
-          icon={<LibraryFilled />}
+          icon={<ComponentLibraryIcon />}
           value="ComponentLibrary"
           aria-label="Component Library"
         >
-          Component
+          Components
         </Tab>
       </TabList>
       <div className={localClasses.bottomButtons}>
@@ -191,7 +200,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
             setPages={setPages}
             currentPageIndex={currentPageIndex}
           />
-      <Button onClick={openStartProjectDialog} icon={<AddFilled/>}>New</Button>
+      <Button onClick={openStartProjectDialog} appearance="primary" icon={<AddFilled/>}>New</Button>
       </div>
       </div>
       <div className={localClasses.contentContainer}>{renderContent()}</div>
