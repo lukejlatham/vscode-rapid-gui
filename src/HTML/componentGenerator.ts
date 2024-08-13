@@ -58,11 +58,11 @@ function generateSingleComponentHtml(
       return generateLabelHtml(node);
     case "Icon":
       return generateIconHtml(node);
-    case "RadioButton":
+    case "RadioButtons":
       return generateRadioButtonHtml(node);
     case "Container":
       return generateContainerHtml(node, content);
-    case "Checkbox":
+    case "Checkboxes":
       return generateCheckboxHtml(node);
     case "Slider":
       return generateSliderHtml(node);
