@@ -84,7 +84,7 @@ const ComponentButtons: React.FC<{ classes: any }> = ({ classes }) => {
                     connectors.create(ref, <RadioButtons {...RadioButtonsDefaultProps} />);
                 }
             }}>Radio Buttons</Button>
-            <Button className={classes.componentButtons} icon={<CheckboxIcon />} size='large' appearance='secondary' ref={ref => {
+            <Button className={classes.componentButtons} icon={<CheckboxesIcon />} size='large' appearance='secondary' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Checkboxes {...CheckboxesDefaultProps} />);
                 }

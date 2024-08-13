@@ -152,7 +152,7 @@ const EditingInterface: React.FC = () => {
   }
 
   return (
-    <Editor resolver={{ Background, Text, Label, Button, TextBox, Image, Input, RadioButton, Checkbox, GridCell, Icon, EditBackgroundButton, Container, Dropdown, Slider }}>
+    <Editor resolver={{ Background, Text, Label, Button, TextBox, Image, Input, RadioButtons, Checkboxes, GridCell, Icon, EditBackgroundButton, Container, Dropdown, Slider }}>
       <EditorContent
         pages={pages}
         currentPageIndex={currentPageIndex}
