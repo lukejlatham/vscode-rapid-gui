@@ -86,14 +86,20 @@ export const TextDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose, close
         setLoading(false);
         setCurrentStage(PROCESSING_STAGES.length);
 
-        const text = { id: uuidv4(), name: 'Page 1', content: JSON.parse(message.content) };
+        
         
         if (mode === 'start') {
+          const text = { id: uuidv4(), name: `Page 1`, content: JSON.parse(message.content) };
           setPages([text]);
         }
         else if (mode === 'add') {
+          const text = { id: uuidv4(), name: `Page ${pages.length + 1}`, content: JSON.parse(message.content) };
           setPages([...pages, text]);
         }
+        setTextInput('');
+        setUIDescription(null);
+        setLoading(false);
+        setCurrentStage(-1);
         onClose();
         closeStartDialog();
       }
@@ -104,7 +110,7 @@ export const TextDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose, close
     return () => {
       window.removeEventListener('message', handleMessage);
     };
-  }, [navigate, closeStartDialog, onClose, mode, setPages]);
+  }, [closeStartDialog, onClose, mode, setPages, pages]);
 
   const handleProcessText = async () => {
     if (textInput) {
@@ -132,7 +138,7 @@ export const TextDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose, close
     <Dialog open={isOpen} onOpenChange={(event, data) => !data.open && handleClose()}>
       <DialogSurface>
         <DialogBody>
-          <DialogTitle>Start Project From Text</DialogTitle>
+          <DialogTitle>Generate From Text</DialogTitle>
           <DialogContent>
             <div className={styles.content}>
               <Input

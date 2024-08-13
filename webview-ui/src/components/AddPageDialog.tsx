@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { Title1, Dialog, DialogTrigger, DialogSurface, DialogBody, DialogTitle, DialogContent, DialogActions, Button } from '@fluentui/react-components';
-import { DrawImageRegular, TextAddRegular, Camera24Regular, SparkleRegular, SparkleFilled, CameraSparklesFilled, CameraSparklesRegular, TextEffectsSparkleRegular, GlanceHorizontalSparklesRegular } from '@fluentui/react-icons';
+import { Dialog, DialogSurface, DialogBody, DialogTitle, DialogContent, DialogActions, Button } from '@fluentui/react-components';
+import { DrawImageRegular, CameraSparklesRegular, TextEffectsSparkleRegular, GlanceHorizontalSparklesRegular } from '@fluentui/react-icons';
 import { UploadDialog } from './SketchUpload/UploadDialog';
 import { TextDialog } from './ImageUpload/TextDialog';
 import { TemplatesDialog } from '../pages/EditingInterface/TemplatesDialog';
-import { useNavigate } from 'react-router-dom';
 import { Page } from '../types';
+import { v4 as uuidv4 } from 'uuid';
+
+
+
 
 interface AddPageDialogDialogProps {
     isOpen: boolean;
@@ -18,10 +21,11 @@ export const AddPageDialog: React.FC<AddPageDialogDialogProps> = ({ isOpen, onCl
     const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false);
     const [isTextDialogOpen, setIsTextDialogOpen] = useState(false);
     const [isTemplatesDialogOpen, setIsTemplatesDialogOpen] = useState(false);
-    const navigate = useNavigate();
     const mode = "add"
+    
     const handleScratch = () => {
-        navigate('/', { state: { mode: mode } });
+        // setPages([...pages, {id: uuidv4(), name: `Page ${pages.length + 1}`, content: {pages[0]?.content}}]);
+        setPages([...pages, {id: uuidv4(), name: `Page ${pages.length + 1}`, content: {}}]);
         onClose();
     }
 
@@ -30,9 +34,9 @@ export const AddPageDialog: React.FC<AddPageDialogDialogProps> = ({ isOpen, onCl
             <Dialog modalType='alert' open={isOpen} onOpenChange={(event, data) => onClose()}>
                 <DialogSurface>
                     <DialogBody>
-                        <DialogTitle>New Page<SparkleFilled /></DialogTitle>
+                        <DialogTitle>New Page</DialogTitle>
                         <DialogContent>
-                            Choose how you would like to add a new page
+                            Choose how you would like to add a new page:
                         </DialogContent>
                         <DialogActions fluid>
                             <Button onClick={handleScratch} size='large' appearance="secondary" icon={<DrawImageRegular />}>Scratch</Button>

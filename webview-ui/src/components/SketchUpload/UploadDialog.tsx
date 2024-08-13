@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
   Dialog,
   DialogSurface,
@@ -82,7 +81,6 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose, clo
   const [uiDescription, setUIDescription] = useState<string | null>(null);
   const [currentStage, setCurrentStage] = useState<number>(-1);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const navigate = useNavigate();
   const styles = useStyles();
 
   useEffect(() => {
@@ -96,20 +94,23 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose, clo
         setUIDescription(message.description);
         setLoading(false);
         setCurrentStage(PROCESSING_STAGES.length);
-        
-        const sketch = {id: uuidv4(), name: 'Page 1', content: JSON.parse(message.content)};
+
         if (mode === 'start') {
+          const sketch = { id: uuidv4(), name: `Page 1`, content: JSON.parse(message.content) };
           setPages([sketch]);
         }
         else if (mode === 'add') {
+          const sketch = { id: uuidv4(), name: `Page ${pages.length + 1}`, content: JSON.parse(message.content) };
           setPages([...pages, sketch]);
         }
-
+        setSelectedImage(null);
+        setUIDescription(null);
+        setLoading(false);
+        setCurrentStage(-1);
         onClose();
         closeStartDialog();
-        
-        // navigate('/', { state: { mode: mode, sketch: {id: uuidv4(), name: 'Page 1', content: JSON.parse(message.content)} } });
-        
+
+
       }
     };
 
@@ -118,7 +119,7 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose, clo
     return () => {
       window.removeEventListener('message', handleMessage);
     };
-  }, [navigate, closeStartDialog, onClose, mode, setPages]);
+  }, [closeStartDialog, onClose, mode, setPages, pages]);
 
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -154,7 +155,7 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose, clo
     <Dialog open={isOpen} onOpenChange={(event, data) => !data.open && handleClose()}>
       <DialogSurface>
         <DialogBody>
-          <DialogTitle>Start Project From Sketch</DialogTitle>
+          <DialogTitle>Generate From Sketch</DialogTitle>
           <DialogContent>
             <div className={styles.content}>
               <input
@@ -194,7 +195,7 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose, clo
                       {index < currentStage ? (
                         <CheckmarkCircle24Filled className={styles.completedStage} />
                       ) : (
-                        <CircleHint24Filled className={styles.incompleteStage}/>
+                        <CircleHint24Filled className={styles.incompleteStage} />
                       )}
                       <Text className={index < currentStage ? styles.completedStage : undefined}>
                         {stage}

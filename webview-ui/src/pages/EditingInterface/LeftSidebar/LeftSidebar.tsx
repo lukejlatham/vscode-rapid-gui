@@ -12,12 +12,11 @@ import {
   AccordionToggleEventHandler,
 } from "@fluentui/react-components";
 import Header from "./Header";
-import { useNavigate } from "react-router-dom";
 import ComponentButtons from "./ComponentButtons";
 import ProjectManagement from "./ProjectManagementButtons";
 import { Page } from "../../../types";
 import LayoutManagement from "./LayoutManagement";
-import PagesButtons from "./PagesManagement";
+import PagesButtons from "./PagesButtons";
 import { GridFilled, DocumentMultipleFilled, DocumentFolderFilled, LibraryFilled } from "@fluentui/react-icons";
 
 const useStyles = makeStyles({
@@ -100,7 +99,6 @@ const LeftSidebar: React.FC<{
       setOpenItems(data.openItems);
     };
 
-    const navigate = useNavigate();
 
     const handleStartProject = () => {
       // closing all accordions

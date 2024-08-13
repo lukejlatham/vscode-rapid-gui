@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Title1, Dialog, DialogTrigger, DialogSurface, DialogBody, DialogTitle, DialogContent, DialogActions, Button } from '@fluentui/react-components';
-import { DrawImageRegular, TextAddRegular, Camera24Regular, SparkleRegular, SparkleFilled, CameraSparklesFilled, CameraSparklesRegular, TextEffectsSparkleRegular, GlanceHorizontalSparklesRegular } from '@fluentui/react-icons';
+import { Title1, Dialog, DialogSurface, DialogBody, DialogTitle, DialogContent, DialogActions, Button } from '@fluentui/react-components';
+import { DrawImageRegular, SparkleFilled, CameraSparklesRegular, TextEffectsSparkleRegular, GlanceHorizontalSparklesRegular } from '@fluentui/react-icons';
 import { UploadDialog } from './SketchUpload/UploadDialog';
 import { TextDialog } from './ImageUpload/TextDialog';
 import { TemplatesDialog } from '../pages/EditingInterface/TemplatesDialog';
-import { useNavigate } from 'react-router-dom';
 import { Page } from '../types';
 
 interface StartProjectDialogProps {
@@ -18,7 +17,6 @@ export const StartProjectDialog: React.FC<StartProjectDialogProps> = ({ isOpen, 
     const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false);
     const [isTextDialogOpen, setIsTextDialogOpen] = useState(false);
     const [isTemplatesDialogOpen, setIsTemplatesDialogOpen] = useState(false);
-    const navigate = useNavigate();
     const mode = "start";
 
     const handleScratch = () => {

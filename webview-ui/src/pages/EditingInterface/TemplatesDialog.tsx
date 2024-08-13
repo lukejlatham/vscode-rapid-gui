@@ -1,5 +1,4 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Card, CardHeader, Body2, makeStyles, tokens,  Dialog,
     DialogSurface,
     DialogBody,
@@ -7,9 +6,7 @@ import { Card, CardHeader, Body2, makeStyles, tokens,  Dialog,
     DialogContent,
     DialogActions,
     Button,
-    Spinner,
-    Text,
-    Input } from '@fluentui/react-components';
+ } from '@fluentui/react-components';
 import VideoGameSettings from '../../data/layout_templates/VideoGameSettings.json'
 import Login from '../../data/layout_templates/Login.json'
 import Website from '../../data/layout_templates/Website.json'
@@ -70,7 +67,6 @@ interface TemplatesDialogProps {
 
 export const TemplatesDialog: React.FC<TemplatesDialogProps> = ({ isOpen, onClose, closeStartDialog, mode, pages, setPages }) => {
 
-    const navigate = useNavigate();
     const styles = useStyles();
 
     const handleTemplateClick = (t: any) => {

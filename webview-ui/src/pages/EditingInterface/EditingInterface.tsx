@@ -115,6 +115,9 @@ const EditingInterface: React.FC = () => {
       setPages([createDefaultPage()]);
       setCurrentPageIndex(0);
     }
+    // if any page is empty, create a default page
+    setPages(prevPages => prevPages.map(page => Object.keys(page.content).length === 0 ? createDefaultPage() : page));
+    
     setCurrentPageIndex(pages.length - 1);
     setIsLoading(false);
   }, [pages.length]);
