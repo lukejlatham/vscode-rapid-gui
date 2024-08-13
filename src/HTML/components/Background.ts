@@ -1,3 +1,4 @@
+import { generateComponentHtml } from "../componentGenerator";
 import { Node } from "../JSONParser";
 import { generateGridCellHtml } from "./GridCell";
 
@@ -14,7 +15,7 @@ export function generateBackgroundHtml(
     if (cellNode) {
       html += `<div class="grid-cell item-${index}">
         <div class="content">
-          ${generateGridCellHtml(cellNode, content, projectPath)}
+          ${generateGridCellContent(cellNode, content, projectPath)}
         </div>
       </div>`;
     }
@@ -24,6 +25,26 @@ export function generateBackgroundHtml(
   return html;
 }
 
+function generateGridCellContent(
+  node: Node,
+  content: { [key: string]: Node },
+  projectPath?: string
+): string {
+  let cellContent = "";
+
+  node.nodes.forEach((childId) => {
+    const childNode = content[childId];
+    if (childNode) {
+      cellContent += generateComponentHtml(
+        { pages: { temp: { components: content, root: childNode, layout: [] } } },
+        "temp",
+        projectPath
+      );
+    }
+  });
+
+  return cellContent;
+}
 export function generateBackgroundCss(node: Node, content: { [key: string]: Node }): string {
   let css = `
   body {
