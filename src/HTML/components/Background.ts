@@ -1,6 +1,7 @@
 import { generateComponentHtml } from "../componentGenerator";
 import { Node } from "../JSONParser";
 //working!!!!
+//lots to do
 
 export function generateBackgroundHtml(
   node: Node,
