@@ -1,7 +1,12 @@
 import { Node } from "../JSONParser";
 
+let buttonCounter = 0;
+
 export function generateButtonHtml(node: Node, indent: string = ""): string {
   const props = node.props;
+  buttonCounter++;
+  const buttonId = `button${buttonCounter}`;
+
   const iconHtml =
     props.icon !== "none"
       ? `<i class="icon ${props.icon === "left" ? "icon-left" : "icon-right"}"></i>`
@@ -11,7 +16,7 @@ export function generateButtonHtml(node: Node, indent: string = ""): string {
     props.icon === "right" ? iconHtml : ""
   }`;
 
-  const button = `<button id="${node.custom.id}" class="custom-button ${node.custom.id}">
+  const button = `<button id="${buttonId}" class="custom-button ${buttonId}">
       ${content}
     </button>`;
 
@@ -24,13 +29,16 @@ export function generateButtonHtml(node: Node, indent: string = ""): string {
 
 export function generateButtonCss(node: Node): string {
   const props = node.props;
+  buttonCounter++;
+  const buttonId = `button${buttonCounter}`;
+
   return `
-  .custom-button.${node.custom.id} {
+  .custom-button.${buttonId} {
     color: ${props.fontColor};
     background-color: ${props.backgroundColor};
     font-size: ${props.fontSize}px;
-    width: ${props.width}%;
-    height: ${props.height}%;
+    width: ${props.width}px;
+    height: ${props.height}px;
     border-radius: ${props.borderRadius}px;
     border: 2px solid ${props.borderColor};
     cursor: pointer;
@@ -45,7 +53,7 @@ export function generateButtonCss(node: Node): string {
     }
   }
   
-  .custom-button.${node.custom.id} .icon {
+  .custom-button.${buttonId} .icon {
     ${props.icon === "left" ? "margin-right: 5px;" : ""}
     ${props.icon === "right" ? "margin-left: 5px;" : ""}
   }
