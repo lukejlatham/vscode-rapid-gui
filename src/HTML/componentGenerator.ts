@@ -11,6 +11,16 @@ import { generateSliderHtml, generateSliderCss } from "./components/Slider";
 import { generateTextBoxHtml, generateTextBoxCss } from "./components/TextBox";
 import { generateImageHtml, generateImageCss } from "./components/Image";
 
+let componentCounters: { [key: string]: number } = {};
+
+function getComponentId(type: string): string {
+  if (!componentCounters[type]) {
+    componentCounters[type] = 0;
+  }
+  componentCounters[type]++;
+  return `${type.toLowerCase()}${componentCounters[type]}`;
+}
+
 export function generateComponentHtml(
   parsedJSON: ParsedJSON,
   pageName: string,
@@ -34,6 +44,9 @@ function generateSingleComponentHtml(
   content: { [key: string]: Node },
   projectPath?: string
 ): string {
+  const componentId = getComponentId(node.type.resolvedName);
+  node.custom.id = componentId;
+
   switch (node.type.resolvedName) {
     case "Button":
       return generateButtonHtml(node);
