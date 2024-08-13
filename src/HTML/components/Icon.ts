@@ -1,44 +1,30 @@
 import { Node } from "../JSONParser";
 
 export function generateIconHtml(node: Node): string {
-  const props = node.props || {};
-  const iconName = props.selectedIcon || "add";
-  const iconSize = props.iconSize || 24;
-  const iconColor = props.iconColor || "currentColor";
-  const hyperlink = props.hyperlink || "";
+  const props = node.props;
+  const iconHtml = `<i id="${node.custom.id}" class="icon ${props.iconName} ${node.custom.id}"></i>`;
 
-  const iconPath = iconPaths[iconName] || iconPaths.add;
-
-  const iconHtml = `
-    <span id="${node.custom.id}" class="codicon codicon-${iconName}" style="width: ${iconSize}px; height: ${iconSize}px; color: ${iconColor};">
-      <svg width="${iconSize}" height="${iconSize}" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-        ${iconPath}
-      </svg>
-    </span>
-  `;
-
-  if (hyperlink) {
-    return `<a href="${hyperlink}" class="icon-link">${iconHtml}</a>`;
+  if (props.hyperlink) {
+    return `<a href="${props.hyperlink}" class="icon-link">${iconHtml}</a>`;
   }
 
   return iconHtml;
 }
 
 export function generateIconCss(node: Node): string {
+  const props = node.props;
   return `
-  .codicon {
+  .icon.${node.custom.id} {
+    color: ${props.color || "inherit"};
+    font-size: ${props.size || 16}px;
     display: inline-block;
     vertical-align: middle;
     line-height: 1;
   }
-
-  .codicon svg {
-    width: 100%;
-    height: 100%;
-  }
-
+  
   .icon-link {
     text-decoration: none;
+    color: inherit;
   }
   `;
 }
