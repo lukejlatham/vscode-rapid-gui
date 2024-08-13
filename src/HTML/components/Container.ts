@@ -64,18 +64,36 @@ export function generateContainerHtml(
 }
 
 export function generateContainerCss(node: Node, content: { [key: string]: Node }): string {
+  const props = node.props;
   let css = `
     .container.${node.custom.id} {
-      transition: all 0.3s ease;
-    }
-    
-    .container.${node.custom.id}:hover {
+      display: flex;
+      flex-direction: ${props.flexDirection || "column"};
+      justify-content: ${props.justifyContent || "flex-start"};
+      align-items: ${props.alignItems || "stretch"};
+      flex-wrap: ${props.flexWrap || "nowrap"};
+      gap: ${props.gap || "0"}px;
+      width: ${props.width ? props.width + "%" : "auto"};
+      height: ${props.height ? props.height + "%" : "auto"};
+      background-color: ${props.backgroundColor || "transparent"};
+      border: ${props.borderWidth || 1}px solid ${props.borderColor || "transparent"};
+      border-radius: ${props.borderRadius || 0}px;
+      padding: ${props.padding || 0}px;
+      margin: ${props.margin || 0}px;
+      box-sizing: border-box;
       ${
-        node.props.hoverBackgroundColor
-          ? `background-color: ${node.props.hoverBackgroundColor};`
+        props.shadowColor
+          ? `box-shadow: ${props.shadowOffsetX || 0}px ${props.shadowOffsetY || 0}px ${
+              props.shadowBlur || 0
+            }px ${props.shadowColor};`
           : ""
       }
-      ${node.props.hoverBorderColor ? `border-color: ${node.props.hoverBorderColor};` : ""}
+      transition: all 0.3s ease;
+    }
+
+    .container.${node.custom.id}:hover {
+      ${props.hoverBackgroundColor ? `background-color: ${props.hoverBackgroundColor};` : ""}
+      ${props.hoverBorderColor ? `border-color: ${props.hoverBorderColor};` : ""}
     }
   `;
 
