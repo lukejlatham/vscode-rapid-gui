@@ -25,7 +25,7 @@ export function generateContainerHtml(node: Node, content: { [key: string]: Node
   });
 
   return `
-<div id="${node.custom.id}" class="container ${node.custom.id}">
+<div id="${node.custom.id}" class="container ${node.custom.id}" style="width: ${props.width}%; height: ${props.height}%;">
   ${childrenHtml}
 </div>
 `;
@@ -33,14 +33,14 @@ export function generateContainerHtml(node: Node, content: { [key: string]: Node
 
 export function generateContainerCss(node: Node, content: { [key: string]: Node }): string {
   const props = node.props;
+  // width: ${props.width}%; removed from below and added to html
+  // height: ${props.height}%;
   let css = `
 .container.${node.custom.id} {
   background-color: ${props.backgroundColor};
   border: 2px solid ${props.borderColor};
   border-radius: ${props.borderRadius}px;
   padding: ${props.padding}px;
-  width: ${props.width}%;
-  height: ${props.height}%;
   display: flex;
   flex-direction: ${props.flexDirection};
   justify-content: ${props.justifyContent};

@@ -75,9 +75,12 @@ export function generateBackgroundCss(node: Node, content: { [key: string]: Node
 
   .content {
     display: flex;
+    flex-wrap: wrap; 
     flex-direction: column;
     align-items: center;
     gap: 10px;
+    width: 100%;
+    height: 100%;
   }
   `;
 
