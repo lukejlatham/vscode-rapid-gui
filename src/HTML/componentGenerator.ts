@@ -22,6 +22,10 @@ function getComponentId(type: string): string {
   return `${type.toLowerCase()}${componentCounters[type]}`;
 }
 
+export function resetComponentCounters() {
+  componentCounters = {};
+}
+
 export function generateComponentHtml(
   parsedJSON: ParsedJSON,
   pageName: string,
@@ -84,7 +88,18 @@ function generateSingleComponentHtml(
   }
 }
 
-function generateSingleComponentCss(node: Node, content: { [key: string]: Node }): string {
+function generateSingleComponentCss(
+  node: Node,
+  content: { [key: string]: Node },
+  projectPath?: string
+): string {
+  if (!node || !node.type || !node.type.resolvedName) {
+    console.error("Invalid node structure:", node);
+    return "/* Error: Invalid component structure */";
+  }
+  const componentId = getComponentId(node.type.resolvedName);
+  node.custom = node.custom || {};
+  node.custom.id = componentId;
   switch (node.type.resolvedName) {
     case "Button":
       return generateButtonCss(node);

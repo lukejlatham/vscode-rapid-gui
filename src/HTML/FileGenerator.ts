@@ -6,7 +6,7 @@ import { Node } from "./JSONParser";
 import { generateGridCss, generateGridHtml } from "./GridGenerator";
 import { ProjectStructureGenerator } from "./ProjectStructureGenerator";
 import { generateBackgroundCss } from "./components/Background";
-import { generateComponentCss } from "./componentGenerator";
+import { generateComponentCss, resetComponentCounters } from "./componentGenerator";
 
 export class FileGenerator {
   private projectName: string;
@@ -62,15 +62,11 @@ export class FileGenerator {
     `;
   }
 
-  private resetComponentCounters() {
-    const componentCounters = {};
-  }
-
   private createPageFiles(pages: Page[]) {
     pages.forEach((page) => {
-      this.resetComponentCounters();
+      resetComponentCounters();
       const pageContent = this.generatePageHtmlContent(page);
-      this.resetComponentCounters();
+      resetComponentCounters();
       const gridCss = generateBackgroundCss(
         page.content.ROOT as Node,
         page.content as { [key: string]: Node }

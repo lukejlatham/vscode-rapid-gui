@@ -7,11 +7,8 @@ function percentToPx(percent: number, dimension: "width" | "height"): number {
   return Math.round((percent / 100) * baseSize);
 }
 
-export function generateButtonHtml(node: Node, indent: string = ""): string {
+export function generateButtonHtml(node: Node): string {
   const props = node.props;
-  buttonCounter++;
-  const buttonId = `button${buttonCounter}`;
-
   const iconHtml =
     props.icon !== "none"
       ? `<i class="icon ${props.icon === "left" ? "icon-left" : "icon-right"}"></i>`
@@ -21,7 +18,7 @@ export function generateButtonHtml(node: Node, indent: string = ""): string {
     props.icon === "right" ? iconHtml : ""
   }`;
 
-  const button = `<button id="${buttonId}" class="custom-button ${buttonId}">
+  const button = `<button id="${node.custom.id}" class="custom-button ${node.custom.id}">
       ${content}
     </button>`;
 
@@ -61,7 +58,7 @@ export function generateButtonCss(node: Node): string {
     }
   }
   
-  .custom-button.${buttonId} .icon {
+  .custom-button.${node.custom.id} .icon {
     ${props.icon === "left" ? "margin-right: 5px;" : ""}
     ${props.icon === "right" ? "margin-left: 5px;" : ""}
   }

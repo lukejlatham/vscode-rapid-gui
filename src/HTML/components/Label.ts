@@ -15,7 +15,9 @@ export function generateLabelCss(node: Node): string {
   .custom-label.${node.custom.id} {
     color: ${props.fontColor};
     font-size: ${props.fontSize}px;
-    font-weight: ${props.fontWeight};
+    font-weight: ${props.bold ? "bold" : "normal"};
+    font-style: ${props.italic ? "italic" : "normal"};
+    text-decoration: ${props.underline ? "underline" : "none"};
     text-align: ${props.textAlign};
     display: block;
   }
