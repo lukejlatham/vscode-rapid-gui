@@ -96,12 +96,7 @@ class ButtonTreeViewProvider implements vscode.TreeDataProvider<ButtonItem> {
 
   getChildren(element?: ButtonItem): vscode.ProviderResult<ButtonItem[]> {
     if (!element) {
-      return [
-        new ButtonItem("Create Project from Scratch", "extension.createProjectFromScratch"),
-        new ButtonItem("Create Project from Template", "extension.createProjectFromTemplate"),
-        new ButtonItem("Create Project from Sketch", "extension.createProjectFromSketch"),
-        new ButtonItem("Create Project from Text", "extension.createProjectFromText"),
-      ];
+      return [new ButtonItem("Create Project from Scratch", "extension.createProjectFromScratch")];
     }
     return [];
   }
