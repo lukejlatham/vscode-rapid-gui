@@ -37,9 +37,9 @@ import { ZodObject } from "zod";
 //           "An option A radio button, part of a group of options, enabling users to select a single choice from multiple options in a survey or form.",
 //       },
 //       {
-//         type: "Checkbox",
+//         type: "Checkboxes",
 //         description:
-//           "A checkbox labeled 'Accept terms and conditions,' which users must check to agree to the terms before proceeding with their registration or purchase.",
+//           "A checkboxes labeled 'Accept terms and conditions,' which users must check to agree to the terms before proceeding with their registration or purchase.",
 //       },
 //       {
 //         type: "Input",
@@ -90,8 +90,8 @@ Elements you can use more than once per component:
 - Text (paragraph)
 
 Elements that fill out a whole section:
-- RadioButton (this is a series of radio buttons)
-- Checkbox (this is a series of checkboxes)
+- RadioButtons
+- Checkboxes 
 
 You make sections varied but limit the complexity within each section. Use lots of icons`,
 };

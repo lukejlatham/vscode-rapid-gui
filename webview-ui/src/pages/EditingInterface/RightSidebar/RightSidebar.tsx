@@ -2,6 +2,7 @@ import React from 'react';
 import PropertyInspector from './PropertyInspector';
 import AiChat from './ChatComponent';
 import { Card, makeStyles } from '@fluentui/react-components';
+import { ThemeDropdown } from '../../../Features/theming/ThemeDropdown';
 
 const useLocalStyles = makeStyles({
     sidebar: {
@@ -26,7 +27,7 @@ const RightSidebar: React.FC<{ classes: any }> = ({ classes }) => {
         <div className={`${classes.rightSidebar} ${localClasses.sidebar}`}>
                 <PropertyInspector />
             <Card className={`${localClasses.propertyInspector} ${localClasses.copilotItem}`}>
-                <AiChat />
+                <ThemeDropdown />
             </Card>
         </div>
     );

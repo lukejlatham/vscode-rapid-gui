@@ -1,7 +1,7 @@
 import { useNode, UserComponent } from '@craftjs/core';
 import { makeStyles } from '@fluentui/react-components';
-import {checkboxSchema, CheckboxProps } from '../../types';
-import { CheckboxSettings } from './Settings/CheckboxSettings';
+import {checkboxesSchema, CheckboxesProps } from '../../types';
+import { CheckboxesSettings } from './Settings/CheckboxesSettings';
 import { useSelected } from "../../hooks/useSelected";
 
 const useStyles = makeStyles({
@@ -12,8 +12,8 @@ const useStyles = makeStyles({
     },
 });
 
-export const Checkbox: UserComponent<CheckboxProps> = (props) => {
-    const validatedProps = checkboxSchema.parse(props);
+export const Checkboxes: UserComponent<CheckboxesProps> = (props) => {
+    const validatedProps = checkboxesSchema.parse(props);
 
     const { header, numberOfBoxes, optionLabels, fontSize, fontColor, direction } = validatedProps;
 
@@ -37,7 +37,7 @@ export const Checkbox: UserComponent<CheckboxProps> = (props) => {
             <div className={styles.checkboxes} style={{flexDirection: direction}}>
                 {optionLabels.map((optionLabel, index) => (
                     <div key={index}>
-                        <input type="checkbox" id={optionLabel} name={optionLabel} />
+                        <input type="checkboxes" id={optionLabel} name={optionLabel} />
                         <label style={{ fontSize: `${fontSize}px`, color: fontColor }}>{optionLabel}</label>
                     </div>
                 ))}
@@ -46,7 +46,7 @@ export const Checkbox: UserComponent<CheckboxProps> = (props) => {
     );
 };
 
-export const CheckboxDefaultProps: CheckboxProps = {
+export const CheckboxesDefaultProps: CheckboxesProps = {
     header: 'Checkboxes',
     numberOfBoxes: 2,
     optionLabels: ['Option 1', 'Option 2'],
@@ -55,10 +55,10 @@ export const CheckboxDefaultProps: CheckboxProps = {
     direction: "row"
 };
 
-Checkbox.craft = {
-    displayName: 'Checkbox',
-    props: CheckboxDefaultProps,
+Checkboxes.craft = {
+    displayName: 'Checkboxes',
+    props: CheckboxesDefaultProps,
     related: {
-        settings: CheckboxSettings,
+        settings: CheckboxesSettings,
     },
 };

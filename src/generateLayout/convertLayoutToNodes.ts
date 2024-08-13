@@ -68,7 +68,7 @@ import {
   craftjsNodeSchema,
   buttonSchema,
   fullLayoutSchema,
-  checkboxSchema,
+  checkboxesSchema,
   containerSchema,
   inputSchema,
   labelSchema,
@@ -197,8 +197,8 @@ function generateSectionNodes(sections: ThemedLayoutSchema[]): { [key: string]: 
         case "Button":
           childProps = buttonSchema.parse(child.props);
           break;
-        case "Checkbox":
-          childProps = checkboxSchema.parse(child.props);
+        case "Checkboxes":
+          childProps = checkboxesSchema.parse(child.props);
           break;
         case "Input":
           childProps = inputSchema.parse(child.props);
@@ -206,7 +206,7 @@ function generateSectionNodes(sections: ThemedLayoutSchema[]): { [key: string]: 
         case "Label":
           childProps = labelSchema.parse(child.props);
           break;
-        case "RadioButton":
+        case "RadioButtons":
           childProps = radioButtonSchema.parse(child.props);
           break;
         case "TextBox":

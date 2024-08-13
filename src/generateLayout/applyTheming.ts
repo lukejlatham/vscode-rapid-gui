@@ -1,6 +1,10 @@
 import { z } from "zod";
 import { fullLayoutSchema, ColorScheme, themedLayoutSchema } from "../../webview-ui/src/types";
-import { slateGreyScheme, orangeScheme, tetrisScheme } from "./themes";
+import {
+  slateGreyScheme,
+  orangeScheme,
+  tetrisScheme,
+} from "../../webview-ui/src/Features/theming/themes";
 
 const possibleColorSchemes = [slateGreyScheme, orangeScheme, tetrisScheme];
 

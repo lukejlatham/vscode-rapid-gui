@@ -36,12 +36,16 @@ export const buttonSchema = z.object({
   borderRadius: z.number().default(4),
   width: z.number().default(10),
   height: z.number().default(10),
-  text: z.string().default("Button"),
+  text: z.string().optional().default("Button"),
   alignment: z.enum(["left", "center", "right"]).default("center"),
   displayName: z.string().optional().default("Button"),
-  icon: z
+  iconPosition: z
     .union([z.enum(["none", "left", "right"]), z.string().refine((val) => val in VscIcons)])
     .default("left"),
+  selectedIcon: z
+    .string()
+    .transform((val) => (val in VscIcons ? val : "VscCircle"))
+    .default("VscCircle") as z.ZodType<VscIconKeys>,
   bordercolor: z.string().optional().default("white"),
   shadowColor: z.string().optional().default("black"),
   shadowOffsetX: z.number().optional().default(1),
@@ -52,16 +56,42 @@ export const buttonSchema = z.object({
 
 export type ButtonProps = z.infer<typeof buttonSchema>;
 
-export type ComponentProps = ButtonProps | CheckboxProps | ContainerProps | GridCellProps | DropdownProps | IconProps | ImageProps | InputProps | LabelProps | RadioButtonProps | SliderProps | TextBoxProps | TextProps;
-export type TooltipConfigs =  TooltipConfigButton | TooltipConfigCheckbox | TooltipConfigContainer | TooltipConfigDropdown | TooltipConfigGridCell | TooltipConfigIcon | TooltipConfigLabel | TooltipConfigImage | TooltipConfigInput | TooltipConfigRadio | TooltipConfigSlider | TooltipConfigText | TooltipConfigTextbox;
+export type ComponentProps =
+  | ButtonProps
+  | CheckboxesProps
+  | ContainerProps
+  | GridCellProps
+  | DropdownProps
+  | IconProps
+  | ImageProps
+  | InputProps
+  | LabelProps
+  | RadioButtonProps
+  | SliderProps
+  | TextBoxProps
+  | TextProps;
+export type TooltipConfigs =
+  | TooltipConfigButton
+  | TooltipConfigCheckboxes
+  | TooltipConfigContainer
+  | TooltipConfigDropdown
+  | TooltipConfigGridCell
+  | TooltipConfigIcon
+  | TooltipConfigLabel
+  | TooltipConfigImage
+  | TooltipConfigInput
+  | TooltipConfigRadio
+  | TooltipConfigSlider
+  | TooltipConfigText
+  | TooltipConfigTextbox;
 
 export interface ComponentSettingsProps {
   componentProps: ComponentProps;
   tooltips: TooltipConfigs[];
 }
 
-export const checkboxSchema = z.object({
-  header: z.string().default("Checkbox Header"),
+export const checkboxesSchema = z.object({
+  header: z.string().default("Checkboxes Header"),
   optionLabels: z.array(z.string()).default([]),
   numberOfBoxes: z.number().default(1),
   fontSize: z.number().default(14),
@@ -69,7 +99,7 @@ export const checkboxSchema = z.object({
   direction: z.enum(["row", "column"]).default("row"),
 });
 
-export type CheckboxProps = z.infer<typeof checkboxSchema>;
+export type CheckboxesProps = z.infer<typeof checkboxesSchema>;
 
 export const containerSchema = z.object({
   height: z.number().default(100),
@@ -147,7 +177,7 @@ export const labelSchema = z.object({
 export type LabelProps = z.infer<typeof labelSchema>;
 
 export const radioButtonSchema = z.object({
-  header: z.string().default("Radio Button Header"),
+  header: z.string().default(""),
   numberOfButtons: z.number().default(2),
   optionLabels: z.array(z.string()).default([]),
   fontSize: z.number().default(14),
@@ -199,7 +229,7 @@ export const imageSchema = z.object({
   src: z
     .string()
     .default(
-      "https://media.licdn.com/dms/image/D4E03AQEiKLsSnfBkYA/profile-displayphoto-shrink_200_200/0/1698861415552?e=2147483647&v=beta&t=bHAs4bdRoFftlVT0m-Lmv5iqZYKwyZCDesXRwwbdu48",
+      "https://media.licdn.com/dms/image/D4E03AQEiKLsSnfBkYA/profile-displayphoto-shrink_200_200/0/1698861415552?e=2147483647&v=beta&t=bHAs4bdRoFftlVT0m-Lmv5iqZYKwyZCDesXRwwbdu48"
     ),
   alt: z.string().default("New image"),
   width: z.number().default(90),
@@ -241,10 +271,10 @@ export type TooltipConfigButton = {
   type: "color" | "spinButton" | "text" | "icon" | "slider";
 };
 
-export type TooltipConfigCheckbox = {
+export type TooltipConfigCheckboxes = {
   label: string;
   content: string;
-  propKey: keyof CheckboxProps;
+  propKey: keyof CheckboxesProps;
   type: "color" | "spinButton" | "text" | "options" | "direction" | "slider";
 };
 
@@ -297,7 +327,6 @@ export type TooltipConfigDropdown = {
   type: "color" | "spinButton" | "text" | "options" | "slider";
 };
 
-
 export type TooltipConfigIcon = {
   label: string;
   content: string;
@@ -344,8 +373,8 @@ export const generatedElements = z.object({
     "Label",
     "Image",
     // "TextBox",
-    "RadioButton",
-    "Checkbox",
+    "RadioButtons",
+    "Checkboxes",
     "Input",
     "Text",
     "Icon",
@@ -380,8 +409,8 @@ export const generateButtonSchema = z.object({
   }),
 });
 
-export const generateCheckboxSchema = z.object({
-  type: z.literal("Checkbox"),
+export const generateCheckboxesSchema = z.object({
+  type: z.literal("Checkboxes"),
   props: z.object({
     optionLabels: z.array(z.string()).default([]),
     numberOfBoxes: z.number().default(2),
@@ -409,9 +438,9 @@ export const generateLabelSchema = z.object({
 });
 
 export const generateRadioButtonSchema = z.object({
-  type: z.literal("RadioButton"),
+  type: z.literal("RadioButtons"),
   props: z.object({
-    header: z.string().default("Radio Button Header"),
+    header: z.string().default(""),
     numberOfButtons: z.number().default(2),
     optionLabels: z.array(z.string()).default([]),
     direction: z.enum(["row", "column"]).default("row"),
@@ -502,7 +531,7 @@ export const layoutSchema = z.object({
 
 export const generatedFullElements = z.union([
   generateButtonSchema,
-  generateCheckboxSchema,
+  generateCheckboxesSchema,
   generateIconSchema,
   generateInputSchema,
   generateLabelSchema,
