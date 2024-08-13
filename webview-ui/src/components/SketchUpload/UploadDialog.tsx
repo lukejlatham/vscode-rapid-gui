@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
   Dialog,
   DialogSurface,
@@ -18,6 +17,8 @@ import {
 import { Image24Regular, ArrowUpload24Regular, CheckmarkCircle24Filled, CircleHint24Filled } from '@fluentui/react-icons';
 import { handleSketchUpload } from './handleSketchUpload';
 import { v4 as uuidv4 } from 'uuid';
+import { Page } from '../../types';
+
 
 declare const vscode: any;
 
@@ -62,6 +63,10 @@ const useStyles = makeStyles({
 interface UploadDialogProps {
   isOpen: boolean;
   onClose: () => void;
+  closeStartDialog: () => void;
+  mode: string;
+  pages: Page[];
+  setPages: (pages: Page[]) => void;
 }
 
 const PROCESSING_STAGES = [
@@ -70,13 +75,12 @@ const PROCESSING_STAGES = [
   "Refining properties",
 ];
 
-export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose }) => {
+export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose, closeStartDialog, mode, pages, setPages }) => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [uiDescription, setUIDescription] = useState<string | null>(null);
   const [currentStage, setCurrentStage] = useState<number>(-1);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const navigate = useNavigate();
   const styles = useStyles();
 
   useEffect(() => {
@@ -91,8 +95,22 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose }) =
         setLoading(false);
         setCurrentStage(PROCESSING_STAGES.length);
 
-        navigate('/editing-interface', { state: { sketch: {id: uuidv4(), name: 'Page 1', content: JSON.parse(message.content)} } });
-        
+        if (mode === 'start') {
+          const sketch = { id: uuidv4(), name: `Page 1`, content: JSON.parse(message.content) };
+          setPages([sketch]);
+        }
+        else if (mode === 'add') {
+          const sketch = { id: uuidv4(), name: `Page ${pages.length + 1}`, content: JSON.parse(message.content) };
+          setPages([...pages, sketch]);
+        }
+        setSelectedImage(null);
+        setUIDescription(null);
+        setLoading(false);
+        setCurrentStage(-1);
+        onClose();
+        closeStartDialog();
+
+
       }
     };
 
@@ -101,7 +119,7 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose }) =
     return () => {
       window.removeEventListener('message', handleMessage);
     };
-  }, [navigate]);
+  }, [closeStartDialog, onClose, mode, setPages, pages]);
 
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -137,7 +155,7 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose }) =
     <Dialog open={isOpen} onOpenChange={(event, data) => !data.open && handleClose()}>
       <DialogSurface>
         <DialogBody>
-          <DialogTitle>Start Project From Sketch</DialogTitle>
+          <DialogTitle>Generate From Sketch</DialogTitle>
           <DialogContent>
             <div className={styles.content}>
               <input
@@ -177,7 +195,7 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose }) =
                       {index < currentStage ? (
                         <CheckmarkCircle24Filled className={styles.completedStage} />
                       ) : (
-                        <CircleHint24Filled className={styles.incompleteStage}/>
+                        <CircleHint24Filled className={styles.incompleteStage} />
                       )}
                       <Text className={index < currentStage ? styles.completedStage : undefined}>
                         {stage}

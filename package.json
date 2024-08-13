@@ -8,29 +8,6 @@
   },
   "main": "./out/src/extension.js",
   "contributes": {
-    "viewsContainers": {
-      "activitybar": [
-        {
-          "id": "UIStudio",
-          "title": "UI Studio",
-          "icon": "assets/small-duck.svg"
-        }
-      ]
-    },
-    "views": {
-      "UIStudio": [
-        {
-          "type": "tree",
-          "id": "sideBarButtons",
-          "name": "UI Studio"
-        },
-        {
-          "type": "tree",
-          "id": "sideBarTree",
-          "name": "Recent Projects"
-        }
-      ]
-    },
     "commands": [
       {
         "command": "mainWebviewPanel.showMainWebviewPanel",
@@ -39,26 +16,6 @@
       {
         "command": "extension.testApiKeysCommand",
         "title": "Show current set API Keys stored in extension secrets"
-      },
-      {
-        "command": "sidebar.showSideBar",
-        "title": "Show Side Bar"
-      },
-      {
-        "command": "extension.createProjectFromScratch",
-        "title": "Create Project from Scratch"
-      },
-      {
-        "command": "extension.createProjectFromTemplate",
-        "title": "Create Project from Template"
-      },
-      {
-        "command": "extension.createProjectFromSketch",
-        "title": "Create Project from Sketch"
-      },
-      {
-        "command": "extension.createProjectFromText",
-        "title": "Create Project from Text"
       },
       {
         "command": "extension.getAzureOpenaiApiKey",

@@ -1,4 +1,4 @@
-import { ColorScheme } from "../../webview-ui/src/types";
+import { ColorScheme } from "../../types";
 
 export const slateGreyScheme: ColorScheme = {
   sectionColors: {

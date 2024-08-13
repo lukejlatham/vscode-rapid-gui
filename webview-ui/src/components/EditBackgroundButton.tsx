@@ -5,9 +5,7 @@ import { TableEditRegular } from '@fluentui/react-icons';
 
 export const EditBackgroundButton: UserComponent<{classes: any}> = ({classes}) => {
     const { connectors: { select } } = useEditor();
-    // const { query } = useEditor();
 
-    // const value = query.node("ROOT").get().data.props.backgroundColor;
 
     return (
         <Button
