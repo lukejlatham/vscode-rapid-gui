@@ -13,10 +13,10 @@ export function generateTextCss(node: Node): string {
   const props = node.props;
   return `
   .custom-text.${node.custom.id} {
-    color: ${props.fontColor};
-    font-size: ${props.fontSize}px;
-    font-weight: ${props.fontWeight};
-    text-align: ${props.textAlign};
+    color: ${props.fontColor || "black"};
+    font-size: ${props.fontSize || "16"}px;
+    font-weight: ${props.fontWeight || "normal"};
+    text-align: ${props.textAlign || "left"};
     ${props.italic ? "font-style: italic;" : ""}
     ${props.underline ? "text-decoration: underline;" : ""}
   }

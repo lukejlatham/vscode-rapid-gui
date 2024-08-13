@@ -20,8 +20,6 @@ export function generateLabelCss(node: Node): string {
     display: block;
     ${props.italic ? "font-style: italic;" : ""}
     ${props.underline ? "text-decoration: underline;" : ""}
-    margin: ${props.margin || "0"};
-    padding: ${props.padding || "0"};
   }
   `;
 }
