@@ -46,10 +46,11 @@ export function generateSliderCss(node: Node): string {
     -webkit-appearance: none;
     width: 100%;
     height: 10px;
-    border-radius: 5px;
-    background: ${props.backgroundColor};
+    background: #FFFFFF; /* White background for the track */
+    border: 1px solid #000000; /* Black border around the track */
     outline: none;
     margin: 10px 0;
+    border-radius: 5px;
   }
   
   .slider-container.${node.custom.id} input[type="range"]::-webkit-slider-thumb {
@@ -58,7 +59,23 @@ export function generateSliderCss(node: Node): string {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: ${props.backgroundColor};
+    background: ${props.backgroundColor}; /* Dynamic color for the thumb */
+    cursor: pointer;
+  }
+  
+  .slider-container.${node.custom.id} input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: ${props.backgroundColor}; /* Dynamic color for the thumb */
+    cursor: pointer;
+  }
+  
+  .slider-container.${node.custom.id} input[type="range"]::-ms-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: ${props.backgroundColor}; /* Dynamic color for the thumb */
     cursor: pointer;
   }
   
