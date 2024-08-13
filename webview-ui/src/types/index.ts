@@ -31,7 +31,7 @@ export type BackgroundProps = z.infer<typeof backgroundSchema>;
 
 export const buttonSchema = z.object({
   backgroundColor: z.string().default("lightslategrey"),
-  fontSize: z.number().default(16),
+  fontSize: z.number().default(24),
   fontColor: z.string().default("white"),
   borderRadius: z.number().default(4),
   width: z.number().default(20),
@@ -235,7 +235,11 @@ export const imageSchema = z.object({
 export type ImageProps = z.infer<typeof imageSchema>;
 
 export const textSchema = z.object({
-  text: z.string().default("Here is some text"),
+  text: z
+    .string()
+    .default(
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    ),
   fontSize: z.number().default(14),
   fontColor: z.string().default("black"),
   textAlign: z.enum(["left", "center", "right", "justify"]).default("left"),

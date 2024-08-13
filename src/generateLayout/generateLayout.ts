@@ -59,7 +59,9 @@ async function processInput(
       deploymentName,
       parsedLayout,
       parsedChildren,
-      zodChildrenWithPropsSchema
+      zodChildrenWithPropsSchema,
+      inputType,
+      inputType === "text" ? input : undefined
     );
 
     const parsedFullChildren = JSON.stringify(fullChildren.sections);
