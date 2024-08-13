@@ -10,9 +10,9 @@ const useStyles = makeStyles({
     margin: '10px',
     padding: '10px',
     border: '1px solid #666666',
-    borderRadius: '10px',
+    borderRadius: '3px',
     maxWidth: "100%",
-    height: "50%",
+    height: "95%",
     overflow: "scroll",
   },
   header: {
@@ -99,7 +99,7 @@ export const PropertyInspector: React.FC = () => {
       {selected.settings && React.createElement(selected.settings)}
       {(selected.id === 'ROOT') ? <BackgroundSettings /> : null}
       
-      {(selected.displayName !== 'GridCell' && selected.displayName !== 'Background') ? (<div className={classes.buttonGroup}>
+      {(selected.displayName !== 'Background') ? (<div className={classes.buttonGroup}>
         <Tooltip content="Copy Format" relationship="label">
           <Button
             appearance='secondary'

@@ -27,11 +27,8 @@ import { add, set } from "lodash";
 const useStyles = makeStyles({
   mainLayout: {
     display: 'flex',
-    padding: '0px',
     height: '100vh',
     width: '100vw',
-    gap: '10px',
-    alignSelf: 'center',
   },
   // leftSidebar: {
   //   flex: '0 0 200px',
@@ -53,15 +50,16 @@ const useStyles = makeStyles({
     flexGrow: 1,
     display: 'flex',
     flexDirection: 'column',
+    padding: '5px',
     borderRadius: '3px',
     overflow: 'hidden',
   },
-  rightSidebar: {
-    flex: '0 0 200px',
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
-  },
+  // rightSidebar: {
+  //   flex: '0 1 20%',
+  //   display: 'flex',
+  //   flexDirection: 'column',
+  //   height: '100%',
+  // },
 });
 
 const LOCAL_STORAGE_KEY = 'userPages';
