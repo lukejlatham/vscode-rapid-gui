@@ -1,7 +1,11 @@
 import { Node, LayoutItem } from "../JSONParser";
 import { generateComponentHtml, generateComponentCss } from "../componentGenerator";
 
-export function generateContainerHtml(node: Node, content: { [key: string]: Node }): string {
+export function generateContainerHtml(
+  node: Node,
+  content: { [key: string]: Node },
+  projectPath?: string
+): string {
   const props = node.props;
   let childrenHtml = "";
 
@@ -19,40 +23,61 @@ export function generateContainerHtml(node: Node, content: { [key: string]: Node
           },
         },
         node.custom.id || "",
-        ""
+        projectPath
       );
     }
   });
 
+  const flexStyles = `
+    display: flex;
+    flex-direction: ${props.flexDirection || "column"};
+    justify-content: ${props.justifyContent || "flex-start"};
+    align-items: ${props.alignItems || "stretch"};
+    flex-wrap: ${props.flexWrap || "nowrap"};
+    gap: ${props.gap || "0"}px;
+  `;
+
+  const containerStyles = `
+    width: ${props.width ? props.width + "%" : "auto"};
+    height: ${props.height ? props.height + "%" : "auto"};
+    background-color: ${props.backgroundColor || "transparent"};
+    border: ${props.borderWidth || 1}px solid ${props.borderColor || "transparent"};
+    border-radius: ${props.borderRadius || 0}px;
+    padding: ${props.padding || 0}px;
+    margin: ${props.margin || 0}px;
+    box-sizing: border-box;
+    ${
+      props.shadowColor
+        ? `box-shadow: ${props.shadowOffsetX || 0}px ${props.shadowOffsetY || 0}px ${
+            props.shadowBlur || 0
+          }px ${props.shadowColor};`
+        : ""
+    }
+    ${flexStyles}
+  `;
+
   return `
-<div id="${node.custom.id}" class="container ${node.custom.id}" style="width: ${props.width}%; height: ${props.height}%;">
-  ${childrenHtml}
-</div>
-`;
+    <div id="${node.custom.id}" class="container ${node.custom.id}" style="${containerStyles}">
+      ${childrenHtml}
+    </div>
+  `;
 }
 
 export function generateContainerCss(node: Node, content: { [key: string]: Node }): string {
-  const props = node.props;
-  // width: ${props.width}%; removed from below and added to html
-  // height: ${props.height}%;
   let css = `
-.container.${node.custom.id} {
-  background-color: ${props.backgroundColor};
-  border: 2px solid ${props.borderColor};
-  border-radius: ${props.borderRadius}px;
-  padding: ${props.padding}px;
-  display: flex;
-  flex-direction: ${props.flexDirection};
-  justify-content: ${props.justifyContent};
-  align-items: ${props.alignItems};
-  gap: ${props.gap}px;
-`;
-
-  if (props.shadowColor && props.shadowBlur) {
-    css += `  box-shadow: ${props.shadowOffsetX}px ${props.shadowOffsetY}px ${props.shadowBlur}px ${props.shadowColor};\n`;
-  }
-
-  css += "}\n";
+    .container.${node.custom.id} {
+      transition: all 0.3s ease;
+    }
+    
+    .container.${node.custom.id}:hover {
+      ${
+        node.props.hoverBackgroundColor
+          ? `background-color: ${node.props.hoverBackgroundColor};`
+          : ""
+      }
+      ${node.props.hoverBorderColor ? `border-color: ${node.props.hoverBorderColor};` : ""}
+    }
+  `;
 
   // Generate CSS for child components
   node.nodes.forEach((childId) => {
