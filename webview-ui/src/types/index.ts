@@ -2,11 +2,8 @@
 import * as VscIcons from "react-icons/vsc";
 import { z } from "zod";
 import { SerializedNodes } from "@craftjs/core";
-import { head, max, min } from "lodash";
 
 type VscIconKeys = keyof typeof VscIcons;
-
-type IconType = VscIconKeys | "none" | "left" | "right";
 
 export const backgroundSchema = z.object({
   backgroundColor: z.string().default("#292929"),
@@ -31,7 +28,7 @@ export type BackgroundProps = z.infer<typeof backgroundSchema>;
 
 export const buttonSchema = z.object({
   backgroundColor: z.string().default("lightslategrey"),
-  fontSize: z.number().default(24),
+  fontSize: z.number().default(20),
   fontColor: z.string().default("white"),
   borderRadius: z.number().default(4),
   width: z.number().default(20),
@@ -136,10 +133,10 @@ export const gridCellSchema = z.object({
 });
 
 export const dropdownSchema = z.object({
-  header: z.string().default("Dropdown Header"),
+  header: z.string().default(""),
   optionLabels: z.array(z.string()).default([]),
   numberOfOptions: z.number().default(1),
-  fontSize: z.number().default(14),
+  fontSize: z.number().default(18),
   fontColor: z.string().default("black"),
 });
 
@@ -188,7 +185,7 @@ export const radioButtonSchema = z.object({
 export type RadioButtonProps = z.infer<typeof radioButtonSchema>;
 
 export const sliderSchema = z.object({
-  header: z.string().default("Slider"),
+  header: z.string().default(""),
   min: z.number().default(0),
   max: z.number().default(100),
   step: z.number().default(1),
@@ -380,7 +377,6 @@ export const generatedElements = z.object({
     "Slider",
     "Dropdown",
   ]),
-  DescriptiveName: z.string(),
 });
 
 export const generatedSectionChildren = z.object({
@@ -446,6 +442,7 @@ export const generateImageSchema = z.object({
   type: z.literal("Image"),
   props: z.object({
     alt: z.string().default("Image"),
+    width: z.number().describe("Percentage of the section width - height is auto."),
   }),
 });
 
@@ -466,6 +463,7 @@ export const generateTextSchema = z.object({
 export const generateSliderSchema = z.object({
   type: z.literal("Slider"),
   props: z.object({
+    header: z.string().optional(),
     backgroundColor: ColorEnum,
   }),
 });
@@ -502,7 +500,7 @@ const sectionSchema = z.object({
     backgroundColor: ColorEnum.describe("Use accent colors for headers and footers."),
     flexDirection: z.enum(["row", "column"]),
   }),
-  contents: z.string().describe("One line on purpose, one line on contents."),
+  contents: z.string().describe("be descriptive: one line on purpose, one line on contents."),
 });
 
 export const layoutSchema = z.object({

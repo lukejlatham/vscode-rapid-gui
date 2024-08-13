@@ -19,7 +19,7 @@ const childSchemaMap = {
   Checkboxes: generateCheckboxesSchema,
   Input: generateInputSchema,
   Label: generateLabelSchema,
-  RadioButton: generateRadioButtonSchema,
+  RadioButtons: generateRadioButtonSchema,
   Image: generateImageSchema,
   TextBox: generateTextBoxSchema,
   Text: generateTextSchema,
