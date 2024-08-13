@@ -1,12 +1,29 @@
 import { Node } from "../JSONParser";
 
 export function generateSliderHtml(node: Node): string {
-  const props = node.props;
+  const props = node.props || {};
+  const optionLabels = Array.isArray(props.optionLabels) ? props.optionLabels : [];
+  const header = props.header || "Slider";
+  const min = props.min || 1;
+  const max = props.max || 100;
+  const step = props.step || 1;
+
+  const options = optionLabels
+    .map(
+      (option, index) => `
+      <div class="radio-option">
+        <input type="radio" id="${node.custom.id}-${index}" name="${header}" value="${option}">
+        <label for="${node.custom.id}-${index}">${option}</label>
+      </div>
+    `
+    )
+    .join("\n");
+
   return `
   <div class="slider-container ${node.custom.id}">
-    <label for="${node.custom.id}">${props.label}</label>
-    <input type="range" id="${node.custom.id}" min="${props.min}" max="${props.max}" step="${props.step}" value="${props.value}">
-    <output for="${node.custom.id}">${props.value}</output>
+    <label>${header}</label>
+    <input type="range" id="${node.custom.id}" min="${min}" max="${max}" step="${step}">
+    <output for="${node.custom.id}"></output>
   </div>
   `;
 }
@@ -30,7 +47,7 @@ export function generateSliderCss(node: Node): string {
     width: 100%;
     height: 10px;
     border-radius: 5px;
-    background: ${props.sliderColor};
+    background: ${props.backgroundColor};
     outline: none;
     margin: 10px 0;
   }
@@ -41,7 +58,7 @@ export function generateSliderCss(node: Node): string {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: ${props.sliderColor};
+    background: ${props.backgroundColor};
     cursor: pointer;
   }
   

@@ -1,8 +1,17 @@
 import { Node } from "../JSONParser";
+import * as FluentIcons from "@fluentui/react-icons";
 
 export function generateIconHtml(node: Node): string {
   const props = node.props;
-  const iconHtml = `<i id="${node.custom.id}" class="icon ${props.iconName}"></i>`;
+  const iconComponent = FluentIcons[props.selectedIcon];
+
+  if (!iconComponent) {
+    console.warn(`Icon component for ${props.selectedIcon} not found.`);
+    return `<!-- Icon ${props.selectedIcon} not found -->`;
+  }
+
+  const iconSvg = iconComponent({ primaryFill: props.iconColor });
+  const iconHtml = `<span class="icon ${node.custom.id}" style="font-size: ${props.iconSize}px;">${iconSvg}</span>`;
 
   if (props.hyperlink) {
     return `<a href="${props.hyperlink}" class="icon-link">${iconHtml}</a>`;
@@ -14,9 +23,9 @@ export function generateIconHtml(node: Node): string {
 export function generateIconCss(node: Node): string {
   const props = node.props;
   return `
-  .icon.${props.iconName} {
-    color: ${props.color};
-    font-size: ${props.size}px;
+  .icon.${node.custom.id} {
+    display: inline-block;
+    vertical-align: middle;
   }
   
   .icon-link {

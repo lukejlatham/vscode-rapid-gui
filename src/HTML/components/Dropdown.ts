@@ -2,13 +2,13 @@ import { Node } from "../JSONParser";
 
 export function generateDropdownHtml(node: Node): string {
   const props = node.props;
-  const options = props.options
-    .map((option) => `<option value="${option}">${option}</option>`)
+  const options = props.optionLabels
+    .map((option: any) => `<option value="${option}">${option}</option>`)
     .join("\n");
 
   return `
   <div class="dropdown-container ${node.custom.id}">
-    <label for="${node.custom.id}">${props.label}</label>
+    <label for="${node.custom.id}">${props.header}</label>
     <select id="${node.custom.id}">
       ${options}
     </select>
@@ -33,9 +33,9 @@ export function generateDropdownCss(node: Node): string {
   .dropdown-container.${node.custom.id} select {
     color: ${props.fontColor};
     font-size: ${props.fontSize}px;
-    background-color: ${props.backgroundColor};
-    border: 1px solid ${props.borderColor};
-    border-radius: ${props.borderRadius}px;
+    background-color: white;
+    border: 1px solid ${props.fontColor};
+    border-radius: 4px;
     padding: 5px;
   }
   `;
