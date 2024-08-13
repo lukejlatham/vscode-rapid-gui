@@ -1,11 +1,13 @@
 import { Node } from "../JSONParser";
 
 export function generateTextBoxHtml(node: Node): string {
-  const props = node.props;
+  const props = node.props || {};
+  const label = props.label || "";
+  const placeholder = props.placeholder || "Enter text here...";
   return `
   <div class="textbox-container ${node.custom.id}">
-    <label for="${node.custom.id}">${props.label}</label>
-    <textarea id="${node.custom.id}" placeholder="${props.placeholder}"></textarea>
+    <label for="${node.custom.id}">${label}</label>
+    <textarea id="${node.custom.id}" placeholder="${placeholder}"></textarea>
   </div>
   `;
 }
