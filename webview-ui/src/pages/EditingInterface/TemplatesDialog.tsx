@@ -14,6 +14,7 @@ import FeedbackForm from '../../data/layout_templates/FeedbackForm.json'
 import { DesktopRegular, GamesRegular, FormRegular, PersonPasskeyRegular } from '@fluentui/react-icons';
 import { v4 as uuidv4 } from 'uuid';
 import { Page } from '../../types';
+import { FormattedMessage } from 'react-intl';
 
 const useStyles = makeStyles({
     cardLink: {
@@ -84,7 +85,7 @@ export const TemplatesDialog: React.FC<TemplatesDialogProps> = ({ isOpen, onClos
         <Dialog open={isOpen} onOpenChange={(event, data) => onClose()}>
             <DialogSurface>
                 <DialogBody>
-                    <DialogTitle>Choose a Template</DialogTitle>
+                    <DialogTitle><FormattedMessage id="templatesDialog.title" defaultMessage={"Choose a Template"}/></DialogTitle>
                     <DialogContent>
                         <div className={styles.templateContainer}>
                             {templates.map((template) => (
@@ -98,7 +99,7 @@ export const TemplatesDialog: React.FC<TemplatesDialogProps> = ({ isOpen, onClos
                     </DialogContent>
                 </DialogBody>
                 <DialogActions>
-                    <Button onClick={onClose}>Cancel</Button>
+                    <Button onClick={onClose}><FormattedMessage id="templatesDialog.cancel" defaultMessage={"Cancel"}/></Button>
                 </DialogActions>
             </DialogSurface>
         </Dialog>

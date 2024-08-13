@@ -24,12 +24,12 @@ const RightSidebar: React.FC<{ classes: any }> = ({ classes }) => {
     const localClasses = useLocalStyles();
 
     return (
-        <div className={`${classes.rightSidebar} ${localClasses.sidebar}`}>
+        // <div className={`${classes.rightSidebar} ${localClasses.sidebar}`}>
                 <PropertyInspector />
-            <Card className={`${localClasses.propertyInspector} ${localClasses.copilotItem}`}>
-                <ThemeDropdown />
-            </Card>
-        </div>
+            //  <Card className={`${localClasses.propertyInspector} ${localClasses.copilotItem}`}>
+                // <ThemeDropdown />
+            // </Card>
+        // </div>
     );
 };
 

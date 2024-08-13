@@ -1,7 +1,7 @@
 import { Editor, SerializedNodes } from "@craftjs/core";
 import { Label } from "../../components/user/Label";
 import { Button } from "../../components/user/Button";
-import { makeStyles } from '@fluentui/react-components';
+import { makeStyles, Theme } from '@fluentui/react-components';
 import { TextBox } from '../../components/user/TextBox';
 import { Image } from '../../components/user/Image';
 import { Background } from '../../components/user/Background';
@@ -29,15 +29,13 @@ const useStyles = makeStyles({
     display: 'flex',
     height: '100vh',
     width: '100vw',
-    gap: '10px',
-    alignSelf: 'center',
   },
-  leftSidebar: {
-    flex: '0 0 200px',
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
-  },
+  // leftSidebar: {
+  //   flex: '0 0 200px',
+  //   display: 'flex',
+  //   flexDirection: 'column',
+  //   height: '100%',
+  // },
   mainContent: {
     flexGrow: 1,
     display: 'flex',
@@ -52,15 +50,16 @@ const useStyles = makeStyles({
     flexGrow: 1,
     display: 'flex',
     flexDirection: 'column',
+    padding: '5px',
     borderRadius: '3px',
     overflow: 'hidden',
   },
-  rightSidebar: {
-    flex: '0 0 200px',
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
-  },
+  // rightSidebar: {
+  //   flex: '0 1 20%',
+  //   display: 'flex',
+  //   flexDirection: 'column',
+  //   height: '100%',
+  // },
 });
 
 const LOCAL_STORAGE_KEY = 'userPages';
@@ -83,7 +82,13 @@ const createDefaultPage = (): Page => ({
   },
 });
 
-const EditingInterface: React.FC = () => {
+const EditingInterface: React.FC<{
+  theme: Theme;
+  setTheme: React.Dispatch<React.SetStateAction<Theme>>
+}> = ({
+  theme,
+  setTheme
+}) => {
   const classes = useStyles();
 
   const [pages, setPages] = useState<Page[]>([createDefaultPage()]);
@@ -163,6 +168,8 @@ const EditingInterface: React.FC = () => {
         setPages={setPages}
         clearPage={clearPage}
         classes={classes}
+        theme={theme}
+        setTheme={setTheme}
       />
     </Editor>
   );

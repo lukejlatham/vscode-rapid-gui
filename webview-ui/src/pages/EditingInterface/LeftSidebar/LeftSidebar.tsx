@@ -1,23 +1,36 @@
 import React, { useState } from "react";
 import {
   makeStyles,
-  Divider,
-  Subtitle2,
-  Button,
   Card,
-  Accordion,
-  AccordionHeader,
-  AccordionItem,
-  AccordionPanel,
-  AccordionToggleEventHandler,
+  Button,
+  TabList,
+  Tab,
+  Divider,
+  tokens,
+  Theme,
 } from "@fluentui/react-components";
 import Header from "./Header";
 import ComponentButtons from "./ComponentButtons";
 import ProjectManagement from "./ProjectManagementButtons";
-import { Page } from "../../../types";
 import LayoutManagement from "./LayoutManagement";
 import PagesButtons from "./PagesButtons";
-import { GridFilled, DocumentMultipleFilled, DocumentFolderFilled, LibraryFilled } from "@fluentui/react-icons";
+import Settings from "./Settings";
+import { ThemeDropdown } from "../../../Features/theming/ThemeDropdown";
+import { Page } from "../../../types";
+import {
+  GridFilled,
+  GridRegular,
+  DocumentMultipleFilled,
+  DocumentMultipleRegular,
+  ColorFilled,
+  ColorRegular,
+  LibraryFilled,
+  LibraryRegular,
+  AddFilled,
+  SettingsRegular,
+  SettingsFilled
+} from "@fluentui/react-icons";
+import { FormattedMessage } from "react-intl";
 
 const useStyles = makeStyles({
   componentRoot: {
@@ -29,43 +42,48 @@ const useStyles = makeStyles({
     gap: "10px",
     padding: "5px",
   },
-  header: {
+  contentContainer: {
+    padding: "5px",
+  },
+  sidebar: {
     display: "flex",
     justifyContent: "start",
+    overflow: "scroll",
+    height: "100%",
+
   },
-  projectManagement: {
-    paddingTop: "20px",
-    textAlign: "center",
-  },
-  componentButtons: {
-    // fontSize: '10px',
-    // padding: '20px'
-    cursor: "move !important",
-  },
-  layoutManagement: {
-    // width: "100%",
+  tabsBar: {
+    padding: "10px",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "center",
-    // alignContent : "center",
-    // alignItems: "center",
-    gap: "5px",
-    // padding: "5px",
-    marginTop: "10px",
+    justifyContent: "space-between",
+    alignItems: "start",
+    borderRight: `1px solid ${tokens.colorNeutralStroke1}`,
+  },
+  bottomButtons: {
+    display: "flex",
+    width: "100%",
+    flexDirection: "column",
+    alignContent: "center",
+    gap: "10px",
+  },
+  layoutManagement: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    gap: '10px',
   },
   switchContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
     width: '100%',
+    border: `1px solid ${tokens.colorNeutralStroke1}`,
     borderRadius: '5px',
-    paddingTop: '5px',
-    paddingBottom: '5px',
-    border: '1px solid #666666',
+  },
+  componentButtons: {
+    cursor: "move !important",
   }
 });
 
-const LeftSidebar: React.FC<{
+interface LeftSidebarProps {
   classes: any;
   pages: Page[];
   setPages: React.Dispatch<React.SetStateAction<Page[]>>;
@@ -77,8 +95,11 @@ const LeftSidebar: React.FC<{
   updateCurrentPage: () => void;
   openStartProjectDialog: () => void;
   openAddPageDialog: () => void;
-  
-}> = ({
+  theme: Theme;
+  setTheme: React.Dispatch<React.SetStateAction<Theme>>;
+}
+
+const LeftSidebar: React.FC<LeftSidebarProps> = ({
   classes,
   pages,
   setPages,
@@ -89,77 +110,132 @@ const LeftSidebar: React.FC<{
   clearPage,
   updateCurrentPage,
   openStartProjectDialog,
-  openAddPageDialog
+  openAddPageDialog,
+  theme,
+  setTheme
 }) => {
+  const localClasses = useStyles();
+  const [selectedTab, setSelectedTab] = useState<string>("");
 
-    const localClasses = useStyles();
-    const [openItems, setOpenItems] = useState([""]);
+  const PagesIcon = selectedTab === "Pages" ? DocumentMultipleFilled : DocumentMultipleRegular;
+  const LayoutIcon = selectedTab === "Layout" ? GridFilled : GridRegular;
+  const ThemeIcon = selectedTab === "Theme" ? ColorFilled : ColorRegular;
+  const ComponentLibraryIcon = selectedTab === "ComponentLibrary" ? LibraryFilled : LibraryRegular;
+  const SettingsIcon = selectedTab === "Settings" ? SettingsFilled : SettingsRegular;
 
-    const handleToggle: AccordionToggleEventHandler<string> = (event, data) => {
-      setOpenItems(data.openItems);
-    };
 
-
-    const handleStartProject = () => {
-      // closing all accordions
-      setOpenItems([]);
-
-      // clearing pages and setting current page index to 0
-      setPages([]);
-      setCurrentPageIndex(0);
-
-      // opening start project dialog
-      openStartProjectDialog();
-    };
-
-    return (
-      <Card className={`${classes.componentRoot} ${localClasses.componentRoot}`}>
-        <Header classes={localClasses} />
-        <Accordion openItems={openItems} onToggle={handleToggle} multiple collapsible>
-          <AccordionItem value="Layout">
-            <AccordionHeader size="extra-large" icon={<GridFilled />}>Layout</AccordionHeader>
-            <AccordionPanel>
-              <LayoutManagement classes={localClasses} />
-            </AccordionPanel>
-          </AccordionItem>
-          <AccordionItem value="Pages">
-            <AccordionHeader size="extra-large" icon={<DocumentMultipleFilled />} >Pages</AccordionHeader>
-            <AccordionPanel>
-              <PagesButtons
-                classes={localClasses}
-                pages={pages}
-                setPages={setPages}
-                renamePage={renamePage}
-                deletePage={deletePage}
-                clearPage={clearPage}
-                updateCurrentPage={updateCurrentPage}
-                currentPageIndex={currentPageIndex}
-                setCurrentPageIndex={setCurrentPageIndex}
-                openAddPageDialog={openAddPageDialog}
-              />
-            </AccordionPanel>
-          </AccordionItem>
-          <AccordionItem value="ProjectManagement">
-            <AccordionHeader size="extra-large" icon={<DocumentFolderFilled />}>Project Management</AccordionHeader>
-            <AccordionPanel>
-              <ProjectManagement
-                classes={localClasses}
-                pages={pages}
-                setPages={setPages}
-                currentPageIndex={currentPageIndex}
-              />
-            </AccordionPanel>
-          </AccordionItem>
-          <AccordionItem value="ComponentLibrary">
-            <AccordionHeader size="extra-large" icon={<LibraryFilled />}>Component Library</AccordionHeader>
-            <AccordionPanel>
-              <ComponentButtons classes={localClasses} />
-            </AccordionPanel>
-          </AccordionItem>
-        </Accordion>
-        <Button onClick={handleStartProject}>+ Start New Project</Button>
-      </Card>
-    );
+  const renderContent = () => {
+    switch (selectedTab) {
+      case "Layout":
+        return <LayoutManagement classes={localClasses} />;
+      case "Pages":
+        return (
+          <PagesButtons
+            classes={localClasses}
+            pages={pages}
+            setPages={setPages}
+            renamePage={renamePage}
+            deletePage={deletePage}
+            clearPage={clearPage}
+            updateCurrentPage={updateCurrentPage}
+            currentPageIndex={currentPageIndex}
+            setCurrentPageIndex={setCurrentPageIndex}
+            openAddPageDialog={openAddPageDialog}
+          />
+        );
+      case "Theme":
+        return <ThemeDropdown />;
+      case "ComponentLibrary":
+        return <ComponentButtons classes={localClasses} />;
+      case "Settings":
+        return <Settings classes={localClasses} theme={theme} setTheme={setTheme} />;
+      default:
+        return null;
+    }
   };
+
+    
+
+  return (
+    <div className={`${localClasses.sidebar}`}>
+      {/* <Header classes={localClasses} /> */}
+      <div className={localClasses.tabsBar}>
+      <TabList
+        selectedValue={selectedTab}
+        onTabSelect={(event, data) => 
+          {if (selectedTab === data.value as string) {
+            setSelectedTab("");
+          } else {
+          setSelectedTab(data.value as string)}
+        }}
+        vertical
+        appearance="subtle"
+        size="medium"
+      >
+        <Tab icon={<LayoutIcon />} value="Layout" aria-label="Layout" >
+       <FormattedMessage 
+        id="leftSidebar.layout"
+        defaultMessage="Layout"
+       />
+        </Tab>
+        <Tab
+          icon={<PagesIcon />}
+          value="Pages"
+          aria-label="Pages"
+        > <FormattedMessage 
+        id="leftSidebar.pages"
+        defaultMessage="Pages"
+       />
+       </Tab>
+        <Tab
+          icon={<ThemeIcon />}
+          value="Theme"
+          aria-label="Theme"
+        >
+          <FormattedMessage 
+        id="leftSidebar.theme"
+        defaultMessage="Theme"
+       />
+        </Tab>
+        <Tab
+          icon={<ComponentLibraryIcon />}
+          value="ComponentLibrary"
+          aria-label="Component Library"
+        >
+          <FormattedMessage 
+        id="leftSidebar.components"
+        defaultMessage="Components"
+       />
+        </Tab>
+        <Tab
+          icon={<SettingsIcon />}
+          value="Settings"
+          aria-label="Settings"
+        >
+          <FormattedMessage 
+        id="leftSidebar.settings"
+        defaultMessage="Settings"
+       />
+        </Tab>
+      </TabList>
+      <div className={localClasses.bottomButtons}>
+      <ProjectManagement
+            classes={localClasses}
+            pages={pages}
+            setPages={setPages}
+            currentPageIndex={currentPageIndex}
+          />
+      <Button onClick={openStartProjectDialog} appearance="primary" icon={<AddFilled/>}>
+        <FormattedMessage 
+        id="leftSidebar.new"
+        defaultMessage="New"
+       />
+      </Button>
+      </div>
+      </div>
+      <div className={localClasses.contentContainer}>{renderContent()}</div>
+    </div>
+  );
+};
 
 export default LeftSidebar;

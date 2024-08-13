@@ -1,28 +1,28 @@
 import React, { useState } from "react";
 import { useEditor } from "@craftjs/core";
-import { Subtitle2, Divider, Button, Tooltip, makeStyles } from "@fluentui/react-components";
+import { Subtitle1, Divider, Button, Tooltip, makeStyles, tokens } from "@fluentui/react-components";
 import { Delete24Regular, PaintBrush24Regular, PaintBrushArrowDown24Regular, Dismiss20Regular } from "@fluentui/react-icons";
 import { BackgroundSettings } from "../../../components/user/Settings/BackgroundSettings";
-import { stat } from "fs";
-import { string } from "zod";
 
 
 const useStyles = makeStyles({
   propertyInspector: {
     margin: '10px',
     padding: '10px',
-    border: '1px solid #666666',
-    borderRadius: '10px',
-    maxWidth: "100%"
+    border: `1px solid ${tokens.colorNeutralStroke1}`,
+    borderRadius: '3px',
+    maxWidth: "100%",
+    height: "95%",
+    overflow: "scroll",
   },
   header: {
     display: 'flex',
-    paddingTop: "5px",
-    paddingBottom: '10px',
+    padding: '5px',
     textAlign: "center",
     gap: '10px',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    color: tokens.colorNeutralForeground1,
   },
   buttonGroup: {
     display: 'flex',
@@ -34,6 +34,12 @@ const useStyles = makeStyles({
   },
   button: {
     width: "30%",
+  },
+  dismissButton: {
+    ":hover": {
+      border: `2px solid ${tokens.colorNeutralStroke1}`,
+      borderRadius: "5px",
+    },
   },
 });
 
@@ -87,14 +93,14 @@ export const PropertyInspector: React.FC = () => {
   return selected ? (
     <div className={classes.propertyInspector}>
       <div className={classes.header}>
-        <Subtitle2>{selected.displayName}</Subtitle2>
-        <Button icon={<Dismiss20Regular />} appearance="transparent" onClick={handleClose} />
+        <Subtitle1>{selected.displayName}</Subtitle1>
+        <Button icon={<Dismiss20Regular className={classes.dismissButton}/>} appearance="transparent" onClick={handleClose} />
       </div>
       <Divider style={{ flexGrow: "0" }} />
       {selected.settings && React.createElement(selected.settings)}
       {(selected.id === 'ROOT') ? <BackgroundSettings /> : null}
       
-      {(selected.displayName !== 'GridCell' && selected.displayName !== 'Background') ? (<div className={classes.buttonGroup}>
+      {(selected.displayName !== 'Background') ? (<div className={classes.buttonGroup}>
         <Tooltip content="Copy Format" relationship="label">
           <Button
             appearance='secondary'

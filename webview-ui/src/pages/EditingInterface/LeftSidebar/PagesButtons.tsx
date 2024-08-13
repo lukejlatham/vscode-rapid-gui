@@ -3,6 +3,7 @@ import { Button, Select } from '@fluentui/react-components';
 import { RenamePageDialog } from '../../../components/RenamePageDialog';
 import { DocumentAddRegular, DeleteRegular, SquareEraserRegular} from '@fluentui/react-icons';
 import { Page } from '../../../types';
+import { FormattedMessage } from 'react-intl';
 
 const PagesButtons: React.FC<{ 
     classes: any, 
@@ -25,7 +26,7 @@ const PagesButtons: React.FC<{
         {currentPage && (
             <div className={classes.componentRoot}>
                 <Select
-                    size='large'
+                    size='medium'
                     value={currentPageIndex}
                     onChange={(e) => {
                         updateCurrentPage(); // Save current page before switching
@@ -38,13 +39,13 @@ const PagesButtons: React.FC<{
                 </Select>
                 <Button
                     icon={<DocumentAddRegular />}
-                    size='large'
+                    size='medium'
                     onClick={() => {
                         updateCurrentPage(); // Save current page before adding new
                         openAddPageDialog();
                     }}
                 >
-                    Add
+                    <FormattedMessage id="pages.add" defaultMessage="Add"/>
                 </Button>
                 <RenamePageDialog
                     onUpdate={updateCurrentPage}
@@ -55,21 +56,21 @@ const PagesButtons: React.FC<{
                 />
                 <Button
                     icon={<DeleteRegular />}
-                    size='large'
+                    size='medium'
                     onClick={() => {
                         deletePage(currentPageIndex);
                     }}
                 >
-                    Delete
+                    <FormattedMessage id="pages.delete" defaultMessage="Delete"/>
                 </Button>
                 <Button
-                    size='large'
+                    size='medium'
                     icon={<SquareEraserRegular />}
                     onClick={() => {
                         clearPage(currentPageIndex);
                     }}
                 >
-                    Reset
+                    <FormattedMessage id="pages.reset" defaultMessage="Reset"/>
                 </Button>
             </div>
         )}
