@@ -25,6 +25,8 @@ import {
   LibraryFilled,
   LibraryRegular,
   AddFilled,
+  SettingsRegular,
+  SettingsFilled
 } from "@fluentui/react-icons";
 
 const useStyles = makeStyles({
@@ -112,6 +114,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
   const LayoutIcon = selectedTab === "Layout" ? GridFilled : GridRegular;
   const ThemeIcon = selectedTab === "Theme" ? ColorFilled : ColorRegular;
   const ComponentLibraryIcon = selectedTab === "ComponentLibrary" ? LibraryFilled : LibraryRegular;
+  const SettingsIcon = selectedTab === "Settings" ? SettingsFilled : SettingsRegular;
 
 
   const renderContent = () => {
@@ -137,6 +140,8 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
         return <ThemeDropdown />;
       case "ComponentLibrary":
         return <ComponentButtons classes={localClasses} />;
+      case "Settings":
+        return null;
       default:
         return null;
     }
@@ -181,6 +186,13 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
           aria-label="Component Library"
         >
           Components
+        </Tab>
+        <Tab
+          icon={<SettingsIcon />}
+          value="Settings"
+          aria-label="Settings"
+        >
+          Settings
         </Tab>
       </TabList>
       <div className={localClasses.bottomButtons}>

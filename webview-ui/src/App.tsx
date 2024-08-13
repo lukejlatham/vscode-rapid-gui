@@ -1,7 +1,7 @@
 import React from 'react';
 import { HashRouter as Router } from 'react-router-dom';
 import AppRoutes from './routes/AppRoutes';
-import { FluentProvider, teamsDarkTheme } from '@fluentui/react-components';
+import { FluentProvider, teamsDarkTheme, teamsLightTheme, teamsHighContrastTheme } from '@fluentui/react-components';
 import "./App.css";
 
 

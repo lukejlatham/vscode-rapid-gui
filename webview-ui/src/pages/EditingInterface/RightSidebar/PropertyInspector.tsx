@@ -9,7 +9,7 @@ const useStyles = makeStyles({
   propertyInspector: {
     margin: '10px',
     padding: '10px',
-    border: '1px solid #666666',
+    border: `1px solid ${tokens.colorNeutralStroke1}`,
     borderRadius: '3px',
     maxWidth: "100%",
     height: "95%",
@@ -22,6 +22,7 @@ const useStyles = makeStyles({
     gap: '10px',
     alignItems: 'center',
     justifyContent: 'space-between',
+    color: tokens.colorNeutralForeground1,
   },
   buttonGroup: {
     display: 'flex',
