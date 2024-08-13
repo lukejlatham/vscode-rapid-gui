@@ -1,12 +1,5 @@
 import { Node } from "../JSONParser";
 
-let buttonCounter = 0;
-
-function percentToPx(percent: number, dimension: "width" | "height"): number {
-  const baseSize = dimension === "width" ? 1920 : 1080; // Assuming a 1920x1080 base resolution
-  return Math.round((percent / 100) * baseSize);
-}
-
 export function generateButtonHtml(node: Node): string {
   const props = node.props;
   const iconHtml =
@@ -31,19 +24,31 @@ export function generateButtonHtml(node: Node): string {
 
 export function generateButtonCss(node: Node): string {
   const props = node.props;
-  buttonCounter++;
-  const buttonId = `button${buttonCounter}`;
 
-  const widthPx = percentToPx(props.width, "width");
-  const heightPx = percentToPx(props.height, "height");
+  // Helper function to convert width/height to appropriate units
+  const convertSize = (size: number, type: "width" | "height") => {
+    if (size <= 1) {
+      // Assume it's a fraction and convert to percentage
+      return `${size * 100}%`;
+    } else if (size <= 100) {
+      // Assume it's already a percentage
+      return `${size}%`;
+    } else {
+      // Assume it's pixels
+      return `${size}px`;
+    }
+  };
+
+  const width = convertSize(props.width, "width");
+  const height = convertSize(props.height, "height");
 
   return `
-  .custom-button.${buttonId} {
+  .custom-button.${node.custom.id} {
     color: ${props.fontColor};
     background-color: ${props.backgroundColor};
     font-size: ${props.fontSize}px;
-    width: ${widthPx}px;
-    height: ${heightPx}px;
+    width: ${width};
+    height: ${height};
     border-radius: ${props.borderRadius}px;
     border: 2px solid ${props.borderColor};
     cursor: pointer;
@@ -51,6 +56,7 @@ export function generateButtonCss(node: Node): string {
     align-items: center;
     justify-content: center;
     text-decoration: none;
+    padding: 10px 20px;
     ${
       props.shadowColor && props.shadowBlur
         ? `box-shadow: ${props.shadowOffsetX}px ${props.shadowOffsetY}px ${props.shadowBlur}px ${props.shadowColor};`

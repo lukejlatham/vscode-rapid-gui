@@ -1,6 +1,6 @@
 import { Node, LayoutItem } from "../JSONParser";
 import { generateComponentHtml, generateComponentCss } from "../componentGenerator";
-//best version so far
+//best version yet
 
 export function generateContainerHtml(
   node: Node,

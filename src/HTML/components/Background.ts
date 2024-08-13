@@ -1,5 +1,6 @@
 import { generateComponentHtml } from "../componentGenerator";
 import { Node } from "../JSONParser";
+//best version yet
 
 export function generateBackgroundHtml(
   node: Node,
@@ -89,11 +90,14 @@ export function generateBackgroundCss(node: Node, content: { [key: string]: Node
   }
   `;
 
-  // Add specific grid area settings
   node.props.layout.forEach((item: any, index: number) => {
+    const cellNodeId = node.linkedNodes[item.i];
+    const cellNode = content[cellNodeId];
+    const flexDirection = cellNode?.props.flexDirection || "column";
     css += `
     .item-${index} {
       grid-area: ${item.y + 1} / ${item.x + 1} / span ${item.h} / span ${item.w};
+      flex-direction: ${flexDirection};
     }
     `;
   });
