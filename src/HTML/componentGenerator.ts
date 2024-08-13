@@ -44,7 +44,13 @@ function generateSingleComponentHtml(
   content: { [key: string]: Node },
   projectPath?: string
 ): string {
+  if (!node || !node.type || !node.type.resolvedName) {
+    console.error("Invalid node structure:", node);
+    return "<!-- Error: Invalid component structure -->";
+  }
+
   const componentId = getComponentId(node.type.resolvedName);
+  node.custom = node.custom || {};
   node.custom.id = componentId;
 
   switch (node.type.resolvedName) {
