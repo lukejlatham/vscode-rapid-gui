@@ -6,10 +6,12 @@ import "./App.css";
 
 
 const App: React.FC = () => {
+  const [theme, setTheme] = React.useState(teamsDarkTheme);
+
   return (
-    <FluentProvider theme={teamsDarkTheme}>
+    <FluentProvider theme={theme}>
       <Router>
-        <AppRoutes />
+        <AppRoutes theme={theme} setTheme={setTheme}/>
       </Router>
     </FluentProvider>
   );

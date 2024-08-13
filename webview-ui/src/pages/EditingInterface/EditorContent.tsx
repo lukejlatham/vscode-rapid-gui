@@ -6,6 +6,7 @@ import { useEffect, useCallback, useState } from "react";
 import { SerializedNodes, useEditor } from "@craftjs/core";
 import { StartProjectDialog } from "../../components/StartProjectDialog";
 import { AddPageDialog } from "../../components/AddPageDialog";
+import { Theme } from "@fluentui/react-components";
 
 interface EditorContentProps {
   pages: Page[];
@@ -17,6 +18,8 @@ interface EditorContentProps {
   setPages: React.Dispatch<React.SetStateAction<Page[]>>;
   clearPage: (index: number) => void;
   classes: any;
+  theme: Theme;
+  setTheme: React.Dispatch<React.SetStateAction<Theme>>;
 }
 
 export const EditorContent: React.FC<EditorContentProps> = ({
@@ -29,6 +32,8 @@ export const EditorContent: React.FC<EditorContentProps> = ({
   setPages,
   classes,
   clearPage,
+  theme,
+  setTheme
 }) => {
   const { actions, query } = useEditor();
   const [isStartProjectDialogOpen, setIsStartProjectDialogOpen] = useState(true);
@@ -78,6 +83,8 @@ export const EditorContent: React.FC<EditorContentProps> = ({
           updateCurrentPage={updateCurrentPage}
           openStartProjectDialog={() => setIsStartProjectDialogOpen(true)}
           openAddPageDialog={() => setIsAddPageDialogOpen(true)}
+          theme={theme}
+          setTheme={setTheme}
         />
       </div>
       <StartProjectDialog

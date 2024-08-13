@@ -1,7 +1,7 @@
 import { Editor, SerializedNodes } from "@craftjs/core";
 import { Label } from "../../components/user/Label";
 import { Button } from "../../components/user/Button";
-import { makeStyles } from '@fluentui/react-components';
+import { makeStyles, Theme } from '@fluentui/react-components';
 import { TextBox } from '../../components/user/TextBox';
 import { Image } from '../../components/user/Image';
 import { Background } from '../../components/user/Background';
@@ -82,7 +82,13 @@ const createDefaultPage = (): Page => ({
   },
 });
 
-const EditingInterface: React.FC = () => {
+const EditingInterface: React.FC<{
+  theme: Theme;
+  setTheme: React.Dispatch<React.SetStateAction<Theme>>
+}> = ({
+  theme,
+  setTheme
+}) => {
   const classes = useStyles();
 
   const [pages, setPages] = useState<Page[]>([createDefaultPage()]);
@@ -162,6 +168,8 @@ const EditingInterface: React.FC = () => {
         setPages={setPages}
         clearPage={clearPage}
         classes={classes}
+        theme={theme}
+        setTheme={setTheme}
       />
     </Editor>
   );

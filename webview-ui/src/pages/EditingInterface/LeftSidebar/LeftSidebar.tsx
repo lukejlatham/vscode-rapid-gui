@@ -7,12 +7,14 @@ import {
   Tab,
   Divider,
   tokens,
+  Theme,
 } from "@fluentui/react-components";
 import Header from "./Header";
 import ComponentButtons from "./ComponentButtons";
 import ProjectManagement from "./ProjectManagementButtons";
 import LayoutManagement from "./LayoutManagement";
 import PagesButtons from "./PagesButtons";
+import Settings from "./Settings";
 import { ThemeDropdown } from "../../../Features/theming/ThemeDropdown";
 import { Page } from "../../../types";
 import {
@@ -92,6 +94,8 @@ interface LeftSidebarProps {
   updateCurrentPage: () => void;
   openStartProjectDialog: () => void;
   openAddPageDialog: () => void;
+  theme: Theme;
+  setTheme: React.Dispatch<React.SetStateAction<Theme>>;
 }
 
 const LeftSidebar: React.FC<LeftSidebarProps> = ({
@@ -106,6 +110,8 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
   updateCurrentPage,
   openStartProjectDialog,
   openAddPageDialog,
+  theme,
+  setTheme
 }) => {
   const localClasses = useStyles();
   const [selectedTab, setSelectedTab] = useState<string>("");
@@ -141,7 +147,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
       case "ComponentLibrary":
         return <ComponentButtons classes={localClasses} />;
       case "Settings":
-        return null;
+        return <Settings classes={localClasses} theme={theme} setTheme={setTheme} />;
       default:
         return null;
     }
