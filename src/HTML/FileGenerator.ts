@@ -5,6 +5,7 @@ import { Page } from "../../webview-ui/src/types";
 import { Node } from "./JSONParser";
 import { generateGridCss, generateGridHtml } from "./GridGenerator";
 import { ProjectStructureGenerator } from "./ProjectStructureGenerator";
+import { generateBackgroundCss } from "./components/Background";
 
 export class FileGenerator {
   private projectName: string;
@@ -63,7 +64,10 @@ export class FileGenerator {
   private createPageFiles(pages: Page[]) {
     pages.forEach((page) => {
       const pageContent = this.generatePageHtmlContent(page);
-      const pageCss = generateGridCss(page);
+      const pageCss = generateBackgroundCss(
+        page.content.ROOT as Node,
+        page.content as { [key: string]: Node }
+      );
 
       let content = this.templateManager.getTemplate("index.html");
       content = content.replace(/{{projectName}}/g, this.projectName);
