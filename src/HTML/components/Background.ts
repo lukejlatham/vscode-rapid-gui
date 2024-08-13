@@ -1,30 +1,22 @@
 import { Node } from "../JSONParser";
 import { generateGridCellHtml } from "./GridCell";
 
-// Function to generate the HTML for the background, which acts as a CSS grid container
 export function generateBackgroundHtml(
   node: Node,
   content: { [key: string]: Node },
   projectPath?: string
 ): string {
-  let html = `<div class="background" style="background-color: ${node.props.backgroundColor};">`;
+  let html = `<div class="grid-container">`;
 
-  // Iterate through the layout array from the JSON to determine the position and size of each grid cell
-  node.props.layout.forEach((item: any) => {
+  node.props.layout.forEach((item: any, index: number) => {
     const cellNodeId = node.linkedNodes[item.i];
     const cellNode = content[cellNodeId];
     if (cellNode) {
-      // Generate a grid cell based on its layout and position
-      html += `<div class="grid-cell" style="grid-area: ${item.y + 1} / ${item.x + 1} / span ${
-        item.h
-      } / span ${item.w};">`;
-
-      // Generate the content within each grid cell
-      if (cellNode.type.resolvedName !== "Background") {
-        html += generateGridCellHtml(cellNode, content, projectPath);
-      }
-
-      html += `</div>`;
+      html += `<div class="grid-cell item-${index}">
+        <div class="content">
+          ${generateGridCellHtml(cellNode, content, projectPath)}
+        </div>
+      </div>`;
     }
   });
 
@@ -32,27 +24,49 @@ export function generateBackgroundHtml(
   return html;
 }
 
-// Function to generate the CSS for the background and grid cells
 export function generateBackgroundCss(node: Node, content: { [key: string]: Node }): string {
-  // Dynamically set the grid-template-rows and grid-template-columns based on the JSON data
-  let css = `.background {
-    display: grid;
-    grid-template-rows: repeat(${node.props.rows}, 1fr);
-    grid-template-columns: repeat(${node.props.columns}, 1fr);
-    gap: ${node.props.gap || "10px"};
+  let css = `
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
     background-color: ${node.props.backgroundColor};
-    width: 100%;
-    height: 100%;
-    position: relative;
-  }`;
+  }
 
-  // Add CSS for grid cells
-  css += `.grid-cell {
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(${node.props.columns}, 1fr);
+    grid-template-rows: repeat(${node.props.rows}, 1fr);
+    gap: ${node.props.gap || "10px"};
+    height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+    grid-auto-flow: dense;
+  }
+
+  .grid-cell {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  .content {
+    display: flex;
     flex-direction: column;
-  }`;
+    align-items: center;
+    gap: 10px;
+  }
+  `;
+
+  // Add specific grid area settings
+  node.props.layout.forEach((item: any, index: number) => {
+    css += `
+    .item-${index} {
+      grid-area: ${item.y + 1} / ${item.x + 1} / span ${item.h} / span ${item.w};
+    }
+    `;
+  });
 
   return css;
 }
