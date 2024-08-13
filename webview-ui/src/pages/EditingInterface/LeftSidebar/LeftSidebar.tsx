@@ -30,6 +30,7 @@ import {
   SettingsRegular,
   SettingsFilled
 } from "@fluentui/react-icons";
+import { FormattedMessage } from "react-intl";
 
 const useStyles = makeStyles({
   componentRoot: {
@@ -172,33 +173,49 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
         size="medium"
       >
         <Tab icon={<LayoutIcon />} value="Layout" aria-label="Layout" >
-        Layout
+       <FormattedMessage 
+        id="leftSidebar.layout"
+        defaultMessage="Layout"
+       />
         </Tab>
         <Tab
           icon={<PagesIcon />}
           value="Pages"
           aria-label="Pages"
-        > Pages </Tab>
+        > <FormattedMessage 
+        id="leftSidebar.pages"
+        defaultMessage="Pages"
+       />
+       </Tab>
         <Tab
           icon={<ThemeIcon />}
           value="Theme"
           aria-label="Theme"
         >
-          Theme
+          <FormattedMessage 
+        id="leftSidebar.theme"
+        defaultMessage="Theme"
+       />
         </Tab>
         <Tab
           icon={<ComponentLibraryIcon />}
           value="ComponentLibrary"
           aria-label="Component Library"
         >
-          Components
+          <FormattedMessage 
+        id="leftSidebar.components"
+        defaultMessage="Components"
+       />
         </Tab>
         <Tab
           icon={<SettingsIcon />}
           value="Settings"
           aria-label="Settings"
         >
-          Settings
+          <FormattedMessage 
+        id="leftSidebar.settings"
+        defaultMessage="Settings"
+       />
         </Tab>
       </TabList>
       <div className={localClasses.bottomButtons}>
@@ -208,7 +225,12 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
             setPages={setPages}
             currentPageIndex={currentPageIndex}
           />
-      <Button onClick={openStartProjectDialog} appearance="primary" icon={<AddFilled/>}>New</Button>
+      <Button onClick={openStartProjectDialog} appearance="primary" icon={<AddFilled/>}>
+        <FormattedMessage 
+        id="leftSidebar.new"
+        defaultMessage="New"
+       />
+      </Button>
       </div>
       </div>
       <div className={localClasses.contentContainer}>{renderContent()}</div>

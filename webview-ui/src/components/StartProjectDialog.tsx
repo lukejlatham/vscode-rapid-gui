@@ -5,6 +5,7 @@ import { UploadDialog } from './SketchUpload/UploadDialog';
 import { TextDialog } from './ImageUpload/TextDialog';
 import { TemplatesDialog } from '../pages/EditingInterface/TemplatesDialog';
 import { Page } from '../types';
+import {FormattedMessage} from 'react-intl';
 
 interface StartProjectDialogProps {
   isOpen: boolean;
@@ -29,15 +30,17 @@ export const StartProjectDialog: React.FC<StartProjectDialogProps> = ({ isOpen, 
             <Dialog modalType='alert' open={isOpen} onOpenChange={(event, data) => onClose()}>
                 <DialogSurface>
                     <DialogBody>
-                        <DialogTitle>Welcome to AI Visual Designer<SparkleFilled/></DialogTitle>
+                        <DialogTitle>
+                            <FormattedMessage id="startProjectDialog.title"/>
+                            <SparkleFilled/></DialogTitle>
                         <DialogContent>
-                            Choose how you would like to begin your project
+                            <FormattedMessage id="startProjectDialog.content"/>
                         </DialogContent>
                         <DialogActions fluid>
-                            <Button onClick={handleScratch} size='large' appearance="secondary" icon={<DrawImageRegular />}>Scratch</Button>
-                            <Button onClick={() => setIsTemplatesDialogOpen(true)} size='large' appearance="secondary" icon={<GlanceHorizontalSparklesRegular />}>Templates</Button>
-                            <Button onClick={() => setIsTextDialogOpen(true)} size='large' appearance="secondary" icon={<TextEffectsSparkleRegular />}>Text</Button>
-                            <Button onClick={() => setIsUploadDialogOpen(true)} size='large' appearance="primary" icon={<CameraSparklesRegular />}>Sketch</Button>
+                            <Button onClick={handleScratch} size='large' appearance="secondary" icon={<DrawImageRegular />}><FormattedMessage id="startProjectDialog.scratch"/></Button>
+                            <Button onClick={() => setIsTemplatesDialogOpen(true)} size='large' appearance="secondary" icon={<GlanceHorizontalSparklesRegular />}><FormattedMessage id="startProjectDialog.templates"/></Button>
+                            <Button onClick={() => setIsTextDialogOpen(true)} size='large' appearance="secondary" icon={<TextEffectsSparkleRegular />}><FormattedMessage id="startProjectDialog.text"/></Button>
+                            <Button onClick={() => setIsUploadDialogOpen(true)} size='large' appearance="primary" icon={<CameraSparklesRegular />}><FormattedMessage id="startProjectDialog.sketch"/></Button>
                         </DialogActions>
                     </DialogBody>
                 </DialogSurface>

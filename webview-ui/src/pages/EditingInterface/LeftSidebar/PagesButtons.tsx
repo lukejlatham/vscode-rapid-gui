@@ -3,6 +3,7 @@ import { Button, Select } from '@fluentui/react-components';
 import { RenamePageDialog } from '../../../components/RenamePageDialog';
 import { DocumentAddRegular, DeleteRegular, SquareEraserRegular} from '@fluentui/react-icons';
 import { Page } from '../../../types';
+import { FormattedMessage } from 'react-intl';
 
 const PagesButtons: React.FC<{ 
     classes: any, 
@@ -44,7 +45,7 @@ const PagesButtons: React.FC<{
                         openAddPageDialog();
                     }}
                 >
-                    Add
+                    <FormattedMessage id="pages.add" defaultMessage="Add"/>
                 </Button>
                 <RenamePageDialog
                     onUpdate={updateCurrentPage}
@@ -60,7 +61,7 @@ const PagesButtons: React.FC<{
                         deletePage(currentPageIndex);
                     }}
                 >
-                    Delete
+                    <FormattedMessage id="pages.delete" defaultMessage="Delete"/>
                 </Button>
                 <Button
                     size='medium'
@@ -69,7 +70,7 @@ const PagesButtons: React.FC<{
                         clearPage(currentPageIndex);
                     }}
                 >
-                    Reset
+                    <FormattedMessage id="pages.reset" defaultMessage="Reset"/>
                 </Button>
             </div>
         )}

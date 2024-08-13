@@ -10,6 +10,7 @@ import { WindowBrushFilled } from "@fluentui/react-icons";
 import type { DropdownProps } from "@fluentui/react-components";
 import { useEditor } from "@craftjs/core";
 import { themeList } from "./themes"; // Adjust the import path as necessary
+import { FormattedMessage } from "react-intl";
 
 const useStyles = makeStyles({
   container: {
@@ -155,7 +156,7 @@ export const ThemeDropdown: React.FC<Partial<DropdownProps>> = (props) => {
         appearance="primary"
         onClick={handleApplyTheme}
       >
-        Apply Theme
+        <FormattedMessage id="theme.applyTheme" defaultMessage="Apply Theme" />
       </Button>
     </div>
   );

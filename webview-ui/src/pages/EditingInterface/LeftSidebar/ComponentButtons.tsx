@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Divider } from "@fluentui/react-components";
+import { Button } from "@fluentui/react-components";
 import { useEditor, Element } from "@craftjs/core";
 import { Label, LabelDefaultProps } from '../../../components/user/Label';
 import { Button as UserButton, ButtonDefaultProps } from "../../../components/user/Button";
@@ -9,11 +9,10 @@ import { Input, InputDefaultProps } from '../../../components/user/Input';
 import { RadioButtons, RadioButtonsDefaultProps } from '../../../components/user/RadioButton';
 import { Checkboxes, CheckboxesDefaultProps } from '../../../components/user/Checkboxes';
 import { Icon, IconDefaultProps } from '../../../components/user/Icon';
-import { EditBackgroundButton } from '../../../components/EditBackgroundButton';
 import { Text, TextDefaultProps } from '../../../components/user/Text';
 import { Dropdown, DropdownDefaultProps } from '../../../components/user/Dropdown';
 import { Slider, SliderDefaultProps } from '../../../components/user/Slider';
-import { LockGridSwitch } from './LockGridSwitch';
+import { FormattedMessage } from 'react-intl';
 import {
     Image24Regular,
     TextboxRegular,
@@ -53,62 +52,86 @@ const ComponentButtons: React.FC<{ classes: any }> = ({ classes }) => {
                 if (ref !== null) {
                     connectors.create(ref, <UserButton {...ButtonDefaultProps} />);
                 }
-            }}>Button</Button>
+            }}>
+                <FormattedMessage id="components.button" defaultMessage="Button"/>
+            </Button>
             <Button className={classes.componentButtons} icon={<LabelIcon />} size='medium' appearance='secondary'  ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Label {...LabelDefaultProps} />);
                 }
-            }}>Label</Button>               
+            }}>
+                <FormattedMessage id="components.label" defaultMessage="Label"/>
+                </Button>               
             <Button className={classes.componentButtons} icon={<PasswordRegular />} size='medium' appearance='secondary'  ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Input {...InputDefaultProps} />);
                 }
-            }}>Single-Line Input</Button>
+            }}>
+                <FormattedMessage id="components.singleLineInput" defaultMessage="Single-Line Input"/>
+                </Button>
             <Button className={classes.componentButtons} icon={<TextBoxIcon />} size='medium' appearance='secondary' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <TextBox {...TextBoxDefaultProps} />);
                 }
-            }}>Multi-Line Input</Button>
+            }}>
+                <FormattedMessage id="components.multiLineInput" defaultMessage="Multi-Line Input"/>
+            </Button>
             <Button className={classes.componentButtons} icon={<TextAlignLeftFilled />} size='medium' appearance='secondary' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Text {...TextDefaultProps} />);
                 }
-            }}>Paragraph</Button>
+            }}>
+                <FormattedMessage id="components.paragraph" defaultMessage="Paragraph"/>
+            </Button>
             <Button className={classes.componentButtons} icon={<ImageIcon />} size='medium' appearance='secondary' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Image {...ImageDefaultProps} />);
                 }
-            }}>Image</Button>
+            }}>
+                <FormattedMessage id="components.image" defaultMessage="Image"/>
+            </Button>
             <Button className={classes.componentButtons} icon={<RadioButtonFilled />} size='medium' appearance='secondary' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <RadioButtons {...RadioButtonsDefaultProps} />);
                 }
-            }}>Radio Buttons</Button>
+            }}>
+                <FormattedMessage id="components.radio" defaultMessage="Radio Buttons"/>
+            </Button>
             <Button className={classes.componentButtons} icon={<CheckboxesIcon />} size='medium' appearance='secondary' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Checkboxes {...CheckboxesDefaultProps} />);
                 }
-            }}>Checkbox</Button>
+            }}>
+                <FormattedMessage id="components.checkboxes" defaultMessage="Checkboxes"/>
+            </Button>
             <Button className={classes.componentButtons} icon={<TextBulletListCheckmarkFilled />} size='medium' appearance='secondary' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Dropdown {...DropdownDefaultProps} />);
                 }
-            }}>Dropdown</Button>
+            }}>
+                <FormattedMessage id="components.dropdown" defaultMessage="Dropdown"/>
+            </Button>
             <Button className={classes.componentButtons} icon={<OptionsRegular />} size='medium' appearance='secondary' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Slider {...SliderDefaultProps} />);
                 }
-            }}>Slider</Button>
+            }}>
+                <FormattedMessage id="components.slider" defaultMessage="Slider"/>
+            </Button>
             <Button className={classes.componentButtons} icon={<EmojiRegular />} size='medium' appearance='secondary' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Icon {...IconDefaultProps} />);
                 }
-            }}>Icon</Button>
+            }}>
+                <FormattedMessage id="components.icon" defaultMessage="Icon"/>
+            </Button>
             <Button className={classes.componentButtons} icon={<CardUiRegular />} size='medium' appearance='secondary' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <Element is={Container} {...ContainerDefaultProps} canvas />);
                 }
-            }}>Container</Button>
+            }}>
+                <FormattedMessage id="components.container" defaultMessage="Container"/>
+            </Button>
         </div>
     );
 };
