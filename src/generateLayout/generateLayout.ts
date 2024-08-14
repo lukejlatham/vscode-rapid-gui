@@ -49,6 +49,8 @@ async function processInput(
 
     const zodChildrenWithPropsSchema = generateSectionChildrenFullSchema(children.sections);
 
+    console.log("Generated children schema:", JSON.stringify(zodChildrenWithPropsSchema));
+
     const parsedChildren = JSON.stringify(children.sections);
 
     console.log("Generated children sections:", parsedChildren);

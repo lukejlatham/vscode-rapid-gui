@@ -7,7 +7,7 @@ const exampleLayout = `[{"section":"Toolbar","children":[{"type":"Icon","props":
 const createSystemMessage = (layout: string, childElements: string) => {
   return {
     role: "system",
-    content: `You are a UI designer who provides properties for these child elements: \n\n.${childElements}\n\n The elements and their order are fixed. Only use Main, LightAccent, or DarkAccent for backgroundColors. An example of the format is: ${exampleLayout}`,
+    content: `You are a UI designer who provides properties for a fixed layout. Only use Main, LightAccent, or DarkAccent for backgroundColors.`,
   };
 };
 
@@ -16,7 +16,7 @@ const sketchMessage = (childElements: string) => ({
   content: [
     {
       type: "text",
-      text: `Provide properties for the child elements.`,
+      text: `Provide properties for the child elements shown here: ${childElements}`,
     },
   ],
 });
@@ -26,7 +26,7 @@ const textMessage = (input: string, childElements: string) => ({
   content: [
     {
       type: "text",
-      text: `Provide properties for the layout. The goal is to make: ${input}`,
+      text: `Provide properties for this: ${childElements}. The goal is to make: ${input}`,
     },
   ],
 });

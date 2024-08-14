@@ -93,7 +93,7 @@ export const checkboxesSchema = z.object({
   numberOfBoxes: z.number().default(1),
   fontSize: z.number().default(14),
   fontColor: z.string().default("black"),
-  direction: z.enum(["row", "column"]).default("row"),
+  direction: z.enum(["row", "column"]).default("column"),
 });
 
 export type CheckboxesProps = z.infer<typeof checkboxesSchema>;
@@ -179,7 +179,7 @@ export const radioButtonSchema = z.object({
   optionLabels: z.array(z.string()).default([]),
   fontSize: z.number().default(14),
   fontColor: z.string().default("black"),
-  direction: z.enum(["row", "column"]).default("row"),
+  direction: z.enum(["row", "column"]).default("column"),
 });
 
 export type RadioButtonProps = z.infer<typeof radioButtonSchema>;
@@ -524,7 +524,7 @@ export const generatedFullElements = z.union([
 ]);
 
 export const fullSectionSchema = z.object({
-  section: z.string(),
+  section: z.string().describe("This should match one of the sections the user provided."),
   props: z.object({
     xPosition: z.number().int().max(10),
     yPosition: z.number().int().max(10),
@@ -533,10 +533,16 @@ export const fullSectionSchema = z.object({
     flexDirection: z.enum(["row", "column"]),
     backgroundColor: ColorEnum,
   }),
-  children: z.array(generatedFullElements).max(8),
+  children: z
+    .array(generatedFullElements)
+    .max(8)
+    .describe("This must contain all the elements the user specified in that section."),
 });
 
-export const fullLayoutSchema = z.array(fullSectionSchema).max(6);
+export const fullLayoutSchema = z
+  .array(fullSectionSchema)
+  .max(6)
+  .describe("This should contain all the sections the user provided.");
 
 export type FullLayoutSchema = z.infer<typeof fullLayoutSchema>;
 

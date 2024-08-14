@@ -53,11 +53,11 @@ export const generateSectionChildrenFullSchema = (sections) => {
 
     return z.object({
       section: z.literal(section.section),
-      children: z.array(z.union(childSchemas)).max(8),
+      children: z.array(z.object(childSchemas)).max(8),
     });
   });
 
   return z.object({
-    sections: z.array(z.union(sectionSchemas)).max(6),
+    sections: z.array(z.object(sectionSchemas)).max(6),
   });
 };
