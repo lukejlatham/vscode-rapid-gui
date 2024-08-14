@@ -42,20 +42,15 @@ export class MainWebviewPanel {
     if (MainWebviewPanel.currentPanel) {
       MainWebviewPanel.currentPanel._panel.reveal(ViewColumn.One);
     } else {
-      const panel = window.createWebviewPanel(
-        "showMainWebviewPanel",
-        "UI Studio",
-        ViewColumn.One,
-        {
-          enableScripts: true,
-          retainContextWhenHidden: true,  // This preserves the webview state.
-          localResourceRoots: [
-            Uri.joinPath(extensionUri, "out"),
-            Uri.joinPath(extensionUri, "webview-ui/build"),
-            workspace.workspaceFolders?.[0]?.uri,
-          ],
-        }
-      );
+      const panel = window.createWebviewPanel("showMainWebviewPanel", "UI Studio", ViewColumn.One, {
+        enableScripts: true,
+        retainContextWhenHidden: true, // This preserves the webview state.
+        localResourceRoots: [
+          Uri.joinPath(extensionUri, "out"),
+          Uri.joinPath(extensionUri, "webview-ui/build"),
+          workspace.workspaceFolders?.[0]?.uri,
+        ],
+      });
 
       MainWebviewPanel.currentPanel = new MainWebviewPanel(panel, extensionUri, context);
     }
@@ -163,13 +158,19 @@ export class MainWebviewPanel {
             webview.postMessage({ command: "setAzureApiKeys", ...secrets });
             window.showInformationMessage("Azure API keys received.");
             return;
+          case "getOpenaiApiKeys":
+            const openaiSecrets = await getAzureOpenaiApiKeys(this._context);
+            webview.postMessage({ command: "setOpenaiApiKeys", ...openaiSecrets });
+            window.showInformationMessage("OpenAI API keys received.");
           case "saveFile":
             await handleFileSave(message.contents, message.fileNames, this._context);
             return;
           case "loadFile":
-            await handleFileLoad(this._context,
-              // message.fileName, 
-              webview);
+            await handleFileLoad(
+              this._context,
+              // message.fileName,
+              webview
+            );
             return;
           case "processSketch":
             const sketchDescription = await processSketch(message.content, this._context, webview);

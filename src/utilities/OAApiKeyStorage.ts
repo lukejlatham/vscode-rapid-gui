@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 
-export async function getAzureOpenaiApiKeys(context: vscode.ExtensionContext) {
+export async function getOpenaiApiKeys(context: vscode.ExtensionContext) {
   const apiKey = await context.secrets.get("OPENAI_API_KEY");
   const apiEndpoint = await context.secrets.get("OPENAI_API_ENDPOINT");
 
@@ -18,7 +18,7 @@ export async function getOpenaiApiKey(context: vscode.ExtensionContext) {
   }
 }
 
-export async function getAzureOpenaiApiEndpoint(context: vscode.ExtensionContext) {
+export async function getOpenaiApiEndpoint(context: vscode.ExtensionContext) {
   const apiEndpoint = await vscode.window.showInputBox({
     prompt: "Enter your OpenAI API Endpoint",
   });
