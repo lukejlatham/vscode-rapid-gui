@@ -1,16 +1,8 @@
 import * as vscode from "vscode";
 import OpenAI from "openai";
 import { getAzureOpenaiApiKeys } from "../utilities/azureApiKeyStorage";
-import { getLayout } from "./getLayoutOpenai";
-import { buildLayoutNodes } from "./convertLayoutToNodes";
-import { getSectionChildren } from "./getSectionChildrenOpenai";
-import {
-  generateSectionChildrenSchema,
-  generateSectionChildrenFullSchema,
-} from "./createZodSchema";
-import { getChildrenWithProps } from "./getSectionChildrenWithProps";
 import { getOpenaiApiKeys } from "../utilities/OAApiKeyStorage";
-import { OArefineProperties } from "./OArefineProperties";
+import { OArefineProperties } from "./generateSections";
 
 async function processInput(
   input: string,

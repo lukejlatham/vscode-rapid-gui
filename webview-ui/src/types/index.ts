@@ -493,18 +493,18 @@ export const generateIconSchema = z.object({
 const sectionSchema = z.object({
   section: z.string(),
   props: z.object({
-    xPosition: z.number().int().max(10),
-    yPosition: z.number().int().max(10),
-    width: z.number().int().max(10),
-    height: z.number().int().max(10),
-    backgroundColor: ColorEnum.describe("Use accent colors for headers and footers."),
+    xPosition: z.number(),
+    yPosition: z.number(),
+    width: z.number(),
+    height: z.number(),
+    backgroundColor: ColorEnum,
     flexDirection: z.enum(["row", "column"]),
   }),
-  contents: z.string().describe("be descriptive: one line on purpose, one line on contents."),
+  contents: z.string(),
 });
 
 export const layoutSchema = z.object({
-  sections: z.array(sectionSchema).max(6),
+  sections: z.array(sectionSchema),
 });
 
 // Used in convertLayoutToNodes.ts
@@ -641,3 +641,5 @@ export type ThemedSectionSchema = z.infer<typeof themedSectionSchema>;
 export const themedLayoutSchema = z.array(themedSectionSchema).max(6);
 
 export type ThemedLayoutSchema = z.infer<typeof themedSectionSchema>;
+
+export * from "./generateLayoutTypes";
