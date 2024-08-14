@@ -49,14 +49,16 @@ export function generateButtonCss(node: Node): string {
     font-size: ${props.fontSize}px;
     width: ${width};
     height: ${height};
-    border-radius: ${props.borderRadius}px;
+    border-radius: ${props.borderRadius}%;
     border: 2px solid ${props.borderColor};
     cursor: pointer;
-    display: inline-flex;
+    display: flex;
+    text-align: center;
+    gap: 5px;
     align-items: center;
     justify-content: center;
     text-decoration: none;
-    padding: 10px 20px;
+    padding: 10px;
     ${
       props.shadowColor && props.shadowBlur
         ? `box-shadow: ${props.shadowOffsetX}px ${props.shadowOffsetY}px ${props.shadowBlur}px ${props.shadowColor};`

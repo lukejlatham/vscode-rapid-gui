@@ -54,7 +54,7 @@ export const Button: UserComponent<ButtonProps> = (props) => {
                     color: fontColor,
                     backgroundColor,
                     fontSize: `${fontSize}px`,
-                    borderRadius: `${borderRadius}px`,
+                    borderRadius: `${borderRadius}%`,
                     padding: `${height}px ${width}px`,
                     border: `2px solid ${bordercolor}`,
                     boxShadow: `${shadowOffsetX}px ${shadowOffsetY}px ${shadowBlur}px ${shadowColor}`,

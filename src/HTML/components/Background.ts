@@ -52,14 +52,15 @@ export function generateBackgroundCss(node: Node, content: { [key: string]: Node
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: ${node.props.backgroundColor || "#ffffff"};
+    height: 100vh;
   }
 
   .grid-container {
     display: grid;
     grid-template-columns: repeat(${node.props.columns}, 1fr);
     grid-template-rows: repeat(${node.props.rows}, 1fr);
-    gap: ${node.props.gap || "10px"};
-    min-height: 100vh;
+    gap: ${node.props.gap || "5px"};
+    height: 100vh;
     padding: ${node.props.padding || "20px"};
     box-sizing: border-box;
     grid-auto-flow: dense;
@@ -93,7 +94,7 @@ export function generateBackgroundCss(node: Node, content: { [key: string]: Node
   node.props.layout.forEach((item: any, index: number) => {
     const cellNodeId = node.linkedNodes[item.i];
     const cellNode = content[cellNodeId];
-    const flexDirection = cellNode?.props.flexDirection || "column";
+    const flexDirection = cellNode?.props.flexDirection || "row";
     css += `
     .item-${index} {
       grid-area: ${item.y + 1} / ${item.x + 1} / span ${item.h} / span ${item.w};
