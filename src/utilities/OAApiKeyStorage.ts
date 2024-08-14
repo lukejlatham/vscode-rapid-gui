@@ -1,10 +1,10 @@
 import * as vscode from "vscode";
 
 export async function getOpenaiApiKeys(context: vscode.ExtensionContext) {
-  const apiKey = await context.secrets.get("OPENAI_API_KEY");
-  const apiEndpoint = await context.secrets.get("OPENAI_API_ENDPOINT");
+  console.log("Getting OpenAI API keys");
+  const openaiApiKey = await context.secrets.get("OPENAI_API_KEY");
 
-  return { apiKey, apiEndpoint };
+  return { openaiApiKey };
 }
 
 export async function getOpenaiApiKey(context: vscode.ExtensionContext) {
@@ -13,7 +13,7 @@ export async function getOpenaiApiKey(context: vscode.ExtensionContext) {
   });
 
   if (apiKey) {
-    await context.secrets.store("OPEN_API_KEY", apiKey);
+    await context.secrets.store("OPENAI_API_KEY", apiKey);
     vscode.window.showInformationMessage("OpenAI API key added to storage.");
   }
 }

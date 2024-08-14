@@ -98,4 +98,4 @@ async function processTextDescription(
   return processInput(textDescription, "text", context, webview);
 }
 
-export { processSketch, processTextDescription };
+export {};

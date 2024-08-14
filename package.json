@@ -14,10 +14,6 @@
         "title": "Open UI Studio"
       },
       {
-        "command": "extension.testApiKeysCommand",
-        "title": "Show current set API Keys stored in extension secrets"
-      },
-      {
         "command": "extension.getAzureOpenaiApiKey",
         "title": "Get Azure OpenAI API Key"
       },
