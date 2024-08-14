@@ -229,19 +229,26 @@ ${pageTypeLogic}
   private createPublishProfiles() {
     const architectures = ["x86", "x64", "arm64"];
     architectures.forEach((arch) => {
-      const content = `<?xml version="1.0" encoding="utf-8"?>
-  <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <PropertyGroup>
-      <PublishProtocol>FileSystem</PublishProtocol>
-      <Platform>${arch}</Platform>
-      <RuntimeIdentifier>win10-${arch}</RuntimeIdentifier>
-      <PublishDir>bin\\$(Configuration)\\$(TargetFramework)\\$(RuntimeIdentifier)\\publish\\</PublishDir>
-      <SelfContained>true</SelfContained>
-      <PublishSingleFile>False</PublishSingleFile>
-      <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
-      <PublishReadyToRun Condition="'$(Configuration)' == 'Release'">True</PublishReadyToRun>
-     </PropertyGroup>
-  </Project>`;
+      const content = `
+  <?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PublishProtocol>FileSystem</PublishProtocol>
+    <Platform>${arch}</Platform>
+    <RuntimeIdentifier Condition="$([MSBuild]::GetTargetFrameworkVersion('$(TargetFramework)')) >= 8">win-${arch}</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="$([MSBuild]::GetTargetFrameworkVersion('$(TargetFramework)')) &lt; 8">win10-${arch}</RuntimeIdentifier>
+    <PublishDir>bin\$(Configuration)\$(TargetFramework)\$(RuntimeIdentifier)\publish\</PublishDir>
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>False</PublishSingleFile>
+    <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
+    <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
+    <PublishTrimmed Condition="'$(Configuration)' == 'Debug'">False</PublishTrimmed>
+    <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>
+  </PropertyGroup>
+</Project>`;
       this.createFile(`Properties/PublishProfiles/win-${arch}.pubxml`, content);
     });
   }
