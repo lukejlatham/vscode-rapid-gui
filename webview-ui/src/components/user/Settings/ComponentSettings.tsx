@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from "react";
-import { Input, Label, SpinButton, Radio, Slider,SliderOnChangeData, RadioGroup, SpinButtonChangeEvent, SpinButtonOnChangeData, Tooltip, useId, mergeClasses } from "@fluentui/react-components";
+import { Input, Label, SpinButton, Radio, Slider, SliderOnChangeData, RadioGroup, SpinButtonChangeEvent, SpinButtonOnChangeData, Tooltip, useId, mergeClasses } from "@fluentui/react-components";
 import { Info16Regular } from "@fluentui/react-icons";
 import { useNode } from "@craftjs/core";
 import { usePropertyInspectorStyles } from "../../../hooks/usePropertyInspectorStyles";
@@ -113,7 +113,7 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({ componentP
                                     }}
                                 />
                             </div>
-                        )  : tooltip.type === "spinButton" ? (
+                        ) : tooltip.type === "spinButton" ? (
                             <SpinButton
                                 defaultValue={propValue as number}
                                 min={1}
@@ -195,7 +195,39 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({ componentP
                                     </div>
                                 ))}
                             </div>
-                        ) : null
+                        ) : tooltip.type === "justifyContent" ? (
+                            <RadioGroup
+                                defaultValue={props[tooltip.propKey as keyof typeof props]}
+                                layout="vertical"
+                                onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
+                                    setProp((props: typeof componentProps) => {
+                                        (props[tooltip.propKey as keyof typeof props] as "flex-start" | "center" | "flex-end" | "space-between" | "space-around") = data.value as "flex-start" | "center" | "flex-end" | "space-between" | "space-around";
+                                    }, 1000);
+                                }}
+                            >
+                                <Radio key="start" label="Start" value="flex-start" />
+                                <Radio key="center" label="Center" value="center" />
+                                <Radio key="end" label="End" value="flex-end" />
+                                <Radio key="space-between" label="Space Between" value="space-between" />
+                                <Radio key="space-around" label="Space Around" value="space-around" />
+                            </RadioGroup>
+                        ) : tooltip.type === "alignItems" ? (
+                            <RadioGroup
+                                defaultValue={props[tooltip.propKey as keyof typeof props]}
+                                layout="vertical"
+                                onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
+                                    setProp((props: typeof componentProps) => {
+                                        (props[tooltip.propKey as keyof typeof props] as 'flex-start' | 'center' | 'flex-end') = data.value as 'flex-start' | 'center' | 'flex-end';
+                                    }, 1000);
+                                }}
+                            >
+                                <Radio key="start" label="Start" value="flex-start" />
+                                <Radio key="center" label="Center" value="center" />
+                                <Radio key="end" label="End" value="flex-end" />
+                            </RadioGroup>
+                        )
+
+                            : null
                         }
                     </div>
                 );
