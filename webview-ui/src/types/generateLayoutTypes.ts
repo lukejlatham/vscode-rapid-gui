@@ -50,25 +50,23 @@ export function generateLayoutSchema(layout: z.infer<typeof generatedLayout>) {
 }
 
 export const generateButtonSchema = z.object({
-  type: z.literal("Button"),
-  selectedIcon: z.string(),
+  element: z.literal("Button"),
+  vscIcon: z.string(),
   backgroundColor: z.enum(["Main", "LightAccent", "DarkAccent"]),
   fontColor: z.enum(["Main", "LightAccent", "DarkAccent"]),
 });
 
 export const generateCheckboxesSchema = z.object({
-  type: z.literal("Checkboxes"),
-  optionLabels: z.array(z.string()),
-  numberOfBoxes: z.number(),
+  element: z.literal("Checkboxes"),
 });
 
 export const generateInputSchema = z.object({
-  type: z.literal("Input"),
+  element: z.literal("Input"),
   fontColor: z.enum(["Main", "LightAccent", "DarkAccent"]),
 });
 
 export const generateLabelSchema = z.object({
-  type: z.literal("Label"),
+  element: z.literal("Label"),
   text: z.string(),
   bold: z.boolean(),
   fontColor: z.enum(["Main", "LightAccent", "DarkAccent"]),
@@ -76,44 +74,40 @@ export const generateLabelSchema = z.object({
 });
 
 export const generateRadioButtonSchema = z.object({
-  type: z.literal("RadioButtons"),
+  element: z.literal("RadioButtons"),
   header: z.string(),
-  numberOfButtons: z.number(),
-  optionLabels: z.array(z.string()),
 });
 
 export const generateImageSchema = z.object({
-  type: z.literal("Image"),
+  element: z.literal("Image"),
   alt: z.string(),
   width: z.number(),
 });
 
 export const generateTextBoxSchema = z.object({
-  type: z.literal("TextBox"),
+  element: z.literal("TextBox"),
   fontColor: z.enum(["Main", "LightAccent", "DarkAccent"]),
 });
 
 export const generateTextSchema = z.object({
-  type: z.literal("Text"),
+  element: z.literal("Text"),
   fontColor: z.enum(["Main", "LightAccent", "DarkAccent"]),
 });
 
 export const generateSliderSchema = z.object({
-  type: z.literal("Slider"),
+  element: z.literal("Slider"),
   header: z.string(),
   backgroundColor: z.enum(["Main", "LightAccent", "DarkAccent"]),
 });
 
 export const generateDropdownSchema = z.object({
-  type: z.literal("Dropdown"),
+  element: z.literal("Dropdown"),
   header: z.string(),
-  optionLabels: z.array(z.string()),
-  numberOfOptions: z.number(),
 });
 
 export const generateIconSchema = z.object({
-  type: z.literal("Icon"),
-  selectedIcon: z.string(),
+  element: z.literal("Icon"),
+  vscIcon: z.string(),
 });
 
 export const generatedFullElements = z.union([
@@ -140,7 +134,7 @@ const sectionSchema = z.object({
   height: z.number(),
   backgroundColor: z.enum(["Main", "LightAccent", "DarkAccent"]),
   flexDirection: z.enum(["row", "column"]),
-  contents: z.string(),
+  children: z.array(generatedFullElements),
 });
 
 export const layoutSchema = z.object({
@@ -170,7 +164,7 @@ export const fullSectionSchema = z.object({
   height: z.number().int().max(10),
   flexDirection: z.enum(["row", "column"]),
   backgroundColor: z.enum(["Main", "LightAccent", "DarkAccent"]),
-  children: z.array(generatedFullElements),
+  children: z.array(z.any()),
 });
 
 export const fullLayoutSchema = z

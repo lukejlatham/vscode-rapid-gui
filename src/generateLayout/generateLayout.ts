@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import { getAzureOpenaiApiKeys } from "../utilities/azureApiKeyStorage";
 import { getLayout } from "./getLayoutOpenai";
-import { buildLayoutNodes } from "./convertLayoutToNodes";
+// import { buildLayoutNodes } from "./convertLayoutToNodes";
 import { getSectionChildren } from "./getSectionChildrenOpenai";
 import {
   generateSectionChildrenSchema,
@@ -70,7 +70,9 @@ async function processInput(
 
     console.log("Generated full children sections with properties:", parsedFullChildren);
 
-    const layoutNodes = buildLayoutNodes(parsedLayout, parsedFullChildren);
+    // const layoutNodes = buildLayoutNodes(parsedLayout, parsedFullChildren);
+
+    const layoutNodes = parsedFullChildren;
 
     console.log("Generated layout nodes:", layoutNodes);
 

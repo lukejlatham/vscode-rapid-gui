@@ -1,59 +1,69 @@
 {
   "sections": [
     {
-      "section": "Header",
+      "section": "NavigationBar",
       "xPosition": 0,
       "yPosition": 0,
       "width": 10,
       "height": 1,
       "flexDirection": "row",
-      "backgroundColor": "Main",
-      "children": [
-        { "element": "Text", "fontColor": "DarkAccent" },
-        { "element": "Image", "alt": "Logo", "width": 2 }
-      ]
-    },
-    {
-      "section": "SideBar",
-      "xPosition": 0,
-      "yPosition": 1,
-      "width": 2,
-      "height": 9,
-      "flexDirection": "column",
-      "backgroundColor": "LightAccent",
+      "backgroundColor": "DarkAccent",
       "children": [
         {
-          "element": "Button",
-          "VscIcon": "home",
-          "backgroundColor": "LightAccent",
-          "fontColor": "Main"
-        },
-        {
-          "element": "Button",
-          "VscIcon": "gear",
-          "backgroundColor": "LightAccent",
-          "fontColor": "Main"
-        },
-        {
-          "element": "Button",
-          "VscIcon": "person",
-          "backgroundColor": "LightAccent",
-          "fontColor": "Main"
+          "element": "Label",
+          "text": "Explore Crime",
+          "bold": true,
+          "fontColor": "LightAccent",
+          "fontSize": 16
         }
       ]
     },
     {
-      "section": "ContentArea",
-      "xPosition": 2,
+      "section": "MainContent",
+      "xPosition": 0,
       "yPosition": 1,
-      "width": 8,
+      "width": 7,
       "height": 8,
       "flexDirection": "column",
-      "backgroundColor": "DarkAccent",
+      "backgroundColor": "Main",
       "children": [
-        { "element": "Text", "fontColor": "Main" },
-        { "element": "Image", "alt": "Main Content", "width": 5 },
-        { "element": "Input", "fontColor": "Main" }
+        {
+          "element": "Label",
+          "text": "Crime Statistics",
+          "bold": true,
+          "fontColor": "DarkAccent",
+          "fontSize": 14
+        },
+        { "element": "Image", "alt": "Crime Rate Map", "width": 6 },
+        {
+          "element": "Label",
+          "text": "Historical Trends",
+          "bold": false,
+          "fontColor": "DarkAccent",
+          "fontSize": 12
+        },
+        { "element": "Text", "fontColor": "DarkAccent" }
+      ]
+    },
+    {
+      "section": "Sidebar",
+      "xPosition": 7,
+      "yPosition": 1,
+      "width": 3,
+      "height": 8,
+      "flexDirection": "column",
+      "backgroundColor": "LightAccent",
+      "children": [
+        {
+          "element": "Label",
+          "text": "Crime Categories",
+          "bold": true,
+          "fontColor": "Main",
+          "fontSize": 12
+        },
+        { "element": "Checkboxes" },
+        { "element": "Slider", "header": "Crime Level Filter", "backgroundColor": "DarkAccent" },
+        { "element": "Dropdown", "header": "City" }
       ]
     },
     {
@@ -63,15 +73,18 @@
       "width": 10,
       "height": 1,
       "flexDirection": "row",
-      "backgroundColor": "LightAccent",
+      "backgroundColor": "DarkAccent",
       "children": [
-        { "element": "Icon", "vscIcon": "twitter" },
-        { "element": "Icon", "vscIcon": "facebook" },
-        { "element": "Icon", "vscIcon": "linkedin" },
         {
           "element": "Button",
-          "VscIcon": "comment",
-          "backgroundColor": "DarkAccent",
+          "VscIcon": "VscInfo",
+          "backgroundColor": "LightAccent",
+          "fontColor": "Main"
+        },
+        {
+          "element": "Button",
+          "VscIcon": "VscSearch",
+          "backgroundColor": "LightAccent",
           "fontColor": "Main"
         }
       ]

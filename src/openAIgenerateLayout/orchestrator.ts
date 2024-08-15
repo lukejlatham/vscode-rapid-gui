@@ -3,6 +3,8 @@ import OpenAI from "openai";
 import { getAzureOpenaiApiKeys } from "../utilities/azureApiKeyStorage";
 import { getOpenaiApiKeys } from "../utilities/OAApiKeyStorage";
 import { generateSections } from "./generateSections";
+import { buildNodeTree } from "./buildNodeTree";
+import { layoutSchema } from "../../webview-ui/src/types";
 
 async function processInput(
   input: string,
@@ -28,15 +30,11 @@ async function processInput(
 
     console.log("Generated layout:", JSON.stringify(generatedLayout));
 
-    // const generatedSectionChildren = await generateSectionsChildren(
-    //   openaiClient,
-    //   generatedLayout,
-    //   inputType === "text" ? input : undefined
-    // );
+    const parsedLayout = layoutSchema.parse(generatedLayout);
 
-    // console.log("Generated section children:", JSON.stringify(generatedSectionChildren));
+    const nodeTree = buildNodeTree(parsedLayout.sections);
 
-    return;
+    return nodeTree;
   } catch (error) {
     console.error("Error processing input:", error);
     webview.postMessage({ command: "processingStage", stage: "Error occurred during processing" });

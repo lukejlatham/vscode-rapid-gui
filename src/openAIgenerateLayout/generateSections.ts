@@ -1,7 +1,6 @@
 import { OpenAI } from "openai";
-import { generatedLayout } from "../../webview-ui/src/types";
-import { zodResponseFormat } from "openai/helpers/zod";
-import { z, ZodObject } from "zod";
+import { layoutSchema } from "../../webview-ui/src/types";
+import { z } from "zod";
 
 const outputSchema = {
   type: "object",
@@ -42,14 +41,26 @@ const outputSchema = {
                   type: "object",
                   properties: {
                     element: { type: "string", enum: ["Button"] },
-                    VscIcon: { type: "string" },
+                    vscIcon: { type: "string" },
                     backgroundColor: {
                       type: "string",
                       enum: ["Main", "LightAccent", "DarkAccent"],
                     },
                     fontColor: { type: "string", enum: ["Main", "LightAccent", "DarkAccent"] },
                   },
-                  required: ["element", "VscIcon", "backgroundColor", "fontColor"],
+                  required: ["element", "vscIcon", "backgroundColor", "fontColor"],
+                  additionalProperties: false,
+                },
+                {
+                  type: "object",
+                  properties: {
+                    element: { type: "string", enum: ["Label"] },
+                    text: { type: "string" },
+                    bold: { type: "boolean" },
+                    fontColor: { type: "string", enum: ["Main", "LightAccent", "DarkAccent"] },
+                    fontSize: { type: "number" },
+                  },
+                  required: ["element", "text", "bold", "fontColor", "fontSize"],
                   additionalProperties: false,
                 },
                 {
@@ -151,12 +162,14 @@ const outputSchema = {
   additionalProperties: false,
 };
 
+type LayoutType = z.infer<typeof layoutSchema>;
+
 async function generateSections(
   client: OpenAI,
   contentType: "text" | "sketch",
   textDescription?: string,
   sketchUrl?: string
-) {
+): Promise<LayoutType> {
   if (!textDescription && !sketchUrl) {
     throw new Error("No textual description or sketch provided.");
   }
@@ -201,6 +214,7 @@ async function generateSections(
     });
 
     const outputtedLayout = completion.choices[0].message.parsed;
+
     console.log(outputtedLayout);
     console.log(completion.usage.prompt_tokens);
     console.log(completion.usage.completion_tokens);

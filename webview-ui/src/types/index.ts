@@ -468,15 +468,13 @@ export type ColorScheme = {
 
 export const themedSectionSchema = z.object({
   section: z.string(),
-  props: z.object({
-    xPosition: z.number().int().max(10),
-    yPosition: z.number().int().max(10),
-    width: z.number().int().max(10),
-    height: z.number().int().max(10),
-    flexDirection: z.enum(["row", "column"]),
-    backgroundColor: z.string(),
-    borderColor: z.string(),
-  }),
+  xPosition: z.number().int().max(10),
+  yPosition: z.number().int().max(10),
+  width: z.number().int().max(10),
+  height: z.number().int().max(10),
+  flexDirection: z.enum(["row", "column"]),
+  backgroundColor: z.string(),
+  borderColor: z.string(),
   children: z.array(z.any()),
 });
 
