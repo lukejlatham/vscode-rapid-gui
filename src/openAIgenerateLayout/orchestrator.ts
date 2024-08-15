@@ -13,7 +13,7 @@ async function processInput(
   webview: vscode.Webview
 ) {
   try {
-    const { apiKey, apiEndpoint, deploymentName } = await getAzureOpenaiApiKeys(context);
+    // const { apiKey, apiEndpoint, deploymentName } = await getAzureOpenaiApiKeys(context);
 
     const { openaiApiKey } = await getOpenaiApiKeys(context);
 
