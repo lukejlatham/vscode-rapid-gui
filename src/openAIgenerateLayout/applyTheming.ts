@@ -10,13 +10,11 @@ const possibleColorSchemes = [slateGreyScheme, orangeScheme, tetrisScheme];
 
 const hasBackgroundColor = (
   obj: any
-): obj is { props: { backgroundColor: "Main" | "LightAccent" | "DarkAccent" } } =>
-  obj.props && "backgroundColor" in obj.props && typeof obj.props.backgroundColor === "string";
+): obj is { backgroundColor: "Main" | "LightAccent" | "DarkAccent" } =>
+  "backgroundColor" in obj && typeof obj.backgroundColor === "string";
 
-const hasFontColor = (
-  obj: any
-): obj is { props: { fontColor: "Main" | "LightAccent" | "DarkAccent" } } =>
-  obj.props && "fontColor" in obj.props && typeof obj.props.fontColor === "string";
+const hasFontColor = (obj: any): obj is { fontColor: "Main" | "LightAccent" | "DarkAccent" } =>
+  "fontColor" in obj && typeof obj.fontColor === "string";
 
 const getRandomValue = (value: string | string[]): string => {
   if (Array.isArray(value)) {
@@ -40,11 +38,10 @@ const applyThemeToSchema = (
 ): z.infer<typeof themedLayoutSchema> => {
   const randomIndex = Math.floor(Math.random() * possibleColorSchemes.length);
   const selectedColorScheme = possibleColorSchemes[randomIndex];
-
   console.log("Selected color scheme: ", selectedColorScheme);
 
   return data.map((section) => {
-    const newSectionProps = {
+    const newSection = {
       ...section,
       backgroundColor: mapColor(section.backgroundColor, "sectionColors", selectedColorScheme),
       ...(section.backgroundColor && {
@@ -53,34 +50,30 @@ const applyThemeToSchema = (
     };
 
     const newChildren = section.children.map((child) => {
-      const updatedProps: any = { ...child };
+      let updatedChild: any = { ...child };
 
       if (hasBackgroundColor(child)) {
-        updatedProps.backgroundColor = mapColor(
-          child.props.backgroundColor,
+        updatedChild.backgroundColor = mapColor(
+          child.backgroundColor,
           "elementColors",
           selectedColorScheme
         );
-        updatedProps.borderColor = mapColor(
-          child.props.backgroundColor,
+        updatedChild.borderColor = mapColor(
+          child.backgroundColor,
           "elementBorderColors",
           selectedColorScheme
         );
       }
 
       if (hasFontColor(child)) {
-        updatedProps.fontColor = mapColor(child.props.fontColor, "fontColors", selectedColorScheme);
+        updatedChild.fontColor = mapColor(child.fontColor, "fontColors", selectedColorScheme);
       }
 
-      return {
-        ...child,
-        props: updatedProps,
-      };
+      return updatedChild;
     });
 
     return {
-      ...section,
-      props: newSectionProps,
+      ...newSection,
       children: newChildren,
     };
   });

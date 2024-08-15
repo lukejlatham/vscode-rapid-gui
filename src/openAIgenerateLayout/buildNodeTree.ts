@@ -20,7 +20,7 @@ import {
   dropdownSchema,
   sliderSchema,
 } from "../../webview-ui/src/types";
-import { applyThemeToSchema } from "../generateLayout/applyTheming";
+import { applyThemeToSchema } from "./applyTheming";
 
 type BackgroundType = z.infer<typeof backgroundNodeLayout>;
 type NodeTreeRootType = z.infer<typeof nodeTreeRootSchema>;
