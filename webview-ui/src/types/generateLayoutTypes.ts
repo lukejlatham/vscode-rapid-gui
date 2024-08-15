@@ -116,27 +116,6 @@ export const generateIconSchema = z.object({
   selectedIcon: z.string(),
 });
 
-// Used in getSectionChildrenOpenai.ts
-
-const sectionSchema = z.object({
-  section: z.string(),
-  props: z.object({
-    xPosition: z.number(),
-    yPosition: z.number(),
-    width: z.number(),
-    height: z.number(),
-    backgroundColor: z.enum(["Main", "LightAccent", "DarkAccent"]),
-    flexDirection: z.enum(["row", "column"]),
-  }),
-  contents: z.string(),
-});
-
-export const layoutSchema = z.object({
-  sections: z.array(sectionSchema),
-});
-
-// Used in convertLayoutToNodes.ts
-
 export const generatedFullElements = z.union([
   generateButtonSchema,
   generateCheckboxesSchema,
@@ -150,6 +129,25 @@ export const generatedFullElements = z.union([
   generateSliderSchema,
   generateDropdownSchema,
 ]);
+
+// Used in getSectionChildrenOpenai.ts
+
+const sectionSchema = z.object({
+  section: z.string(),
+  xPosition: z.number(),
+  yPosition: z.number(),
+  width: z.number(),
+  height: z.number(),
+  backgroundColor: z.enum(["Main", "LightAccent", "DarkAccent"]),
+  flexDirection: z.enum(["row", "column"]),
+  contents: z.string(),
+});
+
+export const layoutSchema = z.object({
+  sections: z.array(sectionSchema),
+});
+
+// Used in convertLayoutToNodes.ts
 
 const generatedElements = z.enum([
   "Button",
@@ -165,19 +163,14 @@ const generatedElements = z.enum([
 ]);
 
 export const fullSectionSchema = z.object({
-  section: z.string().describe("This should match one of the sections the user provided."),
-  props: z.object({
-    xPosition: z.number().int().max(10),
-    yPosition: z.number().int().max(10),
-    width: z.number().int().max(10),
-    height: z.number().int().max(10),
-    flexDirection: z.enum(["row", "column"]),
-    backgroundColor: z.enum(["Main", "LightAccent", "DarkAccent"]),
-  }),
-  children: z
-    .array(generatedFullElements)
-    .max(8)
-    .describe("This must contain all the elements the user specified in that section."),
+  section: z.string(),
+  xPosition: z.number().int().max(10),
+  yPosition: z.number().int().max(10),
+  width: z.number().int().max(10),
+  height: z.number().int().max(10),
+  flexDirection: z.enum(["row", "column"]),
+  backgroundColor: z.enum(["Main", "LightAccent", "DarkAccent"]),
+  children: z.array(generatedFullElements),
 });
 
 export const fullLayoutSchema = z

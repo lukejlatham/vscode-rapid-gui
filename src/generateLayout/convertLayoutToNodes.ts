@@ -123,8 +123,8 @@ function calculateLayoutDimensions(layout: LayoutSchema): LayoutDimensions {
   let maxX = 0;
   let maxY = 0;
   const ids: string[] = layout.map((section) => {
-    const sectionRight = section.props.xPosition + section.props.width;
-    const sectionBottom = section.props.yPosition + section.props.height;
+    const sectionRight = section.xPosition + section.width;
+    const sectionBottom = section.yPosition + section.height;
 
     if (sectionRight > maxX) maxX = sectionRight;
     if (sectionBottom > maxY) maxY = sectionBottom;
@@ -278,10 +278,10 @@ function buildLayoutNodes(parsedLayout: string, parsedFullChildren: string): str
 
   const layout = parsedData.map((section, index) => ({
     i: String(index),
-    x: section.props.xPosition,
-    y: section.props.yPosition,
-    w: section.props.width,
-    h: section.props.height,
+    x: section.xPosition,
+    y: section.yPosition,
+    w: section.width,
+    h: section.height,
     // moved: false,
     // static: false,
     // maxW: layoutDimensions.columns,

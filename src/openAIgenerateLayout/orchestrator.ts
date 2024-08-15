@@ -3,8 +3,6 @@ import OpenAI from "openai";
 import { getAzureOpenaiApiKeys } from "../utilities/azureApiKeyStorage";
 import { getOpenaiApiKeys } from "../utilities/OAApiKeyStorage";
 import { generateSections } from "./generateSections";
-import { generateSectionsChildren } from "./generateSectionsChildren";
-import { generateLayoutSchema } from "../../webview-ui/src/types";
 
 async function processInput(
   input: string,
@@ -30,13 +28,13 @@ async function processInput(
 
     console.log("Generated layout:", JSON.stringify(generatedLayout));
 
-    const generatedSectionChildren = await generateSectionsChildren(
-      openaiClient,
-      generatedLayout,
-      inputType === "text" ? input : undefined
-    );
+    // const generatedSectionChildren = await generateSectionsChildren(
+    //   openaiClient,
+    //   generatedLayout,
+    //   inputType === "text" ? input : undefined
+    // );
 
-    console.log("Generated section children:", JSON.stringify(generatedSectionChildren));
+    // console.log("Generated section children:", JSON.stringify(generatedSectionChildren));
 
     return;
   } catch (error) {
