@@ -5,6 +5,7 @@ import SaveButton from './SaveButton';
 import LoadButton from './LoadButton';
 import { useEditor } from "@craftjs/core";
 import { Page } from '../../../types';
+import { FormattedMessage } from 'react-intl';
 
 const ProjectManagement: React.FC<{ classes: any, pages: Page[], setPages: React.Dispatch<React.SetStateAction<Page[]>>, currentPageIndex: number; }> = ({ classes, pages, setPages, currentPageIndex }) => {
     const { actions } = useEditor();
@@ -18,9 +19,13 @@ const ProjectManagement: React.FC<{ classes: any, pages: Page[], setPages: React
     };
 
     return (
-        <div className={classes.componentRoot}>
-            <Button size="large" className={classes.button} icon={<ArrowHookUpLeft24Regular />} onClick={handleUndo}>Undo</Button>
-            <Button size="large" className={classes.button} icon={<ArrowHookUpRight24Regular />} onClick={handleRedo}>Redo</Button>
+        <div className={classes.bottomButtons}>
+            <Button size="medium" className={classes.button} icon={<ArrowHookUpLeft24Regular />} onClick={handleUndo}>
+                <FormattedMessage id="leftSidebar.undo" defaultMessage="Undo" />
+            </Button>
+            <Button size="medium" className={classes.button} icon={<ArrowHookUpRight24Regular />} onClick={handleRedo}>
+                <FormattedMessage id="leftSidebar.redo" defaultMessage="Redo" />
+            </Button>
             <SaveButton classes={classes} pages={pages} currentPageIndex={currentPageIndex}/>
             <LoadButton classes={classes} pages={pages} setPages={setPages}/>
             

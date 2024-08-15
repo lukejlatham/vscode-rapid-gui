@@ -44,7 +44,7 @@ const useStyles = makeStyles({
     color: tokens.colorNeutralForegroundOnBrand,
   },
   dialogButton: {
-    marginTop: "10px",
+    margin: "auto",
     height: "100%",
     display: "flex",
     alignItems: "center",

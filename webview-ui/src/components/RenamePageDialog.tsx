@@ -13,6 +13,8 @@ import {
     makeStyles,
 } from "@fluentui/react-components";
 import { DocumentEditRegular } from "@fluentui/react-icons";
+import { FormattedMessage } from "react-intl";
+import { Form } from "react-router-dom";
 
 const useStyles = makeStyles({
     content: {
@@ -46,7 +48,9 @@ export const RenamePageDialog: React.FC<RenamePageDialogProps> = ({ currentPageN
         <>
             <Dialog open={isOpen}>
                 <DialogTrigger disableButtonEnhancement>
-                    <Button icon={<DocumentEditRegular />} size="large" onClick={() => setIsOpen(true)}>Rename</Button>
+                    <Button icon={<DocumentEditRegular />} size="medium" onClick={() => setIsOpen(true)}>
+                        <FormattedMessage id="pages.rename" defaultMessage="Rename" />
+                    </Button>
                 </DialogTrigger>
                 <DialogSurface aria-describedby={undefined}>
                     <form onSubmit={handleSubmit}>
@@ -54,7 +58,7 @@ export const RenamePageDialog: React.FC<RenamePageDialogProps> = ({ currentPageN
                             <DialogTitle></DialogTitle>
                             <DialogContent className={styles.content}>
                                 <Label required htmlFor={"name-input"}>
-                                    Rename Page
+                                    <FormattedMessage id="renameDialog.title" defaultMessage="Rename Page" />:
                                 </Label>
                                 <Input
                                     required
@@ -65,10 +69,12 @@ export const RenamePageDialog: React.FC<RenamePageDialogProps> = ({ currentPageN
                             </DialogContent>
                             <DialogActions>
                                 <DialogTrigger disableButtonEnhancement>
-                                    <Button appearance="secondary" onClick={() => setIsOpen(false)}>Cancel</Button>
+                                    <Button appearance="secondary" onClick={() => setIsOpen(false)}>
+                                        <FormattedMessage id="renameDialog.cancel" defaultMessage="Cancel" />
+                                    </Button>
                                 </DialogTrigger>
                                 <Button type="submit" appearance="primary">
-                                    Rename
+                                    <FormattedMessage id="renameDialog.rename" defaultMessage="Rename" />
                                 </Button>
                             </DialogActions>
                         </DialogBody>

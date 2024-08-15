@@ -12,7 +12,7 @@ const useStyles = makeStyles({
   },
   content: {
     flexGrow: 1,
-    ...shorthands.padding('20px'),
+    ...shorthands.padding('0px'),
     overflowY: 'auto',
     boxSizing: 'border-box', 
     backgroundColor: tokens.colorNeutralBackground1,

@@ -9,12 +9,7 @@ const Header: React.FC<{ classes: any }> = ({ classes }) => {
     const navigate = useNavigate();
     return (
         <div className={classes.header}>
-            <Button
-                appearance="secondary"
-                aria-label="Back"
-                icon={<BackButtonIcon />}
-                onClick={() => navigate(-1)}
-            >Back</Button>
+
         </div>
     );
 };

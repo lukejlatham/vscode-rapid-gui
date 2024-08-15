@@ -1,15 +1,17 @@
 import React from 'react';
 import { HashRouter as Router } from 'react-router-dom';
 import AppRoutes from './routes/AppRoutes';
-import { FluentProvider, teamsDarkTheme } from '@fluentui/react-components';
+import { FluentProvider, teamsDarkTheme, teamsLightTheme, teamsHighContrastTheme } from '@fluentui/react-components';
 import "./App.css";
 
 
 const App: React.FC = () => {
+  const [theme, setTheme] = React.useState(teamsDarkTheme);
+
   return (
-    <FluentProvider theme={teamsDarkTheme}>
+    <FluentProvider theme={theme}>
       <Router>
-        <AppRoutes />
+        <AppRoutes theme={theme} setTheme={setTheme}/>
       </Router>
     </FluentProvider>
   );
