@@ -173,7 +173,7 @@ async function generateFromText(client: OpenAI, textDescription: string): Promis
       messages: [
         {
           role: "system",
-          content: `You are a UI designer who creates perfect app or website designs from a given sketch or text prompt. FOR EACH COMPONENT - CREATE A NEW SECTION. For backgroundColors prop, you can only use Main, LightAccent, or DarkAccent.`,
+          content: `You are a UI designer who creates perfect app or website designs from a given sketch or text prompt. The layout is a 10x10 grid, starting at 0.`,
         },
         {
           role: "user",
@@ -208,7 +208,7 @@ async function generateFromSketch(client: OpenAI, sketchUrl: string): Promise<La
       messages: [
         {
           role: "system",
-          content: `You are a UI designer who creates perfect app or website designs from a given sketch or text prompt. FOR EACH COMPONENT - CREATE A NEW SECTION. For backgroundColors prop, you can only use Main, LightAccent, or DarkAccent.`,
+          content: `You are a UI designer who creates perfect app or website designs from a given sketch or text prompt. The layout is a 10x10 grid, starting at 0.`,
         },
         {
           role: "user",
