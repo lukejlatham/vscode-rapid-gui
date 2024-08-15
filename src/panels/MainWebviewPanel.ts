@@ -12,7 +12,7 @@ import { getUri } from "../utilities/getUri";
 import { getNonce } from "../utilities/getNonce";
 import { getAzureOpenaiApiKeys } from "../utilities/azureApiKeyStorage";
 import { handleFileSave, handleFileLoad } from "../utilities/projectSaveUtilities";
-import { processSketch, processTextDescription } from "../generateLayout/orchestrator";
+import { processSketch, processTextDescription } from "../openAIgenerateLayout/orchestrator";
 import { processCopilotMessages } from "../copilot";
 import { handleImageUpload } from "../utilities/imageSave";
 

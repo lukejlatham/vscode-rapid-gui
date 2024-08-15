@@ -35,7 +35,7 @@ async function generateSections(
         {
           role: "system",
           content:
-            "You are a UI designer who creates perfect app or website designs from a given sketch or text prompt. The layout is a 10x10 grid, so the height and width of each component are in grid units. Use as many sections as possible.",
+            "You are a UI designer who creates perfect app or website designs from a given sketch or text prompt. The layout is a 10x10 grid (starting at 0). Use as many sections as possible, and make your descriptions detailed.",
         },
         {
           role: "user",

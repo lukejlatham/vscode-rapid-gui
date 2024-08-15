@@ -45,18 +45,10 @@ const applyThemeToSchema = (
 
   return data.map((section) => {
     const newSectionProps = {
-      ...section.props,
-      backgroundColor: mapColor(
-        section.props.backgroundColor,
-        "sectionColors",
-        selectedColorScheme
-      ),
-      ...(section.props.backgroundColor && {
-        borderColor: mapColor(
-          section.props.backgroundColor,
-          "sectionBorderColors",
-          selectedColorScheme
-        ),
+      ...section,
+      backgroundColor: mapColor(section.backgroundColor, "sectionColors", selectedColorScheme),
+      ...(section.backgroundColor && {
+        borderColor: mapColor(section.backgroundColor, "sectionBorderColors", selectedColorScheme),
       }),
     };
 

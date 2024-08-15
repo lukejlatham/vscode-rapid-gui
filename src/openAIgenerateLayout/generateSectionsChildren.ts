@@ -29,7 +29,7 @@ async function generateSectionsChildren(
         {
           role: "system",
           content:
-            "You are a UI designer who chooses elements for a given layout. Use a wide variety",
+            "You are a UI designer who chooses elements for a given layout. Use a wide variety of elements",
         },
         {
           role: "user",
