@@ -1,8 +1,9 @@
 import { OpenAI } from "openai";
 import { generatedLayout } from "../../webview-ui/src/types";
-import { zodFunction } from "openai/helpers/zod";
+import { zodResponseFormat } from "openai/helpers/zod";
+import { z, ZodObject } from "zod";
 
-async function OArefineProperties(
+async function generateSections(
   client: OpenAI,
   contentType: "text" | "sketch",
   textDescription?: string,
@@ -34,18 +35,18 @@ async function OArefineProperties(
         {
           role: "system",
           content:
-            "You are a UI designer who creates perfect app or website designs from a given sketch or text prompt. FOR EACH COMPONENT - CREATE A NEWxYou help users with layout generation by calling the layout function. The layout is on a 10x10 grid, so the height and width of each component are in grid units. Use as many sections as possible.",
+            "You are a UI designer who creates perfect app or website designs from a given sketch or text prompt. The layout is a 10x10 grid, so the height and width of each component are in grid units. Use as many sections as possible.",
         },
         {
           role: "user",
           content: JSON.stringify(userMessage),
         },
       ],
-      tools: [zodFunction({ name: "layout", parameters: generatedLayout })],
+      response_format: zodResponseFormat(generatedLayout, "layout"),
     });
 
-    const outputtedLayout = completion.choices[0].message.tool_calls[0].function.parsed_arguments;
-    console.log(completion.choices[0].message.tool_calls[0].function.parsed_arguments);
+    const outputtedLayout = completion.choices[0].message.parsed;
+    console.log(outputtedLayout);
     console.log(completion.usage.prompt_tokens);
     console.log(completion.usage.completion_tokens);
     return outputtedLayout;
@@ -54,4 +55,4 @@ async function OArefineProperties(
   }
 }
 
-export { OArefineProperties };
+export { generateSections };

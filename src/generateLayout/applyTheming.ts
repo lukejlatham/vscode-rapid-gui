@@ -61,7 +61,7 @@ const applyThemeToSchema = (
     };
 
     const newChildren = section.children.map((child) => {
-      const updatedProps: any = { ...child.props };
+      const updatedProps: any = { ...child };
 
       if (hasBackgroundColor(child)) {
         updatedProps.backgroundColor = mapColor(
