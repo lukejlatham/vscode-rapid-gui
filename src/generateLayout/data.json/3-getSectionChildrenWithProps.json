@@ -6,8 +6,8 @@
         "type": "Label",
         "props": { "text": "dsgdgf", "bold": true, "fontColor": "Main", "fontSize": 24 }
       },
-      { "type": "Icon", "props": { "selectedIcon": "VscRocket" } },
-      { "type": "Icon", "props": { "selectedIcon": "VscBell" } }
+      { "type": "Icon", "props": { "vscIcon": "VscRocket" } },
+      { "type": "Icon", "props": { "vscIcon": "VscBell" } }
     ]
   },
   "MainContent": {
@@ -19,7 +19,7 @@
       {
         "type": "Button",
         "props": {
-          "selectedIcon": "VscCheck",
+          "vscIcon": "VscCheck",
           "backgroundColor": "LightAccent",
           "fontColor": "Main"
         }
@@ -36,7 +36,7 @@
       {
         "type": "Button",
         "props": {
-          "selectedIcon": "VscDebugStart",
+          "vscIcon": "VscDebugStart",
           "backgroundColor": "DarkAccent",
           "fontColor": "LightAccent"
         }
@@ -59,7 +59,7 @@
         "type": "Label",
         "props": { "text": "Footer Label", "bold": true, "fontColor": "Main", "fontSize": 16 }
       },
-      { "type": "Icon", "props": { "selectedIcon": "VscGear" } },
+      { "type": "Icon", "props": { "vscIcon": "VscGear" } },
       { "type": "Text", "props": { "fontColor": "LightAccent" } }
     ]
   }

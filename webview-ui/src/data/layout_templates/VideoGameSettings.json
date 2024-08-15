@@ -736,7 +736,7 @@
     },
     "isCanvas": false,
     "props": {
-      "selectedIcon": "VscArrowLeft",
+      "vscIcon": "VscArrowLeft",
       "iconSize": 24,
       "iconColor": "#lightslategray",
       "hyperlink": ""
@@ -754,7 +754,7 @@
     },
     "isCanvas": false,
     "props": {
-      "selectedIcon": "VscRecordKeys",
+      "vscIcon": "VscRecordKeys",
       "iconSize": 15,
       "iconColor": "#lightslategray",
       "hyperlink": ""
@@ -772,7 +772,7 @@
     },
     "isCanvas": false,
     "props": {
-      "selectedIcon": "VscGame",
+      "vscIcon": "VscGame",
       "iconSize": 15,
       "iconColor": "#lightslategray",
       "hyperlink": ""
@@ -790,7 +790,7 @@
     },
     "isCanvas": false,
     "props": {
-      "selectedIcon": "VscSave",
+      "vscIcon": "VscSave",
       "iconSize": 20,
       "iconColor": "#lightslategray",
       "hyperlink": ""
@@ -808,7 +808,7 @@
     },
     "isCanvas": false,
     "props": {
-      "selectedIcon": "VscChromeClose",
+      "vscIcon": "VscChromeClose",
       "iconSize": 20,
       "iconColor": "#lightslategray",
       "hyperlink": ""

@@ -39,7 +39,7 @@ const useStyles = makeStyles({
       backgroundColor: tokens.colorNeutralBackground1Hover,
     },
   },
-  selectedIconButton: {
+  vscIconButton: {
     backgroundColor: tokens.colorBrandBackground,
     color: tokens.colorNeutralForegroundOnBrand,
   },
@@ -67,8 +67,8 @@ export const ButtonSettings: React.FC = () => {
   const styles = useStyles();
 
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedIcon, setSelectedIcon] = useState<keyof typeof VscIcons>(
-    props.selectedIcon || "VscPrimitiveSquare"
+  const [vscIcon, setSelectedIcon] = useState<keyof typeof VscIcons>(
+    props.vscIcon || "VscPrimitiveSquare"
   );
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -78,7 +78,7 @@ export const ButtonSettings: React.FC = () => {
 
   const handleConfirm = () => {
     setProp((props: any) => {
-      props.selectedIcon = selectedIcon;
+      props.vscIcon = vscIcon;
     });
     setIsOpen(false);
     setSearchQuery("");
@@ -176,7 +176,7 @@ export const ButtonSettings: React.FC = () => {
       <ComponentSettings componentProps={props} tooltips={tooltips} />
 
       <Button
-        icon={React.createElement(VscIcons[selectedIcon])}
+        icon={React.createElement(VscIcons[vscIcon])}
         className={styles.dialogButton}
         appearance="secondary"
         size="large"
@@ -205,7 +205,7 @@ export const ButtonSettings: React.FC = () => {
                         key={icon}
                         className={mergeClasses(
                           styles.iconButton,
-                          selectedIcon === icon ? styles.selectedIconButton : ""
+                          vscIcon === icon ? styles.vscIconButton : ""
                         )}
                         onClick={() => handleIconClick(icon as keyof typeof VscIcons)}>
                         {React.createElement(IconComponent)}

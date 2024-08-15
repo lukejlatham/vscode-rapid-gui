@@ -39,7 +39,7 @@ export const buttonSchema = z.object({
   iconPosition: z
     .union([z.enum(["none", "left", "right"]), z.string().refine((val) => val in VscIcons)])
     .default("left"),
-  selectedIcon: z
+  vscIcon: z
     .string()
     .transform((val) => (val in VscIcons ? val : "VscCircle"))
     .default("VscCircle") as z.ZodType<VscIconKeys>,
@@ -211,7 +211,7 @@ export const textBoxSchema = z.object({
 export type TextBoxProps = z.infer<typeof textBoxSchema>;
 
 export const iconSchema = z.object({
-  selectedIcon: z
+  vscIcon: z
     .string()
     .transform((val) => (val in VscIcons ? val : "VscCircle"))
     .default("VscCircle") as z.ZodType<VscIconKeys>,

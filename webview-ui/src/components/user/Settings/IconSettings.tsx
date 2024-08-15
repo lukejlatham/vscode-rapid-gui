@@ -27,7 +27,7 @@ const useStyles = makeStyles({
             backgroundColor: tokens.colorNeutralBackground1Hover,
         },
     },
-    selectedIconButton: {
+    vscIconButton: {
         backgroundColor: tokens.colorBrandBackground,
         color: tokens.colorNeutralForegroundOnBrand,
     },
@@ -54,7 +54,7 @@ export const IconSettings: React.FC = () => {
     // State for the dialog open state
     const [isOpen, setIsOpen] = useState(false);
     // State for the selected icon
-    const [selectedIcon, setSelectedIcon] = useState<keyof typeof VscIcons>(props.selectedIcon);
+    const [vscIcon, setSelectedIcon] = useState<keyof typeof VscIcons>(props.vscIcon);
     // State for the search query in the search box
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -66,7 +66,7 @@ export const IconSettings: React.FC = () => {
     // Function to handle the confirm button click in the dialog
     const handleConfirm = () => {
         setProp((props: any) => {
-            props.selectedIcon = selectedIcon;
+            props.vscIcon = vscIcon;
         });
         setIsOpen(false);
         console.log(searchQuery);
@@ -128,7 +128,7 @@ export const IconSettings: React.FC = () => {
                                             <Button
                                                 size='large'
                                                 key={icon}
-                                                className={mergeClasses(styles.iconButton, selectedIcon === icon ? styles.selectedIconButton : '')}
+                                                className={mergeClasses(styles.iconButton, vscIcon === icon ? styles.vscIconButton : '')}
                                                 onClick={() => handleIconClick(icon as keyof typeof VscIcons)}
                                             >
                                                 <IconComponent />

@@ -206,7 +206,7 @@
 
 // const IconSchema = z.object({
 //   type: z.literal("Icon"),
-//   selectedIcon: z.string() as z.ZodType<VscIconKeys>,
+//   vscIcon: z.string() as z.ZodType<VscIconKeys>,
 //   iconSize: z.number().default(24).optional(),
 //   iconColor: z.string().default("black").optional(),
 //   hyperlink: z.string().optional(),

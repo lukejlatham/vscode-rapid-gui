@@ -31,7 +31,7 @@ const useStyles = makeStyles({
 export const Button: UserComponent<ButtonProps> = (props) => {
     const validatedProps = buttonSchema.parse(props);
 
-    const { backgroundColor, fontColor, fontSize, borderRadius, text, width, height, bordercolor, shadowBlur, shadowColor, shadowOffsetX, shadowOffsetY, iconPosition, selectedIcon } = validatedProps;
+    const { backgroundColor, fontColor, fontSize, borderRadius, text, width, height, bordercolor, shadowBlur, shadowColor, shadowOffsetX, shadowOffsetY, iconPosition, vscIcon } = validatedProps;
     const { connectors: { connect, drag }, selected } = useNode((node) => ({
         selected: node.events.selected,
     }));
@@ -39,7 +39,7 @@ export const Button: UserComponent<ButtonProps> = (props) => {
     const styles = useStyles();
     const select = useSelected();
 
-    const IconComponent = selectedIcon ? VscIcons[selectedIcon] as React.ComponentType<any> : undefined;
+    const IconComponent = vscIcon ? VscIcons[vscIcon] as React.ComponentType<any> : undefined;
 
     return (
         <div className={`${selected ? select.select : ""}`}>
@@ -90,7 +90,7 @@ export const ButtonDefaultProps: ButtonProps = {
     height: 10,
     alignment: "left",
     iconPosition: "none",
-    selectedIcon: "VscPrimitiveSquare",
+    vscIcon: "VscPrimitiveSquare",
     bordercolor: "#666666",
     shadowColor: "transparent",
     shadowOffsetX: 0,

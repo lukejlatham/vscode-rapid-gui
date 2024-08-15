@@ -7,7 +7,7 @@ import { useSelected } from "../../hooks/useSelected";
 
 export const Icon: UserComponent<IconProps> = (props) => {
     const validatedProps = iconSchema.parse(props);
-    const { selectedIcon, iconSize, iconColor } = validatedProps;
+    const { vscIcon, iconSize, iconColor } = validatedProps;
     
     const { connectors: { connect, drag }, selected } = useNode((state) => ({
         selected: state.events.selected,
@@ -15,10 +15,10 @@ export const Icon: UserComponent<IconProps> = (props) => {
     const select = useSelected();
 
     // Fetch the icon component from VscIcons, defaulting to null if not found
-    const IconComponent = VscIcons[selectedIcon] as React.ComponentType<any> | undefined;
+    const IconComponent = VscIcons[vscIcon] as React.ComponentType<any> | undefined;
 
     if (!IconComponent) {
-        console.warn(`Icon component for ${String(selectedIcon)} is not a valid React component.`);
+        console.warn(`Icon component for ${String(vscIcon)} is not a valid React component.`);
         return null; // Handle the case where the component doesn't exist
     }
 
@@ -36,7 +36,7 @@ export const Icon: UserComponent<IconProps> = (props) => {
 };
 
 export const IconDefaultProps: IconProps = {
-    selectedIcon: "VscPrimitiveSquare", // Replace with a default Material Design icon name
+    vscIcon: "VscPrimitiveSquare", // Replace with a default Material Design icon name
     iconSize: 24,
     iconColor: "#lightslategray",
     hyperlink: "",

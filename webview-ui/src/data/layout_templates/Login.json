@@ -370,7 +370,7 @@
     },
     "isCanvas": false,
     "props": {
-      "selectedIcon": "VscAccount",
+      "vscIcon": "VscAccount",
       "iconSize": 20,
       "iconColor": "#lightslategray",
       "hyperlink": ""
@@ -388,7 +388,7 @@
     },
     "isCanvas": false,
     "props": {
-      "selectedIcon": "VscPersonAdd",
+      "vscIcon": "VscPersonAdd",
       "iconSize": 20,
       "iconColor": "#lightslategray",
       "hyperlink": ""

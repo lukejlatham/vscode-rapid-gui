@@ -609,7 +609,7 @@
     "type": { "resolvedName": "Icon" },
     "isCanvas": false,
     "props": {
-      "selectedIcon": "VscHome",
+      "vscIcon": "VscHome",
       "iconSize": 24,
       "iconColor": "lightslategrey",
       "hyperlink": ""
@@ -625,7 +625,7 @@
     "type": { "resolvedName": "Icon" },
     "isCanvas": false,
     "props": {
-      "selectedIcon": "VscSettingsGear",
+      "vscIcon": "VscSettingsGear",
       "iconSize": 24,
       "iconColor": "lightslategrey",
       "hyperlink": ""
@@ -641,7 +641,7 @@
     "type": { "resolvedName": "Icon" },
     "isCanvas": false,
     "props": {
-      "selectedIcon": "VscInfo",
+      "vscIcon": "VscInfo",
       "iconSize": 24,
       "iconColor": "lightslategrey",
       "hyperlink": ""
