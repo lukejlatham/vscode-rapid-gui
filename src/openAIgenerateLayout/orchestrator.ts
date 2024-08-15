@@ -34,6 +34,8 @@ async function processInput(
 
     const nodeTree = buildNodeTree(parsedLayout.sections);
 
+    console.log("Node tree:", nodeTree);
+
     return nodeTree;
   } catch (error) {
     console.error("Error processing input:", error);
