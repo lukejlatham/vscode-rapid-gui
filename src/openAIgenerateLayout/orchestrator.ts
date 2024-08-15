@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import OpenAI from "openai";
 import { getAzureOpenaiApiKeys } from "../utilities/azureApiKeyStorage";
 import { getOpenaiApiKeys } from "../utilities/OAApiKeyStorage";
-import { generateSections } from "./generateSections";
+import { generateFromSketch, generateFromText } from "./generateSections";
 import { buildNodeTree } from "./buildNodeTree";
 import { layoutSchema } from "../../webview-ui/src/types";
 
@@ -21,12 +21,14 @@ async function processInput(
       apiKey: openaiApiKey,
     });
 
-    const generatedLayout = await generateSections(
-      openaiClient,
-      inputType,
-      inputType === "text" ? input : undefined,
-      inputType === "sketch" ? input : undefined
-    );
+    const generatedLayout =
+      inputType === "sketch"
+        ? await generateFromSketch(openaiClient, input)
+        : inputType === "text"
+        ? await generateFromText(openaiClient, input)
+        : (() => {
+            throw new Error("Invalid input type");
+          })();
 
     console.log("Generated layout:", JSON.stringify(generatedLayout));
 

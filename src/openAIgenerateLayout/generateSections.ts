@@ -164,43 +164,20 @@ const outputSchema = {
 
 type LayoutType = z.infer<typeof layoutSchema>;
 
-async function generateSections(
-  client: OpenAI,
-  contentType: "text" | "sketch",
-  textDescription?: string,
-  sketchUrl?: string
-): Promise<LayoutType> {
-  if (!textDescription && !sketchUrl) {
-    throw new Error("No textual description or sketch provided.");
-  }
+const currentModel = "gpt-4o-2024-08-06";
 
-  const sketchMessage = [
-    {
-      type: "text",
-      text: "Create a UI layout from this sketch: ",
-    },
-    {
-      type: "image_url",
-      image_url: { url: `data:image/png;base64,${sketchUrl}`, detail: "low" },
-    },
-  ];
-
-  const textMessage = `Create a UI layout from the following textual description: ${textDescription}. Be creative in your interpretation of the prompt - use many sections`;
-
-  const userMessage = contentType === "text" ? textMessage : sketchMessage;
-
+async function generateFromText(client: OpenAI, textDescription: string): Promise<LayoutType> {
   try {
     const completion = await client.beta.chat.completions.parse({
-      model: "gpt-4o-2024-08-06",
+      model: currentModel,
       messages: [
         {
           role: "system",
-          content:
-            "You are a UI designer who creates perfect app or website designs from a given sketch or text prompt. The layout is a 10x10 grid (starting at 0). Use as many sections as possible, and make your descriptions detailed.",
+          content: `You are a UI designer who creates perfect app or website designs from a given sketch or text prompt. FOR EACH COMPONENT - CREATE A NEW SECTION. For backgroundColors prop, you can only use Main, LightAccent, or DarkAccent.`,
         },
         {
           role: "user",
-          content: JSON.stringify(userMessage),
+          content: `Create a UI layout from the following textual description: ${textDescription}. Be creative in your interpretation of the prompt - use many sections`,
         },
       ],
       response_format: {
@@ -224,4 +201,48 @@ async function generateSections(
   }
 }
 
-export { generateSections };
+async function generateFromSketch(client: OpenAI, sketchUrl: string): Promise<LayoutType> {
+  try {
+    const completion = await client.beta.chat.completions.parse({
+      model: currentModel,
+      messages: [
+        {
+          role: "system",
+          content: `You are a UI designer who creates perfect app or website designs from a given sketch or text prompt. FOR EACH COMPONENT - CREATE A NEW SECTION. For backgroundColors prop, you can only use Main, LightAccent, or DarkAccent.`,
+        },
+        {
+          role: "user",
+          content: [
+            {
+              type: "text",
+              text: "Create a UI layout from this sketch: ",
+            },
+            {
+              type: "image_url",
+              image_url: { url: `data:image/png;base64,${sketchUrl}`, detail: "auto" },
+            },
+          ],
+        },
+      ],
+      response_format: {
+        type: "json_schema",
+        json_schema: {
+          name: "UI_Schema",
+          strict: true,
+          schema: outputSchema,
+        },
+      },
+    });
+
+    const outputtedLayout = completion.choices[0].message.parsed;
+
+    console.log(outputtedLayout);
+    console.log(completion.usage.prompt_tokens);
+    console.log(completion.usage.completion_tokens);
+    return outputtedLayout;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export { generateFromSketch, generateFromText };
