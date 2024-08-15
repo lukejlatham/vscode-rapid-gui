@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Dialog, DialogSurface, DialogBody, DialogTitle, DialogContent, DialogActions, Button } from '@fluentui/react-components';
 import { DrawImageRegular, CameraSparklesRegular, TextEffectsSparkleRegular, GlanceHorizontalSparklesRegular } from '@fluentui/react-icons';
 import { UploadDialog } from './SketchUpload/UploadDialog';
-import { TextDialog } from './ImageUpload/TextDialog';
+import { TextDialog } from './ImageUpload/TextUploadDialog';
 import { TemplatesDialog } from '../pages/EditingInterface/TemplatesDialog';
 import { Page } from '../types';
 import { v4 as uuidv4 } from 'uuid';
