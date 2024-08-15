@@ -39,9 +39,58 @@ const outputSchema = {
               anyOf: [
                 {
                   type: "object",
+                  description: "Button for controls",
                   properties: {
                     element: { type: "string", enum: ["Button"] },
-                    vscIcon: { type: "string" },
+                    vscIcon: {
+                      type: "string",
+                      enum: [
+                        "VscArrowUp",
+                        "VscArrowDown",
+                        "VscArrowLeft",
+                        "VscArrowRight",
+                        "VscClose",
+                        "VscCopy",
+                        "VscCut",
+                        "VscDownload",
+                        "VscEdit",
+                        "VscExpandAll",
+                        "VscFold",
+                        "VscFoldDown",
+                        "VscFoldUp",
+                        "VscGraphLine",
+                        "VscLayers",
+                        "VscLinkExternal",
+                        "VscListUnordered",
+                        "VscLock",
+                        "VscMove",
+                        "VscMute",
+                        "VscNewFile",
+                        "VscNewFolder",
+                        "VscOpenPreview",
+                        "VscPass",
+                        "VscPause",
+                        "VscPlay",
+                        "VscReactions",
+                        "VscRefresh",
+                        "VscRemove",
+                        "VscReply",
+                        "VscSave",
+                        "VscSearchStop",
+                        "VscServerProcess",
+                        "VscSettings",
+                        "VscSourceControl",
+                        "VscSplitHorizontal",
+                        "VscSplitVertical",
+                        "VscThumbsUp",
+                        "VscTools",
+                        "VscUnfold",
+                        "VscUnlock",
+                        "VscUpload",
+                        "VscZoomIn",
+                        "VscZoomOut",
+                      ],
+                    },
                     backgroundColor: {
                       type: "string",
                       enum: ["Main", "LightAccent", "DarkAccent"],
@@ -53,18 +102,20 @@ const outputSchema = {
                 },
                 {
                   type: "object",
+                  description: "Label for titles",
                   properties: {
                     element: { type: "string", enum: ["Label"] },
                     text: { type: "string" },
                     bold: { type: "boolean" },
                     fontColor: { type: "string", enum: ["Main", "LightAccent", "DarkAccent"] },
-                    fontSize: { type: "number" },
+                    fontSize: { type: "number", enum: [16, 26, 32] },
                   },
                   required: ["element", "text", "bold", "fontColor", "fontSize"],
                   additionalProperties: false,
                 },
                 {
                   type: "object",
+                  description: "Series of checkboxes for selecting multiple options",
                   properties: {
                     element: { type: "string", enum: ["Checkboxes"] },
                   },
@@ -73,6 +124,7 @@ const outputSchema = {
                 },
                 {
                   type: "object",
+                  description: "Text input field",
                   properties: {
                     element: { type: "string", enum: ["Input"] },
                     fontColor: { type: "string", enum: ["Main", "LightAccent", "DarkAccent"] },
@@ -82,6 +134,7 @@ const outputSchema = {
                 },
                 {
                   type: "object",
+                  description: "Series of radio buttons for selecting between options",
                   properties: {
                     element: { type: "string", enum: ["RadioButtons"] },
                     header: { type: "string" },
@@ -91,16 +144,18 @@ const outputSchema = {
                 },
                 {
                   type: "object",
+                  description: "Image with alt text",
                   properties: {
                     element: { type: "string", enum: ["Image"] },
                     alt: { type: "string" },
-                    width: { type: "number" },
+                    width: { type: "number", enum: [60, 80, 90] },
                   },
                   required: ["element", "alt", "width"],
                   additionalProperties: false,
                 },
                 {
                   type: "object",
+                  description: "Large paragraph of text",
                   properties: {
                     element: { type: "string", enum: ["Text"] },
                     fontColor: { type: "string", enum: ["Main", "LightAccent", "DarkAccent"] },
@@ -110,6 +165,7 @@ const outputSchema = {
                 },
                 {
                   type: "object",
+                  description: "Slider control for volume, brightness etc",
                   properties: {
                     element: { type: "string", enum: ["Slider"] },
                     header: { type: "string" },
@@ -123,6 +179,7 @@ const outputSchema = {
                 },
                 {
                   type: "object",
+                  description: "Dropdown for settings etc - try to use a few together",
                   properties: {
                     element: { type: "string", enum: ["Dropdown"] },
                     header: { type: "string" },
@@ -132,9 +189,45 @@ const outputSchema = {
                 },
                 {
                   type: "object",
+                  description: "Logo icons",
                   properties: {
                     element: { type: "string", enum: ["Icon"] },
-                    vscIcon: { type: "string" },
+                    vscIcon: {
+                      type: "string",
+                      enum: [
+                        "VscGithub",
+                        "VscAzure",
+                        "VscTwitter",
+                        "VscVmware",
+                        "VscWindows",
+                        "VscApple",
+                        "VscGoogle",
+                        "VscAws",
+                        "VscDocker",
+                        "VscKubernetes",
+                        "VscNpm",
+                        "VscPython",
+                        "VscReact",
+                        "VscAngular",
+                        "VscNodejs",
+                        "VscJava",
+                        "VscGo",
+                        "VscLinux",
+                        "VscRedhat",
+                        "VscSlack",
+                        "VscChrome",
+                        "VscEdge",
+                        "VscFirefox",
+                        "VscInternetExplorer",
+                        "VscOpera",
+                        "VscUbuntu",
+                        "VscVercel",
+                        "VscVue",
+                        "VscWordpress",
+                        "VscMicrosoft",
+                        "VscVisualstudio",
+                      ],
+                    },
                   },
                   required: ["element", "vscIcon"],
                   additionalProperties: false,
@@ -173,7 +266,7 @@ async function generateFromText(client: OpenAI, textDescription: string): Promis
       messages: [
         {
           role: "system",
-          content: `You are a UI designer who creates perfect app or website designs from a given sketch or text prompt. The layout is a 10x10 grid, starting at 0.`,
+          content: `You are a UI designer who creates perfect app or website designs from a given sketch or text prompt. The layout is a 10x10 grid, starting at 0. You use lots of sections and a wide variety of elements.`,
         },
         {
           role: "user",
