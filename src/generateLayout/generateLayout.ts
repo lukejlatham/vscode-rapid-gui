@@ -31,8 +31,6 @@ async function processInput(
 
     const parsedLayout = JSON.stringify(layout.sections);
 
-    console.log("Generated layout sections:", parsedLayout);
-
     webview.postMessage({ command: "processingStage", stage: "Generating elements" });
 
     const zodChildrenSchema = generateSectionChildrenSchema(layout.sections);
@@ -49,11 +47,7 @@ async function processInput(
 
     const zodChildrenWithPropsSchema = generateSectionChildrenFullSchema(children.sections);
 
-    console.log("Generated children schema:", JSON.stringify(zodChildrenWithPropsSchema));
-
     const parsedChildren = JSON.stringify(children.sections);
-
-    console.log("Generated children sections:", parsedChildren);
 
     const fullChildren = await getChildrenWithProps(
       apiEndpoint,
@@ -68,13 +62,9 @@ async function processInput(
 
     const parsedFullChildren = JSON.stringify(fullChildren.sections);
 
-    console.log("Generated full children sections with properties:", parsedFullChildren);
-
     // const layoutNodes = buildLayoutNodes(parsedLayout, parsedFullChildren);
 
     const layoutNodes = parsedFullChildren;
-
-    console.log("Generated layout nodes:", layoutNodes);
 
     return layoutNodes;
   } catch (error) {

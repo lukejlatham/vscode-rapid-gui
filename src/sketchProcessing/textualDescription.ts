@@ -102,10 +102,6 @@ export async function getTextualDescription(sketchAsUrl: string, context: vscode
         },
       ],
     });
-    console.log(
-      "Textual Description:",
-      JSON.stringify(textualDescription.choices[0].message.content)
-    );
     return JSON.stringify(textualDescription.choices[0].message.content);
   } catch (error) {
     console.error("Error processing sketch upload:", error);

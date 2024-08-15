@@ -1,7 +1,6 @@
 import * as vscode from "vscode";
 
 export async function getOpenaiApiKeys(context: vscode.ExtensionContext) {
-  console.log("Getting OpenAI API keys");
   const openaiApiKey = await context.secrets.get("OPENAI_API_KEY");
 
   return { openaiApiKey };

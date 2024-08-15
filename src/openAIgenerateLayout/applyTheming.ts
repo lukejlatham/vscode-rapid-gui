@@ -38,7 +38,6 @@ const applyThemeToSchema = (
 ): z.infer<typeof themedLayoutSchema> => {
   const randomIndex = Math.floor(Math.random() * possibleColorSchemes.length);
   const selectedColorScheme = possibleColorSchemes[randomIndex];
-  console.log("Selected color scheme: ", selectedColorScheme);
 
   return data.map((section) => {
     const newSection = {

@@ -186,8 +186,6 @@ function createBackgroundNode(
 }
 
 function buildNodeTree(generatedLayout: LayoutSchema): string {
-  console.log("Starting buildNodeTree with generatedLayout:", generatedLayout);
-
   const layout = generatedLayout.map((section, index) => ({
     i: String(index),
     x: section.xPosition,
@@ -199,24 +197,18 @@ function buildNodeTree(generatedLayout: LayoutSchema): string {
     // maxW: layoutDimensions.columns,
     // maxH: layoutDimensions.rows,
   }));
-  console.log("Generated layout array:", layout);
 
   const layoutDimensions = calculateLayoutDimensions(generatedLayout);
 
   const themedNodes = applyThemeToSchema(generatedLayout);
-  console.log("Applied theme to schema, themedNodes:", themedNodes);
 
   const sectionNodes = generateSectionNodes(themedNodes);
-  console.log("Generated section nodes:", sectionNodes);
 
   const backgroundNode = createBackgroundNode(layoutDimensions, layout, "#292929");
-  console.log("Created background node:", backgroundNode);
 
   const combinedNodes = { ROOT: backgroundNode, ...sectionNodes };
-  console.log("Combined nodes:", combinedNodes);
 
   const stringifiedNodes = JSON.stringify(combinedNodes);
-  console.log("Stringified nodes:", stringifiedNodes);
 
   return stringifiedNodes;
 }
