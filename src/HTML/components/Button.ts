@@ -50,7 +50,7 @@ export function generateButtonCss(node: Node): string {
     width: ${width};
     height: ${height};
     border-radius: ${props.borderRadius}%;
-    border: 2px solid ${props.borderColor};
+    
     cursor: pointer;
     display: flex;
     text-align: center;
