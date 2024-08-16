@@ -229,8 +229,7 @@ ${pageTypeLogic}
   private createPublishProfiles() {
     const architectures = ["x86", "x64", "arm64"];
     architectures.forEach((arch) => {
-      const content = `
-  <?xml version="1.0" encoding="utf-8"?>
+      const content = `<?xml version="1.0" encoding="utf-8"?>
 <!--
 https://go.microsoft.com/fwlink/?LinkID=208121.
 -->
