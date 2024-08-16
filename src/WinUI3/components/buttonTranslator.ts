@@ -3,31 +3,26 @@ import { Node } from "../JsonParser";
 
 export function generateButtonXaml(node: Node, indent: string = ""): string {
   const props = node.props;
-  let xaml = `${indent}<Button`;
+  let xaml = `${indent}<Button Style="{StaticResource ButtonStyle}"`;
 
   // Content
-  xaml += ` Content="${props.text}"`;
+  xaml += ` Content="${props.text ?? ""}"`;
 
   // Style properties
-  xaml += ` Foreground="${props.fontColor}"`;
-  xaml += ` Background="${props.backgroundColor}"`;
-  xaml += ` FontSize="${props.fontSize}"`;
-
-  //Percent not supported in xaml
-  // xaml += ` Width="${props.width}%"`;
-  // xaml += ` Height="${props.height}%"`;
+  xaml += ` Foreground="${props.backgroundColor ?? "{ThemeResource AccentButtonForeground}"}"`;
+  //xaml += ` Background="${props.backgroundColor ?? "Transparent"}"`;
+  xaml += ` FontSize="${props.fontSize} ?? 12"`;
   xaml += ` HorizontalAlignment="Stretch" VerticalAlignment="Stretch"`;
 
   // Border properties
-  xaml += ` BorderBrush="${props.bordercolor}"`;
+  xaml += ` BorderBrush="${props.bordercolor} ?? "{ThemeResource AccentButtonBorderBrush}"}"`;
   xaml += ` BorderThickness="2"`;
-  xaml += ` CornerRadius="${props.borderRadius}"`;
+  xaml += ` CornerRadius="${props.borderRadius} ?? 0"`;
 
   xaml += ">\n";
+ // Render transform for width and height scaling
   xaml += `${indent}  <Button.RenderTransform>\n`;
-  xaml += `${indent}    <ScaleTransform ScaleX="${props.width / 100}" ScaleY="${
-    props.height / 100
-  }"/>\n`;
+  xaml += `${indent}    <ScaleTransform ScaleX="${props.width / 100}" ScaleY="${props.height / 100}"/>\n`;
   xaml += `${indent}  </Button.RenderTransform>\n`;
 
   if (props.icon !== "none") {
