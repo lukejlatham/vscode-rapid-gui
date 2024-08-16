@@ -51,9 +51,9 @@ export const FontDropdown: React.FC<Partial<DropdownProps>> = (props) => {
     const nodes = query.getNodes();
     Object.keys(nodes).forEach((id) => {
       const node = query.node(id).get();
-      if (node.data.props && node.data.props.font) {
+      if (node.data.props && node.data.props.fontFamily) {
         actions.setProp(id, (props) => {
-          props.font = selectedFont;
+          props.fontFamily = selectedFont;
         });
       }
     });
