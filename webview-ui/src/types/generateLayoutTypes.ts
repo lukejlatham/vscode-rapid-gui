@@ -93,3 +93,67 @@ export const layoutSchema = z.object({
   theme: z.enum(themeNames as [string, ...string[]]),
   sections: sectionsSchema,
 });
+
+export const backgroundNodeLayout = z.object({
+  w: z.number().int(),
+  h: z.number().int(),
+  x: z.number().int(),
+  y: z.number().int(),
+  i: z.string(),
+  moved: z.boolean().default(false),
+  static: z.boolean().default(false),
+  maxW: z.number().int().optional(),
+  maxH: z.number().int().optional(),
+});
+
+export const nodeTreeRootSchema = z.object({
+  type: z.object({
+    resolvedName: z.string(),
+  }),
+  isCanvas: z.boolean(),
+  props: z.object({
+    rows: z.number().int(),
+    columns: z.number().int(),
+    lockedGrid: z.boolean(),
+    backgroundColor: z.string(),
+    layout: z.array(backgroundNodeLayout),
+  }),
+  displayName: z.string(),
+  custom: z.record(z.any()),
+  parent: z.undefined(),
+  hidden: z.boolean(),
+  nodes: z.array(z.string()),
+  linkedNodes: z.record(z.string()),
+});
+
+export const craftjsNodeSchema = z.object({
+  type: z.object({
+    resolvedName: z.string(),
+  }),
+  isCanvas: z.boolean(),
+  props: z.record(z.string(), z.any()),
+  displayName: z.string(),
+  custom: z.record(z.any()),
+  hidden: z.boolean(),
+  nodes: z.array(z.string()),
+  linkedNodes: z.record(z.string()),
+  parent: z.string(),
+});
+
+export const themedSectionSchema = z.object({
+  section: z.string(),
+  xPosition: z.number().int().max(10),
+  yPosition: z.number().int().max(10),
+  width: z.number().int().max(10),
+  height: z.number().int().max(10),
+  flexDirection: z.enum(["row", "column"]),
+  backgroundColor: z.string(),
+  borderColor: z.string(),
+  children: z.array(z.any()),
+});
+
+export type ThemedSectionSchema = z.infer<typeof themedSectionSchema>;
+
+export const themedLayoutSchema = z.array(themedSectionSchema);
+
+export type ThemedLayoutSchema = z.infer<typeof themedSectionSchema>;

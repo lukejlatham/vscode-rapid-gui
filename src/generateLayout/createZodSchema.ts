@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { generatedElements } from "../../webview-ui/src/types";
 import {
   generateButtonSchema,
   generateCheckboxesSchema,
@@ -13,6 +12,31 @@ import {
   generateDropdownSchema,
   generateSliderSchema,
 } from "../../webview-ui/src/types";
+
+export const generatedElements = z.object({
+  type: z.enum([
+    "Button",
+    "Label",
+    "Image",
+    // "TextBox",
+    "RadioButtons",
+    "Checkboxes",
+    "Input",
+    "Text",
+    "Icon",
+    "Slider",
+    "Dropdown",
+  ]),
+});
+
+export const generatedSectionChildren = z.object({
+  section: z.string(),
+  children: z.array(generatedElements).max(8),
+});
+
+export const generatedAllSectionsChildren = z.object({
+  sections: z.array(generatedSectionChildren).min(2).max(6),
+});
 
 const childSchemaMap = {
   Button: generateButtonSchema,
