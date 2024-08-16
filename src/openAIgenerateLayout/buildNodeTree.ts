@@ -184,7 +184,7 @@ function createBackgroundNode(
   };
 }
 
-function buildNodeTree(generatedLayout: LayoutSchema): string {
+function buildNodeTree(generatedLayout: LayoutSchema, chosenTheme: string): string {
   const layout = generatedLayout.map((section, index) => ({
     i: String(index),
     x: section.xPosition,
@@ -199,7 +199,7 @@ function buildNodeTree(generatedLayout: LayoutSchema): string {
 
   const layoutDimensions = calculateLayoutDimensions(generatedLayout);
 
-  const themedNodes = applyThemeToSchema(generatedLayout, "Red Airbnb");
+  const themedNodes = applyThemeToSchema(generatedLayout, chosenTheme);
 
   const sectionNodes = generateSectionNodes(themedNodes);
 

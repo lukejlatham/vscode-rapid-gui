@@ -436,36 +436,6 @@ export const craftjsNodeSchema = z.object({
   parent: z.string(),
 });
 
-// Used in applyTheming.ts
-
-export type ColorScheme = {
-  sectionColors: {
-    main: string | string[];
-    lightaccent: string | string[];
-    darkaccent: string | string[];
-  };
-  sectionBorderColors: {
-    main: string | string[];
-    lightaccent: string | string[];
-    darkaccent: string | string[];
-  };
-  elementColors: {
-    main: string | string[];
-    lightaccent: string | string[];
-    darkaccent: string | string[];
-  };
-  elementBorderColors: {
-    main: string | string[];
-    lightaccent: string | string[];
-    darkaccent: string | string[];
-  };
-  fontColors: {
-    main: string | string[];
-    lightaccent: string | string[];
-    darkaccent: string | string[];
-  };
-};
-
 export const themedSectionSchema = z.object({
   section: z.string(),
   xPosition: z.number().int().max(10),

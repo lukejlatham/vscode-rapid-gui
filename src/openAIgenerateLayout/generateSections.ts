@@ -1,10 +1,14 @@
 import { OpenAI } from "openai";
-import { layoutSchema } from "../../webview-ui/src/types";
+import { layoutSchema, themeNames } from "../../webview-ui/src/types";
 import { z } from "zod";
 
 const outputSchema = {
   type: "object",
   properties: {
+    theme: {
+      type: "string",
+      enum: themeNames,
+    },
     sections: {
       type: "array",
       items: {
@@ -251,7 +255,7 @@ const outputSchema = {
       },
     },
   },
-  required: ["sections"],
+  required: ["sections", "theme"],
   additionalProperties: false,
 };
 

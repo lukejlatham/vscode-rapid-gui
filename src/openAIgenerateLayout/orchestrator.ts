@@ -34,7 +34,7 @@ async function processInput(
 
     const parsedLayout = layoutSchema.parse(generatedLayout);
 
-    const nodeTree = buildNodeTree(parsedLayout.sections);
+    const nodeTree = buildNodeTree(parsedLayout.sections, parsedLayout.theme);
 
     console.log("Node tree:", nodeTree);
 

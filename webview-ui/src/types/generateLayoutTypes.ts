@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { themeNames } from "./themes";
 
 // Step 1 - Generate Layout
 
@@ -138,23 +139,9 @@ const sectionSchema = z.object({
 });
 
 export const layoutSchema = z.object({
+  theme: z.enum(themeNames as [string, ...string[]]),
   sections: z.array(sectionSchema),
 });
-
-// Used in convertLayoutToNodes.ts
-
-const generatedElements = z.enum([
-  "Button",
-  "Label",
-  "Image",
-  "RadioButtons",
-  "Checkboxes",
-  "Input",
-  "Text",
-  "Icon",
-  "Slider",
-  "Dropdown",
-]);
 
 export const fullSectionSchema = z.object({
   section: z.string(),

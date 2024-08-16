@@ -1,4 +1,32 @@
-import { ColorScheme } from ".";
+import { z } from "zod";
+
+export type ColorScheme = {
+  sectionColors: {
+    main: string | string[];
+    lightaccent: string | string[];
+    darkaccent: string | string[];
+  };
+  sectionBorderColors: {
+    main: string | string[];
+    lightaccent: string | string[];
+    darkaccent: string | string[];
+  };
+  elementColors: {
+    main: string | string[];
+    lightaccent: string | string[];
+    darkaccent: string | string[];
+  };
+  elementBorderColors: {
+    main: string | string[];
+    lightaccent: string | string[];
+    darkaccent: string | string[];
+  };
+  fontColors: {
+    main: string | string[];
+    lightaccent: string | string[];
+    darkaccent: string | string[];
+  };
+};
 
 export const slateGreyScheme: ColorScheme = {
   sectionColors: {
@@ -387,3 +415,5 @@ export const themeList = [
   { name: "Awful tetris Scheme", scheme: tetrisScheme },
   { name: "Facebook Blue Alt", scheme: facebookbluealt },
 ];
+
+export const themeNames = themeList.map((theme) => theme.name);
