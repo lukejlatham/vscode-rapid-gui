@@ -55,6 +55,8 @@ export const ThemeDropdown: React.FC<Partial<DropdownProps>> = (props) => {
   const handleApplyTheme = () => {
     if (!selectedTheme || !theme) return;
 
+    let darkAccentApplied = false;  // Flag to track if DarkAccent has been applied
+
     const nodes = query.getNodes();
     Object.keys(nodes).forEach((id) => {
       const node = query.node(id).get();
@@ -65,7 +67,14 @@ export const ThemeDropdown: React.FC<Partial<DropdownProps>> = (props) => {
         });
       }
 
-      if (node.data.displayName === "Container") {
+     if (node.data.displayName === "Container") {
+      if (!darkAccentApplied) {
+        actions.setProp(id, (props) => {
+          props.backgroundColor = getColor(theme.sectionColors.darkaccent);
+          props.borderColor = getColor(theme.sectionBorderColors.darkaccent);
+        });
+        darkAccentApplied = true;  
+      } else {
         const nodeParentId = node.data.parent;
         if (nodeParentId) {
           const parent = query.node(nodeParentId).get();
@@ -82,11 +91,13 @@ export const ThemeDropdown: React.FC<Partial<DropdownProps>> = (props) => {
           }
         } else {
           actions.setProp(id, (props) => {
-            props.backgroundColor = getColor(theme.sectionColors.darkaccent);
-            props.borderColor = getColor(theme.sectionBorderColors.darkaccent);
+            props.backgroundColor = getColor(theme.sectionColors.main);
+            props.borderColor = getColor(theme.sectionBorderColors.main);
           });
         }
       }
+    }
+
 
       if (node.data.props && !node.data.isCanvas) {
         if (node.data.props.backgroundColor) {
