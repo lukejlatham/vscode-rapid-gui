@@ -87,9 +87,9 @@ const sectionSchema = z.object({
   children: z.array(generatedFullElements),
 });
 
+export const sectionsSchema = z.array(sectionSchema);
+
 export const layoutSchema = z.object({
   theme: z.enum(themeNames as [string, ...string[]]),
-  sections: z.array(sectionSchema),
+  sections: sectionsSchema,
 });
-
-export const sectionsSchema = z.array(sectionSchema);
