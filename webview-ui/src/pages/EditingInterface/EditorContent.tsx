@@ -7,6 +7,7 @@ import { SerializedNodes, useEditor } from "@craftjs/core";
 import { StartProjectDialog } from "../../components/StartProjectDialog";
 import { AddPageDialog } from "../../components/AddPageDialog";
 import { Theme } from "@fluentui/react-components";
+import PropertyInspector from "./RightSidebar/PropertyInspector";
 
 interface EditorContentProps {
   pages: Page[];
@@ -104,9 +105,10 @@ export const EditorContent: React.FC<EditorContentProps> = ({
           <Canvas classes={classes} />
         </div>
       </div>
-      <div className={classes.rightSidebar}>
+      <PropertyInspector />
+      {/* <div className={classes.rightSidebar}>
         <RightSidebar classes={classes} />
-      </div>
+      </div> */}
     </div>
   );
 };
