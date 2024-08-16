@@ -6,7 +6,7 @@ import {
   useId,
   Button,
 } from "@fluentui/react-components";
-import { WindowBrushFilled } from "@fluentui/react-icons";
+import { WindowFilled } from "@fluentui/react-icons";
 import type { DropdownProps } from "@fluentui/react-components";
 import { useEditor } from "@craftjs/core";
 import { themeList } from "./themes"; // Adjust the import path as necessary
@@ -152,7 +152,7 @@ export const ThemeDropdown: React.FC<Partial<DropdownProps>> = (props) => {
       </Dropdown>
 
       <Button
-        icon={<WindowBrushFilled />}
+        icon={<WindowFilled />}
         size="medium"
         appearance="primary"
         onClick={handleApplyTheme}
