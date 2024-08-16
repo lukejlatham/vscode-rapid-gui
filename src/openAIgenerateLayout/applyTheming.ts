@@ -1,12 +1,10 @@
 import { z } from "zod";
-import { fullLayoutSchema, ColorScheme, themedLayoutSchema } from "../../webview-ui/src/types";
 import {
-  slateGreyScheme,
-  orangeScheme,
-  tetrisScheme,
-} from "../../webview-ui/src/Features/theming/themes";
-
-const possibleColorSchemes = [slateGreyScheme, orangeScheme, tetrisScheme];
+  fullLayoutSchema,
+  ColorScheme,
+  themedLayoutSchema,
+  themeList,
+} from "../../webview-ui/src/types";
 
 const hasBackgroundColor = (
   obj: any
@@ -34,10 +32,16 @@ const mapColor = (
 };
 
 const applyThemeToSchema = (
-  data: z.infer<typeof fullLayoutSchema>
+  data: z.infer<typeof fullLayoutSchema>,
+  theme: string
 ): z.infer<typeof themedLayoutSchema> => {
-  const randomIndex = Math.floor(Math.random() * possibleColorSchemes.length);
-  const selectedColorScheme = possibleColorSchemes[randomIndex];
+  const selectedTheme = themeList.find((t) => t.name.toLowerCase() === theme.toLowerCase());
+
+  if (!selectedTheme) {
+    throw new Error(`Theme "${theme}" not found`);
+  }
+
+  const selectedColorScheme = selectedTheme.scheme;
 
   return data.map((section) => {
     const newSection = {

@@ -485,3 +485,5 @@ export const themedLayoutSchema = z.array(themedSectionSchema).max(6);
 export type ThemedLayoutSchema = z.infer<typeof themedSectionSchema>;
 
 export * from "./generateLayoutTypes";
+
+export * from "./themes";

@@ -9,7 +9,7 @@ import {
 import { WindowFilled } from "@fluentui/react-icons";
 import type { DropdownProps } from "@fluentui/react-components";
 import { useEditor } from "@craftjs/core";
-import { themeList } from "./themes"; // Adjust the import path as necessary
+import { themeList } from "../../types/themes"; // Adjust the import path as necessary
 import { FormattedMessage } from "react-intl";
 
 const useStyles = makeStyles({

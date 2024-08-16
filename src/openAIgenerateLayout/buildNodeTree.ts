@@ -26,7 +26,6 @@ type BackgroundType = z.infer<typeof backgroundNodeLayout>;
 type NodeTreeRootType = z.infer<typeof nodeTreeRootSchema>;
 type LayoutSchema = z.infer<typeof fullLayoutSchema>;
 type NodeSection = z.infer<typeof craftjsNodeSchema>;
-type FullSectionSchema = z.infer<typeof fullSectionSchema>;
 
 interface LayoutDimensions {
   rows: number;
@@ -200,7 +199,7 @@ function buildNodeTree(generatedLayout: LayoutSchema): string {
 
   const layoutDimensions = calculateLayoutDimensions(generatedLayout);
 
-  const themedNodes = applyThemeToSchema(generatedLayout);
+  const themedNodes = applyThemeToSchema(generatedLayout, "Red Airbnb");
 
   const sectionNodes = generateSectionNodes(themedNodes);
 

@@ -1,4 +1,4 @@
-import { ColorScheme } from "../../types";
+import { ColorScheme } from ".";
 
 export const slateGreyScheme: ColorScheme = {
   sectionColors: {
