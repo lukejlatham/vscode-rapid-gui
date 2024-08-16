@@ -15,7 +15,7 @@ import ProjectManagement from "./ProjectManagementButtons";
 import LayoutManagement from "./LayoutManagement";
 import PagesButtons from "./PagesButtons";
 import Settings from "./Settings";
-import { ThemeDropdown } from "../../../Features/theming/ThemeDropdown";
+import ThemingDropdowns from "../../../Features/theming/ThemingDropdowns";
 import { Page } from "../../../types";
 import {
   GridFilled,
@@ -142,9 +142,9 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
             setCurrentPageIndex={setCurrentPageIndex}
             openAddPageDialog={openAddPageDialog}
           />
-        );
-      case "Theme":
-        return <ThemeDropdown />;
+        );       
+        case "Theme":
+        return <ThemingDropdowns />;
       case "ComponentLibrary":
         return <ComponentButtons classes={localClasses} />;
       case "Settings":
