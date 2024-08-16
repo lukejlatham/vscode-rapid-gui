@@ -1,6 +1,6 @@
 import { z } from "zod";
 import {
-  fullLayoutSchema,
+  sectionsSchema,
   ColorScheme,
   themedLayoutSchema,
   themeList,
@@ -32,7 +32,7 @@ const mapColor = (
 };
 
 const applyThemeToSchema = (
-  data: z.infer<typeof fullLayoutSchema>,
+  data: z.infer<typeof sectionsSchema>,
   theme: string
 ): z.infer<typeof themedLayoutSchema> => {
   const selectedTheme = themeList.find((t) => t.name.toLowerCase() === theme.toLowerCase());

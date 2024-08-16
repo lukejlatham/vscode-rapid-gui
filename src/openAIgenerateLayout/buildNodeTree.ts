@@ -4,7 +4,7 @@ import {
   nodeTreeRootSchema,
   craftjsNodeSchema,
   buttonSchema,
-  fullLayoutSchema,
+  sectionsSchema,
   checkboxesSchema,
   containerSchema,
   inputSchema,
@@ -14,7 +14,6 @@ import {
   iconSchema,
   imageSchema,
   gridCellSchema,
-  fullSectionSchema,
   textSchema,
   ThemedLayoutSchema,
   dropdownSchema,
@@ -24,7 +23,7 @@ import { applyThemeToSchema } from "./applyTheming";
 
 type BackgroundType = z.infer<typeof backgroundNodeLayout>;
 type NodeTreeRootType = z.infer<typeof nodeTreeRootSchema>;
-type LayoutSchema = z.infer<typeof fullLayoutSchema>;
+type SectionsSchema = z.infer<typeof sectionsSchema>;
 type NodeSection = z.infer<typeof craftjsNodeSchema>;
 
 interface LayoutDimensions {
@@ -33,7 +32,7 @@ interface LayoutDimensions {
   ids: string[];
 }
 
-function calculateLayoutDimensions(layout: LayoutSchema): LayoutDimensions {
+function calculateLayoutDimensions(layout: SectionsSchema): LayoutDimensions {
   let maxX = 0;
   let maxY = 0;
   const ids: string[] = layout.map((section) => {
@@ -184,7 +183,7 @@ function createBackgroundNode(
   };
 }
 
-function buildNodeTree(generatedLayout: LayoutSchema, chosenTheme: string): string {
+function buildNodeTree(generatedLayout: SectionsSchema, chosenTheme: string): string {
   const layout = generatedLayout.map((section, index) => ({
     i: String(index),
     x: section.xPosition,

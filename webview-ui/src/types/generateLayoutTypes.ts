@@ -76,8 +76,6 @@ export const generatedFullElements = z.union([
   generateDropdownSchema,
 ]);
 
-// Used in getSectionChildrenOpenai.ts
-
 const sectionSchema = z.object({
   section: z.string(),
   xPosition: z.number(),
@@ -94,20 +92,4 @@ export const layoutSchema = z.object({
   sections: z.array(sectionSchema),
 });
 
-export const fullSectionSchema = z.object({
-  section: z.string(),
-  xPosition: z.number().int().max(10),
-  yPosition: z.number().int().max(10),
-  width: z.number().int().max(10),
-  height: z.number().int().max(10),
-  flexDirection: z.enum(["row", "column"]),
-  backgroundColor: z.enum(["Main", "LightAccent", "DarkAccent"]),
-  children: z.array(z.any()),
-});
-
-export const fullLayoutSchema = z
-  .array(fullSectionSchema)
-  .max(6)
-  .describe("This should contain all the sections the user provided.");
-
-export type FullLayoutSchema = z.infer<typeof fullLayoutSchema>;
+export const sectionsSchema = z.array(sectionSchema);
