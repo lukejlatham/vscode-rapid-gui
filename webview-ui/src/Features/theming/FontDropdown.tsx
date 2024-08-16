@@ -10,27 +10,11 @@ import { TextFont20Filled } from "@fluentui/react-icons";
 import type { DropdownProps } from "@fluentui/react-components";
 import { useEditor } from "@craftjs/core";
 import { FormattedMessage } from "react-intl";
-
-// You might want to replace this with your actual font list
-const fontList = [
-  "Arial",
-  "Helvetica",
-  "Times New Roman",
-  "Courier New",
-  "Verdana",
-  "Georgia",
-  "Palatino",
-  "Garamond",
-  "Bookman",
-  "Comic Sans MS",
-  "Trebuchet MS",
-  "Arial Black",
-  "Impact",
-];
+import { fontNames } from "../../types";
 
 const useStyles = makeStyles({
   container: {
-    display: "flex",
+    display: "flex",  
     flexDirection: "column",
     gap: "10px",
   },
@@ -38,6 +22,9 @@ const useStyles = makeStyles({
     marginLeft: "10px",
   },
 });
+
+const fontList = fontNames;
+
 
 export const FontDropdown: React.FC<Partial<DropdownProps>> = (props) => {
   const dropdownId = useId("dropdown");
