@@ -1,15 +1,15 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using System;
 
 namespace {{namespace}}
 {
     public sealed partial class MainWindow : Window
     {
-        public MainWindow()
+         public MainWindow()
         {
             this.InitializeComponent();
-            NavView.SelectedItem = NavView.MenuItems[0];
-            ContentFrame.Navigate(typeof({{defaultPage}}));
+            ContentFrame.Navigate(typeof(Page1));
         }
 
         private void NavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
@@ -20,7 +20,7 @@ namespace {{namespace}}
                 Type pageType = null;
                 switch (pageName)
                 {
-                    // This will be replaced dynamically
+                     case "pageName": pageType = typeof(pageName); break;
                 }
                 if (pageType != null)
                 {
