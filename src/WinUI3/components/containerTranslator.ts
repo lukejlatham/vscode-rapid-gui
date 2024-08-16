@@ -7,84 +7,79 @@ export function generateContainerXaml(
 ): string {
   const node = Object.values(content)[0];
   const props = node.props;
-  let xaml = `${indent}<Border`;
+  
+  // Start the StackPanel with orientation, alignment, and spacing
+  let xaml = `${indent}<StackPanel`;
+  xaml += ` Orientation="${props.flexDirection === "row" ? "Horizontal" : "Vertical"}"`;
+  xaml += ` Spacing="${props.gap ?? 0}"`;
+  xaml += ` HorizontalAlignment="${mapJustifyContent(props.justifyContent)}"`;
+  xaml += ` VerticalAlignment="${mapAlignItems(props.alignItems)}"`;
+  
+  if (props.width) {
+    xaml += ` Width="${props.width}*"`;
+  }
+  if (props.height) {
+    xaml += ` Height="${props.height}*"`;
+  }
+  if (props.backgroundColor) {
+    xaml += ` Background="${props.backgroundColor}"`;
+  }
+  if (props.padding) {
+    xaml += ` Padding="${props.padding}"`;
+  }
+  if (props.borderRadius) {
+    xaml += ` CornerRadius="${props.borderRadius}"`;
+  }
+  if (props.borderColor) {
+    xaml += ` BorderBrush="${props.borderColor}" BorderThickness="2"`;
+  }
 
-  xaml += ` Background="${props.backgroundColor}"`;
-  xaml += ` BorderBrush="${props.borderColor}"`;
-  xaml += ` BorderThickness="2"`;
-  xaml += ` CornerRadius="${props.borderRadius}"`;
-  xaml += ` Padding="${props.padding}"`;
-  xaml += ` Width="${props.width}*"`;
-  xaml += ` Height="${props.height}*"`;
+  xaml += `>\n`;
 
-  // Shadow effect
+  // Add shadow effect if needed
   if (props.shadowColor !== "transparent" && props.shadowBlur > 0) {
-    xaml += ">\n";
-    xaml += `${indent}  <Border.Effect>\n`;
+    xaml += `${indent}  <StackPanel.Effect>\n`;
     xaml += `${indent}    <DropShadowEffect Color="${props.shadowColor}" BlurRadius="${props.shadowBlur}" ShadowDepth="0" OffsetX="${props.shadowOffsetX}" OffsetY="${props.shadowOffsetY}" />\n`;
-    xaml += `${indent}  </Border.Effect>\n`;
-  } else {
-    xaml += ">\n";
+    xaml += `${indent}  </StackPanel.Effect>\n`;
   }
 
-  // Content
-  xaml += `${indent}  <StackPanel`;
-  xaml += ` Orientation="${props.flexDirection === "column" ? "Vertical" : "Horizontal"}"`;
-  xaml += ` HorizontalAlignment="${mapJustifyContentToAlignment(props.justifyContent)}"`;
-  xaml += ` VerticalAlignment="${mapAlignItemsToAlignment(props.alignItems)}"`;
-  xaml += ` Spacing="${props.gap}"`;
-  xaml += ">\n";
-
-  // Generate child components
-  if (node.nodes && node.nodes.length > 0) {
-    for (const childId of node.nodes) {
-      let childNode: Node | undefined;
-      if (node.linkedNodes && typeof node.linkedNodes[childId] === "object") {
-        childNode = node.linkedNodes[childId] as Node;
-      } else if (content[childId]) {
-        childNode = content[childId];
-      }
-
-      if (childNode) {
-        xaml += generateComponentXaml({ [childId]: childNode }, indent + "    ");
-      } else {
-        console.warn(`Child node not found: ${childId}`);
-      }
-    }
+  // Recursively generate and add child components
+  for (const childNode of Object.values(content)) {
+    xaml += generateComponentXaml({ "child": childNode }, indent + "  ");
   }
 
-  xaml += `${indent}  </StackPanel>\n`;
-  xaml += `${indent}</Border>`;
+  // Close the StackPanel
+  xaml += `${indent}</StackPanel>\n`;
 
-  return xaml + "\n";
+  return xaml;
 }
 
-function mapJustifyContentToAlignment(justifyContent: string): string {
+// Helper functions to map justifyContent and alignItems to XAML equivalents
+function mapJustifyContent(justifyContent: string): string {
   switch (justifyContent) {
     case "flex-start":
       return "Left";
-    case "flex-end":
-      return "Right";
     case "center":
       return "Center";
+    case "flex-end":
+      return "Right";
     case "space-between":
-    case "space-around":
       return "Stretch";
+    case "space-around":
+      return "Stretch"; // XAML doesn't have a direct equivalent; Stretch is a close match
     default:
-      return "Left";
+      return "Stretch";
   }
 }
 
-function mapAlignItemsToAlignment(alignItems: string): string {
+function mapAlignItems(alignItems: string): string {
   switch (alignItems) {
     case "flex-start":
       return "Top";
-    case "flex-end":
-      return "Bottom";
     case "center":
       return "Center";
-    case "stretch":
-      return "Stretch";
+    case "flex-end":
+      return "Bottom";
     default:
       return "Stretch";
   }
