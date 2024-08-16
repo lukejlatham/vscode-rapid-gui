@@ -31,7 +31,7 @@ const useStyles = makeStyles({
 export const Button: UserComponent<ButtonProps> = (props) => {
     const validatedProps = buttonSchema.parse(props);
 
-    const { backgroundColor, fontColor, fontSize, borderRadius, text, width, height, bordercolor, shadowBlur, shadowColor, shadowOffsetX, shadowOffsetY, iconPosition, vscIcon } = validatedProps;
+    const { backgroundColor, fontFamily, fontColor, fontSize, borderRadius, text, width, height, bordercolor, shadowBlur, shadowColor, shadowOffsetX, shadowOffsetY, iconPosition, vscIcon } = validatedProps;
     const { connectors: { connect, drag }, selected } = useNode((node) => ({
         selected: node.events.selected,
     }));
@@ -66,7 +66,9 @@ export const Button: UserComponent<ButtonProps> = (props) => {
                     </span>
                 )}
                 {text && (
-                    <span className={styles.text}>{text}</span>
+                    <span className={styles.text}
+                        style={{fontFamily: fontFamily}}
+                    >{text}</span>
                 )}
                 {iconPosition === "right" && IconComponent && (
                     <span className={styles.icon}>
@@ -81,6 +83,7 @@ export const Button: UserComponent<ButtonProps> = (props) => {
 
 export const ButtonDefaultProps: ButtonProps = {
     backgroundColor: "#778899",
+    fontFamily: "helvetica",
     fontColor: "#FFFFFF",
     displayName: "Button",
     fontSize: 20,

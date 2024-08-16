@@ -16,7 +16,7 @@ const useStyles = makeStyles({
 export const RadioButtons: UserComponent<RadioButtonProps> = (props) => {
     const validatedProps = radioButtonSchema.parse(props);
 
-    const { header, optionLabels, fontSize, fontColor, direction } = validatedProps;
+    const { header, optionLabels, fontFamily, fontSize, fontColor, direction } = validatedProps;
     
     const { connectors: { connect, drag }, selected } = useNode((state) => ({
         selected: state.events.selected,
@@ -39,7 +39,7 @@ export const RadioButtons: UserComponent<RadioButtonProps> = (props) => {
             }}
             className={`${selected ? select.select : ""}`}
         >
-            <label style={{ fontSize: `${fontSize}px`, color: fontColor }}>{header}</label>
+            <label style={{ fontFamily: fontFamily, fontSize: `${fontSize}px`, color: fontColor }}>{header}</label>
             <div className={styles.radioButtons} style={{ flexDirection: direction }}>
                 {optionLabels.map((optionLabel, index) => (
                     <div key={index}>
@@ -50,7 +50,7 @@ export const RadioButtons: UserComponent<RadioButtonProps> = (props) => {
                             checked={selectedButton === index}
                             onChange={handleRadioChange}
                         />
-                        <label style={{ fontSize: `${fontSize}px`, color: fontColor }}>{optionLabel}</label>
+                        <label style={{ fontFamily: fontFamily, fontSize: `${fontSize}px`, color: fontColor }}>{optionLabel}</label>
                     </div>
                 ))}
             </div>
@@ -61,6 +61,7 @@ export const RadioButtons: UserComponent<RadioButtonProps> = (props) => {
 
 export const RadioButtonsDefaultProps: RadioButtonProps = {
     header: 'Radio Buttons',
+    fontFamily: 'helvetica',
     numberOfButtons: 2,
     optionLabels: ['Option 1', 'Option 2'],
     fontSize: 14,

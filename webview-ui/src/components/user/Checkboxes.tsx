@@ -15,7 +15,7 @@ const useStyles = makeStyles({
 export const Checkboxes: UserComponent<CheckboxesProps> = (props) => {
     const validatedProps = checkboxesSchema.parse(props);
 
-    const { header, numberOfBoxes, optionLabels, fontSize, fontColor, direction } = validatedProps;
+    const { header, numberOfBoxes, fontFamily, optionLabels, fontSize, fontColor, direction } = validatedProps;
 
     const { connectors: { connect, drag }, selected } = useNode((state) => ({
         selected: state.events.selected,
@@ -33,12 +33,12 @@ export const Checkboxes: UserComponent<CheckboxesProps> = (props) => {
             }}
             className={`${selected ? select.select : ""}`}
         >
-            <label style={{ fontSize: fontSize, color: fontColor }}>{header}</label>
+            <label style={{ fontFamily: fontFamily, fontSize: fontSize, color: fontColor }}>{header}</label>
             <div className={styles.checkboxes} style={{flexDirection: direction}}>
                 {optionLabels.map((optionLabel, index) => (
                     <div key={index}>
                         <input type="checkbox" id={optionLabel} name={optionLabel} />
-                        <label style={{ fontSize: `${fontSize}px`, color: fontColor }}>{optionLabel}</label>
+                        <label style={{ fontFamily: fontFamily, fontSize: `${fontSize}px`, color: fontColor }}>{optionLabel}</label>
                     </div>
                 ))}
             </div>
@@ -49,6 +49,7 @@ export const Checkboxes: UserComponent<CheckboxesProps> = (props) => {
 export const CheckboxesDefaultProps: CheckboxesProps = {
     header: 'Checkboxes',
     numberOfBoxes: 2,
+    fontFamily: 'helvetica',
     optionLabels: ['Option 1', 'Option 2'],
     fontSize: 14,
     fontColor: '#FFFFFF',

@@ -14,7 +14,7 @@ const useStyles = makeStyles({
 export const TextBox: UserComponent<TextBoxProps> = (props) => {
   const validatedProps = textBoxSchema.parse(props);
 
-  const { text, fontSize, fontColor, backgroundColor, borderColor, placeholder, borderRadius } =
+  const { text, fontSize, fontColor, fontFamily, backgroundColor, borderColor, placeholder, borderRadius } =
     validatedProps;
 
   const {
@@ -35,6 +35,7 @@ export const TextBox: UserComponent<TextBoxProps> = (props) => {
         className={styles.textBox}
         style={{
           fontSize: `${fontSize}px`,
+          fontFamily: fontFamily,
           color: fontColor,
           backgroundColor: backgroundColor,
           borderRadius: `${borderRadius}px`,
@@ -51,6 +52,7 @@ export const TextBoxDefaultProps: TextBoxProps = {
   fontSize: 16,
   fontColor: "black",
   backgroundColor: "#FFFFFF",
+  fontFamily: "helvetica",
   placeholder: "Placeholder...",
   height: 100,
   width: 200,

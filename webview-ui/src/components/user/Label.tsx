@@ -35,7 +35,7 @@ const useStyles = makeStyles({
 export const Label: UserComponent<LabelProps> = (props) => {
   const validatedProps = labelSchema.parse(props);
 
-  const { text, textAlign, fontSize, fontColor, userEditable, icon, hyperlink, bold, italic, underline } = validatedProps;
+  const { text, textAlign, fontFamily, fontSize, fontColor, userEditable, icon, hyperlink, bold, italic, underline } = validatedProps;
 
   const { connectors: { connect, drag }, selected, actions: { setProp } } = useNode((node) => ({
     selected: node.events.selected,
@@ -77,6 +77,7 @@ export const Label: UserComponent<LabelProps> = (props) => {
         style={{
           fontSize: `${fontSize}px`,
           color: fontColor,
+          fontFamily: fontFamily,
           fontWeight: bold ? "bold" : "normal",
           fontStyle: italic ? "italic" : "normal",
           textDecoration: underline ? "underline" : "none",
@@ -90,6 +91,7 @@ export const Label: UserComponent<LabelProps> = (props) => {
 export const LabelDefaultProps: LabelProps = {
   text: "New Label",
   textAlign: 'left',
+  fontFamily: "helvetica",
   fontSize: 20,
   fontColor: "#FFFFFF",
   userEditable: true,

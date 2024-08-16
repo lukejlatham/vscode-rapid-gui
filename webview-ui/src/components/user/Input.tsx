@@ -5,7 +5,7 @@ import { useSelected } from "../../hooks/useSelected";
 
 export const Input: UserComponent<InputProps> = (props) => {
     const validatedProps = inputSchema.parse(props);
-    const { fontSize, fontColor, backgroundColor, placeholder, borderRadius, borderColor } = validatedProps;
+    const { fontSize, fontFamily, fontColor, backgroundColor, placeholder, borderRadius, borderColor } = validatedProps;
     
     const { connectors: { connect, drag }, selected} = useNode((state) => ({
         selected: state.events.selected,
@@ -24,7 +24,8 @@ export const Input: UserComponent<InputProps> = (props) => {
         placeholder={placeholder}
         style={{
             fontSize: fontSize,
-            color: fontColor,
+            fontFamily: fontFamily,
+            color: fontColor,   
             backgroundColor: backgroundColor,
             borderRadius: borderRadius,
             borderColor: borderColor,
@@ -37,6 +38,7 @@ export const Input: UserComponent<InputProps> = (props) => {
 export const InputDefaultProps: InputProps = {
     fontSize: 16,
     fontColor: '#000000',
+    fontFamily: 'helvetica',
     backgroundColor: '#FFFFFF',
     borderColor: '#000000',
     placeholder: 'Enter text here...',
