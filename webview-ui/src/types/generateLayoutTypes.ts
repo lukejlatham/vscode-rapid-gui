@@ -1,11 +1,14 @@
 import { z } from "zod";
 import { themeNames } from "./themes";
 
+// Use .default to force a value
+
 export const generateButtonSchema = z.object({
   element: z.literal("Button"),
   vscIcon: z.string(),
   backgroundColor: z.enum(["Main", "LightAccent", "DarkAccent"]),
   fontColor: z.enum(["Main", "LightAccent", "DarkAccent"]),
+  width: z.number().default(30),
 });
 
 export const generateCheckboxesSchema = z.object({
@@ -15,6 +18,7 @@ export const generateCheckboxesSchema = z.object({
 export const generateInputSchema = z.object({
   element: z.literal("Input"),
   fontColor: z.enum(["Main", "LightAccent", "DarkAccent"]),
+  placeholder: z.string(),
 });
 
 export const generateLabelSchema = z.object({
@@ -28,6 +32,7 @@ export const generateLabelSchema = z.object({
 export const generateRadioButtonSchema = z.object({
   element: z.literal("RadioButtons"),
   header: z.string(),
+  fontColor: z.enum(["Main", "LightAccent", "DarkAccent"]).default("Main"),
 });
 
 export const generateImageSchema = z.object({
@@ -55,11 +60,14 @@ export const generateSliderSchema = z.object({
 export const generateDropdownSchema = z.object({
   element: z.literal("Dropdown"),
   header: z.string(),
+  fontColor: z.enum(["Main", "LightAccent", "DarkAccent"]).default("Main"),
 });
 
 export const generateIconSchema = z.object({
   element: z.literal("Icon"),
   vscIcon: z.string(),
+  iconSize: z.number(),
+  iconColor: z.enum(["Main", "LightAccent", "DarkAccent"]),
 });
 
 export const generatedFullElements = z.union([

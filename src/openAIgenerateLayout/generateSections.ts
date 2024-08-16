@@ -100,8 +100,9 @@ const outputSchema = {
                       enum: ["Main", "LightAccent", "DarkAccent"],
                     },
                     fontColor: { type: "string", enum: ["Main", "LightAccent", "DarkAccent"] },
+                    width: { type: "number", enum: [20, 30, 40] },
                   },
-                  required: ["element", "vscIcon", "backgroundColor", "fontColor"],
+                  required: ["element", "vscIcon", "backgroundColor", "fontColor", "width"],
                   additionalProperties: false,
                 },
                 {
@@ -132,8 +133,9 @@ const outputSchema = {
                   properties: {
                     element: { type: "string", enum: ["Input"] },
                     fontColor: { type: "string", enum: ["Main", "LightAccent", "DarkAccent"] },
+                    placeholder: { type: "string" },
                   },
-                  required: ["element", "fontColor"],
+                  required: ["element", "fontColor", "placeholder"],
                   additionalProperties: false,
                 },
                 {
@@ -232,8 +234,10 @@ const outputSchema = {
                         "VscVisualstudio",
                       ],
                     },
+                    iconSize: { type: "number", enum: [16, 24, 32] },
+                    iconColor: { type: "string", enum: ["Main", "LightAccent", "DarkAccent"] },
                   },
-                  required: ["element", "vscIcon"],
+                  required: ["element", "vscIcon", "iconSize", "iconColor"],
                   additionalProperties: false,
                 },
               ],
