@@ -2,20 +2,25 @@ import { Node } from "../JsonParser";
 
 export function generateCheckboxXaml(node: Node, indent: string = ""): string {
   const props = node.props;
-  let xaml = `${indent}<CheckBox Checked="TwoState_Checked" Unchecked="TwoState_Unchecked" `;
+  
+  let xaml = `${indent}<StackPanel Orientation="${props.direction === "row" ? "Horizontal" : "Vertical"}">\n`;
 
-  xaml += ` Content="${props.label} ?? 'Checkbox'"`;
-  xaml += ` FontSize="${props.fontSize}"`;
-  xaml += ` Foreground="${props.fontColor}"`;
-  xaml += ` Background="${props.backgroundColor}"`;
+  for (let i = 0; i < props.numberOfBoxes; i++) {
+    const checkboxName = `Option${i + 1}CheckBox`;
 
-  if (props.direction === "row") {
-    xaml += ` HorizontalAlignment="Left"`;
-  } else {
-    xaml += ` VerticalAlignment="Top"`;
+    xaml += `${indent}  <CheckBox x:Name="${checkboxName}" Content="${props.optionLabels && props.optionLabels[i] ? props.optionLabels[i] : `Option ${i + 1}`}"`;
+
+    xaml += ` Margin="24,0,0,0"`;
+    xaml += ` FontSize="${props.fontSize ?? "12"}"`;
+    xaml += ` Foreground="${props.fontColor ?? "Black"}"`;
+    xaml += ` Background="${props.backgroundColor ?? "Transparent"}"`;
+    xaml += ` Checked="Option_Checked"`;
+    xaml += ` Unchecked="Option_Unchecked"`;
+
+    xaml += " />\n";
   }
 
-  xaml += " />";
+  xaml += `${indent}</StackPanel>\n`;
 
-  return xaml + "\n";
+  return xaml;
 }
