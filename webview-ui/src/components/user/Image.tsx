@@ -1,5 +1,5 @@
 import { useNode, UserComponent } from "@craftjs/core";
-import { makeStyles } from "@fluentui/react-components";
+import { makeStyles, Spinner, tokens } from "@fluentui/react-components";
 import { ImageProps, imageSchema } from "../../types";
 import { ImageSettings } from "./Settings/ImageSettings";
 import { useSelected } from "../../hooks/useSelected";
@@ -31,11 +31,24 @@ const useStyles = makeStyles({
     width: "100%",
     height: "auto",
   },
+  spinner: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '100%',
+    height: '100%',
+    zIndex: 2,
+    backgroundColor: tokens.colorNeutralForeground2,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 export const Image: UserComponent<ImageProps> = (props) => {
   const validatedProps = imageSchema.parse(props);
-  const { src, alt, width } = validatedProps;
+  const { src, alt, width, isLoading } = validatedProps;
 
   const { connectors: { connect, drag }, selected } = useNode((state) => ({
     selected: state.events.selected,
@@ -53,13 +66,18 @@ export const Image: UserComponent<ImageProps> = (props) => {
           connect(drag(ref));
         }
       }}
-      className={styles.container}
+      className={`${styles.container} ${selected ? select.select : ""}`}
       style={{ width: `${width}%` }}
     >
+      {isLoading && (
+        <div className={styles.spinner}>
+          <Spinner size="medium" />
+        </div>
+      )}
       <img
         src={src}
         alt={alt}
-        className={`${styles.image} ${selected ? select.select : ""}`}
+        className={`${styles.image}`}
       />
       {isPlaceholder && <span className={styles.placeholderOverlay}>{alt}</span>}
     </div>
@@ -70,6 +88,7 @@ export const ImageDefaultProps: ImageProps = {
   src: "https://placehold.co/400",
   alt: "New image",
   width: 40,
+  isLoading: false,
 };
 
 Image.craft = {

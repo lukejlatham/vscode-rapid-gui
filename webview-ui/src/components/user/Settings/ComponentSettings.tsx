@@ -8,11 +8,12 @@ import { UserImageUploadButton } from "../../UserImageUploadButton";
 import { GenerateImageButton } from "../../GenerateImageButton";
 import { Hover } from "vscode";
 
-export const ComponentSettings: React.FC<ComponentSettingsProps> = ({ componentProps, tooltips }) => {
+export const ComponentSettings: React.FC<ComponentSettingsProps> = ({ componentProps, tooltips, isLoading, setIsLoading }) => {
     const { actions: { setProp }, props } = useNode(node => ({
         props: node.data.props as typeof componentProps
     }));
 
+    
 
     const propsWithOptions = (props as CheckboxesProps || props as RadioButtonProps || props as DropdownProps);
     const propInspector = usePropertyInspectorStyles();
@@ -55,11 +56,16 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({ componentP
 
     // Handle image upload
     const handleImageUpload = (filePath: string) => {
+        if (setIsLoading) {
+            setIsLoading(true);
+        }
         setProp((props: ImageProps) => {
             props.src = filePath;
         }, 1000);
+        if (setIsLoading) {
+            setTimeout(() => setIsLoading(false), 1000); // Simulating image load
+        }
     };
-
 
     return (
         <div className={propInspector.settingsContainer}>
@@ -69,8 +75,13 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({ componentP
                 )}
 
                         { // Display image generate button if the component has an 'alt' prop
-                'alt' in props && (
-                    <GenerateImageButton alt={props.alt} onUpload={handleImageUpload} />
+                'alt' in props && setIsLoading && (
+                    <GenerateImageButton 
+                        alt={props.alt} 
+                        onUpload={handleImageUpload}
+                        isLoading={isLoading || false} 
+                        setIsLoading={setIsLoading} 
+                    />
                 )}
             
 
@@ -138,6 +149,8 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({ componentP
                                 className={propInspector.textInput}
                                 type="text"
                                 defaultValue={propValue as string}
+                                // disable if isLoading true and propKey is 'alt'
+                                disabled={isLoading && tooltip.propKey === 'alt'}
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                     setProp((props: typeof componentProps) => {
                                         (props[tooltip.propKey as keyof typeof props] as string) = e.target.value;

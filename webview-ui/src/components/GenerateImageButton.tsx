@@ -17,10 +17,11 @@ const useStyles = makeStyles({
 interface GenerateImageButtonProps {
   onUpload: (filePath: string) => void;
   alt: string;
+  isLoading: boolean;
+  setIsLoading: (isLoading: boolean) => void;
 }
 
-export const GenerateImageButton: React.FC<GenerateImageButtonProps> = ({ onUpload, alt}) => {
-  const [isLoading, setIsLoading] = useState(false);
+export const GenerateImageButton: React.FC<GenerateImageButtonProps> = ({ onUpload, alt, isLoading, setIsLoading}) => {
   const styles = useStyles();
 
   const handleGenerateClick = () => {
@@ -46,12 +47,13 @@ export const GenerateImageButton: React.FC<GenerateImageButtonProps> = ({ onUplo
     return () => {
       window.removeEventListener('message', messageHandler);
     };
-  }, [onUpload]);
+  }, [onUpload, setIsLoading]);
 
   return (
     <Button
-      icon={isLoading ? <Spinner className={styles.spinner} /> : <ImageSparkle24Regular />}
+      icon={<ImageSparkle24Regular />}
       appearance='outline'
+      size='large'
       onClick={handleGenerateClick}
       disabled={isLoading}
       className={styles.button}
