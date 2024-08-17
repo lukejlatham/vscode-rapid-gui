@@ -26,7 +26,7 @@ export function generateComponentXaml(
   return xaml;
 }
 
-function generateSingleComponentXaml(node: Node, indent: string = "", projectPath: string): string {
+export function generateSingleComponentXaml(node: Node, indent: string = "", projectPath?: string): string {
   switch (node.type.resolvedName) {
     case "Button":
       return generateButtonXaml(node, indent);
