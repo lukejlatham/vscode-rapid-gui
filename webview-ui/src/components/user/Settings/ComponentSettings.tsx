@@ -5,6 +5,7 @@ import { useNode } from "@craftjs/core";
 import { usePropertyInspectorStyles } from "../../../hooks/usePropertyInspectorStyles";
 import { ComponentSettingsProps, CheckboxesProps, RadioButtonProps, DropdownProps, ImageProps } from "../../../types";
 import { UserImageUploadButton } from "../../UserImageUploadButton";
+import { GenerateImageButton } from "../../GenerateImageButton";
 import { Hover } from "vscode";
 
 export const ComponentSettings: React.FC<ComponentSettingsProps> = ({ componentProps, tooltips }) => {
@@ -66,6 +67,13 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({ componentP
                 'src' in props && (
                     <UserImageUploadButton onUpload={handleImageUpload} />
                 )}
+
+                        { // Display image generate button if the component has an 'alt' prop
+                'alt' in props && (
+                    <GenerateImageButton onUpload={handleImageUpload} />
+                )}
+            
+
             {tooltips.map((tooltip, index) => {
                 const propValue = props[tooltip.propKey as keyof typeof props];
 
