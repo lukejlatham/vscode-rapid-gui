@@ -1,78 +1,69 @@
-import { useNode, UserComponent } from '@craftjs/core';
-import { makeStyles } from '@fluentui/react-components';
-import { TextBoxProps, textBoxSchema } from '../../types';
-import { TextBoxSettings } from './Settings/TextboxSettings';
+import { useNode, UserComponent } from "@craftjs/core";
+import { makeStyles } from "@fluentui/react-components";
+import { TextBoxProps, textBoxSchema } from "../../types";
+import { TextBoxSettings } from "./Settings/TextboxSettings";
+import { useSelected } from "../../hooks/useSelected";
 
 const useStyles = makeStyles({
-    container: {
-        display: "flex",
-    },
-    justifyLeft: {
-        justifyContent: "flex-start",
-    },
-    justifyCenter: {
-        justifyContent: "center",
-    },
-    justifyRight: {
-        justifyContent: "flex-end",
-    },
-    textBox: {
-        width: "100%",
-        resize: "none",
-    },
+  textBox: {
+    resize: "both",
+    fontFamily: "inherit",
+  },
 });
 
 export const TextBox: UserComponent<TextBoxProps> = (props) => {
-    const validatedProps = textBoxSchema.parse(props);
+  const validatedProps = textBoxSchema.parse(props);
 
-    const { text, fontSize, fontColor, backgroundColor, placeholder, height, width, borderRadius, alignment } = validatedProps;
-    
-    const {
-        connectors: { connect, drag },
-    } = useNode((node) => ({
-        selected: node.events.selected,
-        dragged: node.events.dragged
-    }));
+  const { text, fontSize, fontColor, fontFamily, backgroundColor, borderColor, placeholder, borderRadius } =
+    validatedProps;
 
-    const styles = useStyles();
+  const {
+    connectors: { connect, drag },
+    selected,
+  } = useNode((state) => ({
+    selected: state.events.selected,
+  }));
 
-    return (
-        <div
-            ref={(ref: HTMLDivElement | null) => ref && connect(drag(ref))}
-            className={`${styles.container} ${alignment === "left" ? styles.justifyLeft : alignment === "center" ? styles.justifyCenter : styles.justifyRight}`}
-        >
-            <textarea
-                placeholder={placeholder}
-                className={styles.textBox}
-                style={{
-                    fontSize: `${fontSize}px`,
-                    color: fontColor,
-                    backgroundColor: backgroundColor,
-                    borderRadius: `${borderRadius}px`
-                }}
-            >
-                {text}
-            </textarea>
-        </div>
-    );
+  const styles = useStyles();
+  const select = useSelected();
+
+  return (
+    <div className={`${selected ? select.select : ""}`}>
+      <textarea
+        ref={(ref: HTMLTextAreaElement | null) => ref && connect(drag(ref))}
+        placeholder={placeholder}
+        className={styles.textBox}
+        style={{
+          fontSize: `${fontSize}px`,
+          fontFamily: fontFamily,
+          color: fontColor,
+          backgroundColor: backgroundColor,
+          borderRadius: `${borderRadius}px`,
+          borderColor: `${borderColor}`,
+        }}>
+        {text}
+      </textarea>
+    </div>
+  );
 };
 
 export const TextBoxDefaultProps: TextBoxProps = {
-    text: '',
-    fontSize: 16,
-    fontColor: 'black',
-    backgroundColor: 'white',
-    placeholder: 'Placeholder...',
-    height: 100,
-    width: 200,
-    borderRadius: 5,
-    alignment: "left"
-}
+  text: "",
+  fontSize: 16,
+  fontColor: "black",
+  backgroundColor: "#FFFFFF",
+  fontFamily: "helvetica",
+  placeholder: "Placeholder...",
+  height: 100,
+  width: 200,
+  borderRadius: 5,
+  borderColor: "black",
+};
 
 TextBox.craft = {
-    displayName: 'TextBox',
-    props: TextBoxDefaultProps,
-    related: {
-        settings: TextBoxSettings
-    }
-}
+  displayName: "Multi-line Input",
+  props: TextBoxDefaultProps,
+  related: {
+    settings: TextBoxSettings,
+  },
+};

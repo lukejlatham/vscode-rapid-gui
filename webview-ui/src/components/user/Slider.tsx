@@ -1,30 +1,30 @@
-import React from 'react';
 import { useNode, UserComponent } from '@craftjs/core';
-import { makeStyles } from '@fluentui/react-components';
 import { SliderProps, sliderSchema } from '../../types';
 import { SliderSettings } from './Settings/SliderSettings';
-
+import { useSelected } from "../../hooks/useSelected";
 
 export const Slider: UserComponent<SliderProps> = (props) => {
     const validatedProps = sliderSchema.parse(props);
 
-    const { header, min, max, step, fontSize, fontColor, backgroundColor} = validatedProps;
+    const { header, min, max, step, fontSize, fontFamily, fontColor, backgroundColor} = validatedProps;
 
-    const { connectors: { connect, drag } } = useNode();
+    const { connectors: { connect, drag }, selected } = useNode((state) => ({
+        selected: state.events.selected,
+    }));
+    const select = useSelected();
 
-    // const styles = useStyles();
 
 
     return (
         <div
-            // className={styles.slider}
             ref={(ref: HTMLDivElement | null) => {
                 if (ref) {
                     connect(drag(ref));
                 }
             }}
+            className={`${selected ? select.select : ""}`}
         >
-            <label htmlFor={header} style={{ fontSize: `${fontSize}px`, color: fontColor }}>{header}</label>
+            <label htmlFor={header} style={{ fontFamily: fontFamily, fontSize: `${fontSize}px`, color: fontColor }}>{header}</label>
             <input
                 type="range"
                 id={header}
@@ -39,6 +39,7 @@ export const Slider: UserComponent<SliderProps> = (props) => {
 
 export const SliderDefaultProps: SliderProps = {
     header: 'Slider',
+    fontFamily: 'helvetica',
     min: 0,
     max: 100,
     step: 1,

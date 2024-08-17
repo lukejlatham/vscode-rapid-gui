@@ -1,97 +1,66 @@
-[
-  {
+{
+  "Header": {
     "section": "Header",
     "children": [
-      { "type": "Button", "props": { "width": 8, "height": 8, "text": "Home", "icon": "VscHome" } },
-      { "type": "Button", "props": { "width": 8, "height": 8, "text": "Nav1", "icon": "VscInfo" } },
-      { "type": "Button", "props": { "width": 8, "height": 8, "text": "Nav2", "icon": "VscInfo" } },
-      { "type": "Button", "props": { "width": 8, "height": 8, "text": "Nav3", "icon": "VscInfo" } },
-      { "type": "Button", "props": { "width": 8, "height": 8, "text": "Nav4", "icon": "VscInfo" } }
+      {
+        "type": "Label",
+        "props": { "text": "dsgdgf", "bold": true, "fontColor": "Main", "fontSize": 24 }
+      },
+      { "type": "Icon", "props": { "vscIcon": "VscRocket" } },
+      { "type": "Icon", "props": { "vscIcon": "VscBell" } }
     ]
   },
-  {
-    "section": "Sidebar",
+  "MainContent": {
+    "section": "MainContent",
     "children": [
+      { "type": "Text", "props": { "fontColor": "Main" } },
+      { "type": "Image", "props": { "alt": "Image", "width": 80 } },
+      { "type": "Text", "props": { "fontColor": "DarkAccent" } },
       {
         "type": "Button",
-        "props": { "width": 8, "height": 8, "text": "Menu1", "icon": "VscSettingsGear" }
-      },
-      {
-        "type": "Button",
-        "props": { "width": 8, "height": 8, "text": "Menu2", "icon": "VscSettingsGear" }
-      },
-      {
-        "type": "Button",
-        "props": { "width": 8, "height": 8, "text": "Menu3", "icon": "VscSettingsGear" }
-      },
-      {
-        "type": "Button",
-        "props": { "width": 8, "height": 8, "text": "Menu4", "icon": "VscSettingsGear" }
-      },
-      {
-        "type": "Button",
-        "props": { "width": 8, "height": 8, "text": "Menu5", "icon": "VscSettingsGear" }
+        "props": {
+          "vscIcon": "VscCheck",
+          "backgroundColor": "LightAccent",
+          "fontColor": "Main"
+        }
       }
     ]
   },
-  {
-    "section": "Main",
+  "Sidebar": {
+    "section": "Sidebar",
     "children": [
       {
         "type": "Label",
-        "props": { "text": "Step 1", "bold": true, "italic": false, "underline": false }
+        "props": { "text": "Sidebar Label", "bold": true, "fontColor": "Main", "fontSize": 18 }
       },
       {
-        "type": "Image",
+        "type": "Button",
         "props": {
-          "src": "https://via.placeholder.com/150",
-          "alt": "Main Placeholder",
-          "width": 85,
-          "height": 45
+          "vscIcon": "VscDebugStart",
+          "backgroundColor": "DarkAccent",
+          "fontColor": "LightAccent"
         }
       },
-      { "type": "Text", "props": { "text": "Additional content line 1" } },
-      { "type": "Text", "props": { "text": "Additional content line 2" } },
-      { "type": "Text", "props": { "text": "Additional content line 3" } }
+      { "type": "Image", "props": { "alt": "Image", "width": 50 } },
+      {
+        "type": "Dropdown",
+        "props": {
+          "header": "Options",
+          "optionLabels": ["Option 1", "Option 2", "Option 3"],
+          "numberOfOptions": 3
+        }
+      }
     ]
   },
-  {
-    "section": "Subsection",
-    "children": [
-      {
-        "type": "Label",
-        "props": { "text": "Possible", "bold": true, "italic": false, "underline": false }
-      },
-      {
-        "type": "Input",
-        "props": { "backgroundColor": "Main", "placeholder": "Select an option" }
-      },
-      { "type": "Text", "props": { "text": "Further information below the dropdown" } }
-    ]
-  },
-  {
+  "Footer": {
     "section": "Footer",
     "children": [
-      { "type": "Input", "props": { "backgroundColor": "Main", "placeholder": "Search" } },
-      {
-        "type": "Icon",
-        "props": { "selectedIcon": "VscSearch", "iconSize": 18, "iconColor": "Main" }
-      },
-      {
-        "type": "Icon",
-        "props": { "selectedIcon": "VscAdd", "iconSize": 18, "iconColor": "Main" }
-      },
-      {
-        "type": "Icon",
-        "props": { "selectedIcon": "VscSave", "iconSize": 18, "iconColor": "Main" }
-      },
       {
         "type": "Label",
-        "props": { "text": "Contact", "bold": true, "italic": false, "underline": false }
+        "props": { "text": "Footer Label", "bold": true, "fontColor": "Main", "fontSize": 16 }
       },
-      { "type": "Text", "props": { "text": "1234 Main St" } },
-      { "type": "Text", "props": { "text": "City, ST 12345" } },
-      { "type": "Text", "props": { "text": "Email: contact@example.com" } }
+      { "type": "Icon", "props": { "vscIcon": "VscGear" } },
+      { "type": "Text", "props": { "fontColor": "LightAccent" } }
     ]
   }
-]
+}

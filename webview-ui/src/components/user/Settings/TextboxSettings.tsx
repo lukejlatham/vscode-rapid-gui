@@ -11,19 +11,15 @@ export const TextBoxSettings: React.FC = () => {
         props: node.data.props as TextBoxProps
     }));
 
-    const styles = usePropertyInspectorStyles();
-    const contentId = useId("content");
-    const [visibleTooltip, setVisibleTooltip] = useState<string | null>(null);
+ 
 
-    const tooltips: TooltipConfigText[] = [
-        { label: "Font Size", content: "Adjust the size of the text.", propKey: "fontSize", type: "spinButton" },
+    const tooltips: TooltipConfig[] = [
+        { label: "Placeholder", content: "Edit the text that appears before a user inputs text.", propKey: "placeholder", type: "text" },
+        { label: "Font Size", content: "Adjust the size of the text.", propKey: "fontSize", type: "slider" },
         { label: "Font Color", content: "Change the text color.", propKey: "fontColor", type: "color" },
         { label: "Background Color", content: "Change the color of the box.", propKey: "backgroundColor", type: "color" },
-        { label: "Placeholder", content: "Edit the text that appears before a user inputs text.", propKey: "placeholder", type: "text" },
-        { label: "Border Radius", content: "Adjust how rounded the corners of the textbox are.", propKey: "borderRadius", type: "spinButton" },
-        { label: "Height", content: "Adjust the number of height of your textbox", propKey: "height", type: "spinButton" },
-        { label: "Width", content: "Adjust the number of width in your textbox.", propKey: "width", type: "spinButton" },
-        { label: "Alignment", content: "Set the alignment of the Texbox.", propKey: "alignment", type: "alignment" },
+        { label: "Border Color", content: "Change the color of the border.", propKey: "borderColor", type: "color" },
+        { label: "Border Radius", content: "Adjust how rounded the corners of the textbox are.", propKey: "borderRadius", type: "slider" },
     ];
 
     return (

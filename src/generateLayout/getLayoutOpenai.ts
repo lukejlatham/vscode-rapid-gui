@@ -134,7 +134,7 @@ export { getLayout };
 //   generateInputSchema,
 //   generateTextBoxSchema,
 //   generateTextSchema,
-//   generateCheckboxSchema,
+//   generateCheckboxesSchema,
 //   layoutSchema,
 // } from "../../webview-ui/src/types/editorObjectSchema";
 
@@ -177,7 +177,7 @@ export { getLayout };
 // // Generate descriptions using Zod schemas
 // const descriptions = [
 //   describeZodSchema("Button", extractZodObject(generateButtonSchema)),
-//   describeZodSchema("Checkbox", extractZodObject(generateCheckboxSchema)),
+//   describeZodSchema("Checkboxes", extractZodObject(generateCheckboxesSchema)),
 //   describeZodSchema("Label", extractZodObject(generateLabelSchema)),
 //   describeZodSchema("RadioButton", extractZodObject(generateRadioButtonSchema)),
 //   describeZodSchema("Input", extractZodObject(generateInputSchema)),

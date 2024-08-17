@@ -4,6 +4,7 @@ import ContentEditable from "react-contenteditable";
 import { makeStyles } from "@fluentui/react-components";
 import { TextProps, textSchema, ContentEditableEvent } from "../../types";
 import { TextSettings } from "./Settings/TextSettings";
+import { useSelected } from "../../hooks/useSelected";
 
 const useStyles = makeStyles({
   textContainer: {
@@ -41,11 +42,10 @@ const useStyles = makeStyles({
 export const Text: UserComponent<TextProps> = (props) => {
   const validatedProps = textSchema.parse(props);
 
-  const { text, fontSize, fontColor, userEditable, textAlign, bold, italic, underline, hyperlink } = validatedProps;
+  const { text, fontSize, fontColor, fontFamily, userEditable, textAlign, bold, italic, underline } = validatedProps;
 
   const { connectors: { connect, drag }, selected, actions: { setProp } } = useNode((node) => ({
     selected: node.events.selected,
-    dragged: node.events.dragged,
   }));
 
   const [editable, setEditable] = useState(false);
@@ -60,6 +60,7 @@ export const Text: UserComponent<TextProps> = (props) => {
   }, [selected, userEditable]);
 
   const styles = useStyles();
+  const select = useSelected();
 
   const handleInput = (e: ContentEditableEvent) => {
     setProp((props: TextProps) => (props.text = e.target.value), 500);
@@ -68,7 +69,7 @@ export const Text: UserComponent<TextProps> = (props) => {
   return (
     <div
       ref={(ref: HTMLDivElement | null) => ref && connect(drag(ref))}
-      className={styles.textContainer}
+      className={`${styles.textContainer} ${selected ? select.select : ""}`}
       onClick={() => selected && userEditable && setEditable(true)}
     >
       <ContentEditable
@@ -80,6 +81,7 @@ export const Text: UserComponent<TextProps> = (props) => {
         style={{
           fontSize: `${fontSize}px`,
           color: fontColor,
+          fontFamily: fontFamily,
           fontWeight: bold ? "bold" : "normal",
           fontStyle: italic ? "italic" : "normal",
           textDecoration: underline ? "underline" : "none",
@@ -93,6 +95,7 @@ export const TextDefaultProps: TextProps = {
   text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
   fontSize: 16,
   fontColor: "white",
+  fontFamily: "helvetica",
   userEditable: true,
   textAlign: "left",
   bold: false,

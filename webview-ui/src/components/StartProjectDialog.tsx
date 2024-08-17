@@ -1,38 +1,53 @@
 import React, { useState } from 'react';
-import { Dialog, DialogTrigger, DialogSurface, DialogBody, DialogTitle, DialogContent, DialogActions, Button } from '@fluentui/react-components';
-import { DrawImageRegular, TextAddRegular, Camera24Regular } from '@fluentui/react-icons';
-import { useNavigate } from 'react-router-dom';
-import { UploadDialog } from './SketchUpload/UploadDialog'; // Import the UploadDialog component
-import { TextDialog } from './ImageUpload/TextDialog'; // Import the TextDialog component
+import { Title1, Dialog, DialogSurface, DialogBody, DialogTitle, DialogContent, DialogActions, Button } from '@fluentui/react-components';
+import { DrawImageRegular, SparkleFilled, CameraSparklesRegular, TextEffectsSparkleRegular, GlanceHorizontalSparklesRegular } from '@fluentui/react-icons';
+import { UploadDialog } from './SketchUpload/UploadDialog';
+import { TextDialog } from './ImageUpload/TextUploadDialog';
+import { TemplatesDialog } from '../pages/EditingInterface/TemplatesDialog';
+import { Page } from '../types';
+import {FormattedMessage} from 'react-intl';
 
-export const StartProjectDialog: React.FC = () => {
-    const navigate = useNavigate();
-    const [open, setOpen] = useState(false);
-    const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false); // State for UploadDialog
-    const [isTextDialogOpen, setIsTextDialogOpen] = useState(false); // State for TextDialog
+interface StartProjectDialogProps {
+  isOpen: boolean;
+  onClose: () => void;
+  pages: Page[];
+setPages: (pages: Page[]) => void;
+}
+
+export const StartProjectDialog: React.FC<StartProjectDialogProps> = ({ isOpen, onClose, pages, setPages }) => {
+    const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false);
+    const [isTextDialogOpen, setIsTextDialogOpen] = useState(false);
+    const [isTemplatesDialogOpen, setIsTemplatesDialogOpen] = useState(false);
+    const mode = "start";
+
+    const handleScratch = () => {
+        setPages([]);
+        onClose();
+    }
 
     return (
         <>
-            <Dialog open={open} onOpenChange={(event, data) => setOpen(data.open)}>
-                <DialogTrigger disableButtonEnhancement>
-                    <Button size='large' appearance='subtle'>+ Start New Project</Button>
-                </DialogTrigger>
+            <Dialog modalType='alert' open={isOpen} onOpenChange={(event, data) => onClose()}>
                 <DialogSurface>
                     <DialogBody>
-                        <DialogTitle>New Project</DialogTitle>
+                        <DialogTitle>
+                            <FormattedMessage id="startProjectDialog.title"/>
+                            <SparkleFilled/></DialogTitle>
                         <DialogContent>
-                            Choose how you would like to begin your project
+                            <FormattedMessage id="startProjectDialog.content"/>
                         </DialogContent>
                         <DialogActions fluid>
-                            <Button onClick={() => navigate("/editing-interface")} appearance="secondary" icon={<DrawImageRegular />}>Scratch</Button>
-                            <Button onClick={() => setIsTextDialogOpen(true)} appearance="secondary" icon={<TextAddRegular />}>Text</Button>
-                            <Button onClick={() => setIsUploadDialogOpen(true)} appearance="secondary" icon={<Camera24Regular />}>Sketch</Button>
+                            <Button onClick={handleScratch} size='large' appearance="secondary" icon={<DrawImageRegular />}><FormattedMessage id="startProjectDialog.scratch"/></Button>
+                            <Button onClick={() => setIsTemplatesDialogOpen(true)} size='large' appearance="secondary" icon={<GlanceHorizontalSparklesRegular />}><FormattedMessage id="startProjectDialog.templates"/></Button>
+                            <Button onClick={() => setIsTextDialogOpen(true)} size='large' appearance="secondary" icon={<TextEffectsSparkleRegular />}><FormattedMessage id="startProjectDialog.text"/></Button>
+                            <Button onClick={() => setIsUploadDialogOpen(true)} size='large' appearance="primary" icon={<CameraSparklesRegular />}><FormattedMessage id="startProjectDialog.sketch"/></Button>
                         </DialogActions>
                     </DialogBody>
                 </DialogSurface>
             </Dialog>
-            <UploadDialog isOpen={isUploadDialogOpen} onClose={() => setIsUploadDialogOpen(false)} /> {/* Include UploadDialog */}
-            <TextDialog isOpen={isTextDialogOpen} onClose={() => setIsTextDialogOpen(false)} /> {/* Include TextDialog */}
+            <UploadDialog isOpen={isUploadDialogOpen} onClose={() => setIsUploadDialogOpen(false)} pages={pages} setPages={setPages} closeStartDialog={onClose} mode={mode}/>
+            <TextDialog isOpen={isTextDialogOpen} onClose={() => setIsTextDialogOpen(false)} pages={pages} setPages={setPages} closeStartDialog={onClose} mode={mode}/>
+            <TemplatesDialog isOpen={isTemplatesDialogOpen} onClose={() => setIsTemplatesDialogOpen(false)} closeStartDialog={onClose} pages={pages} setPages={setPages} mode={mode}/>
         </>
     );
 };

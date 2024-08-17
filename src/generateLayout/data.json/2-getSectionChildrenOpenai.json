@@ -1,52 +1,20 @@
 [
   {
     "section": "Header",
-    "children": [
-      {
-        "type": "Button",
-        "description": "Home button located on the left side of the header for navigating to the home page."
-      },
-      { "type": "Button", "description": "Navigation button 1 for additional navigation options." },
-      { "type": "Button", "description": "Navigation button 2 for additional navigation options." },
-      { "type": "Button", "description": "Navigation button 3 for additional navigation options." }
-    ]
+    "children": [{ "type": "Label" }, { "type": "Icon" }, { "type": "Icon" }]
   },
   {
-    "section": "Side Menu",
-    "children": [
-      { "type": "Icon", "description": "Icon representing menu option 1 as a horizontal line." },
-      { "type": "Icon", "description": "Icon representing menu option 2 as a horizontal line." },
-      { "type": "Icon", "description": "Icon representing menu option 3 as a horizontal line." },
-      { "type": "Icon", "description": "Icon representing menu option 4 as a horizontal line." },
-      { "type": "Icon", "description": "Icon representing menu option 5 as a horizontal line." }
-    ]
+    "section": "MainContent",
+    "children": [{ "type": "Text" }, { "type": "Image" }, { "type": "Text" }, { "type": "Button" }]
   },
   {
-    "section": "Main Content",
+    "section": "Sidebar",
     "children": [
-      { "type": "Label", "description": "Heading labeled 'Step 1'." },
-      { "type": "Image", "description": "Large placeholder box for content." }
+      { "type": "Label" },
+      { "type": "Button" },
+      { "type": "Image" },
+      { "type": "Dropdown" }
     ]
   },
-  {
-    "section": "Sub Content",
-    "children": [
-      { "type": "Label", "description": "Subsection label titled 'Possible'." },
-      { "type": "TextBox", "description": "Small dropdown for selecting options." },
-      { "type": "Image", "description": "Additional placeholder content." }
-    ]
-  },
-  {
-    "section": "Footer",
-    "children": [
-      { "type": "Input", "description": "Search bar for user input." },
-      { "type": "Button", "description": "Footer button element 1 for various actions." },
-      { "type": "Button", "description": "Footer button element 2 for various actions." },
-      { "type": "Button", "description": "Footer button element 3 for various actions." },
-      {
-        "type": "Button",
-        "description": "Contact button located on the right for navigating to the contact page."
-      }
-    ]
-  }
+  { "section": "Footer", "children": [{ "type": "Label" }, { "type": "Icon" }, { "type": "Text" }] }
 ]

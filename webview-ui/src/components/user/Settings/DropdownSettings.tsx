@@ -20,7 +20,7 @@ export const DropdownSettings: React.FC = () => {
         { label: "Header", content: "Edit the header of the dropdown.", propKey: "header", type: "text" },
         { label: "Number of Options", content: "Adjust the number of options to display in the dropdown.", propKey: "numberOfOptions", type: "spinButton" },
         { label: "Option Labels", content: "Edit the label for each option.", propKey: "optionLabels", type: "options" },
-        { label: "Font Size", content: "Adjust the font size of the text.", propKey: "fontSize", type: "spinButton" },
+        { label: "Font Size", content: "Adjust the font size of the text.", propKey: "fontSize", type: "slider" },
         { label: "Font Color", content: "Adjust the color of the text.", propKey: "fontColor", type: "color" },
     ];
 

@@ -43,9 +43,9 @@
 
 // export type generateButtonProps = z.infer<typeof generateButtonSchema>;
 
-// export const CheckboxSchema = z.object({
-//   type: z.literal("Checkbox"),
-//   header: z.string().default("Checkbox Header"),
+// export const CheckboxesSchema = z.object({
+//   type: z.literal("Checkboxes"),
+//   header: z.string().default("Checkboxes Header"),
 //   optionLabels: z.array(z.string()).default([]),
 //   numberOfBoxes: z.number().default(1),
 //   fontSize: z.number().default(14),
@@ -53,7 +53,7 @@
 //   direction: z.enum(["row", "column"]).default("row"),
 // });
 
-// export const generateCheckboxSchema = CheckboxSchema.pick({
+// export const generateCheckboxesSchema = CheckboxesSchema.pick({
 //   type: true,
 //   header: true,
 //   optionLabels: true,
@@ -61,11 +61,11 @@
 //   direction: true,
 // });
 
-// export type generateCheckboxProps = z.infer<typeof generateCheckboxSchema>;
+// export type generateCheckboxesProps = z.infer<typeof generateCheckboxesSchema>;
 
-// export type CheckboxProps = z.infer<typeof CheckboxSchema>;
+// export type CheckboxesProps = z.infer<typeof CheckboxesSchema>;
 
-// export const editableCheckboxSchema = CheckboxSchema.pick({
+// export const editableCheckboxesSchema = CheckboxesSchema.pick({
 //   type: true,
 //   header: true,
 //   optionLabels: true,
@@ -73,7 +73,7 @@
 //   direction: true,
 // });
 
-// type editableCheckboxProps = z.infer<typeof editableCheckboxSchema>;
+// type editableCheckboxesProps = z.infer<typeof editableCheckboxesSchema>;
 
 // export const ContainerSchema = z.object({
 //   type: z.literal("Container"),
@@ -206,7 +206,7 @@
 
 // const IconSchema = z.object({
 //   type: z.literal("Icon"),
-//   selectedIcon: z.string() as z.ZodType<VscIconKeys>,
+//   vscIcon: z.string() as z.ZodType<VscIconKeys>,
 //   iconSize: z.number().default(24).optional(),
 //   iconColor: z.string().default("black").optional(),
 //   hyperlink: z.string().optional(),
@@ -311,7 +311,7 @@
 //     generateContainerSchema,
 //     generateInputSchema,
 //     generateRadioButtonSchema,
-//     generateCheckboxSchema,
+//     generateCheckboxesSchema,
 //     generateImageSchema,
 //     generateTextSchema,
 //   ]),
@@ -324,7 +324,7 @@
 //     "Image",
 //     "TextBox",
 //     "RadioButton",
-//     "Checkbox",
+//     "Checkboxes",
 //     "Input",
 //     "Text",
 //     "Icon",

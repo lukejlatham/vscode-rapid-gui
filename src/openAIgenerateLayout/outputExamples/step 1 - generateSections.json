@@ -1,0 +1,93 @@
+{
+  "sections": [
+    {
+      "section": "NavigationBar",
+      "xPosition": 0,
+      "yPosition": 0,
+      "width": 10,
+      "height": 1,
+      "flexDirection": "row",
+      "backgroundColor": "DarkAccent",
+      "children": [
+        {
+          "element": "Label",
+          "text": "Explore Crime",
+          "bold": true,
+          "fontColor": "LightAccent",
+          "fontSize": 16
+        }
+      ]
+    },
+    {
+      "section": "MainContent",
+      "xPosition": 0,
+      "yPosition": 1,
+      "width": 7,
+      "height": 8,
+      "flexDirection": "column",
+      "backgroundColor": "Main",
+      "children": [
+        {
+          "element": "Label",
+          "text": "Crime Statistics",
+          "bold": true,
+          "fontColor": "DarkAccent",
+          "fontSize": 14
+        },
+        { "element": "Image", "alt": "Crime Rate Map", "width": 6 },
+        {
+          "element": "Label",
+          "text": "Historical Trends",
+          "bold": false,
+          "fontColor": "DarkAccent",
+          "fontSize": 12
+        },
+        { "element": "Text", "fontColor": "DarkAccent" }
+      ]
+    },
+    {
+      "section": "Sidebar",
+      "xPosition": 7,
+      "yPosition": 1,
+      "width": 3,
+      "height": 8,
+      "flexDirection": "column",
+      "backgroundColor": "LightAccent",
+      "children": [
+        {
+          "element": "Label",
+          "text": "Crime Categories",
+          "bold": true,
+          "fontColor": "Main",
+          "fontSize": 12
+        },
+        { "element": "Checkboxes" },
+        { "element": "Slider", "header": "Crime Level Filter", "backgroundColor": "DarkAccent" },
+        { "element": "Dropdown", "header": "City" }
+      ]
+    },
+    {
+      "section": "Footer",
+      "xPosition": 0,
+      "yPosition": 9,
+      "width": 10,
+      "height": 1,
+      "flexDirection": "row",
+      "backgroundColor": "DarkAccent",
+      "children": [
+        {
+          "element": "Button",
+          "VscIcon": "VscInfo",
+          "backgroundColor": "LightAccent",
+          "fontColor": "Main"
+        },
+        {
+          "element": "Button",
+          "VscIcon": "VscSearch",
+          "backgroundColor": "LightAccent",
+          "fontColor": "Main"
+        }
+      ]
+    }
+  ]
+}

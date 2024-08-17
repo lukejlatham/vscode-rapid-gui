@@ -37,9 +37,9 @@ import { ZodObject } from "zod";
 //           "An option A radio button, part of a group of options, enabling users to select a single choice from multiple options in a survey or form.",
 //       },
 //       {
-//         type: "Checkbox",
+//         type: "Checkboxes",
 //         description:
-//           "A checkbox labeled 'Accept terms and conditions,' which users must check to agree to the terms before proceeding with their registration or purchase.",
+//           "A checkboxes labeled 'Accept terms and conditions,' which users must check to agree to the terms before proceeding with their registration or purchase.",
 //       },
 //       {
 //         type: "Input",
@@ -77,25 +77,23 @@ import { ZodObject } from "zod";
 
 const systemMessage = {
   role: "system",
-  content: `You are a UI designer who fills in provided layouts. For each section, you provide the child elements needed and give a descriptive name that explains its purpose.
+  content: `You are a UI designer who fills in provided layouts. For each section, you choose up to 4 child elements.
 
-Elements you can use more than once in a section:
-- Button
+Elements you can use more than once per section:
+- Button (has icon - use for controls)
 - Label (titles)
-- Input
-- Icon
-- Dropdown
-- Slider
-
-Elements you can use only once in a section (as quite large):
+- Input (field)
+- Icon (logos)
+- Dropdown 
+- Slider (has an inbuilt header)
 - Image 
-- RadioButton (series of options)
-- Checkbox (series of options)
-- TextBox (textArea style input)
-- Text (paragraph)
+- Text (large paragraph)
 
-Try to use a variety of elements and use lots of icons.
-`,
+Elements that fill out a whole section:
+- RadioButtons
+- Checkboxes 
+
+Use a wide variety of elements across sections.`,
 };
 
 const textMessage = (layout: string) => ({

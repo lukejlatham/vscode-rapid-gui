@@ -1,0 +1,63 @@
+{
+  "startProjectDialog.title": "Welcome to AI Visual Designer",
+  "startProjectDialog.content": "Choose how you would like to begin your project",
+  "startProjectDialog.templates": "Templates",
+  "startProjectDialog.sketch": "Sketch",
+  "startProjectDialog.scratch": "Scratch",
+  "startProjectDialog.text": "Text",
+
+  "templatesDialog.title": "Choose a template",
+  "templatesDialog.cancel": "Cancel",
+  "templatesDialog.website": "Website",
+  "templatesDialog.videoGameSettings": "Video Game Settings",
+  "templatesDialog.feedbackForm": "Feedback Form",
+  "templatesDialog.Login": "Login",
+
+  "leftSidebar.layout": "Layout",
+  "leftSidebar.components": "Components",
+  "leftSidebar.theme": "Theme",
+  "leftSidebar.pages": "Pages",
+  "leftSidebar.settings": "Settings",
+  "leftSidebar.new": "New",
+  "leftSidebar.undo": "Undo",
+  "leftSidebar.redo": "Redo",
+  "leftSidebar.save": "Save",
+  "leftSidebar.load": "Load",
+
+  "layout.gridLocked": "Grid Locked",
+  "layout.gridUnlocked": "Grid Unlocked",
+  "layout.tooltipLocked": "Unlocking the grid allows you to move and resize cells freely on the canvas.",
+  "layout.tooltipUnlocked": "Locking the grid will snap cells to the grid, and prevent them from being moved or resized.",
+  "layout.editGrid": "Edit Grid",
+
+  "pages.add": "Add",
+  "pages.delete": "Delete",
+  "pages.rename": "Rename",
+  "pages.reset": "Reset",
+
+  "renameDialog.title": "Rename Page",
+  "renameDialog.cancel": "Cancel",
+  "renameDialog.rename": "Rename",
+
+  "theme.applyTheme": "Apply Theme",
+  "theme.applyFont": "Apply Font",
+
+  "settings.changeTheme": "Change the extension's theme",
+  "settings.changeLanguage": "Change the extension's language",
+  "settings.dark": "Dark",
+  "settings.light": "Light",
+  "settings.highContrast": "High Contrast",
+
+  "components.button": "Button",
+  "components.label": "Label",
+  "components.singleLineInput": "Single-Line Input",
+  "components.multiLineInput": "Multi-Line Input",
+  "components.paragraph": "Paragraph",
+  "components.image": "Image",
+  "components.radio": "Radio Buttons",
+  "components.checkboxes": "Checkboxes",
+  "components.dropdown": "Dropdown",
+  "components.slider": "Slider",
+  "components.icon": "Icon",
+  "components.container": "Container"
+}

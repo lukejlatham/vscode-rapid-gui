@@ -1,8 +1,7 @@
 import { z } from "zod";
-import { generatedElements } from "../../webview-ui/src/types";
 import {
   generateButtonSchema,
-  generateCheckboxSchema,
+  generateCheckboxesSchema,
   generateInputSchema,
   generateLabelSchema,
   generateRadioButtonSchema,
@@ -14,12 +13,37 @@ import {
   generateSliderSchema,
 } from "../../webview-ui/src/types";
 
+export const generatedElements = z.object({
+  type: z.enum([
+    "Button",
+    "Label",
+    "Image",
+    // "TextBox",
+    "RadioButtons",
+    "Checkboxes",
+    "Input",
+    "Text",
+    "Icon",
+    "Slider",
+    "Dropdown",
+  ]),
+});
+
+export const generatedSectionChildren = z.object({
+  section: z.string(),
+  children: z.array(generatedElements).max(8),
+});
+
+export const generatedAllSectionsChildren = z.object({
+  sections: z.array(generatedSectionChildren).min(2).max(6),
+});
+
 const childSchemaMap = {
   Button: generateButtonSchema,
-  Checkbox: generateCheckboxSchema,
+  Checkboxes: generateCheckboxesSchema,
   Input: generateInputSchema,
   Label: generateLabelSchema,
-  RadioButton: generateRadioButtonSchema,
+  RadioButtons: generateRadioButtonSchema,
   Image: generateImageSchema,
   TextBox: generateTextBoxSchema,
   Text: generateTextSchema,
@@ -53,11 +77,11 @@ export const generateSectionChildrenFullSchema = (sections) => {
 
     return z.object({
       section: z.literal(section.section),
-      children: z.array(z.union(childSchemas)).max(8),
+      children: z.array(z.object(childSchemas)).max(8),
     });
   });
 
   return z.object({
-    sections: z.array(z.union(sectionSchemas)).max(5),
+    sections: z.array(z.object(sectionSchemas)).max(5),
   });
 };

@@ -5,10 +5,11 @@ import { useEditor } from "@craftjs/core";
 import { vscode } from '../../../utilities/vscode';
 import { Page } from "../../../types";
 import { v4 as uuidv4 } from 'uuid'; // Import uuidv4
+import { FormattedMessage } from 'react-intl';
 
 
 const LoadButton: React.FC<{classes: any, pages: Page[], setPages: React.Dispatch<React.SetStateAction<Page[]>>}> = ({ classes, pages, setPages }) => {
-    const { actions } = useEditor();
+
 
 
     const handleLoad = () => {
@@ -48,7 +49,9 @@ const LoadButton: React.FC<{classes: any, pages: Page[], setPages: React.Dispatc
     }, [setPages]);
 
     return (
-        <Button className={classes.button} icon={<Folder24Regular />} appearance='outline' onClick={handleLoad}>Load</Button>
+        <Button size="medium" className={classes.button} icon={<Folder24Regular />} onClick={handleLoad}>
+            <FormattedMessage id="leftSidebar.load" defaultMessage="Load" />
+        </Button>
     );
 };
 

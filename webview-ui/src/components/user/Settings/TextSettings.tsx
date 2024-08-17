@@ -29,15 +29,13 @@ export const TextSettings: React.FC = () => {
     }));
 
     const styles = usePropertyInspectorStyles();
-    const contentId = useId("content");
-    const [visibleTooltip, setVisibleTooltip] = useState<string | null>(null);
 
-    const tooltips = [
-        { label: "Font Size", content: "Adjust the size of the text.", propKey: "fontSize" },
-        { label: "Font Color", content: "Change the text colour of the label.", propKey: "fontColor" },
-        { label: "Text", content: "Edit the text", propKey: "text" },
-        { label: "Alignment", content: "Set the text alignment.", propKey: "textAlign" },
-        { label: "Hyperlink", content: "Add a hyperlink to the text.", propKey: "hyperlink" },
+    const tooltips: TooltipConfig[] = [
+        { label: "Font Size", content: "Adjust the size of the text.", propKey: "fontSize", type: "slider" },
+        { label: "Font Color", content: "Change the text colour of the label.", propKey: "fontColor", type: "color" },
+        { label: "Text", content: "Edit the text", propKey: "text", type: "text" },
+        { label: "Alignment", content: "Set the text alignment.", propKey: "textAlign", type: "textAlign" },
+        { label: "Hyperlink", content: "Add a hyperlink to the text.", propKey: "hyperlink", type: "text" },
     ];
 
     type StyleKeys = 'bold' | 'italic' | 'underline';

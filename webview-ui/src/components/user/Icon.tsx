@@ -3,21 +3,22 @@ import { useNode, UserComponent } from '@craftjs/core';
 import * as VscIcons from "react-icons/vsc";
 import { IconProps, iconSchema } from '../../types';
 import { IconSettings } from './Settings/IconSettings';
+import { useSelected } from "../../hooks/useSelected";
 
 export const Icon: UserComponent<IconProps> = (props) => {
     const validatedProps = iconSchema.parse(props);
-    const { selectedIcon, iconSize, iconColor } = validatedProps;
+    const { vscIcon, iconSize, iconColor } = validatedProps;
     
-    const { connectors: { connect, drag } } = useNode((state) => ({
+    const { connectors: { connect, drag }, selected } = useNode((state) => ({
         selected: state.events.selected,
-        dragged: state.events.dragged,
     }));
+    const select = useSelected();
 
     // Fetch the icon component from VscIcons, defaulting to null if not found
-    const IconComponent = VscIcons[selectedIcon] as React.ComponentType<any> | undefined;
+    const IconComponent = VscIcons[vscIcon] as React.ComponentType<any> | undefined;
 
     if (!IconComponent) {
-        console.warn(`Icon component for ${String(selectedIcon)} is not a valid React component.`);
+        console.warn(`Icon component for ${String(vscIcon)} is not a valid React component.`);
         return null; // Handle the case where the component doesn't exist
     }
 
@@ -26,14 +27,16 @@ export const Icon: UserComponent<IconProps> = (props) => {
             if (ref) {
                 connect(drag(ref));
             }
-        }} >       
+        }} 
+        className={`${selected ? select.select : ""}`}
+        >       
                 <IconComponent size={iconSize} style={{ color: iconColor }} />
         </div>
     );
 };
 
 export const IconDefaultProps: IconProps = {
-    selectedIcon: "VscHome", // Replace with a default Material Design icon name
+    vscIcon: "VscPrimitiveSquare", // Replace with a default Material Design icon name
     iconSize: 24,
     iconColor: "#lightslategray",
     hyperlink: "",

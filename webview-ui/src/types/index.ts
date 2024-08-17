@@ -2,11 +2,8 @@
 import * as VscIcons from "react-icons/vsc";
 import { z } from "zod";
 import { SerializedNodes } from "@craftjs/core";
-import { head, max, min } from "lodash";
 
 type VscIconKeys = keyof typeof VscIcons;
-
-type IconType = VscIconKeys | "none" | "left" | "right";
 
 export const backgroundSchema = z.object({
   backgroundColor: z.string().default("#292929"),
@@ -31,17 +28,22 @@ export type BackgroundProps = z.infer<typeof backgroundSchema>;
 
 export const buttonSchema = z.object({
   backgroundColor: z.string().default("lightslategrey"),
-  fontSize: z.number().default(16),
+  fontSize: z.number().default(20),
+  fontFamily: z.string().default("Segoe UI"),
   fontColor: z.string().default("white"),
   borderRadius: z.number().default(4),
-  width: z.number().default(80),
-  height: z.number().default(60),
-  text: z.string().default("Button"),
+  width: z.number().default(20),
+  height: z.number().default(10),
+  text: z.string().optional(),
   alignment: z.enum(["left", "center", "right"]).default("center"),
   displayName: z.string().optional().default("Button"),
-  icon: z
+  iconPosition: z
     .union([z.enum(["none", "left", "right"]), z.string().refine((val) => val in VscIcons)])
-    .optional(),
+    .default("left"),
+  vscIcon: z
+    .string()
+    .transform((val) => (val in VscIcons ? val : "VscCircle"))
+    .default("VscCircle") as z.ZodType<VscIconKeys>,
   bordercolor: z.string().optional().default("white"),
   shadowColor: z.string().optional().default("black"),
   shadowOffsetX: z.number().optional().default(1),
@@ -52,16 +54,51 @@ export const buttonSchema = z.object({
 
 export type ButtonProps = z.infer<typeof buttonSchema>;
 
-export const checkboxSchema = z.object({
-  header: z.string().default("Checkbox Header"),
+export type ComponentProps =
+  | ButtonProps
+  | CheckboxesProps
+  | ContainerProps
+  | GridCellProps
+  | DropdownProps
+  | IconProps
+  | ImageProps
+  | InputProps
+  | LabelProps
+  | RadioButtonProps
+  | SliderProps
+  | TextBoxProps
+  | TextProps;
+export type TooltipConfigs =
+  | TooltipConfigButton
+  | TooltipConfigCheckboxes
+  | TooltipConfigContainer
+  | TooltipConfigDropdown
+  | TooltipConfigGridCell
+  | TooltipConfigIcon
+  | TooltipConfigLabel
+  | TooltipConfigImage
+  | TooltipConfigInput
+  | TooltipConfigRadio
+  | TooltipConfigSlider
+  | TooltipConfigText
+  | TooltipConfigTextbox;
+
+export interface ComponentSettingsProps {
+  componentProps: ComponentProps;
+  tooltips: TooltipConfigs[];
+}
+
+export const checkboxesSchema = z.object({
+  header: z.string().default(""),
+  fontFamily: z.string().default("Segoe UI"),
   optionLabels: z.array(z.string()).default([]),
   numberOfBoxes: z.number().default(1),
   fontSize: z.number().default(14),
   fontColor: z.string().default("black"),
-  direction: z.enum(["row", "column"]).default("row"),
+  direction: z.enum(["row", "column"]).default("column"),
 });
 
-export type CheckboxProps = z.infer<typeof checkboxSchema>;
+export type CheckboxesProps = z.infer<typeof checkboxesSchema>;
 
 export const containerSchema = z.object({
   height: z.number().default(100),
@@ -76,7 +113,7 @@ export const containerSchema = z.object({
   backgroundColor: z.string().default("ghostwhite"),
   borderRadius: z.number().default(5),
   borderColor: z.string().optional().default("black"),
-  padding: z.number().default(0),
+  padding: z.number().default(5),
   shadowColor: z.string().optional().default("black"),
   shadowOffsetX: z.number().optional().default(1),
   shadowOffsetY: z.number().optional().default(1),
@@ -98,10 +135,11 @@ export const gridCellSchema = z.object({
 });
 
 export const dropdownSchema = z.object({
-  header: z.string().default("Dropdown Header"),
+  header: z.string().default(""),
+  fontFamily: z.string().default("Segoe UI"),
   optionLabels: z.array(z.string()).default([]),
   numberOfOptions: z.number().default(1),
-  fontSize: z.number().default(14),
+  fontSize: z.number().default(18),
   fontColor: z.string().default("black"),
 });
 
@@ -111,6 +149,7 @@ export type GridCellProps = z.infer<typeof gridCellSchema>;
 
 export const inputSchema = z.object({
   fontSize: z.number().default(14),
+  fontFamily: z.string().default("Segoe UI"),
   fontColor: z.string().default("black"),
   backgroundColor: z.string().default("white"),
   placeholder: z.string().default("Enter text"),
@@ -122,6 +161,7 @@ export type InputProps = z.infer<typeof inputSchema>;
 export const labelSchema = z.object({
   text: z.string().default("Label"),
   fontSize: z.number().default(22),
+  fontFamily: z.string().default("Segoe UI"),
   fontColor: z.string().default("black"),
   userEditable: z.boolean().optional().default(true),
   textAlign: z.enum(["left", "center", "right", "justify"]).default("left"),
@@ -138,24 +178,26 @@ export const labelSchema = z.object({
 export type LabelProps = z.infer<typeof labelSchema>;
 
 export const radioButtonSchema = z.object({
-  header: z.string().default("Radio Button Header"),
+  header: z.string().default(""),
+  fontFamily: z.string().default("Segoe UI"),
   numberOfButtons: z.number().default(2),
   optionLabels: z.array(z.string()).default([]),
   fontSize: z.number().default(14),
   fontColor: z.string().default("black"),
-  direction: z.enum(["row", "column"]).default("row"),
+  direction: z.enum(["row", "column"]).default("column"),
 });
 
 export type RadioButtonProps = z.infer<typeof radioButtonSchema>;
 
 export const sliderSchema = z.object({
-  header: z.string().default("Slider"),
+  header: z.string().default(""),
+  fontFamily: z.string().default("Segoe UI"),
   min: z.number().default(0),
   max: z.number().default(100),
   step: z.number().default(1),
   fontSize: z.number().default(14),
   fontColor: z.string().default("black"),
-  backgroundColor: z.string().default("red"),
+  backgroundColor: z.string().default("lightslategray"),
 });
 
 export type SliderProps = z.infer<typeof sliderSchema>;
@@ -163,6 +205,7 @@ export type SliderProps = z.infer<typeof sliderSchema>;
 export const textBoxSchema = z.object({
   text: z.string().default("Text Box"),
   fontSize: z.number().default(14),
+  fontFamily: z.string().default("Segoe UI"),
   fontColor: z.string().default("black"),
   backgroundColor: z.string().default("white"),
   placeholder: z.string().default("Enter text"),
@@ -175,7 +218,7 @@ export const textBoxSchema = z.object({
 export type TextBoxProps = z.infer<typeof textBoxSchema>;
 
 export const iconSchema = z.object({
-  selectedIcon: z
+  vscIcon: z
     .string()
     .transform((val) => (val in VscIcons ? val : "VscAdd"))
     .default("VscCircle") as z.ZodType<VscIconKeys>,
@@ -187,22 +230,22 @@ export const iconSchema = z.object({
 export type IconProps = z.infer<typeof iconSchema>;
 
 export const imageSchema = z.object({
-  src: z
-    .string()
-    .default(
-      "https://media.licdn.com/dms/image/D4E22AQGL4EZgEpG2ag/feedshare-shrink_800/0/1719580422738?e=2147483647&v=beta&t=Nj786KjutiTxei_wgDDM40hcWFi5_-qqBIKM4jOa3Hc"
-    ),
-  alt: z.string().default("New image"),
-  width: z.number().default(90),
-  height: z.number().default(90),
+  src: z.string().default(`https://placehold.co/400`),
+  alt: z.string().default("Placeholder image"),
+  width: z.number().default(80),
   alignment: z.enum(["left", "center", "right"]).optional(),
 });
 
 export type ImageProps = z.infer<typeof imageSchema>;
 
 export const textSchema = z.object({
-  text: z.string().default("Here is some text"),
+  text: z
+    .string()
+    .default(
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    ),
   fontSize: z.number().default(14),
+  fontFamily: z.string().default("helvetica"),
   fontColor: z.string().default("black"),
   textAlign: z.enum(["left", "center", "right", "justify"]).default("left"),
   bold: z.boolean().optional().default(false),
@@ -229,77 +272,91 @@ export type TooltipConfigButton = {
   label: string;
   content: string;
   propKey: keyof ButtonProps;
-  type: "color" | "spinButton" | "text" | "icon";
+  type: "color" | "spinButton" | "text" | "icon" | "slider";
 };
 
-export type TooltipConfigCheckbox = {
+export type TooltipConfigCheckboxes = {
   label: string;
   content: string;
-  propKey: keyof CheckboxProps;
-  type: "color" | "spinButton" | "text" | "options" | "direction";
+  propKey: keyof CheckboxesProps;
+  type: "color" | "spinButton" | "text" | "options" | "direction" | "slider";
 };
 
 export type TooltipConfigGridCell = {
   label: string;
   content: string;
   propKey: keyof GridCellProps;
-  type: "color" | "spinButton" | "text" | "alignItems" | "justifyContent" | "direction";
+  type: "color" | "spinButton" | "text" | "alignItems" | "justifyContent" | "direction" | "slider";
 };
 
 export type TooltipConfigInput = {
   label: string;
   content: string;
   propKey: keyof InputProps;
-  type: "color" | "spinButton" | "text" | "alignment";
+  type: "color" | "spinButton" | "text" | "alignment" | "slider";
+};
+
+export type TooltipConfigLabel = {
+  label: string;
+  content: string;
+  propKey: keyof LabelProps;
+  type: "color" | "spinButton" | "text" | "textAlign" | "icon" | "slider";
+};
+
+export type TooltipConfigText = {
+  label: string;
+  content: string;
+  propKey: keyof TextProps;
+  type: "color" | "spinButton" | "text" | "textAlign" | "slider";
+};
+
+export type TooltipConfigTextbox = {
+  label: string;
+  content: string;
+  propKey: keyof TextBoxProps;
+  type: "color" | "spinButton" | "text" | "slider";
 };
 
 export type TooltipConfigRadio = {
   label: string;
   content: string;
   propKey: keyof RadioButtonProps;
-  type: "color" | "spinButton" | "text" | "options" | "direction";
+  type: "color" | "spinButton" | "text" | "options" | "direction" | "slider";
 };
 
 export type TooltipConfigDropdown = {
   label: string;
   content: string;
   propKey: keyof DropdownProps;
-  type: "color" | "spinButton" | "text" | "options";
-};
-
-export type TooltipConfigText = {
-  label: string;
-  content: string;
-  propKey: keyof TextBoxProps;
-  type: "color" | "spinButton" | "text" | "alignment";
+  type: "color" | "spinButton" | "text" | "options" | "slider";
 };
 
 export type TooltipConfigIcon = {
   label: string;
   content: string;
   propKey: keyof IconProps;
-  type: "color" | "spinButton" | "text";
+  type: "color" | "spinButton" | "text" | "slider";
 };
 
 export interface TooltipConfigImage {
   label: string;
   content: string;
   propKey: keyof ImageProps;
-  type: "spinButton" | "text";
+  type: "spinButton" | "text" | "slider";
 }
 
 export interface TooltipConfigContainer {
   label: string;
   content: string;
   propKey: keyof ContainerProps;
-  type: "color" | "spinButton" | "text" | "justifyContent" | "alignItems" | "direction";
+  type: "color" | "spinButton" | "text" | "justifyContent" | "alignItems" | "direction" | "slider";
 }
 
 export interface TooltipConfigSlider {
   label: string;
   content: string;
   propKey: keyof SliderProps;
-  type: "color" | "spinButton" | "text";
+  type: "color" | "spinButton" | "text" | "slider";
 }
 
 export interface Page {
@@ -312,284 +369,6 @@ export interface CanvasProps {
   classes: any;
 }
 
-// Used in getSectionChildrenOpenai.ts
+export * from "./generateLayoutTypes";
 
-export const generatedElements = z.object({
-  type: z.enum([
-    "Button",
-    "Label",
-    "Image",
-    // "TextBox",
-    "RadioButton",
-    "Checkbox",
-    "Input",
-    "Text",
-    "Icon",
-    "Slider",
-    "Dropdown",
-  ]),
-  DescriptiveName: z.string(),
-});
-
-export const generatedSectionChildren = z.object({
-  section: z.string(),
-  children: z.array(generatedElements).max(5),
-});
-
-export const generatedAllSectionsChildren = z.object({
-  sections: z.array(generatedSectionChildren).min(2).max(6),
-});
-
-// Used in getSectionChildrenWithProps.ts
-
-const ColorEnum = z
-  .enum(["Main", "LightAccent", "DarkAccent"])
-  .transform((val) => (["Main", "LightAccent", "DarkAccent"].includes(val) ? val : "Main"))
-  .default("Main");
-
-export const generateButtonSchema = z.object({
-  type: z.literal("Button"),
-  props: z.object({
-    text: z.string().default("Button"),
-    backgroundColor: ColorEnum,
-    fontColor: ColorEnum,
-  }),
-});
-
-export const generateCheckboxSchema = z.object({
-  type: z.literal("Checkbox"),
-  props: z.object({
-    optionLabels: z.array(z.string()).default([]),
-    numberOfBoxes: z.number().default(2),
-    direction: z.enum(["row", "column"]).default("row"),
-  }),
-});
-
-export const generateInputSchema = z.object({
-  type: z.literal("Input"),
-  props: z.object({
-    placeholder: z.string().default("Enter text"),
-    fontColor: ColorEnum,
-  }),
-});
-
-export const generateLabelSchema = z.object({
-  type: z.literal("Label"),
-  props: z.object({
-    text: z.string().default("Header").describe("Short header"),
-    bold: z.boolean().default(true),
-    italic: z.boolean().default(false),
-    fontColor: ColorEnum,
-    fontSize: z.number(),
-  }),
-});
-
-export const generateRadioButtonSchema = z.object({
-  type: z.literal("RadioButton"),
-  props: z.object({
-    header: z.string().default("Radio Button Header"),
-    numberOfButtons: z.number().default(2),
-    optionLabels: z.array(z.string()).default([]),
-    direction: z.enum(["row", "column"]).default("row"),
-  }),
-});
-
-export const generateImageSchema = z.object({
-  type: z.literal("Image"),
-  props: z.object({
-    alt: z.string().default("Image"),
-  }),
-});
-
-export const generateTextBoxSchema = z.object({
-  type: z.literal("TextBox"),
-  props: z.object({
-    fontColor: ColorEnum,
-  }),
-});
-
-export const generateTextSchema = z.object({
-  type: z.literal("Text"),
-  props: z.object({
-    text: z.string().describe("Write short paragraph"),
-    fontColor: ColorEnum,
-  }),
-});
-
-export const generateSliderSchema = z.object({
-  type: z.literal("Slider"),
-  props: z.object({
-    backgroundColor: ColorEnum,
-    header: z.string().default(""),
-  }),
-});
-
-export const generateDropdownSchema = z.object({
-  type: z.literal("Dropdown"),
-  props: z.object({
-    header: z.string().default(""),
-    optionLabels: z.array(z.string()).default(["Option 1", "Option 2"]),
-    numberOfOptions: z.number().default(2),
-    fontColor: ColorEnum,
-  }),
-});
-
-export const generateIconSchema = z.object({
-  type: z.literal("Icon"),
-  props: z.object({
-    selectedIcon: z
-      .string()
-      .regex(/Vsc[A-Z][a-z]+/)
-      .default("VscCircle")
-      .describe("Icon name from react-icons/vsc"),
-    iconSize: z.number().default(24),
-  }),
-});
-
-// Used in getSectionChildrenOpenai.ts
-
-const sectionSchema = z.object({
-  section: z.string(),
-  props: z.object({
-    xPosition: z.number().int().max(10),
-    yPosition: z.number().int().max(10),
-    width: z.number().int().max(10),
-    height: z.number().int().max(10),
-    backgroundColor: ColorEnum.describe("Use accent colors for headers and footers."),
-    flexDirection: z.enum(["row", "column"]).describe("Column if height > width, row otherwise."),
-  }),
-  contents: z.string().describe("Detailed description of the sections purpose/contents."),
-});
-
-export const layoutSchema = z.object({
-  sections: z.array(sectionSchema).max(5),
-});
-
-// Used in convertLayoutToNodes.ts
-
-export const generatedFullElements = z.union([
-  generateButtonSchema,
-  generateCheckboxSchema,
-  generateIconSchema,
-  generateInputSchema,
-  generateLabelSchema,
-  generateRadioButtonSchema,
-  generateTextSchema,
-  generateImageSchema,
-  generateInputSchema,
-  generateSliderSchema,
-  generateDropdownSchema,
-]);
-
-export const fullSectionSchema = z.object({
-  section: z.string(),
-  props: z.object({
-    xPosition: z.number().int().max(10),
-    yPosition: z.number().int().max(10),
-    width: z.number().int().max(10),
-    height: z.number().int().max(10),
-    flexDirection: z.enum(["row", "column"]),
-    backgroundColor: ColorEnum,
-  }),
-  children: z.array(generatedFullElements).max(5),
-});
-
-export const fullLayoutSchema = z.array(fullSectionSchema).max(6);
-
-export type FullLayoutSchema = z.infer<typeof fullLayoutSchema>;
-
-export const backgroundNodeLayout = z.object({
-  w: z.number().int(),
-  h: z.number().int(),
-  x: z.number().int(),
-  y: z.number().int(),
-  i: z.string(),
-  moved: z.boolean().default(false),
-  static: z.boolean().default(false),
-  maxW: z.number().int().optional(),
-  maxH: z.number().int().optional(),
-});
-
-export const nodeTreeRootSchema = z.object({
-  type: z.object({
-    resolvedName: z.string(),
-  }),
-  isCanvas: z.boolean(),
-  props: z.object({
-    rows: z.number().int(),
-    columns: z.number().int(),
-    lockedGrid: z.boolean(),
-    backgroundColor: z.string(),
-    layout: z.array(backgroundNodeLayout),
-  }),
-  displayName: z.string(),
-  custom: z.record(z.any()),
-  parent: z.undefined(),
-  hidden: z.boolean(),
-  nodes: z.array(z.string()),
-  linkedNodes: z.record(z.string()),
-});
-
-export const craftjsNodeSchema = z.object({
-  type: z.object({
-    resolvedName: z.string(),
-  }),
-  isCanvas: z.boolean(),
-  props: z.record(z.string(), z.any()),
-  displayName: z.string(),
-  custom: z.record(z.any()),
-  hidden: z.boolean(),
-  nodes: z.array(z.string()),
-  linkedNodes: z.record(z.string()),
-  parent: z.string(),
-});
-
-// Used in applyTheming.ts
-
-export type ColorScheme = {
-  sectionColors: {
-    main: string | string[];
-    lightaccent: string | string[];
-    darkaccent: string | string[];
-  };
-  sectionBorderColors: {
-    main: string | string[];
-    lightaccent: string | string[];
-    darkaccent: string | string[];
-  };
-  elementColors: {
-    main: string | string[];
-    lightaccent: string | string[];
-    darkaccent: string | string[];
-  };
-  elementBorderColors: {
-    main: string | string[];
-    lightaccent: string | string[];
-    darkaccent: string | string[];
-  };
-  fontColors: {
-    main: string | string[];
-    lightaccent: string | string[];
-    darkaccent: string | string[];
-  };
-};
-
-export const themedSectionSchema = z.object({
-  section: z.string(),
-  props: z.object({
-    xPosition: z.number().int().max(10),
-    yPosition: z.number().int().max(10),
-    width: z.number().int().max(10),
-    height: z.number().int().max(10),
-    flexDirection: z.enum(["row", "column"]),
-    backgroundColor: z.string(),
-    borderColor: z.string(),
-  }),
-  children: z.array(z.any()),
-});
-
-export type ThemedSectionSchema = z.infer<typeof themedSectionSchema>;
-
-export const themedLayoutSchema = z.array(themedSectionSchema).max(5);
-
-export type ThemedLayoutSchema = z.infer<typeof themedSectionSchema>;
+export * from "./themes";

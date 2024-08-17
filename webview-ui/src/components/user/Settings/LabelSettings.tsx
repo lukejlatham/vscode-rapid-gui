@@ -8,37 +8,20 @@ import { Input, Label as FLabel, RadioGroup, Radio, Tooltip, useId, Button } fro
 
 
 export const LabelSettings: React.FC = () => {
-    const {
-      actions: { setProp },
-      fontSize,
-      fontColor,
-      text,
-      bold,
-      italic,
-      underline,
-      textAlign,
-    } = useNode((node) => ({
-      fontSize: node.data.props.fontSize,
-      fontColor: node.data.props.fontColor,
-      text: node.data.props.text,
-      textAlign: node.data.props.textAlign,
-      bold: node.data.props.bold,
-      italic: node.data.props.italic,
-      underline: node.data.props.underline
-    }));
-  
-    const styles = usePropertyInspectorStyles();
-    const contentId = useId("content");
-    const [visibleTooltip, setVisibleTooltip] = useState<string | null>(null);
-  
-    const tooltips = [
-      { label: "Font Size", content: "Adjust the size of the text.", propKey: "fontSize" },
-      { label: "Font Color", content: "Change the text color of the label.", propKey: "fontColor" },
-      { label: "Text", content: "Edit the text of the label.", propKey: "text" },
-      { label: "Alignment", content: "Set the text alignment.", propKey: "textAlign" },
-      { label: "Hyperlink", content: "Add a hyperlink to the label.", propKey: "hyperlink" },
-      { label: "Icon", content: "Add an icon to the label. Choosing 'Left' or 'Right' will add an icon at that position.", propKey: "icon" },
-    ];
+  const { actions: { setProp }, props } = useNode(node => ({
+    props: node.data.props as LabelProps
+  }));
+
+  const styles = usePropertyInspectorStyles();
+
+  const tooltips: TooltipConfig[] = [
+    { label: "Text", content: "Edit the text of the label.", propKey: "text", type: "text" },
+    { label: "Font Size", content: "Adjust the size of the text.", propKey: "fontSize", type: "slider" },
+    { label: "Font Color", content: "Change the text color of the label.", propKey: "fontColor", type: "color" },
+    { label: "Alignment", content: "Set the text alignment.", propKey: "textAlign", type: "textAlign" },
+    { label: "Hyperlink", content: "Add a hyperlink to the label.", propKey: "hyperlink", type: "text" },
+    { label: "Icon", content: "Add an icon to the label. Choosing 'Left' or 'Right' will add an icon at that position.", propKey: "icon", type: "icon" },
+  ];
 
     type StyleKeys = 'bold' | 'italic' | 'underline'; 
   

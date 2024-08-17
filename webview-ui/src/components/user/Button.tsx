@@ -2,33 +2,47 @@ import { useNode, UserComponent, Element } from "@craftjs/core";
 import { makeStyles} from "@fluentui/react-components";
 import { buttonSchema, ButtonProps } from '../../types';
 import { ButtonSettings } from "./Settings/ButtonSettings";
-import { Icon, IconDefaultProps } from "./Icon";
+import { useSelected } from "../../hooks/useSelected";
+import * as VscIcons from "react-icons/vsc";
 
 const useStyles = makeStyles({
-    container: {
-        display: "flex",
-    },
     button: {
         border: "none",
         textAlign: "center",
         display: "flex",
-        gap: "5px",
-        justifyContent: "center",
-        alignItems: "center",
+        gap: "5px", 
+        justifyContent: "center", 
+        alignItems: "center", 
         maxWidth: "100%",
         maxHeight: "100%",
         cursor: "pointer",
+    },
+    icon: {
+        display: "inline-flex", 
+        alignItems: "center", 
+        verticalAlign: "middle", 
+    },
+    text: {
+        display: "inline-flex", 
+        alignItems: "center", 
     },
 });
 
 export const Button: UserComponent<ButtonProps> = (props) => {
     const validatedProps = buttonSchema.parse(props);
 
-    const { backgroundColor, fontColor, fontSize, borderRadius, text, width, height, bordercolor, shadowBlur, shadowColor, shadowOffsetX, shadowOffsetY, icon } = validatedProps;
-    const { connectors: { connect, drag } } = useNode();
+    const { backgroundColor, fontFamily, fontColor, fontSize, borderRadius, text, width, height, bordercolor, shadowBlur, shadowColor, shadowOffsetX, shadowOffsetY, iconPosition, vscIcon } = validatedProps;
+    const { connectors: { connect, drag }, selected } = useNode((node) => ({
+        selected: node.events.selected,
+    }));
+
     const styles = useStyles();
+    const select = useSelected();
+
+    const IconComponent = vscIcon ? VscIcons[vscIcon] as React.ComponentType<any> : undefined;
 
     return (
+        <div className={`${selected ? select.select : ""}`}>
             <button
                 ref={(ref: HTMLButtonElement | null) => {
                     if (ref) {
@@ -41,30 +55,45 @@ export const Button: UserComponent<ButtonProps> = (props) => {
                     backgroundColor,
                     fontSize: `${fontSize}px`,
                     borderRadius: `${borderRadius}px`,
-                    width: `${width}%`,
-                    height: `${height}%`,
+                    padding: `${height}px ${width}px`,
                     border: `2px solid ${bordercolor}`,
                     boxShadow: `${shadowOffsetX}px ${shadowOffsetY}px ${shadowBlur}px ${shadowColor}`,
                 }}
-            >   
-            {icon ==="left" && <Element id="button_icon" is={Icon} {...IconDefaultProps} />}
-                {text}
-            {icon ==="right" && <Element id="button_icon" is={Icon} {...IconDefaultProps} />}
+            >
+                {iconPosition === "left" && IconComponent && (
+                    <span className={styles.icon}>
+                        <IconComponent size={fontSize} color={fontColor} />
+                    </span>
+                )}
+                {text && (
+                    <span className={styles.text}
+                        style={{fontFamily: fontFamily}}
+                    >{text}</span>
+                )}
+                {iconPosition === "right" && IconComponent && (
+                    <span className={styles.icon}>
+                        <IconComponent size={fontSize} color={fontColor} />
+                    </span>
+                )}
             </button>
+        </div>
     );
-}
+};
+
 
 export const ButtonDefaultProps: ButtonProps = {
     backgroundColor: "#778899",
+    fontFamily: "helvetica",
     fontColor: "#FFFFFF",
     displayName: "Button",
     fontSize: 20,
     borderRadius: 4,
-    text: "New Button",
-    width: 60,
-    height: 12,
+    text: "",
+    width: 10,
+    height: 10,
     alignment: "left",
-    icon: "none",
+    iconPosition: "none",
+    vscIcon: "VscPrimitiveSquare",
     bordercolor: "#666666",
     shadowColor: "transparent",
     shadowOffsetX: 0,

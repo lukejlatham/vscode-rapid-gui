@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEditor, useNode } from '@craftjs/core';
 import { BackgroundProps, GridCellProps, TooltipConfigGridCell as TooltipConfig } from '../../../types';
-import { Input, Label, Button, makeStyles, SpinButton, Radio, RadioGroup, SpinButtonChangeEvent, SpinButtonOnChangeData, Tooltip, useId, mergeClasses } from "@fluentui/react-components";
+import { Slider, SliderOnChangeData, Input, Label, Button, makeStyles, SpinButton, Radio, RadioGroup, SpinButtonChangeEvent, SpinButtonOnChangeData, Tooltip, useId, mergeClasses } from "@fluentui/react-components";
 import { Info16Regular, Delete24Regular } from '@fluentui/react-icons';
 import { usePropertyInspectorStyles } from '../../../hooks/usePropertyInspectorStyles';
 
@@ -39,7 +39,7 @@ export const GridCellSettings: React.FC = () => {
         { label: "Direction", content: "Set the direction of the grid cell.", propKey: "flexDirection", type: "direction"},
         { label: "Justify Content", content: "Set how the contents of the cell should be justified.", propKey: "justifyContent", type: "justifyContent"},
         { label: "Align Items", content: "Set how the contents of the cell should be aligned.", propKey: "alignItems", type: "alignItems"},
-        { label: "Gap", content: "Adjust the gap between components within the cell.", propKey: "gap", type: "spinButton"},
+        { label: "Gap", content: "Adjust the gap between components within the cell.", propKey: "gap", type: "slider"},
     ];
 
     const handleVisibilityChange = (tooltipKey: string, isVisible: boolean) => {
@@ -70,18 +70,20 @@ export const GridCellSettings: React.FC = () => {
                             />
                         </Tooltip>
                     </div>
-                    {tooltip.type === "spinButton" ? (
-                        <SpinButton
-                            className={styles.spinButton}
+                    {tooltip.type === "slider" ? (
+                        <div className={styles.sliderSection}>
+                            <Label>{gridProps[tooltip.propKey] as string}</Label>
+                        <Slider
+                            className={styles.slider}
                             min={0}
                             defaultValue={gridProps[tooltip.propKey] as number}
-                            onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
-                                const value = data.value ? data.value : 0;
+                            onChange={(e: React.FormEvent<HTMLInputElement>, data: SliderOnChangeData) => {
                                 actions.setProp((props: GridCellProps) => {
-                                    (props[tooltip.propKey] as number) = value;
-                                }, 1000);
+                                    (props[tooltip.propKey] as number) = data.value;
+                            }, 1000);
                             }}
                         />
+                        </div>
                     ) : tooltip.type === "text" ? (
                         <Input
                             className={styles.textInput}
@@ -96,7 +98,7 @@ export const GridCellSettings: React.FC = () => {
                     ) : tooltip.type === "alignItems" ? (
                         <RadioGroup
                             defaultValue={gridProps[tooltip.propKey] as string}
-                            layout="horizontal-stacked"
+                            layout="vertical"
                             onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
                                 actions.setProp((props: GridCellProps) => {
                                     (props[tooltip.propKey] as 'flex-start' | 'center' | 'flex-end') = data.value as 'flex-start' | 'center' | 'flex-end';
@@ -110,7 +112,7 @@ export const GridCellSettings: React.FC = () => {
                     ) : tooltip.type === "justifyContent" ? (
                         <RadioGroup
                             defaultValue={gridProps[tooltip.propKey] as string}
-                            layout="horizontal-stacked"
+                            layout="vertical"
                             onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
                                 actions.setProp((props: GridCellProps) => {
                                     (props[tooltip.propKey] as "flex-start" | "center" | "flex-end" | "space-between" | "space-around") = data.value as "flex-start" | "center" | "flex-end" | "space-between" | "space-around";
@@ -126,7 +128,7 @@ export const GridCellSettings: React.FC = () => {
                     ) : tooltip.type === "direction" && (
                         <RadioGroup
                             defaultValue={gridProps[tooltip.propKey] as string}
-                            layout="horizontal-stacked"
+                            layout="vertical"
                             onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
                                 actions.setProp((props: GridCellProps) => {
                                     (props[tooltip.propKey] as 'row' | 'column') = data.value as 'row' | 'column';

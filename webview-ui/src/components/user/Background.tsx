@@ -1,5 +1,5 @@
 import { FC, useEffect, useMemo, useState, useRef } from 'react';
-import { Card, makeStyles} from '@fluentui/react-components';
+import { Card, makeStyles, tokens} from '@fluentui/react-components';
 import Responsive, { Layout, WidthProvider } from 'react-grid-layout';
 import { Element } from '@craftjs/core';
 import { GridCell, GridCellDefaultProps } from './GridCell';
@@ -14,10 +14,10 @@ const useStyles = makeStyles({
     width: '100%',
     height: '100%',
     overflow: 'auto',
-    border: '1px solid #666666',
+    border: `1px solid ${tokens.colorNeutralStroke1}`,
   },
   gridCell: {
-    border: '1px dashed #666666',
+    border: `1px dashed ${tokens.colorNeutralStroke1}`,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -54,7 +54,7 @@ export const Background: FC<BackgroundProps> = (props) => {
   useEffect(() => {
     const updateContainerHeight = () => {
       if (backgroundRef.current) {
-        setContainerHeight(backgroundRef.current.clientHeight*0.85);
+        setContainerHeight(backgroundRef.current.clientHeight);
       }
     };
     window.addEventListener('resize', updateContainerHeight);
@@ -77,13 +77,14 @@ export const Background: FC<BackgroundProps> = (props) => {
   return (
     <>
       <Card
+      style={{ backgroundColor: initialBackgroundColor }}
         appearance='filled'
         ref={backgroundRef}
         className={styles.background}
         
       >
         <ResponsiveGridLayout
-          style={{ backgroundColor: initialBackgroundColor }}
+          
           className="layout"
           layout={initialLayout}
           cols={initialColumns}

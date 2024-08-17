@@ -37,7 +37,7 @@ export const usePropertyInspectorStyles = makeStyles({
     addAndLockButtons: {
         display: "flex",
         flexDirection: "row",
-        justifyContent: "space-between",
+        justifyContent: "center",
         marginTop: "10px",
     },
     buttonContainer: {
@@ -51,4 +51,12 @@ export const usePropertyInspectorStyles = makeStyles({
         justifyContent: "space-between",
         marginTop: "10px",
     },
+    sliderSection: {
+        width: "100%",
+        display: "flex",
+        alignItems: "center",
+    },
+    slider: {
+        flexGrow: 1,
+    }
 });

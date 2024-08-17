@@ -4,12 +4,15 @@ import { makeStyles} from "@fluentui/react-components";
 import { LabelProps,labelSchema, ContentEditableEvent } from "../../types";
 import { LabelSettings } from "./Settings/LabelSettings";
 import { Icon, IconDefaultProps } from "./Icon";
+import ContentEditable from "react-contenteditable";
+import { useSelected } from "../../hooks/useSelected";
 
 const useStyles = makeStyles({
   labelContainer: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    padding: "5px",
     gap: "5px",
   },
   alignLeft: {
@@ -29,7 +32,7 @@ const useStyles = makeStyles({
 export const Label: UserComponent<LabelProps> = (props) => {
   const validatedProps = labelSchema.parse(props);
 
-  const { text, textAlign, fontSize, fontColor, userEditable, icon, hyperlink, bold, italic, underline } = validatedProps;
+  const { text, textAlign, fontFamily, fontSize, fontColor, userEditable, icon, hyperlink, bold, italic, underline } = validatedProps;
 
   const {
     connectors: { connect, drag },
@@ -52,10 +55,17 @@ export const Label: UserComponent<LabelProps> = (props) => {
   // }, [selected, userEditable]);
 
   const styles = useStyles();
+  const select = useSelected();
+
+  const handleInput = (e: ContentEditableEvent) => {
+    setProp((props: LabelProps) => (props.text = e.target.value), 500);
+  };
 
   return (
     <div
-      className={styles.labelContainer}
+      ref={(ref: HTMLDivElement | null) => ref && connect(drag(ref))}
+      className={`${styles.labelContainer} ${selected ? select.select : ''}`}
+      onClick={() => selected && userEditable && setEditable(true)}
     >
       {icon === "left" && <Icon {...IconDefaultProps} />}
       {/* {userEditable ? (
@@ -85,6 +95,7 @@ export const Label: UserComponent<LabelProps> = (props) => {
                 styles.alignJustify}`}
           style={{ fontSize: `${fontSize}px`, 
           color: fontColor,
+          fontFamily: fontFamily,
           fontWeight: bold ? "bold" : "normal",
           fontStyle: italic ? "italic" : "normal",
           textDecoration: underline ? "underline" : "none",
@@ -101,8 +112,9 @@ export const Label: UserComponent<LabelProps> = (props) => {
 export const LabelDefaultProps: LabelProps = {
   text: "New Label",
   textAlign: 'left',
+  fontFamily: "helvetica",
   fontSize: 20,
-  fontColor: "black",
+  fontColor: "#FFFFFF",
   userEditable: true,
   icon: "none",
   hyperlink: "",

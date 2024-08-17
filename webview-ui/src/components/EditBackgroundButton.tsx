@@ -2,26 +2,28 @@ import { Button } from '@fluentui/react-components';
 import { useEditor, UserComponent } from '@craftjs/core';
 import { BackgroundSettings } from './user/Settings/BackgroundSettings';
 import { TableEditRegular } from '@fluentui/react-icons';
+import { FormattedMessage } from 'react-intl';
 
 export const EditBackgroundButton: UserComponent<{classes: any}> = ({classes}) => {
     const { connectors: { select } } = useEditor();
-    // const { query } = useEditor();
 
-    // const value = query.node("ROOT").get().data.props.backgroundColor;
 
     return (
         <Button
             className={classes.button}
             icon={<TableEditRegular />}
-            size='large' 
-            appearance='secondary'
+            size='medium' 
+            appearance='primary'
             ref={(ref: HTMLButtonElement | null) => {
                 if (ref) {
                     select(ref, "ROOT");
                 }
             }}
         >
-            Edit Background
+            <FormattedMessage 
+                id="layout.editGrid"
+                defaultMessage="Edit Grid"
+            />
         </Button>
     );
 };

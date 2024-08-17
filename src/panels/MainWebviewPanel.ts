@@ -12,10 +12,11 @@ import { getUri } from "../utilities/getUri";
 import { getNonce } from "../utilities/getNonce";
 import { getAzureOpenaiApiKeys } from "../utilities/azureApiKeyStorage";
 import { handleFileSave, handleFileLoad } from "../utilities/projectSaveUtilities";
-import { processSketch, processTextDescription } from "../generateLayout/generateLayout";
+import { processSketch, processTextDescription } from "../openAIgenerateLayout/orchestrator";
 import { processCopilotMessages } from "../copilot";
 import { handleImageUpload } from "../utilities/imageSave";
 import { convertToXaml } from "../utilities/xamlConverter";
+import { handleImageGenerate } from "../utilities/handleImageGeneration";
 
 export class MainWebviewPanel {
   public static currentPanel: MainWebviewPanel | undefined;
@@ -45,6 +46,15 @@ export class MainWebviewPanel {
     } else {
       const panel = window.createWebviewPanel("showMainWebviewPanel", "UI Studio", ViewColumn.One, {
         enableScripts: true,
+        localResourceRoots: [
+          Uri.joinPath(extensionUri, "out"),
+          Uri.joinPath(extensionUri, "webview-ui/build"),
+          workspace.workspaceFolders?.[0]?.uri,
+        ],
+      });
+      const panel = window.createWebviewPanel("showMainWebviewPanel", "UI Studio", ViewColumn.One, {
+        enableScripts: true,
+        retainContextWhenHidden: true, // This preserves the webview state.
         localResourceRoots: [
           Uri.joinPath(extensionUri, "out"),
           Uri.joinPath(extensionUri, "webview-ui/build"),
@@ -159,11 +169,20 @@ export class MainWebviewPanel {
             webview.postMessage({ command: "setAzureApiKeys", ...secrets });
             window.showInformationMessage("Azure API keys received.");
             return;
+          case "getOpenaiApiKeys":
+            const openaiSecrets = await getAzureOpenaiApiKeys(this._context);
+            webview.postMessage({ command: "setOpenaiApiKeys", ...openaiSecrets });
+            window.showInformationMessage("OpenAI API keys received.");
           case "saveFile":
             await handleFileSave(message.contents, message.fileNames, this._context);
             // check this
             return;
           case "loadFile":
+            await handleFileLoad(
+              this._context,
+              // message.fileName,
+              webview
+            );
             await handleFileLoad(
               this._context,
               // message.fileName,
@@ -196,6 +215,18 @@ export class MainWebviewPanel {
               const imageUri = webview.asWebviewUri(Uri.file(filePath)).toString();
               window.showInformationMessage("Image saving command received.");
               webview.postMessage({ command: "imageUploaded", filePath: imageUri });
+            }
+            return;
+          case "generateImage":
+            console.log("Generate image command received.");
+            const generatedImageFilePath = await handleImageGenerate(message.alt, this._context);
+            console.log("Generated image file path:", generatedImageFilePath);
+            if (generatedImageFilePath) {
+              const generatedImageUri = webview
+                .asWebviewUri(Uri.file(generatedImageFilePath))
+                .toString();
+              window.showInformationMessage("Image saving command received.");
+              webview.postMessage({ command: "imageGenerated", filePath: generatedImageUri });
             }
             return;
           case "deletedPageAlert":

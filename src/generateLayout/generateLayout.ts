@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import { getAzureOpenaiApiKeys } from "../utilities/azureApiKeyStorage";
 import { getLayout } from "./getLayoutOpenai";
-import { buildLayoutNodes } from "./convertLayoutToNodes";
+// import { buildLayoutNodes } from "./convertLayoutToNodes";
 import { getSectionChildren } from "./getSectionChildrenOpenai";
 import {
   generateSectionChildrenSchema,
@@ -31,8 +31,6 @@ async function processInput(
 
     const parsedLayout = JSON.stringify(layout.sections);
 
-    console.log("Generated layout sections:", parsedLayout);
-
     webview.postMessage({ command: "processingStage", stage: "Generating elements" });
 
     const zodChildrenSchema = generateSectionChildrenSchema(layout.sections);
@@ -51,24 +49,22 @@ async function processInput(
 
     const parsedChildren = JSON.stringify(children.sections);
 
-    console.log("Generated children sections:", parsedChildren);
-
     const fullChildren = await getChildrenWithProps(
       apiEndpoint,
       apiKey,
       deploymentName,
       parsedLayout,
       parsedChildren,
-      zodChildrenWithPropsSchema
+      zodChildrenWithPropsSchema,
+      inputType,
+      inputType === "text" ? input : undefined
     );
 
     const parsedFullChildren = JSON.stringify(fullChildren.sections);
 
-    console.log("Generated full children sections with properties:", parsedFullChildren);
+    // const layoutNodes = buildLayoutNodes(parsedLayout, parsedFullChildren);
 
-    const layoutNodes = buildLayoutNodes(parsedLayout, parsedFullChildren);
-
-    console.log("Generated layout nodes:", layoutNodes);
+    const layoutNodes = parsedFullChildren;
 
     return layoutNodes;
   } catch (error) {
@@ -94,4 +90,4 @@ async function processTextDescription(
   return processInput(textDescription, "text", context, webview);
 }
 
-export { processSketch, processTextDescription };
+export {};

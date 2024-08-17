@@ -3,6 +3,7 @@ import { DocumentSave24Regular } from '@fluentui/react-icons';
 import { useEditor } from "@craftjs/core";
 import { vscode } from '../../../utilities/vscode';
 import { Page } from "../../../types";
+import { FormattedMessage } from "react-intl";
 
 const SaveButton: React.FC<{ classes: any, pages: Page[], currentPageIndex: number;}> = ({ classes, pages, currentPageIndex }) => {
     const { query } = useEditor();
@@ -33,8 +34,10 @@ const SaveButton: React.FC<{ classes: any, pages: Page[], currentPageIndex: numb
 
     return (
         <>
-            <Button className={classes.button} icon={<DocumentSave24Regular />} appearance='outline'
-                onClick={handleSave}>Save</Button>
+            <Button size="medium" className={classes.button} icon={<DocumentSave24Regular />}
+                onClick={handleSave}>
+                <FormattedMessage id="leftSidebar.save" defaultMessage="Save" />
+                </Button>
         </>
     );
 };
