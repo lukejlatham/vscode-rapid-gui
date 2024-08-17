@@ -81,6 +81,7 @@ export const BackgroundSettings: React.FC = () => {
     }
     setIsDisabled(!isSpaceAvailable);
   };
+
   const handleAddGridCell = () => {
     setProp(nodeID, (props: BackgroundProps) => {
       let newY = 0;
@@ -127,6 +128,51 @@ export const BackgroundSettings: React.FC = () => {
       }
     });
   };
+
+  const calculateMinRows = () => {
+    return Math.max(...props.layout.map((item: Layout) => item.y + item.h), 1);
+  };
+
+  const calculateMinColumns = () => {
+    return Math.max(...props.layout.map((item: Layout) => item.x + item.w), 1);
+  };
+
+  const handleRowChange = (event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
+    const newValue = data.value ? data.value : 0;
+
+    // Prevent reducing rows if it would remove existing cells
+    setProp(nodeID, (props: BackgroundProps) => {
+      const isReducingRowsValid = (props.layout as Layout[]).every((item: Layout) => {
+        return item.y + item.h <= newValue;
+      });
+
+      if (isReducingRowsValid) {
+        props.rows = newValue;
+      } else {
+        // Optionally, show a warning to the user
+        console.warn("Cannot reduce rows because it would remove existing cells.");
+      }
+    });
+  };
+
+  const handleColumnChange = (event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
+    const newValue = data.value ? data.value : 0;
+
+    // Prevent reducing columns if it would remove existing cells
+    setProp(nodeID, (props: BackgroundProps) => {
+      const isReducingColumnsValid = (props.layout as Layout[]).every((item: Layout) => {
+        return item.x + item.w <= newValue;
+      });
+
+      if (isReducingColumnsValid) {
+        props.columns = newValue;
+      } else {
+        // Optionally, show a warning to the user
+        console.warn("Cannot reduce columns because it would remove existing cells.");
+      }
+    });
+  };
+
   return (
     <div className={styles.settingsContainer}>
       {tooltips.map((tooltip, index) => (
@@ -164,13 +210,14 @@ export const BackgroundSettings: React.FC = () => {
           ) : tooltip.type === "spinButton" ? (
             <SpinButton
               className={styles.spinButton}
-              min={1}
+              min={tooltip.propKey === "rows" ? calculateMinRows() : calculateMinColumns()}
               defaultValue={props[tooltip.propKey as keyof typeof props]}
               onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
-                const value = data.value ? data.value : 0;
-                setProp(nodeID, (props: BackgroundProps) => {
-                  (props[tooltip.propKey as keyof BackgroundProps] as number) = value;
-                });
+                if (tooltip.propKey === "rows") {
+                  handleRowChange(event, data);
+                } else if (tooltip.propKey === "columns") {
+                  handleColumnChange(event, data);
+                }
               }}
             />
           ) : (
