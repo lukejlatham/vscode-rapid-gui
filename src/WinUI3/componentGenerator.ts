@@ -38,11 +38,11 @@ function generateSingleComponentXaml(node: Node, indent: string = "", projectPat
       return generateLabelXaml(node, indent);
     case "Icon":
       return generateIconXaml(node, indent);
-    case "RadioButton":
+    case "RadioButtons":
       return generateRadioButtonXaml(node, indent);
     case "Container":
       return generateContainerXaml({ [node.custom.id || ""]: node }, indent);
-    case "Checkbox":
+    case "Checkboxes":
       return generateCheckboxXaml(node, indent);
     case "Slider":
       return generateSliderXaml(node, indent);
