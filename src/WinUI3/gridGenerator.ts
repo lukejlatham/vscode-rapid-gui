@@ -97,13 +97,17 @@ function generateGridCell(
   node: Node,
   indent: string
 ): string {
-  let xaml = `${indent}<Grid Grid.Row="${layoutItem.y}" Grid.Column="${layoutItem.x}" Grid.RowSpan="${layoutItem.h}" Grid.ColumnSpan="${layoutItem.w}">\n`;
+  let xaml = "";
+
+  const gridAttrs = generateGridAttributes(layoutItem);
 
   if (node.type.resolvedName === "GridCell") {
-    xaml += `${indent}  <StackPanel Orientation="${node.props.flexDirection || "Vertical"}"
-                 HorizontalAlignment="${mapFlexToAlignment(node.props.justifyContent)}"
-                 VerticalAlignment="${mapFlexToAlignment(node.props.alignItems)}"
-                 Margin="${node.props.gap || "0"}">\n`;
+    xaml += `${indent}  <StackPanel ${gridAttrs} Orientation="${mapFlexDirection(
+      node.props.flexDirection
+    )}" 
+      HorizontalAlignment="${mapFlexToAlignment(node.props.justifyContent)}" 
+      VerticalAlignment="${mapFlexToAlignment(node.props.alignItems)}"
+      Margin="${node.props.gap || "0"}">\n`;
 
     // Process child nodes
     for (const childId of node.nodes) {
@@ -117,7 +121,6 @@ function generateGridCell(
 
     xaml += `${indent}  </StackPanel>\n`;
   } else {
-    // If the node is not a GridCell, generate it as a regular component
     xaml += generateComponentXaml({ [layoutItem.i]: node }, indent + "  ");
   }
 
@@ -125,18 +128,40 @@ function generateGridCell(
   return xaml;
 }
 
-function mapFlexToAlignment(flexValue: string): string {
+function mapFlexDirection(flexDirection?: string): string {
+  return flexDirection === "row" ? "Horizontal" : "Vertical";
+}
+
+function generateGridAttributes(layoutItem: LayoutItem): string {
+  let attrs = "";
+  if (layoutItem.y !== undefined) {
+    attrs += `Grid.Row="${layoutItem.y}" `;
+  }
+  if (layoutItem.x !== undefined) {
+    attrs += `Grid.Column="${layoutItem.x}" `;
+  }
+  if (layoutItem.h && layoutItem.h > 1) {
+    attrs += `Grid.RowSpan="${layoutItem.h}" `;
+  }
+  if (layoutItem.w && layoutItem.w > 1) {
+    attrs += `Grid.ColumnSpan="${layoutItem.w}" `;
+  }
+  return attrs.trim();
+}
+
+function mapFlexToAlignment(flexValue?: string, isHorizontal: boolean = true): string {
   switch (flexValue) {
     case "flex-start":
-      return "Left";
+      return isHorizontal ? "Left" : "Top";
     case "flex-end":
-      return "Right";
+      return isHorizontal ? "Right" : "Bottom";
     case "center":
       return "Center";
     case "space-between":
     case "space-around":
+    case "stretch":
       return "Stretch";
     default:
-      return "Stretch";
+      return isHorizontal ? "Left" : "Top";
   }
 }
