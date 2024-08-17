@@ -7,7 +7,7 @@ export const GenerateImageButton: React.FC<{ onUpload: (filePath: string) => voi
   const handleGenerateClick = () => {
     vscode.postMessage({
       command: 'generateImage',
-      altText: "Sample Alt Text", // Replace with dynamic value if necessary
+      alt: "Dog", // Replace with dynamic value if necessary
       width: 100,                 // Replace with dynamic value if necessary
       height: 100,                // Replace with dynamic value if necessary
     });

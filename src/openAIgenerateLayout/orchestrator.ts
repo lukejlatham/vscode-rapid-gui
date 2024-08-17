@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import OpenAI from "openai";
 import { getAzureOpenaiApiKeys } from "../utilities/azureApiKeyStorage";
-import { getOpenaiApiKeys } from "../utilities/OAApiKeyStorage";
+import { getOpenaiApiKeys } from "../utilities/openaiUtilities";
 import { generateFromSketch, generateFromText } from "./generateSections";
 import { buildNodeTree } from "./buildNodeTree";
 import { layoutSchema } from "../../webview-ui/src/types";
