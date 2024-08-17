@@ -7,14 +7,13 @@ export function generateContainerXaml(
 ): string {
   const node = Object.values(content)[0];
   const props = node.props;
-  
-  // Start the StackPanel with orientation, alignment, and spacing
+
   let xaml = `${indent}<StackPanel`;
   xaml += ` Orientation="${props.flexDirection === "row" ? "Horizontal" : "Vertical"}"`;
-  xaml += ` Spacing="${props.gap ?? 0}"`;
+  xaml += ` Spacing="${props.gap || 0}"`;
   xaml += ` HorizontalAlignment="${mapJustifyContent(props.justifyContent)}"`;
-  xaml += ` VerticalAlignment="${mapAlignItems(props.alignItems)}"`;
-  
+  xaml += ` VesrticalAlignment="${mapAlignItems(props.alignItems)}"`;
+
   if (props.width) {
     xaml += ` Width="${props.width}*"`;
   }
@@ -45,7 +44,7 @@ export function generateContainerXaml(
 
   // Recursively generate and add child components
   for (const childNode of Object.values(content)) {
-    xaml += generateComponentXaml({ "child": childNode }, indent + "  ");
+    xaml += generateComponentXaml({ child: childNode }, indent + "  ");
   }
 
   // Close the StackPanel
