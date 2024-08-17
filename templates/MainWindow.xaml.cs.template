@@ -9,7 +9,7 @@ namespace {{namespace}}
          public MainWindow()
         {
             this.InitializeComponent();
-            ContentFrame.Navigate(typeof(Page1));
+            ContentFrame.Navigate(typeof(pageName));
         }
 
         private void NavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)

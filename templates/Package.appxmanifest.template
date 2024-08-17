@@ -8,8 +8,8 @@
   
   <!-- Identity information -->
   <Identity
-    Name="{{userIdentityNmber}}"
-    Publisher="CN={{YourPublisher}}"
+    Name="a2ca76b9-5824-4a77-8bc4-e4c8559d62a4"
+    Publisher="CN=Georges"
     Version="1.0.0.0" />
     
   <!-- App Properties -->
