@@ -7,8 +7,7 @@ import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import { useNode } from '@craftjs/core';
 import { BackgroundProps, backgroundSchema } from '../../types';
-import { DeleteRegular } from '@fluentui/react-icons';
-import { max } from 'lodash';
+
 
 const useStyles = makeStyles({
   background: {
@@ -115,13 +114,8 @@ export const BackgroundDefaultProps: BackgroundProps = {
   backgroundColor: '#292929',
   layout: [
     { i: '0', x: 0, y: 0, w: 1, h: 1, maxW: 3, maxH: 3 },
-    { i: '1', x: 1, y: 0, w: 1, h: 1, maxW: 3, maxH: 3 },
-    { i: '2', x: 2, y: 0, w: 1, h: 1, maxW: 3, maxH: 3 },
-    { i: '3', x: 0, y: 1, w: 1, h: 1, maxW: 3, maxH: 3  },
-    { i: '4', x: 1, y: 1, w: 1, h: 1, maxW: 3, maxH: 3  },
-    { i: '5', x: 2, y: 1, w: 1, h: 1, maxW: 3, maxH: 3  },
   ],
-  rows: 2,
+  rows: 3,
   columns: 3,
   lockedGrid: true,
 };
