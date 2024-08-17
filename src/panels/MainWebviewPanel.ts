@@ -17,6 +17,7 @@ import { processCopilotMessages } from "../copilot";
 import { handleImageUpload } from "../utilities/imageSave";
 import { handleImageGenerate } from "../utilities/handleImageGeneration";
 import { handleGetUploadedImages } from "../utilities/handleGetUploadedImages";
+import { convertToXaml } from "../utilities/xamlConverter";
 
 export class MainWebviewPanel {
   public static currentPanel: MainWebviewPanel | undefined;
@@ -217,6 +218,27 @@ export class MainWebviewPanel {
           case "deletedPageAlert":
             window.showErrorMessage(message.message);
             return;
+          case "downloadCode":
+            try {
+              console.log("Received downloadCode command");
+              console.log("Message contents:", message.contents);
+              console.log("Message fileNames:", message.fileNames);
+
+              if (!message.contents || !message.fileNames) {
+                throw new Error("Missing contents or fileNames in the message");
+              }
+
+              await convertToXaml(message.contents, message.fileNames, this._context);
+              webview.postMessage({ command: "codeDownloaded", success: true });
+            } catch (error) {
+              console.error("Error in downloadCode:", error);
+              webview.postMessage({
+                command: "codeDownloaded",
+                success: false,
+                error: error.message,
+              });
+            }
+            return;
           case "getUploadedImages":
             // const uploadedImages = await handleGetUploadedImages(this._context);
             // get uploaded images as uri
@@ -224,8 +246,8 @@ export class MainWebviewPanel {
             const uploadedImages = filepaths.map((filepath) =>
               webview.asWebviewUri(Uri.file(filepath)).toString()
             );
-            
-            webview.postMessage({ command: "setUploadedImages", content: uploadedImages});
+
+            webview.postMessage({ command: "setUploadedImages", content: uploadedImages });
         }
       },
       undefined,
