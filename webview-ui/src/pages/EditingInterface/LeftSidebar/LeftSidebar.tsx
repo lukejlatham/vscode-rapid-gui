@@ -31,6 +31,9 @@ import {
   SettingsFilled
 } from "@fluentui/react-icons";
 import { FormattedMessage } from "react-intl";
+import { useEditor } from "@craftjs/core";
+import { BackgroundProps } from "../../../types";
+import { useEffect } from "react";
 
 const useStyles = makeStyles({
   componentRoot: {
@@ -114,8 +117,21 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
   theme,
   setTheme
 }) => {
-  const localClasses = useStyles();
+ const localClasses = useStyles();
+  const { actions: { setProp } } = useEditor();
   const [selectedTab, setSelectedTab] = useState<string>("");
+
+
+  const toggleGridLock = (selectedTab: string) => {
+
+    setProp("ROOT", (props: BackgroundProps) => {
+      props.lockedGrid = selectedTab !== "Layout";
+    });
+  };
+
+  useEffect(() => {
+    toggleGridLock(selectedTab);
+  }, [selectedTab]);
 
   const PagesIcon = selectedTab === "Pages" ? DocumentMultipleFilled : DocumentMultipleRegular;
   const LayoutIcon = selectedTab === "Layout" ? GridFilled : GridRegular;

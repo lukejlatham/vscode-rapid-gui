@@ -17,11 +17,16 @@ const useStyles = makeStyles({
     border: `1px solid ${tokens.colorNeutralStroke1}`,
   },
   gridCell: {
-    border: `1px dashed ${tokens.colorNeutralStroke1}`,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     overflow: 'hidden',
+  },
+  lockedGrid: {
+    border: `1px solid ${tokens.colorNeutralStroke1}`, // For example, solid border when locked
+  },
+  unlockedGrid: {
+    border: `1px dashed ${tokens.colorNeutralForeground1}`, // For example, dashed border when unlocked
   },
 });
 
@@ -63,9 +68,6 @@ export const Background: FC<BackgroundProps> = (props) => {
     return () => window.removeEventListener('resize', updateContainerHeight);
   }, []);
 
-
-// TODO:  UPDATE THIS FUCTION TO NOT EXCEED THE MAXIMUM ROWS AND COLUMNS AND ADD RIGHT TO LEFT
-
   const onLayoutChange = (layout: Layout[]) => {
     console.log('layout', layout);
     setProp((props: BackgroundProps) => {
@@ -100,7 +102,8 @@ export const Background: FC<BackgroundProps> = (props) => {
           resizeHandles={['se', 'sw', 'ne', 'nw']}
         >
           {initialLayout.map((item) => (
-            <div key={item.i} data-grid={item} className={styles.gridCell}>
+            
+            <div key={item.i} data-grid={item} className={`${styles.gridCell} ${initialGridLocked ? styles.lockedGrid : styles.unlockedGrid}`}>
               <Element id={item.i} is={GridCell} custom={{id: item.i}} {...GridCellDefaultProps} canvas/>
             </div>
           ))}
