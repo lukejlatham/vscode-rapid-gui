@@ -8,6 +8,7 @@ import "react-resizable/css/styles.css";
 import { useNode } from '@craftjs/core';
 import { BackgroundProps, backgroundSchema } from '../../types';
 import { DeleteRegular } from '@fluentui/react-icons';
+import { max } from 'lodash';
 
 const useStyles = makeStyles({
   background: {
@@ -67,6 +68,7 @@ export const Background: FC<BackgroundProps> = (props) => {
 // TODO:  UPDATE THIS FUCTION TO NOT EXCEED THE MAXIMUM ROWS AND COLUMNS AND ADD RIGHT TO LEFT
 
   const onLayoutChange = (layout: Layout[]) => {
+    console.log('layout', layout);
     setProp((props: BackgroundProps) => {
       props.layout = layout;
     });
@@ -94,6 +96,7 @@ export const Background: FC<BackgroundProps> = (props) => {
           isDraggable={initialGridLocked ? false : true}
           compactType={null}
           onLayoutChange={onLayoutChange}
+          useCSSTransforms={true}
           preventCollision={true}
           resizeHandles={['se', 'sw', 'ne', 'nw']}
         >
@@ -111,12 +114,12 @@ export const Background: FC<BackgroundProps> = (props) => {
 export const BackgroundDefaultProps: BackgroundProps = {
   backgroundColor: '#292929',
   layout: [
-    { i: '0', x: 0, y: 0, w: 1, h: 1 },
-    { i: '1', x: 1, y: 0, w: 1, h: 1 },
-    { i: '2', x: 2, y: 0, w: 1, h: 1 },
-    { i: '3', x: 0, y: 1, w: 1, h: 1 },
-    { i: '4', x: 1, y: 1, w: 1, h: 1 },
-    { i: '5', x: 2, y: 1, w: 1, h: 1 },
+    { i: '0', x: 0, y: 0, w: 1, h: 1, maxW: 3, maxH: 3 },
+    { i: '1', x: 1, y: 0, w: 1, h: 1, maxW: 3, maxH: 3 },
+    { i: '2', x: 2, y: 0, w: 1, h: 1, maxW: 3, maxH: 3 },
+    { i: '3', x: 0, y: 1, w: 1, h: 1, maxW: 3, maxH: 3  },
+    { i: '4', x: 1, y: 1, w: 1, h: 1, maxW: 3, maxH: 3  },
+    { i: '5', x: 2, y: 1, w: 1, h: 1, maxW: 3, maxH: 3  },
   ],
   rows: 2,
   columns: 3,
