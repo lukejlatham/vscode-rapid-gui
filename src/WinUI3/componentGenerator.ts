@@ -1,4 +1,4 @@
-import { Node } from "./JsonParser";
+import { Node, PageStructure } from "./JsonParser";
 import { generateButtonXaml } from "./components/buttonTranslator";
 import { generateLabelXaml } from "./components/labelTranslator";
 import { generateIconXaml } from "./components/iconTranslator";
@@ -10,7 +10,6 @@ import { generateCheckboxXaml } from "./components/checkboxTranslator";
 import { generateSliderXaml } from "./components/sliderTranslator";
 import { generateTextBoxXaml } from "./components/textBoxGenerator";
 import { generateImageXaml } from "./components/imageTranslator";
-import { PageStructure } from "./JsonParser";
 
 export function generateComponentXaml(
   content: PageStructure["components"],
@@ -46,7 +45,7 @@ export function generateSingleComponentXaml(
     case "RadioButtons":
       return generateRadioButtonXaml(node, indent);
     case "Container":
-      return generateContainerXaml({ [node.custom.id || ""]: node }, indent);
+      return generateContainerXaml(node, components, indent);
     case "Checkboxes":
       return generateCheckboxXaml(node, indent);
     case "Slider":

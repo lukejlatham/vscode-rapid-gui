@@ -189,27 +189,14 @@ export class FileGenerator {
     this.createFile("Directory.Build.props", content);
   }
 
-  public generatePageXaml(page: Page): string {
-    const gridXaml = generateGridXaml(page);
-
-    const content = this.templateManager.fillTemplate("Page.xaml", {
-      namespace: this.projectName,
-      pageName: page.name,
-      pageContent: gridXaml,
-    });
-
-    const finalContent = content.replace("{{PAGE_CONTENT}}", gridXaml);
-    console.log(finalContent);
-
-    return finalContent;
-  }
-
   private createPageXaml(page: Page, sanitizedPageName: string) {
-    const xaml = this.generatePageXaml(page);
-    let content = path.join(this.outputPath, "Views", `${page.name}.xaml`);
+    const gridXaml = generateGridXaml(page);
+    let content = this.templateManager.getTemplate("Page.xaml");
     content = content.replace(/\{\{namespace\}\}/g, this.namespace);
     content = content.replace(/\{\{pageName\}\}/g, sanitizedPageName);
-    this.createFile(`${sanitizedPageName}.xaml`, content);
+    content = content.replace("{{PAGE_CONTENT}}", gridXaml);
+
+    this.createFile(`Views/${sanitizedPageName}.xaml`, content);
   }
 
   private createPageXamlCs(sanitizedPageName: string) {
