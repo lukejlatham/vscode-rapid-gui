@@ -48,6 +48,8 @@ export class FileGenerator {
     this.createSolutionFile();
     this.createDirectoryBuildProps();
     this.createPublishProfiles();
+    this.createReadme();
+    this.copyAssetImages();
 
     pages.forEach((page) => {
       const sanitizedPageName = this.sanitizePageName(page.name);
@@ -97,6 +99,7 @@ export class FileGenerator {
       .join("\n        ");
 
     content = content.replace(/\{\{namespace\}\}/g, this.namespace);
+    content = content.replace("{{projectName}}", this.projectName);
     content = content.replace(/\{\{pageItems\}\}/g, pageItems);
     this.createFile("MainWindow.xaml", content);
   }
@@ -104,6 +107,7 @@ export class FileGenerator {
   private createMainWindowXamlCs(pages: Page[]) {
     let content = this.templateManager.getTemplate("MainWindow.xaml.cs");
     content = content.replace(/\{\{namespace\}\}/g, this.namespace);
+    content = content.replace("{{defaultPage}}", this.sanitizePageName(pages[0].name));
 
     const firstPageName = this.sanitizePageName(pages[0].name);
     content = content.replace(
@@ -168,10 +172,15 @@ export class FileGenerator {
 
   private createSolutionFile() {
     const projectGuid = uuidv4().toUpperCase();
+    const solutionGuid = uuidv4().toUpperCase();
     let content = this.templateManager.getTemplate("SolutionFile.sln");
     content = content.replace(/\{\{projectName\}\}/g, this.projectName);
     content = content.replace(/\{\{projectGuid\}\}/g, projectGuid);
-    const solutionFilePath = path.join(path.dirname(this.outputPath), `${this.projectName}.sln`);
+    content = content.replace(/\{\{solutionGuid\}\}/g, solutionGuid);
+    const solutionFilePath = path.join(
+      path.dirname(this.outputPath),
+      `${this.projectName}.generated.sln`
+    );
     fs.writeFileSync(solutionFilePath, content);
   }
 
@@ -180,12 +189,26 @@ export class FileGenerator {
     this.createFile("Directory.Build.props", content);
   }
 
-  private createPageXaml(page: Page, sanitizedPageName: string) {
+  public generatePageXaml(page: Page): string {
     const gridXaml = generateGridXaml(page);
-    let content = this.templateManager.getTemplate("Page.xaml");
+
+    const content = this.templateManager.fillTemplate("Page.xaml", {
+      namespace: this.projectName,
+      pageName: page.name,
+      pageContent: gridXaml,
+    });
+
+    const finalContent = content.replace("{{PAGE_CONTENT}}", gridXaml);
+    console.log(finalContent);
+
+    return finalContent;
+  }
+
+  private createPageXaml(page: Page, sanitizedPageName: string) {
+    const xaml = this.generatePageXaml(page);
+    let content = path.join(this.outputPath, "Views", `${page.name}.xaml`);
     content = content.replace(/\{\{namespace\}\}/g, this.namespace);
     content = content.replace(/\{\{pageName\}\}/g, sanitizedPageName);
-    content = content.replace(/\{\{PAGE_CONTENT\}\}/g, gridXaml);
     this.createFile(`${sanitizedPageName}.xaml`, content);
   }
 
@@ -193,7 +216,7 @@ export class FileGenerator {
     let content = this.templateManager.getTemplate("Page.xaml.cs");
     content = content.replace(/\{\{namespace\}\}/g, this.namespace);
     content = content.replace(/pageName/g, sanitizedPageName);
-    this.createFile(`${sanitizedPageName}.xaml.cs`, content);
+    this.createFile(`Views/${sanitizedPageName}.xaml.cs`, content);
   }
 
   private createPublishProfiles() {
@@ -214,5 +237,51 @@ export class FileGenerator {
 </Project>`;
       this.createFile(`Properties/PublishProfiles/win-${arch}.pubxml`, content);
     });
+  }
+
+  private createReadme() {
+    const content = `
+    # ${this.projectName}
+    
+    This is a WinUI 3 project generated automatically from your design!
+    
+    ## Getting Started
+    
+    1. Open the solution in Visual Studio 2019 or later.
+    2. Ensure you have the Windows App SDK installed.
+    3. Build and run the project.
+    
+    ## Project Structure
+    
+    - \`App.xaml\` and \`App.xaml.cs\`: Application entry point
+    - \`MainWindow.xaml\` and \`MainWindow.xaml.cs\`: Main window of the application
+    - \`Pages/\`: Contains individual pages of the application as XAML files that you created!
+    - \`Assets/\`: Contains application assets like icons and images!
+    
+    ## Dependencies
+    
+    - Microsoft.WindowsAppSDK
+    - Microsoft.Windows.SDK.BuildTools
+    
+    `;
+    this.createFile("README.md", content);
+  }
+
+  private copyAssetImages() {
+    const templateAssetsPath = path.join(this.templateManager.getTemplatesPath(), "Assets");
+    const projectAssetsPath = path.join(this.outputPath, "Assets");
+
+    if (fs.existsSync(templateAssetsPath)) {
+      if (!fs.existsSync(projectAssetsPath)) {
+        fs.mkdirSync(projectAssetsPath, { recursive: true });
+      }
+
+      const assetFiles = fs.readdirSync(templateAssetsPath);
+      for (const file of assetFiles) {
+        const srcPath = path.join(templateAssetsPath, file);
+        const destPath = path.join(projectAssetsPath, file);
+        fs.copyFileSync(srcPath, destPath);
+      }
+    }
   }
 }
