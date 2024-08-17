@@ -14,17 +14,16 @@ export function generateIconXaml(node: Node, indent: string = ""): string {
   xaml += ` FontSize="${props.iconSize}"`;
   xaml += ` Foreground="${props.iconColor}"`;
 
-  if (props.hyperlink) {
-    xaml += ">\n";
-    xaml += `${indent}  <FontIcon.Resources>\n`;
-    xaml += `${indent}    <Style TargetType="FontIcon">\n`;
-    xaml += `${indent}      <Setter Property="PointerPressed" Value="OnIconPressed"/>\n`;
-    xaml += `${indent}    </Style>\n`;
-    xaml += `${indent}  </FontIcon.Resources>\n`;
-    xaml += `${indent}</FontIcon>`;
-  } else {
-    xaml += " />";
-  }
+  // if (props.hyperlink) {
+  //   xaml += ">\n";
+  //   xaml += `${indent}  <FontIcon.Resources>\n`;
+  //   xaml += `${indent}    <Style TargetType="FontIcon">\n`;
+  //   xaml += `${indent}      <Setter Property="PointerPressed" Value="OnIconPressed"/>\n`;
+  //   xaml += `${indent}    </Style>\n`;
+  //   xaml += `${indent}  </FontIcon.Resources>\n`;
+  //   xaml += `${indent}</FontIcon>`;
+  // } else {
+  xaml += " />";
 
   return xaml + "\n";
 }

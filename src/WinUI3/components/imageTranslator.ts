@@ -17,9 +17,13 @@ export function generateImageXaml(node: Node, indent: string = "", projectPath: 
     xaml += ` AutomationProperties.Name="${props.alt}"`;
   }
 
-  xaml += ` Width="${props.width}*"`;
+  xaml += ` Width="${props.width || "Auto"}"`;
   xaml += ` Height="Auto"`;
   xaml += ` Stretch="Uniform"`;
+
+  if (props.alignment) {
+    xaml += ` HorizontalAlignment="${props.alignment}"`;
+  }
 
   xaml += " />";
 
