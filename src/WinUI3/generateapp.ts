@@ -27,7 +27,6 @@ export class AppGenerator {
       projectName,
       outputPath,
       this.templateManager,
-      projectName,
       `${projectName}.App`,
       "CN=YourPublisherName",
       `${projectName} Description`

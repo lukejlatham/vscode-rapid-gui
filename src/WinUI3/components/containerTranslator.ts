@@ -1,18 +1,18 @@
 import { Node } from "../JsonParser";
-import { generateComponentXaml } from "../componentGenerator";
+import { generateSingleComponentXaml } from "../componentGenerator";
 
 export function generateContainerXaml(
-  content: { [key: string]: Node },
+  node: Node,
+  components: { [key: string]: Node },
   indent: string = ""
 ): string {
-  const node = Object.values(content)[0];
   const props = node.props;
 
   let xaml = `${indent}<StackPanel`;
   xaml += ` Orientation="${props.flexDirection === "row" ? "Horizontal" : "Vertical"}"`;
   xaml += ` Spacing="${props.gap || 0}"`;
   xaml += ` HorizontalAlignment="${mapJustifyContent(props.justifyContent)}"`;
-  xaml += ` VesrticalAlignment="${mapAlignItems(props.alignItems)}"`;
+  xaml += ` VerticalAlignment="${mapAlignItems(props.alignItems)}"`;
 
   if (props.width) {
     xaml += ` Width="${props.width}*"`;
@@ -42,9 +42,12 @@ export function generateContainerXaml(
     xaml += `${indent}  </StackPanel.Effect>\n`;
   }
 
-  // Recursively generate and add child components
-  for (const childNode of Object.values(content)) {
-    xaml += generateComponentXaml({ child: childNode }, indent + "  ");
+  // Generate XAML for each child component based on the nodes array
+  for (const childId of node.nodes) {
+    const childNode = components[childId];
+    if (childNode) {
+      xaml += generateSingleComponentXaml(childNode, components, indent + "  ");
+    }
   }
 
   // Close the StackPanel

@@ -10,23 +10,28 @@ import { generateCheckboxXaml } from "./components/checkboxTranslator";
 import { generateSliderXaml } from "./components/sliderTranslator";
 import { generateTextBoxXaml } from "./components/textBoxGenerator";
 import { generateImageXaml } from "./components/imageTranslator";
-import { Page } from "../../webview-ui/src/types";
+import { PageStructure } from "./JsonParser";
 
 export function generateComponentXaml(
-  content: { [key: string]: Node },
+  content: PageStructure["components"],
   indent: string = "",
   projectPath?: string
 ): string {
   let xaml = "";
-  for (const [id, node] of Object.entries(content)) {
+  for (const node of Object.values(content)) {
     if (node.type.resolvedName !== "GridCell") {
-      xaml += generateSingleComponentXaml(node, indent, projectPath);
+      xaml += generateSingleComponentXaml(node, content, indent, projectPath);
     }
   }
   return xaml;
 }
 
-function generateSingleComponentXaml(node: Node, indent: string = "", projectPath: string): string {
+export function generateSingleComponentXaml(
+  node: Node,
+  components: { [key: string]: Node },
+  indent: string = "",
+  projectPath?: string
+): string {
   switch (node.type.resolvedName) {
     case "Button":
       return generateButtonXaml(node, indent);
