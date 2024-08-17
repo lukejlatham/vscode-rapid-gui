@@ -10,23 +10,28 @@ import { generateCheckboxXaml } from "./components/checkboxTranslator";
 import { generateSliderXaml } from "./components/sliderTranslator";
 import { generateTextBoxXaml } from "./components/textBoxGenerator";
 import { generateImageXaml } from "./components/imageTranslator";
-import { Page } from "../../webview-ui/src/types";
+import { PageStructure } from "./JsonParser";
 
 export function generateComponentXaml(
-  content: { [key: string]: Node },
+  content: PageStructure["components"],
   indent: string = "",
   projectPath?: string
 ): string {
   let xaml = "";
-  for (const [id, node] of Object.entries(content)) {
+  for (const node of Object.values(content)) {
     if (node.type.resolvedName !== "GridCell") {
-      xaml += generateSingleComponentXaml(node, indent, projectPath);
+      xaml += generateSingleComponentXaml(node, content, indent, projectPath);
     }
   }
   return xaml;
 }
 
-export function generateSingleComponentXaml(node: Node, indent: string = "", projectPath?: string): string {
+export function generateSingleComponentXaml(
+  node: Node,
+  components: { [key: string]: Node },
+  indent: string = "",
+  projectPath?: string
+): string {
   switch (node.type.resolvedName) {
     case "Button":
       return generateButtonXaml(node, indent);
@@ -41,7 +46,7 @@ export function generateSingleComponentXaml(node: Node, indent: string = "", pro
     case "RadioButton":
       return generateRadioButtonXaml(node, indent);
     case "Container":
-      return generateContainerXaml({ [node.custom.id || ""]: node }, indent);
+      return generateContainerXaml(node, components, indent);
     case "Checkbox":
       return generateCheckboxXaml(node, indent);
     case "Slider":

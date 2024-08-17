@@ -1,11 +1,11 @@
 import { Node } from "../JsonParser";
-import { generateSingleComponentXaml } from "../componentGenerator"; // Use generateSingleComponentXaml instead of generateComponentXaml
+import { generateSingleComponentXaml } from "../componentGenerator";
 
 export function generateContainerXaml(
-  content: { [key: string]: Node },
+  node: Node,
+  components: { [key: string]: Node },
   indent: string = ""
 ): string {
-  const node = Object.values(content)[0];
   const props = node.props;
 
   let xaml = `${indent}<StackPanel`;
@@ -42,9 +42,12 @@ export function generateContainerXaml(
     xaml += `${indent}  </StackPanel.Effect>\n`;
   }
 
-  // Generate XAML for each child component
-  for (const childNode of Object.values(content)) {
-    xaml += generateSingleComponentXaml(childNode, indent + "  ");
+  // Generate XAML for each child component based on the nodes array
+  for (const childId of node.nodes) {
+    const childNode = components[childId];
+    if (childNode) {
+      xaml += generateSingleComponentXaml(childNode, components, indent + "  ");
+    }
   }
 
   // Close the StackPanel
