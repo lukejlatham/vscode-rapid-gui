@@ -63,4 +63,11 @@ export const usePropertyInspectorStyles = makeStyles({
         justifyContent: "center",
         // alignItems: "center",
     },
+    imageUploaded: {
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        gap: "10px",
+        justifyContent: "center",
+    }
 });

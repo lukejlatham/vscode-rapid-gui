@@ -16,8 +16,8 @@ export const ImageSettings: React.FC = () => {
     };
   
     const tooltips: TooltipConfig[] = [
-        { label: "Source", content: "Provide the URL of the image.", propKey: "src", type: "dropdown" },
-        { label: "Alt", content: "Provide a description of the image to be displayed if the image can't be seen.", propKey: "alt", type: "text" },
+        { label: "Source", content: "Provide the source of the image. It can be either a URL or you can upload your own image.", propKey: "src", type: "dropdown" },
+        { label: "Alt", content: "Provide a description of the image to be displayed if the image can't be seen. You can also generate an image from this description.", propKey: "alt", type: "text" },
         { label: "Width", content: "Change the width of the image.", propKey: "width", type: "slider" }
     ];
 
