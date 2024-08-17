@@ -16,6 +16,7 @@ import { processSketch, processTextDescription } from "../openAIgenerateLayout/o
 import { processCopilotMessages } from "../copilot";
 import { handleImageUpload } from "../utilities/imageSave";
 import { handleImageGenerate } from "../utilities/handleImageGeneration";
+import { handleGetUploadedImages } from "../utilities/handleGetUploadedImages";
 
 export class MainWebviewPanel {
   public static currentPanel: MainWebviewPanel | undefined;
@@ -216,6 +217,15 @@ export class MainWebviewPanel {
           case "deletedPageAlert":
             window.showErrorMessage(message.message);
             return;
+          case "getUploadedImages":
+            // const uploadedImages = await handleGetUploadedImages(this._context);
+            // get uploaded images as uri
+            const filepaths = await handleGetUploadedImages(this._context);
+            const uploadedImages = filepaths.map((filepath) =>
+              webview.asWebviewUri(Uri.file(filepath)).toString()
+            );
+            
+            webview.postMessage({ command: "setUploadedImages", content: uploadedImages});
         }
       },
       undefined,

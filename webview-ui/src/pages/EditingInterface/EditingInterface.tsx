@@ -30,21 +30,10 @@ const useStyles = makeStyles({
     height: '100vh',
     width: '100vw',
   },
-  // leftSidebar: {
-  //   flex: '0 0 200px',
-  //   display: 'flex',
-  //   flexDirection: 'column',
-  //   height: '100%',
-  // },
   mainContent: {
     flexGrow: 1,
     display: 'flex',
     flexDirection: 'column',
-  },
-  pageNavigation: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    padding: '10px',
   },
   canvas: {
     flexGrow: 1,
@@ -54,15 +43,7 @@ const useStyles = makeStyles({
     borderRadius: '3px',
     overflow: 'hidden',
   },
-  // rightSidebar: {
-  //   flex: '0 1 20%',
-  //   display: 'flex',
-  //   flexDirection: 'column',
-  //   height: '100%',
-  // },
 });
-
-const LOCAL_STORAGE_KEY = 'userPages';
 
 const createDefaultPage = (): Page => ({
   id: uuidv4(),

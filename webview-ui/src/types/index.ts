@@ -79,6 +79,8 @@ export type TooltipConfigs =
 export interface ComponentSettingsProps {
   componentProps: ComponentProps;
   tooltips: TooltipConfigs[];
+  isLoading?: boolean;
+  setIsLoading?: (isLoading: boolean) => void;
 }
 
 export const checkboxesSchema = z.object({
@@ -228,6 +230,7 @@ export const imageSchema = z.object({
   alt: z.string().default("Placeholder image"),
   width: z.number().default(80),
   alignment: z.enum(["left", "center", "right"]).optional(),
+  isLoading: z.boolean().optional().default(false),
 });
 
 export type ImageProps = z.infer<typeof imageSchema>;
@@ -336,7 +339,7 @@ export interface TooltipConfigImage {
   label: string;
   content: string;
   propKey: keyof ImageProps;
-  type: "spinButton" | "text" | "slider";
+  type: "spinButton" | "text" | "slider" | "dropdown";
 }
 
 export interface TooltipConfigContainer {

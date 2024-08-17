@@ -11,9 +11,10 @@ const useStyles = makeStyles({
     padding: '10px',
     border: `1px solid ${tokens.colorNeutralStroke1}`,
     borderRadius: '3px',
-    maxWidth: "100%",
-    height: "95%",
+    maxHeight: "95%",
     overflow: "scroll",
+    flexBasis: "20%",
+    flexShrink: 0,
   },
   header: {
     display: 'flex',

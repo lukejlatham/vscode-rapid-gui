@@ -45,6 +45,7 @@ export const UserImageUploadButton: React.FC<{ onUpload: (filePath: string) => v
       />
       <label htmlFor="upload-image">
         <Button
+          style={{ width: '100%' }}
           icon={<ImageAdd24Regular />}
           appearance='outline'
           onClick={() => {

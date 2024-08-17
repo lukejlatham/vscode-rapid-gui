@@ -1,23 +1,32 @@
-import React, { useCallback, useEffect } from "react";
-import { Input, Label, SpinButton, Radio, Slider,SliderOnChangeData, RadioGroup, SpinButtonChangeEvent, SpinButtonOnChangeData, Tooltip, useId, mergeClasses } from "@fluentui/react-components";
+import React, { useState, useCallback, useEffect } from "react";
+import { Dropdown, Option, SelectionEvents, OptionOnSelectData, Input, Label, SpinButton, Radio, Slider, SliderOnChangeData, RadioGroup, SpinButtonChangeEvent, SpinButtonOnChangeData, Tooltip, useId, mergeClasses } from "@fluentui/react-components";
 import { Info16Regular } from "@fluentui/react-icons";
 import { useNode } from "@craftjs/core";
 import { usePropertyInspectorStyles } from "../../../hooks/usePropertyInspectorStyles";
 import { ComponentSettingsProps, CheckboxesProps, RadioButtonProps, DropdownProps, ImageProps } from "../../../types";
 import { UserImageUploadButton } from "../../UserImageUploadButton";
 import { GenerateImageButton } from "../../GenerateImageButton";
-import { Hover } from "vscode";
+import { vscode } from "../../../utilities/vscode";
 
-export const ComponentSettings: React.FC<ComponentSettingsProps> = ({ componentProps, tooltips }) => {
+export const ComponentSettings: React.FC<ComponentSettingsProps> = ({ componentProps, tooltips, isLoading, setIsLoading }) => {
     const { actions: { setProp }, props } = useNode(node => ({
         props: node.data.props as typeof componentProps
     }));
 
+    interface UploadedImage {
+        filepath: string;
+        filename: string;
+    }
 
+
+    const [srcOption, setSrcOption] = useState<string>('')
+    // uploadedImages is an array of file paths and file
+    const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
     const propsWithOptions = (props as CheckboxesProps || props as RadioButtonProps || props as DropdownProps);
     const propInspector = usePropertyInspectorStyles();
     const contentId = useId("content");
     const [visibleTooltip, setVisibleTooltip] = React.useState<string | null>(null);
+
 
     const handleVisibilityChange = (tooltipKey: string, isVisible: boolean) => {
         setVisibleTooltip(isVisible ? tooltipKey : null);
@@ -41,6 +50,33 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({ componentP
         });
     }, [setProp]);
 
+    useEffect(() => {
+        if ('src' in props) {
+            vscode.postMessage({
+                command: 'getUploadedImages',
+            });
+        }
+
+        const messageHandler = (event: MessageEvent) => {
+            const message = event.data;
+            if (message.command === 'setUploadedImages') {
+                const images = message.content.map((filepath: string) => {
+                    // Extract the filename from the filepath
+                    const filename = filepath.split('/').pop() || filepath;
+                    return { filepath, filename };
+                });
+
+                setUploadedImages(images);
+            }
+        };
+
+        window.addEventListener('message', messageHandler);
+
+        return () => {
+            window.removeEventListener('message', messageHandler);
+        };
+    }, [props]);
+
     // Update option labels when the number of options changes
     useEffect(() => {
         if ('numberOfBoxes' in props) {
@@ -55,24 +91,22 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({ componentP
 
     // Handle image upload
     const handleImageUpload = (filePath: string) => {
+        if (setIsLoading) {
+            setIsLoading(true);
+        }
         setProp((props: ImageProps) => {
             props.src = filePath;
         }, 1000);
+        // setUploadedImages([...uploadedImages, filePath]);
+        if (setIsLoading) {
+            setTimeout(() => setIsLoading(false), 1000); // Simulating image load
+        }
     };
-
 
     return (
         <div className={propInspector.settingsContainer}>
-            { // Display image upload button if the component has an 'src' prop
-                'src' in props && (
-                    <UserImageUploadButton onUpload={handleImageUpload} />
-                )}
 
-                        { // Display image generate button if the component has an 'alt' prop
-                'alt' in props && (
-                    <GenerateImageButton alt={props.alt} onUpload={handleImageUpload} />
-                )}
-            
+
 
             {tooltips.map((tooltip, index) => {
                 const propValue = props[tooltip.propKey as keyof typeof props];
@@ -108,6 +142,54 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({ componentP
                                     (props[tooltip.propKey as keyof typeof props] as string) = e.target.value;
                                 })}
                             />
+                        ) : tooltip.type === "dropdown" ? (
+                            <div className={propInspector.srcDropdown}>
+                                <Dropdown
+                                    placeholder="Select a source for the image"
+                                    onOptionSelect={(e: SelectionEvents, data: OptionOnSelectData) => {
+                                        setSrcOption(data.optionValue as string);
+                                    }}
+                                >
+                                    <Option key="url" value="url">URL</Option>
+                                    <Option key="upload" value="upload">Upload</Option>
+                                </Dropdown>
+                                { // Display image upload button if the component has an 'src' prop
+                                    srcOption === "upload" ? (
+                                        <div className={propInspector.imageUploaded}>
+                                            <UserImageUploadButton onUpload={handleImageUpload} />
+                                            { // display dropdown selection of uploaded images if it exists 
+                                                uploadedImages.length > 0 && (
+                                                    <Dropdown
+                                                        placeholder="Select an uploaded image"
+                                                        onOptionSelect={(e: SelectionEvents, data: OptionOnSelectData) => {
+                                                            handleImageUpload(data.optionValue as string);
+                                                        }
+                                                        }
+                                                    >
+                                                        {uploadedImages.map((image, index) => (
+                                                            <Option key={index} value={image.filepath}>{image.filename}</Option>
+                                                        ))}
+                                                    </Dropdown>
+                                                )}
+                                        </div>
+                                    )
+                                        : srcOption === "url" && (
+                                            <Input
+                                                className={propInspector.textInput}
+                                                type="text"
+                                                defaultValue={propValue as string}
+                                                // disable if isLoading true and propKey is 'alt'
+                                                disabled={isLoading && tooltip.propKey === 'alt'}
+                                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                                    setProp((props: typeof componentProps) => {
+                                                        (props[tooltip.propKey as keyof typeof props] as string) = e.target.value;
+                                                    }, 1000);
+                                                }}
+                                            />
+                                        )
+                                }
+
+                            </div>
                         ) : tooltip.type === "slider" ? (
                             <div className={propInspector.sliderSection}>
                                 <Label>{propValue}</Label>
@@ -121,7 +203,7 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({ componentP
                                     }}
                                 />
                             </div>
-                        )  : tooltip.type === "spinButton" ? (
+                        ) : tooltip.type === "spinButton" ? (
                             <SpinButton
                                 defaultValue={propValue as number}
                                 min={1}
@@ -134,16 +216,31 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({ componentP
                                 className={propInspector.spinButton}
                             />
                         ) : tooltip.type === "text" ? (
-                            <Input
-                                className={propInspector.textInput}
-                                type="text"
-                                defaultValue={propValue as string}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                    setProp((props: typeof componentProps) => {
-                                        (props[tooltip.propKey as keyof typeof props] as string) = e.target.value;
-                                    }, 1000);
-                                }}
-                            />
+                            <div className={propInspector.srcDropdown}>
+                                <Input
+                                    className={propInspector.textInput}
+                                    type="text"
+                                    defaultValue={propValue as string}
+                                    // disable if isLoading true and propKey is 'alt'
+                                    disabled={isLoading && tooltip.propKey === 'alt'}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                        setProp((props: typeof componentProps) => {
+                                            (props[tooltip.propKey as keyof typeof props] as string) = e.target.value;
+                                        }, 1000);
+                                    }}
+                                />
+                                {
+                                    'alt' in props &&
+                                    props.alt !== ''
+                                    && setIsLoading && (
+                                        <GenerateImageButton
+                                            alt={props.alt}
+                                            onUpload={handleImageUpload}
+                                            isLoading={isLoading || false}
+                                            setIsLoading={setIsLoading}
+                                        />
+                                    )}
+                            </div >
                         ) : tooltip.type === "icon" ? (
                             <RadioGroup
                                 defaultValue={propValue as string}
