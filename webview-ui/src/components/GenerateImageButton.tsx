@@ -5,7 +5,6 @@ import { vscode } from '../utilities/vscode';
 
 const useStyles = makeStyles({
   button: {
-    ...shorthands.gap('8px'),
     minWidth: '150px',
   },
   spinner: {
@@ -53,7 +52,7 @@ export const GenerateImageButton: React.FC<GenerateImageButtonProps> = ({ onUplo
     <Button
       icon={<ImageSparkle24Regular />}
       appearance='outline'
-      size='large'
+      size='medium'
       onClick={handleGenerateClick}
       disabled={isLoading}
       className={styles.button}

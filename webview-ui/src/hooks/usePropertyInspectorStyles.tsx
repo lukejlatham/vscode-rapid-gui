@@ -54,5 +54,13 @@ export const usePropertyInspectorStyles = makeStyles({
     },
     slider: {
         flexGrow: 1,
-    }
+    },
+    srcDropdown: {
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        gap: "10px",
+        justifyContent: "center",
+        // alignItems: "center",
+    },
 });

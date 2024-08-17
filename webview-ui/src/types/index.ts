@@ -346,7 +346,7 @@ export interface TooltipConfigImage {
   label: string;
   content: string;
   propKey: keyof ImageProps;
-  type: "spinButton" | "text" | "slider";
+  type: "spinButton" | "text" | "slider" | "dropdown";
 }
 
 export interface TooltipConfigContainer {
