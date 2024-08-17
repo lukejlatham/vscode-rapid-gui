@@ -58,26 +58,21 @@ export const Background: FC<BackgroundProps> = (props) => {
   }
   );
 
-  useEffect(() => {
+    useEffect(() => {
     const updateContainerHeight = () => {
-
       if (backgroundRef.current) {
-              const rowMarginOffest =40+ 10 * props.rows;
+        const rowMarginOffest =40+ 10 * props.rows;
 
-        const rect = backgroundRef.current.getBoundingClientRect();
-        setContainerHeight(rect.height - rowMarginOffest);
+
+        setContainerHeight(backgroundRef.current.clientHeight - rowMarginOffest);
       }
     };
+    window.addEventListener('resize', updateContainerHeight);
+    updateContainerHeight();
 
-    const resizeObserver = new ResizeObserver(updateContainerHeight);
-    
-    if (backgroundRef.current) {
-      resizeObserver.observe(backgroundRef.current);
-      updateContainerHeight(); // Initial call
-    }
-
-    return () => resizeObserver.disconnect();
+    return () => window.removeEventListener('resize', updateContainerHeight);
   }, [props.rows]);
+
 
 
   const onLayoutChange = (layout: Layout[]) => {
