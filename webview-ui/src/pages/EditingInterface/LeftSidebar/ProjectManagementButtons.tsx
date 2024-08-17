@@ -6,6 +6,7 @@ import LoadButton from './LoadButton';
 import { useEditor } from "@craftjs/core";
 import { Page } from '../../../types';
 import { FormattedMessage } from 'react-intl';
+import DownloadCodeButton from './DownloadCodeButton';
 
 const ProjectManagement: React.FC<{ classes: any, pages: Page[], setPages: React.Dispatch<React.SetStateAction<Page[]>>, currentPageIndex: number; }> = ({ classes, pages, setPages, currentPageIndex }) => {
     const { actions } = useEditor();
@@ -28,6 +29,7 @@ const ProjectManagement: React.FC<{ classes: any, pages: Page[], setPages: React
             </Button>
             <SaveButton classes={classes} pages={pages} currentPageIndex={currentPageIndex}/>
             <LoadButton classes={classes} pages={pages} setPages={setPages}/>
+            <DownloadCodeButton classes={classes} pages={pages} currentPageIndex={currentPageIndex}/>
             
         </div>
     );
