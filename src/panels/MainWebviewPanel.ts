@@ -15,6 +15,7 @@ import { handleFileSave, handleFileLoad } from "../utilities/projectSaveUtilitie
 import { processSketch, processTextDescription } from "../openAIgenerateLayout/orchestrator";
 import { processCopilotMessages } from "../copilot";
 import { handleImageUpload } from "../utilities/imageSave";
+import { handleImageGenerate } from "../utilities/handleImageGeneration";
 
 export class MainWebviewPanel {
   public static currentPanel: MainWebviewPanel | undefined;
@@ -198,6 +199,18 @@ export class MainWebviewPanel {
               const imageUri = webview.asWebviewUri(Uri.file(filePath)).toString();
               window.showInformationMessage("Image saving command received.");
               webview.postMessage({ command: "imageUploaded", filePath: imageUri });
+            }
+            return;
+          case "generateImage":
+            console.log("Generate image command received.");
+            const generatedImageFilePath = await handleImageGenerate(message.alt, this._context);
+            console.log("Generated image file path:", generatedImageFilePath);
+            if (generatedImageFilePath) {
+              const generatedImageUri = webview
+                .asWebviewUri(Uri.file(generatedImageFilePath))
+                .toString();
+              window.showInformationMessage("Image saving command received.");
+              webview.postMessage({ command: "imageGenerated", filePath: generatedImageUri });
             }
             return;
           case "deletedPageAlert":

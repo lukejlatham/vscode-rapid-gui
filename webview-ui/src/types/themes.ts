@@ -417,3 +417,13 @@ export const themeList = [
 ];
 
 export const themeNames = themeList.map((theme) => theme.name);
+
+export const fontList = [
+  { name: "GoogleArial", displayName: "Arial" },
+  { name: "MicrosoftSegoeUI", displayName: "Segoe UI" },
+  { name: "FacebookHelvetica", displayName: "Helvetica" },
+  { name: "AirbnbHelveticaNeue", displayName: "Helvetica Neue" },
+  { name: "Garamond", displayName: "Garamond" },
+];
+
+export const fontNames = fontList.map((font) => font.displayName);

@@ -6,7 +6,7 @@ import {
   getAzureOpenaiApiKey,
   getGpt4oDeploymentName,
 } from "./utilities/azureApiKeyStorage";
-import { getOpenaiApiKey, getOpenaiApiEndpoint } from "./utilities/OAApiKeyStorage";
+import { getOpenaiApiKey, getOpenaiApiEndpoint } from "./utilities/openaiUtilities";
 
 export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(

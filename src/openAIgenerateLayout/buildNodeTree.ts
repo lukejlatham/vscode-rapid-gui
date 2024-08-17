@@ -18,6 +18,7 @@ import {
   ThemedLayoutSchema,
   dropdownSchema,
   sliderSchema,
+  fontList,
 } from "../../webview-ui/src/types";
 import { applyThemeToSchema } from "./applyTheming";
 
@@ -183,17 +184,17 @@ function createBackgroundNode(
   };
 }
 
-function buildNodeTree(generatedLayout: SectionsSchema, chosenTheme: string): string {
+function buildNodeTree(
+  generatedLayout: SectionsSchema,
+  chosenTheme: string,
+  chosenFont: string
+): string {
   const layout = generatedLayout.map((section, index) => ({
     i: String(index),
     x: section.xPosition,
     y: section.yPosition,
     w: section.width,
     h: section.height,
-    // moved: false,
-    // static: false,
-    // maxW: layoutDimensions.columns,
-    // maxH: layoutDimensions.rows,
   }));
 
   const layoutDimensions = calculateLayoutDimensions(generatedLayout);
@@ -201,6 +202,16 @@ function buildNodeTree(generatedLayout: SectionsSchema, chosenTheme: string): st
   const themedNodes = applyThemeToSchema(generatedLayout, chosenTheme);
 
   const sectionNodes = generateSectionNodes(themedNodes);
+
+  // Apply font to all nodes that have a fontFamily property
+  const selectedFont = fontList.find((f) => f.name.toLowerCase() === chosenFont.toLowerCase());
+  if (selectedFont) {
+    Object.values(sectionNodes).forEach((node) => {
+      if ("fontFamily" in node.props) {
+        node.props.fontFamily = `${selectedFont.displayName}`;
+      }
+    });
+  }
 
   const backgroundNode = createBackgroundNode(layoutDimensions, layout, "#292929");
 
