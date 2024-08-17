@@ -8,14 +8,14 @@
   
   <!-- Identity information -->
   <Identity
-    Name="a2ca76b9-5824-4a77-8bc4-e4c8559d62a4"
+    Name="{{appId}}"
     Publisher="CN=Georges"
     Version="1.0.0.0" />
     
   <!-- App Properties -->
   <Properties>
     <DisplayName>{{appName}}</DisplayName>
-    <PublisherDisplayName>{{YourPublisher}}</PublisherDisplayName>
+    <PublisherDisplayName>{{Publisher}}</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   

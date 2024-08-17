@@ -10,26 +10,25 @@ export class FileGenerator {
   private outputPath: string;
   private templateManager: TemplateManager;
   private namespace: string;
-  private appIdentity: string;
-  private publisher: string;
   private appDescription: string;
+  private defaultPublisher = "CN=DefaultPublisher";
 
   constructor(
     projectName: string,
     outputPath: string,
     templateManager: TemplateManager,
     namespace: string,
-    appIdentity: string,
-    publisher: string,
-    appDescription: string
+    appDescription: string,
+    defaultPublisher?: string
   ) {
     this.projectName = projectName;
     this.outputPath = outputPath;
     this.templateManager = templateManager;
     this.namespace = namespace;
-    this.appIdentity = appIdentity;
-    this.publisher = publisher;
     this.appDescription = appDescription;
+    if (defaultPublisher) {
+      this.defaultPublisher = defaultPublisher;
+    }
   }
 
   public generateProjectFiles(pages: Page[]) {
@@ -127,10 +126,25 @@ export class FileGenerator {
     this.createFile("MainWindow.xaml.cs", content);
   }
 
+  private generateUniqueAppId(): string {
+    return uuidv4();
+  }
+
   private createPackageAppxmanifest() {
     let content = this.templateManager.getTemplate("Package.appxmanifest");
+    const uniqueAppId = this.generateUniqueAppId();
+    const uniquePublisherId = this.generateUniqueAppId();
+
+    content = content.replace(/Name="{{appId}}"/g, `Name="${uniqueAppId}"`);
+    content = content.replace(/Publisher="CN=Georges"/g, `Publisher="CN=${this.defaultPublisher}"`);
+    content = content.replace(
+      /PhoneIdentity Publisher=""/g,
+      `PhoneIdentity Publisher="${uniquePublisherId}"`
+    );
     content = content.replace(/\{\{appName\}\}/g, this.projectName);
-    content = content.replace(/\{\{YourPublisher\}\}/g, this.publisher);
+    content = content.replace(/\{\{YourPublisher\}\}/g, this.defaultPublisher);
+    content = content.replace(/\{\{appDescription\}\}/g, `${this.projectName} Description`);
+
     this.createFile("Package.appxmanifest", content);
   }
 
