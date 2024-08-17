@@ -70,7 +70,7 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({ componentP
 
                         { // Display image generate button if the component has an 'alt' prop
                 'alt' in props && (
-                    <GenerateImageButton onUpload={handleImageUpload} />
+                    <GenerateImageButton alt={props.alt} onUpload={handleImageUpload} />
                 )}
             
 

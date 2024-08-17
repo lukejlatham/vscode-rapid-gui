@@ -27,11 +27,6 @@ export async function generateImage(
     });
     const base64EncodedImageString = response.data[0].b64_json;
 
-    console.log("Generated image:", base64EncodedImageString);
-    console.log("Image size:", imageSize);
-    console.log("Prompt:", alt);
-    console.log("Tokens", response.data[0]);
-
     return base64EncodedImageString;
   } catch (error) {
     throw error;
