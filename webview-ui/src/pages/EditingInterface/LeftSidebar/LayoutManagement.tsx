@@ -1,13 +1,12 @@
 import React from 'react';
-import { EditBackgroundButton } from '../../../components/EditBackgroundButton';
 import { LockGridSwitch } from './LockGridSwitch';
-
+import { BackgroundSettings } from '../../../components/user/Settings/BackgroundSettings';
 
 const LayoutManagement: React.FC<{classes: any}> = ({classes}) => {
     return (
         <div className={classes.layoutManagement}>
             <LockGridSwitch classes={classes} />
-            <EditBackgroundButton classes={classes}/>
+            <BackgroundSettings />
         </div>
     );
 };

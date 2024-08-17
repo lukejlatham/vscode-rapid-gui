@@ -98,7 +98,6 @@ export const PropertyInspector: React.FC = () => {
       </div>
       <Divider style={{ flexGrow: "0" }} />
       {selected.settings && React.createElement(selected.settings)}
-      {(selected.id === 'ROOT') ? <BackgroundSettings /> : null}
       
       {(selected.displayName !== 'Background') ? (<div className={classes.buttonGroup}>
         <Tooltip content="Copy Format" relationship="label">

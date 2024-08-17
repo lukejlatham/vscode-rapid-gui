@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useEditor } from "@craftjs/core";
+import React, { useEffect, useState, useCallback } from "react";
+import { useEditor, useNode } from "@craftjs/core";
 import { BackgroundProps } from "../../../types";
 import { usePropertyInspectorStyles } from "../../../hooks/usePropertyInspectorStyles";
 import {
@@ -15,19 +15,30 @@ import {
 } from "@fluentui/react-components";
 import { Info16Regular, AddSquareRegular } from "@fluentui/react-icons";
 import { Layout } from "react-grid-layout";
+import { stat } from "fs";
 
 export const BackgroundSettings: React.FC = () => {
+  const [visibleTooltip, setVisibleTooltip] = useState<string | null>(null);
+  const [canAddGridCells, setCanAddGridCells] = useState(false);
+  const [canChangeRowsDown, setCanChangeRowsDown] = useState(true);
+  const [canChangeColumnsDown, setCanChangeColumnsDown] = useState(true);
   const {
-    query,
-    actions: { setProp },
-  } = useEditor();
-  const props = query.node("ROOT").get().data.props as BackgroundProps;
+    props,
 
-  const nodeID = query.node("ROOT").get().id;
+    actions: { setProp },
+  } = useEditor((state) => ({
+    props: state.nodes["ROOT"].data.props as BackgroundProps,
+  }));
+
+  const nodeID = "ROOT";
+
   const styles = usePropertyInspectorStyles();
 
   const contentId = useId("content");
-  const [visibleTooltip, setVisibleTooltip] = useState<string | null>(null);
+
+  const handleVisibilityChange = (tooltipKey: string, isVisible: boolean) => {
+    setVisibleTooltip(isVisible ? tooltipKey : null);
+  };
 
   const tooltips = [
     {
@@ -50,55 +61,59 @@ export const BackgroundSettings: React.FC = () => {
     },
   ];
 
-  const handleVisibilityChange = (tooltipKey: string, isVisible: boolean) => {
-    setVisibleTooltip(isVisible ? tooltipKey : null);
-  };
-
-  // New logic for adding a grid cell and disabling the button if no space is available
-  const [isDisabled, setIsDisabled] = useState(false);
-
-  useEffect(() => {
-    checkSpaceAvailability();
-  }, [props.layout, props.columns, props.rows]);
-
-  const checkSpaceAvailability = () => {
+  const checkConditions = useCallback(() => {
     let isSpaceAvailable = false;
+    let canReduceRows = true;
+    let canReduceColumns = true;
+
     for (let y = 0; y < props.rows; y++) {
       for (let x = 0; x < props.columns; x++) {
-        const overlappingCells = (props.layout as Layout[]).some((item: Layout) => {
-          const isOverlapping =
-            x < item.x + item.w && x + 1 > item.x && y < item.y + item.h && y + 1 > item.y;
-          return isOverlapping;
+        const overlappingCells = props.layout.some((item: Layout) => {
+          return x < item.x + item.w && x + 1 > item.x && y < item.y + item.h && y + 1 > item.y;
         });
+
         if (!overlappingCells) {
           isSpaceAvailable = true;
-          break;
         }
       }
-      if (isSpaceAvailable) {
-        break;
-      }
     }
-    setIsDisabled(!isSpaceAvailable);
-  };
+
+    // Check if reducing rows is possible
+    canReduceRows = props.layout.every((item: Layout) => {
+      return item.y + item.h <= props.rows;
+    });
+
+    // Check if reducing columns is possible
+    canReduceColumns = props.layout.every((item: Layout) => {
+      return item.x + item.w <= props.columns;
+    });
+
+    setCanAddGridCells(isSpaceAvailable);
+    setCanChangeRowsDown(canReduceRows);
+    setCanChangeColumnsDown(canReduceColumns);
+  }, [props.layout, props.columns, props.rows]);
+
+  useEffect(() => {
+    checkConditions();
+  }, [checkConditions, props.layout]);
 
   const handleAddGridCell = () => {
     setProp(nodeID, (props: BackgroundProps) => {
       let newY = 0;
       let newX = 0;
       let foundSpot = false;
-      // Set the desired width and height for the new grid cell
-      const newCellWidth = 1; // Example value, change as needed
-      const newCellHeight = 1; // Example value, change as needed
+      const newCellWidth = 1;
+      const newCellHeight = 1;
+
       for (let y = 0; y <= props.rows - newCellHeight; y++) {
         for (let x = 0; x <= props.columns - newCellWidth; x++) {
-          const overlappingCells = (props.layout as Layout[]).some((item: Layout) => {
-            const isOverlapping =
+          const overlappingCells = props.layout.some((item: Layout) => {
+            return (
               x < item.x + item.w &&
               x + newCellWidth > item.x &&
               y < item.y + item.h &&
-              y + newCellHeight > item.y;
-            return isOverlapping;
+              y + newCellHeight > item.y
+            );
           });
           if (!overlappingCells) {
             newX = x;
@@ -111,6 +126,7 @@ export const BackgroundSettings: React.FC = () => {
           break;
         }
       }
+
       if (foundSpot) {
         const newItem: Layout = {
           i:
@@ -129,48 +145,28 @@ export const BackgroundSettings: React.FC = () => {
     });
   };
 
-  const calculateMinRows = () => {
-    return Math.max(...props.layout.map((item: Layout) => item.y + item.h), 1);
-  };
-
-  const calculateMinColumns = () => {
-    return Math.max(...props.layout.map((item: Layout) => item.x + item.w), 1);
-  };
-
   const handleRowChange = (event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
     const newValue = data.value ? data.value : 0;
 
-    // Prevent reducing rows if it would remove existing cells
-    setProp(nodeID, (props: BackgroundProps) => {
-      const isReducingRowsValid = (props.layout as Layout[]).every((item: Layout) => {
-        return item.y + item.h <= newValue;
-      });
-
-      if (isReducingRowsValid) {
+    if (canChangeRowsDown) {
+      setProp(nodeID, (props: BackgroundProps) => {
         props.rows = newValue;
-      } else {
-        // Optionally, show a warning to the user
-        console.warn("Cannot reduce rows because it would remove existing cells.");
-      }
-    });
+      });
+    } else {
+      console.warn("Cannot reduce rows because it would remove existing cells.");
+    }
   };
 
   const handleColumnChange = (event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
     const newValue = data.value ? data.value : 0;
 
-    // Prevent reducing columns if it would remove existing cells
-    setProp(nodeID, (props: BackgroundProps) => {
-      const isReducingColumnsValid = (props.layout as Layout[]).every((item: Layout) => {
-        return item.x + item.w <= newValue;
-      });
-
-      if (isReducingColumnsValid) {
+    if (canChangeColumnsDown) {
+      setProp(nodeID, (props: BackgroundProps) => {
         props.columns = newValue;
-      } else {
-        // Optionally, show a warning to the user
-        console.warn("Cannot reduce columns because it would remove existing cells.");
-      }
-    });
+      });
+    } else {
+      console.warn("Cannot reduce columns because it would remove existing cells.");
+    }
   };
 
   return (
@@ -210,7 +206,16 @@ export const BackgroundSettings: React.FC = () => {
           ) : tooltip.type === "spinButton" ? (
             <SpinButton
               className={styles.spinButton}
-              min={tooltip.propKey === "rows" ? calculateMinRows() : calculateMinColumns()}
+              min={tooltip.propKey === "rows" ? 1 : 1}
+              max={
+                tooltip.propKey === "rows"
+                  ? canChangeRowsDown
+                    ? undefined
+                    : props.rows
+                  : canChangeColumnsDown
+                  ? undefined
+                  : props.columns
+              }
               defaultValue={props[tooltip.propKey as keyof typeof props]}
               onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
                 if (tooltip.propKey === "rows") {
@@ -241,7 +246,7 @@ export const BackgroundSettings: React.FC = () => {
           icon={<AddSquareRegular />}
           size="large"
           onClick={handleAddGridCell}
-          disabled={isDisabled}>
+          disabled={!canAddGridCells}>
           Add Grid Cell
         </Button>
       </div>
