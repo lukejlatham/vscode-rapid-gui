@@ -4,19 +4,19 @@ export function generateSliderXaml(node: Node, indent: string = ""): string {
   const props = node.props;
   let xaml = `${indent}<Slider`;
 
-  xaml += ` Minimum="${props.min}"`;
-  xaml += ` Maximum="${props.max}"`;
-  xaml += ` Value="${props.value}"`;
-  xaml += ` StepFrequency="${props.step}"`;
-  xaml += ` Width="${props.width}"`;
-  xaml += ` Foreground="${props.color}"`;
-  xaml += ` Background="${props.backgroundColor}"`;
+  xaml += ` Minimum="${props.min || 0}"`;
+  xaml += ` Maximum="${props.max || 100}"`;
+  xaml += ` Value="${props.value || 50}"`;
+  xaml += ` StepFrequency="${props.step || 1}"`;
+  xaml += ` Width="${props.width || 200}"`;
+  xaml += ` Foreground="${props.color || "{ThemeResource SliderTrackValueFill}"}"`;
+  xaml += ` Background="${props.backgroundColor || "{ThemeResource SliderTrackFill}"}"`;
 
   if (props.orientation === "vertical") {
     xaml += ` Orientation="Vertical"`;
   }
 
-  xaml += ` TickFrequency="${props.tickFrequency || props.step}"`;
+  xaml += ` TickFrequency="${props.tickFrequency || props.step || 1}"`;
   xaml += ` TickPlacement="Outside"`;
 
   xaml += " />";
