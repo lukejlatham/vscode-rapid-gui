@@ -7,6 +7,8 @@ import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import { useNode } from '@craftjs/core';
 import { BackgroundProps, backgroundSchema } from '../../types';
+import { useCallback } from 'react';
+import { toInteger } from 'lodash';
 
 
 const useStyles = makeStyles({
@@ -58,15 +60,25 @@ export const Background: FC<BackgroundProps> = (props) => {
 
   useEffect(() => {
     const updateContainerHeight = () => {
+
       if (backgroundRef.current) {
-        setContainerHeight(backgroundRef.current.clientHeight);
+              const rowMarginOffest =40+ 10 * props.rows;
+
+        const rect = backgroundRef.current.getBoundingClientRect();
+        setContainerHeight(rect.height - rowMarginOffest);
       }
     };
-    window.addEventListener('resize', updateContainerHeight);
-    updateContainerHeight();
 
-    return () => window.removeEventListener('resize', updateContainerHeight);
-  }, []);
+    const resizeObserver = new ResizeObserver(updateContainerHeight);
+    
+    if (backgroundRef.current) {
+      resizeObserver.observe(backgroundRef.current);
+      updateContainerHeight(); // Initial call
+    }
+
+    return () => resizeObserver.disconnect();
+  }, [props.rows]);
+
 
   const onLayoutChange = (layout: Layout[]) => {
     console.log('layout', layout);
@@ -100,6 +112,8 @@ export const Background: FC<BackgroundProps> = (props) => {
           useCSSTransforms={true}
           preventCollision={true}
           resizeHandles={['se', 'sw', 'ne', 'nw']}
+          margin={[10, 10]}
+
         >
           {initialLayout.map((item) => (
             
