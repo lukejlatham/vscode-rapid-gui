@@ -1,0 +1,32 @@
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using System;
+
+namespace {{namespace}}
+{
+    public sealed partial class MainWindow : Window
+    {
+         public MainWindow()
+        {
+            this.InitializeComponent();
+            ContentFrame.Navigate(typeof(pageName));
+        }
+
+        private void NavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        {
+            if (args.SelectedItem is NavigationViewItem selectedItem)
+            {
+                string pageName = selectedItem.Tag.ToString();
+                Type pageType = null;
+                switch (pageName)
+                {
+                     case "pageName": pageType = typeof(pageName); break;
+                }
+                if (pageType != null)
+                {
+                    ContentFrame.Navigate(pageType);
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,12 @@
+using Microsoft.UI.Xaml.Controls;
+
+namespace {{namespace}}
+{
+    public sealed partial class pageName : Page
+    {
+        public Page()
+        {
+            this.InitializeComponent();
+        }
+    }
+}
