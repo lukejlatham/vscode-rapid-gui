@@ -124,7 +124,6 @@ function generateGridCell(
     xaml += generateComponentXaml({ [layoutItem.i]: node }, indent + "  ");
   }
 
-  xaml += `${indent}</Grid>\n`;
   return xaml;
 }
 
