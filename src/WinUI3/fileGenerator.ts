@@ -50,6 +50,7 @@ export class FileGenerator {
     this.createPublishProfiles();
     this.createReadme();
     this.copyAssetImages();
+    this.createVSCodeFiles();
 
     pages.forEach((page) => {
       const sanitizedPageName = this.sanitizePageName(page.name);
@@ -252,6 +253,53 @@ export class FileGenerator {
     
     `;
     this.createFile("README.md", content);
+  }
+
+  private createVSCodeFiles() {
+    const vscodeDir = path.join(this.outputPath, ".vscode");
+    if (!fs.existsSync(vscodeDir)) {
+      fs.mkdirSync(vscodeDir, { recursive: true });
+    }
+
+    const relativeOutputPath = path.relative(this.outputPath, this.outputPath);
+
+    const launchJson = {
+      version: "0.2.0",
+      configurations: [
+        {
+          name: "Debug WinUI 3 App",
+          type: "coreclr",
+          request: "launch",
+          preLaunchTask: "build",
+          program: `\${workspaceFolder}/${relativeOutputPath}/bin/x64/Debug/net8.0-windows10.0.19041.0/win10-x64/${this.projectName}.exe`,
+          args: [],
+          cwd: "${workspaceFolder}/${relativeOutputPath}",
+          stopAtEntry: false,
+          console: "internalConsole",
+        },
+      ],
+    };
+
+    const tasksJson = {
+      version: "2.0.0",
+      tasks: [
+        {
+          label: "build",
+          command: "dotnet",
+          type: "process",
+          args: [
+            "build",
+            `\${workspaceFolder}/${relativeOutputPath}/${this.projectName}.csproj`,
+            "/property:GenerateFullPaths=true",
+            "/consoleloggerparameters:NoSummary",
+          ],
+          problemMatcher: "$msCompile",
+        },
+      ],
+    };
+
+    fs.writeFileSync(path.join(vscodeDir, "launch.json"), JSON.stringify(launchJson, null, 2));
+    fs.writeFileSync(path.join(vscodeDir, "tasks.json"), JSON.stringify(tasksJson, null, 2));
   }
 
   private copyAssetImages() {
