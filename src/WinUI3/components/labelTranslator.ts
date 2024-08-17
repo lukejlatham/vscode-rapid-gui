@@ -4,10 +4,14 @@ export function generateLabelXaml(node: Node, indent: string = ""): string {
   const props = node.props;
   let xaml = `${indent}<TextBlock`;
 
-  xaml += ` Text="${props.text}"`;
-  xaml += ` FontSize="${props.fontSize}"`;
-  xaml += ` Foreground="${props.fontColor}"`;
-  xaml += ` TextAlignment="${props.textAlign.charAt(0).toUpperCase() + props.textAlign.slice(1)}"`;
+  xaml += ` Text="${props.text || ""}"`;
+  xaml += ` FontSize="${props.fontSize || 14}"`;
+  xaml += ` Foreground="${
+    props.fontColor || "{ThemeResource SystemControlForegroundBaseHighBrush}"
+  }"`;
+  xaml += ` TextAlignment="${
+    (props.textAlign || "left").charAt(0).toUpperCase() + (props.textAlign || "left").slice(1)
+  }"`;
 
   if (props.bold) {
     xaml += ` FontWeight="Bold"`;
@@ -19,18 +23,9 @@ export function generateLabelXaml(node: Node, indent: string = ""): string {
     xaml += ` TextDecorations="Underline"`;
   }
 
-  if (props.hyperlink) {
-    xaml += ">\n";
-    xaml += `${indent}  <Hyperlink NavigateUri="${props.hyperlink}">\n`;
-    xaml += `${indent}    <Run Text="${props.text}"/>\n`;
-    xaml += `${indent}  </Hyperlink>\n`;
-    xaml += `${indent}</TextBlock>`;
-  } else {
-    xaml += " />";
-  }
+  xaml += " />";
 
-  // Wrap in a StackPanel if an icon is present
-  if (props.icon !== "none") {
+  if (props.icon && props.icon !== "none") {
     xaml = `${indent}<StackPanel Orientation="Horizontal" Spacing="5">\n${
       props.icon === "left" ? `${indent}  <FontIcon Glyph="&#xE001;" />\n` : ""
     }${indent}  ${xaml}\n${
