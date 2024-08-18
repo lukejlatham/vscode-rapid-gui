@@ -51,6 +51,7 @@ export class FileGenerator {
     this.createReadme();
     this.copyAssetImages();
     this.createVSCodeFiles();
+    this.addImagesToProjectFile();
 
     pages.forEach((page) => {
       const sanitizedPageName = this.sanitizePageName(page.name);
@@ -311,6 +312,33 @@ export class FileGenerator {
         const destPath = path.join(projectAssetsPath, file);
         fs.copyFileSync(srcPath, destPath);
       }
+    }
+  }
+  private addImagesToProjectFile() {
+    const projectFilePath = path.join(this.outputPath, `${this.projectName}.csproj`);
+    let projectContent = fs.readFileSync(projectFilePath, "utf8");
+
+    const assetsPath = path.join(this.outputPath, "Assets");
+    if (fs.existsSync(assetsPath)) {
+      const imageFiles = fs
+        .readdirSync(assetsPath)
+        .filter((file) =>
+          [".png", ".jpg", ".jpeg", ".gif", ".bmp"].includes(path.extname(file).toLowerCase())
+        );
+
+      let imageItemGroup = "  <ItemGroup>\n";
+      imageFiles.forEach((file) => {
+        imageItemGroup += `    <Content Include="Assets\\${file}">\n`;
+        imageItemGroup += "      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>\n";
+        imageItemGroup += "    </Content>\n";
+      });
+      imageItemGroup += "  </ItemGroup>\n";
+
+      // Insert the imageItemGroup before the closing </Project> tag
+      projectContent = projectContent.replace("</Project>", `${imageItemGroup}</Project>`);
+
+      fs.writeFileSync(projectFilePath, projectContent);
+      console.log("Added images to project file");
     }
   }
 }

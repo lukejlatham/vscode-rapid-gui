@@ -1,8 +1,13 @@
 import { Node } from "../JsonParser";
 import * as path from "path";
 import * as fs from "fs";
+import axios from "axios";
 
-export function generateImageXaml(node: Node, indent: string = "", projectPath: string): string {
+export async function generateImageXaml(
+  node: Node,
+  indent: string = "",
+  projectPath: string
+): Promise<string> {
   const props = node.props;
   let xaml = `${indent}<Image`;
 
@@ -30,14 +35,32 @@ export function generateImageXaml(node: Node, indent: string = "", projectPath: 
   return xaml + "\n";
 }
 
-function handleImageSource(src: string, projectPath: string): string {
+async function handleImageSource(src: string, projectPath: string): Promise<string> {
+  const assetsPath = path.join(projectPath, "Assets");
+  if (!fs.existsSync(assetsPath)) {
+    fs.mkdirSync(assetsPath, { recursive: true });
+  }
+
   if (isUrl(src)) {
-    return src;
+    const fileName = path.basename(new URL(src).pathname);
+    const destPath = path.join(assetsPath, fileName);
+    await downloadImage(src, destPath);
+    return `ms-appx:///Assets/${fileName}`;
   } else {
     const fileName = path.basename(src);
-    const destPath = path.join(projectPath, "Assets", fileName);
+    const destPath = path.join(assetsPath, fileName);
     copyImageToAssets(src, destPath);
     return `ms-appx:///Assets/${fileName}`;
+  }
+}
+
+async function downloadImage(url: string, destPath: string): Promise<void> {
+  try {
+    const response = await axios.get(url, { responseType: "arraybuffer" });
+    fs.writeFileSync(destPath, response.data);
+    console.log(`Downloaded image to: ${destPath}`);
+  } catch (error) {
+    console.error(`Failed to download image: ${error}`);
   }
 }
 

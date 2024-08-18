@@ -25,12 +25,12 @@ export function generateComponentXaml(
   return xaml;
 }
 
-export function generateSingleComponentXaml(
+export async function generateSingleComponentXaml(
   node: Node,
   content: { [key: string]: Node },
   indent: string = "",
   projectPath?: string
-): string {
+): Promise<string> {
   switch (node.type.resolvedName) {
     case "Button":
       return generateButtonXaml(node, indent);
@@ -53,7 +53,7 @@ export function generateSingleComponentXaml(
     case "TextBox":
       return generateTextBoxXaml(node, indent);
     case "Image":
-      return generateImageXaml(node, indent, projectPath);
+      return await generateImageXaml(node, indent, projectPath);
     default:
       return `${indent}<!-- Unknown component type: ${node.type.resolvedName} -->\n`;
   }
