@@ -1,4 +1,3 @@
-// GridGenerator.ts
 import { LayoutItem, Node } from "./JsonParser";
 import { generateComponentXaml } from "./componentGenerator";
 import { Page } from "../../webview-ui/src/types";
@@ -6,8 +5,18 @@ import { Page } from "../../webview-ui/src/types";
 export async function generateGridXaml(page: Page): Promise<string> {
   console.log("Generating XAML for page:", JSON.stringify(page, null, 2));
 
+  if (!page || !page.content || !page.content.ROOT) {
+    console.error("Invalid page structure:", page);
+    return "<Grid></Grid>";
+  }
+
   const rootNode = page.content.ROOT as Node;
   const content = page.content as { [key: string]: Node };
+
+  if (!rootNode.props) {
+    console.error("Root node has no props:", rootNode);
+    return "<Grid></Grid>";
+  }
 
   let xaml = `<Grid x:Name="RootGrid" Background="${
     rootNode.props.backgroundColor || "Transparent"
