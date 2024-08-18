@@ -344,7 +344,7 @@ export const facebookbluealt: ColorScheme = {
   },
 };
 
-export const insta: ColorScheme = {
+export const instagramSunset: ColorScheme = {
   sectionColors: {
     main: "#EDEDE9",
     lightaccent: "#fbad50",
@@ -401,19 +401,19 @@ export const discordpurple: ColorScheme = {
 };
 
 export const themeList = [
-  { name: "Red Airbnb", scheme: redairbnb },
-  { name: "Orange Scheme", scheme: orangeScheme },
-  { name: "Snapchat Yellow", scheme: snapchatyellow },
-  { name: "Nature Theme", scheme: natural },
-  { name: "Facebook Blue", scheme: facebookblue },
-  { name: "Instagram", scheme: insta },
-  { name: "Discord Purple", scheme: discordpurple },
+  { name: "Red 1", scheme: redairbnb },
+  { name: "Orange 1", scheme: orangeScheme },
+  { name: "Yellow 1", scheme: snapchatyellow },
+  { name: "Nature", scheme: natural },
+  { name: "Blue 1", scheme: facebookblue },
+  { name: "Blue 2", scheme: facebookbluealt },
+  { name: "Instagram", scheme: instagramSunset },
+  { name: "Purple 1", scheme: discordpurple },
   { name: "Nautical", scheme: nautical },
   { name: "Pastels", scheme: pastels },
   { name: "Beige", scheme: beige },
-  { name: "Grey Scheme", scheme: slateGreyScheme },
+  { name: "Grey 1", scheme: slateGreyScheme },
   { name: "Awful tetris Scheme", scheme: tetrisScheme },
-  { name: "Facebook Blue Alt", scheme: facebookbluealt },
 ];
 
 export const themeNames = themeList.map((theme) => theme.name);
