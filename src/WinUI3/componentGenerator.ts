@@ -17,7 +17,7 @@ export function generateComponentXaml(
   projectPath?: string
 ): string {
   let xaml = "";
-  for (const node of Object.values(content)) {
+  for (const [nodeId, node] of Object.entries(content)) {
     if (node.type.resolvedName !== "GridCell") {
       xaml += generateSingleComponentXaml(node, content, indent, projectPath);
     }
@@ -27,7 +27,7 @@ export function generateComponentXaml(
 
 export function generateSingleComponentXaml(
   node: Node,
-  components: { [key: string]: Node },
+  content: { [key: string]: Node },
   indent: string = "",
   projectPath?: string
 ): string {
@@ -45,7 +45,7 @@ export function generateSingleComponentXaml(
     case "RadioButtons":
       return generateRadioButtonXaml(node, indent);
     case "Container":
-      return generateContainerXaml(node, components, indent);
+      return generateContainerXaml(node, content, indent);
     case "Checkboxes":
       return generateCheckboxXaml(node, indent);
     case "Slider":

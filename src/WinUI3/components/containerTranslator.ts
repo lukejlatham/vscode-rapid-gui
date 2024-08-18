@@ -3,7 +3,7 @@ import { generateSingleComponentXaml } from "../componentGenerator";
 
 export function generateContainerXaml(
   node: Node,
-  components: { [key: string]: Node },
+  content: { [key: string]: Node },
   indent: string = ""
 ): string {
   const props = node.props;
@@ -42,21 +42,27 @@ export function generateContainerXaml(
     xaml += `${indent}  </StackPanel.Effect>\n`;
   }
 
-  // Generate XAML for each child component based on the nodes array
-  for (const childId of node.nodes) {
-    const childNode = components[childId];
-    if (childNode) {
-      xaml += generateSingleComponentXaml(childNode, components, indent + "  ");
+  if (node.nodes && node.nodes.length > 0) {
+    for (const childId of node.nodes) {
+      let childNode: Node | undefined;
+      if (node.linkedNodes && node.linkedNodes[childId]) {
+        childNode = content[node.linkedNodes[childId]];
+      } else if (content[childId]) {
+        childNode = content[childId];
+      }
+
+      if (childNode) {
+        xaml += generateSingleComponentXaml(childNode, content, indent + "  ");
+      } else {
+        console.warn(`Child node not found: ${childId}`);
+      }
     }
   }
 
-  // Close the StackPanel
   xaml += `${indent}</StackPanel>\n`;
-
   return xaml;
 }
 
-// Helper functions to map justifyContent and alignItems to XAML equivalents
 function mapJustifyContent(justifyContent: string): string {
   switch (justifyContent) {
     case "flex-start":
