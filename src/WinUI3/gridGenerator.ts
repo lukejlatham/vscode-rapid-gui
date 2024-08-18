@@ -91,12 +91,12 @@ function generateGridContent(
   return xaml;
 }
 
-function generateGridCell(
+async function generateGridCell(
   content: { [key: string]: Node },
   layoutItem: LayoutItem,
   node: Node,
   indent: string
-): string {
+): Promise <string> {
   let xaml = "";
 
   const gridAttrs = generateGridAttributes(layoutItem);
@@ -113,7 +113,7 @@ function generateGridCell(
     for (const childId of node.nodes) {
       const childNode = content[childId];
       if (childNode) {
-        xaml += generateComponentXaml({ [childId]: childNode }, indent + "    ");
+        xaml += await generateComponentXaml({ [childId]: childNode }, indent + "    ");
       } else {
         console.warn(`Child node not found: ${childId}`);
       }
@@ -121,7 +121,7 @@ function generateGridCell(
 
     xaml += `${indent}  </StackPanel>\n`;
   } else {
-    xaml += generateComponentXaml({ [layoutItem.i]: node }, indent + "  ");
+    xaml += await generateComponentXaml({ [layoutItem.i]: node }, indent + "  ");
   }
 
   return xaml;

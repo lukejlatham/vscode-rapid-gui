@@ -11,15 +11,15 @@ import { generateSliderXaml } from "./components/sliderTranslator";
 import { generateTextBoxXaml } from "./components/textBoxGenerator";
 import { generateImageXaml } from "./components/imageTranslator";
 
-export function generateComponentXaml(
+export async function generateComponentXaml(
   content: PageStructure["components"],
   indent: string = "",
   projectPath?: string
-): string {
+): Promise <string> {
   let xaml = "";
   for (const [nodeId, node] of Object.entries(content)) {
     if (node.type.resolvedName !== "GridCell") {
-      xaml += generateSingleComponentXaml(node, content, indent, projectPath);
+      xaml += await generateSingleComponentXaml(node, content, indent, projectPath);
     }
   }
   return xaml;
