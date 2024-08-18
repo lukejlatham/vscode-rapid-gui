@@ -92,16 +92,17 @@ export class FileGenerator {
 
   private createMainWindowXaml(pages: Page[]) {
     let content = this.templateManager.getTemplate("MainWindow.xaml");
-    const pageItems = pages
+    content = content.replace(/\{\{namespace\}\}/g, this.namespace);
+
+    const navigationItems = pages
       .map((page) => {
         const sanitizedPageName = this.sanitizePageName(page.name);
-        return `<NavigationViewItem Content="${page.name}" Tag="${sanitizedPageName}"/>`;
+        return `            <NavigationViewItem Content="${page.name}" Tag="${sanitizedPageName}"/>`;
       })
-      .join("\n        ");
+      .join("\n");
 
-    content = content.replace(/\{\{namespace\}\}/g, this.namespace);
-    content = content.replace("{{projectName}}", this.projectName);
-    content = content.replace(/\{\{pageItems\}\}/g, pageItems);
+    content = content.replace("{{navigationItems}}", navigationItems);
+
     this.createFile("MainWindow.xaml", content);
   }
 
