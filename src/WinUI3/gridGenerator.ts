@@ -6,18 +6,26 @@ import { Page } from "../../webview-ui/src/types";
 export async function generateGridXaml(page: Page): Promise<string> {
   console.log("Generating XAML for page:", JSON.stringify(page, null, 2));
 
+  let pageContent: any;
+
   if (typeof page.content === "string") {
-    console.error("Page content is a string, not an object");
-    page.content = JSON.parse(page.content);
+    try {
+      pageContent = JSON.parse(page.content);
+    } catch (error) {
+      console.error("Failed to parse page content JSON", error);
+      throw new Error("Failed to parse page content JSON");
+    }
+  } else {
+    pageContent = page.content;
   }
 
-  if (!page.content || !page.content.ROOT) {
+  if (!pageContent || !pageContent.ROOT) {
     console.error("ROOT node is missing in page content");
-    console.log("Page content keys:", Object.keys(page.content || {}));
+    console.log("Page content keys:", Object.keys(pageContent || {}));
     throw new Error("Root node not found");
   }
 
-  const rootNode = page.content.ROOT as Node;
+  const rootNode = pageContent.ROOT as Node;
 
   let xaml = `<Grid x:Name="RootGrid" Background="${
     rootNode.props.backgroundColor || "Transparent"
@@ -33,7 +41,7 @@ export async function generateGridXaml(page: Page): Promise<string> {
   }
 
   xaml += await generateGridContent(
-    page.content as { [key: string]: Node },
+    pageContent as { [key: string]: Node },
     rootNode.props.layout || [],
     "    "
   );

@@ -49,6 +49,7 @@ export function parseJSON(jsonString: string): ParsedJSON {
 
     for (const [pageName, pageData] of Object.entries(json)) {
       validatePageStructure(pageData);
+      setParentReferences(pageData);
       pages[pageName] = {
         root: pageData.ROOT as Node,
         layout: parseRootLayout(pageData.ROOT as Node),
@@ -60,6 +61,25 @@ export function parseJSON(jsonString: string): ParsedJSON {
   } catch (error) {
     console.error("Failed to parse JSON", error);
     throw new Error(`Failed to parse JSON: ${(error as Error).message}`);
+  }
+}
+
+function setParentReferences(pageData: { [key: string]: Node }) {
+  for (const [nodeId, node] of Object.entries(pageData)) {
+    if (node.nodes) {
+      for (const childId of node.nodes) {
+        if (pageData[childId]) {
+          pageData[childId].parent = nodeId;
+        }
+      }
+    }
+    if (node.linkedNodes) {
+      for (const [_, linkedNodeId] of Object.entries(node.linkedNodes)) {
+        if (pageData[linkedNodeId]) {
+          pageData[linkedNodeId].parent = nodeId;
+        }
+      }
+    }
   }
 }
 

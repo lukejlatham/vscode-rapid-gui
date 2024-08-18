@@ -15,10 +15,10 @@ export async function generateComponentXaml(
   content: PageStructure["components"],
   indent: string = "",
   projectPath?: string
-): Promise <string> {
+): Promise<string> {
   let xaml = "";
   for (const [nodeId, node] of Object.entries(content)) {
-    if (node.type.resolvedName !== "GridCell") {
+    if (!node.parent) {
       xaml += await generateSingleComponentXaml(node, content, indent, projectPath);
     }
   }
