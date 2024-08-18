@@ -96,14 +96,14 @@ export const GridSizeSelector: React.FC = () => {
   return (
     <>
       <SizeControl
-        label="Rows"
+        label="Grid Rows"
         tooltipContent="Change the number of rows in the grid."
         value={props.rows}
         min={rowMin}
         onChange={handleSizeChange('rows')}
       />
       <SizeControl
-        label="Columns"
+        label="Grid Columns"
         tooltipContent="Change the number of columns in the grid."
         value={props.columns}
         min={columnMin}
