@@ -61,8 +61,7 @@ export const Background: FC<BackgroundProps> = (props) => {
     useEffect(() => {
     const updateContainerHeight = () => {
       if (backgroundRef.current) {
-        const rowMarginOffest =40+ 10 * props.rows;
-
+        const rowMarginOffest = 20 + 10 * props.rows;
 
         setContainerHeight(backgroundRef.current.clientHeight - rowMarginOffest);
       }
@@ -107,7 +106,7 @@ export const Background: FC<BackgroundProps> = (props) => {
           useCSSTransforms={true}
           preventCollision={true}
           resizeHandles={['se', 'sw', 'ne', 'nw']}
-          margin={[10, 10]}
+          margin={[5, 5]}
 
         >
           {initialLayout.map((item) => (
