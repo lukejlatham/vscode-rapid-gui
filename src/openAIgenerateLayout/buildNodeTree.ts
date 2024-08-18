@@ -19,6 +19,7 @@ import {
   dropdownSchema,
   sliderSchema,
   fontList,
+  themeList,
 } from "../../webview-ui/src/types";
 import { applyThemeToSchema } from "./applyTheming";
 
@@ -157,13 +158,21 @@ function generateSectionNodes(sections: ThemedLayoutSchema[]): { [key: string]: 
 function createBackgroundNode(
   dimensions: LayoutDimensions,
   layout: BackgroundType[],
-  backgroundColor: string
+  chosenTheme: string
 ): NodeTreeRootType {
   const linkedNodes = dimensions.ids.reduce((acc, id, index) => {
     const sanitizedId = id.replace(/\s+/g, "");
     acc[String(index)] = sanitizedId + "GridCell";
     return acc;
   }, {} as Record<string, string>);
+
+  const selectedTheme = themeList.find((t) => t.name.toLowerCase() === chosenTheme.toLowerCase());
+
+  if (!selectedTheme) {
+    throw new Error(`Theme "${chosenTheme}" not found`);
+  }
+
+  const backgroundColor = selectedTheme.scheme.backgroundColor;
 
   return {
     type: { resolvedName: "Background" },
@@ -213,7 +222,7 @@ function buildNodeTree(
     });
   }
 
-  const backgroundNode = createBackgroundNode(layoutDimensions, layout, "#292929");
+  const backgroundNode = createBackgroundNode(layoutDimensions, layout, chosenTheme);
 
   const combinedNodes = { ROOT: backgroundNode, ...sectionNodes };
 

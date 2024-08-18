@@ -430,6 +430,8 @@ export const themeList = [
 
 export const themeNames = themeList.map((theme) => theme.name);
 
+export type NodeThemeType = "Background" | "Container" | "Other";
+
 export const fontList = [
   { name: "GoogleArial", displayName: "Arial" },
   { name: "MicrosoftSegoeUI", displayName: "Segoe UI" },

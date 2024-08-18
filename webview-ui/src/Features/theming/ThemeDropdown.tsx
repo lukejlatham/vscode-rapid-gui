@@ -9,8 +9,9 @@ import {
 import { WindowFilled } from "@fluentui/react-icons";
 import type { DropdownProps } from "@fluentui/react-components";
 import { useEditor } from "@craftjs/core";
-import { themeList } from "../../types/themes"; // Adjust the import path as necessary
+import { NodeThemeType, themeList, ColorScheme } from "../../types/themes"; // Adjust the import path as necessary
 import { FormattedMessage } from "react-intl";
+import { useState, useMemo } from "react";
 
 const useStyles = makeStyles({
   container: {
@@ -38,16 +39,57 @@ const useStyles = makeStyles({
 });
 
 // Helper function to handle both array and string values
-const getColor = (color: string | string[]): string =>
-  Array.isArray(color) ? color[0] : color;
+const getColor = (color: string | string[]): string => {
+  if (Array.isArray(color)) {
+    const randomIndex = Math.floor(Math.random() * color.length);
+    return color[randomIndex];
+  }
+  return color;
+};
+
+
+const getNodeType = (node: any): NodeThemeType => {
+  if (node.data.displayName === 'Background') return 'Background';
+  if (node.data.displayName === 'Container') return 'Container';
+  return 'Other';
+};
+
+const applyThemeToBackground = (actions: any, id: string, theme: ColorScheme) => {
+  actions.setProp(id, (props: any) => {
+    props.backgroundColor = getColor(theme.backgroundColor);
+  });
+};
+
+const applyThemeToContainer = (actions: any, id: string, theme: ColorScheme, isDarkAccent: boolean) => {
+  const colorType = isDarkAccent ? 'darkaccent' : 'main';
+  actions.setProp(id, (props: any) => {
+    props.backgroundColor = getColor(theme.sectionColors[colorType]);
+    props.borderColor = getColor(theme.sectionBorderColors[colorType]);
+  });
+};
+
+const applyThemeToNestedContainer = (actions: any, id: string, theme: ColorScheme) => {
+  actions.setProp(id, (props: any) => {
+    props.backgroundColor = getColor(theme.elementColors.lightaccent);
+    props.borderColor = getColor(theme.elementBorderColors.lightaccent);
+  });
+};
+
+const applyThemeToOtherNodes = (actions: any, id: string, theme: ColorScheme) => {
+  actions.setProp(id, (props: any) => {
+    if (props.backgroundColor) props.backgroundColor = getColor(theme.elementColors.main);
+    if (props.borderColor) props.borderColor = getColor(theme.elementBorderColors.main);
+    if (props.fontColor) props.fontColor = getColor(theme.fontColors.main);
+  });
+};
 
 export const ThemeDropdown: React.FC<Partial<DropdownProps>> = (props) => {
-  const dropdownId = useId("dropdown");
+  const dropdownId = useId();
   const { actions, query } = useEditor();
-  const [selectedTheme, setSelectedTheme] = React.useState<string | null>(null);
+  const [selectedTheme, setSelectedTheme] = useState<string | null>(null);
   const styles = useStyles();
 
-  const theme = React.useMemo(
+  const theme = useMemo(
     () => themeList.find((theme) => theme.name === selectedTheme)?.scheme,
     [selectedTheme]
   );
@@ -55,66 +97,36 @@ export const ThemeDropdown: React.FC<Partial<DropdownProps>> = (props) => {
   const handleApplyTheme = () => {
     if (!selectedTheme || !theme) return;
 
-    let darkAccentApplied = false;  // Flag to track if DarkAccent has been applied
-
+    let darkAccentApplied = false;
     const nodes = query.getNodes();
-    Object.keys(nodes).forEach((id) => {
-      const node = query.node(id).get();
 
-      if (node.data.displayName === "Background") {
-        actions.setProp(id, (props) => {
-          props.backgroundColor = getColor(theme.sectionColors.darkaccent);
-        });
-      }
+    Object.entries(nodes).forEach(([id, node]) => {
+      const nodeType = getNodeType(node);
 
-     if (node.data.displayName === "Container") {
-      if (!darkAccentApplied) {
-        actions.setProp(id, (props) => {
-          props.backgroundColor = getColor(theme.sectionColors.darkaccent);
-          props.borderColor = getColor(theme.sectionBorderColors.darkaccent);
-        });
-        darkAccentApplied = true;  
-      } else {
-        const nodeParentId = node.data.parent;
-        if (nodeParentId) {
-          const parent = query.node(nodeParentId).get();
-          if (parent?.data.displayName === "Container") {
-            actions.setProp(id, (props) => {
-              props.backgroundColor = getColor(theme.elementColors.lightaccent);
-              props.borderColor = getColor(theme.elementBorderColors.lightaccent);
-            });
+      switch (nodeType) {
+        case 'Background':
+          applyThemeToBackground(actions, id, theme);
+          break;
+        case 'Container':
+          if (!darkAccentApplied) {
+            applyThemeToContainer(actions, id, theme, true);
+            darkAccentApplied = true;
           } else {
-            actions.setProp(id, (props) => {
-              props.backgroundColor = getColor(theme.sectionColors.main);
-              props.borderColor = getColor(theme.sectionBorderColors.main);
-            });
+            if (node.data.parent) {
+            const parent = query.node(node.data.parent).get();
+            
+            if (parent?.data.displayName === 'Container') {
+              applyThemeToNestedContainer(actions, id, theme);
+            } else {
+              applyThemeToContainer(actions, id, theme, false);
+            }
+          }}
+          break;
+        case 'Other':
+          if (node.data.props && !node.data.isCanvas && node.data.displayName !== 'Single Line Input') {
+            applyThemeToOtherNodes(actions, id, theme);
           }
-        } else {
-          actions.setProp(id, (props) => {
-            props.backgroundColor = getColor(theme.sectionColors.main);
-            props.borderColor = getColor(theme.sectionBorderColors.main);
-          });
-        }
-      }
-    }
-
-
-      if (node.data.props && !node.data.isCanvas) {
-        if (node.data.props.backgroundColor) {
-          actions.setProp(id, (props) => {
-            props.backgroundColor = getColor(theme.elementColors.main);
-          });
-        }
-        if (node.data.props.borderColor) {
-          actions.setProp(id, (props) => {
-            props.borderColor = getColor(theme.elementBorderColors.main);
-          });
-        }
-        if (node.data.props.fontColor) {
-          actions.setProp(id, (props) => {
-            props.fontColor = getColor(theme.fontColors.main);
-          });
-        }
+          break;
       }
     });
   };
