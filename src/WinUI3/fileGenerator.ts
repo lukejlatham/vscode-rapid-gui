@@ -31,7 +31,7 @@ export class FileGenerator {
     }
   }
 
-  public generateProjectFiles(pages: Page[]) {
+  public async generateProjectFiles(pages: Page[]) {
     if (pages.length === 0) {
       console.error("No pages to generate");
       return;
