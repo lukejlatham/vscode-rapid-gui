@@ -13,14 +13,12 @@ export function generateRadioButtonXaml(node: Node, indent: string = ""): string
     xaml += `${indent}  <TextBlock Text="${props.header}" FontSize="${props.fontSize}" Foreground="${props.fontColor}" />\n`;
   }
 
-  // Add radio buttons
   props.optionLabels.forEach((label: string, index: number) => {
     xaml += `${indent}  <RadioButton`;
     xaml += ` Content="${label}"`;
     xaml += ` GroupName="${props.groupName || "RadioGroup"}"`;
     xaml += ` FontSize="${props.fontSize}"`;
     xaml += ` Foreground="${props.fontColor}"`;
-    xaml += ` Background="${props.backgroundColor}"`;
     if (index === 0 && props.defaultSelected) {
       xaml += ` IsChecked="True"`;
     }
