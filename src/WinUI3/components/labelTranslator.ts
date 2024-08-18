@@ -23,7 +23,7 @@ export function generateLabelXaml(node: Node, indent: string = ""): string {
     xaml += ` TextDecorations="Underline"`;
   }
 
-  xaml += " />";
+  xaml += "></TextBlock>";
 
   if (props.icon && props.icon !== "none") {
     xaml = `${indent}<StackPanel Orientation="Horizontal" Spacing="5">\n${

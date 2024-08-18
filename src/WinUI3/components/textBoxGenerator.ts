@@ -20,7 +20,7 @@ export function generateTextBoxXaml(node: Node, indent: string = ""): string {
   xaml += ` Width="${props.width}"`;
   xaml += ` Height="${props.height}"`;
 
-  xaml += " />";
+  xaml += "></TextBox>";
 
   return xaml + "\n";
 }
