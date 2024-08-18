@@ -1,11 +1,11 @@
 import { Node } from "../JsonParser";
 import { generateSingleComponentXaml } from "../componentGenerator";
 
-export function generateContainerXaml(
+export async function generateContainerXaml(
   node: Node,
   content: { [key: string]: Node },
   indent: string = ""
-): string {
+): Promise<string> {
   const props = node.props;
 
   let xaml = `${indent}<Grid>\n`;
@@ -57,7 +57,7 @@ export function generateContainerXaml(
   xaml += ` VerticalAlignment="${mapAlignItems(props.alignItems)}"`;
   xaml += `>\n`;
 
-  generateChildComponents(node, content, indent + "      ", xaml);
+  await generateChildComponents(node, content, indent + "      ", xaml);
 
   xaml += `${indent}    </StackPanel>\n`;
   xaml += `${indent}  </Border>\n`;
@@ -65,7 +65,7 @@ export function generateContainerXaml(
   return xaml;
 }
 
-function generateChildComponents(
+async function generateChildComponents(
   parentNode: Node,
   content: { [key: string]: Node },
   indent: string,
@@ -74,10 +74,10 @@ function generateChildComponents(
   for (const childId of parentNode.nodes) {
     const childNode = content[childId];
     if (childNode) {
-      xaml += generateSingleComponentXaml(childNode, content, indent);
+      xaml += await generateSingleComponentXaml(childNode, content, indent);
       // If the child is a container, recursively generate its children
       if (childNode.type.resolvedName === "Container") {
-        generateChildComponents(childNode, content, indent + "  ", xaml);
+        await generateChildComponents(childNode, content, indent + "  ", xaml);
       }
     }
   }
