@@ -1,5 +1,5 @@
 import { Node } from "../JsonParser";
-import { generateSingleComponentXaml } from "../componentGenerator";
+import { generateComponentXaml, generateSingleComponentXaml } from "../componentGenerator";
 
 export async function generateContainerXaml(
   node: Node,
@@ -57,30 +57,19 @@ export async function generateContainerXaml(
   xaml += ` VerticalAlignment="${mapAlignItems(props.alignItems)}"`;
   xaml += `>\n`;
 
-  await generateChildComponents(node, content, indent + "      ", xaml);
+  if (node.nodes) {
+    for (const childId of node.nodes) {
+      const childNode = content[childId];
+      if (childNode) {
+        xaml += await generateComponentXaml(childNode, content, indent + "      ");
+      }
+    }
+  }
 
   xaml += `${indent}    </StackPanel>\n`;
   xaml += `${indent}  </Border>\n`;
   xaml += `${indent}</Grid>\n`;
   return xaml;
-}
-
-async function generateChildComponents(
-  parentNode: Node,
-  content: { [key: string]: Node },
-  indent: string,
-  xaml: string
-) {
-  for (const childId of parentNode.nodes) {
-    const childNode = content[childId];
-    if (childNode) {
-      xaml += await generateSingleComponentXaml(childNode, content, indent);
-      // If the child is a container, recursively generate its children
-      if (childNode.type.resolvedName === "Container") {
-        await generateChildComponents(childNode, content, indent + "  ", xaml);
-      }
-    }
-  }
 }
 
 function mapJustifyContent(justifyContent: string): string {

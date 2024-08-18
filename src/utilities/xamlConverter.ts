@@ -42,12 +42,15 @@ export async function convertToXaml(
     console.log("JSON Content:", jsonContent);
 
     try {
-      const parsedContent = JSON.parse(jsonContent);
-      console.log("Parsed content:", JSON.stringify(parsedContent, null, 2));
+      const parsedJSON: ParsedJSON = parseJSON(jsonContent);
+      // const pageName = Object.keys(parsedJSON.pages)[0];
+      const pageStructure = parsedJSON.pages.default;
+
+      console.log("Parsed content:", JSON.stringify(pageStructure, null, 2));
       const page: Page = {
         id: fileName,
         name: fileName,
-        content: parsedContent,
+        content: pageStructure.components,
       };
       console.log("Created Page object:", JSON.stringify(page, null, 2));
       pages.push(page);

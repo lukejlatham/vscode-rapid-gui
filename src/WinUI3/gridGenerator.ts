@@ -6,48 +6,16 @@ import { Page } from "../../webview-ui/src/types";
 export async function generateGridXaml(page: Page): Promise<string> {
   console.log("Generating XAML for page:", JSON.stringify(page, null, 2));
 
-  let pageContent: any;
-
-  if (typeof page.content === "string") {
-    try {
-      pageContent = JSON.parse(page.content);
-    } catch (error) {
-      console.error("Failed to parse page content JSON", error);
-      throw new Error("Failed to parse page content JSON");
-    }
-  } else {
-    pageContent = page.content;
-  }
-
-  if (!pageContent || !pageContent.ROOT) {
-    console.error("ROOT node is missing in page content");
-    console.log("Page content keys:", Object.keys(pageContent || {}));
-    throw new Error("Root node not found");
-  }
-
-  const rootNode = pageContent.ROOT as Node;
+  const rootNode = page.content.ROOT as Node;
+  const content = page.content as { [key: string]: Node };
 
   let xaml = `<Grid x:Name="RootGrid" Background="${
     rootNode.props.backgroundColor || "Transparent"
-  }">\n`;
-
+  }">`;
   xaml += generateGridDefinitions(rootNode.props.rows, rootNode.props.columns);
+  xaml += await generateGridContent(content, rootNode.props.layout || [], "  ");
+  xaml += "</Grid>";
 
-  if (!rootNode.props.layout) {
-    console.error("Layout not found in root node props");
-  }
-  if (!rootNode.linkedNodes) {
-    console.error("LinkedNodes not found in root node");
-  }
-
-  xaml += await generateGridContent(
-    pageContent as { [key: string]: Node },
-    rootNode.props.layout || [],
-    "    "
-  );
-
-  xaml += "  </Grid>\n";
-  console.log("Generated XAML:", xaml);
   return xaml;
 }
 
@@ -80,19 +48,11 @@ async function generateGridContent(
 ): Promise<string> {
   let xaml = "";
 
-  const idMapping: { [key: string]: string } = {};
-  Object.entries(content.ROOT.linkedNodes).forEach(([layoutIndex, nodeId]) => {
-    idMapping[layoutIndex] = nodeId;
-  });
-
   for (const item of layout) {
-    const nodeId = idMapping[item.i];
-    const node = nodeId ? content[nodeId] : null;
+    const nodeId = content.ROOT.linkedNodes[item.i];
+    const node = content[nodeId];
     if (node) {
       xaml += await generateGridCell(content, item, node, indent);
-    } else {
-      console.warn(`Node not found for layout item: ${item.i}`);
-      xaml += `${indent}<Grid Grid.Row="${item.y}" Grid.Column="${item.x}" Grid.RowSpan="${item.h}" Grid.ColumnSpan="${item.w}"/>\n`;
     }
   }
 
@@ -105,38 +65,27 @@ async function generateGridCell(
   node: Node,
   indent: string
 ): Promise<string> {
-  let xaml = "";
-
   const gridAttrs = generateGridAttributes(layoutItem);
+  let xaml = `${indent}<Grid ${gridAttrs}>\n`;
 
-  if (node.type.resolvedName === "GridCell") {
-    xaml += `${indent}  <StackPanel ${gridAttrs} Orientation="${mapFlexDirection(
-      node.props.flexDirection
-    )}" 
-      HorizontalAlignment="${mapFlexToAlignment(node.props.justifyContent)}" 
-      VerticalAlignment="${mapFlexToAlignment(node.props.alignItems)}"
-      Margin="${node.props.gap || "0"}">\n`;
+  xaml += await generateComponentXaml(node, content, indent + "  ");
 
-    // Process child nodes
+  if (node.nodes) {
     for (const childId of node.nodes) {
       const childNode = content[childId];
       if (childNode) {
-        xaml += await generateComponentXaml({ [childId]: childNode }, indent + "    ");
-      } else {
-        console.warn(`Child node not found: ${childId}`);
+        xaml += await generateGridCell(
+          content,
+          { i: childId, x: 0, y: 0, w: 1, h: 1 },
+          childNode,
+          indent + "  "
+        );
       }
     }
-
-    xaml += `${indent}  </StackPanel>\n`;
-  } else {
-    xaml += await generateComponentXaml({ [layoutItem.i]: node }, indent + "  ");
   }
 
+  xaml += `${indent}</Grid>\n`;
   return xaml;
-}
-
-function mapFlexDirection(flexDirection?: string): string {
-  return flexDirection === "row" ? "Horizontal" : "Vertical";
 }
 
 function generateGridAttributes(layoutItem: LayoutItem): string {

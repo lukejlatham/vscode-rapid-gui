@@ -44,67 +44,70 @@ export interface Node {
 
 export function parseJSON(jsonString: string): ParsedJSON {
   try {
-    const json = JSON.parse(jsonString) as { [pageName: string]: any };
-    const pages: { [pageName: string]: PageStructure } = {};
+    const json = typeof jsonString === "string" ? JSON.parse(jsonString) : jsonString;
+    console.log("Parsed JSON:", JSON.stringify(json, null, 2));
 
-    for (const [pageName, pageData] of Object.entries(json)) {
-      validatePageStructure(pageData);
-      setParentReferences(pageData);
-      pages[pageName] = {
-        root: pageData.ROOT as Node,
-        layout: parseRootLayout(pageData.ROOT as Node),
-        components: extractComponents(pageData as { [key: string]: Node }),
-      };
-    }
+    const components: { [key: string]: Node } = {};
+    Object.entries(json).forEach(([key, value]) => {
+      components[key] = value as Node;
+    });
 
-    return { pages };
+    setParentReferences(components);
+
+    const rootNode = components.ROOT;
+    const pageStructure: PageStructure = {
+      root: rootNode,
+      layout: rootNode.props.layout || [],
+      components: components,
+    };
+
+    return {
+      pages: {
+        default: pageStructure,
+      },
+    };
   } catch (error) {
-    console.error("Failed to parse JSON", error);
-    throw new Error(`Failed to parse JSON: ${(error as Error).message}`);
+    console.error("Error parsing JSON:", error);
+    throw new Error("Error parsing JSON");
   }
 }
 
-function setParentReferences(pageData: { [key: string]: Node }) {
-  for (const [nodeId, node] of Object.entries(pageData)) {
+function setParentReferences(components: { [key: string]: Node }) {
+  Object.values(components).forEach((node) => {
     if (node.nodes) {
-      for (const childId of node.nodes) {
-        if (pageData[childId]) {
-          pageData[childId].parent = nodeId;
+      node.nodes.forEach((childId) => {
+        if (components[childId]) {
+          components[childId].parent = node.custom.id || null;
         }
-      }
+      });
     }
     if (node.linkedNodes) {
-      for (const [_, linkedNodeId] of Object.entries(node.linkedNodes)) {
-        if (pageData[linkedNodeId]) {
-          pageData[linkedNodeId].parent = nodeId;
+      Object.values(node.linkedNodes).forEach((childId) => {
+        if (components[childId]) {
+          components[childId].parent = node.custom.id || null;
         }
-      }
+      });
     }
-  }
+  });
 }
 
-function validatePageStructure(pageData: any) {
-  if (!pageData.ROOT) {
-    throw new Error("Page JSON is missing ROOT node");
-  }
-  if (!pageData.ROOT.props) {
-    throw new Error("Missing props in ROOT node");
-  }
-}
+// function validatePageStructure(pageData: any) {
+//   if (!pageData.ROOT) {
+//     console.error("Full page data:", JSON.stringify(pageData, null, 2));
+//     throw new Error("Page JSON is missing ROOT node");
+//   }
+//   if (!pageData.ROOT.props) {
+//     throw new Error("Missing props in ROOT node");
+//   }
+// }
 
-function parseRootLayout(root: Node): LayoutItem[] {
-  return root.props.layout || [];
-}
+// function parseRootLayout(root: Node): LayoutItem[] {
+//   return root.props.layout || [];
+// }
 
-function extractComponents(json: { [key: string]: Node }): { [key: string]: Node } {
-  const components: { [key: string]: Node } = {};
-  for (const [key, value] of Object.entries(json)) {
-    if (key !== "ROOT") {
-      components[key] = value;
-    }
-  }
-  return components;
-}
+// function extractComponents(json: { [key: string]: Node }): { [key: string]: Node } {
+//   return json;
+// }
 
 export function getComponentById(parsedJSON: ParsedJSON, id: string): Node | undefined {
   for (const page of Object.values(parsedJSON.pages)) {

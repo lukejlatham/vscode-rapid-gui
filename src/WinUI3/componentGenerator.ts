@@ -12,16 +12,21 @@ import { generateTextBoxXaml } from "./components/textBoxGenerator";
 import { generateImageXaml } from "./components/imageTranslator";
 
 export async function generateComponentXaml(
-  content: PageStructure["components"],
-  indent: string = "",
-  projectPath?: string
+  node: Node,
+  content: { [key: string]: Node },
+  indent: string = ""
 ): Promise<string> {
-  let xaml = "";
-  for (const [nodeId, node] of Object.entries(content)) {
-    if (!node.parent) {
-      xaml += await generateSingleComponentXaml(node, content, indent, projectPath);
+  let xaml = await generateSingleComponentXaml(node, content, indent);
+
+  if (node.nodes) {
+    for (const childId of node.nodes) {
+      const childNode = content[childId];
+      if (childNode) {
+        xaml += await generateComponentXaml(childNode, content, indent);
+      }
     }
   }
+
   return xaml;
 }
 
