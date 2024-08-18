@@ -109,25 +109,18 @@ export class FileGenerator {
   private createMainWindowXamlCs(pages: Page[]) {
     let content = this.templateManager.getTemplate("MainWindow.xaml.cs");
     content = content.replace(/\{\{namespace\}\}/g, this.namespace);
-    content = content.replace("{{defaultPage}}", this.sanitizePageName(pages[0].name));
 
-    const firstPageName = this.sanitizePageName(pages[0].name);
-    content = content.replace(
-      /ContentFrame\.Navigate\(typeof\(pageName\)\);/,
-      `ContentFrame.Navigate(typeof(${firstPageName}));`
-    );
+    const defaultPage = this.sanitizePageName(pages[0].name);
+    content = content.replace("{{defaultPage}}", defaultPage);
 
-    const pageTypeLogic = pages
+    const pageTypeCases = pages
       .map((page) => {
         const sanitizedPageName = this.sanitizePageName(page.name);
-        return `case "${sanitizedPageName}": pageType = typeof(${sanitizedPageName}); break;`;
+        return `                    case "${sanitizedPageName}": pageType = typeof(${sanitizedPageName}); break;`;
       })
-      .join("\n                     ");
+      .join("\n");
 
-    content = content.replace(
-      /case "pageName": pageType = typeof\(pageName\); break;/,
-      pageTypeLogic
-    );
+    content = content.replace("{{pageTypeCases}}", pageTypeCases);
 
     this.createFile("MainWindow.xaml.cs", content);
   }
