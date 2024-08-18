@@ -16,7 +16,18 @@ export async function generateComponentXaml(
   content: { [key: string]: Node },
   indent: string = ""
 ): Promise<string> {
-  return await generateSingleComponentXaml(node, content, indent);
+  let xaml = await generateSingleComponentXaml(node, content, indent);
+
+  if (node.nodes) {
+    for (const childId of node.nodes) {
+      const childNode = content[childId];
+      if (childNode) {
+        xaml += await generateComponentXaml(childNode, content, indent);
+      }
+    }
+  }
+
+  return xaml;
 }
 
 export async function generateSingleComponentXaml(
