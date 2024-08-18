@@ -27,7 +27,7 @@ export class AppGenerator {
       projectName,
       outputPath,
       this.templateManager,
-      `${projectName}.App`,
+      projectName,
       "CN=YourPublisherName",
       `${projectName} Description`
     );
@@ -58,4 +58,3 @@ export class AppGenerator {
     }
   }
 }
-
