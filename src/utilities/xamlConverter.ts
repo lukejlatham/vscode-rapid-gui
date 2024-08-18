@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import * as path from "path";
 import { Page } from "../../webview-ui/src/types";
-import { parseJSON, ParsedJSON } from "../WinUI3/JsonParser";
+// import { parseJSON, ParsedJSON } from "../WinUI3/JsonParser";
 import { AppGenerator } from "../WinUI3/generateapp";
 
 export async function convertToXaml(
@@ -42,15 +42,13 @@ export async function convertToXaml(
     console.log("JSON Content:", jsonContent);
 
     try {
-      const parsedJSON: ParsedJSON = parseJSON(jsonContent);
+      const parsedJSON = JSON.parse(jsonContent);
       // const pageName = Object.keys(parsedJSON.pages)[0];
-      const pageStructure = parsedJSON.pages.default;
-
-      console.log("Parsed content:", JSON.stringify(pageStructure, null, 2));
+      console.log("Parsed content:", JSON.stringify(parsedJSON, null, 2));
       const page: Page = {
         id: fileName,
         name: fileName,
-        content: pageStructure.components,
+        content: parsedJSON,
       };
       console.log("Created Page object:", JSON.stringify(page, null, 2));
       pages.push(page);

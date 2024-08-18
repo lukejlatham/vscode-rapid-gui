@@ -44,15 +44,19 @@ export interface Node {
 
 export function parseJSON(jsonString: string): ParsedJSON {
   try {
-    const json = typeof jsonString === "string" ? JSON.parse(jsonString) : jsonString;
+    const json = JSON.parse(jsonString);
     console.log("Parsed JSON:", JSON.stringify(json, null, 2));
 
-    const components: { [key: string]: Node } = {};
-    Object.entries(json).forEach(([key, value]) => {
-      components[key] = value as Node;
-    });
+    if (!json || typeof json !== "object") {
+      throw new Error("Invalid JSON structure");
+    }
 
-    setParentReferences(components);
+    const components: { [key: string]: Node } = json;
+
+    // Validate the ROOT node
+    if (!components.ROOT || !components.ROOT.props) {
+      throw new Error("Missing ROOT node or ROOT props in JSON");
+    }
 
     const rootNode = components.ROOT;
     const pageStructure: PageStructure = {
@@ -67,8 +71,8 @@ export function parseJSON(jsonString: string): ParsedJSON {
       },
     };
   } catch (error) {
-    console.error("Error parsing JSON:", error);
-    throw new Error("Error parsing JSON");
+    console.error("Failed to parse JSON", error);
+    throw new Error(`Error parsing JSON: ${(error as Error).message}`);
   }
 }
 
