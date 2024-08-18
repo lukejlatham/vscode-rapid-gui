@@ -36,12 +36,14 @@ export async function convertToXaml(
 
   for (let i = 0; i < contents.length; i++) {
     const fileName = fileNames[i];
-    const jsonContent = contents[i];
+    let jsonContent = contents[i];
 
     console.log(`Processing page: ${fileName}`);
     console.log("JSON Content:", jsonContent);
 
     try {
+      jsonContent = jsonContent.replace(/^\s*"|"\s*$/g, "").replace(/\\"/g, '"');
+
       const parsedJSON = JSON.parse(jsonContent);
       // const pageName = Object.keys(parsedJSON.pages)[0];
       console.log("Parsed content:", JSON.stringify(parsedJSON, null, 2));
