@@ -185,8 +185,8 @@ export class FileGenerator {
     this.createFile("Directory.Build.props", content);
   }
 
-  private createPageXaml(page: Page, sanitizedPageName: string) {
-    const gridXaml = generateGridXaml(page);
+  async createPageXaml(page: Page, sanitizedPageName: string) {
+    const gridXaml = await generateGridXaml(page);
     let content = this.templateManager.getTemplate("Page.xaml");
     content = content.replace(/\{\{namespace\}\}/g, this.namespace);
     content = content.replace(/\{\{pageName\}\}/g, sanitizedPageName);

@@ -3,7 +3,7 @@ import { LayoutItem, Node } from "./JsonParser";
 import { generateComponentXaml } from "./componentGenerator";
 import { Page } from "../../webview-ui/src/types";
 
-export function generateGridXaml(page: Page): string {
+export async function generateGridXaml(page: Page): Promise<string> {
   console.log("Generating XAML for page:", JSON.stringify(page, null, 2));
 
   if (typeof page.content === "string") {
@@ -32,7 +32,7 @@ export function generateGridXaml(page: Page): string {
     console.error("LinkedNodes not found in root node");
   }
 
-  xaml += generateGridContent(
+  xaml += await generateGridContent(
     page.content as { [key: string]: Node },
     rootNode.props.layout || [],
     "    "
@@ -65,11 +65,11 @@ function generateGridDefinitions(rows?: number, columns?: number): string {
   return xaml;
 }
 
-function generateGridContent(
+async function generateGridContent(
   content: { [key: string]: Node },
   layout: LayoutItem[],
   indent: string
-): string {
+): Promise<string> {
   let xaml = "";
 
   const idMapping: { [key: string]: string } = {};
@@ -81,7 +81,7 @@ function generateGridContent(
     const nodeId = idMapping[item.i];
     const node = nodeId ? content[nodeId] : null;
     if (node) {
-      xaml += generateGridCell(content, item, node, indent);
+      xaml += await generateGridCell(content, item, node, indent);
     } else {
       console.warn(`Node not found for layout item: ${item.i}`);
       xaml += `${indent}<Grid Grid.Row="${item.y}" Grid.Column="${item.x}" Grid.RowSpan="${item.h}" Grid.ColumnSpan="${item.w}"/>\n`;
@@ -96,7 +96,7 @@ async function generateGridCell(
   layoutItem: LayoutItem,
   node: Node,
   indent: string
-): Promise <string> {
+): Promise<string> {
   let xaml = "";
 
   const gridAttrs = generateGridAttributes(layoutItem);
