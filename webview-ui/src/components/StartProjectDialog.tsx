@@ -6,6 +6,7 @@ import { TextDialog } from './ImageUpload/TextUploadDialog';
 import { TemplatesDialog } from '../pages/EditingInterface/TemplatesDialog';
 import { Page } from '../types';
 import {FormattedMessage} from 'react-intl';
+import GenerationLoader from './SketchUpload/generationLoader';
 
 interface StartProjectDialogProps {
   isOpen: boolean;
@@ -41,6 +42,7 @@ export const StartProjectDialog: React.FC<StartProjectDialogProps> = ({ isOpen, 
                             <Button onClick={() => setIsTemplatesDialogOpen(true)} size='large' appearance="secondary" icon={<GlanceHorizontalSparklesRegular />}><FormattedMessage id="startProjectDialog.templates"/></Button>
                             <Button onClick={() => setIsTextDialogOpen(true)} size='large' appearance="secondary" icon={<TextEffectsSparkleRegular />}><FormattedMessage id="startProjectDialog.text"/></Button>
                             <Button onClick={() => setIsUploadDialogOpen(true)} size='large' appearance="primary" icon={<CameraSparklesRegular />}><FormattedMessage id="startProjectDialog.sketch"/></Button>
+                            <GenerationLoader/>
                         </DialogActions>
                     </DialogBody>
                 </DialogSurface>
