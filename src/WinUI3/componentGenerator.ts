@@ -22,7 +22,7 @@ export async function generateComponentXaml(
   }
   processedNodes.add(node.custom.id);
 
-  let xaml = await generateSingleComponentXaml(node, content, indent, processedNodes);
+  let xaml = await generateSingleComponentXaml(node, content, indent);
 
   if (node.nodes) {
     for (const childId of node.nodes) {
