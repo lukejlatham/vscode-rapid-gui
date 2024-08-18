@@ -12,7 +12,12 @@ export function generateIconXaml(node: Node, indent: string = ""): string {
 
   xaml += ` Glyph="${glyph}"`;
   xaml += ` FontSize="${props.iconSize}"`;
-  xaml += ` Foreground="${props.iconColor}"`;
+  if (props.iconColor) {
+    const color = props.iconColor.startsWith("#") ? props.iconColor.substring(1) : props.iconColor;
+    xaml += ` Foreground="#FF${color}"`;
+  } else {
+    xaml += ` Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"`;
+  }
 
   // if (props.hyperlink) {
   //   xaml += ">\n";
@@ -23,7 +28,7 @@ export function generateIconXaml(node: Node, indent: string = ""): string {
   //   xaml += `${indent}  </FontIcon.Resources>\n`;
   //   xaml += `${indent}</FontIcon>`;
   // } else {
-  xaml += " />";
+  xaml += "></FontIcon>";
 
   return xaml + "\n";
 }
