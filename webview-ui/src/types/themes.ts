@@ -433,11 +433,16 @@ export const themeNames = themeList.map((theme) => theme.name);
 export type NodeThemeType = "Background" | "Container" | "Other";
 
 export const fontList = [
-  { name: "GoogleArial", displayName: "Arial" },
-  { name: "MicrosoftSegoeUI", displayName: "Segoe UI" },
-  { name: "FacebookHelvetica", displayName: "Helvetica" },
-  { name: "AirbnbHelveticaNeue", displayName: "Helvetica Neue" },
+  { name: "GoogleTwitter", displayName: "Roboto" },
+  { name: "Airbnb", displayName: "Montserrat" },
+  { name: "Microsoft", displayName: "" },
+  { name: "Facebook", displayName: "Helvetica" },
+  { name: "AirbnbSnapchat", displayName: "Helvetica Neue" },
   { name: "Garamond", displayName: "Garamond" },
+  { name: "Spotify", displayNAme: "Jakarta Sans" },
+  { name: "Apple", displayName: "Inter" },
+  { name: "IBM", displayName: "IBM Plex Sans" },
+  { name: "Slack", displayName: "Lato" },
 ];
 
 export const fontNames = fontList.map((font) => font.displayName);
