@@ -8,11 +8,16 @@ export function generateContainerXaml(
 ): string {
   const props = node.props;
 
-  let xaml = `${indent}<StackPanel`;
-  xaml += ` Orientation="${props.flexDirection === "row" ? "Horizontal" : "Vertical"}"`;
-  xaml += ` Spacing="${props.gap || 0}"`;
-  xaml += ` HorizontalAlignment="${mapJustifyContent(props.justifyContent)}"`;
-  xaml += ` VerticalAlignment="${mapAlignItems(props.alignItems)}"`;
+  let xaml = `${indent}<Grid>\n`;
+
+  // Add shadow if needed
+  if (props.shadowColor && props.shadowColor !== "transparent" && props.shadowBlur > 0) {
+    xaml += `${indent}  <Grid.Resources>\n`;
+    xaml += `${indent}    <ThemeShadow x:Key="CustomShadow" />\n`;
+    xaml += `${indent}  </Grid.Resources>\n`;
+  }
+
+  xaml += `${indent}  <Border`;
 
   if (props.width) {
     xaml += ` Width="${props.width}*"`;
@@ -33,14 +38,24 @@ export function generateContainerXaml(
     xaml += ` BorderBrush="${props.borderColor}" BorderThickness="2"`;
   }
 
+  if (props.shadowColor && props.shadowColor !== "transparent" && props.shadowBlur > 0) {
+    xaml += ` Shadow="{StaticResource CustomShadow}"`;
+    xaml += ` Translation="0,0,32"`; // This lifts the element to cast a shadow
+  }
+
   xaml += `>\n`;
 
-  // Add shadow effect if needed
-  if (props.shadowColor !== "transparent" && props.shadowBlur > 0) {
-    xaml += `${indent}  <StackPanel.Effect>\n`;
-    xaml += `${indent}    <DropShadowEffect Color="${props.shadowColor}" BlurRadius="${props.shadowBlur}" ShadowDepth="0" OffsetX="${props.shadowOffsetX}" OffsetY="${props.shadowOffsetY}" />\n`;
-    xaml += `${indent}  </StackPanel.Effect>\n`;
+  xaml += `${indent}    <StackPanel`;
+  xaml += ` Orientation="${props.flexDirection === "row" ? "Horizontal" : "Vertical"}"`;
+  if (props.padding) {
+    xaml += ` Padding="${props.padding}"`;
   }
+  if (props.gap) {
+    xaml += ` Spacing="${props.gap}"`;
+  }
+  xaml += ` HorizontalAlignment="${mapJustifyContent(props.justifyContent)}"`;
+  xaml += ` VerticalAlignment="${mapAlignItems(props.alignItems)}"`;
+  xaml += `>\n`;
 
   if (node.nodes && node.nodes.length > 0) {
     for (const childId of node.nodes) {
