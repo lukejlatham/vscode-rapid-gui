@@ -57,25 +57,30 @@ export function generateContainerXaml(
   xaml += ` VerticalAlignment="${mapAlignItems(props.alignItems)}"`;
   xaml += `>\n`;
 
-  if (node.nodes && node.nodes.length > 0) {
-    for (const childId of node.nodes) {
-      let childNode: Node | undefined;
-      if (node.linkedNodes && node.linkedNodes[childId]) {
-        childNode = content[node.linkedNodes[childId]];
-      } else if (content[childId]) {
-        childNode = content[childId];
-      }
+  generateChildComponents(node, content, indent + "      ", xaml);
 
-      if (childNode) {
-        xaml += generateSingleComponentXaml(childNode, content, indent + "  ");
-      } else {
-        console.warn(`Child node not found: ${childId}`);
+  xaml += `${indent}    </StackPanel>\n`;
+  xaml += `${indent}  </Border>\n`;
+  xaml += `${indent}</Grid>\n`;
+  return xaml;
+}
+
+function generateChildComponents(
+  parentNode: Node,
+  content: { [key: string]: Node },
+  indent: string,
+  xaml: string
+) {
+  for (const childId of parentNode.nodes) {
+    const childNode = content[childId];
+    if (childNode) {
+      xaml += generateSingleComponentXaml(childNode, content, indent);
+      // If the child is a container, recursively generate its children
+      if (childNode.type.resolvedName === "Container") {
+        generateChildComponents(childNode, content, indent + "  ", xaml);
       }
     }
   }
-
-  xaml += `${indent}</StackPanel>\n`;
-  return xaml;
 }
 
 function mapJustifyContent(justifyContent: string): string {
