@@ -4,7 +4,8 @@ import { generateComponentXaml, generateSingleComponentXaml } from "../component
 export async function generateContainerXaml(
   node: Node,
   content: { [key: string]: Node },
-  indent: string = ""
+  indent: string = "",
+  processedNodes: Set<string> = new Set()
 ): Promise<string> {
   const props = node.props;
 
@@ -60,8 +61,8 @@ export async function generateContainerXaml(
   if (node.nodes) {
     for (const childId of node.nodes) {
       const childNode = content[childId];
-      if (childNode) {
-        xaml += await generateComponentXaml(childNode, content, indent + "      ");
+      if (childNode && !processedNodes.has(childNode.custom.id)) {
+        xaml += await generateComponentXaml(childNode, content, indent + "    ", processedNodes);
       }
     }
   }

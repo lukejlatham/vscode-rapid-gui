@@ -56,12 +56,14 @@ async function generateGridContent(
   indent: string
 ): Promise<string> {
   let xaml = "";
+  const processedNodes = new Set<string>();
 
   for (const item of layout) {
     const nodeId = content.ROOT.linkedNodes[item.i];
     const node = content[nodeId];
-    if (node) {
-      xaml += await generateGridCell(content, item, node, indent);
+    if (node && !processedNodes.has(node.custom.id)) {
+      xaml += await generateGridCell(content, item, node, indent, processedNodes);
+      processedNodes.add(node.custom.id);
     }
   }
 
@@ -72,12 +74,13 @@ async function generateGridCell(
   content: { [key: string]: Node },
   layoutItem: LayoutItem,
   node: Node,
-  indent: string
+  indent: string,
+  processedNodes: Set<string>
 ): Promise<string> {
   const gridAttrs = generateGridAttributes(layoutItem);
   let xaml = `${indent}<Grid ${gridAttrs}>\n`;
 
-  xaml += await generateComponentXaml(node, content, indent + "  ");
+  xaml += await generateComponentXaml(node, content, indent + "  ", processedNodes);
 
   xaml += `${indent}</Grid>\n`;
   return xaml;

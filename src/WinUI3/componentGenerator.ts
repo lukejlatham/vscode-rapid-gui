@@ -14,15 +14,21 @@ import { generateImageXaml } from "./components/imageTranslator";
 export async function generateComponentXaml(
   node: Node,
   content: { [key: string]: Node },
-  indent: string = ""
+  indent: string = "",
+  processedNodes: Set<string> = new Set()
 ): Promise<string> {
-  let xaml = await generateSingleComponentXaml(node, content, indent);
+  if (processedNodes.has(node.custom.id)) {
+    return "";
+  }
+  processedNodes.add(node.custom.id);
+
+  let xaml = await generateSingleComponentXaml(node, content, indent, processedNodes);
 
   if (node.nodes) {
     for (const childId of node.nodes) {
       const childNode = content[childId];
-      if (childNode) {
-        xaml += await generateComponentXaml(childNode, content, indent);
+      if (childNode && !processedNodes.has(childNode.custom.id)) {
+        xaml += await generateComponentXaml(childNode, content, indent + "  ", processedNodes);
       }
     }
   }
@@ -34,7 +40,8 @@ export async function generateSingleComponentXaml(
   node: Node,
   content: { [key: string]: Node },
   indent: string = "",
-  projectPath?: string
+  projectPath?: string,
+  processedNodes: Set<string> = new Set()
 ): Promise<string> {
   switch (node.type.resolvedName) {
     case "Button":
@@ -50,7 +57,7 @@ export async function generateSingleComponentXaml(
     case "RadioButtons":
       return generateRadioButtonXaml(node, indent);
     case "Container":
-      return generateContainerXaml(node, content, indent);
+      return generateContainerXaml(node, content, indent, processedNodes);
     case "Checkboxes":
       return generateCheckboxXaml(node, indent);
     case "Slider":
