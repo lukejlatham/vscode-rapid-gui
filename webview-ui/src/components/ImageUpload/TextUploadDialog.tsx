@@ -18,6 +18,7 @@ import { ArrowUpload24Regular, CheckmarkCircle24Filled, CircleHint24Filled } fro
 import { handleTextUpload } from './handleTextUpload';
 import { v4 as uuidv4 } from 'uuid';
 import { Page } from '../../types';
+import { GenerationLoader } from '../SketchUpload/generationLoader';
 
 const useStyles = makeStyles({
   content: {
@@ -30,6 +31,7 @@ const useStyles = makeStyles({
     alignItems: 'center',
     justifyContent: 'center',
     height: '100px',
+    gap: tokens.spacingHorizontalM,
   },
   noInputText: {
     textAlign: 'center',
@@ -152,22 +154,7 @@ export const TextDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose, close
               {loading && (
                 <div className={styles.spinner}>
                   <Spinner label={`${PROCESSING_STAGES[currentStage]}...`} />
-                </div>
-              )}
-              {currentStage >= 0 && (
-                <div className={styles.processingStages}>
-                  {PROCESSING_STAGES.map((stage, index) => (
-                    <div key={index} className={styles.stageItem}>
-                      {index < currentStage ? (
-                        <CheckmarkCircle24Filled className={styles.completedStage} />
-                      ) : (
-                        <CircleHint24Filled className={styles.incompleteStage} />
-                      )}
-                      <Text className={index < currentStage ? styles.completedStage : undefined}>
-                        {stage}
-                      </Text>
-                    </div>
-                  ))}
+                  <GenerationLoader />
                 </div>
               )}
               {uiDescription && (

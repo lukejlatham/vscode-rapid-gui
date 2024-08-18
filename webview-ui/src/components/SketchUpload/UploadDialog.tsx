@@ -18,6 +18,7 @@ import { Image24Regular, ArrowUpload24Regular, CheckmarkCircle24Filled, CircleHi
 import { handleSketchUpload } from './handleSketchUpload';
 import { v4 as uuidv4 } from 'uuid';
 import { Page } from '../../types';
+import { GenerationLoader } from './generationLoader';
 
 
 declare const vscode: any;
@@ -39,6 +40,7 @@ const useStyles = makeStyles({
     alignItems: 'center',
     justifyContent: 'center',
     height: '100px',
+    gap: tokens.spacingHorizontalM,
   },
   noImageText: {
     textAlign: 'center',
@@ -186,24 +188,10 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose, clo
               {loading && (
                 <div className={styles.spinner}>
                   <Spinner label={`${PROCESSING_STAGES[currentStage]}...`} />
+                  <GenerationLoader />
                 </div>
               )}
-              {currentStage >= 0 && (
-                <div className={styles.processingStages}>
-                  {PROCESSING_STAGES.slice(0, -1).map((stage, index) => (
-                    <div key={index} className={styles.stageItem}>
-                      {index < currentStage ? (
-                        <CheckmarkCircle24Filled className={styles.completedStage} />
-                      ) : (
-                        <CircleHint24Filled className={styles.incompleteStage} />
-                      )}
-                      <Text className={index < currentStage ? styles.completedStage : undefined}>
-                        {stage}
-                      </Text>
-                    </div>
-                  ))}
-                </div>
-              )}
+             
               {uiDescription && (
                 <Text>
                   UI Description generated successfully!
