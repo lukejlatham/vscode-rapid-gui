@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useEditor } from "@craftjs/core";
 import { Subtitle1, Divider, Button, Tooltip, makeStyles, tokens } from "@fluentui/react-components";
 import { Delete24Regular, PaintBrush24Regular, PaintBrushArrowDown24Regular, Dismiss20Regular } from "@fluentui/react-icons";
-import { BackgroundSettings } from "../../../components/user/Settings/BackgroundSettings";
 
 
 const useStyles = makeStyles({

@@ -11,7 +11,6 @@ import { Checkboxes } from "../../components/user/Checkboxes";
 import { Icon } from "../../components/user/Icon";
 import { GridCell } from "../../components/user/GridCell";
 import { Container } from "../../components/user/Container";
-import { EditBackgroundButton } from "../../components/EditBackgroundButton";
 import { Text } from "../../components/user/Text";
 import { Dropdown } from "../../components/user/Dropdown";
 import { Slider } from "../../components/user/Slider";
@@ -138,7 +137,7 @@ const EditingInterface: React.FC<{
   }
 
   return (
-    <Editor resolver={{ Background, Text, Label, Button, TextBox, Image, Input, RadioButtons, Checkboxes, GridCell, Icon, EditBackgroundButton, Container, Dropdown, Slider }}>
+    <Editor resolver={{ Background, Text, Label, Button, TextBox, Image, Input, RadioButtons, Checkboxes, GridCell, Icon, Container, Dropdown, Slider }}>
       <EditorContent
         pages={pages}
         currentPageIndex={currentPageIndex}
