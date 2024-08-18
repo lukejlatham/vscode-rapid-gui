@@ -22,7 +22,7 @@ export async function generateGridXaml(page: Page): Promise<string> {
     rootNode.props.backgroundColor || "Transparent"
   }">`;
   xaml += generateGridDefinitions(rootNode.props.rows, rootNode.props.columns);
-  xaml += await generateGridContent(content, rootNode.props.layout || [], "  ");
+  xaml += await generateGridContent(content, rootNode.props.layout || [], "  ", rootNode);
   xaml += "</Grid>";
 
   return xaml;
@@ -53,17 +53,20 @@ function generateGridDefinitions(rows?: number, columns?: number): string {
 async function generateGridContent(
   content: { [key: string]: Node },
   layout: LayoutItem[],
-  indent: string
+  indent: string,
+  rootNode: Node
 ): Promise<string> {
   let xaml = "";
   const processedNodes = new Set<string>();
 
   for (const item of layout) {
-    const nodeId = content.ROOT.linkedNodes[item.i];
-    const node = content[nodeId];
-    if (node && !processedNodes.has(node.custom.id)) {
-      xaml += await generateGridCell(content, item, node, indent, processedNodes);
-      processedNodes.add(node.custom.id);
+    const nodeId = rootNode.linkedNodes[item.i];
+    if (nodeId && !processedNodes.has(nodeId)) {
+      const node = content[nodeId];
+      if (node) {
+        xaml += await generateGridCell(content, item, node, indent, processedNodes);
+      }
+      processedNodes.add(nodeId);
     }
   }
 

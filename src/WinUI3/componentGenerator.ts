@@ -15,20 +15,42 @@ export async function generateComponentXaml(
   node: Node,
   content: { [key: string]: Node },
   indent: string = "",
-  processedNodes: Set<string> = new Set()
+  processedNodes: Set<string>
 ): Promise<string> {
-  if (processedNodes.has(node.custom.id)) {
+  const nodeId = node.custom.id || Object.keys(content).find((key) => content[key] === node) || "";
+  if (processedNodes.has(nodeId)) {
     return "";
   }
-  processedNodes.add(node.custom.id);
+  processedNodes.add(nodeId);
+  // might not be able to differentiate between the different blanks within components in node tree.
+
+  // let xaml = "";
+  // if (node.nodes) {
+  //   for (const childId of node.nodes) {
+  //     const childNode = content[childId];
+  //     if (childNode && !processedNodes.has(childId)) {
+  //       xaml = await generateSingleComponentXaml(childNode, content, indent + "  ");
+  //     }
+  //   }
+  // }
 
   let xaml = await generateSingleComponentXaml(node, content, indent);
-
+  console.log("Node is: ", node);
+  console.log("Node children are: ", node.nodes);
   if (node.nodes) {
     for (const childId of node.nodes) {
       const childNode = content[childId];
-      if (childNode && !processedNodes.has(childNode.custom.id)) {
-        xaml += await generateComponentXaml(childNode, content, indent + "  ", processedNodes);
+      if (childNode && !processedNodes.has(childNode.custom.id || "")) {
+        xaml += await generateSingleComponentXaml(childNode, content, indent + "  ", processedNodes);
+      }
+    }
+  }
+
+  if (node.linkedNodes) {
+    for (const [key, linkedNodeId] of Object.entries(node.linkedNodes)) {
+      const linkedNode = content[linkedNodeId];
+      if (linkedNode && !processedNodes.has(linkedNode.custom.id || "")) {
+        xaml += await generateSingleComponentXaml(linkedNode, content, indent + "  ");
       }
     }
   }
@@ -40,8 +62,8 @@ export async function generateSingleComponentXaml(
   node: Node,
   content: { [key: string]: Node },
   indent: string = "",
-  projectPath?: string,
-  processedNodes: Set<string> = new Set()
+  processedNodes: Set<string> = new Set(),
+  projectPath?: string
 ): Promise<string> {
   switch (node.type.resolvedName) {
     case "Button":
