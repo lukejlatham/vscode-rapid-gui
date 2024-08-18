@@ -79,20 +79,6 @@ async function generateGridCell(
 
   xaml += await generateComponentXaml(node, content, indent + "  ");
 
-  if (node.nodes) {
-    for (const childId of node.nodes) {
-      const childNode = content[childId];
-      if (childNode) {
-        xaml += await generateGridCell(
-          content,
-          { i: childId, x: 0, y: 0, w: 1, h: 1 },
-          childNode,
-          indent + "  "
-        );
-      }
-    }
-  }
-
   xaml += `${indent}</Grid>\n`;
   return xaml;
 }
