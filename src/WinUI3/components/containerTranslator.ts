@@ -20,10 +20,10 @@ export function generateContainerXaml(
   xaml += `${indent}  <Border`;
 
   if (props.width) {
-    xaml += ` Width="${props.width}*"`;
+    xaml += ` Width="${props.width}"`;
   }
   if (props.height) {
-    xaml += ` Height="${props.height}*"`;
+    xaml += ` Height="${props.height}"`;
   }
   if (props.backgroundColor) {
     xaml += ` Background="${props.backgroundColor}"`;
