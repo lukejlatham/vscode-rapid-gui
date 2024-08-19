@@ -49,9 +49,9 @@ const useStyles = makeStyles({
   contentContainer: {
     padding: "15px",
     flexGrow: 1, // Allow content to grow and take available space
+    flexShrink: 1,
     height: "100%",
     boxSizing: "border-box",
-    flexShrink: 0,
   },
   sidebar: {
     display: "flex",

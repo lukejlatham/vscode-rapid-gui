@@ -48,7 +48,7 @@ const Settings: React.FC<{
     };
 
     return (
-        <div style={{width: '80%'}}>
+        <div style={{maxWidth: '100%'}}>
             <Label htmlFor={themeDropdownId}>
                 <FormattedMessage id="settings.changeTheme" defaultMessage="Change the extension's theme: " />
             </Label>
