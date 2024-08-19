@@ -254,7 +254,7 @@ export class FileGenerator {
   private createGlobalJson() {
     const content = JSON.stringify({
       sdk: {
-        version: "6.0.0" 
+        version: "6.0.0" //change
       }
     }, null, 2);
     this.createFile("../global.json", content);
@@ -265,35 +265,29 @@ export class FileGenerator {
     if (!fs.existsSync(vscodeDir)) {
       fs.mkdirSync(vscodeDir, { recursive: true });
     }
-
-    const relativeOutputPath = path.relative(path.dirname(this.outputPath), this.outputPath);
-
+  
     const launchJson = {
       version: "0.2.0",
       configurations: [
         {
-          name: "Debug WinUI 3 App",
-          type: "cppvsdbg",
+          name: ".NET Core Launch (console)",
+          type: "coreclr",
           request: "launch",
-          program: "${workspaceFolder}/bin/x64/Debug/net6.0-windows10.0.19041.0/${workspaceFolderBasename}.exe",
+          preLaunchTask: "build",
+          program: "${workspaceFolder}/${this.projectName}/bin/x64/Debug/net6.0-windows10.0.19041.0/win10-x64/${this.projectName}.exe",
           args: [],
-          stopAtEntry: false,
-          cwd: "${fileDirname}",
-          environment: [
-            {
-              name: "DISABLE_XAML_GENERATED_BINDING_DEBUG_OUTPUT",
-              value: "1"
-            },
-            {
-              name: "DISABLE_XAML_GENERATED_BREAK_ON_UNHANDLED_EXCEPTION",
-              value: "1"
-            }
-          ],
-          console: "externalTerminal"
+          cwd: "${workspaceFolder}/${this.projectName}",
+          console: "internalConsole",
+          stopAtEntry: false
+        },
+        {
+          name: ".NET Core Attach",
+          type: "coreclr",
+          request: "attach"
         }
       ]
     };
-
+  
     const tasksJson = {
       version: "2.0.0",
       tasks: [
@@ -303,7 +297,7 @@ export class FileGenerator {
           type: "process",
           args: [
             "build",
-            "${workspaceFolder}/${workspaceFolderBasename}.csproj",
+            "${workspaceFolder}/${this.projectName}/${this.projectName}.csproj",
             "/property:GenerateFullPaths=true",
             "/consoleloggerparameters:NoSummary"
           ],
@@ -315,15 +309,27 @@ export class FileGenerator {
           type: "process",
           args: [
             "publish",
-            "${workspaceFolder}/${workspaceFolderBasename}.csproj",
+            "${workspaceFolder}/${this.projectName}/${this.projectName}.csproj",
             "/property:GenerateFullPaths=true",
             "/consoleloggerparameters:NoSummary"
+          ],
+          problemMatcher: "$msCompile"
+        },
+        {
+          label: "watch",
+          command: "dotnet",
+          type: "process",
+          args: [
+            "watch",
+            "run",
+            "--project",
+            "${workspaceFolder}/${this.projectName}/${this.projectName}.csproj"
           ],
           problemMatcher: "$msCompile"
         }
       ]
     };
-
+  
     fs.writeFileSync(path.join(vscodeDir, "launch.json"), JSON.stringify(launchJson, null, 2));
     fs.writeFileSync(path.join(vscodeDir, "tasks.json"), JSON.stringify(tasksJson, null, 2));
   }
