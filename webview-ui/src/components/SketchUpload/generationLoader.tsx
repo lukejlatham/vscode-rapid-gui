@@ -1,17 +1,23 @@
-import React, { useMemo } from 'react';
-import { makeStyles, tokens, mergeClasses } from '@fluentui/react-components';
+import * as React from 'react';
+import { useMemo } from 'react';
+import { makeStyles, mergeClasses, shorthands } from '@griffel/react';
+import { tokens } from '@fluentui/react-theme';
 import {
-  Image24Regular, SparkleFilled, TextT24Regular, TextboxRegular,
-  Button20Filled, RadioButtonFilled, Button20Regular, CheckboxCheckedFilled,
-  SlideTextRegular, TextAlignLeftFilled, CardUiRegular,
-  TextBulletListCheckmarkFilled, CheckboxCheckedRegular, OptionsRegular
-} from "@fluentui/react-icons";
-
-interface LoaderProps {
-  width?: number;
-  height?: number;
-  speed?: number;
-}
+  Image24Regular,
+  TextT24Regular,
+  TextboxRegular,
+  Button20Filled,
+  RadioButtonFilled,
+  Button20Regular,
+  CheckboxCheckedFilled,
+  SlideTextRegular,
+  TextAlignLeftFilled,
+  CardUiRegular,
+  TextBulletListCheckmarkFilled,
+  CheckboxCheckedRegular,
+  OptionsRegular,
+  SparkleFilled
+} from '@fluentui/react-icons';
 
 const useStyles = makeStyles({
   loader: {
@@ -23,10 +29,16 @@ const useStyles = makeStyles({
   iconRow: {
     display: 'flex',
     position: 'absolute',
-    left: 0,
-    top: 0,
+    left: '0',
+    top: '0',
     height: 'var(--loader-height)',
-    animation: 'moveIcons var(--loader-speed) linear infinite',
+    animationName: {
+      '0%': { transform: 'translateX(0)' },
+      '100%': { transform: 'translateX(-50%)' },
+    },
+    animationDuration: 'var(--loader-speed)',
+    animationTimingFunction: 'linear',
+    animationIterationCount: 'infinite',
   },
   icon: {
     width: 'var(--loader-height)',
@@ -58,6 +70,12 @@ const iconComponents = [
   { Icon: OptionsRegular, colorClass: 'iconIndigo' },
 ];
 
+interface LoaderProps {
+  width?: number;
+  height?: number;
+  speed?: number;
+}
+
 export const GenerationLoader: React.FC<LoaderProps> = ({ 
   width = 200, 
   height = 24, 
@@ -70,10 +88,10 @@ export const GenerationLoader: React.FC<LoaderProps> = ({
     return [...Array(count)].map((_, index) => {
       if (index % 2 === 0) {
         return (
-            <SparkleFilled 
-              key={index} 
-              className={mergeClasses(styles.icon, styles.sparkle)}
-            />
+          <SparkleFilled 
+            key={index} 
+            className={mergeClasses(styles.icon, styles.sparkle)}
+          />
         );
       } else {
         const { Icon, colorClass } = iconComponents[(index - 1) / 2 % iconComponents.length];
@@ -85,8 +103,7 @@ export const GenerationLoader: React.FC<LoaderProps> = ({
         );
       }
     });
-  }
-  , [width, height, styles]);
+  }, [width, height, styles]);
 
   return (
     <div 
@@ -101,14 +118,6 @@ export const GenerationLoader: React.FC<LoaderProps> = ({
         {iconSet}
         {iconSet}
       </div>
-      <style>
-        {`
-          @keyframes moveIcons {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-          }
-        `}
-      </style>
     </div>
   );
 };
