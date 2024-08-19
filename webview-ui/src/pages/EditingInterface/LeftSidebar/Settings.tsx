@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Select, Theme, useId, FluentProvider } from '@fluentui/react-components';
+import { Select, Theme, useId, FluentProvider, Label } from '@fluentui/react-components';
 import { teamsDarkTheme, teamsLightTheme, teamsHighContrastTheme } from '@fluentui/react-components';
 import { LanguageContext } from '../../../components/Wrapper';
 import { FormattedMessage } from 'react-intl';
@@ -38,9 +38,9 @@ const Settings: React.FC<{
 
     return (
         <div>
-            <label htmlFor={themeDropdownId}>
+            <Label htmlFor={themeDropdownId}>
                 <FormattedMessage id="settings.changeTheme" defaultMessage="Change the extension's theme: " />
-            </label>
+            </Label>
             <Select id={themeDropdownId} defaultValue={"dark"} onChange={handleThemeChange}>
                 <option value="dark">
                     <FormattedMessage id="settings.dark" defaultMessage="Dark" />
@@ -53,9 +53,9 @@ const Settings: React.FC<{
                 </option>
             </Select>
 
-            <label htmlFor={languageDropdownId}>
+            <Label htmlFor={languageDropdownId}>
                 <FormattedMessage id="settings.changeLanguage" defaultMessage="Change the extension's language: " />
-            </label>
+            </Label>
             <Select id={languageDropdownId} defaultValue={language.locale} onChange={language.changeLanguage}>
                 <option value="en">English</option>
                 <option value="fr">French</option>
