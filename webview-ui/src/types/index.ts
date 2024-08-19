@@ -85,7 +85,7 @@ export interface ComponentSettingsProps {
 
 export const checkboxesSchema = z.object({
   header: z.string().default(""),
-  fontFamily: z.string().default("Segoe UI"),
+  fontFamily: z.string().default("Plus Jakarta Sans"),
   optionLabels: z.array(z.string()).default([]),
   numberOfBoxes: z.number().default(1),
   fontSize: z.number().default(14),
