@@ -24,7 +24,7 @@ const useStyles = makeStyles({
   lockedGrid: {
     border: `2px solid ${tokens.colorNeutralStroke1}`,
   },
-  unlockedAnimation: {
+  boxShadowAnimation: {
     border: `2px solid ${tokens.colorBrandForeground1}`,
     animationPlayState: "running",
     animationDelay: "0s",
@@ -42,7 +42,7 @@ const useStyles = makeStyles({
       },
     },
   },
-  unlockedAnimation2: {
+  marchingAntsAnimation: {
     userSelect: "none",
 
     backgroundImage: `
@@ -147,7 +147,7 @@ export const Background: FC<BackgroundProps> = (props) => {
               key={item.i}
               data-grid={item}
               className={`${styles.gridCell} ${
-                initialGridLocked ? styles.lockedGrid : styles.unlockedAnimation2
+                initialGridLocked ? styles.lockedGrid : styles.marchingAntsAnimation
               }`}>
               <Element
                 id={item.i}
