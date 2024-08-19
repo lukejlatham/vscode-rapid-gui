@@ -107,7 +107,7 @@ export const Background: FC<BackgroundProps> = (props) => {
   useEffect(() => {
     const updateContainerHeight = () => {
       if (backgroundRef.current) {
-        const rowMarginOffest = 24 * props.rows;
+        const rowMarginOffest = 30 + 10 * props.rows;
 
         setContainerHeight(backgroundRef.current.clientHeight - rowMarginOffest);
       }
