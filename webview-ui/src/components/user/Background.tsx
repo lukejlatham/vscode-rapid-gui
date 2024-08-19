@@ -57,7 +57,7 @@ const useStyles = makeStyles({
       linear-gradient(to bottom, ${tokens.colorBrandForeground1} 50%, transparent 50%),
       linear-gradient(to bottom, ${tokens.colorBrandForeground1} 50%, transparent 50%)
     `,
-    backgroundSize: "20px 3px, 20px 3px, 3px 20px, 3px 20px",
+    backgroundSize: "20px 2px, 20px 2px, 2px 20px, 2px 20px",
     backgroundPosition: "0 0, 0 100%, 0 0, 100% 0",
     backgroundRepeat: "repeat-x, repeat-x, repeat-y, repeat-y",
     animationName: {
