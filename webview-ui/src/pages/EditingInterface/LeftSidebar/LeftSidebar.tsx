@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   makeStyles,
-  Card,
   Button,
   TabList,
   Tab,
@@ -78,6 +77,8 @@ const useStyles = makeStyles({
     width: "100%",
     flexDirection: "column",
     alignContent: "center",
+    justifyContent: "center",
+    alignItems: "center",
     gap: "10px",
   },
   layoutManagement: {
@@ -200,36 +201,51 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
           appearance="subtle"
           size="large"
         >
+          <Tooltip content={<FormattedMessage id="leftSidebar.layout" defaultMessage="Layout"/>}
+          relationship="label" positioning="after" appearance="inverted">
           <Tab icon={<LayoutIcon />} value="Layout" aria-label="Layout">
-            {/* <FormattedMessage
-              id="leftSidebar.layout"
-              defaultMessage="Layout"
-            /> */}
           </Tab>
+          </Tooltip>
+
+          <Tooltip content={<FormattedMessage id="leftSidebar.components" defaultMessage="Components"/>}
+          relationship="label" positioning="after" appearance="inverted">
           <Tab icon={<ComponentLibraryIcon />} value="ComponentLibrary" aria-label="Components">
             {/* <FormattedMessage
               id="leftSidebar.components"
               defaultMessage="Components"
             /> */}
           </Tab>
+          </Tooltip>
+
+          <Tooltip content={<FormattedMessage id="leftSidebar.pages" defaultMessage="Pages"/>}
+          relationship="label" positioning="after" appearance="inverted">
           <Tab icon={<PagesIcon />} value="Pages" aria-label="Pages">
             {/* <FormattedMessage
               id="leftSidebar.pages"
               defaultMessage="Pages"
             /> */}
           </Tab>
+          </Tooltip>
+
+          <Tooltip content={<FormattedMessage id="leftSidebar.theme" defaultMessage="Theme"/>}
+          relationship="label" positioning="after" appearance="inverted">
           <Tab icon={<ThemeIcon />} value="Theme" aria-label="Theme">
             {/* <FormattedMessage
               id="leftSidebar.theme"
               defaultMessage="Theme"
             /> */}
           </Tab>
+          </Tooltip>
+
+          <Tooltip content={<FormattedMessage id="leftSidebar.settings" defaultMessage="Settings"/>}
+          relationship="label" positioning="after" appearance="inverted">
           <Tab icon={<SettingsIcon />} value="Settings" aria-label="Settings">
             {/* <FormattedMessage
               id="leftSidebar.settings"
               defaultMessage="Settings"
             /> */}
           </Tab>
+          </Tooltip>
         </TabList>
         <div className={localClasses.bottomButtons}>
                   <Divider />
