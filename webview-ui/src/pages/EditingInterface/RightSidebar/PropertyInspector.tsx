@@ -12,7 +12,7 @@ const useStyles = makeStyles({
     borderRadius: '3px',
     maxHeight: "95%",
     overflow: "scroll",
-    flexBasis: "20%",
+    flexBasis: "12%",
     flexShrink: 0,
   },
   header: {
