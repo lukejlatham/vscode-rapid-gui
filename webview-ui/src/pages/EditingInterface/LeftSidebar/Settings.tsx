@@ -1,5 +1,5 @@
-import React, { useState, useContext } from 'react';
-import { Select, Theme, useId, FluentProvider, Label } from '@fluentui/react-components';
+import React, { useContext } from 'react';
+import { Select, Theme, useId, Label } from '@fluentui/react-components';
 import { teamsDarkTheme, teamsLightTheme, teamsHighContrastTheme } from '@fluentui/react-components';
 import { LanguageContext } from '../../../components/Wrapper';
 import { AccessibilityContext } from '../EditingInterface';
@@ -12,18 +12,14 @@ const Settings: React.FC<{
 }> = ({ classes, setTheme }) => {
     const language = useContext(LanguageContext);
     const accessibility = useContext(AccessibilityContext);
-    // const [selectedAccessibility, setSelectedAccessibility] = useState<'yes'|'no'>('no');
 
     const themeDropdownId = useId('themeDropdown');
     const languageDropdownId = useId('languageDropdown');
     const accessibilityDropdownId = useId('accessibilityDropdown');
 
-    // const [selectedTheme, setSelectedTheme] = React.useState<string>('dark');
 
-    // 
     const handleThemeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const selected = event.target.value;
-        // setSelectedTheme(selected);
         switch (selected) {
             case 'light':
                 setTheme(teamsLightTheme);
@@ -42,6 +38,11 @@ const Settings: React.FC<{
     const handleAccessibilityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const selected = event.target.value;
         accessibility.setSelectedAccessibility(selected as 'yes' | 'no');
+        if (selected === 'yes') {
+            setTheme(teamsHighContrastTheme);
+        } else if (selected === 'no') {
+            setTheme(teamsDarkTheme);
+        }
     };
 
     return (
