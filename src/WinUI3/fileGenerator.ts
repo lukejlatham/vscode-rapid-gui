@@ -52,6 +52,7 @@ export class FileGenerator {
     this.copyAssetImages();
     this.createVSCodeFiles();
     this.addImagesToProjectFile();
+    this.createGlobalJson();
 
     pages.forEach((page) => {
       const sanitizedPageName = this.sanitizePageName(page.name);
@@ -248,6 +249,15 @@ export class FileGenerator {
     
     `;
     this.createFile("README.md", content);
+  }
+
+  private createGlobalJson() {
+    const content = JSON.stringify({
+      sdk: {
+        version: "6.0.0" 
+      }
+    }, null, 2);
+    this.createFile("../global.json", content);
   }
 
   private createVSCodeFiles() {
