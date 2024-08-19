@@ -106,9 +106,6 @@ export const EditorContent: React.FC<EditorContentProps> = ({
         </div>
       </div>
       <PropertyInspector />
-      {/* <div className={classes.rightSidebar}>
-        <RightSidebar classes={classes} />
-      </div> */}
     </div>
   );
 };

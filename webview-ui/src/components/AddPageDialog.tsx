@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Dialog, DialogSurface, DialogBody, DialogTitle, DialogContent, DialogActions, Button } from '@fluentui/react-components';
-import { DrawImageRegular, CameraSparklesRegular, TextEffectsSparkleRegular, GlanceHorizontalSparklesRegular } from '@fluentui/react-icons';
+import { Dialog, DialogSurface, DialogBody, DialogTitle, DialogContent, DialogActions, Button, makeStyles } from '@fluentui/react-components';
+import { DrawImageRegular, CameraSparklesRegular, TextEffectsSparkleRegular, GlanceHorizontalSparklesRegular, DismissRegular } from '@fluentui/react-icons';
 import { UploadDialog } from './SketchUpload/UploadDialog';
 import { TextDialog } from './ImageUpload/TextUploadDialog';
 import { TemplatesDialog } from '../pages/EditingInterface/TemplatesDialog';
@@ -8,7 +8,13 @@ import { Page } from '../types';
 import { v4 as uuidv4 } from 'uuid';
 
 
-
+const useStyles = makeStyles({
+    title: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }
+});
 
 interface AddPageDialogDialogProps {
     isOpen: boolean;
@@ -22,6 +28,8 @@ export const AddPageDialog: React.FC<AddPageDialogDialogProps> = ({ isOpen, onCl
     const [isTextDialogOpen, setIsTextDialogOpen] = useState(false);
     const [isTemplatesDialogOpen, setIsTemplatesDialogOpen] = useState(false);
     const mode = "add"
+
+    const styles = useStyles();
     
     const handleScratch = () => {
         // setPages([...pages, {id: uuidv4(), name: `Page ${pages.length + 1}`, content: {pages[0]?.content}}]);
@@ -31,10 +39,12 @@ export const AddPageDialog: React.FC<AddPageDialogDialogProps> = ({ isOpen, onCl
 
     return (
         <>
-            <Dialog modalType='alert' open={isOpen} onOpenChange={(event, data) => onClose()}>
+            <Dialog modalType='modal' open={isOpen} onOpenChange={(event, data) => onClose()}>
                 <DialogSurface>
                     <DialogBody>
-                        <DialogTitle>New Page</DialogTitle>
+                        <DialogTitle
+                            className={styles.title}
+                        >New Page <Button icon={<DismissRegular/>} onClick={() => onClose()}/></DialogTitle>
                         <DialogContent>
                             Choose how you would like to add a new page:
                         </DialogContent>

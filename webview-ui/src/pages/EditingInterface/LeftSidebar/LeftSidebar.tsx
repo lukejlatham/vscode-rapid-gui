@@ -17,6 +17,7 @@ import PagesButtons from "./PagesButtons";
 import Settings from "./Settings";
 import ThemingDropdowns from "../../../Features/theming/ThemingDropdowns";
 import { Page } from "../../../types";
+import { RestartDialog } from "./RestartDialog";
 import {
   GridFilled,
   GridRegular,
@@ -26,7 +27,7 @@ import {
   ColorRegular,
   LibraryFilled,
   LibraryRegular,
-  AddFilled,
+  ArrowResetFilled,
   SettingsRegular,
   SettingsFilled
 } from "@fluentui/react-icons";
@@ -46,14 +47,21 @@ const useStyles = makeStyles({
     padding: "5px",
   },
   contentContainer: {
-    padding: "5px",
+    padding: "15px",
+    flexGrow: 1, // Allow content to grow and take available space
+    height: "100%",
+    overflow: "auto",
+    boxSizing: "border-box",
+    flexShrink: 0,
   },
   sidebar: {
     display: "flex",
     justifyContent: "start",
     overflow: "scroll",
     height: "100%",
-
+  },
+  sidebarExtended: {
+    width: "450px",
   },
   tabsBar: {
     padding: "10px",
@@ -62,6 +70,7 @@ const useStyles = makeStyles({
     justifyContent: "space-between",
     alignItems: "start",
     borderRight: `1px solid ${tokens.colorNeutralStroke1}`,
+    flexShrink: 0,
   },
   bottomButtons: {
     display: "flex",
@@ -71,6 +80,7 @@ const useStyles = makeStyles({
     gap: "10px",
   },
   layoutManagement: {
+    width: "100%",
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
@@ -120,6 +130,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
  const localClasses = useStyles();
   const { actions: { setProp } } = useEditor();
   const [selectedTab, setSelectedTab] = useState<string>("");
+  const [isRestartDialogOpen, setIsRestartDialogOpen] = useState(false);
 
 
   const toggleGridLock = (selectedTab: string) => {
@@ -158,8 +169,8 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
             setCurrentPageIndex={setCurrentPageIndex}
             openAddPageDialog={openAddPageDialog}
           />
-        );       
-        case "Theme":
+        );
+      case "Theme":
         return <ThemingDropdowns />;
       case "ComponentLibrary":
         return <ComponentButtons classes={localClasses} />;
@@ -170,84 +181,85 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
     }
   };
 
-    
+
 
   return (
-    <div className={`${localClasses.sidebar}`}>
-      {/* <Header classes={localClasses} /> */}
+    <div className={`${localClasses.sidebar} ${selectedTab !== '' ? localClasses.sidebarExtended : '' }`}>
       <div className={localClasses.tabsBar}>
-      <TabList
-        selectedValue={selectedTab}
-        onTabSelect={(event, data) => 
-          {if (selectedTab === data.value as string) {
-            setSelectedTab("");
-          } else {
-          setSelectedTab(data.value as string)}
-        }}
-        vertical
-        appearance="subtle"
-        size="medium"
-      >
-        <Tab icon={<LayoutIcon />} value="Layout" aria-label="Layout" >
-       <FormattedMessage 
-        id="leftSidebar.layout"
-        defaultMessage="Layout"
-       />
-        </Tab>
-        <Tab
-          icon={<PagesIcon />}
-          value="Pages"
-          aria-label="Pages"
-        > <FormattedMessage 
-        id="leftSidebar.pages"
-        defaultMessage="Pages"
-       />
-       </Tab>
-        <Tab
-          icon={<ThemeIcon />}
-          value="Theme"
-          aria-label="Theme"
+        <TabList
+          selectedValue={selectedTab}
+          onTabSelect={(event, data) => {
+            if (selectedTab === data.value as string) {
+              setSelectedTab("");
+            } else {
+              setSelectedTab(data.value as string)
+            }
+          }}
+          vertical
+          appearance="subtle"
+          size="medium"
         >
-          <FormattedMessage 
-        id="leftSidebar.theme"
-        defaultMessage="Theme"
-       />
-        </Tab>
-        <Tab
-          icon={<ComponentLibraryIcon />}
-          value="ComponentLibrary"
-          aria-label="Component Library"
-        >
-          <FormattedMessage 
-        id="leftSidebar.components"
-        defaultMessage="Components"
-       />
-        </Tab>
-        <Tab
-          icon={<SettingsIcon />}
-          value="Settings"
-          aria-label="Settings"
-        >
-          <FormattedMessage 
-        id="leftSidebar.settings"
-        defaultMessage="Settings"
-       />
-        </Tab>
-      </TabList>
-      <div className={localClasses.bottomButtons}>
-      <ProjectManagement
+          <Tab icon={<LayoutIcon />} value="Layout" aria-label="Layout" >
+            <FormattedMessage
+              id="leftSidebar.layout"
+              defaultMessage="Layout"
+            />
+          </Tab>
+          <Tab
+            icon={<PagesIcon />}
+            value="Pages"
+            aria-label="Pages"
+          > <FormattedMessage
+              id="leftSidebar.pages"
+              defaultMessage="Pages"
+            />
+          </Tab>
+          <Tab
+            icon={<ThemeIcon />}
+            value="Theme"
+            aria-label="Theme"
+          >
+            <FormattedMessage
+              id="leftSidebar.theme"
+              defaultMessage="Theme"
+            />
+          </Tab>
+          <Tab
+            icon={<ComponentLibraryIcon />}
+            value="ComponentLibrary"
+            aria-label="Component Library"
+          >
+            <FormattedMessage
+              id="leftSidebar.components"
+              defaultMessage="Components"
+            />
+          </Tab>
+          <Tab
+            icon={<SettingsIcon />}
+            value="Settings"
+            aria-label="Settings"
+          >
+            <FormattedMessage
+              id="leftSidebar.settings"
+              defaultMessage="Settings"
+            />
+          </Tab>
+        </TabList>
+        <div className={localClasses.bottomButtons}>
+          <ProjectManagement
             classes={localClasses}
             pages={pages}
             setPages={setPages}
             currentPageIndex={currentPageIndex}
           />
-      <Button onClick={openStartProjectDialog} appearance="primary" icon={<AddFilled/>}>
-        <FormattedMessage 
-        id="leftSidebar.new"
-        defaultMessage="New"
-       />
-      </Button>
-      </div>
+          <Button onClick={() => setIsRestartDialogOpen(true)} appearance="primary" icon={<ArrowResetFilled />}>
+            <FormattedMessage
+              id="leftSidebar.new"
+              defaultMessage="New"
+            />
+          </Button>
+          <RestartDialog isOpen={isRestartDialogOpen} onClose={() => setIsRestartDialogOpen(false)} openStartProjectDialog={openStartProjectDialog} />
+        </div>
       </div>
       <div className={localClasses.contentContainer}>{renderContent()}</div>
     </div>

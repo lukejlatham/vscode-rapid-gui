@@ -42,6 +42,15 @@ const useStyles = makeStyles({
     borderRadius: '3px',
     overflow: 'hidden',
   },
+  // leftSidebar: {
+  //   flexBasis: '30%',
+  //   flexShrink: 0,
+  //   display: 'flex',
+  //   flexDirection: 'column',
+  //   padding: '5px',
+  //   borderRadius: '3px',
+  //   overflow: 'hidden',
+  // }
 });
 
 const createDefaultPage = (): Page => ({
