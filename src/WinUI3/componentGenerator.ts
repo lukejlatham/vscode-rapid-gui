@@ -23,17 +23,6 @@ export async function generateComponentXaml(
     return "";
   }
   processedNodes.add(nodeId);
-  // might not be able to differentiate between the different blanks within components in node tree.
-
-  // let xaml = "";
-  // if (node.nodes) {
-  //   for (const childId of node.nodes) {
-  //     const childNode = content[childId];
-  //     if (childNode && !processedNodes.has(childId)) {
-  //       xaml = await generateSingleComponentXaml(childNode, content, indent + "  ");
-  //     }
-  //   }
-  // }
 
   let xaml = await generateSingleComponentXaml(node, content, indent);
   console.log("Node is: ", node);
@@ -42,7 +31,12 @@ export async function generateComponentXaml(
     for (const childId of node.nodes) {
       const childNode = content[childId];
       if (childNode && !processedNodes.has(childNode.custom.id || "")) {
-        xaml += await generateSingleComponentXaml(childNode, content, indent + "  ", processedNodes);
+        xaml += await generateSingleComponentXaml(
+          childNode,
+          content,
+          indent + "  ",
+          processedNodes
+        );
       }
     }
   }
@@ -92,6 +86,7 @@ export async function generateSingleComponentXaml(
     case "Dropdown":
       return generateDropdownXaml(node, indent);
     default:
-      return `${indent}<!-- Unknown component type: ${node.type.resolvedName} -->\n`;
+      console.log(`Unknown component type encountered: ${node.type.resolvedName}`);
+      return "";
   }
 }
