@@ -59,25 +59,25 @@ const DownloadCodeButton: React.FC<{ classes: any; pages: Page[]; currentPageInd
 
   return (
     <div className={styles.container}>
-      <Tooltip
-        content={<FormattedMessage id="leftSidebar.redo" defaultMessage="Redo" />}
-        relationship="label"
-        positioning="after"
-        appearance="inverted">
-        <Menu>
-          <MenuTrigger disableButtonEnhancement>
+      <Menu>
+        <MenuTrigger disableButtonEnhancement>
+          <Tooltip
+            content={<FormattedMessage id="leftSidebar.export" defaultMessage="Export Code" />}
+            relationship="label"
+            positioning="after"
+            appearance="inverted">
             <Button icon={<ArrowDownloadRegular />} appearance="outline">
               {/* Download Code */}
             </Button>
-          </MenuTrigger>
-          <MenuPopover>
-            <MenuList>
-              <MenuItem onClick={() => handleDownloadCode("winui3")}>WinUI3</MenuItem>
-              <MenuItem onClick={() => handleDownloadCode("html")}>HTML/CSS</MenuItem>
-            </MenuList>
-          </MenuPopover>
-        </Menu>
-      </Tooltip>
+          </Tooltip>
+        </MenuTrigger>
+        <MenuPopover>
+          <MenuList>
+            <MenuItem onClick={() => handleDownloadCode("winui3")}>WinUI3</MenuItem>
+            <MenuItem onClick={() => handleDownloadCode("html")}>HTML/CSS</MenuItem>
+          </MenuList>
+        </MenuPopover>
+      </Menu>
     </div>
   );
 };

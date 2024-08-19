@@ -23,6 +23,7 @@
   "leftSidebar.redo": "Redo",
   "leftSidebar.save": "Save",
   "leftSidebar.load": "Load",
+  "leftSidebar.export": "Export Code",
 
   "layout.gridLocked": "Grid Locked",
   "layout.gridUnlocked": "Grid Unlocked",
