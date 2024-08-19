@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { Button, Tooltip } from "@fluentui/react-components";
 import { Folder24Regular } from "@fluentui/react-icons";
-import { useEditor } from "@craftjs/core";
+import { AccessibilityContext } from '../EditingInterface';
 import { vscode } from "../../../utilities/vscode";
 import { Page } from "../../../types";
 import { v4 as uuidv4 } from "uuid"; // Import uuidv4
@@ -17,6 +17,8 @@ const LoadButton: React.FC<{
       command: "loadFile",
     });
   };
+
+  const accessibility = useContext(AccessibilityContext);
 
   useEffect(() => {
     const handleMessage = (event: { data: any }) => {
@@ -57,10 +59,14 @@ const LoadButton: React.FC<{
       positioning="after"
       appearance="inverted">
       <Button
-        size="medium"
+        size={
+          accessibility.selectedAccessibility === 'yes' ? 'large' : 'medium'
+      }
         className={classes.button}
         icon={<Folder24Regular />}
-        onClick={handleLoad}></Button>
+        onClick={handleLoad}>
+      { accessibility.selectedAccessibility === 'yes' && (<FormattedMessage id="leftSidebar.load" defaultMessage="Load" />)}
+        </Button>
     </Tooltip>
   );
 };
