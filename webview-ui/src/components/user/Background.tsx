@@ -7,13 +7,18 @@ import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import { useNode } from "@craftjs/core";
 import { BackgroundProps, backgroundSchema } from "../../types";
+import { mergeClasses } from "@griffel/react";
 
 const useStyles = makeStyles({
   background: {
     width: "100%",
     height: "100%",
-    overflow: "auto",
+  },
+  backgroundBorderLocked: {
     border: `1px solid ${tokens.colorNeutralStroke1}`,
+  },
+  backgroundBorderUnlocked: {
+    border: `1px solid ${tokens.colorBrandForeground2}`,
   },
   gridCell: {
     display: "flex",
@@ -127,7 +132,10 @@ export const Background: FC<BackgroundProps> = (props) => {
         style={{ backgroundColor: initialBackgroundColor }}
         appearance="filled"
         ref={backgroundRef}
-        className={styles.background}>
+        className={mergeClasses(
+          styles.background,
+          initialGridLocked ? styles.backgroundBorderLocked : styles.backgroundBorderUnlocked
+        )}>
         <ResponsiveGridLayout
           className="layout"
           layout={initialLayout}
