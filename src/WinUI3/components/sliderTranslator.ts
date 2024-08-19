@@ -16,6 +16,12 @@ export function generateSliderXaml(node: Node, indent: string = ""): string {
     xaml += ` Orientation="Vertical"`;
   }
 
+  if (props.header) {
+    xaml += `${indent}<TextBlock Text="${props.header}" FontFamily="${
+      props.fontFamily || "Segoe UI"
+    }" />\n`;
+  }
+
   xaml += ` TickFrequency="${props.tickFrequency || props.step || 1}"`;
   xaml += ` TickPlacement="Outside"`;
 

@@ -5,6 +5,7 @@ export function generateTextXaml(node: Node, indent: string = ""): string {
   let xaml = `${indent}<RichTextBlock TextWrapping="Wrap"`;
 
   xaml += ` FontSize="${props.fontSize || 14}"`;
+  xaml += ` FontFamily="${props.fontFamily || "Segoe UI, Sans-Serif"}"`;
   xaml += ` Foreground="${
     props.fontColor || "{ThemeResource SystemControlForegroundBaseHighBrush}"
   }"`;

@@ -14,6 +14,7 @@ export function generateTextBoxXaml(node: Node, indent: string = ""): string {
   xaml += ` CornerRadius="${props.borderRadius}"`;
   xaml += ` TextWrapping="Wrap"`;
   xaml += ` AcceptsReturn="True"`;
+  xaml += ` FontFamily="${props.fontFamily || "Segoe UI, Sans-Serif"}"`;
 
   // Note: Resize functionality is not directly available in XAML
   // We'll set a fixed width and height based on the default props

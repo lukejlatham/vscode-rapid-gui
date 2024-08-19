@@ -13,6 +13,7 @@ export function generateButtonXaml(node: Node, indent: string = ""): string {
   xaml += ` Background="${props.backgroundColor || "{ThemeResource ButtonBackgroundThemeBrush}"}"`;
   xaml += ` FontSize="${props.fontSize || 12}"`;
   xaml += ` HorizontalAlignment="Stretch" VerticalAlignment="Stretch"`;
+  xaml += ` FontFamily="${props.fontFamily || "Segoe UI, Sans-Serif"}"`;
 
   // Border properties
   xaml += ` BorderBrush="${props.borderColor || "{ThemeResource ButtonBorderThemeBrush}"}"`;
