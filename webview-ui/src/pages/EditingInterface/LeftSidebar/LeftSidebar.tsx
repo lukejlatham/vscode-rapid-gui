@@ -206,6 +206,12 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
               defaultMessage="Layout"
             /> */}
           </Tab>
+          <Tab icon={<ComponentLibraryIcon />} value="ComponentLibrary" aria-label="Components">
+            {/* <FormattedMessage
+              id="leftSidebar.components"
+              defaultMessage="Components"
+            /> */}
+          </Tab>
           <Tab icon={<PagesIcon />} value="Pages" aria-label="Pages">
             {/* <FormattedMessage
               id="leftSidebar.pages"
@@ -216,12 +222,6 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
             {/* <FormattedMessage
               id="leftSidebar.theme"
               defaultMessage="Theme"
-            /> */}
-          </Tab>
-          <Tab icon={<ComponentLibraryIcon />} value="ComponentLibrary" aria-label="Components">
-            {/* <FormattedMessage
-              id="leftSidebar.components"
-              defaultMessage="Components"
             /> */}
           </Tab>
           <Tab icon={<SettingsIcon />} value="Settings" aria-label="Settings">
