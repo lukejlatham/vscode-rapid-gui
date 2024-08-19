@@ -17,6 +17,7 @@ import { processCopilotMessages } from "../copilot";
 import { handleImageUpload } from "../utilities/imageSave";
 import { handleImageGenerate } from "../utilities/handleImageGeneration";
 import { handleGetUploadedImages } from "../utilities/handleGetUploadedImages";
+import { convertToHtml } from "../utilities/convertToHtml";
 
 export class MainWebviewPanel {
   public static currentPanel: MainWebviewPanel | undefined;
@@ -227,6 +228,33 @@ export class MainWebviewPanel {
             );
 
             webview.postMessage({ command: "setUploadedImages", content: uploadedImages });
+          case "downloadCode":
+            try {
+              console.log("Received downloadCode command");
+              console.log("Message contents:", message.contents);
+              console.log("Message fileNames:", message.fileNames);
+              console.log("Output type:", message.outputType);
+
+              if (!message.contents || !message.fileNames) {
+                throw new Error("Missing contents or fileNames in the message");
+              }
+
+              if (message.outputType === "html") {
+                await convertToHtml(message.contents, message.fileNames, this._context);
+              } else {
+                // await convertToXaml(message.contents, message.fileNames, this._context);
+                console.log("WinUI3 code generation is not yet implemented.");
+              }
+              webview.postMessage({ command: "codeDownloaded", success: true });
+            } catch (error) {
+              console.error("Error in downloadCode:", error);
+              webview.postMessage({
+                command: "codeDownloaded",
+                success: false,
+                error: error.message,
+              });
+            }
+            return;
         }
       },
       undefined,

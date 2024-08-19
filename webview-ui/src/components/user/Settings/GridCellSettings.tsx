@@ -107,7 +107,7 @@ export const GridCellSettings: React.FC = () => {
                         >
                             <Radio key="start" label="Start" value="flex-start" />
                             <Radio key="center" label="Center" value="center" />
-                            <Radio key="end" label="end" value="flex-end" />
+                            <Radio key="end" label="End" value="flex-end" />
                         </RadioGroup>
                     ) : tooltip.type === "justifyContent" ? (
                         <RadioGroup
