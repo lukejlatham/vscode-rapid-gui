@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Dropdown, Option, makeStyles } from "@fluentui/react-components";
+import { Button, Menu, MenuTrigger, MenuList, MenuItem, MenuPopover, makeStyles } from "@fluentui/react-components";
 import { CodeRegular } from '@fluentui/react-icons';
 import { useEditor } from "@craftjs/core";
 import { vscode } from '../../../utilities/vscode';
@@ -11,9 +11,6 @@ const useStyles = makeStyles({
     alignItems: 'center',
     gap: '10px',
   },
-  dropdown: {
-    minWidth: '120px',
-  },
 });
 
 const DownloadCodeButton: React.FC<{ classes: any, pages: Page[], currentPageIndex: number; }> = ({ classes, pages, currentPageIndex }) => {
@@ -21,7 +18,11 @@ const DownloadCodeButton: React.FC<{ classes: any, pages: Page[], currentPageInd
   const styles = useStyles();
   const [outputType, setOutputType] = useState<'winui3' | 'html'>('winui3');
 
-  const handleDownloadCode = async () => {
+  const handleDownloadCode = async (type: 'winui3' | 'html') => {
+    setOutputType(type);
+    console.log('Output type:', type);
+
+    // Move handleDownloadCode logic inside the setState callback
     const serializedData = query.serialize();
     console.log('Current serialized state:', serializedData);
 
@@ -40,28 +41,25 @@ const DownloadCodeButton: React.FC<{ classes: any, pages: Page[], currentPageInd
       command: 'downloadCode',
       contents: pagesContents,
       fileNames: pagesNames,
-      outputType: outputType,
+      outputType: type, // Use the passed type instead of outputType state
     });
   };
 
+
   return (
     <div className={styles.container}>
-      <Dropdown
-        className={styles.dropdown}
-        value={outputType}
-        onOptionSelect={(_, data) => setOutputType(data.optionValue as 'winui3' | 'html')}
-      >
-        <Option value="winui3">WinUI3</Option>
-        <Option value="html">HTML/CSS</Option>
-      </Dropdown>
-      <Button 
-        className={classes.button} 
-        icon={<CodeRegular />} 
-        appearance='outline'
-        onClick={handleDownloadCode}
-      >
-        Download Code
-      </Button>
+      <Menu>
+        <MenuTrigger disableButtonEnhancement>
+          <Button icon={<CodeRegular />} 
+        appearance='outline'>Download Code</Button>
+        </MenuTrigger>
+        <MenuPopover>
+          <MenuList>
+            <MenuItem onClick={() => handleDownloadCode('winui3')}>WinUI3</MenuItem>
+            <MenuItem onClick={() => handleDownloadCode('html')}>HTML/CSS</MenuItem>
+          </MenuList>
+        </MenuPopover>
+      </Menu>
     </div>
   );
 };
