@@ -52,7 +52,7 @@ export class FileGenerator {
     this.copyAssetImages();
     this.createVSCodeFiles();
     this.addImagesToProjectFile();
-    this.createGlobalJson();
+    // this.createGlobalJson();
 
     pages.forEach((page) => {
       const sanitizedPageName = this.sanitizePageName(page.name);
@@ -251,14 +251,14 @@ export class FileGenerator {
     this.createFile("README.md", content);
   }
 
-  private createGlobalJson() {
-    const content = JSON.stringify({
-      sdk: {
-        version: "6.0.0" //change
-      }
-    }, null, 2);
-    this.createFile("../global.json", content);
-  }
+  // private createGlobalJson() {
+  //   const content = JSON.stringify({
+  //     sdk: {
+  //       version: "6.0.0" 
+  //     }
+  //   }, null, 2);
+  //   this.createFile("../global.json", content);
+  // }
 
   private createVSCodeFiles() {
     const vscodeDir = path.join(path.dirname(this.outputPath), ".vscode");
@@ -274,9 +274,9 @@ export class FileGenerator {
           type: "coreclr",
           request: "launch",
           preLaunchTask: "build",
-          program: "${workspaceFolder}/${this.projectName}/bin/x64/Debug/net6.0-windows10.0.19041.0/win10-x64/${this.projectName}.exe",
+          program: `\${workspaceFolder}/${this.projectName}/bin/x64/Debug/net6.0-windows10.0.19041.0/win10-x64/${this.projectName}.exe`,
           args: [],
-          cwd: "${workspaceFolder}/${this.projectName}",
+          cwd: `\${workspaceFolder}/${this.projectName}`,
           console: "internalConsole",
           stopAtEntry: false
         },
@@ -297,7 +297,7 @@ export class FileGenerator {
           type: "process",
           args: [
             "build",
-            "${workspaceFolder}/${this.projectName}/${this.projectName}.csproj",
+            `\${workspaceFolder}/${this.projectName}/${this.projectName}.csproj`,
             "/property:GenerateFullPaths=true",
             "/consoleloggerparameters:NoSummary"
           ],
@@ -309,7 +309,7 @@ export class FileGenerator {
           type: "process",
           args: [
             "publish",
-            "${workspaceFolder}/${this.projectName}/${this.projectName}.csproj",
+            `\${workspaceFolder}/${this.projectName}/${this.projectName}.csproj`,
             "/property:GenerateFullPaths=true",
             "/consoleloggerparameters:NoSummary"
           ],
@@ -323,7 +323,7 @@ export class FileGenerator {
             "watch",
             "run",
             "--project",
-            "${workspaceFolder}/${this.projectName}/${this.projectName}.csproj"
+            `\${workspaceFolder}/${this.projectName}/${this.projectName}.csproj`
           ],
           problemMatcher: "$msCompile"
         }
