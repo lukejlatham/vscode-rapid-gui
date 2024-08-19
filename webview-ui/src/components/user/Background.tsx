@@ -124,7 +124,7 @@ export const Background: FC<BackgroundProps> = (props) => {
 export const BackgroundDefaultProps: BackgroundProps = {
   backgroundColor: '#292929',
   layout: [
-    { i: '0', x: 0, y: 0, w: 1, h: 1, maxW: 3, maxH: 3 },
+    { },
   ],
   rows: 3,
   columns: 3,

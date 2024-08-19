@@ -7,7 +7,7 @@ type VscIconKeys = keyof typeof VscIcons;
 
 export const backgroundSchema = z.object({
   backgroundColor: z.string().default("#292929"),
-  layout: z.array(z.any()).default([{ i: "0", x: 0, y: 0, w: 1, h: 1 }]),
+  layout: z.array(z.any()).default([]),
   rows: z.number().default(3),
   columns: z.number().default(3),
   lockedGrid: z.boolean().default(true),
