@@ -1,36 +1,47 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-// iconTranslator.ts
-
 import { Node } from "../JsonParser";
 
 export function generateIconXaml(node: Node, indent: string = ""): string {
   const props = node.props;
   let xaml = `${indent}<FontIcon`;
 
-  // Convert the VSCode icon name to a Unicode glyph
   const glyph = getGlyphFromVscIcon(props.selectedIcon);
 
   xaml += ` Glyph="${glyph}"`;
   xaml += ` FontSize="${props.iconSize}"`;
+
   if (props.iconColor) {
-    const color = props.iconColor.startsWith("#") ? props.iconColor.substring(1) : props.iconColor;
-    xaml += ` Foreground="#FF${color}"`;
+    xaml += ` Foreground="${formatColor(props.iconColor)}"`;
   } else {
     xaml += ` Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"`;
   }
 
-  // if (props.hyperlink) {
-  //   xaml += ">\n";
-  //   xaml += `${indent}  <FontIcon.Resources>\n`;
-  //   xaml += `${indent}    <Style TargetType="FontIcon">\n`;
-  //   xaml += `${indent}      <Setter Property="PointerPressed" Value="OnIconPressed"/>\n`;
-  //   xaml += `${indent}    </Style>\n`;
-  //   xaml += `${indent}  </FontIcon.Resources>\n`;
-  //   xaml += `${indent}</FontIcon>`;
-  // } else {
-  xaml += "></FontIcon>";
+  xaml += "/>";
 
   return xaml + "\n";
+}
+
+function formatColor(color: string): string {
+  if (color.startsWith("#")) {
+    // If it's a hex color, ensure it has 8 characters (ARGB)
+    if (color.length === 7) {
+      // If it's a 6-digit hex (RGB), add full opacity
+      return "#FF" + color.substring(1);
+    } else if (color.length === 9) {
+      // If it's already 8-digit hex (ARGB), use as is
+      return color;
+    }
+  } else if (color.startsWith("FF") && color.length === 8) {
+    // If it starts with FF and is 8 characters, it's likely meant to be a hex color
+    return "#" + color;
+  } else {
+    // It's likely a named color, return as is
+    return color;
+  }
+
+  // If we can't parse the color, return a default
+  console.warn(`Unrecognized color format: ${color}. Using default.`);
+  return "{ThemeResource SystemControlForegroundBaseHighBrush}";
 }
 
 function getGlyphFromVscIcon(iconName: string): string {
