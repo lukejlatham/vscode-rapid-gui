@@ -10,6 +10,7 @@ import { generateCheckboxXaml } from "./components/checkboxTranslator";
 import { generateSliderXaml } from "./components/sliderTranslator";
 import { generateTextBoxXaml } from "./components/textBoxGenerator";
 import { generateImageXaml } from "./components/imageTranslator";
+import { generateDropdownXaml } from "./components/dropdownTranslator";
 
 export async function generateComponentXaml(
   node: Node,
@@ -88,6 +89,8 @@ export async function generateSingleComponentXaml(
       return generateTextBoxXaml(node, indent);
     case "Image":
       return await generateImageXaml(node, indent, projectPath);
+    case "Dropdown":
+      return generateDropdownXaml(node, indent);
     default:
       return `${indent}<!-- Unknown component type: ${node.type.resolvedName} -->\n`;
   }
