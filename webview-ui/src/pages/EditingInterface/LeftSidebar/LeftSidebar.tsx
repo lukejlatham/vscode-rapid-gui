@@ -39,7 +39,7 @@ import { useEffect } from "react";
 
 const useStyles = makeStyles({
   componentRoot: {
-    overflow: "scroll",
+    overflow: "auto",
     display: "flex",
     flexDirection: "column",
     height: "100%",
@@ -58,7 +58,7 @@ const useStyles = makeStyles({
   sidebar: {
     display: "flex",
     justifyContent: "start",
-    overflow: "scroll",
+    overflow: "auto",
     height: "100%",
   },
   sidebarExtended: {

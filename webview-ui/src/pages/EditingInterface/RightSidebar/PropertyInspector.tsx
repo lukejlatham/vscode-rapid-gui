@@ -11,7 +11,7 @@ const useStyles = makeStyles({
     border: `1px solid ${tokens.colorNeutralStroke1}`,
     borderRadius: '3px',
     maxHeight: "95%",
-    overflow: "scroll",
+    overflow: "auto",
     flexBasis: "12%",
     flexShrink: 0,
   },
