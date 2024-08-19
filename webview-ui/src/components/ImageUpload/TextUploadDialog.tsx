@@ -153,7 +153,6 @@ export const TextDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose, close
               )}
               {loading && (
                 <div className={styles.spinner}>
-                  <Spinner label={`${PROCESSING_STAGES[currentStage]}...`} />
                   <GenerationLoader />
                 </div>
               )}
