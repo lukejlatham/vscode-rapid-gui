@@ -59,7 +59,6 @@ const Settings: React.FC<{
             <Select id={languageDropdownId} defaultValue={language.locale} onChange={language.changeLanguage}>
                 <option value="en">English</option>
                 <option value="fr">French</option>
-                <option value="es">Spanish</option>
             </Select>
                 
         </div>
