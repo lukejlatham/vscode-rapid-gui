@@ -437,7 +437,7 @@ export const fontList = [
   { name: "Airbnb", displayName: "Montserrat" },
   { name: "Facebook", displayName: "Helvetica" },
   { name: "AirbnbSnapchat", displayName: "Helvetica Neue" },
-  { name: "Garamond", displayName: "Garamond" },
+  { name: "Garamond", displayName: "EB Garamond" },
   { name: "Spotify", displayName: "Plus Jakarta Sans" }, // Corrected the typo here
   { name: "Apple", displayName: "Inter" },
   { name: "IBM", displayName: "IBM Plex Sans" },
@@ -445,3 +445,5 @@ export const fontList = [
 ];
 
 export const fontNames = fontList.map((font) => font.displayName);
+
+export const fontGenerationNames = fontList.map((font) => font.name);

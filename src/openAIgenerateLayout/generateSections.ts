@@ -1,5 +1,10 @@
 import { OpenAI } from "openai";
-import { layoutSchema, themeNames, fontNames } from "../../webview-ui/src/types";
+import {
+  layoutSchema,
+  themeNames,
+  fontNames,
+  fontGenerationNames,
+} from "../../webview-ui/src/types";
 import { z } from "zod";
 
 const outputSchema = {
@@ -11,7 +16,7 @@ const outputSchema = {
     },
     fontFamily: {
       type: "string",
-      enum: fontNames,
+      enum: fontGenerationNames,
     },
     sections: {
       type: "array",

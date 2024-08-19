@@ -25,7 +25,6 @@ export const GridCellSettings: React.FC = () => {
     // function to remove GridCell from layout
     const handleRemoveItem = (i: string) => {
         setProp('ROOT', (props: BackgroundProps) => {
-            console.log(props.layout)
             props.layout = props.layout.filter((item) => item.i !== i);
         });
     };

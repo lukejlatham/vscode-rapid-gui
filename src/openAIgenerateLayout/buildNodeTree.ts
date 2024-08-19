@@ -20,6 +20,7 @@ import {
   sliderSchema,
   fontList,
   themeList,
+  fontGenerationNames,
 } from "../../webview-ui/src/types";
 import { applyThemeToSchema } from "./applyTheming";
 
@@ -212,12 +213,21 @@ function buildNodeTree(
 
   const sectionNodes = generateSectionNodes(themedNodes);
 
-  // Apply font to all nodes that have a fontFamily property
-  const selectedFont = fontList.find((f) => f.name.toLowerCase() === chosenFont.toLowerCase());
+  const getDisplayNameByFontName = (chosenFont: string): string => {
+    const font = fontList.find((font) => font.name === chosenFont);
+    return font ? font.displayName : undefined;
+  };
+
+  if (!chosenFont) {
+    throw new Error("Invalid font name in buildNodeTree");
+  }
+
+  const selectedFont = getDisplayNameByFontName(chosenFont);
+
   if (selectedFont) {
     Object.values(sectionNodes).forEach((node) => {
       if ("fontFamily" in node.props) {
-        node.props.fontFamily = `${selectedFont.displayName}`;
+        node.props.fontFamily = `${selectedFont}`;
       }
     });
   }

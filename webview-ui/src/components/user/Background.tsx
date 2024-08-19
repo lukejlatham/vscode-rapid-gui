@@ -74,7 +74,6 @@ export const Background: FC<BackgroundProps> = (props) => {
 
 
   const onLayoutChange = (layout: Layout[]) => {
-    console.log('layout', layout);
     setProp((props: BackgroundProps) => {
       props.layout = layout;
     });

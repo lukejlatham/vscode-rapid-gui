@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { themeNames, fontNames } from "./themes";
+import { themeNames, fontNames, fontGenerationNames } from "./themes";
 
 // Use .default to force a value
 
@@ -98,7 +98,7 @@ const sectionSchema = z.object({
 export const sectionsSchema = z.array(sectionSchema);
 
 export const layoutSchema = z.object({
-  fontFamily: z.enum(fontNames as [string, ...string[]]),
+  fontFamily: z.enum(fontGenerationNames as [string, ...string[]]),
   theme: z.enum(themeNames as [string, ...string[]]),
   sections: sectionsSchema,
 });
