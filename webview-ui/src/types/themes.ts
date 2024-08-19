@@ -435,11 +435,11 @@ export type NodeThemeType = "Background" | "Container" | "Other";
 export const fontList = [
   { name: "GoogleTwitter", displayName: "Roboto" },
   { name: "Airbnb", displayName: "Montserrat" },
-  { name: "Microsoft", displayName: "" },
+  { name: "Microsoft", displayName: "Segoe UI" },
   { name: "Facebook", displayName: "Helvetica" },
   { name: "AirbnbSnapchat", displayName: "Helvetica Neue" },
   { name: "Garamond", displayName: "Garamond" },
-  { name: "Spotify", displayNAme: "Jakarta Sans" },
+  { name: "Spotify", displayName: "Jakarta Sans" }, // Corrected the typo here
   { name: "Apple", displayName: "Inter" },
   { name: "IBM", displayName: "IBM Plex Sans" },
   { name: "Slack", displayName: "Lato" },

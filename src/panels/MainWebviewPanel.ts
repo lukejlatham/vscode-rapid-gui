@@ -128,6 +128,7 @@ export class MainWebviewPanel {
             img-src vscode-resource: https:; 
             script-src 'nonce-${nonce}' vscode-resource:; 
             style-src 'unsafe-inline' vscode-resource:;
+            font-src *;
             connect-src ${connectSrcUrls};
           ">
           <link rel="stylesheet" type="text/css" href="${stylesUri}">
@@ -224,8 +225,8 @@ export class MainWebviewPanel {
             const uploadedImages = filepaths.map((filepath) =>
               webview.asWebviewUri(Uri.file(filepath)).toString()
             );
-            
-            webview.postMessage({ command: "setUploadedImages", content: uploadedImages});
+
+            webview.postMessage({ command: "setUploadedImages", content: uploadedImages });
         }
       },
       undefined,

@@ -2,6 +2,7 @@
   "name": "hello-world",
   "version": "0.0.1",
   "private": true,
+  "homepage": ".",
   "scripts": {
     "start": "EXTEND_ESLINT=true react-scripts start",
     "build": "node ./scripts/build-react-no-split.js",
