@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Select } from '@fluentui/react-components';
+import { Button, Divider } from '@fluentui/react-components';
 import { RenamePageDialog } from '../../../components/RenamePageDialog';
 import { DocumentAddRegular, DeleteRegular, SquareEraserRegular} from '@fluentui/react-icons';
 import { Page } from '../../../types';
@@ -25,28 +25,29 @@ const PagesButtons: React.FC<{
         <>
         {currentPage && (
             <div className={classes.componentRoot}>
-                <Select
-                    size='medium'
-                    value={currentPageIndex}
-                    onChange={(e) => {
-                        updateCurrentPage(); // Save current page before switching
-                        setCurrentPageIndex(Number(e.target.value));
-                    }}
-                >
-                    {pages.map((page, index) => (
-                        <option key={page.id} value={index}>{page.name}</option>
-                    ))}
-                </Select>
-                <Button
-                    icon={<DocumentAddRegular />}
-                    size='medium'
-                    onClick={() => {
-                        updateCurrentPage(); // Save current page before adding new
-                        openAddPageDialog();
-                    }}
-                >
-                    <FormattedMessage id="pages.add" defaultMessage="Add"/>
-                </Button>
+
+   {pages.map((page, index) => (
+          <Button
+            key={page.id}
+            appearance={index === currentPageIndex ? 'primary' : 'secondary'}
+            onClick={() => {
+              updateCurrentPage(); // Save current page before switching
+              setCurrentPageIndex(index);
+            }}
+          >
+            {page.name}
+          </Button>
+        ))}
+        <Button
+          icon={<DocumentAddRegular />}
+          onClick={() => {
+            updateCurrentPage(); // Save current page before adding new
+            openAddPageDialog();
+          }}
+        >
+          <FormattedMessage id="pages.add" defaultMessage="Add"/>
+
+        </Button>
                 <RenamePageDialog
                     onUpdate={updateCurrentPage}
                     currentPageName={currentPage.name}
