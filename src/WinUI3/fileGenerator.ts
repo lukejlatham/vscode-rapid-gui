@@ -251,28 +251,37 @@ export class FileGenerator {
   }
 
   private createVSCodeFiles() {
-    const vscodeDir = path.join(this.outputPath, ".vscode");
+    const vscodeDir = path.join(path.dirname(this.outputPath), ".vscode");
     if (!fs.existsSync(vscodeDir)) {
       fs.mkdirSync(vscodeDir, { recursive: true });
     }
 
-    const relativeOutputPath = path.relative(this.outputPath, this.outputPath);
+    const relativeOutputPath = path.relative(path.dirname(this.outputPath), this.outputPath);
 
     const launchJson = {
       version: "0.2.0",
       configurations: [
         {
           name: "Debug WinUI 3 App",
-          type: "coreclr",
+          type: "cppvsdbg",
           request: "launch",
-          preLaunchTask: "build",
-          program: `\${workspaceFolder}/${relativeOutputPath}/bin/x64/Debug/net6.0-windows10.0.19041.0/win10-x64/${this.projectName}.exe`,
+          program: "${workspaceFolder}/bin/x64/Debug/net6.0-windows10.0.19041.0/${workspaceFolderBasename}.exe",
           args: [],
-          cwd: `\${workspaceFolder}/${relativeOutputPath}}`,
           stopAtEntry: false,
-          console: "internalConsole",
-        },
-      ],
+          cwd: "${fileDirname}",
+          environment: [
+            {
+              name: "DISABLE_XAML_GENERATED_BINDING_DEBUG_OUTPUT",
+              value: "1"
+            },
+            {
+              name: "DISABLE_XAML_GENERATED_BREAK_ON_UNHANDLED_EXCEPTION",
+              value: "1"
+            }
+          ],
+          console: "externalTerminal"
+        }
+      ]
     };
 
     const tasksJson = {
@@ -284,13 +293,25 @@ export class FileGenerator {
           type: "process",
           args: [
             "build",
-            `\${workspaceFolder}/${relativeOutputPath}/${this.projectName}.csproj`,
+            "${workspaceFolder}/${workspaceFolderBasename}.csproj",
             "/property:GenerateFullPaths=true",
-            "/consoleloggerparameters:NoSummary",
+            "/consoleloggerparameters:NoSummary"
           ],
-          problemMatcher: "$msCompile",
+          problemMatcher: "$msCompile"
         },
-      ],
+        {
+          label: "publish",
+          command: "dotnet",
+          type: "process",
+          args: [
+            "publish",
+            "${workspaceFolder}/${workspaceFolderBasename}.csproj",
+            "/property:GenerateFullPaths=true",
+            "/consoleloggerparameters:NoSummary"
+          ],
+          problemMatcher: "$msCompile"
+        }
+      ]
     };
 
     fs.writeFileSync(path.join(vscodeDir, "launch.json"), JSON.stringify(launchJson, null, 2));
