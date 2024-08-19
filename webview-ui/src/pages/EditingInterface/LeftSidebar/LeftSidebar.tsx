@@ -39,7 +39,6 @@ import { useEffect } from "react";
 
 const useStyles = makeStyles({
   componentRoot: {
-    overflow: "auto",
     display: "flex",
     flexDirection: "column",
     height: "100%",
@@ -51,14 +50,12 @@ const useStyles = makeStyles({
     padding: "15px",
     flexGrow: 1, // Allow content to grow and take available space
     height: "100%",
-    overflow: "auto",
     boxSizing: "border-box",
     flexShrink: 0,
   },
   sidebar: {
     display: "flex",
     justifyContent: "start",
-    overflow: "auto",
     height: "100%",
   },
   sidebarExtended: {
