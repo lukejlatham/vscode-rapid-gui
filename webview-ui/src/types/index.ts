@@ -22,7 +22,7 @@ export type BackgroundProps = z.infer<typeof backgroundSchema>;
 export const buttonSchema = z.object({
   backgroundColor: z.string().default("lightslategrey"),
   fontSize: z.number().default(20),
-  fontFamily: z.string().default("Segoe UI"),
+  fontFamily: z.string().default("Open Sans"),
   fontColor: z.string().default("white"),
   borderRadius: z.number().default(4),
   width: z.number().default(20),
@@ -35,8 +35,8 @@ export const buttonSchema = z.object({
     .default("left"),
   vscIcon: z
     .string()
-    .transform((val) => (val in VscIcons ? val : "VscCircle"))
-    .default("VscCircle") as z.ZodType<VscIconKeys>,
+    .transform((val) => (val in VscIcons ? val : "VscInfo"))
+    .default("VscInfo") as z.ZodType<VscIconKeys>,
   bordercolor: z.string().optional().default("white"),
   shadowColor: z.string().optional().default("black"),
   shadowOffsetX: z.number().optional().default(1),
@@ -131,7 +131,7 @@ export const gridCellSchema = z.object({
 
 export const dropdownSchema = z.object({
   header: z.string().default(""),
-  fontFamily: z.string().default("Segoe UI"),
+  fontFamily: z.string().default("Open Sans"),
   optionLabels: z.array(z.string()).default([]),
   numberOfOptions: z.number().default(1),
   fontSize: z.number().default(18),
@@ -144,7 +144,7 @@ export type GridCellProps = z.infer<typeof gridCellSchema>;
 
 export const inputSchema = z.object({
   fontSize: z.number().default(14),
-  fontFamily: z.string().default("Segoe UI"),
+  fontFamily: z.string().default("Open Sans"),
   fontColor: z.string().default("black"),
   backgroundColor: z.string().default("white"),
   borderColor: z.string().default("black"),
@@ -157,7 +157,7 @@ export type InputProps = z.infer<typeof inputSchema>;
 export const labelSchema = z.object({
   text: z.string().default("Label"),
   fontSize: z.number().default(22),
-  fontFamily: z.string().default("Segoe UI"),
+  fontFamily: z.string().default("Open Sans"),
   fontColor: z.string().default("black"),
   userEditable: z.boolean().optional().default(true),
   textAlign: z.enum(["left", "center", "right", "justify"]).default("left"),
@@ -175,7 +175,7 @@ export type LabelProps = z.infer<typeof labelSchema>;
 
 export const radioButtonSchema = z.object({
   header: z.string().default(""),
-  fontFamily: z.string().default("Segoe UI"),
+  fontFamily: z.string().default("Open Sans"),
   numberOfButtons: z.number().default(2),
   optionLabels: z.array(z.string()).default([]),
   fontSize: z.number().default(14),
@@ -187,7 +187,7 @@ export type RadioButtonProps = z.infer<typeof radioButtonSchema>;
 
 export const sliderSchema = z.object({
   header: z.string().default(""),
-  fontFamily: z.string().default("Segoe UI"),
+  fontFamily: z.string().default("Open Sans"),
   min: z.number().default(0),
   max: z.number().default(100),
   step: z.number().default(1),
@@ -201,7 +201,7 @@ export type SliderProps = z.infer<typeof sliderSchema>;
 export const textBoxSchema = z.object({
   text: z.string().default(""),
   fontSize: z.number().default(14),
-  fontFamily: z.string().default("Segoe UI"),
+  fontFamily: z.string().default("Open Sans"),
   fontColor: z.string().default("black"),
   backgroundColor: z.string().default("#FFFFFF"),
   borderColor: z.string().default("black"),
@@ -216,8 +216,8 @@ export type TextBoxProps = z.infer<typeof textBoxSchema>;
 export const iconSchema = z.object({
   vscIcon: z
     .string()
-    .transform((val) => (val in VscIcons ? val : "VscCircle"))
-    .default("VscCircle") as z.ZodType<VscIconKeys>,
+    .transform((val) => (val in VscIcons ? val : "VscInfo"))
+    .default("VscInfo") as z.ZodType<VscIconKeys>,
   iconSize: z.number().optional().default(24),
   iconColor: z.string().optional().default("lightslategrey"),
   hyperlink: z.string().optional().default(""),

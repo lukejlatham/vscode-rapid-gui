@@ -7,8 +7,7 @@ import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import { useNode } from '@craftjs/core';
 import { BackgroundProps, backgroundSchema } from '../../types';
-import { useCallback } from 'react';
-import { toInteger } from 'lodash';
+
 
 
 const useStyles = makeStyles({
