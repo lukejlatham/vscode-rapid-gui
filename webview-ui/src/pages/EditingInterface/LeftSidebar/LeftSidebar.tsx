@@ -8,6 +8,7 @@ import {
   Divider,
   tokens,
   Theme,
+  Tooltip,
 } from "@fluentui/react-components";
 import Header from "./Header";
 import ComponentButtons from "./ComponentButtons";
@@ -183,7 +184,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
 
 
 
-  return (
+    return (
     <div className={`${localClasses.sidebar} ${selectedTab !== '' ? localClasses.sidebarExtended : '' }`}>
       <div className={localClasses.tabsBar}>
         <TabList
@@ -197,67 +198,52 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
           }}
           vertical
           appearance="subtle"
-          size="medium"
+          size="large"
         >
-          <Tab icon={<LayoutIcon />} value="Layout" aria-label="Layout" >
-            <FormattedMessage
+          <Tab icon={<LayoutIcon />} value="Layout" aria-label="Layout">
+            {/* <FormattedMessage
               id="leftSidebar.layout"
               defaultMessage="Layout"
-            />
+            /> */}
           </Tab>
-          <Tab
-            icon={<PagesIcon />}
-            value="Pages"
-            aria-label="Pages"
-          > <FormattedMessage
+          <Tab icon={<PagesIcon />} value="Pages" aria-label="Pages">
+            {/* <FormattedMessage
               id="leftSidebar.pages"
               defaultMessage="Pages"
-            />
+            /> */}
           </Tab>
-          <Tab
-            icon={<ThemeIcon />}
-            value="Theme"
-            aria-label="Theme"
-          >
-            <FormattedMessage
+          <Tab icon={<ThemeIcon />} value="Theme" aria-label="Theme">
+            {/* <FormattedMessage
               id="leftSidebar.theme"
               defaultMessage="Theme"
-            />
+            /> */}
           </Tab>
-          <Tab
-            icon={<ComponentLibraryIcon />}
-            value="ComponentLibrary"
-            aria-label="Component Library"
-          >
-            <FormattedMessage
+          <Tab icon={<ComponentLibraryIcon />} value="ComponentLibrary" aria-label="Components">
+            {/* <FormattedMessage
               id="leftSidebar.components"
               defaultMessage="Components"
-            />
+            /> */}
           </Tab>
-          <Tab
-            icon={<SettingsIcon />}
-            value="Settings"
-            aria-label="Settings"
-          >
-            <FormattedMessage
+          <Tab icon={<SettingsIcon />} value="Settings" aria-label="Settings">
+            {/* <FormattedMessage
               id="leftSidebar.settings"
               defaultMessage="Settings"
-            />
+            /> */}
           </Tab>
         </TabList>
         <div className={localClasses.bottomButtons}>
+                  <Divider />
+
           <ProjectManagement
             classes={localClasses}
             pages={pages}
             setPages={setPages}
             currentPageIndex={currentPageIndex}
           />
+          <Tooltip content={<FormattedMessage id="leftSidebar.new" defaultMessage="New" />} relationship="label" positioning="after" appearance="inverted">
           <Button onClick={() => setIsRestartDialogOpen(true)} appearance="primary" icon={<ArrowResetFilled />}>
-            <FormattedMessage
-              id="leftSidebar.new"
-              defaultMessage="New"
-            />
           </Button>
+          </Tooltip>
           <RestartDialog isOpen={isRestartDialogOpen} onClose={() => setIsRestartDialogOpen(false)} openStartProjectDialog={openStartProjectDialog} />
         </div>
       </div>

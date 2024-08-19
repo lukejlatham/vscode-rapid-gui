@@ -1,4 +1,4 @@
-import { Button } from "@fluentui/react-components";
+import { Button, Tooltip } from "@fluentui/react-components";
 import { DocumentSave24Regular } from '@fluentui/react-icons';
 import { useEditor } from "@craftjs/core";
 import { vscode } from '../../../utilities/vscode';
@@ -34,10 +34,12 @@ const SaveButton: React.FC<{ classes: any, pages: Page[], currentPageIndex: numb
 
     return (
         <>
+                          <Tooltip content={<FormattedMessage id="leftSidebar.Save" defaultMessage="Save" />} relationship="label" positioning="after"appearance="inverted">
+
             <Button size="medium" className={classes.button} icon={<DocumentSave24Regular />}
                 onClick={handleSave}>
-                <FormattedMessage id="leftSidebar.save" defaultMessage="Save" />
                 </Button>
+                            </Tooltip>
         </>
     );
 };

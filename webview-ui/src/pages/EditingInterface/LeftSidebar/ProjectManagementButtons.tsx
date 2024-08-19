@@ -1,5 +1,5 @@
 import React from 'react';
-import { Subtitle2, Divider, Button } from "@fluentui/react-components";
+import { Subtitle2, Divider, Button, Tooltip } from "@fluentui/react-components";
 import { ArrowHookUpLeft24Regular, ArrowHookUpRight24Regular } from '@fluentui/react-icons';
 import SaveButton from './SaveButton';
 import LoadButton from './LoadButton';
@@ -21,12 +21,14 @@ const ProjectManagement: React.FC<{ classes: any, pages: Page[], setPages: React
 
     return (
         <div className={classes.bottomButtons}>
-            <Button size="medium" className={classes.button} icon={<ArrowHookUpLeft24Regular />} onClick={handleUndo}>
-                <FormattedMessage id="leftSidebar.undo" defaultMessage="Undo" />
-            </Button>
-            <Button size="medium" className={classes.button} icon={<ArrowHookUpRight24Regular />} onClick={handleRedo}>
-                <FormattedMessage id="leftSidebar.redo" defaultMessage="Redo" />
-            </Button>
+            <Tooltip content={<FormattedMessage id="leftSidebar.undo" defaultMessage="Undo" />} relationship="label"positioning="after"appearance="inverted">
+                <Button size="medium" className={classes.button} icon={<ArrowHookUpLeft24Regular />} onClick={handleUndo}>
+                </Button>
+            </Tooltip>
+            <Tooltip content={<FormattedMessage id="leftSidebar.redo" defaultMessage="Redo" />} relationship="label" positioning="after"appearance="inverted">
+                <Button size="medium" className={classes.button} icon={<ArrowHookUpRight24Regular />} onClick={handleRedo}>
+                </Button>
+            </Tooltip>
             <SaveButton classes={classes} pages={pages} currentPageIndex={currentPageIndex}/>
             <LoadButton classes={classes} pages={pages} setPages={setPages}/>
             <DownloadCodeButton classes={classes} pages={pages} currentPageIndex={currentPageIndex}/>
