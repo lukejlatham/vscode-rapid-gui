@@ -6,7 +6,7 @@ import { SerializedNodes } from "@craftjs/core";
 type VscIconKeys = keyof typeof VscIcons;
 
 export const backgroundSchema = z.object({
-  backgroundColor: z.string().default("#292929"),
+  backgroundColor: z.string().optional(),
   layout: z.array(z.any()).default([]),
   rows: z.number().default(3),
   columns: z.number().default(3),

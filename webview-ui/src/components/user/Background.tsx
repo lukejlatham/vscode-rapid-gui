@@ -13,6 +13,7 @@ const useStyles = makeStyles({
   background: {
     width: "100%",
     height: "100%",
+    backgroundColor: tokens.colorNeutralBackground1,
   },
   backgroundBorderLocked: {
     border: `1px solid ${tokens.colorNeutralStroke1}`,
@@ -56,7 +57,7 @@ const useStyles = makeStyles({
       linear-gradient(to bottom, ${tokens.colorBrandForeground1} 50%, transparent 50%),
       linear-gradient(to bottom, ${tokens.colorBrandForeground1} 50%, transparent 50%)
     `,
-    backgroundSize: "20px 2px, 20px 2px, 2px 20px, 2px 20px",
+    backgroundSize: "20px 3px, 20px 3px, 3px 20px, 3px 20px",
     backgroundPosition: "0 0, 0 100%, 0 0, 100% 0",
     backgroundRepeat: "repeat-x, repeat-x, repeat-y, repeat-y",
     animationName: {
@@ -81,11 +82,11 @@ export const Background: FC<BackgroundProps> = (props) => {
   const validatedProps = backgroundSchema.parse(props);
 
   const {
-    backgroundColor: initialBackgroundColor,
     layout: initialLayout,
     rows: initialRows,
     columns: initialColumns,
     lockedGrid: initialGridLocked,
+    backgroundColor: initialBackgroundColor,
   } = validatedProps;
 
   const ResponsiveGridLayout = useMemo(() => WidthProvider(Responsive), []);
@@ -100,14 +101,13 @@ export const Background: FC<BackgroundProps> = (props) => {
     props.rows = initialRows;
     props.columns = initialColumns;
     props.lockedGrid = initialGridLocked;
-    props.backgroundColor = initialBackgroundColor;
     props.layout = initialLayout;
   });
 
   useEffect(() => {
     const updateContainerHeight = () => {
       if (backgroundRef.current) {
-        const rowMarginOffest = 20 + 10 * props.rows;
+        const rowMarginOffest = 24 * props.rows;
 
         setContainerHeight(backgroundRef.current.clientHeight - rowMarginOffest);
       }
@@ -126,10 +126,14 @@ export const Background: FC<BackgroundProps> = (props) => {
 
   const rowHeight = containerHeight / initialRows;
 
+  const backgroundStyle = initialBackgroundColor
+    ? { backgroundColor: initialBackgroundColor }
+    : undefined;
+
   return (
     <>
       <Card
-        style={{ backgroundColor: initialBackgroundColor }}
+        style={backgroundStyle}
         appearance="filled"
         ref={backgroundRef}
         className={mergeClasses(
