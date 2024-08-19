@@ -2,6 +2,7 @@ import { UserComponent, useNode } from "@craftjs/core";
 import { ContainerProps, containerSchema } from "../../types";
 import { makeStyles } from "@fluentui/react-components";
 import { ContainerSettings } from "./Settings/ContainerSettings";
+import { tokens } from "@fluentui/react-components";
 // import { ContainerSettings } from "./Settings/ContainerSettings";
 import { useSelected } from "../../hooks/useSelected";
 
@@ -59,10 +60,9 @@ export const Container: UserComponent<ContainerProps> = (props) => {
   const styles = useStyles();
   const select = useSelected();
   const divStyle = {
-    backgroundColor: backgroundColor,
+    backgroundColor: `${selected ? tokens.colorNeutralShadowKey : backgroundColor}`,
     borderRadius: `${borderRadius}px`,
     border: `1px solid ${borderColor}`,
-    // border: selected ? `3px dashed ${borderColor}` : `1px solid ${borderColor}`,
     padding: padding,
     height: `${height}%`,
     width: `${width}%`,

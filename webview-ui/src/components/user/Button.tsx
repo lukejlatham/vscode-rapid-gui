@@ -43,40 +43,41 @@ export const Button: UserComponent<ButtonProps> = (props) => {
 
     return (
         <div className={`${selected ? select.select : ""}`}>
-            <button
-                ref={(ref: HTMLButtonElement | null) => {
-                    if (ref) {
-                        connect(drag(ref));
-                    }
-                }}
-                className={styles.button}
-                style={{
-                    color: fontColor,
-                    backgroundColor: backgroundColor,
-                    fontSize: `${fontSize}px`,
-                    borderRadius: `${borderRadius}%`,
-                    padding: `${height}px ${width}px`,
-                    border: `2px solid ${bordercolor}`,
-                    boxShadow: `${shadowOffsetX}px ${shadowOffsetY}px ${shadowBlur}px ${shadowColor}`,
-                }}
-            >
-                {iconPosition === "left" && IconComponent && (
-                    <span className={styles.icon}>
-                        <IconComponent size={fontSize} color={fontColor} />
-                    </span>
-                )}
-                {text && (
-                    <span className={styles.text}
-                        style={{fontFamily: fontFamily}}
-                    >{text}</span>
-                )}
-                {iconPosition === "right" && IconComponent && (
-                    <span className={styles.icon}>
-                        <IconComponent size={fontSize} color={fontColor} />
-                    </span>
-                )}
-            </button>
-        </div>
+        <button
+            ref={(ref: HTMLButtonElement | null) => {
+                if (ref) {
+                    connect(drag(ref));
+                }
+            }}
+            className={`${styles.button}`}
+            style={{
+                zIndex: -1,
+                color: fontColor,
+                backgroundColor: backgroundColor,
+                fontSize: `${fontSize}px`,
+                borderRadius: `${borderRadius}%`,
+                padding: `${height}px ${width}px`,
+                border: `2px solid ${bordercolor}`,
+                boxShadow: `${shadowOffsetX}px ${shadowOffsetY}px ${shadowBlur}px ${shadowColor}`,
+            }}
+        >
+            {iconPosition === "left" && IconComponent && (
+                <span className={styles.icon}>
+                    <IconComponent size={fontSize} color={fontColor} />
+                </span>
+            )}
+            {text && (
+                <span className={styles.text}
+                    style={{fontFamily: fontFamily}}
+                >{text}</span>
+            )}
+            {iconPosition === "right" && IconComponent && (
+                <span className={styles.icon}>
+                    <IconComponent size={fontSize} color={fontColor} />
+                </span>
+            )}
+        </button>
+    </div>
     );
 };
 
