@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Button,
   Menu,
@@ -6,7 +6,6 @@ import {
   MenuList,
   MenuItem,
   MenuPopover,
-  makeStyles,
   Tooltip,
 } from "@fluentui/react-components";
 import { CodeRegular, ArrowDownloadRegular } from "@fluentui/react-icons";
@@ -14,14 +13,8 @@ import { useEditor } from "@craftjs/core";
 import { vscode } from "../../../utilities/vscode";
 import { Page } from "../../../types";
 import { FormattedMessage } from "react-intl";
+import { AccessibilityContext } from '../EditingInterface';
 
-const useStyles = makeStyles({
-  container: {
-    display: "flex",
-    alignItems: "center",
-    gap: "10px",
-  },
-});
 
 const DownloadCodeButton: React.FC<{ classes: any; pages: Page[]; currentPageIndex: number }> = ({
   classes,
@@ -29,8 +22,9 @@ const DownloadCodeButton: React.FC<{ classes: any; pages: Page[]; currentPageInd
   currentPageIndex,
 }) => {
   const { query } = useEditor();
-  const styles = useStyles();
   const [outputType, setOutputType] = useState<"winui3" | "html">("winui3");
+
+  const accessibility = useContext(AccessibilityContext);
 
   const handleDownloadCode = async (type: "winui3" | "html") => {
     setOutputType(type);
@@ -58,7 +52,7 @@ const DownloadCodeButton: React.FC<{ classes: any; pages: Page[]; currentPageInd
   };
 
   return (
-    <div className={styles.container}>
+    <div>
       <Menu>
         <MenuTrigger disableButtonEnhancement>
           <Tooltip
@@ -66,8 +60,10 @@ const DownloadCodeButton: React.FC<{ classes: any; pages: Page[]; currentPageInd
             relationship="label"
             positioning="after"
             appearance="inverted">
-            <Button icon={<ArrowDownloadRegular />} appearance="outline">
-              {/* Download Code */}
+            <Button style={{ width: "100%" }} icon={<ArrowDownloadRegular />} appearance="outline" size={
+                    accessibility.selectedAccessibility === 'yes' ? 'large' : 'medium'
+                }>
+              { accessibility.selectedAccessibility === 'yes' && (<FormattedMessage id="leftSidebar.export" defaultMessage="Export" />)}
             </Button>
           </Tooltip>
         </MenuTrigger>

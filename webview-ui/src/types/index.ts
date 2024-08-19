@@ -366,6 +366,11 @@ export interface CanvasProps {
   classes: any;
 }
 
+export type AccessibilityContextType = {
+  selectedAccessibility: "yes" | "no";
+  setSelectedAccessibility: (selected: "yes" | "no") => void;
+};
+
 export * from "./generateLayoutTypes";
 
 export * from "./themes";

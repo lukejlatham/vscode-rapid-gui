@@ -14,13 +14,15 @@ import { Container } from "../../components/user/Container";
 import { Text } from "../../components/user/Text";
 import { Dropdown } from "../../components/user/Dropdown";
 import { Slider } from "../../components/user/Slider";
-import { Page } from "../../types";
-import { useState, useEffect, useCallback } from "react";
+import { Page, AccessibilityContextType } from "../../types";
+import { useState, useEffect, useCallback, createContext } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import { EditorContent } from "./EditorContent";
 import { vscode } from '../../utilities/vscode';
 import { useLocation } from "react-router-dom";
 import { add, set } from "lodash";
+import { use } from "i18next";
+
 
 
 const useStyles = makeStyles({
@@ -71,6 +73,12 @@ const createDefaultPage = (): Page => ({
   },
 });
 
+
+export const AccessibilityContext = createContext<AccessibilityContextType >({
+  selectedAccessibility: 'no',
+  setSelectedAccessibility: () => {}
+});
+
 const EditingInterface: React.FC<{
   theme: Theme;
   setTheme: React.Dispatch<React.SetStateAction<Theme>>
@@ -84,8 +92,7 @@ const EditingInterface: React.FC<{
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
-
-  const mode = location.state?.mode;
+  const [accessibility, setSelectedAccessibility] = useState<'yes'|'no'>('no');
 
   // setting template if state has template
   const template = location.state?.template;
@@ -146,6 +153,10 @@ const EditingInterface: React.FC<{
   }
 
   return (
+    <AccessibilityContext.Provider value={{
+      selectedAccessibility: accessibility,
+      setSelectedAccessibility: setSelectedAccessibility
+    }}>
     <Editor resolver={{ Background, Text, Label, Button, TextBox, Image, Input, RadioButtons, Checkboxes, GridCell, Icon, Container, Dropdown, Slider }}>
       <EditorContent
         pages={pages}
@@ -161,6 +172,7 @@ const EditingInterface: React.FC<{
         setTheme={setTheme}
       />
     </Editor>
+    </AccessibilityContext.Provider>
   );
 };
 

@@ -44,6 +44,7 @@
 
   "settings.changeTheme": "Modifier le thème de l'extension",
   "settings.changeLanguage": "Modifier la langue de l'extension",
+  "settings.accessibility": "Activer les fonctionnalités d'accessibilité",
   "settings.dark": "Sombre",
   "settings.light": "Clair",
   "settings.highContrast": "Contraste élevé",

@@ -23,7 +23,7 @@
   "leftSidebar.redo": "Redo",
   "leftSidebar.save": "Save",
   "leftSidebar.load": "Load",
-  "leftSidebar.export": "Export Code",
+  "leftSidebar.export": "Export",
 
   "layout.gridLocked": "Grid Locked",
   "layout.gridUnlocked": "Grid Unlocked",
@@ -45,6 +45,7 @@
 
   "settings.changeTheme": "Change the extension's theme",
   "settings.changeLanguage": "Change the extension's language",
+  "settings.accessibility": "Enable accessibility features",
   "settings.dark": "Dark",
   "settings.light": "Light",
   "settings.highContrast": "High Contrast",
