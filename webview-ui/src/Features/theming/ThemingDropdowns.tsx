@@ -4,6 +4,9 @@ import { ThemeDropdown } from './ThemeDropdown'; // Adjust the import path as ne
 import { FontDropdown } from './FontDropdown'; // Adjust the import path as necessary
 
 const useStyles = makeStyles({
+  container: {
+    width: '100%'
+  },
   marginDiv: {
     marginBottom: '10px',
     marginTop: '10px',
@@ -17,7 +20,7 @@ export const ThemingDropdowns: React.FC = () => {
   const styles = useStyles();
 
   return (
-    <>
+    <div className={styles.container}>
       <div className={styles.marginDiv} />
       <ThemeDropdown />
 
@@ -25,7 +28,7 @@ export const ThemingDropdowns: React.FC = () => {
 
       <FontDropdown />
       <div className={styles.marginDiv} />
-    </>
+    </div>
   );
 };
 

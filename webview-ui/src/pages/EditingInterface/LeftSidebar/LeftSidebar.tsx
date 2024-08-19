@@ -44,14 +44,21 @@ const useStyles = makeStyles({
     padding: "5px",
   },
   contentContainer: {
-    padding: "5px",
+    padding: "15px",
+    flexGrow: 1, // Allow content to grow and take available space
+    height: "100%",
+    overflow: "auto",
+    boxSizing: "border-box",
+    flexShrink: 0,
   },
   sidebar: {
     display: "flex",
     justifyContent: "start",
     overflow: "scroll",
     height: "100%",
-
+  },
+  sidebarExtended: {
+    width: "450px",
   },
   tabsBar: {
     padding: "10px",
@@ -60,6 +67,7 @@ const useStyles = makeStyles({
     justifyContent: "space-between",
     alignItems: "start",
     borderRight: `1px solid ${tokens.colorNeutralStroke1}`,
+    flexShrink: 0,
   },
   bottomButtons: {
     display: "flex",
@@ -69,6 +77,7 @@ const useStyles = makeStyles({
     gap: "10px",
   },
   layoutManagement: {
+    width: "100%",
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
@@ -159,8 +168,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
 
 
   return (
-    <div className={`${localClasses.sidebar}`}>
-      {/* <Header classes={localClasses} /> */}
+    <div className={`${localClasses.sidebar} ${selectedTab !== '' ? localClasses.sidebarExtended : '' }`}>
       <div className={localClasses.tabsBar}>
         <TabList
           selectedValue={selectedTab}
@@ -234,7 +242,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
               defaultMessage="New"
             />
           </Button>
-            <RestartDialog isOpen={isRestartDialogOpen} onClose={() => setIsRestartDialogOpen(false)} openStartProjectDialog={openStartProjectDialog}/>
+          <RestartDialog isOpen={isRestartDialogOpen} onClose={() => setIsRestartDialogOpen(false)} openStartProjectDialog={openStartProjectDialog} />
         </div>
       </div>
       <div className={localClasses.contentContainer}>{renderContent()}</div>
