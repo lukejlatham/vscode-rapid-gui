@@ -2,7 +2,6 @@ import * as React from "react";
 import { useMemo } from "react";
 import { makeStyles, mergeClasses } from "@griffel/react";
 import { tokens } from "@fluentui/react-theme";
-import { Title2 } from "@fluentui/react-components";
 import {
   Image24Regular,
   TextT24Regular,
@@ -26,14 +25,15 @@ const useStyles = makeStyles({
     flexDirection: "column",
     alignItems: "center",
     gap: "20px",
-    flexWrap: "wrap", // Added to allow wrapping if the container is too narrow
+    flexWrap: "wrap",
+    overflow: "hidden",
   },
   loader: {
     overflow: "hidden",
     position: "relative",
     width: "var(--loader-width)",
     height: "var(--loader-height)",
-    flexShrink: 0, // Prevent the loader from shrinking
+    flexShrink: 0,
   },
   iconRow: {
     display: "flex",
@@ -86,32 +86,38 @@ interface LoaderProps {
 }
 
 export const GenerationLoader: React.FC<LoaderProps> = ({
-  width = 400,
+  width = 396,
   height = 36,
   speed = 12,
 }) => {
   const styles = useStyles();
 
   const iconSet = useMemo(() => {
-    const count = Math.ceil(width / height) * 2;
+    // We want 11 pairs of icons (11 colored icons + 11 sparkles) for a total of 22 icons
+    // This will create a set that's 396px wide (11 * 2 * 18px), which works well for a ~400px width
+    const count = 22;
     return [...Array(count)].map((_, index) => {
       if (index % 2 === 0) {
-        return <SparkleFilled key={index} className={mergeClasses(styles.icon, styles.sparkle)} />;
+        return (
+          <SparkleFilled
+            key={`sparkle-${index}`}
+            className={mergeClasses(styles.icon, styles.sparkle)}
+          />
+        );
       } else {
         const { Icon, colorClass } = iconComponents[((index - 1) / 2) % iconComponents.length];
         return (
           <Icon
-            key={index}
+            key={`icon-${index}`}
             className={mergeClasses(styles.icon, styles[colorClass as keyof typeof styles])}
           />
         );
       }
     });
-  }, [width, height, styles]);
+  }, [styles]);
 
   return (
     <div className={styles.generator}>
-      <Title2>Generating layout...</Title2>
       <div
         className={styles.loader}
         style={

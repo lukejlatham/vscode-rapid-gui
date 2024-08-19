@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Dialog,
   DialogSurface,
@@ -10,39 +10,45 @@ import {
   Button,
   Spinner,
   Text,
-  Input,
+  Field,
   tokens,
-  makeStyles
-} from '@fluentui/react-components';
-import { ArrowUpload24Regular, CheckmarkCircle24Filled, CircleHint24Filled } from '@fluentui/react-icons';
-import { handleTextUpload } from './handleTextUpload';
-import { v4 as uuidv4 } from 'uuid';
-import { Page } from '../../types';
-import { GenerationLoader } from '../SketchUpload/generationLoader';
+  makeStyles,
+  Textarea,
+} from "@fluentui/react-components";
+import {
+  ArrowUpload24Regular,
+  CheckmarkCircle24Filled,
+  CircleHint24Filled,
+} from "@fluentui/react-icons";
+import { handleTextUpload } from "./handleTextUpload";
+import { v4 as uuidv4 } from "uuid";
+import { Page } from "../../types";
+import { GenerationLoader } from "../SketchUpload/generationLoader";
 
 const useStyles = makeStyles({
   content: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: tokens.spacingVerticalM,
+    display: "flex",
+    flexDirection: "column",
+    gap: tokens.spacingVerticalL,
+    marginBottom: tokens.spacingVerticalM,
   },
   spinner: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: '100px',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "100px",
     gap: tokens.spacingHorizontalM,
   },
   noInputText: {
-    textAlign: 'center',
+    textAlign: "center",
     padding: tokens.spacingVerticalL,
   },
   processingStages: {
     marginTop: tokens.spacingVerticalM,
   },
   stageItem: {
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
     gap: tokens.spacingHorizontalS,
   },
   completedStage: {
@@ -62,14 +68,17 @@ interface UploadDialogProps {
   setPages: (pages: Page[]) => void;
 }
 
-const PROCESSING_STAGES = [
-  "Generating layout",
-  "Generating elements",
-  "Refining properties",
-];
+const PROCESSING_STAGES = ["Generating layout", "Generating elements", "Refining properties"];
 
-export const TextDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose, closeStartDialog, mode, pages, setPages }) => {
-  const [textInput, setTextInput] = useState<string>('');
+export const TextDialog: React.FC<UploadDialogProps> = ({
+  isOpen,
+  onClose,
+  closeStartDialog,
+  mode,
+  pages,
+  setPages,
+}) => {
+  const [textInput, setTextInput] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [uiDescription, setUIDescription] = useState<string | null>(null);
   const [currentStage, setCurrentStage] = useState<number>(-1);
@@ -80,25 +89,26 @@ export const TextDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose, close
     const handleMessage = (event: { data: any }) => {
       const message = event.data;
 
-      if (message.command === 'processingStage') {
+      if (message.command === "processingStage") {
         const stageIndex = PROCESSING_STAGES.indexOf(message.stage);
         setCurrentStage(stageIndex !== -1 ? stageIndex : -1);
-      } else if (message.command === 'textDescriptionProcessed') {
+      } else if (message.command === "textDescriptionProcessed") {
         setUIDescription(message.description);
         setLoading(false);
         setCurrentStage(PROCESSING_STAGES.length);
 
-        
-        
-        if (mode === 'start') {
+        if (mode === "start") {
           const text = { id: uuidv4(), name: `Page 1`, content: JSON.parse(message.content) };
           setPages([text]);
-        }
-        else if (mode === 'add') {
-          const text = { id: uuidv4(), name: `Page ${pages.length + 1}`, content: JSON.parse(message.content) };
+        } else if (mode === "add") {
+          const text = {
+            id: uuidv4(),
+            name: `Page ${pages.length + 1}`,
+            content: JSON.parse(message.content),
+          };
           setPages([...pages, text]);
         }
-        setTextInput('');
+        setTextInput("");
         setUIDescription(null);
         setLoading(false);
         setCurrentStage(-1);
@@ -107,10 +117,10 @@ export const TextDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose, close
       }
     };
 
-    window.addEventListener('message', handleMessage);
+    window.addEventListener("message", handleMessage);
 
     return () => {
-      window.removeEventListener('message', handleMessage);
+      window.removeEventListener("message", handleMessage);
     };
   }, [closeStartDialog, onClose, mode, setPages, pages]);
 
@@ -121,7 +131,7 @@ export const TextDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose, close
       try {
         await handleTextUpload(textInput);
       } catch (error) {
-        console.error('Error uploading text:', error);
+        console.error("Error uploading text:", error);
         setLoading(false);
         setCurrentStage(-1);
       }
@@ -129,7 +139,7 @@ export const TextDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose, close
   };
 
   const handleClose = () => {
-    setTextInput('');
+    setTextInput("");
     setUIDescription(null);
     setLoading(false);
     setCurrentStage(-1);
@@ -143,34 +153,30 @@ export const TextDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose, close
           <DialogTitle>Generate From Text</DialogTitle>
           <DialogContent>
             <div className={styles.content}>
-              <Input
-                placeholder="Enter your project description here"
-                value={textInput}
-                onChange={(e) => setTextInput(e.target.value)}
-              />
-              {!textInput && (
-                <Text className={styles.noInputText}>No text entered. Please provide a description.</Text>
-              )}
-              {loading && (
-                <div className={styles.spinner}>
-                  <GenerationLoader />
-                </div>
-              )}
-              {uiDescription && (
-                <Text>
-                  UI Description generated successfully!
-                </Text>
-              )}
+              <Field>
+                <Textarea
+                  placeholder="Enter your project description here"
+                  value={textInput}
+                  onChange={(e) => setTextInput(e.target.value)}
+                  disabled={loading}
+                  rows={5}
+                />
+              </Field>
+              {uiDescription && <Text>UI Description generated successfully!</Text>}
             </div>
           </DialogContent>
           <DialogActions fluid>
+            {loading && (
+              <div>
+                <GenerationLoader />
+              </div>
+            )}
             <Button
               onClick={handleProcessText}
               appearance="primary"
               disabled={!textInput || loading}
-              icon={<ArrowUpload24Regular />}
-            >
-              Process Text
+              icon={<ArrowUpload24Regular />}>
+              {loading ? "Generating..." : "Process Text"}
             </Button>
           </DialogActions>
         </DialogBody>
