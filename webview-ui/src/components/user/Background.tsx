@@ -13,7 +13,6 @@ const useStyles = makeStyles({
   background: {
     width: "100%",
     height: "100%",
-    backgroundColor: tokens.colorNeutralBackground1,
   },
   backgroundBorderLocked: {
     border: `1px solid ${tokens.colorNeutralStroke1}`,
@@ -109,6 +108,7 @@ export const Background: FC<BackgroundProps> = (props) => {
     props.columns = initialColumns;
     props.lockedGrid = initialGridLocked;
     props.layout = initialLayout;
+    props.backgroundColor = initialBackgroundColor;
   });
 
   useEffect(() => {
@@ -133,14 +133,10 @@ export const Background: FC<BackgroundProps> = (props) => {
 
   const rowHeight = containerHeight / initialRows;
 
-  const backgroundStyle = initialBackgroundColor
-    ? { backgroundColor: initialBackgroundColor }
-    : undefined;
-
   return (
     <>
       <Card
-        style={backgroundStyle}
+        style={{ backgroundColor: initialBackgroundColor }}
         appearance="filled"
         ref={backgroundRef}
         className={mergeClasses(
@@ -190,8 +186,8 @@ export const Background: FC<BackgroundProps> = (props) => {
 };
 
 export const BackgroundDefaultProps: BackgroundProps = {
-  backgroundColor: "#292929",
-  layout: [{}],
+  backgroundColor: tokens.colorBrandForeground1,
+  layout: [],
   rows: 3,
   columns: 3,
   lockedGrid: true,

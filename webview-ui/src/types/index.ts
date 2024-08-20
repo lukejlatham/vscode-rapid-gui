@@ -2,11 +2,12 @@
 import * as VscIcons from "react-icons/vsc";
 import { z } from "zod";
 import { SerializedNodes } from "@craftjs/core";
+import { tokens } from "@fluentui/react-components";
 
 type VscIconKeys = keyof typeof VscIcons;
 
 export const backgroundSchema = z.object({
-  backgroundColor: z.string().optional(),
+  backgroundColor: z.string().default(tokens.colorNeutralBackground3),
   layout: z.array(z.any()).default([]),
   rows: z.number().default(3),
   columns: z.number().default(3),
@@ -20,7 +21,7 @@ export const backgroundSchema = z.object({
 export type BackgroundProps = z.infer<typeof backgroundSchema>;
 
 export const buttonSchema = z.object({
-  backgroundColor: z.string().default("lightslategrey"),
+  backgroundColor: z.string().default(tokens.colorBrandForeground2Pressed),
   fontSize: z.number().default(20),
   fontFamily: z.string().default("Open Sans"),
   fontColor: z.string().default("white"),
@@ -38,7 +39,7 @@ export const buttonSchema = z.object({
     .transform((val) => (val in VscIcons ? val : "VscInfo"))
     .default("VscInfo") as z.ZodType<VscIconKeys>,
   bordercolor: z.string().optional().default("white"),
-  shadowColor: z.string().optional().default("black"),
+  shadowColor: z.string().default(tokens.colorNeutralShadowKeyDarker),
   shadowOffsetX: z.number().optional().default(1),
   shadowOffsetY: z.number().optional().default(1),
   shadowBlur: z.number().optional().default(3),
@@ -85,7 +86,7 @@ export interface ComponentSettingsProps {
 
 export const checkboxesSchema = z.object({
   header: z.string().default(""),
-  fontFamily: z.string().default("Plus Jakarta Sans"),
+  fontFamily: z.string().default("Open Sans"),
   optionLabels: z.array(z.string()).default([]),
   numberOfBoxes: z.number().default(1),
   fontSize: z.number().default(14),
@@ -109,7 +110,7 @@ export const containerSchema = z.object({
   borderRadius: z.number().default(5),
   borderColor: z.string().optional().default("black"),
   padding: z.number().default(5),
-  shadowColor: z.string().optional().default("black"),
+  shadowColor: z.string().default(tokens.colorNeutralShadowKeyDarker),
   shadowOffsetX: z.number().optional().default(1),
   shadowOffsetY: z.number().optional().default(1),
   shadowBlur: z.number().optional().default(3),
@@ -158,7 +159,7 @@ export const labelSchema = z.object({
   text: z.string().default("Label"),
   fontSize: z.number().default(22),
   fontFamily: z.string().default("Open Sans"),
-  fontColor: z.string().default("black"),
+  fontColor: z.string().default(tokens.colorBrandForeground2Pressed),
   userEditable: z.boolean().optional().default(true),
   textAlign: z.enum(["left", "center", "right", "justify"]).default("left"),
   icon: z
@@ -179,7 +180,7 @@ export const radioButtonSchema = z.object({
   numberOfButtons: z.number().default(2),
   optionLabels: z.array(z.string()).default([]),
   fontSize: z.number().default(14),
-  fontColor: z.string().default("black"),
+  fontColor: z.string().default(tokens.colorBrandForeground2Pressed),
   direction: z.enum(["row", "column"]).default("column"),
 });
 
@@ -192,7 +193,7 @@ export const sliderSchema = z.object({
   max: z.number().default(100),
   step: z.number().default(1),
   fontSize: z.number().default(14),
-  fontColor: z.string().default("black"),
+  fontColor: z.string().default(tokens.colorBrandForeground2Pressed),
   backgroundColor: z.string().default("lightslategray"),
 });
 
@@ -219,7 +220,7 @@ export const iconSchema = z.object({
     .transform((val) => (val in VscIcons ? val : "VscInfo"))
     .default("VscInfo") as z.ZodType<VscIconKeys>,
   iconSize: z.number().optional().default(24),
-  iconColor: z.string().optional().default("lightslategrey"),
+  iconColor: z.string().optional().default(tokens.colorBrandForeground2Pressed),
   hyperlink: z.string().optional().default(""),
 });
 
@@ -242,8 +243,8 @@ export const textSchema = z.object({
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
     ),
   fontSize: z.number().default(14),
-  fontFamily: z.string().default("helvetica"),
-  fontColor: z.string().default("black"),
+  fontFamily: z.string().default("Open Sans"),
+  fontColor: z.string().default(tokens.colorBrandForeground2Pressed),
   textAlign: z.enum(["left", "center", "right", "justify"]).default("left"),
   bold: z.boolean().optional().default(false),
   italic: z.boolean().optional().default(false),
