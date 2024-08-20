@@ -8,9 +8,11 @@ import ImageGenerationLoader from "../SketchUpload/imageGenerationLoader";
 const useStyles = makeStyles({
   container: {
     display: "flex",
+    alignContent: "space-between",
     position: "relative",
     width: "100%",
     height: "auto",
+    padding: "4px",
   },
   placeholderOverlay: {
     position: "absolute",
@@ -21,29 +23,38 @@ const useStyles = makeStyles({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    color: "#fff",
+    background: tokens.colorNeutralBackground3,
+    color: tokens.colorNeutralForeground1,
     fontSize: "1.5rem",
-    fontWeight: "bold",
+    textAlign: "center",
     zIndex: 1,
-    pointerEvents: "none", // Ensures the overlay is non-interactive
+    pointerEvents: "none",
   },
   image: {
     width: "100%",
     height: "auto",
   },
+  imageContainer: {
+    position: "relative",
+    display: "flex",
+    alignContent: "space-between",
+    width: "100%",
+    height: "100%",
+  },
   spinner: {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: '100%',
-    height: '100%',
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "100%",
+    height: "100%",
     zIndex: 2,
     backgroundColor: tokens.colorNeutralForeground1,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    pointerEvents: "none",
+    userSelect: "none",
   },
 });
 
@@ -51,7 +62,10 @@ export const Image: UserComponent<ImageProps> = (props) => {
   const validatedProps = imageSchema.parse(props);
   const { src, alt, width, isLoading } = validatedProps;
 
-  const { connectors: { connect, drag }, selected } = useNode((state) => ({
+  const {
+    connectors: { connect, drag },
+    selected,
+  } = useNode((state) => ({
     selected: state.events.selected,
   }));
 
@@ -68,19 +82,16 @@ export const Image: UserComponent<ImageProps> = (props) => {
         }
       }}
       className={`${styles.container} ${selected ? select.select : ""}`}
-      style={{ width: `${width}%` }}
-    >
-      {isLoading && (
-        <div className={styles.spinner}>
-          <ImageGenerationLoader size={54}/>
-        </div>
-      )}
-      <img
-        src={src}
-        alt={alt}
-        className={`${styles.image}`}
-      />
-      {isPlaceholder && <span className={styles.placeholderOverlay}>{alt}</span>}
+      style={{ width: `${width}%` }}>
+      <div className={styles.imageContainer}>
+        {isLoading && (
+          <div className={styles.spinner}>
+            <ImageGenerationLoader size={54} />
+          </div>
+        )}
+        <img src={src} alt={alt} className={`${styles.image}`} />
+        {isPlaceholder && <span className={styles.placeholderOverlay}>{alt}</span>}
+      </div>
     </div>
   );
 };
