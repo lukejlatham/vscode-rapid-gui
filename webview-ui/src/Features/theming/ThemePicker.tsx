@@ -43,6 +43,10 @@ const getNodeType = (node: any): NodeThemeType => {
   return "Other";
 };
 
+const shadowColor = (theme: ColorScheme) => {
+  return theme.shadows ? "Black" : "Transparent";
+};
+
 const applyThemeToBackground = (actions: any, id: string, theme: ColorScheme) => {
   actions.setProp(id, (props: any) => {
     props.backgroundColor = getColor(theme.backgroundColor);
@@ -59,6 +63,7 @@ const applyThemeToContainer = (
   actions.setProp(id, (props: any) => {
     props.backgroundColor = getColor(theme.sectionColors[colorType]);
     props.borderColor = getColor(theme.sectionBorderColors[colorType]);
+    props.shadowColor = shadowColor(theme);
   });
 };
 
@@ -66,6 +71,7 @@ const applyThemeToNestedContainer = (actions: any, id: string, theme: ColorSchem
   actions.setProp(id, (props: any) => {
     props.backgroundColor = getColor(theme.elementColors.lightaccent);
     props.borderColor = getColor(theme.elementBorderColors.lightaccent);
+    props.shadowColor = shadowColor(theme);
   });
 };
 
@@ -74,6 +80,7 @@ const applyThemeToOtherNodes = (actions: any, id: string, theme: ColorScheme) =>
     if (props.backgroundColor) props.backgroundColor = getColor(theme.elementColors.main);
     if (props.borderColor) props.borderColor = getColor(theme.elementBorderColors.main);
     if (props.fontColor) props.fontColor = getColor(theme.fontColors.main);
+    if (props.shadowColor) props.shadowColor = shadowColor(theme);
   });
 };
 
