@@ -20,9 +20,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { Page } from '../../types';
 import { GenerationLoader } from './generationLoader';
 
-
-declare const vscode: any;
-
 const useStyles = makeStyles({
   content: {
     display: 'flex',
