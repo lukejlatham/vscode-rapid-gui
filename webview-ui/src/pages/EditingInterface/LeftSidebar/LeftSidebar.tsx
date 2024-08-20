@@ -46,6 +46,24 @@ const useStyles = makeStyles({
     gap: "10px",
     padding: "5px",
   },
+    boxShadowAnimation: {
+      outline: `2px solid ${tokens.colorBrandForeground1}`,
+    animationPlayState: "running",
+    animationDelay: "0s",
+    animationTimingFunction: "ease",
+    animationDirection: "alternate",
+    animationDuration: "2s",
+    animationIterationCount: "infinite",
+    userSelect: "none",
+    animationName: {
+      from: {
+        boxShadow: `0 0 0 0 ${tokens.colorBrandForeground1}`,
+      },
+      to: {
+        boxShadow: `0 0  10px ${tokens.colorBrandForeground1} `,
+      },
+    },
+  },
   contentContainer: {
     padding: "15px",
     flexGrow: 1, // Allow content to grow and take available space
@@ -83,7 +101,7 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'Left',
     gap: '10px',
   },
   switchContainer: {
