@@ -17,6 +17,7 @@ import { processCopilotMessages } from "../copilot";
 import { handleImageUpload } from "../utilities/imageSave";
 import { handleImageGenerate } from "../utilities/handleImageGeneration";
 import { handleGetUploadedImages } from "../utilities/handleGetUploadedImages";
+import { convertToXaml } from "../utilities/xamlConverter";
 import { convertToHtml } from "../utilities/convertToHtml";
 
 export class MainWebviewPanel {
@@ -219,31 +220,16 @@ export class MainWebviewPanel {
           case "deletedPageAlert":
             window.showErrorMessage(message.message);
             return;
-          case "getUploadedImages":
-            // const uploadedImages = await handleGetUploadedImages(this._context);
-            // get uploaded images as uri
-            const filepaths = await handleGetUploadedImages(this._context);
-            const uploadedImages = filepaths.map((filepath) =>
-              webview.asWebviewUri(Uri.file(filepath)).toString()
-            );
-
-            webview.postMessage({ command: "setUploadedImages", content: uploadedImages });
           case "downloadCode":
             try {
               console.log("Received downloadCode command");
               console.log("Message contents:", message.contents);
               console.log("Message fileNames:", message.fileNames);
-              console.log("Output type:", message.outputType);
-
-              if (!message.contents || !message.fileNames) {
-                throw new Error("Missing contents or fileNames in the message");
-              }
 
               if (message.outputType === "html") {
                 await convertToHtml(message.contents, message.fileNames, this._context);
-              } else {
-                // await convertToXaml(message.contents, message.fileNames, this._context);
-                console.log("WinUI3 code generation is not yet implemented.");
+              } else if (message.outputType === "xaml") {
+                await convertToXaml(message.contents, message.fileNames, this._context);
               }
               webview.postMessage({ command: "codeDownloaded", success: true });
             } catch (error) {
@@ -255,6 +241,15 @@ export class MainWebviewPanel {
               });
             }
             return;
+          case "getUploadedImages":
+            // const uploadedImages = await handleGetUploadedImages(this._context);
+            // get uploaded images as uri
+            const filepaths = await handleGetUploadedImages(this._context);
+            const uploadedImages = filepaths.map((filepath) =>
+              webview.asWebviewUri(Uri.file(filepath)).toString()
+            );
+
+            webview.postMessage({ command: "setUploadedImages", content: uploadedImages });
         }
       },
       undefined,
