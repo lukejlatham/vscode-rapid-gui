@@ -6,17 +6,21 @@ import { useSelected } from "../../hooks/useSelected";
 import * as VscIcons from "react-icons/vsc";
 
 const useStyles = makeStyles({
-    button: {
-        border: "none",
-        textAlign: "center",
-        display: "flex",
-        gap: "5px", 
-        justifyContent: "center", 
-        alignItems: "center", 
-        maxWidth: "100%",
-        maxHeight: "100%",
-        cursor: "pointer",
-    },
+  buttonWrapper: {
+    padding: "4px", // This creates space around the button for the selection effect
+  },
+  button: {
+    border: "none",
+    textAlign: "center",
+    display: "flex",
+    gap: "5px",
+    justifyContent: "center",
+    alignItems: "center",
+    cursor: "pointer",
+    // Make the button slightly smaller than its parent
+    width: '95%',
+    height: '95%',
+      },
     icon: {
         display: "inline-flex", 
         alignItems: "center", 
@@ -42,7 +46,7 @@ export const Button: UserComponent<ButtonProps> = (props) => {
     const IconComponent = vscIcon ? VscIcons[vscIcon] as React.ComponentType<any> : undefined;
 
     return (
-        <div className={`${selected ? select.select : ""}`}>
+    <div className={`${styles.buttonWrapper} ${selected ? select.select : ""}`}>
         <button
             ref={(ref: HTMLButtonElement | null) => {
                 if (ref) {
