@@ -78,7 +78,7 @@ const useStyles = makeStyles({
     height: "100%",
   },
   sidebarExtended: {
-    width: "370px",
+    width: "280px",
   },
   tabsBar: {
     padding: "10px",

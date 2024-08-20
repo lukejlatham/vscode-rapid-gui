@@ -1,35 +1,42 @@
 import * as React from "react";
 import {
-  Dropdown,
+  Select,
   makeStyles,
-  Option,
   useId,
   Button,
+  Label,
+  Breadcrumb,
+  BreadcrumbItem,
+  Body2,
 } from "@fluentui/react-components";
-import { TextFont20Filled } from "@fluentui/react-icons";
-import type { DropdownProps } from "@fluentui/react-components";
+import { TextFont20Filled, ChevronRight16Filled } from "@fluentui/react-icons";
 import { useEditor } from "@craftjs/core";
 import { FormattedMessage } from "react-intl";
 import { fontNames } from "../../types";
 
 const useStyles = makeStyles({
   container: {
-    display: "flex",  
+    display: "flex",
     flexDirection: "column",
     gap: "10px",
   },
   fontPreview: {
     marginLeft: "10px",
   },
+  select: {
+    width: "100%",
+  },
+  breadcrumb: {
+    marginBottom: '10px',
+  }
 });
 
 const fontList = fontNames;
 
-
-export const FontDropdown: React.FC<Partial<DropdownProps>> = (props) => {
-  const dropdownId = useId("dropdown");
+export const FontDropdown: React.FC = () => {
+  const selectId = useId("select");
   const { actions, query } = useEditor();
-  const [selectedFont, setSelectedFont] = React.useState<string | null>(null);
+  const [selectedFont, setSelectedFont] = React.useState<string>("");
   const styles = useStyles();
 
   const handleApplyFont = () => {
@@ -48,26 +55,29 @@ export const FontDropdown: React.FC<Partial<DropdownProps>> = (props) => {
 
   return (
     <div className={styles.container}>
-      <Dropdown
-        size="medium"
-        aria-labelledby={dropdownId}
-        onOptionSelect={(event, data) => {
-          if (data.optionValue) {
-            setSelectedFont(data.optionValue);
-          }
-        }}
-        {...props}
-        placeholder="Select a font"
+       <Breadcrumb className={styles.breadcrumb}>
+  <BreadcrumbItem>
+    <Body2>
+      Theme
+    </Body2>
+  </BreadcrumbItem>
+</Breadcrumb>
+      <Select
+        id={selectId}
+        className={styles.select}
+        value={selectedFont}
+        onChange={(e) => setSelectedFont(e.target.value)}
       >
+        <option value="" disabled>Select a font</option>
         {fontList.map((font) => (
-          <Option key={font} text={font} value={font}>
-            <span style={{ fontFamily: font }}>{font}</span>
-          </Option>
+          <option key={font} value={font} style={{ fontFamily: font }}>
+            {font}
+          </option>
         ))}
-      </Dropdown>
+      </Select>
 
       <Button
-        icon={<TextFont20Filled/>}
+        icon={<TextFont20Filled />}
         size="medium"
         appearance="primary"
         onClick={handleApplyFont}

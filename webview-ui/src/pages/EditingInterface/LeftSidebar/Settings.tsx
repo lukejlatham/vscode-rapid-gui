@@ -31,7 +31,7 @@ const Settings: React.FC<{
     const styles = useStyles();
     const language = useContext(LanguageContext);
     const accessibility = useContext(AccessibilityContext);
-    const [selectedTheme, setSelectedTheme] = useState<'dark' | 'light' | 'highContrast'>('dark');
+    const [selectedTheme, setSelectedTheme] = useState<'dark' | 'light' | 'highContrast'>(theme === teamsLightTheme ? 'light' : theme === teamsDarkTheme ? 'dark' : 'highContrast');
 
     const handleThemeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const selected = event.target.value as 'dark' | 'light' | 'highContrast';

@@ -8,7 +8,8 @@ import {
     OptionOnSelectData,
     Breadcrumb,
     BreadcrumbItem,
-    shorthands
+    shorthands,
+    Body2,
 } from '@fluentui/react-components';
 import { RenamePageDialog } from '../../../components/RenamePageDialog';
 import { DocumentAddRegular, DeleteRegular, SquareEraserRegular} from '@fluentui/react-icons';
@@ -76,9 +77,13 @@ const PagesButtons: React.FC<{
 
     return (
         <div className={styles.pagesContainer}>
-            <Breadcrumb className={styles.breadcrumb}>
-                <BreadcrumbItem>Project Settings Page</BreadcrumbItem>
-            </Breadcrumb>
+       <Breadcrumb className={styles.breadcrumb}>
+  <BreadcrumbItem>
+    <Body2>
+      Pages
+    </Body2>
+  </BreadcrumbItem>
+</Breadcrumb>
 
             <Listbox 
                 className={styles.listbox}
