@@ -159,21 +159,13 @@ function generateSectionNodes(sections: ThemedLayoutSchema[]): { [key: string]: 
 function createBackgroundNode(
   dimensions: LayoutDimensions,
   layout: BackgroundType[],
-  chosenTheme: string
+  backgroundColor: string
 ): NodeTreeRootType {
   const linkedNodes = dimensions.ids.reduce((acc, id, index) => {
     const sanitizedId = id.replace(/\s+/g, "");
     acc[String(index)] = sanitizedId + "GridCell";
     return acc;
   }, {} as Record<string, string>);
-
-  const selectedTheme = themeList.find((t) => t.name.toLowerCase() === chosenTheme.toLowerCase());
-
-  if (!selectedTheme) {
-    throw new Error(`Theme "${chosenTheme}" not found`);
-  }
-
-  const backgroundColor = selectedTheme.scheme.backgroundColor[0];
 
   return {
     type: { resolvedName: "Background" },
@@ -196,7 +188,7 @@ function createBackgroundNode(
 
 function buildNodeTree(
   generatedLayout: SectionsSchema,
-  chosenTheme: string,
+  themeName: string,
   chosenFont: string
 ): string {
   const layout = generatedLayout.map((section, index) => ({
@@ -209,20 +201,21 @@ function buildNodeTree(
 
   const layoutDimensions = calculateLayoutDimensions(generatedLayout);
 
-  const themedNodes = applyThemeToSchema(generatedLayout, chosenTheme);
+  const chosenTheme = themeList.find(
+    (theme) => theme.name.toLowerCase() === themeName.toLowerCase()
+  );
+
+  if (!chosenTheme) {
+    throw new Error(`Theme "${chosenTheme}" not found`);
+  }
+
+  const themedNodes = applyThemeToSchema(generatedLayout, chosenTheme.scheme);
 
   const sectionNodes = generateSectionNodes(themedNodes);
 
-  const getDisplayNameByFontName = (chosenFont: string): string => {
-    const font = fontList.find((font) => font.name === chosenFont);
-    return font ? font.displayName : undefined;
-  };
+  const font = fontList.find((font) => font.name === chosenFont);
 
-  if (!chosenFont) {
-    throw new Error("Invalid font name in buildNodeTree");
-  }
-
-  const selectedFont = getDisplayNameByFontName(chosenFont);
+  const selectedFont = font.displayName;
 
   if (selectedFont) {
     Object.values(sectionNodes).forEach((node) => {
@@ -232,7 +225,21 @@ function buildNodeTree(
     });
   }
 
-  const backgroundNode = createBackgroundNode(layoutDimensions, layout, chosenTheme);
+  const shadows = chosenTheme.scheme.shadows;
+
+  if (shadows) {
+    Object.values(sectionNodes).forEach((node) => {
+      if ("shadowColor" in node.props) {
+        node.props.shadowColor = "black";
+      }
+    });
+  }
+
+  const backgroundNode = createBackgroundNode(
+    layoutDimensions,
+    layout,
+    chosenTheme.scheme.backgroundColor
+  );
 
   const combinedNodes = { ROOT: backgroundNode, ...sectionNodes };
 

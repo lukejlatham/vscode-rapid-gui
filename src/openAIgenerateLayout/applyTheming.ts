@@ -33,15 +33,11 @@ const mapColor = (
 
 const applyThemeToSchema = (
   data: z.infer<typeof sectionsSchema>,
-  theme: string
+  selectedColorScheme: ColorScheme
 ): z.infer<typeof themedLayoutSchema> => {
-  const selectedTheme = themeList.find((t) => t.name.toLowerCase() === theme.toLowerCase());
-
-  if (!selectedTheme) {
-    throw new Error(`Theme "${theme}" not found`);
+  if (!selectedColorScheme) {
+    throw new Error(`Theme not found`);
   }
-
-  const selectedColorScheme = selectedTheme.scheme;
 
   return data.map((section) => {
     const newSection = {

@@ -1,5 +1,6 @@
 export type ColorScheme = {
   backgroundColor: string;
+  shadows: boolean;
   sectionColors: {
     main: string;
     lightaccent: string;
@@ -28,6 +29,7 @@ export type ColorScheme = {
 };
 export const slateGreyScheme: ColorScheme = {
   backgroundColor: "#F9F9FF",
+  shadows: true,
   sectionColors: {
     main: "#F9F9FF",
     lightaccent: "#778899",
@@ -56,6 +58,7 @@ export const slateGreyScheme: ColorScheme = {
 };
 
 export const orangeScheme: ColorScheme = {
+  shadows: true,
   backgroundColor: "#FFEDD5",
   sectionColors: {
     main: "#F8F8FF", // ghostwhite
@@ -85,6 +88,7 @@ export const orangeScheme: ColorScheme = {
 };
 
 export const nautical: ColorScheme = {
+  shadows: true,
   backgroundColor: "#F9F9FF",
   sectionColors: {
     main: "#ebebeb",
@@ -115,6 +119,7 @@ export const nautical: ColorScheme = {
 
 export const natural: ColorScheme = {
   backgroundColor: "#F9F9FF",
+  shadows: false,
   sectionColors: {
     main: "#a3b18a",
     lightaccent: "#a3b18a",
@@ -143,6 +148,7 @@ export const natural: ColorScheme = {
 };
 
 export const pastels: ColorScheme = {
+  shadows: false,
   backgroundColor: "#F9F9FF",
   sectionColors: {
     main: "#f8f9fa",
@@ -172,6 +178,7 @@ export const pastels: ColorScheme = {
 };
 
 export const beige: ColorScheme = {
+  shadows: false,
   backgroundColor: "#F9F9FF",
   sectionColors: {
     main: "#EDEDE9",
@@ -201,6 +208,7 @@ export const beige: ColorScheme = {
 };
 
 export const redairbnb: ColorScheme = {
+  shadows: true,
   backgroundColor: "#FF5A5F",
   sectionColors: {
     main: "#ffffff",
@@ -230,6 +238,7 @@ export const redairbnb: ColorScheme = {
 };
 
 export const snapchatyellow: ColorScheme = {
+  shadows: true,
   backgroundColor: "#FFFC00",
   sectionColors: {
     main: "#ffffff",
@@ -259,6 +268,7 @@ export const snapchatyellow: ColorScheme = {
 };
 
 export const facebookblue: ColorScheme = {
+  shadows: true,
   backgroundColor: "#dfe3ee",
   sectionColors: {
     main: "#dfe3ee",
@@ -287,7 +297,8 @@ export const facebookblue: ColorScheme = {
   },
 };
 
-export const facebookbluealt: ColorScheme = {
+export const facebookblueNoShadow: ColorScheme = {
+  shadows: false,
   backgroundColor: "#f8f9fa",
   sectionColors: {
     main: "#f8f9fa",
@@ -317,6 +328,7 @@ export const facebookbluealt: ColorScheme = {
 };
 
 export const instagramSunset: ColorScheme = {
+  shadows: true,
   backgroundColor: "#F9F9FF",
   sectionColors: {
     main: "#EDEDE9",
@@ -346,6 +358,7 @@ export const instagramSunset: ColorScheme = {
 };
 
 export const discordpurple: ColorScheme = {
+  shadows: true,
   backgroundColor: "#F9F9FF",
   sectionColors: {
     main: "#282b30",
@@ -380,7 +393,7 @@ export const themeList = [
   { name: "Yellow 1", scheme: snapchatyellow },
   { name: "Nature", scheme: natural },
   { name: "Blue 1", scheme: facebookblue },
-  { name: "Blue 2", scheme: facebookbluealt },
+  { name: "Blue 2", scheme: facebookblueNoShadow },
   { name: "Instagram", scheme: instagramSunset },
   { name: "Purple 1", scheme: discordpurple },
   { name: "Nautical", scheme: nautical },
