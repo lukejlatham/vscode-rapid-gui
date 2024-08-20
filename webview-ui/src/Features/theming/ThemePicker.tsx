@@ -159,7 +159,7 @@ export const ThemeSwatchPicker: React.FC = () => {
         onSelectionChange={handleSelect}>
         {renderSwatchPickerGrid({
           items: themePreviews,
-          columnCount: 6,
+          columnCount: 3,
           renderSwatch: (item: SwatchProps) => {
             return <ColorSwatchWithTooltip key={item.value} color={item.color ?? ""} {...item} />;
           },
