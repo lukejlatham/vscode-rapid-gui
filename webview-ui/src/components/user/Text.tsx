@@ -42,9 +42,23 @@ const useStyles = makeStyles({
 export const Text: UserComponent<TextProps> = (props) => {
   const validatedProps = textSchema.parse(props);
 
-  const { text, fontSize, fontColor, fontFamily, userEditable, textAlign, bold, italic, underline } = validatedProps;
+  const {
+    text,
+    fontSize,
+    fontColor,
+    fontFamily,
+    userEditable,
+    textAlign,
+    bold,
+    italic,
+    underline,
+  } = validatedProps;
 
-  const { connectors: { connect, drag }, selected, actions: { setProp } } = useNode((node) => ({
+  const {
+    connectors: { connect, drag },
+    selected,
+    actions: { setProp },
+  } = useNode((node) => ({
     selected: node.events.selected,
   }));
 
@@ -70,14 +84,21 @@ export const Text: UserComponent<TextProps> = (props) => {
     <div
       ref={(ref: HTMLDivElement | null) => ref && connect(drag(ref))}
       className={`${styles.textContainer} ${selected ? select.select : ""}`}
-      onClick={() => selected && userEditable && setEditable(true)}
-    >
+      onClick={() => selected && userEditable && setEditable(true)}>
       <ContentEditable
         html={text}
         disabled={!editable}
         onChange={handleInput}
         tagName="div"
-        className={`${styles.textContent} ${textAlign === "left" ? styles.alignLeft : textAlign === "center" ? styles.alignCenter : textAlign === "right" ? styles.alignRight : styles.alignJustify}`}
+        className={`${styles.textContent} ${
+          textAlign === "left"
+            ? styles.alignLeft
+            : textAlign === "center"
+            ? styles.alignCenter
+            : textAlign === "right"
+            ? styles.alignRight
+            : styles.alignJustify
+        }`}
         style={{
           fontSize: `${fontSize}px`,
           color: fontColor,
@@ -91,18 +112,7 @@ export const Text: UserComponent<TextProps> = (props) => {
   );
 };
 
-export const TextDefaultProps: TextProps = {
-  text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-  fontSize: 16,
-  fontColor: "white",
-  fontFamily: "helvetica",
-  userEditable: true,
-  textAlign: "left",
-  bold: false,
-  italic: false,
-  underline: false,
-  hyperlink: "",
-};
+export const TextDefaultProps = textSchema.parse({});
 
 (Text as any).craft = {
   displayName: "Paragraph",

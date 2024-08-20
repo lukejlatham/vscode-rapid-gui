@@ -21,29 +21,29 @@ export const backgroundSchema = z.object({
 export type BackgroundProps = z.infer<typeof backgroundSchema>;
 
 export const buttonSchema = z.object({
-  backgroundColor: z.string().default(tokens.colorBrandForeground2Pressed),
-  fontSize: z.number().default(20),
-  fontFamily: z.string().default("Open Sans"),
-  fontColor: z.string().default("white"),
-  borderRadius: z.number().default(4),
-  width: z.number().default(20),
-  height: z.number().default(10),
-  text: z.string().optional(),
-  alignment: z.enum(["left", "center", "right"]).default("center"),
-  displayName: z.string().optional().default("Button"),
+  backgroundColor: z.string().default(tokens.colorBrandForeground2Pressed), // matches
+  fontSize: z.number().default(24), // updated from 20 to 24
+  fontFamily: z.string().default("Open Sans"), // matches
+  fontColor: z.string().default(tokens.colorBrandBackground2), // updated from "white" to tokens.colorBrandBackground2
+  borderRadius: z.number().default(4), // matches
+  width: z.number().default(15), // updated from 20 to 15
+  height: z.number().default(10), // matches
+  text: z.string().optional(), // matches, no default value specified
+  alignment: z.enum(["left", "center", "right"]).default("left"), // updated from "center" to "left"
+  displayName: z.string().optional().default("Button"), // matches
   iconPosition: z
     .union([z.enum(["none", "left", "right"]), z.string().refine((val) => val in VscIcons)])
-    .default("left"),
+    .default("left"), // matches
   vscIcon: z
     .string()
     .transform((val) => (val in VscIcons ? val : "VscInfo"))
-    .default("VscInfo") as z.ZodType<VscIconKeys>,
-  bordercolor: z.string().optional().default("white"),
-  shadowColor: z.string().default(tokens.colorNeutralShadowKeyDarker),
-  shadowOffsetX: z.number().optional().default(1),
-  shadowOffsetY: z.number().optional().default(1),
-  shadowBlur: z.number().optional().default(3),
-  hyperlink: z.string().optional(),
+    .default("VscInfo") as z.ZodType<VscIconKeys>, // matches
+  bordercolor: z.string().optional().default("transparent"), // updated from "white" to "transparent"
+  shadowColor: z.string().default(tokens.colorNeutralShadowKeyDarker), // matches
+  shadowOffsetX: z.number().optional().default(1), // matches
+  shadowOffsetY: z.number().optional().default(1), // matches
+  shadowBlur: z.number().optional().default(1), // updated from 3 to 1
+  hyperlink: z.string().optional(), // matches, no default value specified
 });
 
 export type ButtonProps = z.infer<typeof buttonSchema>;

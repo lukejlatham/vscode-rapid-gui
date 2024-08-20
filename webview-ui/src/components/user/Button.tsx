@@ -100,25 +100,7 @@ export const Button: UserComponent<ButtonProps> = (props) => {
   );
 };
 
-export const ButtonDefaultProps: ButtonProps = {
-  backgroundColor: tokens.colorBrandForeground2Pressed,
-  fontFamily: "Open Sans",
-  fontColor: tokens.colorBrandBackground2,
-  displayName: "Button",
-  fontSize: 24,
-  borderRadius: 4,
-  text: "",
-  width: 15,
-  height: 10,
-  alignment: "left",
-  iconPosition: "left",
-  vscIcon: "VscInfo",
-  bordercolor: "transparent",
-  shadowColor: tokens.colorNeutralShadowKeyDarker,
-  shadowOffsetX: 1,
-  shadowOffsetY: 1,
-  shadowBlur: 1,
-};
+export const ButtonDefaultProps = buttonSchema.parse({});
 
 (Button as any).craft = {
   displayName: "Button",
