@@ -3,6 +3,7 @@ import { makeStyles } from "@fluentui/react-components";
 import { ThemeDropdown } from './ThemeDropdown'; // Adjust the import path as necessary
 import { FontDropdown } from './FontDropdown'; // Adjust the import path as necessary
 import { BackgroundColorSelector } from './BackgroundColorSelector';
+import { ThemeSwatchPicker } from './ThemePicker';
 
 
 const useStyles = makeStyles({
@@ -34,6 +35,9 @@ export const ThemingDropdowns: React.FC = () => {
 
       <BackgroundColorSelector />
 
+            <div className={styles.gapDiv} />
+
+      <ThemeSwatchPicker />
 
       <div className={styles.marginDiv} />
     </div>
