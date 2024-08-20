@@ -199,21 +199,23 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose, clo
             </div>
           </DialogContent>
           <DialogActions fluid>
-            <Button
-              onClick={() => fileInputRef.current?.click()}
-              appearance="secondary"
-              icon={<Image24Regular />}
-            >
-              {selectedImage ? 'Change Image' : 'Select Image'}
-            </Button>
+              <Button
+                onClick={() => fileInputRef.current?.click()}
+                appearance="secondary"
+                icon={<Image24Regular />}
+                              disabled={ loading}
+
+              >
+                {selectedImage ? 'Change Image' : 'Select Image'}
+              </Button>
+
             <Button
               onClick={handleProcessSketch}
               appearance="primary"
               disabled={!selectedImage || loading}
               icon={<ArrowUpload24Regular />}
             >
-              Process Sketch
-            </Button>
+              {loading ? "Generating..." : "Process Text"}     </Button>
           </DialogActions>
         </DialogBody>
       </DialogSurface>
