@@ -27,6 +27,13 @@ const useStyles = makeStyles({
     alignItems: "center",
     overflow: "hidden",
   },
+  gridCellContentOpaque: {
+    opacity: 0.5,
+  },
+  gridCellContent: {
+    width: "100%",
+    height: "100%",
+  },
   lockedGrid: {
     border: `2px solid ${tokens.colorNeutralStroke1}`,
   },
@@ -107,7 +114,7 @@ export const Background: FC<BackgroundProps> = (props) => {
   useEffect(() => {
     const updateContainerHeight = () => {
       if (backgroundRef.current) {
-        const rowMarginOffest = 30 + 10 * props.rows;
+        const rowMarginOffest = 30 + 5 * props.rows;
 
         setContainerHeight(backgroundRef.current.clientHeight - rowMarginOffest);
       }
@@ -153,21 +160,27 @@ export const Background: FC<BackgroundProps> = (props) => {
           useCSSTransforms={true}
           preventCollision={true}
           resizeHandles={["se", "sw", "ne", "nw"]}
-          margin={[10, 10]}>
+          margin={[5, 5]}>
           {initialLayout.map((item) => (
             <div
               key={item.i}
               data-grid={item}
               className={`${styles.gridCell} ${
-                initialGridLocked ? styles.lockedGrid : styles.marchingAntsAnimation
+                initialGridLocked ? styles.lockedGrid : styles.boxShadowAnimation
               }`}>
-              <Element
-                id={item.i}
-                is={GridCell}
-                custom={{ id: item.i }}
-                {...GridCellDefaultProps}
-                canvas
-              />
+              <div
+                className={mergeClasses(
+                  styles.gridCellContent,
+                  !initialGridLocked && styles.gridCellContentOpaque
+                )}>
+                <Element
+                  id={item.i}
+                  is={GridCell}
+                  custom={{ id: item.i }}
+                  {...GridCellDefaultProps}
+                  canvas
+                />
+              </div>
             </div>
           ))}
         </ResponsiveGridLayout>

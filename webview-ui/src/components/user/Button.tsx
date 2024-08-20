@@ -17,9 +17,7 @@ const useStyles = makeStyles({
     justifyContent: "center",
     alignItems: "center",
     cursor: "pointer",
-    // Make the button slightly smaller than its parent
-    width: '95%',
-    height: '95%',
+
       },
     icon: {
         display: "inline-flex", 
