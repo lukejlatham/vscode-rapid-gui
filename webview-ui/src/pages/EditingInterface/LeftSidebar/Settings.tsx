@@ -19,7 +19,7 @@ const useStyles = makeStyles({
   },
   select: {
     width: '100%', 
-    maxWidth: '200px', 
+    maxWidth: '150px', 
   },
 });
 

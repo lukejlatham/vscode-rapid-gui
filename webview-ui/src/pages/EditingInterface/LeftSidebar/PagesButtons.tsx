@@ -1,9 +1,44 @@
 import React from 'react';
-import { Button, Divider } from '@fluentui/react-components';
+import { 
+    Button, 
+    Listbox, 
+    Option, 
+    makeStyles, 
+    SelectionEvents, 
+    OptionOnSelectData,
+    Breadcrumb,
+    BreadcrumbItem,
+    shorthands
+} from '@fluentui/react-components';
 import { RenamePageDialog } from '../../../components/RenamePageDialog';
 import { DocumentAddRegular, DeleteRegular, SquareEraserRegular} from '@fluentui/react-icons';
 import { Page } from '../../../types';
 import { FormattedMessage } from 'react-intl';
+
+const useStyles = makeStyles({
+  pagesContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px',
+    maxWidth: '200px', 
+  },
+  listbox: {
+    maxHeight: '200px',
+    overflowY: 'auto',
+    ...shorthands.border('1px', 'solid', '#ccc'),
+    ...shorthands.borderRadius('4px'),
+    width: '100%',
+  },
+  pageActions: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '5px',
+    marginTop: '10px',
+  },
+  breadcrumb: {
+    marginBottom: '10px',
+  }
+});
 
 const PagesButtons: React.FC<{ 
     classes: any, 
@@ -11,71 +46,92 @@ const PagesButtons: React.FC<{
     setPages: React.Dispatch<React.SetStateAction<Page[]>>, 
     currentPageIndex: number,
     setCurrentPageIndex: (index: number) => void;
-
     renamePage: (index: number, newName: string) => void;
     deletePage: (index: number) => void;
     clearPage: (index: number) => void;
     updateCurrentPage: () => void;
     openAddPageDialog: () => void;
-}> = ({ classes, pages, setPages, renamePage, deletePage, clearPage, updateCurrentPage, currentPageIndex, setCurrentPageIndex, openAddPageDialog }) => {
-
+}> = ({ 
+    classes, 
+    pages, 
+    setPages, 
+    renamePage, 
+    deletePage, 
+    clearPage, 
+    updateCurrentPage, 
+    currentPageIndex, 
+    setCurrentPageIndex, 
+    openAddPageDialog 
+}) => {
+    const styles = useStyles();
     const currentPage = pages[currentPageIndex];
 
+    const handlePageSelect = (event: SelectionEvents, data: OptionOnSelectData) => {
+        const newIndex = parseInt(data.selectedOptions[0]);
+        if (newIndex !== currentPageIndex) {
+            updateCurrentPage(); // Save current page before switching
+            setCurrentPageIndex(newIndex);
+        }
+    };
+
     return (
-        <>
-        {currentPage && (
-            <div className={classes.componentRoot}>
+        <div className={styles.pagesContainer}>
+            <Breadcrumb className={styles.breadcrumb}>
+                <BreadcrumbItem>Project Settings Page</BreadcrumbItem>
+            </Breadcrumb>
 
-   {pages.map((page, index) => (
-          <Button
-            key={page.id}
-            appearance={index === currentPageIndex ? 'primary' : 'secondary'}
-            onClick={() => {
-              updateCurrentPage(); // Save current page before switching
-              setCurrentPageIndex(index);
-            }}
-          >
-            {page.name}
-          </Button>
-        ))}
-        <Button
-          icon={<DocumentAddRegular />}
-          onClick={() => {
-            updateCurrentPage(); // Save current page before adding new
-            openAddPageDialog();
-          }}
-        >
-          <FormattedMessage id="pages.add" defaultMessage="Add"/>
+            <Listbox 
+                className={styles.listbox}
+                selectedOptions={[currentPageIndex.toString()]}
+                onOptionSelect={handlePageSelect}
+            >
+                {pages.map((page, index) => (
+                    <Option key={page.id} value={index.toString()}>
+                        {page.name}
+                    </Option>
+                ))}
+            </Listbox>
 
-        </Button>
-                <RenamePageDialog
-                    onUpdate={updateCurrentPage}
-                    currentPageName={currentPage.name}
-                    onRename={(newName: string) => {
-                        renamePage(currentPageIndex, newName);
-                    }}
-                />
+            <div className={styles.pageActions}>
                 <Button
-                    icon={<DeleteRegular />}
-                    size='medium'
+                    icon={<DocumentAddRegular />}
                     onClick={() => {
-                        deletePage(currentPageIndex);
+                        updateCurrentPage(); // Save current page before adding new
+                        openAddPageDialog();
                     }}
                 >
-                    <FormattedMessage id="pages.delete" defaultMessage="Delete"/>
+                    <FormattedMessage id="pages.add" defaultMessage="Add"/>
                 </Button>
-                <Button
-                    size='medium'
-                    icon={<SquareEraserRegular />}
-                    onClick={() => {
-                        clearPage(currentPageIndex);
-                    }}
-                >
-                    <FormattedMessage id="pages.reset" defaultMessage="Reset"/>
-                </Button>
+
+                {currentPage && (
+                    <>
+                        <RenamePageDialog
+                            onUpdate={updateCurrentPage}
+                            currentPageName={currentPage.name}
+                            onRename={(newName: string) => {
+                                renamePage(currentPageIndex, newName);
+                            }}
+                        />
+                        <Button
+                            icon={<DeleteRegular />}
+                            onClick={() => {
+                                deletePage(currentPageIndex);
+                            }}
+                        >
+                            <FormattedMessage id="pages.delete" defaultMessage="Delete"/>
+                        </Button>
+                        <Button
+                            icon={<SquareEraserRegular />}
+                            onClick={() => {
+                                clearPage(currentPageIndex);
+                            }}
+                        >
+                            <FormattedMessage id="pages.reset" defaultMessage="Reset"/>
+                        </Button>
+                    </>
+                )}
             </div>
-        )}
-        </>
+        </div>
     );
 }
 
