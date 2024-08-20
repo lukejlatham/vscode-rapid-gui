@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from "@fluentui/react-components";
+import { Button, Breadcrumb, BreadcrumbItem, Body2, makeStyles } from "@fluentui/react-components";
 import { useEditor, Element } from "@craftjs/core";
 import { Label, LabelDefaultProps } from '../../../components/user/Label';
 import { Button as UserButton, ButtonDefaultProps } from "../../../components/user/Button";
@@ -42,11 +42,36 @@ const InputIcon = bundleIcon(PasswordRegular, Password24Filled);
 const CheckboxesIcon = bundleIcon(CheckboxCheckedFilled, CheckboxCheckedRegular);
 // const TextIcon = bundleIcon(SlideTextRegular, SlideTextRegular);
 
+const useStyles = makeStyles({
+    container: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "10px",
+    },
+    fontPreview: {
+      marginLeft: "10px",
+    },
+    select: {
+      width: "100%",
+    },
+    breadcrumb: {
+      marginBottom: '10px',
+    }
+  });
+
 const ComponentButtons: React.FC<{ classes: any }> = ({ classes }) => {
     const { connectors } = useEditor();
+    const styles = useStyles();
 
     return (
-        <div className={classes.componentRoot}>
+        <div className={styles.container}>
+       <Breadcrumb className={styles.breadcrumb}>
+  <BreadcrumbItem>
+    <Body2>
+      Components
+    </Body2>
+  </BreadcrumbItem>
+</Breadcrumb>
             <Button 
             className={classes.componentButtons} icon={<ButtonIcon />} size='medium' appearance='secondary' ref={ref => {
                 if (ref !== null) {
