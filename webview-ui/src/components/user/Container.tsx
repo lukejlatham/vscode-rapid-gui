@@ -9,9 +9,9 @@ import { useSelected } from "../../hooks/useSelected";
 const useStyles = makeStyles({
   container: {
     display: "flex",
-    overflow: 'auto',
-    maxWidth: '100%',
-    maxHeight: '100%',
+    overflow: "auto",
+    maxWidth: "100%",
+    maxHeight: "100%",
     boxSizing: "border-box",
   },
   justifyLeft: {
@@ -52,15 +52,34 @@ const useStyles = makeStyles({
 
 export const Container: UserComponent<ContainerProps> = (props) => {
   const validatedProps = containerSchema.parse(props);
-  const { children, height, width, backgroundColor, borderRadius, borderColor, padding, flexDirection, justifyContent, alignItems, shadowBlur, shadowColor, shadowOffsetX, shadowOffsetY, gap } = validatedProps;
+  const {
+    children,
+    height,
+    width,
+    backgroundColor,
+    borderRadius,
+    borderColor,
+    padding,
+    flexDirection,
+    justifyContent,
+    alignItems,
+    shadowBlur,
+    shadowColor,
+    shadowOffsetX,
+    shadowOffsetY,
+    gap,
+  } = validatedProps;
 
-  const { connectors: { connect, drag }, selected } = useNode((state) => ({
+  const {
+    connectors: { connect, drag },
+    selected,
+  } = useNode((state) => ({
     selected: state.events.selected,
   }));
   const styles = useStyles();
   const select = useSelected();
   const divStyle = {
-    backgroundColor: `${selected ? tokens.colorNeutralShadowKey : backgroundColor}`,
+    backgroundColor: `${backgroundColor}`,
     borderRadius: `${borderRadius}px`,
     border: `1px solid ${borderColor}`,
     padding: padding,
@@ -70,26 +89,32 @@ export const Container: UserComponent<ContainerProps> = (props) => {
     boxShadow: `${shadowOffsetX}px ${shadowOffsetY}px ${shadowBlur}px ${shadowColor}`,
   };
 
-
-
   return (
-    
-    <div ref={(ref: HTMLDivElement | null) => ref && connect(drag(ref))}
+    <div
+      ref={(ref: HTMLDivElement | null) => ref && connect(drag(ref))}
       style={divStyle}
       className={`${styles.container} ${selected ? select.select : ""}
-        ${justifyContent === 'flex-start' ? styles.justifyLeft : justifyContent === 'center' ? styles.justifyCenter : justifyContent === 'flex-end' ? styles.justifyRight : justifyContent === 'space-between' ? styles.justifySpaceBetween : styles.justifySpaceAround}
-        ${flexDirection === 'row' ? styles.directionRow : styles.directionColumn}
-        ${alignItems === 'flex-start' ? styles.alignStart : alignItems === 'center' ? styles.alignCenter : styles.alignEnd}`}
-    >
-      {children ? (
-        children
-      ) : (
-        <div className={styles.containerEmpty}>
-        </div>
-      )}
-
+        ${
+          justifyContent === "flex-start"
+            ? styles.justifyLeft
+            : justifyContent === "center"
+            ? styles.justifyCenter
+            : justifyContent === "flex-end"
+            ? styles.justifyRight
+            : justifyContent === "space-between"
+            ? styles.justifySpaceBetween
+            : styles.justifySpaceAround
+        }
+        ${flexDirection === "row" ? styles.directionRow : styles.directionColumn}
+        ${
+          alignItems === "flex-start"
+            ? styles.alignStart
+            : alignItems === "center"
+            ? styles.alignCenter
+            : styles.alignEnd
+        }`}>
+      {children ? children : <div className={styles.containerEmpty}></div>}
     </div>
-
   );
 };
 
