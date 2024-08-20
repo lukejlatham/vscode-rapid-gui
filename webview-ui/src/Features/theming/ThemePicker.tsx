@@ -19,18 +19,12 @@ import { WindowFilled } from "@fluentui/react-icons";
 import { use } from "i18next";
 
 const useStyles = makeStyles({
-  "container": {
-    display: "flex",
-    flexDirection: "column",
-    gap: "20px",
-  },
   "swatchContainer": {
     display: "flex",
     flexDirection: "column",
+    alignContent: "center",
     gap: "10px",
-  },
-  "swatchLabel": {
-    fontWeight: "bold",
+    padding: "10px",
   },
   "@media (forced-colors: active)": {
     forcedColorAdjust: "none",
@@ -149,18 +143,15 @@ export const ThemeSwatchPicker: React.FC = () => {
 
   const ColorSwatchWithTooltip = (props: ColorSwatchProps) => {
     const { color, value } = props;
-    const label = props["aria-label"] ?? "color swatch";
     return (
-      <Tooltip withArrow content={label} relationship="label">
-        <ColorSwatch color={color} value={value} />
+      <Tooltip withArrow content={value} relationship="label">
+        <ColorSwatch color={color} value={value} size="large" />
       </Tooltip>
     );
   };
 
   return (
     <div className={styles.swatchContainer}>
-      <h3>Grid layout</h3>
-
       <SwatchPicker
         layout="grid"
         aria-label="SwatchPicker grid layout"
@@ -168,10 +159,9 @@ export const ThemeSwatchPicker: React.FC = () => {
         onSelectionChange={handleSelect}>
         {renderSwatchPickerGrid({
           items: themePreviews,
-          columnCount: 3,
+          columnCount: 6,
           renderSwatch: (item: SwatchProps) => {
-            console.log("renderSwatchPickerGrid called with item:", item);
-            return <ColorSwatchWithTooltip key={item.name} color={item.color ?? ""} {...item} />;
+            return <ColorSwatchWithTooltip key={item.value} color={item.color ?? ""} {...item} />;
           },
         })}
       </SwatchPicker>

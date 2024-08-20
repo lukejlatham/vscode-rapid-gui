@@ -70,6 +70,7 @@ const useStyles = makeStyles({
     flexShrink: 1,
     height: "100%",
     boxSizing: "border-box",
+    gap: "10px",
   },
   sidebar: {
     display: "flex",
