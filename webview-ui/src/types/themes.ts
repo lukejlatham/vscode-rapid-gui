@@ -1,32 +1,31 @@
 export type ColorScheme = {
   backgroundColor: string;
   sectionColors: {
-    main: string | string[];
-    lightaccent: string | string[];
-    darkaccent: string | string[];
+    main: string;
+    lightaccent: string;
+    darkaccent: string;
   };
   sectionBorderColors: {
-    main: string | string[];
-    lightaccent: string | string[];
-    darkaccent: string | string[];
+    main: string;
+    lightaccent: string;
+    darkaccent: string;
   };
   elementColors: {
-    main: string | string[];
-    lightaccent: string | string[];
-    darkaccent: string | string[];
+    main: string;
+    lightaccent: string;
+    darkaccent: string;
   };
   elementBorderColors: {
-    main: string | string[];
-    lightaccent: string | string[];
-    darkaccent: string | string[];
+    main: string;
+    lightaccent: string;
+    darkaccent: string;
   };
   fontColors: {
-    main: string | string[];
-    lightaccent: string | string[];
-    darkaccent: string | string[];
+    main: string;
+    lightaccent: string;
+    darkaccent: string;
   };
 };
-
 export const slateGreyScheme: ColorScheme = {
   backgroundColor: "#F9F9FF",
   sectionColors: {
@@ -35,19 +34,19 @@ export const slateGreyScheme: ColorScheme = {
     darkaccent: "#3E3138",
   },
   sectionBorderColors: {
-    main: "aliceblue",
-    lightaccent: "#aliceblue",
+    main: "#F0F8FF", // aliceblue
+    lightaccent: "#F0F8FF", // aliceblue
     darkaccent: "#F8F8FF",
   },
   elementColors: {
-    main: "lightslategray",
-    lightaccent: "aliceblue",
-    darkaccent: "lightslategray",
+    main: "#778899", // lightslategray
+    lightaccent: "#F0F8FF", // aliceblue
+    darkaccent: "#778899", // lightslategray
   },
   elementBorderColors: {
-    main: "ghostwhite",
+    main: "#F8F8FF", // ghostwhite
     lightaccent: "#668877",
-    darkaccent: "ghostwhite",
+    darkaccent: "#F8F8FF", // ghostwhite
   },
   fontColors: {
     main: "#31383E",
@@ -59,66 +58,29 @@ export const slateGreyScheme: ColorScheme = {
 export const orangeScheme: ColorScheme = {
   backgroundColor: "#FFEDD5",
   sectionColors: {
-    main: "ghostwhite", // Light muted orange
-    lightaccent: "#FFD4A3", // Lighter muted orange
-    darkaccent: "#FFB870", // Darker muted orange
+    main: "#F8F8FF", // ghostwhite
+    lightaccent: "#FFD4A3",
+    darkaccent: "#FFB870",
   },
   sectionBorderColors: {
-    main: "#FFB870", // Inverted color of #FFEDD5
-    lightaccent: "#002B5D", // Inverted color of #FFD4A3
-    darkaccent: "#00438F", // Inverted color of #FFB870
+    main: "#FFB870",
+    lightaccent: "#002B5D",
+    darkaccent: "#00438F",
   },
   elementColors: {
-    main: "#FFEDD5", // Darker muted orange for elements
-    lightaccent: "#FFEDD5", // Light muted orange for light accents
-    darkaccent: "#31383E", // Darkest muted orange for dark accents
+    main: "#FFEDD5",
+    lightaccent: "#FFEDD5",
+    darkaccent: "#31383E",
   },
   elementBorderColors: {
-    main: "#00438F", // Inverted color of #FFB870
-    lightaccent: "#00222A", // Inverted color of #FFEDD5
-    darkaccent: "#005CB2", // Inverted color of #FF934F
+    main: "#00438F",
+    lightaccent: "#00222A",
+    darkaccent: "#005CB2",
   },
   fontColors: {
-    main: "darkslategrey", // Dark brown for main text
-    lightaccent: "#6F4E37", // Muted brown for light accent text
-    darkaccent: "#8B4513", // Darker brown for dark accent text
-  },
-};
-
-export const tetrisScheme: ColorScheme = {
-  backgroundColor: "#FFEDD5",
-  sectionColors: {
-    main: "ghostwhite", // Light muted orange
-    lightaccent: "#FFD4A3", // Lighter muted orange
-    darkaccent: "#FFB870", // Darker muted orange
-  },
-  sectionBorderColors: {
-    main: "#FFB870", // Inverted color of #FFEDD5
-    lightaccent: "#002B5D", // Inverted color of #FFD4A3
-    darkaccent: "#00438F", // Inverted color of #FFB870
-  },
-  elementColors: {
-    main: [
-      "#00FFFF", // I Tetromino (Cyan)
-      "#FFFF00", // O Tetromino (Yellow)
-      "#800080", // T Tetromino (Purple)
-      "#00FF00", // S Tetromino (Green)
-      "#FF0000", // Z Tetromino (Red)
-      "#0000FF", // J Tetromino (Blue)
-      "#FFA500", // L Tetromino (Orange)
-    ], // Darker muted orange for elements    lightaccent: "#FFEDD5", // Light muted orange for light accents
-    darkaccent: "#31383E", // Darkest muted orange for dark accents
-    lightaccent: "#FFEDD5", // Light muted orange for light accents
-  },
-  elementBorderColors: {
-    main: "#00438F", // Inverted color of #FFB870
-    lightaccent: "#00222A", // Inverted color of #FFEDD5
-    darkaccent: "#005CB2", // Inverted color of #FF934F
-  },
-  fontColors: {
-    main: "darkslategrey", // Dark brown for main text
-    lightaccent: "#6F4E37", // Muted brown for light accent text
-    darkaccent: "#8B4513", // Darker brown for dark accent text
+    main: "#2F4F4F", // darkslategrey
+    lightaccent: "#6F4E37",
+    darkaccent: "#8B4513",
   },
 };
 
@@ -425,8 +387,12 @@ export const themeList = [
   { name: "Pastels", scheme: pastels },
   { name: "Beige", scheme: beige },
   { name: "Grey 1", scheme: slateGreyScheme },
-  { name: "Awful tetris Scheme", scheme: tetrisScheme },
 ];
+
+export const themePreviews = themeList.map((theme) => ({
+  value: theme.name,
+  color: theme.scheme.sectionColors.darkaccent,
+}));
 
 export const themeNames = themeList.map((theme) => theme.name);
 
@@ -438,7 +404,7 @@ export const fontList = [
   { name: "Facebook", displayName: "Helvetica" },
   { name: "AirbnbSnapchat", displayName: "Helvetica Neue" },
   { name: "Garamond", displayName: "EB Garamond" },
-  { name: "Spotify", displayName: "Plus Jakarta Sans" }, // Corrected the typo here
+  { name: "Spotify", displayName: "Plus Jakarta Sans" },
   { name: "Apple", displayName: "Inter" },
   { name: "IBM", displayName: "IBM Plex Sans" },
   { name: "Slack", displayName: "Lato" },

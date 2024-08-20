@@ -173,7 +173,7 @@ function createBackgroundNode(
     throw new Error(`Theme "${chosenTheme}" not found`);
   }
 
-  const backgroundColor = selectedTheme.scheme.backgroundColor;
+  const backgroundColor = selectedTheme.scheme.backgroundColor[0];
 
   return {
     type: { resolvedName: "Background" },
