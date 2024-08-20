@@ -8,7 +8,6 @@ import { useEditor } from "@craftjs/core";
 import { Page } from '../../../types';
 import DownloadCodeButton from './DownloadCodeButton';
 import { FormattedMessage } from 'react-intl';
-import DownloadCodeButton from './DownloadCodeButton';
 
 const ProjectManagement: React.FC<{ classes: any, pages: Page[], setPages: React.Dispatch<React.SetStateAction<Page[]>>, currentPageIndex: number; }> = ({ classes, pages, setPages, currentPageIndex }) => {
     const { actions } = useEditor();
