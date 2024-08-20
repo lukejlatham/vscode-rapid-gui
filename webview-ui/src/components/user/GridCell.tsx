@@ -95,12 +95,7 @@ export const GridCell: UserComponent<GridCellProps> = (props) => {
   );
 };
 
-export const GridCellDefaultProps: GridCellProps = {
-  justifyContent: "center",
-  flexDirection: "column",
-  alignItems: "center",
-  gap: 10,
-};
+export const GridCellDefaultProps = gridCellSchema.parse({});
 
 GridCell.craft = {
   displayName: "Grid Cell",

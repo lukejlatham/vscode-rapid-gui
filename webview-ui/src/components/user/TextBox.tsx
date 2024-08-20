@@ -14,8 +14,16 @@ const useStyles = makeStyles({
 export const TextBox: UserComponent<TextBoxProps> = (props) => {
   const validatedProps = textBoxSchema.parse(props);
 
-  const { text, fontSize, fontColor, fontFamily, backgroundColor, borderColor, placeholder, borderRadius } =
-    validatedProps;
+  const {
+    text,
+    fontSize,
+    fontColor,
+    fontFamily,
+    backgroundColor,
+    borderColor,
+    placeholder,
+    borderRadius,
+  } = validatedProps;
 
   const {
     connectors: { connect, drag },
@@ -47,18 +55,7 @@ export const TextBox: UserComponent<TextBoxProps> = (props) => {
   );
 };
 
-export const TextBoxDefaultProps: TextBoxProps = {
-  text: "",
-  fontSize: 16,
-  fontColor: "black",
-  backgroundColor: "#FFFFFF",
-  fontFamily: "helvetica",
-  placeholder: "Placeholder...",
-  height: 100,
-  width: 200,
-  borderRadius: 5,
-  borderColor: "black",
-};
+export const TextBoxDefaultProps = textBoxSchema.parse({});
 
 TextBox.craft = {
   displayName: "Multi-line Input",

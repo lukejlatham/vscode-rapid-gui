@@ -185,12 +185,6 @@ export const Background: FC<BackgroundProps> = (props) => {
   );
 };
 
-export const BackgroundDefaultProps: BackgroundProps = {
-  backgroundColor: tokens.colorBrandForeground1,
-  layout: [],
-  rows: 3,
-  columns: 3,
-  lockedGrid: true,
-};
+export const BackgroundDefaultProps = backgroundSchema.parse({});
 
 export default Background;

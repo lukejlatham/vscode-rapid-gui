@@ -97,24 +97,24 @@ export const checkboxesSchema = z.object({
 export type CheckboxesProps = z.infer<typeof checkboxesSchema>;
 
 export const containerSchema = z.object({
-  height: z.number().default(100),
-  width: z.number().default(100),
-  flexDirection: z.enum(["row", "column"]).default("row").optional(),
+  height: z.number().default(50), // updated from 100 to 50
+  width: z.number().default(100), // matches
+  flexDirection: z.enum(["row", "column"]).default("row"),
   justifyContent: z
     .enum(["flex-start", "center", "flex-end", "space-between", "space-around"])
     .optional()
-    .default("space-around"),
-  alignItems: z.enum(["flex-start", "center", "flex-end"]).optional().default("center"),
-  gap: z.number().optional().default(10),
-  backgroundColor: z.string().default("ghostwhite"),
-  borderRadius: z.number().default(5),
-  borderColor: z.string().optional().default("black"),
-  padding: z.number().default(5),
-  shadowColor: z.string().default(tokens.colorNeutralShadowKeyDarker),
-  shadowOffsetX: z.number().optional().default(1),
-  shadowOffsetY: z.number().optional().default(1),
-  shadowBlur: z.number().optional().default(3),
-  children: z.any().optional(),
+    .default("space-around"), // matches
+  alignItems: z.enum(["flex-start", "center", "flex-end"]).optional().default("center"), // matches
+  gap: z.number().optional().default(10), // matches
+  backgroundColor: z.string().default(tokens.colorNeutralBackground3Selected), // updated to tokens.colorNeutralBackground3Selected
+  borderRadius: z.number().default(5), // matches
+  borderColor: z.string().optional().default("transparent"), // updated from "black" to "transparent"
+  padding: z.number().default(5), // matches
+  shadowColor: z.string().default(tokens.colorNeutralShadowKeyDarker), // matches
+  shadowOffsetX: z.number().optional().default(1), // matches
+  shadowOffsetY: z.number().optional().default(1), // matches
+  shadowBlur: z.number().optional().default(1), // updated from 3 to 1
+  children: z.any().optional(), // matches
 });
 
 export type ContainerProps = z.infer<typeof containerSchema>;
@@ -219,7 +219,7 @@ export const iconSchema = z.object({
     .string()
     .transform((val) => (val in VscIcons ? val : "VscInfo"))
     .default("VscInfo") as z.ZodType<VscIconKeys>,
-  iconSize: z.number().optional().default(24),
+  iconSize: z.number().optional().default(44),
   iconColor: z.string().optional().default(tokens.colorBrandForeground2Pressed),
   hyperlink: z.string().optional().default(""),
 });

@@ -35,9 +35,25 @@ const useStyles = makeStyles({
 export const Label: UserComponent<LabelProps> = (props) => {
   const validatedProps = labelSchema.parse(props);
 
-  const { text, textAlign, fontFamily, fontSize, fontColor, userEditable, icon, hyperlink, bold, italic, underline } = validatedProps;
+  const {
+    text,
+    textAlign,
+    fontFamily,
+    fontSize,
+    fontColor,
+    userEditable,
+    icon,
+    hyperlink,
+    bold,
+    italic,
+    underline,
+  } = validatedProps;
 
-  const { connectors: { connect, drag }, selected, actions: { setProp } } = useNode((node) => ({
+  const {
+    connectors: { connect, drag },
+    selected,
+    actions: { setProp },
+  } = useNode((node) => ({
     selected: node.events.selected,
     dragged: node.events.dragged,
   }));
@@ -53,7 +69,6 @@ export const Label: UserComponent<LabelProps> = (props) => {
     }
   }, [selected, userEditable]);
 
-
   const styles = useStyles();
   const select = useSelected();
 
@@ -64,16 +79,23 @@ export const Label: UserComponent<LabelProps> = (props) => {
   return (
     <div
       ref={(ref: HTMLDivElement | null) => ref && connect(drag(ref))}
-      className={`${styles.labelContainer} ${selected ? select.select : ''}`}
-      onClick={() => selected && userEditable && setEditable(true)}
-    >
+      className={`${styles.labelContainer} ${selected ? select.select : ""}`}
+      onClick={() => selected && userEditable && setEditable(true)}>
       {icon === "left" && <Element id="label_icon" is={Icon} {...IconDefaultProps} />}
       <ContentEditable
         html={text}
         disabled={!editable}
         onChange={handleInput}
         tagName="div"
-        className={`${styles.labelContent} ${textAlign === "left" ? styles.alignLeft : textAlign === "center" ? styles.alignCenter : textAlign === "right" ? styles.alignRight : styles.alignJustify}`}
+        className={`${styles.labelContent} ${
+          textAlign === "left"
+            ? styles.alignLeft
+            : textAlign === "center"
+            ? styles.alignCenter
+            : textAlign === "right"
+            ? styles.alignRight
+            : styles.alignJustify
+        }`}
         style={{
           fontSize: `${fontSize}px`,
           color: fontColor,
@@ -88,19 +110,7 @@ export const Label: UserComponent<LabelProps> = (props) => {
   );
 };
 
-export const LabelDefaultProps: LabelProps = {
-  text: "New Label",
-  textAlign: 'left',
-  fontFamily: "helvetica",
-  fontSize: 20,
-  fontColor: "#FFFFFF",
-  userEditable: true,
-  icon: "none",
-  hyperlink: "",
-  bold: false,
-  italic: false,
-  underline: false,
-};
+export const LabelDefaultProps = labelSchema.parse({});
 
 (Label as any).craft = {
   displayName: "Label",
