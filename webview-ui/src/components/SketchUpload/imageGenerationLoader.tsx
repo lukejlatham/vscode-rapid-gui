@@ -14,10 +14,7 @@ const colorTokens = [
 ];
 
 const useStyles = makeStyles({
-
   icon: {
-    width: "var(--loader-size)",
-    height: "var(--loader-size)",
     animationName: {
       "0%": { opacity: 0, color: colorTokens[0] },
       "4.76%": { opacity: 1, color: colorTokens[0] },
@@ -55,22 +52,20 @@ interface LoaderProps {
 
 export const ImageGenerationLoader: React.FC<LoaderProps> = ({
   size = 104,
-  duration = 14,
+  duration = 21,
 }) => {
   const styles = useStyles();
 
   return (
-      <div
-        className={styles.icon}
-        style={
-          {
-            "--loader-size": `${size}`,
-            "--loader-duration": `${duration}s`,
-          } as React.CSSProperties
-        }
-      >
-        <ImageSparkle24Regular />
-      </div>
+    <div
+      className={styles.icon}
+      style={{
+
+        "--loader-duration": `${duration}s`,
+      } as React.CSSProperties}
+    >
+      <ImageSparkle24Regular fontSize={size}  />
+    </div>
   );
 };
 

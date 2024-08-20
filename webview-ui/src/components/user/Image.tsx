@@ -3,6 +3,7 @@ import { makeStyles, Spinner, tokens } from "@fluentui/react-components";
 import { ImageProps, imageSchema } from "../../types";
 import { ImageSettings } from "./Settings/ImageSettings";
 import { useSelected } from "../../hooks/useSelected";
+import ImageGenerationLoader from "../SketchUpload/imageGenerationLoader";
 
 const useStyles = makeStyles({
   container: {
@@ -39,7 +40,7 @@ const useStyles = makeStyles({
     width: '100%',
     height: '100%',
     zIndex: 2,
-    backgroundColor: tokens.colorNeutralForeground2,
+    backgroundColor: tokens.colorNeutralForeground1,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -71,7 +72,7 @@ export const Image: UserComponent<ImageProps> = (props) => {
     >
       {isLoading && (
         <div className={styles.spinner}>
-          <Spinner size="medium" />
+          <ImageGenerationLoader size={54}/>
         </div>
       )}
       <img
