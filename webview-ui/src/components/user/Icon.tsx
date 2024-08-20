@@ -36,7 +36,7 @@ export const Icon: UserComponent<IconProps> = (props) => {
 };
 
 export const IconDefaultProps: IconProps = {
-    vscIcon: "VscPrimitiveSquare", // Replace with a default Material Design icon name
+    vscIcon: "VscInfo", // Replace with a default Material Design icon name
     iconSize: 24,
     iconColor: "#lightslategray",
     hyperlink: "",
