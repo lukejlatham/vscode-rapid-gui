@@ -1,23 +1,37 @@
 import React, { useContext, useState } from 'react';
-import { Select, Theme, useId, Label } from '@fluentui/react-components';
+import { Theme, useId, Label, Select, Switch, makeStyles } from '@fluentui/react-components';
 import { teamsDarkTheme, teamsLightTheme, teamsHighContrastTheme } from '@fluentui/react-components';
 import { LanguageContext } from '../../../components/Wrapper';
 import { AccessibilityContext } from '../EditingInterface';
 import { FormattedMessage } from 'react-intl';
-import { set } from 'lodash';
+
+const useStyles = makeStyles({
+  settingsContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '15px',
+    maxWidth: '100%',
+  },
+  settingItem: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '5px',
+  },
+  select: {
+    width: '100%', 
+    maxWidth: '200px', 
+  },
+});
 
 const Settings: React.FC<{
     classes: any;
     theme: Theme;
     setTheme: React.Dispatch<React.SetStateAction<Theme>>;
 }> = ({ classes, setTheme, theme }) => {
+    const styles = useStyles();
     const language = useContext(LanguageContext);
     const accessibility = useContext(AccessibilityContext);
-    const [selectedTheme, setSelectedTheme] = useState<'dark' | 'light' | 'highContrast' >('dark');
-    const themeDropdownId = useId('themeDropdown');
-    const languageDropdownId = useId('languageDropdown');
-    const accessibilityDropdownId = useId('accessibilityDropdown');
-
+    const [selectedTheme, setSelectedTheme] = useState<'dark' | 'light' | 'highContrast'>('dark');
 
     const handleThemeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const selected = event.target.value as 'dark' | 'light' | 'highContrast';
@@ -33,60 +47,66 @@ const Settings: React.FC<{
                 setTheme(teamsHighContrastTheme);
                 break;
             default:
-                setTheme(teamsDarkTheme); // Default to dark theme
+                setTheme(teamsDarkTheme);
         }
     };
 
-    const handleAccessibilityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const selected = event.target.value;
+    const handleAccessibilityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const selected = event.target.checked ? 'yes' : 'no';
         accessibility.setSelectedAccessibility(selected as 'yes' | 'no');
         if (selected === 'yes') {
             setTheme(teamsHighContrastTheme);
-        } else if (selected === 'no') {
+        } else {
             setTheme(teamsDarkTheme);
         }
     };
 
     return (
-        <div style={{maxWidth: '100%'}}>
-            <Label htmlFor={themeDropdownId}>
-                <FormattedMessage id="settings.changeTheme" defaultMessage="Change the extension's theme: " />
-            </Label>
-            <Select id={themeDropdownId} value={selectedTheme} onChange={handleThemeChange}>
-                <option value="dark">
-                    <FormattedMessage id="settings.dark" defaultMessage="Dark" />
-                </option>
-                <option value="light">
-                    <FormattedMessage id="settings.light" defaultMessage="Light" />
-                </option>
-                <option value="highContrast">
-                    <FormattedMessage id="settings.highContrast" defaultMessage="High Contrast" />
-                </option>
-            </Select>
+        <div className={styles.settingsContainer}>
+            <div className={styles.settingItem}>
+                <Label htmlFor="themeSelect">
+                    <FormattedMessage id="settings.changeTheme" defaultMessage="Theme:" />
+                </Label>
+                <Select 
+                    id="themeSelect"
+                    value={selectedTheme}
+                    onChange={handleThemeChange}
+                    className={styles.select}
+                >
+                    <option value="dark">
+                        <FormattedMessage id="settings.dark" defaultMessage="Dark" />
+                    </option>
+                    <option value="light">
+                        <FormattedMessage id="settings.light" defaultMessage="Light" />
+                    </option>
+                    <option value="highContrast">
+                        <FormattedMessage id="settings.highContrast" defaultMessage="High Contrast" />
+                    </option>
+                </Select>
+            </div>
 
-            <Label htmlFor={languageDropdownId}>
-                <FormattedMessage id="settings.changeLanguage" defaultMessage="Change the extension's language: " />
-            </Label>
-            <Select id={languageDropdownId} value={language.locale} onChange={language.changeLanguage}>
-                <option value="en">English</option>
-                <option value="fr">French</option>
-            </Select>
+            <div className={styles.settingItem}>
+                <Label htmlFor="languageSelect">
+                    <FormattedMessage id="settings.changeLanguage" defaultMessage="Language:" />
+                </Label>
+                <Select
+                    id="languageSelect"
+                    value={language.locale}
+                    onChange={language.changeLanguage}
+                    className={styles.select}
+                >
+                    <option value="en">English</option>
+                    <option value="fr">Français</option>
+                </Select>
+            </div>
 
-            <Label htmlFor={accessibilityDropdownId}>
-                <FormattedMessage id="settings.accessibility" defaultMessage="Enable accessibility features" />
-            </Label>
-            <Select id={accessibilityDropdownId} value={accessibility.selectedAccessibility as string} onChange={handleAccessibilityChange}>
-                <option value="no">No</option>
-                <option value="yes">Yes</option>
-            </Select>
-            {/* { accessibility.selectedAccessibility === 'yes' ? (
-                <p> Accessibility on</p>
-            )
-            : accessibility.selectedAccessibility === 'no' ? (
-                <p> Accessibility off</p>)
-            : null} */}
-
-                
+            <div className={styles.settingItem}>
+                <Switch
+                    label={<FormattedMessage id="settings.accessibility" defaultMessage="Enable accessibility features" />}
+                    checked={accessibility.selectedAccessibility === 'yes'}
+                    onChange={handleAccessibilityChange}
+                />
+            </div>
         </div>
     );
 };
