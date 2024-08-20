@@ -20,7 +20,7 @@ const useStyles = makeStyles({
   },
   select: {
     width: '100%', 
-    maxWidth: '150px', 
+    maxWidth: '200px', 
   },
   breadcrumb: {
     marginBottom: '10px',
