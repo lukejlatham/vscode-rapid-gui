@@ -83,6 +83,7 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
+    alignItems: 'center',
     gap: '10px',
   },
   switchContainer: {
