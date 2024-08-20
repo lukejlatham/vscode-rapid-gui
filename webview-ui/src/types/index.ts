@@ -2,7 +2,7 @@
 import * as VscIcons from "react-icons/vsc";
 import { z } from "zod";
 import { SerializedNodes } from "@craftjs/core";
-import { tokens } from "@fluentui/react-components";
+import { tokens } from "@fluentui/react-theme";
 
 type VscIconKeys = keyof typeof VscIcons;
 

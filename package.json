@@ -60,6 +60,7 @@
   },
   "dependencies": {
     "@craftjs/core": "^0.2.8",
+    "@fluentui/react-theme": "^9.1.19",
     "@instructor-ai/instructor": "^1.5.0",
     "@vscode/webview-ui-toolkit": "^1.4.0",
     "axios": "^1.7.2",
