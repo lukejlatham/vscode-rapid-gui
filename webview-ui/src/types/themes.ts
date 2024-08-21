@@ -28,7 +28,7 @@ export type ColorScheme = {
   };
 };
 export const slateGreyScheme: ColorScheme = {
-  backgroundColor: "#F9F9FF",
+  backgroundColor: "#E6E6FA", // Light lavender
   shadows: true,
   sectionColors: {
     main: "#F9F9FF",
@@ -59,7 +59,7 @@ export const slateGreyScheme: ColorScheme = {
 
 export const orangeScheme: ColorScheme = {
   shadows: true,
-  backgroundColor: "#FFEDD5",
+  backgroundColor: "#FFFFFF",
   sectionColors: {
     main: "#F8F8FF", // ghostwhite
     lightaccent: "#FFD4A3",
@@ -89,7 +89,7 @@ export const orangeScheme: ColorScheme = {
 
 export const nautical: ColorScheme = {
   shadows: true,
-  backgroundColor: "#F9F9FF",
+  backgroundColor: "#E6F3FF", // Very light sky blue
   sectionColors: {
     main: "#ebebeb",
     lightaccent: "#ebebeb",
@@ -118,7 +118,7 @@ export const nautical: ColorScheme = {
 };
 
 export const natural: ColorScheme = {
-  backgroundColor: "#F9F9FF",
+  backgroundColor: "#F0F4E8", // Light sage
   shadows: false,
   sectionColors: {
     main: "#a3b18a",
@@ -209,7 +209,7 @@ export const beige: ColorScheme = {
 
 export const redairbnb: ColorScheme = {
   shadows: true,
-  backgroundColor: "#FF5A5F",
+  backgroundColor: "#FFFFFF",
   sectionColors: {
     main: "#ffffff",
     lightaccent: "#00A699",
@@ -239,7 +239,7 @@ export const redairbnb: ColorScheme = {
 
 export const snapchatyellow: ColorScheme = {
   shadows: true,
-  backgroundColor: "#FFFC00",
+  backgroundColor: "#FFFFD9", // Very light yellow
   sectionColors: {
     main: "#ffffff",
     lightaccent: "#a3b18a",
@@ -269,7 +269,7 @@ export const snapchatyellow: ColorScheme = {
 
 export const facebookblue: ColorScheme = {
   shadows: true,
-  backgroundColor: "#dfe3ee",
+  backgroundColor: "#FFFFFF",
   sectionColors: {
     main: "#dfe3ee",
     lightaccent: "#dfe3ee",
@@ -299,7 +299,7 @@ export const facebookblue: ColorScheme = {
 
 export const facebookblueNoShadow: ColorScheme = {
   shadows: false,
-  backgroundColor: "#f8f9fa",
+  backgroundColor: "#FFFFFF",
   sectionColors: {
     main: "#f8f9fa",
     lightaccent: "#dfe3ee",
@@ -329,7 +329,7 @@ export const facebookblueNoShadow: ColorScheme = {
 
 export const instagramSunset: ColorScheme = {
   shadows: true,
-  backgroundColor: "#F9F9FF",
+  backgroundColor: "#FFF5EE", // Seashell
   sectionColors: {
     main: "#EDEDE9",
     lightaccent: "#fbad50",
@@ -359,7 +359,7 @@ export const instagramSunset: ColorScheme = {
 
 export const discordpurple: ColorScheme = {
   shadows: true,
-  backgroundColor: "#F9F9FF",
+  backgroundColor: "#1e2124",
   sectionColors: {
     main: "#282b30",
     lightaccent: "#424549",
@@ -372,7 +372,7 @@ export const discordpurple: ColorScheme = {
   },
   elementColors: {
     main: "#7289da",
-    lightaccent: "#424549",
+    lightaccent: "#7289da",
     darkaccent: "#7f4f24",
   },
   elementBorderColors: {
@@ -383,7 +383,7 @@ export const discordpurple: ColorScheme = {
   fontColors: {
     main: "#ffffff",
     lightaccent: "#ffffff",
-    darkaccent: "#99aab5",
+    darkaccent: "#7289da",
   },
 };
 
