@@ -1,7 +1,20 @@
+import React from "react";
 import { useNode, UserComponent } from "@craftjs/core";
+import { makeStyles } from "@fluentui/react-components";
 import { InputProps, inputSchema } from "../../types";
 import { InputSettings } from "./Settings/InputSettings";
 import { useSelected } from "../../hooks/useSelected";
+
+const useStyles = makeStyles({
+  inputContainer: {
+    padding: "2px",
+  },
+  input: {
+    width: "100%",
+    boxSizing: "border-box",
+    padding: "5px 10px",
+  },
+});
 
 export const Input: UserComponent<InputProps> = (props) => {
   const validatedProps = inputSchema.parse(props);
@@ -22,23 +35,26 @@ export const Input: UserComponent<InputProps> = (props) => {
     selected: state.events.selected,
   }));
   const select = useSelected();
+  const styles = useStyles();
 
   return (
-    <div className={`${selected ? select.select : ""}`}>
+    <div
+      className={`${styles.inputContainer} ${selected ? select.select : ""}`}
+      ref={(ref: HTMLDivElement | null) => {
+        if (ref) {
+          connect(drag(ref));
+        }
+      }}>
       <input
-        ref={(ref: HTMLInputElement | null) => {
-          if (ref) {
-            connect(drag(ref));
-          }
-        }}
+        className={styles.input}
         placeholder={placeholder}
         style={{
-          fontSize: fontSize,
-          fontFamily: fontFamily,
+          fontSize,
+          fontFamily,
           color: fontColor,
-          backgroundColor: backgroundColor,
-          borderRadius: borderRadius,
-          borderColor: borderColor,
+          backgroundColor,
+          borderRadius,
+          borderColor,
         }}
       />
     </div>
