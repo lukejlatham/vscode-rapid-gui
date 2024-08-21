@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useEditor } from "@craftjs/core";
-import { Subtitle1, Divider, Button, Tooltip, makeStyles, tokens } from "@fluentui/react-components";
+import { Subtitle1, Divider, Button, Tooltip, makeStyles, tokens, Breadcrumb, BreadcrumbItem } from "@fluentui/react-components";
 import { Delete24Regular, PaintBrush24Regular, PaintBrushArrowDown24Regular, Dismiss20Regular } from "@fluentui/react-icons";
 
 
@@ -22,7 +22,9 @@ const useStyles = makeStyles({
     gap: '10px',
     alignItems: 'center',
     justifyContent: 'space-between',
-    color: tokens.colorNeutralForeground1,
+    color: '#d6d6d6',
+    // fontSize: '0.875rem',
+    // fontWeight: 100,
   },
   buttonGroup: {
     display: 'flex',
@@ -34,6 +36,11 @@ const useStyles = makeStyles({
   },
   button: {
     width: "30%",
+  },
+  breadcrumb: {
+    color: '#d6d6d6',
+    fontSize: '1rem',
+    fontWeight: 500,
   },
   dismissButton: {
     ":hover": {
@@ -93,7 +100,9 @@ export const PropertyInspector: React.FC = () => {
   return selected ? (
     <div className={classes.propertyInspector}>
       <div className={classes.header}>
-        <Subtitle1>{selected.displayName}</Subtitle1>
+      <Breadcrumb className={classes.breadcrumb}>
+      <BreadcrumbItem>{selected.displayName}</BreadcrumbItem>
+      </Breadcrumb>
         <Button icon={<Dismiss20Regular className={classes.dismissButton}/>} appearance="transparent" onClick={handleClose} />
       </div>
       <Divider style={{ flexGrow: "0" }} />
