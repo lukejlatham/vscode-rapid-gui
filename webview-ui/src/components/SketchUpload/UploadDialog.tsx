@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from "react";
 import {
   Dialog,
   DialogSurface,
@@ -12,43 +12,48 @@ import {
   Card,
   CardHeader,
   tokens,
-  makeStyles
-} from '@fluentui/react-components';
-import { Image24Regular, ArrowUpload24Regular, CheckmarkCircle24Filled, CircleHint24Filled } from '@fluentui/react-icons';
-import { handleSketchUpload } from './handleSketchUpload';
-import { v4 as uuidv4 } from 'uuid';
-import { Page } from '../../types';
-import { GenerationLoader } from './generationLoader';
+  makeStyles,
+} from "@fluentui/react-components";
+import {
+  Image24Regular,
+  ArrowUpload24Regular,
+  CheckmarkCircle24Filled,
+  CircleHint24Filled,
+} from "@fluentui/react-icons";
+import { handleSketchUpload } from "./handleSketchUpload";
+import { v4 as uuidv4 } from "uuid";
+import { Page } from "../../types";
+import { GenerationLoader } from "./generationLoader";
 
 const useStyles = makeStyles({
   content: {
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column",
     gap: tokens.spacingVerticalM,
   },
   imagePreview: {
-    width: '100%',
-    height: '200px',
-    objectFit: 'cover',
+    width: "100%",
+    height: "200px",
+    objectFit: "cover",
     borderRadius: tokens.borderRadiusMedium,
   },
   spinner: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: '100px',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "100px",
     gap: tokens.spacingHorizontalM,
   },
   noImageText: {
-    textAlign: 'center',
+    textAlign: "center",
     padding: tokens.spacingVerticalL,
   },
   processingStages: {
     marginTop: tokens.spacingVerticalM,
   },
   stageItem: {
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
     gap: tokens.spacingHorizontalS,
   },
   completedStage: {
@@ -68,13 +73,16 @@ interface UploadDialogProps {
   setPages: (pages: Page[]) => void;
 }
 
-const PROCESSING_STAGES = [
-  "Generating layout",
-  "Generating elements",
-  "Refining properties",
-];
+const PROCESSING_STAGES = ["Generating layout", "Generating elements", "Refining properties"];
 
-export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose, closeStartDialog, mode, pages, setPages }) => {
+export const UploadDialog: React.FC<UploadDialogProps> = ({
+  isOpen,
+  onClose,
+  closeStartDialog,
+  mode,
+  pages,
+  setPages,
+}) => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [uiDescription, setUIDescription] = useState<string | null>(null);
@@ -86,20 +94,23 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose, clo
     const handleMessage = (event: { data: any }) => {
       const message = event.data;
 
-      if (message.command === 'processingStage') {
+      if (message.command === "processingStage") {
         const stageIndex = PROCESSING_STAGES.indexOf(message.stage);
         setCurrentStage(stageIndex !== -1 ? stageIndex : -1);
-      } else if (message.command === 'sketchProcessed') {
+      } else if (message.command === "sketchProcessed") {
         setUIDescription(message.description);
         setLoading(false);
         setCurrentStage(PROCESSING_STAGES.length);
 
-        if (mode === 'start') {
+        if (mode === "start") {
           const sketch = { id: uuidv4(), name: `Page 1`, content: JSON.parse(message.content) };
           setPages([sketch]);
-        }
-        else if (mode === 'add') {
-          const sketch = { id: uuidv4(), name: `Page ${pages.length + 1}`, content: JSON.parse(message.content) };
+        } else if (mode === "add") {
+          const sketch = {
+            id: uuidv4(),
+            name: `Page ${pages.length + 1}`,
+            content: JSON.parse(message.content),
+          };
           setPages([...pages, sketch]);
         }
         setSelectedImage(null);
@@ -108,18 +119,15 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose, clo
         setCurrentStage(-1);
         onClose();
         closeStartDialog();
-
-
       }
     };
 
-    window.addEventListener('message', handleMessage);
+    window.addEventListener("message", handleMessage);
 
     return () => {
-      window.removeEventListener('message', handleMessage);
+      window.removeEventListener("message", handleMessage);
     };
   }, [closeStartDialog, onClose, mode, setPages, pages]);
-
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -135,7 +143,7 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose, clo
       try {
         await handleSketchUpload(selectedImage);
       } catch (error) {
-        console.error('Error uploading image:', error);
+        console.error("Error uploading image:", error);
         setLoading(false);
         setCurrentStage(-1);
       }
@@ -161,24 +169,18 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose, clo
                 type="file"
                 accept="image/*"
                 onChange={handleImageUpload}
-                style={{ display: 'none' }}
+                style={{ display: "none" }}
                 ref={fileInputRef}
               />
               {!selectedImage ? (
-                <Text className={styles.noImageText}>No image selected. Click "Select Image" to upload.</Text>
+                <Text className={styles.noImageText}>
+                  No image selected. Click "Select Image" to upload.
+                </Text>
               ) : (
                 <Card>
                   <CardHeader
-                    header={
-                      <Text weight="semibold">
-                        {selectedImage.name}
-                      </Text>
-                    }
-                    description={
-                      <Text>
-                        {(selectedImage.size / 1024 / 1024).toFixed(2)} MB
-                      </Text>
-                    }
+                    header={<Text weight="semibold">{selectedImage.name}</Text>}
+                    description={<Text>{(selectedImage.size / 1024 / 1024).toFixed(2)} MB</Text>}
                   />
                 </Card>
               )}
@@ -187,32 +189,26 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({ isOpen, onClose, clo
                   <GenerationLoader />
                 </div>
               )}
-             
-              {uiDescription && (
-                <Text>
-                  UI Description generated successfully!
-                </Text>
-              )}
+
+              {uiDescription && <Text>UI Description generated successfully!</Text>}
             </div>
           </DialogContent>
           <DialogActions fluid>
-              <Button
-                onClick={() => fileInputRef.current?.click()}
-                appearance="secondary"
-                icon={<Image24Regular />}
-                              disabled={ loading}
-
-              >
-                {selectedImage ? 'Change Image' : 'Select Image'}
-              </Button>
+            <Button
+              onClick={() => fileInputRef.current?.click()}
+              appearance="secondary"
+              icon={<Image24Regular />}
+              disabled={loading}>
+              {selectedImage ? "Change Image" : "Select Image"}
+            </Button>
 
             <Button
               onClick={handleProcessSketch}
               appearance="primary"
               disabled={!selectedImage || loading}
-              icon={<ArrowUpload24Regular />}
-            >
-              {loading ? "Generating..." : "Process Text"}     </Button>
+              icon={<ArrowUpload24Regular />}>
+              {loading ? "Generating..." : "Process Sketch"}{" "}
+            </Button>
           </DialogActions>
         </DialogBody>
       </DialogSurface>
