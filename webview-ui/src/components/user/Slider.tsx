@@ -1,14 +1,29 @@
 import { useNode, UserComponent } from "@craftjs/core";
+import { makeStyles } from "@fluentui/react-components";
 import { SliderProps, sliderSchema } from "../../types";
 import { SliderSettings } from "./Settings/SliderSettings";
 import { useSelected } from "../../hooks/useSelected";
 
+const useStyles = makeStyles({
+  sliderContainer: {
+    padding: "2px",
+    display: "flex",
+    flexDirection: "row",
+    gap: "5px",
+    alignContent: "center",
+  },
+  sliderLabel: {
+    marginBottom: "5px",
+  },
+  sliderInput: {
+    width: "100%",
+  },
+});
+
 export const Slider: UserComponent<SliderProps> = (props) => {
   const validatedProps = sliderSchema.parse(props);
-
   const { header, min, max, step, fontSize, fontFamily, fontColor, backgroundColor } =
     validatedProps;
-
   const {
     connectors: { connect, drag },
     selected,
@@ -16,6 +31,7 @@ export const Slider: UserComponent<SliderProps> = (props) => {
     selected: state.events.selected,
   }));
   const select = useSelected();
+  const styles = useStyles();
 
   return (
     <div
@@ -24,9 +40,10 @@ export const Slider: UserComponent<SliderProps> = (props) => {
           connect(drag(ref));
         }
       }}
-      className={`${selected ? select.select : ""}`}>
+      className={`${selected ? select.select : ""} ${styles.sliderContainer}`}>
       <label
         htmlFor={header}
+        className={styles.sliderLabel}
         style={{ fontFamily: fontFamily, fontSize: `${fontSize}px`, color: fontColor }}>
         {header}
       </label>
@@ -36,7 +53,12 @@ export const Slider: UserComponent<SliderProps> = (props) => {
         min={min}
         max={max}
         step={step}
-        style={{ fontSize: `${fontSize}px`, color: fontColor, accentColor: backgroundColor }}
+        className={styles.sliderInput}
+        style={{
+          fontSize: `${fontSize}px`,
+          color: fontColor,
+          accentColor: backgroundColor,
+        }}
       />
     </div>
   );
