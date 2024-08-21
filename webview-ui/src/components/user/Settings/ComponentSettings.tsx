@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { Dropdown, Option, SelectionEvents, OptionOnSelectData, Input, Label, SpinButton, Radio, Slider, SliderOnChangeData, RadioGroup, SpinButtonChangeEvent, SpinButtonOnChangeData, Tooltip, useId, mergeClasses } from "@fluentui/react-components";
+import { Select, Dropdown, Option, SelectionEvents, OptionOnSelectData, Input, Label, SpinButton, Radio, Slider, SliderOnChangeData, RadioGroup, SpinButtonChangeEvent, SpinButtonOnChangeData, Tooltip, useId, mergeClasses } from "@fluentui/react-components";
 import { Info16Regular } from "@fluentui/react-icons";
 import { useNode } from "@craftjs/core";
 import { usePropertyInspectorStyles } from "../../../hooks/usePropertyInspectorStyles";
@@ -144,32 +144,31 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({ componentP
                             />
                         ) : tooltip.type === "dropdown" ? (
                             <div className={propInspector.srcDropdown}>
-                                <Dropdown
-                                    placeholder="Select a source for the image"
-                                    onOptionSelect={(e: SelectionEvents, data: OptionOnSelectData) => {
-                                        setSrcOption(data.optionValue as string);
+                                <Select
+                                    onChange={(e, data) => {
+                                        setSrcOption(data.value as string);
                                     }}
                                 >
-                                    <Option key="url" value="url">URL</Option>
-                                    <Option key="upload" value="upload">Upload</Option>
-                                </Dropdown>
+                                    <option value="">Select image source</option>
+                                    <option value="url">URL</option>
+                                    <option value="upload">Upload</option>
+                                </Select>
                                 { // Display image upload button if the component has an 'src' prop
                                     srcOption === "upload" ? (
                                         <div className={propInspector.imageUploaded}>
                                             <UserImageUploadButton onUpload={handleImageUpload} />
                                             { // display dropdown selection of uploaded images if it exists 
                                                 uploadedImages.length > 0 && (
-                                                    <Dropdown
-                                                        placeholder="Select an uploaded image"
-                                                        onOptionSelect={(e: SelectionEvents, data: OptionOnSelectData) => {
-                                                            handleImageUpload(data.optionValue as string);
-                                                        }
-                                                        }
-                                                    >
-                                                        {uploadedImages.map((image, index) => (
-                                                            <Option key={index} value={image.filepath}>{image.filename}</Option>
-                                                        ))}
-                                                    </Dropdown>
+                                                    <Select
+                                                onChange={(e, data) => {
+                                                    handleImageUpload(data.value as string);
+                                                }}
+                                            >
+                                                <option value="">Select an uploaded image</option>
+                                                {uploadedImages.map((image, index) => (
+                                                    <option key={index} value={image.filepath}>{image.filename}</option>
+                                                ))}
+                                            </Select>
                                                 )}
                                         </div>
                                     )
@@ -258,7 +257,7 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({ componentP
                         ) : tooltip.type === "textAlign" ? (
                             <RadioGroup
                                 defaultValue={propValue as string}
-                                layout="horizontal-stacked"
+                                layout="vertical"
                                 onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
                                     setProp((props: typeof componentProps) => {
                                         (props[tooltip.propKey as keyof typeof props] as 'left' | 'center' | 'right' | 'justify') = data.value as 'left' | 'center' | 'right' | 'justify';
