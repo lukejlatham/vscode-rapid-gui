@@ -304,14 +304,14 @@ export type TooltipConfigText = {
   label: string;
   content: string;
   propKey: keyof TextProps;
-  type: "color" | "spinButton" | "text" | "textAlign" | "slider";
+  type: "color" | "spinButton" | "textarea" | "textAlign" | "slider" | "text";
 };
 
 export type TooltipConfigTextbox = {
   label: string;
   content: string;
   propKey: keyof TextBoxProps;
-  type: "color" | "spinButton" | "text" | "slider";
+  type: "color" | "spinButton" | "textarea" | "slider" | "text";
 };
 
 export type TooltipConfigRadio = {

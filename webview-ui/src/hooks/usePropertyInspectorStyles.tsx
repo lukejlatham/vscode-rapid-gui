@@ -69,5 +69,9 @@ export const usePropertyInspectorStyles = makeStyles({
         flexDirection: "column",
         gap: "10px",
         justifyContent: "center",
-    }
+    },
+    textarea: {
+        width: "100%",
+        height: "100px",
+    },
 });

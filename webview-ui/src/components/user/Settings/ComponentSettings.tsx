@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { Select, Dropdown, Option, SelectionEvents, OptionOnSelectData, Input, Label, SpinButton, Radio, Slider, SliderOnChangeData, RadioGroup, SpinButtonChangeEvent, SpinButtonOnChangeData, Tooltip, useId, mergeClasses } from "@fluentui/react-components";
+import { Select, Dropdown, Option, SelectionEvents, OptionOnSelectData, Input, Label, SpinButton, Radio, Slider, SliderOnChangeData, RadioGroup, SpinButtonChangeEvent, SpinButtonOnChangeData, Tooltip, useId, mergeClasses, Textarea } from "@fluentui/react-components";
 import { Info16Regular } from "@fluentui/react-icons";
 import { useNode } from "@craftjs/core";
 import { usePropertyInspectorStyles } from "../../../hooks/usePropertyInspectorStyles";
@@ -142,6 +142,17 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({ componentP
                                     (props[tooltip.propKey as keyof typeof props] as string) = e.target.value;
                                 })}
                             />
+                        ) : tooltip.type === "textarea" ? (
+                                <Textarea
+                                    className={propInspector.textarea}
+                                    placeholder="Text here..."
+                                    defaultValue={propValue as string}
+                                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+                                        setProp((props: typeof componentProps) => {
+                                            (props[tooltip.propKey as keyof typeof props] as string) = e.target.value;
+                                        }, 1000);
+                                    }}
+                                />
                         ) : tooltip.type === "dropdown" ? (
                             <div className={propInspector.srcDropdown}>
                                 <Select
