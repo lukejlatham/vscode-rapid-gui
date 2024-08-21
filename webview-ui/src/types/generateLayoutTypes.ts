@@ -255,17 +255,22 @@ export const craftjsNodeSchema = z.object({
   parent: z.string(),
 });
 
-export const themedSectionSchema = z.object({
-  section: z.string(),
-  xPosition: z.number().int().max(10),
-  yPosition: z.number().int().max(10),
-  width: z.number().int().max(10),
-  height: z.number().int().max(10),
-  flexDirection: z.enum(["row", "column"]),
-  backgroundColor: z.string(),
-  borderColor: z.string(),
-  children: z.array(z.any()),
-});
+export const themedSectionSchema = z
+  .object({
+    section: z.string(),
+    xPosition: z.number().int().max(10),
+    yPosition: z.number().int().max(10),
+    width: z.number().int().max(10),
+    height: z.number().int().max(10),
+    flexDirection: z.enum(["row", "column"]).optional(),
+    backgroundColor: z.string(),
+    borderColor: z.string(),
+    children: z.array(z.any()),
+  })
+  .refine((data) => {
+    data.flexDirection = data.width > data.height ? "row" : "column";
+    return true;
+  });
 
 export type ThemedSectionSchema = z.infer<typeof themedSectionSchema>;
 
