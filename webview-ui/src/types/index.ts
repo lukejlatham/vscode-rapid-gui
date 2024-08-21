@@ -179,7 +179,7 @@ export const radioButtonSchema = z.object({
   header: z.string().default(""),
   fontFamily: z.string().default("Open Sans"),
   numberOfButtons: z.number().default(2),
-  optionLabels: z.array(z.string()).default([]),
+  optionLabels: z.array(z.string()).default(["Option 1", "Option 2"]),
   fontSize: z.number().default(16),
   fontColor: z.string().default(tokens.colorBrandForeground2Pressed),
   direction: z.enum(["row", "column"]).default("column"),
