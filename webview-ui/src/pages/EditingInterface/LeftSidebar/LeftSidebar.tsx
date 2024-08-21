@@ -93,8 +93,8 @@ const useStyles = makeStyles({
     display: "flex",
     width: "100%",
     flexDirection: "column",
-    // justifyContent: "center",
-    // alignItems: "center",
+    justifyContent: "center",
+    alignItems: "center",
     gap: "10px",
   },
   layoutManagement: {
