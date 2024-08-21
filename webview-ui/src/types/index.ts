@@ -12,6 +12,7 @@ export const backgroundSchema = z.object({
   rows: z.number().default(3),
   columns: z.number().default(3),
   lockedGrid: z.boolean().default(false),
+  visibleGrid: z.boolean().default(true),
   additionalProps: z
     .record(z.union([z.string(), z.number(), z.boolean(), z.array(z.any())]))
     .optional(),

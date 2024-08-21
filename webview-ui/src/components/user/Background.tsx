@@ -20,6 +20,9 @@ const useStyles = makeStyles({
   backgroundBorderUnlocked: {
     border: `1px solid ${tokens.colorBrandForeground2}`,
   },
+  backgroundBorderInvisible: {
+    border: `1px solid transparent`,
+  },
   gridCell: {
     display: "flex",
     justifyContent: "center",
@@ -92,6 +95,7 @@ export const Background: FC<BackgroundProps> = (props) => {
     rows: initialRows,
     columns: initialColumns,
     lockedGrid: initialGridLocked,
+    visibleGrid: initialVisibleGrid,
     backgroundColor: initialBackgroundColor,
   } = validatedProps;
 
@@ -108,6 +112,7 @@ export const Background: FC<BackgroundProps> = (props) => {
     props.columns = initialColumns;
     props.lockedGrid = initialGridLocked;
     props.layout = initialLayout;
+    props.visibleGrid = initialVisibleGrid;
     props.backgroundColor = initialBackgroundColor;
   });
 
@@ -161,9 +166,11 @@ export const Background: FC<BackgroundProps> = (props) => {
             <div
               key={item.i}
               data-grid={item}
-              className={`${styles.gridCell} ${
-                initialGridLocked ? styles.lockedGrid : styles.boxShadowAnimation
-              }`}>
+              className={mergeClasses(
+                styles.gridCell,
+                initialGridLocked ? styles.lockedGrid : styles.boxShadowAnimation,
+                !initialVisibleGrid && styles.backgroundBorderInvisible
+              )}>
               <div
                 className={mergeClasses(
                   styles.gridCellContent,
