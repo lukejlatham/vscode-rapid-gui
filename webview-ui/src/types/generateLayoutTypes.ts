@@ -190,17 +190,22 @@ export const generatedFullElements = z.union([
   generateDropdownSchema,
 ]);
 
-const sectionSchema = z.object({
-  section: z.string(),
-  xPosition: z.number(),
-  yPosition: z.number(),
-  width: z.number(),
-  height: z.number(),
-  backgroundColor: z.enum(["Main", "LightAccent", "DarkAccent"]),
-  flexDirection: z.enum(["row", "column"]),
-  children: z.array(generatedFullElements),
-});
+const sectionSchema = z
+  .object({
+    section: z.string(),
+    xPosition: z.number(),
+    yPosition: z.number(),
+    width: z.number(),
+    height: z.number(),
+    backgroundColor: z.enum(["Main", "LightAccent", "DarkAccent"]),
+    children: z.array(generatedFullElements),
+  })
+  .transform((data) => {
+    const flexDirection = data.width > data.height ? "row" : "column";
+    return { ...data, flexDirection };
+  });
 
+export { sectionSchema };
 export const sectionsSchema = z.array(sectionSchema);
 
 export const layoutSchema = z.object({
