@@ -1,19 +1,26 @@
 import { useNode, UserComponent } from "@craftjs/core";
 import { makeStyles } from "@fluentui/react-components";
 import { TextBoxProps, textBoxSchema } from "../../types";
-import { TextBoxSettings } from "./Settings/TextboxSettings";
 import { useSelected } from "../../hooks/useSelected";
 
 const useStyles = makeStyles({
+  textBoxContainer: {
+    padding: "4px",
+    display: "flex",
+    alignItems: "center",
+  },
   textBox: {
+    width: "100%",
+    boxSizing: "border-box",
+    padding: "5px 10px",
     resize: "both",
-    fontFamily: "inherit",
+    minHeight: "80px",
+    minWidth: "120px",
   },
 });
 
 export const TextBox: UserComponent<TextBoxProps> = (props) => {
   const validatedProps = textBoxSchema.parse(props);
-
   const {
     text,
     fontSize,
@@ -36,18 +43,23 @@ export const TextBox: UserComponent<TextBoxProps> = (props) => {
   const select = useSelected();
 
   return (
-    <div className={`${selected ? select.select : ""}`}>
+    <div
+      className={`${styles.textBoxContainer} ${selected ? select.select : ""}`}
+      ref={(ref: HTMLDivElement | null) => {
+        if (ref) {
+          connect(drag(ref));
+        }
+      }}>
       <textarea
-        ref={(ref: HTMLTextAreaElement | null) => ref && connect(drag(ref))}
         placeholder={placeholder}
         className={styles.textBox}
         style={{
           fontSize: `${fontSize}px`,
-          fontFamily: fontFamily,
+          fontFamily,
           color: fontColor,
-          backgroundColor: backgroundColor,
+          backgroundColor,
           borderRadius: `${borderRadius}px`,
-          borderColor: `${borderColor}`,
+          borderColor,
         }}>
         {text}
       </textarea>
@@ -60,7 +72,4 @@ export const TextBoxDefaultProps = textBoxSchema.parse({});
 TextBox.craft = {
   displayName: "Multi-line Input",
   props: TextBoxDefaultProps,
-  related: {
-    settings: TextBoxSettings,
-  },
 };
