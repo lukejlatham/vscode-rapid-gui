@@ -49,7 +49,7 @@ function calculateLayoutDimensions(layout: SectionsSchema): LayoutDimensions {
     return section.section;
   });
 
-  return { rows: maxX, columns: maxY, ids };
+  return { rows: 10, columns: 10, ids };
 }
 
 function createNode(
@@ -99,6 +99,10 @@ function generateSectionNodes(sections: ThemedLayoutSchema[]): { [key: string]: 
       borderColor: section.borderColor,
       width: 100,
       height: 100,
+      shadowColor: "transparent",
+      shadowOffsetX: 1,
+      shadowOffsetY: 1,
+      shadowBlur: 1,
     });
 
     nodes[containerId] = createNode(
