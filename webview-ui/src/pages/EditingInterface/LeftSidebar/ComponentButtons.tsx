@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Breadcrumb, BreadcrumbItem, Body2, makeStyles } from "@fluentui/react-components";
+import { Button, Breadcrumb, BreadcrumbItem, Body2, makeStyles, Caption1 } from "@fluentui/react-components";
 import { useEditor, Element } from "@craftjs/core";
 import { Label, LabelDefaultProps } from '../../../components/user/Label';
 import { Button as UserButton, ButtonDefaultProps } from "../../../components/user/Button";
@@ -55,8 +55,12 @@ const useStyles = makeStyles({
       width: "100%",
     },
     breadcrumb: {
-      marginBottom: '10px',
-    }
+      marginBottom: '2px',
+    },
+    caption: {
+        color: '#d6d6d6',
+        marginBottom: '5px'
+        }
   });
 
 const ComponentButtons: React.FC<{ classes: any }> = ({ classes }) => {
@@ -72,6 +76,9 @@ const ComponentButtons: React.FC<{ classes: any }> = ({ classes }) => {
     </Body2>
   </BreadcrumbItem>
 </Breadcrumb>
+<Caption1 className={styles.caption}>
+        Drag components onto grid cells to add them to the canvas
+      </Caption1>
             <Button 
             className={classes.componentButtons} icon={<ButtonIcon />} size='medium' appearance='secondary' ref={ref => {
                 if (ref !== null) {

@@ -8,6 +8,7 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   Body2,
+  Caption1,
 } from "@fluentui/react-components";
 import { TextFont20Filled, ChevronRight16Filled } from "@fluentui/react-icons";
 import { useEditor } from "@craftjs/core";
@@ -19,6 +20,7 @@ const useStyles = makeStyles({
     display: "flex",
     flexDirection: "column",
     gap: "10px",
+    paddingBottom: "15px",
   },
   fontPreview: {
     marginLeft: "10px",
@@ -27,7 +29,11 @@ const useStyles = makeStyles({
     width: "100%",
   },
   breadcrumb: {
-    marginBottom: '10px',
+    marginBottom: '2px',
+  },
+  caption: {
+    color: '#d6d6d6',
+    marginBottom: '5px'
   }
 });
 
@@ -62,6 +68,9 @@ export const FontDropdown: React.FC = () => {
     </Body2>
   </BreadcrumbItem>
 </Breadcrumb>
+<Caption1 className={styles.caption}>
+  Select a font, theme or background color for your design
+      </Caption1>
       <Select
         id={selectId}
         className={styles.select}

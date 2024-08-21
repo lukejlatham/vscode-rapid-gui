@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Theme, useId, Label, Select, Switch, makeStyles,   Breadcrumb,
     BreadcrumbItem, Body2 } from '@fluentui/react-components';
-import { teamsDarkTheme, teamsLightTheme, teamsHighContrastTheme } from '@fluentui/react-components';
+import { teamsDarkTheme, teamsLightTheme, teamsHighContrastTheme, Caption1 } from '@fluentui/react-components';
 import { LanguageContext } from '../../../components/Wrapper';
 import { AccessibilityContext } from '../EditingInterface';
 import { FormattedMessage } from 'react-intl';
@@ -23,7 +23,11 @@ const useStyles = makeStyles({
     maxWidth: '200px', 
   },
   breadcrumb: {
-    marginBottom: '10px',
+    marginBottom: '2px',
+  },
+  caption: {
+    color: '#d6d6d6',
+    marginBottom: '5px'
   }
 });
 
@@ -74,6 +78,9 @@ const Settings: React.FC<{
             </Body2>
         </BreadcrumbItem>
         </Breadcrumb>
+        <Caption1 className={styles.caption}>
+            Select a theme and language for the editor
+      </Caption1>
             <div className={styles.settingItem}>
                 <Label htmlFor="themeSelect">
                     <FormattedMessage id="settings.changeTheme" defaultMessage="Theme:" />

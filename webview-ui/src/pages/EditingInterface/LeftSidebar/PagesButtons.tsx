@@ -10,6 +10,7 @@ import {
     BreadcrumbItem,
     shorthands,
     Body2,
+    Caption1
 } from '@fluentui/react-components';
 import { RenamePageDialog } from '../../../components/RenamePageDialog';
 import { DocumentAddRegular, DeleteRegular, SquareEraserRegular} from '@fluentui/react-icons';
@@ -37,7 +38,11 @@ const useStyles = makeStyles({
     marginTop: '10px',
   },
   breadcrumb: {
-    marginBottom: '10px',
+    marginBottom: '2px',
+  },
+  caption: {
+    color: '#d6d6d6',
+    marginBottom: '5px'
   }
 });
 
@@ -78,12 +83,15 @@ const PagesButtons: React.FC<{
     return (
         <div className={styles.pagesContainer}>
        <Breadcrumb className={styles.breadcrumb}>
-  <BreadcrumbItem>
-    <Body2>
-      Pages
-    </Body2>
-  </BreadcrumbItem>
-</Breadcrumb>
+        <BreadcrumbItem>
+            <Body2>
+                    Pages
+            </Body2>
+        </BreadcrumbItem>
+        </Breadcrumb>
+    <Caption1 className={styles.caption}>
+        Add, rename, delete, or reset pages in your project
+      </Caption1>
 
             <Listbox 
                 className={styles.listbox}
