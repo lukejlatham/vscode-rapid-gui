@@ -8,18 +8,17 @@ const useStyles = makeStyles({
   sliderContainer: {
     padding: "2px",
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "column", // Change to column layout
     gap: "5px",
-    alignContent: "center",
   },
   sliderLabel: {
     marginBottom: "5px",
+    textAlign: "left", // Align text to the left
   },
   sliderInput: {
     width: "100%",
   },
 });
-
 export const Slider: UserComponent<SliderProps> = (props) => {
   const validatedProps = sliderSchema.parse(props);
   const { header, min, max, step, fontSize, fontFamily, fontColor, backgroundColor } =
