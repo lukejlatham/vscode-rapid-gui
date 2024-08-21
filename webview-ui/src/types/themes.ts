@@ -239,7 +239,7 @@ export const redairbnb: ColorScheme = {
 
 export const snapchatyellow: ColorScheme = {
   shadows: true,
-  backgroundColor: "#FFFFD9", // Very light yellow
+  backgroundColor: "#FFFFFF",
   sectionColors: {
     main: "#ffffff",
     lightaccent: "#a3b18a",
@@ -372,7 +372,7 @@ export const discordpurple: ColorScheme = {
   },
   elementColors: {
     main: "#7289da",
-    lightaccent: "#7289da",
+    lightaccent: "#424549",
     darkaccent: "#7f4f24",
   },
   elementBorderColors: {

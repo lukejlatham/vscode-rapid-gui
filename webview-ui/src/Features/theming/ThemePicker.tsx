@@ -139,7 +139,8 @@ export const ThemeSwatchPicker: React.FC = () => {
           if (
             node.data.props &&
             !node.data.isCanvas &&
-            node.data.displayName !== "Single Line Input"
+            node.data.displayName !== "Single Line Input" &&
+            node.data.displayName !== "Multi-Line Input"
           ) {
             applyThemeToOtherNodes(actions, id, theme);
           }
