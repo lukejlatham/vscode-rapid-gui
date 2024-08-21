@@ -1,4 +1,3 @@
-// Define the default props
 const TextboxDefaultProps = {
   text: "",
   fontSize: 16,
@@ -8,14 +7,14 @@ const TextboxDefaultProps = {
   rows: 5,
   cols: 20,
   borderRadius: 5,
-  alignment: "centre",
+  alignment: "center",
 };
 
 const LabelDefaultProps = {
   text: "New Label",
   textAlign: "left",
   fontSize: 20,
-  color: "#FFFFF",
+  color: "#FFFFFF",
   userEditable: true,
 };
 
@@ -27,7 +26,7 @@ const ButtonDefaultProps = {
   text: "New Button",
   width: 150,
   height: 50,
-  alignment: "centre",
+  alignment: "center",
 };
 
 const ImageDefaultProps = {
@@ -48,7 +47,7 @@ type NodeType =
   | "Label"
   | "Button"
   | "Image"
-  | "Textbox";
+  | "TextBox";
 
 interface SimplifiedNode {
   id: string;
@@ -77,25 +76,39 @@ interface FullNodes {
   [key: string]: FullNode;
 }
 
-export async function convertToFullVersion(simplifiedNodes: SimplifiedNode[]): Promise<FullNodes> {
+interface NodeProperties {
+  id: string;
+  props: any;
+}
+
+export async function convertToFullVersion(
+  simplifiedNodes: SimplifiedNode[],
+  customProps: NodeProperties[]
+): Promise<FullNodes> {
   const fullNodes: FullNodes = {};
 
   const createFullNode = (node: SimplifiedNode, parentId?: string): FullNode => {
     const isCanvas = ["Container", "Columns", "Column", "Rows", "Row"].includes(node.type);
 
     let props: any = {};
-    if (node.type === "Columns" && node.linked_nodes) {
-      props = { numberOfCols: Object.keys(node.linked_nodes).length, gap: 0 };
+    if (node.type === "Columns" && node.numberOfCols !== undefined) {
+      props = { numberOfCols: node.numberOfCols, gap: 0 };
     } else if (node.type === "Rows" && node.numberOfRows !== undefined) {
       props = { numberOfRows: node.numberOfRows, gap: 0 };
-    } else if (node.type === "Textbox") {
-      props = TextboxDefaultProps;
+    } else if (node.type === "TextBox") {
+      props = { ...TextboxDefaultProps };
     } else if (node.type === "Label") {
-      props = LabelDefaultProps;
+      props = { ...LabelDefaultProps };
     } else if (node.type === "Button") {
-      props = ButtonDefaultProps;
+      props = { ...ButtonDefaultProps };
     } else if (node.type === "Image") {
-      props = ImageDefaultProps;
+      props = { ...ImageDefaultProps };
+    }
+
+    // Overwrite default props with custom props if a match is found
+    const customProp = customProps.find((cp) => cp.id === node.id);
+    if (customProp) {
+      props = { ...props, ...customProp.props };
     }
 
     const fullNode: FullNode = {
@@ -118,9 +131,20 @@ export async function convertToFullVersion(simplifiedNodes: SimplifiedNode[]): P
   }
 
   for (const node of simplifiedNodes) {
+    // Set parent for direct nodes
     for (const childId of node.nodes) {
       if (fullNodes[childId]) {
         fullNodes[childId].parent = node.id;
+      }
+    }
+
+    // Set parent for linked nodes
+    if (node.linked_nodes) {
+      for (const key in node.linked_nodes) {
+        const linkedNodeId = node.linked_nodes[key];
+        if (fullNodes[linkedNodeId]) {
+          fullNodes[linkedNodeId].parent = node.id;
+        }
       }
     }
   }

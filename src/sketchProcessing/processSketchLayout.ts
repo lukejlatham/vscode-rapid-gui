@@ -1,76 +1,30 @@
-import Instructor from "@instructor-ai/instructor";
-import { AzureOpenAI } from "openai";
-import { getAzureOpenaiApiKeys } from "../utilities/azureApiKeyStorage";
-import { layoutSchema, uiExample, uiFinisher, uiPrompt } from "./editorObjectSchemas";
 import { convertToFullVersion } from "./layoutCraftTreeConverter";
 import * as vscode from "vscode";
+import { getTextualDescription } from "./textualDescription";
+import { getSimpleNodeTree } from "./simpleNodeTree";
+import { getNodesWithProperties } from "./nodesWithProperties";
 
-async function getUIDescription(sketchAsUrl: string, context: vscode.ExtensionContext) {
-  const { apiKey, apiEndpoint, deploymentName } = await getAzureOpenaiApiKeys(context);
-
-  const AZURE_OPENAI_API_ENDPOINT = apiEndpoint || "";
-  const AZURE_OPENAI_API_KEY = apiKey || "";
-  const GPT4O_DEPLOYMENT_NAME = deploymentName || "";
-
-  console.log("Azure OpenAI API endpoint:", AZURE_OPENAI_API_ENDPOINT);
-  console.log("Azure OpenAI API key:", AZURE_OPENAI_API_KEY);
-  console.log("GPT-4-OpenAI deployment name:", GPT4O_DEPLOYMENT_NAME);
-  console.log(
-    "full client url:",
-    `${AZURE_OPENAI_API_ENDPOINT}/openai/deployments/${GPT4O_DEPLOYMENT_NAME}`
-  );
-
-  const client = new AzureOpenAI({
-    apiVersion: "2024-06-01",
-    baseURL: `${AZURE_OPENAI_API_ENDPOINT}/openai/deployments/${GPT4O_DEPLOYMENT_NAME}`,
-    apiKey: AZURE_OPENAI_API_KEY,
-  });
-
-  const instructor = Instructor({
-    client: client,
-    mode: "TOOLS",
-    debug: true,
-  });
-
+export async function processSketch(
+  sketchAsUrl: string,
+  context: vscode.ExtensionContext,
+  webview: vscode.Webview
+) {
   try {
-    const layout = await instructor.chat.completions.create({
-      model: GPT4O_DEPLOYMENT_NAME,
-      messages: [
-        {
-          role: "system",
-          content: `${uiPrompt}\n\n${uiExample}\n\n${uiFinisher}`,
-        },
-        {
-          role: "user",
-          content: [
-            {
-              type: "text",
-              text: "Create a UI layout from this sketch.",
-            },
-            {
-              type: "image_url",
-              image_url: { url: `data:image/png;base64,${sketchAsUrl}`, detail: "auto" },
-            },
-          ],
-        },
-      ],
-      response_model: {
-        schema: layoutSchema,
-        name: "Layout",
-      },
-      max_retries: 2,
-    });
+    webview.postMessage({ command: "processingStage", stage: "Generating layout" });
+    const textualDescription = await getTextualDescription(sketchAsUrl, context);
 
-    return JSON.stringify(layout);
-  } catch (error) {
-    throw error;
-  }
-}
+    webview.postMessage({ command: "processingStage", stage: "Refining properties" });
+    const simpleNodeTree = await getSimpleNodeTree(textualDescription, context);
 
-export async function processSketch(sketchAsUrl: string, context: vscode.ExtensionContext) {
-  try {
-    const layoutResponse = await getUIDescription(sketchAsUrl, context);
-    const layoutData = JSON.parse(layoutResponse);
+    webview.postMessage({ command: "processingStage", stage: "Finalizing" });
+    const nodesWithProperties = await getNodesWithProperties(
+      simpleNodeTree,
+      textualDescription,
+      context
+    );
+
+    webview.postMessage({ command: "processingStage", stage: "Finalizing" });
+    const layoutData = JSON.parse(simpleNodeTree);
     const nodes = layoutData.nodes;
 
     nodes.forEach((node: any) => {
@@ -79,13 +33,14 @@ export async function processSketch(sketchAsUrl: string, context: vscode.Extensi
       }
     });
 
-    const fullNodeTree = await convertToFullVersion(nodes);
+    const fullNodeTree = await convertToFullVersion(nodes, JSON.parse(nodesWithProperties).nodes);
 
     const fullDescription = JSON.stringify(fullNodeTree, null, 2);
 
     return fullDescription;
   } catch (error) {
     console.error("Error processing sketch:", error);
+    webview.postMessage({ command: "processingStage", stage: "Error occurred during processing" });
     throw error;
   }
 }

@@ -1,151 +1,111 @@
-import React from "react";
-import { useNode, UserComponent } from "@craftjs/core";
-import { Input, Label, SpinButton, Radio, RadioGroup, SpinButtonChangeEvent, SpinButtonOnChangeData } from "@fluentui/react-components";
+import { useNode, UserComponent, Element } from "@craftjs/core";
+import { makeStyles, tokens } from "@fluentui/react-components";
+import { buttonSchema, ButtonProps } from "../../types";
+import { ButtonSettings } from "./Settings/ButtonSettings";
+import { useSelected } from "../../hooks/useSelected";
+import * as VscIcons from "react-icons/vsc";
 
-interface ButtonProps {
-    backgroundColor: string;
-    fontSize: number;
-    fontColor: string;
-    borderRadius: number;
-    width: number;
-    height: number;
-    text: string;
-    alignment: "left" | "center" | "right";
-}
+const useStyles = makeStyles({
+  buttonWrapper: {
+    padding: "4px", // This creates space around the button for the selection effect
+  },
+  button: {
+    border: "none",
+    textAlign: "center",
+    display: "flex",
+    gap: "5px",
+    justifyContent: "center",
+    alignItems: "center",
+    cursor: "pointer",
+  },
+  icon: {
+    display: "inline-flex",
+    alignItems: "center",
+    verticalAlign: "middle",
+  },
+  text: {
+    display: "inline-flex",
+    alignItems: "center",
+  },
+});
 
-export const Button: UserComponent<ButtonProps> = ({ backgroundColor, fontSize, borderRadius, text, fontColor, width, height, alignment }) => {
-    const { connectors: { connect, drag } } = useNode();
+export const Button: UserComponent<ButtonProps> = (props) => {
+  const validatedProps = buttonSchema.parse(props);
 
-    return (
-        <div style={{ display: "flex", justifyContent: alignment }}>
-            <button ref={(ref: HTMLButtonElement | null) => {
-                if (ref) {
-                    connect(drag(ref));
-                }
-            }} style={{ padding: "10px", color: fontColor, border: 'none', backgroundColor, fontSize: `${fontSize}px`, borderRadius: `${borderRadius}px`, width: `${width}px`, height: `${height}px` }}>
-                {text}
-            </button>
-        </div>
-    );
-}
+  const {
+    backgroundColor,
+    fontFamily,
+    fontColor,
+    fontSize,
+    borderRadius,
+    text,
+    width,
+    height,
+    bordercolor,
+    shadowBlur,
+    shadowColor,
+    shadowOffsetX,
+    shadowOffsetY,
+    iconPosition,
+    vscIcon,
+  } = validatedProps;
+  const {
+    connectors: { connect, drag },
+    selected,
+  } = useNode((node) => ({
+    selected: node.events.selected,
+  }));
 
-const ButtonSettings: React.FC = () => {
-    const { actions: { setProp }, props } = useNode(node => ({
-        props: node.data.props as ButtonProps
-    }));
+  const styles = useStyles();
+  const select = useSelected();
 
-    return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', padding: '5px' }}>
-            <Label>
-                Font Color
-                <input
-                    style={{ width: "100%", borderRadius: "4px", height: "35px" }}
-                    type="color"
-                    defaultValue={props.fontColor}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProp((props: ButtonProps) => props.fontColor = e.target.value)} />
-            </Label>
-            <Label>
-                Background Color
-                <input
-                    style={{ width: "100%", borderRadius: "4px", height: "35px" }}
-                    type="color"
-                    defaultValue={props.backgroundColor}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProp((props: ButtonProps) => props.backgroundColor = e.target.value)} />
-            </Label>
-            <Label>
-                Font Size
-                <SpinButton
-                    style={{ width: "95%" }}
-                    defaultValue={props.fontSize}
-                    onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
-                        const fontSize = data.value ? data.value : 0;
-                        setProp((props: ButtonProps) => props.fontSize = fontSize, 1000);
-                    }}
-                />
-            </Label>
-            <Label>
-                Border Radius
-                <SpinButton
-                    style={{ width: "95%" }}
-                    min={0}
-                    defaultValue={props.borderRadius}
-                    onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
-                        const borderRadius = data.value ? data.value : 0;
-                        setProp((props: ButtonProps) => props.borderRadius = borderRadius, 1000);
-                    }}
-                />
-            </Label>
-            <Label>
-                Width
-                <SpinButton
-                    style={{ width: "95%" }}
-                    min={0}
-                    max={900}
-                    step={10}
-                    defaultValue={props.width}
-                    onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
-                        const width = data.value ? data.value : 0;
-                        setProp((props: ButtonProps) => props.width = width, 1000);
-                    }}
-                />
-            </Label>
-            <Label>
-                Height
-                <SpinButton
-                    style={{ width: "95%" }}
-                    min={0}
-                    max={800}
-                    step={10}
-                    defaultValue={props.height}
-                    onChange={(event: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
-                        const height = data.value ? data.value : 0;
-                        setProp((props: ButtonProps) => props.height = height, 1000);
-                    }}
-                />
-            </Label>
-            <Label>
-                Text
-                <Input
-                    style={{ width: "100" }}
-                    type="text"
-                    defaultValue={props.text}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        setProp((props: ButtonProps) => (props.text = e.target.value), 1000);
-                    }}
-                />
-            </Label>
-            <Label>
-                Alignment
-                <RadioGroup
-                    defaultValue={props.alignment}
-                    layout="horizontal-stacked"
-                    onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
-                        setProp((props: ButtonProps) => (props.alignment = data.value as 'left' | 'center' | 'right'), 1000);
-                    }}
-                >
-                    <Radio key="left" label="Left" value="left" />
-                    <Radio key="center" label="Center" value="center" />
-                    <Radio key="right" label="Right" value="right" />
-                </RadioGroup>
-            </Label>
-        </div>
-    );
+  const IconComponent = vscIcon ? (VscIcons[vscIcon] as React.ComponentType<any>) : undefined;
+
+  return (
+    <div className={`${styles.buttonWrapper} ${selected ? select.select : ""}`}>
+      <button
+        ref={(ref: HTMLButtonElement | null) => {
+          if (ref) {
+            connect(drag(ref));
+          }
+        }}
+        className={`${styles.button}`}
+        style={{
+          zIndex: -1,
+          color: fontColor,
+          backgroundColor: backgroundColor,
+          fontSize: `${fontSize}px`,
+          borderRadius: `${borderRadius}%`,
+          padding: `${height}px ${width}px`,
+          border: `2px solid ${bordercolor}`,
+          boxShadow: `${shadowOffsetX}px ${shadowOffsetY}px ${shadowBlur}px ${shadowColor}`,
+        }}>
+        {iconPosition === "left" && IconComponent && (
+          <span className={styles.icon}>
+            <IconComponent size={fontSize} color={fontColor} />
+          </span>
+        )}
+        {text && (
+          <span className={styles.text} style={{ fontFamily: fontFamily }}>
+            {text}
+          </span>
+        )}
+        {iconPosition === "right" && IconComponent && (
+          <span className={styles.icon}>
+            <IconComponent size={fontSize} color={fontColor} />
+          </span>
+        )}
+      </button>
+    </div>
+  );
 };
 
-export const ButtonDefaultProps: ButtonProps = {
-    backgroundColor: "#0047AB",
-    fontColor: "white",
-    fontSize: 20,
-    borderRadius: 4,
-    text: "New Button",
-    width: 150,
-    height: 50,
-    alignment: "left"
-};
+export const ButtonDefaultProps = buttonSchema.parse({});
 
-Button.craft = {
-    props: ButtonDefaultProps,
-    related: {
-        settings: ButtonSettings
-    }
+(Button as any).craft = {
+  displayName: "Button",
+  props: ButtonDefaultProps,
+  related: {
+    settings: ButtonSettings,
+  },
 };

@@ -1,0 +1,642 @@
+{
+  "ROOT": {
+    "type": {
+      "resolvedName": "Background"
+    },
+    "isCanvas": false,
+    "props": {},
+    "displayName": "Background",
+    "custom": {},
+    "hidden": false,
+    "nodes": ["ContainerID"],
+    "linkedNodes": {}
+  },
+  "ContainerID": {
+    "type": {
+      "resolvedName": "Container"
+    },
+    "isCanvas": true,
+    "props": {},
+    "displayName": "Container",
+    "custom": {},
+    "hidden": false,
+    "nodes": ["Rows1"],
+    "linkedNodes": {},
+    "parent": "ROOT"
+  },
+  "Rows1": {
+    "type": {
+      "resolvedName": "Rows"
+    },
+    "isCanvas": true,
+    "props": {
+      "numberOfRows": 6,
+      "gap": 0
+    },
+    "displayName": "Rows",
+    "custom": {},
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {
+      "row-0": "Row1",
+      "row-1": "Row2",
+      "row-2": "Row3",
+      "row-3": "Row4",
+      "row-4": "Row5",
+      "row-5": "Row6"
+    },
+    "parent": "ContainerID"
+  },
+  "Row1": {
+    "type": {
+      "resolvedName": "Row"
+    },
+    "isCanvas": true,
+    "props": {},
+    "displayName": "Row",
+    "custom": {},
+    "hidden": false,
+    "nodes": ["Columns1"],
+    "linkedNodes": {},
+    "parent": "Rows1"
+  },
+  "Columns1": {
+    "type": {
+      "resolvedName": "Columns"
+    },
+    "isCanvas": true,
+    "props": {},
+    "displayName": "Columns",
+    "custom": {},
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {
+      "column-0": "Column1",
+      "column-1": "Column2",
+      "column-2": "Column3",
+      "column-3": "Column4"
+    },
+    "parent": "Row1"
+  },
+  "Column1": {
+    "type": {
+      "resolvedName": "Column"
+    },
+    "isCanvas": true,
+    "props": {},
+    "displayName": "Column",
+    "custom": {},
+    "hidden": false,
+    "nodes": ["Label1"],
+    "linkedNodes": {},
+    "parent": "Columns1"
+  },
+  "Label1": {
+    "type": {
+      "resolvedName": "Label"
+    },
+    "isCanvas": false,
+    "props": {
+      "text": "New Label",
+      "textAlign": "left",
+      "fontSize": 20,
+      "color": "#FFFFFF",
+      "userEditable": true
+    },
+    "displayName": "Label",
+    "custom": {},
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {},
+    "parent": "Column1"
+  },
+  "Column2": {
+    "type": {
+      "resolvedName": "Column"
+    },
+    "isCanvas": true,
+    "props": {},
+    "displayName": "Column",
+    "custom": {},
+    "hidden": false,
+    "nodes": ["Button1"],
+    "linkedNodes": {},
+    "parent": "Columns1"
+  },
+  "Button1": {
+    "type": {
+      "resolvedName": "Button"
+    },
+    "isCanvas": false,
+    "props": {
+      "backgroundColor": "#0047AB",
+      "fontColor": "white",
+      "fontSize": 20,
+      "borderRadius": 4,
+      "text": "New Button",
+      "width": 150,
+      "height": 50,
+      "alignment": "center"
+    },
+    "displayName": "Button",
+    "custom": {},
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {},
+    "parent": "Column2"
+  },
+  "Column3": {
+    "type": {
+      "resolvedName": "Column"
+    },
+    "isCanvas": true,
+    "props": {},
+    "displayName": "Column",
+    "custom": {},
+    "hidden": false,
+    "nodes": ["Button2"],
+    "linkedNodes": {},
+    "parent": "Columns1"
+  },
+  "Button2": {
+    "type": {
+      "resolvedName": "Button"
+    },
+    "isCanvas": false,
+    "props": {
+      "backgroundColor": "#0047AB",
+      "fontColor": "white",
+      "fontSize": 20,
+      "borderRadius": 4,
+      "text": "New Button",
+      "width": 150,
+      "height": 50,
+      "alignment": "center"
+    },
+    "displayName": "Button",
+    "custom": {},
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {},
+    "parent": "Column3"
+  },
+  "Column4": {
+    "type": {
+      "resolvedName": "Column"
+    },
+    "isCanvas": true,
+    "props": {},
+    "displayName": "Column",
+    "custom": {},
+    "hidden": false,
+    "nodes": ["Button3"],
+    "linkedNodes": {},
+    "parent": "Columns1"
+  },
+  "Button3": {
+    "type": {
+      "resolvedName": "Button"
+    },
+    "isCanvas": false,
+    "props": {
+      "backgroundColor": "#0047AB",
+      "fontColor": "white",
+      "fontSize": 20,
+      "borderRadius": 4,
+      "text": "New Button",
+      "width": 150,
+      "height": 50,
+      "alignment": "center"
+    },
+    "displayName": "Button",
+    "custom": {},
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {},
+    "parent": "Column4"
+  },
+  "Row2": {
+    "type": {
+      "resolvedName": "Row"
+    },
+    "isCanvas": true,
+    "props": {},
+    "displayName": "Row",
+    "custom": {},
+    "hidden": false,
+    "nodes": ["Label2"],
+    "linkedNodes": {},
+    "parent": "Rows1"
+  },
+  "Label2": {
+    "type": {
+      "resolvedName": "Label"
+    },
+    "isCanvas": false,
+    "props": {
+      "text": "New Label",
+      "textAlign": "left",
+      "fontSize": 20,
+      "color": "#FFFFFF",
+      "userEditable": true
+    },
+    "displayName": "Label",
+    "custom": {},
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {},
+    "parent": "Row2"
+  },
+  "Row3": {
+    "type": {
+      "resolvedName": "Row"
+    },
+    "isCanvas": true,
+    "props": {},
+    "displayName": "Row",
+    "custom": {},
+    "hidden": false,
+    "nodes": ["Columns2"],
+    "linkedNodes": {},
+    "parent": "Rows1"
+  },
+  "Columns2": {
+    "type": {
+      "resolvedName": "Columns"
+    },
+    "isCanvas": true,
+    "props": {},
+    "displayName": "Columns",
+    "custom": {},
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {
+      "column-0": "Column5",
+      "column-1": "Column6"
+    },
+    "parent": "Row3"
+  },
+  "Column5": {
+    "type": {
+      "resolvedName": "Column"
+    },
+    "isCanvas": true,
+    "props": {},
+    "displayName": "Column",
+    "custom": {},
+    "hidden": false,
+    "nodes": ["Textbox1"],
+    "linkedNodes": {},
+    "parent": "Columns2"
+  },
+  "Textbox1": {
+    "type": {
+      "resolvedName": "Textbox"
+    },
+    "isCanvas": false,
+    "props": {
+      "text": "",
+      "fontSize": 16,
+      "fontColor": "black",
+      "backgroundColor": "white",
+      "placeholder": "Placeholder...",
+      "rows": 5,
+      "cols": 20,
+      "borderRadius": 5,
+      "alignment": "center"
+    },
+    "displayName": "Textbox",
+    "custom": {},
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {},
+    "parent": "Column5"
+  },
+  "Column6": {
+    "type": {
+      "resolvedName": "Column"
+    },
+    "isCanvas": true,
+    "props": {},
+    "displayName": "Column",
+    "custom": {},
+    "hidden": false,
+    "nodes": ["Textbox2"],
+    "linkedNodes": {},
+    "parent": "Columns2"
+  },
+  "Textbox2": {
+    "type": {
+      "resolvedName": "Textbox"
+    },
+    "isCanvas": false,
+    "props": {
+      "text": "",
+      "fontSize": 16,
+      "fontColor": "black",
+      "backgroundColor": "white",
+      "placeholder": "Placeholder...",
+      "rows": 5,
+      "cols": 20,
+      "borderRadius": 5,
+      "alignment": "center"
+    },
+    "displayName": "Textbox",
+    "custom": {},
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {},
+    "parent": "Column6"
+  },
+  "Row4": {
+    "type": {
+      "resolvedName": "Row"
+    },
+    "isCanvas": true,
+    "props": {},
+    "displayName": "Row",
+    "custom": {},
+    "hidden": false,
+    "nodes": ["Columns3"],
+    "linkedNodes": {},
+    "parent": "Rows1"
+  },
+  "Columns3": {
+    "type": {
+      "resolvedName": "Columns"
+    },
+    "isCanvas": true,
+    "props": {},
+    "displayName": "Columns",
+    "custom": {},
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {
+      "column-0": "Column7",
+      "column-1": "Column8"
+    },
+    "parent": "Row4"
+  },
+  "Column7": {
+    "type": {
+      "resolvedName": "Column"
+    },
+    "isCanvas": true,
+    "props": {},
+    "displayName": "Column",
+    "custom": {},
+    "hidden": false,
+    "nodes": ["Label3"],
+    "linkedNodes": {},
+    "parent": "Columns3"
+  },
+  "Label3": {
+    "type": {
+      "resolvedName": "Label"
+    },
+    "isCanvas": false,
+    "props": {
+      "text": "New Label",
+      "textAlign": "left",
+      "fontSize": 20,
+      "color": "#FFFFFF",
+      "userEditable": true
+    },
+    "displayName": "Label",
+    "custom": {},
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {},
+    "parent": "Column7"
+  },
+  "Column8": {
+    "type": {
+      "resolvedName": "Column"
+    },
+    "isCanvas": true,
+    "props": {},
+    "displayName": "Column",
+    "custom": {},
+    "hidden": false,
+    "nodes": ["Textbox3"],
+    "linkedNodes": {},
+    "parent": "Columns3"
+  },
+  "Textbox3": {
+    "type": {
+      "resolvedName": "Textbox"
+    },
+    "isCanvas": false,
+    "props": {
+      "text": "",
+      "fontSize": 16,
+      "fontColor": "black",
+      "backgroundColor": "white",
+      "placeholder": "Placeholder...",
+      "rows": 5,
+      "cols": 20,
+      "borderRadius": 5,
+      "alignment": "center"
+    },
+    "displayName": "Textbox",
+    "custom": {},
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {},
+    "parent": "Column8"
+  },
+  "Row5": {
+    "type": {
+      "resolvedName": "Row"
+    },
+    "isCanvas": true,
+    "props": {},
+    "displayName": "Row",
+    "custom": {},
+    "hidden": false,
+    "nodes": ["Columns4"],
+    "linkedNodes": {},
+    "parent": "Rows1"
+  },
+  "Columns4": {
+    "type": {
+      "resolvedName": "Columns"
+    },
+    "isCanvas": true,
+    "props": {},
+    "displayName": "Columns",
+    "custom": {},
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {
+      "column-0": "Column9",
+      "column-1": "Column10"
+    },
+    "parent": "Row5"
+  },
+  "Column9": {
+    "type": {
+      "resolvedName": "Column"
+    },
+    "isCanvas": true,
+    "props": {},
+    "displayName": "Column",
+    "custom": {},
+    "hidden": false,
+    "nodes": ["Label4"],
+    "linkedNodes": {},
+    "parent": "Columns4"
+  },
+  "Label4": {
+    "type": {
+      "resolvedName": "Label"
+    },
+    "isCanvas": false,
+    "props": {
+      "text": "New Label",
+      "textAlign": "left",
+      "fontSize": 20,
+      "color": "#FFFFFF",
+      "userEditable": true
+    },
+    "displayName": "Label",
+    "custom": {},
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {},
+    "parent": "Column9"
+  },
+  "Column10": {
+    "type": {
+      "resolvedName": "Column"
+    },
+    "isCanvas": true,
+    "props": {},
+    "displayName": "Column",
+    "custom": {},
+    "hidden": false,
+    "nodes": ["Textbox4"],
+    "linkedNodes": {},
+    "parent": "Columns4"
+  },
+  "Textbox4": {
+    "type": {
+      "resolvedName": "Textbox"
+    },
+    "isCanvas": false,
+    "props": {
+      "text": "",
+      "fontSize": 16,
+      "fontColor": "black",
+      "backgroundColor": "white",
+      "placeholder": "Placeholder...",
+      "rows": 5,
+      "cols": 20,
+      "borderRadius": 5,
+      "alignment": "center"
+    },
+    "displayName": "Textbox",
+    "custom": {},
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {},
+    "parent": "Column10"
+  },
+  "Row6": {
+    "type": {
+      "resolvedName": "Row"
+    },
+    "isCanvas": true,
+    "props": {},
+    "displayName": "Row",
+    "custom": {},
+    "hidden": false,
+    "nodes": ["Columns5"],
+    "linkedNodes": {},
+    "parent": "Rows1"
+  },
+  "Columns5": {
+    "type": {
+      "resolvedName": "Columns"
+    },
+    "isCanvas": true,
+    "props": {},
+    "displayName": "Columns",
+    "custom": {},
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {
+      "column-0": "Column11",
+      "column-1": "Column12"
+    },
+    "parent": "Row6"
+  },
+  "Column11": {
+    "type": {
+      "resolvedName": "Column"
+    },
+    "isCanvas": true,
+    "props": {},
+    "displayName": "Column",
+    "custom": {},
+    "hidden": false,
+    "nodes": ["Label5"],
+    "linkedNodes": {},
+    "parent": "Columns5"
+  },
+  "Label5": {
+    "type": {
+      "resolvedName": "Label"
+    },
+    "isCanvas": false,
+    "props": {
+      "text": "New Label",
+      "textAlign": "left",
+      "fontSize": 20,
+      "color": "#FFFFFF",
+      "userEditable": true
+    },
+    "displayName": "Label",
+    "custom": {},
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {},
+    "parent": "Column11"
+  },
+  "Column12": {
+    "type": {
+      "resolvedName": "Column"
+    },
+    "isCanvas": true,
+    "props": {},
+    "displayName": "Column",
+    "custom": {},
+    "hidden": false,
+    "nodes": ["Textbox5"],
+    "linkedNodes": {},
+    "parent": "Columns5"
+  },
+  "Textbox5": {
+    "type": {
+      "resolvedName": "Textbox"
+    },
+    "isCanvas": false,
+    "props": {
+      "text": "",
+      "fontSize": 16,
+      "fontColor": "black",
+      "backgroundColor": "white",
+      "placeholder": "Placeholder...",
+      "rows": 5,
+      "cols": 20,
+      "borderRadius": 5,
+      "alignment": "center"
+    },
+    "displayName": "Textbox",
+    "custom": {},
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {},
+    "parent": "Column12"
+  }
+}

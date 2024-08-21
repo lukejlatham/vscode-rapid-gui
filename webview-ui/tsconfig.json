@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es6",
     "lib": [
       "dom",
       "dom.iterable",
@@ -27,6 +27,7 @@
     "../src/backend/sketchProcessing/layoutCraftTreeConverter.ts",
     "../src/backend/sketchProcessing/oaApi.ts",
     "../src/backend/sketchProcessing/sketchStructureToNodeTree.ts",
-    "../src/backend/sketchProcessing/sketchUpload.ts"
+    "../src/backend/sketchProcessing/sketchUpload.ts",
+    "src/types"
   ]
 }

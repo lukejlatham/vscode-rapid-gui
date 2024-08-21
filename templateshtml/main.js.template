@@ -1,0 +1,7 @@
+// Main JavaScript for {{projectName}}
+
+document.addEventListener("DOMContentLoaded", function() {
+  // Initialize app or handle dynamic content
+  console.log("App initialized for {{projectName}}");
+  {{dynamicScripts}}
+});

@@ -6,59 +6,12 @@
   "engines": {
     "vscode": "^1.75.0"
   },
-  "main": "./out/extension.js",
+  "main": "./out/src/extension.js",
   "contributes": {
-    "viewsContainers": {
-      "activitybar": [
-        {
-          "id": "UIStudio",
-          "title": "UI Studio",
-          "icon": "assets/small-duck.svg"
-        }
-      ]
-    },
-    "views": {
-      "UIStudio": [
-        {
-          "type": "tree",
-          "id": "sideBarButtons",
-          "name": "UI Studio"
-        },
-        {
-          "type": "tree",
-          "id": "sideBarTree",
-          "name": "Recent Projects"
-        }
-      ]
-    },
     "commands": [
       {
         "command": "mainWebviewPanel.showMainWebviewPanel",
         "title": "Open UI Studio"
-      },
-      {
-        "command": "extension.testApiKeysCommand",
-        "title": "Show current set API Keys stored in extension secrets"
-      },
-      {
-        "command": "sidebar.showSideBar",
-        "title": "Show Side Bar"
-      },
-      {
-        "command": "extension.createProjectFromScratch",
-        "title": "Create Project from Scratch"
-      },
-      {
-        "command": "extension.createProjectFromTemplate",
-        "title": "Create Project from Template"
-      },
-      {
-        "command": "extension.createProjectFromSketch",
-        "title": "Create Project from Sketch"
-      },
-      {
-        "command": "extension.createProjectFromText",
-        "title": "Create Project from Text"
       },
       {
         "command": "extension.getAzureOpenaiApiKey",
@@ -71,6 +24,14 @@
       {
         "command": "extension.getGpt4oDeploymentName",
         "title": "Get GPT-4 Deployment Name"
+      },
+      {
+        "command": "extension.getOpenaiApiEndpoint",
+        "title": "Save OpenAI API Endpoint"
+      },
+      {
+        "command": "extension.getOpenaiApiKey",
+        "title": "Save OpenAI API Key"
       }
     ]
   },
@@ -87,6 +48,8 @@
   },
   "devDependencies": {
     "@types/node": "^12.11.7",
+    "@types/react-grid-layout": "^1.3.5",
+    "@types/uuid": "^10.0.0",
     "@types/vscode": "^1.90.0",
     "@typescript-eslint/eslint-plugin": "^4.14.1",
     "@typescript-eslint/parser": "^4.14.1",
@@ -97,6 +60,7 @@
   },
   "dependencies": {
     "@craftjs/core": "^0.2.8",
+    "@fluentui/react-theme": "^9.1.19",
     "@instructor-ai/instructor": "^1.5.0",
     "@vscode/webview-ui-toolkit": "^1.4.0",
     "axios": "^1.7.2",
@@ -107,6 +71,9 @@
     "react": "^18.3.1",
     "react-contenteditable": "^3.3.7",
     "react-dom": "^18.3.1",
+    "react-grid-layout": "^1.4.4",
+    "react-icons": "^5.2.1",
+    "uuid": "^10.0.0",
     "zod": "^3.23.8"
   }
 }

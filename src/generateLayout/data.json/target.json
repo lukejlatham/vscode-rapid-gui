@@ -1,0 +1,193 @@
+{
+  "ROOT": {
+    "type": { "resolvedName": "Background" },
+    "isCanvas": true,
+    "props": {
+      "rows": 3,
+      "columns": 3,
+      "lockedGrid": false,
+      "backgroundColor": "#292929",
+      "layout": [
+        { "i": "0", "x": 0, "y": 0, "w": 1, "h": 1 },
+        { "i": "1", "x": 1, "y": 0, "w": 1, "h": 1 },
+        { "i": "2", "x": 2, "y": 0, "w": 1, "h": 1 },
+        { "i": "3", "x": 0, "y": 1, "w": 1, "h": 1 },
+        { "i": "4", "x": 1, "y": 1, "w": 1, "h": 1 },
+        { "i": "5", "x": 2, "y": 1, "w": 1, "h": 1 }
+      ]
+    },
+    "displayName": "Background",
+    "custom": {},
+    "parent": null,
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {
+      "0": "5fSHZLQ713",
+      "1": "RVoQPQv8iE",
+      "2": "H8bZWEg7vh",
+      "3": "7SBZUchduP",
+      "4": "Ju_UgfS6EC",
+      "5": "VUFcoZ0wxF"
+    }
+  },
+  "5fSHZLQ713": {
+    "type": { "resolvedName": "GridCell" },
+    "isCanvas": true,
+    "props": {
+      "justifyContent": "flex-start",
+      "flexDirection": "row",
+      "alignItems": "flex-start",
+      "gap": 1
+    },
+    "displayName": "Grid Cell",
+    "custom": { "id": "0" },
+    "parent": "ROOT",
+    "hidden": false,
+    "nodes": ["KEc9cv7xGY"],
+    "linkedNodes": {}
+  },
+  "RVoQPQv8iE": {
+    "type": { "resolvedName": "GridCell" },
+    "isCanvas": true,
+    "props": {
+      "justifyContent": "flex-start",
+      "flexDirection": "row",
+      "alignItems": "flex-start",
+      "gap": 1
+    },
+    "displayName": "Grid Cell",
+    "custom": { "id": "1" },
+    "parent": "ROOT",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "H8bZWEg7vh": {
+    "type": { "resolvedName": "GridCell" },
+    "isCanvas": true,
+    "props": {
+      "justifyContent": "flex-start",
+      "flexDirection": "row",
+      "alignItems": "flex-start",
+      "gap": 1
+    },
+    "displayName": "Grid Cell",
+    "custom": { "id": "2" },
+    "parent": "ROOT",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "7SBZUchduP": {
+    "type": { "resolvedName": "GridCell" },
+    "isCanvas": true,
+    "props": {
+      "justifyContent": "flex-start",
+      "flexDirection": "row",
+      "alignItems": "flex-start",
+      "gap": 1
+    },
+    "displayName": "Grid Cell",
+    "custom": { "id": "3" },
+    "parent": "ROOT",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "Ju_UgfS6EC": {
+    "type": { "resolvedName": "GridCell" },
+    "isCanvas": true,
+    "props": {
+      "justifyContent": "flex-start",
+      "flexDirection": "row",
+      "alignItems": "flex-start",
+      "gap": 1
+    },
+    "displayName": "Grid Cell",
+    "custom": { "id": "4" },
+    "parent": "ROOT",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "VUFcoZ0wxF": {
+    "type": { "resolvedName": "GridCell" },
+    "isCanvas": true,
+    "props": {
+      "justifyContent": "flex-start",
+      "flexDirection": "row",
+      "alignItems": "flex-start",
+      "gap": 1
+    },
+    "displayName": "Grid Cell",
+    "custom": { "id": "5" },
+    "parent": "ROOT",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "KEc9cv7xGY": {
+    "type": { "resolvedName": "Container" },
+    "isCanvas": true,
+    "props": {
+      "height": 50,
+      "width": 100,
+      "backgroundColor": "#813232",
+      "borderRadius": 5,
+      "borderColor": "#666666",
+      "padding": 0,
+      "flexDirection": "column",
+      "justifyContent": "center",
+      "alignItems": "center",
+      "gap": 0,
+      "shadowColor": "transparent",
+      "shadowOffsetX": 0,
+      "shadowOffsetY": 0,
+      "shadowBlur": 0
+    },
+    "displayName": "Container",
+    "custom": {},
+    "parent": "5fSHZLQ713",
+    "hidden": false,
+    "nodes": ["nyobMJN9Nt", "MBXiaRS4NL"],
+    "linkedNodes": {}
+  },
+  "nyobMJN9Nt": {
+    "type": { "resolvedName": "Image" },
+    "isCanvas": false,
+    "props": {
+      "src": "https://photographylife.com/wp-content/uploads/2023/05/Nikon-Z8-Official-Samples-00002.jpg",
+      "alt": "New image",
+      "width": 80,
+      "height": 80
+    },
+    "displayName": "HR",
+    "custom": {},
+    "parent": "KEc9cv7xGY",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "MBXiaRS4NL": {
+    "type": { "resolvedName": "Label" },
+    "isCanvas": false,
+    "props": {
+      "text": "New Label",
+      "textAlign": "left",
+      "fontSize": 20,
+      "fontcolor": "#FFFFFF",
+      "userEditable": true,
+      "icon": "none",
+      "hyperlink": "",
+      "bold": false,
+      "italic": false,
+      "underline": false
+    },
+    "displayName": "wR",
+    "custom": {},
+    "parent": "KEc9cv7xGY",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  }
+}

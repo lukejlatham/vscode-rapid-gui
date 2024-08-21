@@ -6,13 +6,19 @@ import {
   Uri,
   ViewColumn,
   ExtensionContext,
+  workspace,
 } from "vscode";
 import { getUri } from "../utilities/getUri";
 import { getNonce } from "../utilities/getNonce";
 import { getAzureOpenaiApiKeys } from "../utilities/azureApiKeyStorage";
 import { handleFileSave, handleFileLoad } from "../utilities/projectSaveUtilities";
-import { processSketch } from "../sketchProcessing/processSketchLayout";
+import { processSketch, processTextDescription } from "../openAIgenerateLayout/orchestrator";
 import { processCopilotMessages } from "../copilot";
+import { handleImageUpload } from "../utilities/imageSave";
+import { handleImageGenerate } from "../utilities/handleImageGeneration";
+import { handleGetUploadedImages } from "../utilities/handleGetUploadedImages";
+import { convertToXaml } from "../utilities/xamlConverter";
+import { convertToHtml } from "../utilities/convertToHtml";
 
 export class MainWebviewPanel {
   public static currentPanel: MainWebviewPanel | undefined;
@@ -42,9 +48,11 @@ export class MainWebviewPanel {
     } else {
       const panel = window.createWebviewPanel("showMainWebviewPanel", "UI Studio", ViewColumn.One, {
         enableScripts: true,
+        retainContextWhenHidden: true, // This preserves the webview state.
         localResourceRoots: [
           Uri.joinPath(extensionUri, "out"),
           Uri.joinPath(extensionUri, "webview-ui/build"),
+          workspace.workspaceFolders?.[0]?.uri,
         ],
       });
 
@@ -117,14 +125,16 @@ export class MainWebviewPanel {
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
           <meta name="theme-color" content="#000000">
-          <meta http-equiv="Content-Security-Policy" content="
+                    <meta http-equiv="Content-Security-Policy" content="
             default-src 'none'; 
-            img-src https: vscode-resource:; 
+            img-src vscode-resource: https:; 
             script-src 'nonce-${nonce}' vscode-resource:; 
             style-src 'unsafe-inline' vscode-resource:;
+            font-src *;
             connect-src ${connectSrcUrls};
           ">
           <link rel="stylesheet" type="text/css" href="${stylesUri}">
+  
           <title>Hello World</title>
         </head>
         <body>
@@ -153,20 +163,93 @@ export class MainWebviewPanel {
             webview.postMessage({ command: "setAzureApiKeys", ...secrets });
             window.showInformationMessage("Azure API keys received.");
             return;
+          case "getOpenaiApiKeys":
+            const openaiSecrets = await getAzureOpenaiApiKeys(this._context);
+            webview.postMessage({ command: "setOpenaiApiKeys", ...openaiSecrets });
+            window.showInformationMessage("OpenAI API keys received.");
           case "saveFile":
-            await handleFileSave(message.content, this._context);
+            await handleFileSave(message.contents, message.fileNames, this._context);
             return;
           case "loadFile":
-            await handleFileLoad(this._context, webview);
+            await handleFileLoad(
+              this._context,
+              // message.fileName,
+              webview
+            );
             return;
-          case "processSketchLayout":
-            const description = await processSketch(message.content, this._context);
-            webview.postMessage({ command: "sketchProcessed", description });
+          case "processSketch":
+            const sketchDescription = await processSketch(message.content, this._context, webview);
+            webview.postMessage({ command: "sketchProcessed", content: sketchDescription });
+            return;
+          case "ProcessTextDescription":
+            const textDescription = await processTextDescription(
+              message.content,
+              this._context,
+              webview
+            );
+            webview.postMessage({ command: "textDescriptionProcessed", content: textDescription });
             return;
           case "aiUserMessage":
             const updatedMessages = await processCopilotMessages(message.content, this._context);
             webview.postMessage({ command: "aiCopilotMessage", content: updatedMessages });
             return;
+          case "uploadImage":
+            const filePath = await handleImageUpload(
+              message.content,
+              message.filename,
+              this._context
+            );
+            if (filePath) {
+              const imageUri = webview.asWebviewUri(Uri.file(filePath)).toString();
+              window.showInformationMessage("Image saving command received.");
+              webview.postMessage({ command: "imageUploaded", filePath: imageUri });
+            }
+            return;
+          case "generateImage":
+            console.log("Generate image command received.");
+            const generatedImageFilePath = await handleImageGenerate(message.alt, this._context);
+            console.log("Generated image file path:", generatedImageFilePath);
+            if (generatedImageFilePath) {
+              const generatedImageUri = webview
+                .asWebviewUri(Uri.file(generatedImageFilePath))
+                .toString();
+              window.showInformationMessage("Image saving command received.");
+              webview.postMessage({ command: "imageGenerated", filePath: generatedImageUri });
+            }
+            return;
+          case "deletedPageAlert":
+            window.showErrorMessage(message.message);
+            return;
+          case "downloadCode":
+            try {
+              console.log("Received downloadCode command");
+              console.log("Message contents:", message.contents);
+              console.log("Message fileNames:", message.fileNames);
+
+              if (message.outputType === "html") {
+                await convertToHtml(message.contents, message.fileNames, this._context);
+              } else if (message.outputType === "xaml") {
+                await convertToXaml(message.contents, message.fileNames, this._context);
+              }
+              webview.postMessage({ command: "codeDownloaded", success: true });
+            } catch (error) {
+              console.error("Error in downloadCode:", error);
+              webview.postMessage({
+                command: "codeDownloaded",
+                success: false,
+                error: error.message,
+              });
+            }
+            return;
+          case "getUploadedImages":
+            // const uploadedImages = await handleGetUploadedImages(this._context);
+            // get uploaded images as uri
+            const filepaths = await handleGetUploadedImages(this._context);
+            const uploadedImages = filepaths.map((filepath) =>
+              webview.asWebviewUri(Uri.file(filepath)).toString()
+            );
+
+            webview.postMessage({ command: "setUploadedImages", content: uploadedImages });
         }
       },
       undefined,

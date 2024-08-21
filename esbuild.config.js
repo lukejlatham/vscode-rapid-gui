@@ -10,6 +10,8 @@ esbuild.build({
   loader: {
     '.js': 'jsx',
     '.ts': 'tsx',
+    '.tsx': 'tsx',
+    
   },
   resolveExtensions: ['.tsx', '.ts', '.jsx', '.js'],
   sourcemap: true, // Include source maps for easier debugging
