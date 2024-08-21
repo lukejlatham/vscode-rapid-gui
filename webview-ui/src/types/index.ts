@@ -90,7 +90,7 @@ export const checkboxesSchema = z.object({
   fontFamily: z.string().default("Open Sans"),
   optionLabels: z.array(z.string()).default(["Option 1", "Option 2"]),
   numberOfBoxes: z.number().default(2),
-  fontSize: z.number().default(16),
+  fontSize: z.number().default(14),
   fontColor: z.string().default(tokens.colorBrandForeground2Pressed),
   direction: z.enum(["row", "column"]).default("column"),
 });
@@ -136,7 +136,7 @@ export const dropdownSchema = z.object({
   fontFamily: z.string().default("Open Sans"),
   optionLabels: z.array(z.string()).default(["Option 1", "Option 2"]),
   numberOfOptions: z.number().default(2),
-  fontSize: z.number().default(16),
+  fontSize: z.number().default(14),
   fontColor: z.string().default(tokens.colorBrandForeground2Pressed),
 });
 
@@ -145,7 +145,7 @@ export type DropdownProps = z.infer<typeof dropdownSchema>;
 export type GridCellProps = z.infer<typeof gridCellSchema>;
 
 export const inputSchema = z.object({
-  fontSize: z.number().default(16),
+  fontSize: z.number().default(14),
   fontFamily: z.string().default("Open Sans"),
   fontColor: z.string().default(tokens.colorBrandBackground2),
   backgroundColor: z.string().default(tokens.colorBrandForeground2Pressed),
@@ -180,7 +180,7 @@ export const radioButtonSchema = z.object({
   fontFamily: z.string().default("Open Sans"),
   numberOfButtons: z.number().default(2),
   optionLabels: z.array(z.string()).default(["Option 1", "Option 2"]),
-  fontSize: z.number().default(16),
+  fontSize: z.number().default(14),
   fontColor: z.string().default(tokens.colorBrandForeground2Pressed),
   direction: z.enum(["row", "column"]).default("column"),
 });
@@ -193,7 +193,7 @@ export const sliderSchema = z.object({
   min: z.number().default(0),
   max: z.number().default(100),
   step: z.number().default(1),
-  fontSize: z.number().default(16),
+  fontSize: z.number().default(14),
   fontColor: z.string().default(tokens.colorBrandForeground2Pressed),
   backgroundColor: z.string().default(tokens.colorBrandForeground2Pressed),
 });
@@ -202,7 +202,7 @@ export type SliderProps = z.infer<typeof sliderSchema>;
 
 export const textBoxSchema = z.object({
   text: z.string().default(""),
-  fontSize: z.number().default(16),
+  fontSize: z.number().default(14),
   fontFamily: z.string().default("Open Sans"),
   fontColor: z.string().default(tokens.colorBrandBackground2),
   backgroundColor: z.string().default(tokens.colorBrandForeground2Pressed),
@@ -243,7 +243,7 @@ export const textSchema = z.object({
     .default(
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
     ),
-  fontSize: z.number().default(16),
+  fontSize: z.number().default(14),
   fontFamily: z.string().default("Open Sans"),
   fontColor: z.string().default(tokens.colorBrandForeground2Pressed),
   textAlign: z.enum(["left", "center", "right", "justify"]).default("left"),
