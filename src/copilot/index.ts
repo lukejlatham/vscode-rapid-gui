@@ -32,3 +32,5 @@ async function processCopilotMessages(
 
 export { processCopilotMessages };
 export type { ChatMessage };
+
+export {};

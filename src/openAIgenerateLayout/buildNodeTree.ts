@@ -22,6 +22,7 @@ import {
   themeList,
   fontGenerationNames,
 } from "../../webview-ui/src/types";
+import { adjustLayoutToFitGrid } from "./gridLayoutCorrection";
 import { applyThemeToSchema } from "./applyTheming";
 
 type BackgroundType = z.infer<typeof backgroundNodeLayout>;
@@ -96,6 +97,12 @@ function generateSectionNodes(sections: ThemedLayoutSchema[]): { [key: string]: 
       flexDirection: section.flexDirection,
       backgroundColor: section.backgroundColor,
       borderColor: section.borderColor,
+      width: 100,
+      height: 100,
+      shadowColor: "transparent",
+      shadowOffsetX: 1,
+      shadowOffsetY: 1,
+      shadowBlur: 1,
     });
 
     nodes[containerId] = createNode(
@@ -191,13 +198,15 @@ function buildNodeTree(
   themeName: string,
   chosenFont: string
 ): string {
-  const layout = generatedLayout.map((section, index) => ({
+  const initalGrid = generatedLayout.map((section, index) => ({
     i: String(index),
     x: section.xPosition,
     y: section.yPosition,
     w: section.width,
     h: section.height,
   }));
+
+  const layout = adjustLayoutToFitGrid(initalGrid, 10, 10);
 
   const layoutDimensions = calculateLayoutDimensions(generatedLayout);
 
@@ -224,6 +233,8 @@ function buildNodeTree(
       }
     });
   }
+
+  console.log("applying shadows?", chosenTheme.scheme.shadows);
 
   const shadows = chosenTheme.scheme.shadows;
 

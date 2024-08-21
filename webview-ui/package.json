@@ -12,6 +12,7 @@
   "dependencies": {
     "@craftjs/core": "^0.2.8",
     "@fluentui-copilot/react-copilot-chat": "^0.7.6",
+    "@fluentui/react": "^8.120.5",
     "@fluentui/react-components": "^9.54.3",
     "@fluentui/react-nav-preview": "^0.5.0",
     "@types/lodash": "^4.17.6",

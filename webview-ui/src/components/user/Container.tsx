@@ -118,22 +118,7 @@ export const Container: UserComponent<ContainerProps> = (props) => {
   );
 };
 
-export const ContainerDefaultProps: ContainerProps = {
-  height: 50,
-  width: 100,
-  backgroundColor: "#292929",
-  borderRadius: 5,
-  borderColor: "#666666",
-  padding: 5,
-  flexDirection: "row",
-  justifyContent: "space-around",
-  alignItems: "center",
-  gap: 10,
-  shadowColor: "black",
-  shadowOffsetX: 1,
-  shadowOffsetY: 1,
-  shadowBlur: 1,
-};
+export const ContainerDefaultProps = containerSchema.parse({});
 
 Container.craft = {
   displayName: "Container",

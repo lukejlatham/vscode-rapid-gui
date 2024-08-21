@@ -2,6 +2,7 @@ import React from "react";
 import { GridSizeSelector } from "./GridRowsColumnsSelector"; // Adjust the import path as necessary
 import { AddGridItemButton } from "./AddGridItemButton"; // Adjust the import path as necessary
 import { Subtitle2Stronger, Body2, Divider, Card, Caption1, makeStyles, Breadcrumb, BreadcrumbItem } from "@fluentui/react-components";
+import { GridVisibilityToggle } from "./GridVisibilityToggle";
 
 const useStyles = makeStyles({
   container: {
@@ -36,6 +37,7 @@ const LayoutManagement: React.FC<{ classes: any }> = ({ classes }) => {
       </Caption1>
       <GridSizeSelector />
       <AddGridItemButton />
+      <GridVisibilityToggle />
     </div>
   );
 

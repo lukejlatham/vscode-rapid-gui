@@ -25,12 +25,7 @@ export const AddGridItemButton: React.FC = () => {
     outerLoop: for (let y = 0; y < props.rows; y++) {
       for (let x = 0; x < props.columns; x++) {
         const overlappingCells = props.layout.some((item: Layout) => {
-          return (
-            x < item.x + item.w &&
-            x + 1 > item.x &&
-            y < item.y + item.h &&
-            y + 1 > item.y
-          );
+          return x < item.x + item.w && x + 1 > item.x && y < item.y + item.h && y + 1 > item.y;
         });
         if (!overlappingCells) {
           isSpaceAvailable = true;
@@ -83,8 +78,6 @@ export const AddGridItemButton: React.FC = () => {
           y: newY,
           w: newCellWidth,
           h: newCellHeight,
-          maxW: props.columns,
-          maxH: props.rows,
         };
         props.layout = [...props.layout, newItem];
       }

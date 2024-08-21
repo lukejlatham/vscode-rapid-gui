@@ -13,13 +13,15 @@ const useStyles = makeStyles({
   background: {
     width: "100%",
     height: "100%",
-    backgroundColor: tokens.colorNeutralBackground1,
   },
   backgroundBorderLocked: {
     border: `1px solid ${tokens.colorNeutralStroke1}`,
   },
   backgroundBorderUnlocked: {
     border: `1px solid ${tokens.colorBrandForeground2}`,
+  },
+  backgroundBorderInvisible: {
+    border: `1px solid transparent`,
   },
   gridCell: {
     display: "flex",
@@ -93,6 +95,7 @@ export const Background: FC<BackgroundProps> = (props) => {
     rows: initialRows,
     columns: initialColumns,
     lockedGrid: initialGridLocked,
+    visibleGrid: initialVisibleGrid,
     backgroundColor: initialBackgroundColor,
   } = validatedProps;
 
@@ -109,6 +112,8 @@ export const Background: FC<BackgroundProps> = (props) => {
     props.columns = initialColumns;
     props.lockedGrid = initialGridLocked;
     props.layout = initialLayout;
+    props.visibleGrid = initialVisibleGrid;
+    props.backgroundColor = initialBackgroundColor;
   });
 
   useEffect(() => {
@@ -133,14 +138,10 @@ export const Background: FC<BackgroundProps> = (props) => {
 
   const rowHeight = containerHeight / initialRows;
 
-  const backgroundStyle = initialBackgroundColor
-    ? { backgroundColor: initialBackgroundColor }
-    : undefined;
-
   return (
     <>
       <Card
-        style={backgroundStyle}
+        style={{ backgroundColor: initialBackgroundColor }}
         appearance="filled"
         ref={backgroundRef}
         className={mergeClasses(
@@ -165,9 +166,11 @@ export const Background: FC<BackgroundProps> = (props) => {
             <div
               key={item.i}
               data-grid={item}
-              className={`${styles.gridCell} ${
-                initialGridLocked ? styles.lockedGrid : styles.boxShadowAnimation
-              }`}>
+              className={mergeClasses(
+                styles.gridCell,
+                initialGridLocked ? styles.lockedGrid : styles.boxShadowAnimation,
+                !initialVisibleGrid && styles.backgroundBorderInvisible
+              )}>
               <div
                 className={mergeClasses(
                   styles.gridCellContent,
@@ -189,12 +192,6 @@ export const Background: FC<BackgroundProps> = (props) => {
   );
 };
 
-export const BackgroundDefaultProps: BackgroundProps = {
-  backgroundColor: "#292929",
-  layout: [{}],
-  rows: 3,
-  columns: 3,
-  lockedGrid: true,
-};
+export const BackgroundDefaultProps = backgroundSchema.parse({});
 
 export default Background;
