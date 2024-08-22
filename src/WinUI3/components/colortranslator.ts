@@ -8,3 +8,11 @@ export const colorTokens: { [key: string]: string } = {
 };
 
 //must add tokens also for the borderRadiusMedium so border size?
+
+export function convertColor(color: string): string {
+  if (color.startsWith("${tokens.") && color.endsWith("}")) {
+    const tokenName = color.slice(9, -1); // Remove '${tokens.' and '}'
+    return colorTokens[tokenName] || color;
+  }
+  return color;
+}

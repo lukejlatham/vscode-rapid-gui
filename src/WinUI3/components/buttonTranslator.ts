@@ -1,4 +1,5 @@
 import { Node } from "../JsonParser";
+import { convertColor } from "./colortranslator";
 //?
 
 export function generateButtonXaml(node: Node, indent: string = ""): string {
@@ -9,14 +10,20 @@ export function generateButtonXaml(node: Node, indent: string = ""): string {
   xaml += ` Content="${props.text || ""}"`;
 
   // Style properties
-  xaml += ` Foreground="${props.textColor || "{ThemeResource ButtonForegroundThemeBrush}"}"`;
-  xaml += ` Background="${props.backgroundColor || "{ThemeResource ButtonBackgroundThemeBrush}"}"`;
+  xaml += ` Foreground="${convertColor(
+    props.textColor || "{ThemeResource ButtonForegroundThemeBrush}"
+  )}"`;
+  xaml += ` Background="${convertColor(
+    props.backgroundColor || "{ThemeResource ButtonBackgroundThemeBrush}"
+  )}"`;
   xaml += ` FontSize="${props.fontSize || 12}"`;
   xaml += ` HorizontalAlignment="Stretch" VerticalAlignment="Stretch"`;
   xaml += ` FontFamily="${props.fontFamily || "Segoe UI, Sans-Serif"}"`;
 
   // Border properties
-  xaml += ` BorderBrush="${props.borderColor || "{ThemeResource ButtonBorderThemeBrush}"}"`;
+  xaml += ` BorderBrush="${convertColor(
+    props.borderColor || "{ThemeResource ButtonBorderThemeBrush}"
+  )}"`;
   xaml += ` BorderThickness="${props.borderWidth || 1}"`;
   xaml += ` CornerRadius="${props.borderRadius || 0}"`;
 
