@@ -21,6 +21,10 @@ export async function generateContainerXaml(
   xaml += `>\n`;
 
   // container doesnt have shadow or border, need to implement this after
+  //can try to use <Grid.Resources>
+  // <ThemeShadow x:Name="SharedShadow" />
+  // </Grid.Resources>
+
   // Add Rectangle for background and border
   // xaml += `${indent}  <Rectangle`;
   // if (props.backgroundColor) {
