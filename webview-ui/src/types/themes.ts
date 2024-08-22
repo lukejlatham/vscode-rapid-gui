@@ -246,9 +246,9 @@ export const snapchatyellow: ColorScheme = {
     darkaccent: "#FFFC00",
   },
   sectionBorderColors: {
-    main: "#FFFC00",
-    lightaccent: "#7f4f24",
-    darkaccent: "#000000",
+    main: "#020202",
+    lightaccent: "#020202",
+    darkaccent: "#020202",
   },
   elementColors: {
     main: "#D3D3D3",
@@ -261,9 +261,9 @@ export const snapchatyellow: ColorScheme = {
     darkaccent: "#D3D3D3",
   },
   fontColors: {
-    main: "#081c15",
-    lightaccent: "#FFFC00",
-    darkaccent: "#582f0e",
+    main: "#020202",
+    lightaccent: "#020202",
+    darkaccent: "#020202",
   },
 };
 
