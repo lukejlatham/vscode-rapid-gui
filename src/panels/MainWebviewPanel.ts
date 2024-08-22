@@ -222,13 +222,9 @@ export class MainWebviewPanel {
             return;
           case "downloadCode":
             try {
-              console.log("Received downloadCode command");
-              console.log("Message contents:", message.contents);
-              console.log("Message fileNames:", message.fileNames);
-
               if (message.outputType === "html") {
                 await convertToHtml(message.contents, message.fileNames, this._context);
-              } else if (message.outputType === "xaml") {
+              } else if (message.outputType === "winui3") {
                 await convertToXaml(message.contents, message.fileNames, this._context);
               }
               webview.postMessage({ command: "codeDownloaded", success: true });
