@@ -30,6 +30,20 @@ type NodeTreeRootType = z.infer<typeof nodeTreeRootSchema>;
 type SectionsSchema = z.infer<typeof sectionsSchema>;
 type NodeSection = z.infer<typeof craftjsNodeSchema>;
 
+const elementSchemas = {
+  Button: buttonSchema,
+  Checkboxes: checkboxesSchema,
+  Input: inputSchema,
+  Label: labelSchema,
+  RadioButtons: radioButtonSchema,
+  TextBox: textBoxSchema,
+  Icon: iconSchema,
+  Image: imageSchema,
+  Text: textSchema,
+  Dropdown: dropdownSchema,
+  Slider: sliderSchema,
+};
+
 interface LayoutDimensions {
   rows: number;
   columns: number;
@@ -73,6 +87,14 @@ function createNode(
   };
 }
 
+function calculateImageWidth(containerWidth: number, containerHeight: number): number {
+  const containerAspectRatio = containerWidth / containerHeight;
+  // Always scale to the smaller ratio
+  const scaleFactor =
+    Math.min(containerWidth, containerHeight) / Math.max(containerWidth, containerHeight);
+  return scaleFactor * 90; // Convert to percentage
+}
+
 function generateSectionNodes(sections: ThemedLayoutSchema[]): { [key: string]: NodeSection } {
   const nodes: { [key: string]: NodeSection } = {};
 
@@ -80,80 +102,53 @@ function generateSectionNodes(sections: ThemedLayoutSchema[]): { [key: string]: 
     const sanitizedSectionName = section.section.replace(/\s+/g, "");
     const gridCellId = `${sanitizedSectionName}GridCell`;
     const containerId = `${sanitizedSectionName}Container`;
-    const sectionIndex = index.toString();
-
-    const gridCellDefaultsOverride = gridCellSchema.parse({});
 
     nodes[gridCellId] = createNode(
       "GridCell",
       true,
       "ROOT",
-      { id: sectionIndex },
-      gridCellDefaultsOverride,
+      { id: index.toString() },
+      gridCellSchema.parse({}),
       [containerId]
     );
 
-    const containerDefaultsOverride = containerSchema.parse({
-      flexDirection: section.flexDirection,
-      backgroundColor: section.backgroundColor,
-      borderColor: section.borderColor,
-      width: 100,
-      height: 100,
-      shadowColor: "transparent",
-      shadowOffsetX: 1,
-      shadowOffsetY: 1,
-      shadowBlur: 1,
-    });
+    const flexDirectionOverride = section.width > section.height ? "row" : "column";
 
     nodes[containerId] = createNode(
       "Container",
       true,
       gridCellId,
       {},
-      containerDefaultsOverride,
+      containerSchema.parse({
+        flexDirection: flexDirectionOverride,
+        backgroundColor: section.backgroundColor,
+        borderColor: section.borderColor,
+        width: 100,
+        height: 100,
+        shadowColor: "transparent",
+        shadowOffsetX: 1,
+        shadowOffsetY: 1,
+        shadowBlur: 1,
+      }),
       []
     );
 
     const childIds = section.children.map((child, childIndex) => {
       const childId = `${sanitizedSectionName}${child.element}${childIndex}`;
-      let childProps: any = {};
-      switch (child.element) {
-        case "Button":
-          childProps = buttonSchema.parse(child);
-          break;
-        case "Checkboxes":
-          childProps = checkboxesSchema.parse(child);
-          break;
-        case "Input":
-          childProps = inputSchema.parse(child);
-          break;
-        case "Label":
-          childProps = labelSchema.parse(child);
-          break;
-        case "RadioButtons":
-          childProps = radioButtonSchema.parse(child);
-          break;
-        case "TextBox":
-          childProps = textBoxSchema.parse(child);
-          break;
-        case "Icon":
-          childProps = iconSchema.parse(child);
-          break;
-        case "Image":
-          childProps = imageSchema.parse(child);
-          break;
-        case "Text":
-          childProps = textSchema.parse(child);
-          break;
-        case "Dropdown":
-          childProps = dropdownSchema.parse(child);
-          break;
-        case "Slider":
-          childProps = sliderSchema.parse(child);
-          break;
+      const schema = elementSchemas[child.element as keyof typeof elementSchemas];
+
+      if (!schema) {
+        throw new Error(`Unknown element type: ${child.element}`);
       }
 
-      nodes[childId] = createNode(child.element, false, containerId, {}, childProps);
+      let childProps = schema.parse(child);
+
+      if (child.element === "Image") {
+        const scaledWidth = calculateImageWidth(section.width, section.height);
+        childProps = { ...childProps, width: scaledWidth };
+      }
+
+      nodes[childId] = createNode(child.element, false, containerId, {}, schema.parse(child));
       return childId;
     });
 
@@ -241,7 +236,10 @@ function buildNodeTree(
   if (shadows) {
     Object.values(sectionNodes).forEach((node) => {
       if ("shadowColor" in node.props) {
-        node.props.shadowColor = "black";
+        node.props.shadowColor = "rgba(0, 0, 0, 0.6)";
+        node.props.shadowOffsetX = 2;
+        node.props.shadowOffsetY = 2;
+        node.props.shadowBlur = 2;
       }
     });
   }
