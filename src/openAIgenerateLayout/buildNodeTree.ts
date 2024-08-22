@@ -87,12 +87,16 @@ function createNode(
   };
 }
 
-function calculateImageWidth(containerWidth: number, containerHeight: number): number {
-  const containerAspectRatio = containerWidth / containerHeight;
-  // Always scale to the smaller ratio
-  const scaleFactor =
-    Math.min(containerWidth, containerHeight) / Math.max(containerWidth, containerHeight);
-  return scaleFactor * 90; // Convert to percentage
+function calculateImageScale(containerWidth: number, containerHeight: number): number {
+  const aspectRatio = containerWidth / containerHeight;
+
+  if (aspectRatio >= 1) {
+    // Landscape or square container
+    return containerHeight / containerWidth;
+  } else {
+    // Portrait container
+    return containerWidth / containerHeight;
+  }
 }
 
 function generateSectionNodes(sections: ThemedLayoutSchema[]): { [key: string]: NodeSection } {
@@ -144,11 +148,14 @@ function generateSectionNodes(sections: ThemedLayoutSchema[]): { [key: string]: 
       let childProps = schema.parse(child);
 
       if (child.element === "Image") {
-        const scaledWidth = calculateImageWidth(section.width, section.height);
+        console.log("scaling image", section.width, section.height);
+
+        const scaledWidth = calculateImageScale(section.width, section.height) * 65;
+        console.log("scaled width", scaledWidth);
         childProps = { ...childProps, width: scaledWidth };
       }
 
-      nodes[childId] = createNode(child.element, false, containerId, {}, schema.parse(child));
+      nodes[childId] = createNode(child.element, false, containerId, {}, childProps);
       return childId;
     });
 
@@ -206,7 +213,7 @@ function buildNodeTree(
   const layoutDimensions = calculateLayoutDimensions(generatedLayout);
 
   const chosenTheme = themeList.find(
-    (theme) => theme.name.toLowerCase() === themeName.toLowerCase()
+    (theme) => theme.themeGenerationName.toLowerCase() === themeName.toLowerCase()
   );
 
   if (!chosenTheme) {

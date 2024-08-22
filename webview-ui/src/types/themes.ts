@@ -388,26 +388,27 @@ export const discordpurple: ColorScheme = {
 };
 
 export const themeList = [
-  { name: "Red 1", scheme: redairbnb },
-  { name: "Orange 1", scheme: orangeScheme },
-  { name: "Yellow 1", scheme: snapchatyellow },
-  { name: "Nature", scheme: natural },
-  { name: "Blue 1", scheme: facebookblue },
-  { name: "Blue 2", scheme: facebookblueNoShadow },
-  { name: "Instagram", scheme: instagramSunset },
-  { name: "Purple 1", scheme: discordpurple },
-  { name: "Nautical", scheme: nautical },
-  { name: "Pastels", scheme: pastels },
-  { name: "Beige", scheme: beige },
-  { name: "Grey 1", scheme: slateGreyScheme },
+  { name: "Red 1", themeGenerationName: "redairbnb", scheme: redairbnb },
+  { name: "Orange 1", themeGenerationName: "orangeScheme", scheme: orangeScheme },
+  { name: "Yellow 1", themeGenerationName: "snapchatyellow", scheme: snapchatyellow },
+  { name: "Nature", themeGenerationName: "natural", scheme: natural },
+  { name: "Blue 1", themeGenerationName: "facebookblue", scheme: facebookblue },
+  { name: "Blue 2", themeGenerationName: "facebookblueNoShadow", scheme: facebookblueNoShadow },
+  { name: "Instagram", themeGenerationName: "instagramSunset", scheme: instagramSunset },
+  { name: "Purple 1", themeGenerationName: "discordpurple", scheme: discordpurple },
+  { name: "Nautical", themeGenerationName: "nautical", scheme: nautical },
+  { name: "Pastels", themeGenerationName: "pastels", scheme: pastels },
+  { name: "Beige", themeGenerationName: "beige", scheme: beige },
+  { name: "Grey 1", themeGenerationName: "slateGreyScheme", scheme: slateGreyScheme },
 ];
-
 export const themePreviews = themeList.map((theme) => ({
   value: theme.name,
   color: theme.scheme.sectionColors.darkaccent,
 }));
 
 export const themeNames = themeList.map((theme) => theme.name);
+
+export const themeGenerationNames = themeList.map((theme) => theme.themeGenerationName);
 
 export type NodeThemeType = "Background" | "Container" | "Other";
 

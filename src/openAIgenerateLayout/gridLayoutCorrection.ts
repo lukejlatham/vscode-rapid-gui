@@ -36,6 +36,8 @@ export function adjustLayoutToFitGrid(
   logLayoutChanges(adjustedLayout);
   console.log("Final adjusted layout:", JSON.stringify(adjustedLayout, null, 2));
 
+  adjustedLayout.forEach((item) => delete item.original);
+
   return adjustedLayout;
 }
 

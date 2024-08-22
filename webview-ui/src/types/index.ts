@@ -40,7 +40,7 @@ export const buttonSchema = z.object({
     .transform((val) => (val in VscIcons ? val : "VscInfo"))
     .default("VscInfo") as z.ZodType<VscIconKeys>, // matches
   bordercolor: z.string().optional().default("transparent"), // updated from "white" to "transparent"
-  shadowColor: z.string().default(tokens.colorNeutralShadowKeyDarker), // matches
+  shadowColor: z.string().default("rgba(0, 0, 0, 0.6)"), // matches
   shadowOffsetX: z.number().optional().default(1), // matches
   shadowOffsetY: z.number().optional().default(1), // matches
   shadowBlur: z.number().optional().default(1), // updated from 3 to 1
@@ -111,7 +111,7 @@ export const containerSchema = z.object({
   borderRadius: z.number().default(5), // matches
   borderColor: z.string().optional().default("transparent"), // updated from "black" to "transparent"
   padding: z.number().default(5), // matches
-  shadowColor: z.string().default(tokens.colorNeutralShadowKeyDarker), // matches
+  shadowColor: z.string().default("rgba(0, 0, 0, 0.6)"), // matches
   shadowOffsetX: z.number().optional().default(1), // matches
   shadowOffsetY: z.number().optional().default(1), // matches
   shadowBlur: z.number().optional().default(1), // updated from 3 to 1

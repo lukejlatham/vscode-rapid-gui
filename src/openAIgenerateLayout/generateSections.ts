@@ -1,5 +1,9 @@
 import { OpenAI } from "openai";
-import { layoutSchema, themeNames, fontGenerationNames } from "../../webview-ui/src/types";
+import {
+  layoutSchema,
+  themeGenerationNames,
+  fontGenerationNames,
+} from "../../webview-ui/src/types";
 import { z } from "zod";
 
 const outputSchema = {
@@ -7,7 +11,7 @@ const outputSchema = {
   properties: {
     theme: {
       type: "string",
-      enum: themeNames,
+      enum: themeGenerationNames,
     },
     fontFamily: {
       type: "string",
@@ -15,6 +19,8 @@ const outputSchema = {
     },
     sections: {
       type: "array",
+      describe:
+        "Each row or column of elements needs its own section. Make menus, sidebars, headers/footers 1 width or height",
       items: {
         type: "object",
         properties: {
@@ -57,9 +63,10 @@ const outputSchema = {
                       type: "string",
                       enum: ["Main", "LightAccent", "DarkAccent"],
                     },
-                    width: { type: "number", enum: [20, 30, 40] },
+                    width: { type: "number", enum: [10, 20, 30] },
+                    height: { type: "number", enum: [5, 10] },
                   },
-                  required: ["element", "vscIcon", "backgroundColor", "width"],
+                  required: ["element", "vscIcon", "backgroundColor", "width", "height"],
                   additionalProperties: false,
                 },
                 {
@@ -72,7 +79,7 @@ const outputSchema = {
                     fontColor: { type: "string", enum: ["Main", "LightAccent", "DarkAccent"] },
                     fontSize: {
                       type: "string",
-                      enum: ["Title", "Subtitle", "SmallSubtitle", "Link"],
+                      enum: ["Title", "Subtitle", "SmallSubtitle", "Link", "Label"],
                     },
                   },
                   required: ["element", "text", "bold", "fontColor", "fontSize"],
@@ -83,8 +90,12 @@ const outputSchema = {
                   description: "Series of checkboxes for selecting multiple options",
                   properties: {
                     element: { type: "string", enum: ["Checkboxes"] },
+                    optionLabels: {
+                      type: "array",
+                      items: { type: "string" },
+                    },
                   },
-                  required: ["element"],
+                  required: ["element", "optionLabels"],
                   additionalProperties: false,
                 },
                 {
@@ -102,8 +113,12 @@ const outputSchema = {
                   description: "Series of radio buttons for selecting between options",
                   properties: {
                     element: { type: "string", enum: ["RadioButtons"] },
+                    optionLabels: {
+                      type: "array",
+                      items: { type: "string" },
+                    },
                   },
-                  required: ["element"],
+                  required: ["element", "optionLabels"],
                   additionalProperties: false,
                 },
                 {
@@ -112,9 +127,8 @@ const outputSchema = {
                   properties: {
                     element: { type: "string", enum: ["Image"] },
                     alt: { type: "string" },
-                    width: { type: "number", enum: [60, 80, 90] },
                   },
-                  required: ["element", "alt", "width"],
+                  required: ["element", "alt"],
                   additionalProperties: false,
                 },
                 {
@@ -146,9 +160,12 @@ const outputSchema = {
                   description: "Dropdown for settings etc - try to use a few together",
                   properties: {
                     element: { type: "string", enum: ["Dropdown"] },
-                    header: { type: "string" },
+                    optionLabels: {
+                      type: "array",
+                      items: { type: "string" },
+                    },
                   },
-                  required: ["element", "header"],
+                  required: ["element", "optionLabels"],
                   additionalProperties: false,
                 },
                 {
@@ -199,11 +216,11 @@ async function generateFromText(client: OpenAI, textDescription: string): Promis
       messages: [
         {
           role: "system",
-          content: `You are a UI designer who creates perfect app or website designs from a given sketch or text prompt. The layout is a 10x10 grid, starting at 0. You use lots of sections and a wide variety of elements.`,
+          content: `You are a UI designer who creates complex app or website designs on a 10x10 grid, starting at 0. You use as many sections as possible (6 or more) and a wide variety of elements.`,
         },
         {
           role: "user",
-          content: `Create a UI layout from the following textual description: ${textDescription}. Be creative in your interpretation of the prompt - use many sections, and lots of images/buttons`,
+          content: `Create a complex layout for this textual description: ${textDescription}. Interpret prompt creatively.`,
         },
       ],
       response_format: {
@@ -234,7 +251,7 @@ async function generateFromSketch(client: OpenAI, sketchUrl: string): Promise<La
       messages: [
         {
           role: "system",
-          content: `You are a UI designer who creates perfect app or website designs from a given sketch or text prompt. The layout is a 10x10 grid, starting at 0.`,
+          content: `You are a UI designer who creates perfect app or website designs from a given sketch. The layout is a 10x10 grid, starting at 0.`,
         },
         {
           role: "user",
