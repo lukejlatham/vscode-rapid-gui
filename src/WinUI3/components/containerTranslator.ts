@@ -21,17 +21,17 @@ export async function generateContainerXaml(
   xaml += `>\n`;
 
   // Add Rectangle for background and border
-  xaml += `${indent}  <Rectangle`;
-  if (props.backgroundColor) {
-    xaml += ` Fill="${props.backgroundColor}"`;
-  }
-  if (props.borderColor) {
-    xaml += ` Stroke="${props.borderColor}" StrokeThickness="1"`;
-  }
-  if (props.borderRadius) {
-    xaml += ` RadiusX="${props.borderRadius}" RadiusY="${props.borderRadius}"`;
-  }
-  xaml += ` />\n`;
+  // xaml += `${indent}  <Rectangle`;
+  // if (props.backgroundColor) {
+  //   xaml += ` Fill="${props.backgroundColor}"`;
+  // }
+  // if (props.borderColor) {
+  //   xaml += ` Stroke="${props.borderColor}" StrokeThickness="1"`;
+  // }
+  // if (props.borderRadius) {
+  //   xaml += ` RadiusX="${props.borderRadius}" RadiusY="${props.borderRadius}"`;
+  // }
+  // xaml += ` />\n`;
 
   // Choose between StackPanel and VariableSizedWrapGrid based on needs
   const useVariableSizedWrapGrid = props.flexWrap === "wrap" || props.flexDirection === "row";
@@ -47,9 +47,9 @@ export async function generateContainerXaml(
   if (props.padding) {
     xaml += ` Margin="${props.padding}"`;
   }
-  if (props.gap) {
-    xaml += ` Spacing="${props.gap}"`;
-  }
+  // if (props.gap) {
+  //   xaml += ` Spacing="${props.gap}"`;
+  // }
   xaml += ` HorizontalAlignment="${mapJustifyContent(props.justifyContent)}"`;
   xaml += ` VerticalAlignment="${mapAlignItems(props.alignItems)}"`;
   xaml += `>\n`;

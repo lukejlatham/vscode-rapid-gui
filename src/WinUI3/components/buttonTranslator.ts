@@ -36,16 +36,16 @@ export function generateButtonXaml(node: Node, indent: string = ""): string {
 
   xaml += `${indent}</Button>`;
 
-  // Wrap button in a Border for shadow effect if needed
-  if (props.shadowColor && props.shadowColor !== "transparent" && props.shadowBlur > 0) {
-    xaml = `${indent}<Border>\n${indent}  <Border.Effect>\n${indent}    <DropShadowEffect Color="${
-      props.shadowColor
-    }" BlurRadius="${props.shadowBlur}" ShadowDepth="0" OffsetX="${
-      props.shadowOffsetX || 0
-    }" OffsetY="${
-      props.shadowOffsetY || 0
-    }" />\n${indent}  </Border.Effect>\n${xaml}\n${indent}</Border>`;
-  }
+  // // Wrap button in a Border for shadow effect if needed
+  // if (props.shadowColor && props.shadowColor !== "transparent" && props.shadowBlur > 0) {
+  //   xaml = `${indent}<Border>\n${indent}  <Border.Effect>\n${indent}    <DropShadowEffect Color="${
+  //     props.shadowColor
+  //   }" BlurRadius="${props.shadowBlur}" ShadowDepth="0" OffsetX="${
+  //     props.shadowOffsetX || 0
+  //   }" OffsetY="${
+  //     props.shadowOffsetY || 0
+  //   }" />\n${indent}  </Border.Effect>\n${xaml}\n${indent}</Border>`;
+  // }
 
   return xaml + "\n";
 }
