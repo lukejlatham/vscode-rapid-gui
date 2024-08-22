@@ -25,7 +25,7 @@ const useStyles = makeStyles({
     alignItems: "center",
     background: tokens.colorNeutralBackground3,
     color: tokens.colorNeutralForeground1,
-    fontSize: "1.5rem",
+    fontSize: "1rem",
     textAlign: "center",
     zIndex: 1,
     pointerEvents: "none",
