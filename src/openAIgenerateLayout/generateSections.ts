@@ -176,7 +176,7 @@ const outputSchema = {
                     vscIcon: {
                       type: "string",
                     },
-                    iconSize: { type: "number", enum: [32, 24] },
+                    iconSize: { type: "number", enum: [32, 40] },
                     iconColor: { type: "string", enum: ["Main", "LightAccent", "DarkAccent"] },
                   },
                   required: ["element", "vscIcon", "iconSize", "iconColor"],

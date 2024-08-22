@@ -148,11 +148,12 @@ function generateSectionNodes(sections: ThemedLayoutSchema[]): { [key: string]: 
       let childProps = schema.parse(child);
 
       if (child.element === "Image") {
-        console.log("scaling image", section.width, section.height);
-
-        const scaledWidth = calculateImageScale(section.width, section.height) * 65;
-        console.log("scaled width", scaledWidth);
+        const scaledWidth = Math.floor(calculateImageScale(section.width, section.height) * 40);
         childProps = { ...childProps, width: scaledWidth };
+      }
+
+      if (child.element === "Checkboxes" || child.element === "RadioButtons") {
+        childProps = { ...childProps, direction: flexDirectionOverride };
       }
 
       nodes[childId] = createNode(child.element, false, containerId, {}, childProps);
@@ -200,7 +201,7 @@ function buildNodeTree(
   themeName: string,
   chosenFont: string
 ): string {
-  const initalGrid = generatedLayout.map((section, index) => ({
+  const initialGrid = generatedLayout.map((section, index) => ({
     i: String(index),
     x: section.xPosition,
     y: section.yPosition,
@@ -208,9 +209,23 @@ function buildNodeTree(
     h: section.height,
   }));
 
-  const layout = adjustLayoutToFitGrid(initalGrid, 10, 10);
+  const adjustedLayout = adjustLayoutToFitGrid(initialGrid, 10, 10);
 
-  const layoutDimensions = calculateLayoutDimensions(generatedLayout);
+  const updatedGeneratedLayout = generatedLayout.map((section, index) => {
+    const adjustedCell = adjustedLayout.find((cell) => cell.i === String(index));
+    if (adjustedCell) {
+      return {
+        ...section,
+        xPosition: adjustedCell.x,
+        yPosition: adjustedCell.y,
+        width: adjustedCell.w,
+        height: adjustedCell.h,
+      };
+    }
+    return section;
+  });
+
+  const layoutDimensions = calculateLayoutDimensions(updatedGeneratedLayout);
 
   const chosenTheme = themeList.find(
     (theme) => theme.themeGenerationName.toLowerCase() === themeName.toLowerCase()
@@ -220,7 +235,7 @@ function buildNodeTree(
     throw new Error(`Theme "${chosenTheme}" not found`);
   }
 
-  const themedNodes = applyThemeToSchema(generatedLayout, chosenTheme.scheme);
+  const themedNodes = applyThemeToSchema(updatedGeneratedLayout, chosenTheme.scheme);
 
   const sectionNodes = generateSectionNodes(themedNodes);
 
@@ -253,7 +268,7 @@ function buildNodeTree(
 
   const backgroundNode = createBackgroundNode(
     layoutDimensions,
-    layout,
+    adjustedLayout,
     chosenTheme.scheme.backgroundColor
   );
 
