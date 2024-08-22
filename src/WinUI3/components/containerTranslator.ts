@@ -20,6 +20,7 @@ export async function generateContainerXaml(
   }
   xaml += `>\n`;
 
+  // container doesnt have shadow or border, need to implement this after
   // Add Rectangle for background and border
   // xaml += `${indent}  <Rectangle`;
   // if (props.backgroundColor) {
