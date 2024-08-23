@@ -24,17 +24,29 @@ export async function generateContainerXaml(
     xaml += ` Background="${props.backgroundColor}"`;
   }
 
-  xaml += ` HorizontalAlignment="Stretch" VerticalAlignment="Stretch">\n`;
-
-  xaml += `${indent}  <StackPanel`;
-  xaml += ` Orientation="${props.flexDirection === "row" ? "Horizontal" : "Vertical"}"`;
-
-  if (props.padding) {
-    xaml += ` Margin="${props.padding}"`;
+  if (props.borderColor) {
+    xaml += ` BorderBrush="${props.borderColor}"`;
+  }
+  if (props.borderThickness) {
+    xaml += ` BorderThickness="${props.borderThickness}"`;
+  }
+  if (props.cornerRadius) {
+    xaml += ` CornerRadius="${props.cornerRadius}"`;
   }
 
   xaml += ` HorizontalAlignment="${mapJustifyContent(props.justifyContent)}"`;
   xaml += ` VerticalAlignment="${mapAlignItems(props.alignItems)}"`;
+  xaml += `>\n`;
+
+  if (props.padding) {
+    xaml += `${indent}  <Border Padding="${props.padding}">\n`;
+    xaml += `${indent}    <StackPanel`;
+  } else {
+    xaml += `${indent}  <StackPanel`;
+  }
+
+  xaml += ` Orientation="${props.flexDirection === "row" ? "Horizontal" : "Vertical"}"`;
+  xaml += ` Spacing="${props.gap || 0}"`;
   xaml += `>\n`;
 
   // Generate child components
@@ -47,7 +59,12 @@ export async function generateContainerXaml(
     }
   }
 
-  xaml += `${indent}  </StackPanel>\n`;
+  if (props.padding) {
+    xaml += `${indent}    </StackPanel>\n`;
+    xaml += `${indent}  </Border>\n`;
+  } else {
+    xaml += `${indent}  </StackPanel>\n`;
+  }
   xaml += `${indent}</Grid>\n`;
   return xaml;
 }
