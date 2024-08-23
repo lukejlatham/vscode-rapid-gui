@@ -13,48 +13,26 @@ export async function generateContainerXaml(
 
   // Add Grid properties
   if (props.width) {
-    xaml += ` Width="${props.width}"`;
+    xaml += ` MinWidth="${props.width}"`;
   }
   if (props.height) {
-    xaml += ` Height="${props.height}"`;
+    xaml += ` MinHeight="${props.height}"`;
   }
   xaml += `>\n`;
 
-  // container doesnt have shadow or border, need to implement this after
-  //can try to use <Grid.Resources>
-  // <ThemeShadow x:Name="SharedShadow" />
-  // </Grid.Resources>
-
-  // Add Rectangle for background and border
-  // xaml += `${indent}  <Rectangle`;
-  // if (props.backgroundColor) {
-  //   xaml += ` Fill="${props.backgroundColor}"`;
-  // }
-  // if (props.borderColor) {
-  //   xaml += ` Stroke="${props.borderColor}" StrokeThickness="1"`;
-  // }
-  // if (props.borderRadius) {
-  //   xaml += ` RadiusX="${props.borderRadius}" RadiusY="${props.borderRadius}"`;
-  // }
-  // xaml += ` />\n`;
-
-  // Choose between StackPanel and VariableSizedWrapGrid based on needs
-  const useVariableSizedWrapGrid = props.flexWrap === "wrap" || props.flexDirection === "row";
-
-  if (useVariableSizedWrapGrid) {
-    xaml += `${indent}  <VariableSizedWrapGrid`;
-    xaml += ` Orientation="${props.flexDirection === "row" ? "Horizontal" : "Vertical"}"`;
-  } else {
-    xaml += `${indent}  <StackPanel`;
-    xaml += ` Orientation="${props.flexDirection === "row" ? "Horizontal" : "Vertical"}"`;
+  if (props.backgroundColor) {
+    xaml += ` Background="${props.backgroundColor}"`;
   }
+
+  xaml += ` HorizontalAlignment="Stretch" VerticalAlignment="Stretch">\n`;
+
+  xaml += `${indent}  <StackPanel`;
+  xaml += ` Orientation="${props.flexDirection === "row" ? "Horizontal" : "Vertical"}"`;
 
   if (props.padding) {
     xaml += ` Margin="${props.padding}"`;
   }
-  // if (props.gap) {
-  //   xaml += ` Spacing="${props.gap}"`;
-  // }
+
   xaml += ` HorizontalAlignment="${mapJustifyContent(props.justifyContent)}"`;
   xaml += ` VerticalAlignment="${mapAlignItems(props.alignItems)}"`;
   xaml += `>\n`;
@@ -69,9 +47,7 @@ export async function generateContainerXaml(
     }
   }
 
-  xaml += useVariableSizedWrapGrid
-    ? `${indent}  </VariableSizedWrapGrid>\n`
-    : `${indent}  </StackPanel>\n`;
+  xaml += `${indent}  </StackPanel>\n`;
   xaml += `${indent}</Grid>\n`;
   return xaml;
 }
