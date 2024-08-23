@@ -102,6 +102,6 @@ function mapAlignItems(alignItems: string): string {
     case "flex-end":
       return "Bottom";
     default:
-      return "Stretch";
+      return "Center";
   }
 }

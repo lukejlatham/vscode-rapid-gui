@@ -25,7 +25,7 @@ export function generateSliderXaml(node: Node, indent: string = ""): string {
   xaml += ` TickFrequency="${props.tickFrequency || props.step || 1}"`;
   xaml += ` TickPlacement="Outside"`;
 
-  xaml += " />";
+  xaml += "></Slider>";
 
   return xaml + "\n";
 }
