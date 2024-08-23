@@ -1,4 +1,5 @@
 import { Node } from "../JsonParser";
+import { convertColor } from "./colortranslator";
 
 export function generateTextBoxXaml(node: Node, indent: string = ""): string {
   const props = node.props;
@@ -7,8 +8,8 @@ export function generateTextBoxXaml(node: Node, indent: string = ""): string {
   xaml += ` Text="${props.text}"`;
   xaml += ` PlaceholderText="${props.placeholder}"`;
   xaml += ` FontSize="${props.fontSize}"`;
-  xaml += ` Foreground="${props.fontColor}"`;
-  xaml += ` Background="${props.backgroundColor}"`;
+  xaml += ` Foreground="${convertColor(props.fontColor)}"`;
+  xaml += ` Background="${convertColor(props.backgroundColor)}"`;
   xaml += ` BorderBrush="${props.borderColor}"`;
   xaml += ` BorderThickness="1"`;
   xaml += ` CornerRadius="${props.borderRadius}"`;
