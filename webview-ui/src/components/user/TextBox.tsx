@@ -1,6 +1,7 @@
 import { useNode, UserComponent } from "@craftjs/core";
 import { makeStyles } from "@fluentui/react-components";
 import { TextBoxProps, textBoxSchema } from "../../types";
+import { TextBoxSettings } from "./Settings/TextboxSettings";
 import { useSelected } from "../../hooks/useSelected";
 
 const useStyles = makeStyles({
@@ -72,4 +73,7 @@ export const TextBoxDefaultProps = textBoxSchema.parse({});
 TextBox.craft = {
   displayName: "Multi-line Input",
   props: TextBoxDefaultProps,
+  related: {
+    settings: TextBoxSettings,
+  },
 };
