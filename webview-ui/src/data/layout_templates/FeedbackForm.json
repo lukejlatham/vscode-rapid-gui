@@ -5,10 +5,10 @@
     },
     "isCanvas": true,
     "props": {
-      "rows": 8,
+      "rows": 10,
       "columns": 10,
       "lockedGrid": true,
-      "backgroundColor": "#ffffff",
+      "backgroundColor": "#F9F9FF",
       "layout": [
         {
           "w": 10,
@@ -20,8 +20,8 @@
           "static": false
         },
         {
-          "w": 5,
-          "h": 1,
+          "w": 10,
+          "h": 2,
           "x": 0,
           "y": 1,
           "i": "1",
@@ -32,16 +32,16 @@
           "w": 10,
           "h": 2,
           "x": 0,
-          "y": 2,
+          "y": 3,
           "i": "2",
           "moved": false,
           "static": false
         },
         {
           "w": 10,
-          "h": 3,
+          "h": 4,
           "x": 0,
-          "y": 4,
+          "y": 5,
           "i": "3",
           "moved": false,
           "static": false
@@ -50,23 +50,13 @@
           "w": 10,
           "h": 1,
           "x": 0,
-          "y": 7,
+          "y": 9,
           "i": "4",
           "moved": false,
           "static": false
-        },
-        {
-          "w": 5,
-          "h": 1,
-          "x": 5,
-          "y": 1,
-          "i": "5",
-          "maxW": 8,
-          "maxH": 10,
-          "moved": false,
-          "static": false
         }
-      ]
+      ],
+      "visibleGrid": false
     },
     "displayName": "Background",
     "custom": {},
@@ -75,11 +65,10 @@
     "nodes": [],
     "linkedNodes": {
       "0": "HeaderGridCell",
-      "1": "NameInputGridCell",
-      "2": "ServiceQualityGridCell",
-      "3": "SuggestionsGridCell",
-      "4": "SubmitButtonGridCell",
-      "5": "ei1spcSRO8"
+      "1": "NameSectionGridCell",
+      "2": "FeedbackSectionGridCell",
+      "3": "SuggestionsSectionGridCell",
+      "4": "SubmitButtonGridCell"
     }
   },
   "HeaderGridCell": {
@@ -99,7 +88,9 @@
     },
     "parent": "ROOT",
     "hidden": false,
-    "nodes": ["HeaderContainer"],
+    "nodes": [
+      "HeaderContainer"
+    ],
     "linkedNodes": {}
   },
   "HeaderContainer": {
@@ -110,24 +101,26 @@
     "props": {
       "height": 100,
       "width": 100,
-      "backgroundColor": "#ffffff",
-      "borderRadius": 5,
-      "borderColor": "#ffffff",
-      "padding": 0,
-      "flexDirection": "row",
-      "justifyContent": "flex-start",
+      "flexDirection": "column",
+      "justifyContent": "space-around",
       "alignItems": "center",
       "gap": 10,
-      "shadowColor": "black",
-      "shadowOffsetX": 0,
-      "shadowOffsetY": 0,
-      "shadowBlur": 0
+      "backgroundColor": "#1e2124",
+      "borderRadius": 5,
+      "borderColor": "#414833",
+      "padding": 5,
+      "shadowColor": "Black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 1
     },
     "displayName": "Container",
     "custom": {},
     "parent": "HeaderGridCell",
     "hidden": false,
-    "nodes": ["HeaderLabel0", "HeaderIcon1"],
+    "nodes": [
+      "HeaderLabel0"
+    ],
     "linkedNodes": {}
   },
   "HeaderLabel0": {
@@ -137,10 +130,11 @@
     "isCanvas": false,
     "props": {
       "text": "Feedback Form",
-      "textAlign": "left",
-      "fontSize": 24,
-      "fontColor": "darkslategrey",
+      "fontSize": 32,
+      "fontFamily": "IBM Plex Sans",
+      "fontColor": "#ffffff",
       "userEditable": true,
+      "textAlign": "left",
       "icon": "none",
       "hyperlink": "",
       "bold": true,
@@ -154,7 +148,7 @@
     "nodes": [],
     "linkedNodes": {}
   },
-  "NameInputGridCell": {
+  "NameSectionGridCell": {
     "type": {
       "resolvedName": "GridCell"
     },
@@ -171,10 +165,12 @@
     },
     "parent": "ROOT",
     "hidden": false,
-    "nodes": ["NameInputContainer"],
+    "nodes": [
+      "NameSectionContainer"
+    ],
     "linkedNodes": {}
   },
-  "NameInputContainer": {
+  "NameSectionContainer": {
     "type": {
       "resolvedName": "Container"
     },
@@ -182,37 +178,42 @@
     "props": {
       "height": 100,
       "width": 100,
-      "backgroundColor": "#ffffff",
-      "borderRadius": 5,
-      "borderColor": "#ffffff",
-      "padding": 0,
-      "flexDirection": "column",
+      "flexDirection": "row",
       "justifyContent": "space-around",
-      "alignItems": "flex-start",
-      "gap": 0,
-      "shadowColor": "black",
-      "shadowOffsetX": 0,
-      "shadowOffsetY": 0,
-      "shadowBlur": 0
+      "alignItems": "center",
+      "gap": 10,
+      "backgroundColor": "#282b30",
+      "borderRadius": 5,
+      "borderColor": "#7289da",
+      "padding": 5,
+      "shadowColor": "Black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 1
     },
     "displayName": "Container",
     "custom": {},
-    "parent": "NameInputGridCell",
+    "parent": "NameSectionGridCell",
     "hidden": false,
-    "nodes": ["NameInputLabel0", "NameInputInput1"],
+    "nodes": [
+      "NameSectionLabel0",
+      "NameSectionInput1",
+      "NameSectionInput2"
+    ],
     "linkedNodes": {}
   },
-  "NameInputLabel0": {
+  "NameSectionLabel0": {
     "type": {
       "resolvedName": "Label"
     },
     "isCanvas": false,
     "props": {
-      "text": "Fist Name",
-      "textAlign": "left",
-      "fontSize": 20,
-      "fontColor": "darkslategrey",
+      "text": "Name",
+      "fontSize": 24,
+      "fontFamily": "IBM Plex Sans",
+      "fontColor": "#ffffff",
       "userEditable": true,
+      "textAlign": "left",
       "icon": "none",
       "hyperlink": "",
       "bold": true,
@@ -221,32 +222,54 @@
     },
     "displayName": "Label",
     "custom": {},
-    "parent": "NameInputContainer",
+    "parent": "NameSectionContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "NameInputInput1": {
+  "NameSectionInput1": {
     "type": {
       "resolvedName": "Input"
     },
     "isCanvas": false,
     "props": {
-      "fontSize": 20,
-      "fontColor": "darkslategrey",
-      "backgroundColor": "white",
-      "borderColor": "#000000",
-      "placeholder": "Enter...",
+      "fontSize": 14,
+      "fontFamily": "IBM Plex Sans",
+      "fontColor": "#31383E",
+      "backgroundColor": "var(--colorBrandForeground2Pressed)",
+      "borderColor": "var(--colorBrandForeground2Pressed)",
+      "placeholder": "First Name",
       "borderRadius": 4
     },
     "displayName": "Single Line Input",
     "custom": {},
-    "parent": "NameInputContainer",
+    "parent": "NameSectionContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "ServiceQualityGridCell": {
+  "NameSectionInput2": {
+    "type": {
+      "resolvedName": "Input"
+    },
+    "isCanvas": false,
+    "props": {
+      "fontSize": 14,
+      "fontFamily": "IBM Plex Sans",
+      "fontColor": "#31383E",
+      "backgroundColor": "var(--colorBrandForeground2Pressed)",
+      "borderColor": "var(--colorBrandForeground2Pressed)",
+      "placeholder": "Last Name",
+      "borderRadius": 4
+    },
+    "displayName": "Single Line Input",
+    "custom": {},
+    "parent": "NameSectionContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "FeedbackSectionGridCell": {
     "type": {
       "resolvedName": "GridCell"
     },
@@ -263,10 +286,12 @@
     },
     "parent": "ROOT",
     "hidden": false,
-    "nodes": ["ServiceQualityContainer"],
+    "nodes": [
+      "FeedbackSectionContainer"
+    ],
     "linkedNodes": {}
   },
-  "ServiceQualityContainer": {
+  "FeedbackSectionContainer": {
     "type": {
       "resolvedName": "Container"
     },
@@ -274,73 +299,82 @@
     "props": {
       "height": 100,
       "width": 100,
-      "backgroundColor": "#ffffff",
-      "borderRadius": 5,
-      "borderColor": "#ffffff",
-      "padding": 0,
       "flexDirection": "column",
       "justifyContent": "space-around",
       "alignItems": "center",
       "gap": 10,
-      "shadowColor": "black",
-      "shadowOffsetX": 0,
-      "shadowOffsetY": 0,
-      "shadowBlur": 0
+      "backgroundColor": "#282b30",
+      "borderRadius": 5,
+      "borderColor": "#7289da",
+      "padding": 5,
+      "shadowColor": "Black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 1
     },
     "displayName": "Container",
     "custom": {},
-    "parent": "ServiceQualityGridCell",
+    "parent": "FeedbackSectionGridCell",
     "hidden": false,
-    "nodes": ["ServiceQualityLabel0", "ServiceQualityRadioButton1"],
+    "nodes": [
+      "FeedbackSectionLabel0",
+      "FeedbackSectionRadioButtons1"
+    ],
     "linkedNodes": {}
   },
-  "ServiceQualityLabel0": {
+  "FeedbackSectionLabel0": {
     "type": {
       "resolvedName": "Label"
     },
     "isCanvas": false,
     "props": {
-      "text": "Service Quality",
-      "textAlign": "left",
-      "fontSize": 20,
-      "fontColor": "darkslategrey",
+      "text": "Please provide your feedback on the quality of our service.",
+      "fontSize": 18,
+      "fontFamily": "IBM Plex Sans",
+      "fontColor": "#ffffff",
       "userEditable": true,
+      "textAlign": "left",
       "icon": "none",
       "hyperlink": "",
-      "bold": true,
+      "bold": false,
       "italic": false,
       "underline": false
     },
     "displayName": "Label",
     "custom": {},
-    "parent": "ServiceQualityContainer",
+    "parent": "FeedbackSectionContainer",
     "hidden": false,
     "nodes": [],
-    "linkedNodes": {
-      "label_icon": "SlrBjvNO0d"
-    }
+    "linkedNodes": {}
   },
-  "ServiceQualityRadioButton1": {
+  "FeedbackSectionRadioButtons1": {
     "type": {
       "resolvedName": "RadioButtons"
     },
     "isCanvas": false,
     "props": {
-      "header": "Please rate the quality of the service",
+      "header": "",
+      "fontFamily": "IBM Plex Sans",
       "numberOfButtons": 5,
-      "optionLabels": ["Excellent", "Very Good", "Good", "Average", "Poor"],
-      "fontSize": 16,
-      "fontColor": "black",
+      "optionLabels": [
+        "Excellent",
+        "Very Good",
+        "Good",
+        "Average",
+        "Poor"
+      ],
+      "fontSize": 14,
+      "fontColor": "#ffffff",
       "direction": "row"
     },
     "displayName": "Radio Buttons",
     "custom": {},
-    "parent": "ServiceQualityContainer",
+    "parent": "FeedbackSectionContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "SuggestionsGridCell": {
+  "SuggestionsSectionGridCell": {
     "type": {
       "resolvedName": "GridCell"
     },
@@ -357,10 +391,12 @@
     },
     "parent": "ROOT",
     "hidden": false,
-    "nodes": ["SuggestionsContainer"],
+    "nodes": [
+      "SuggestionsSectionContainer"
+    ],
     "linkedNodes": {}
   },
-  "SuggestionsContainer": {
+  "SuggestionsSectionContainer": {
     "type": {
       "resolvedName": "Container"
     },
@@ -368,51 +404,74 @@
     "props": {
       "height": 100,
       "width": 100,
-      "backgroundColor": "#ffffff",
-      "borderRadius": 5,
-      "borderColor": "#ffffff",
-      "padding": 0,
       "flexDirection": "column",
       "justifyContent": "space-around",
       "alignItems": "center",
       "gap": 10,
-      "shadowColor": "black",
-      "shadowOffsetX": 0,
-      "shadowOffsetY": 0,
-      "shadowBlur": 0
+      "backgroundColor": "#282b30",
+      "borderRadius": 5,
+      "borderColor": "#7289da",
+      "padding": 5,
+      "shadowColor": "Black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 1
     },
     "displayName": "Container",
     "custom": {},
-    "parent": "SuggestionsGridCell",
+    "parent": "SuggestionsSectionGridCell",
     "hidden": false,
-    "nodes": ["SuggestionsLabel0", "K-2HEgueoV"],
+    "nodes": [
+      "SuggestionsSectionLabel0",
+      "SuggestionsSectionInput1"
+    ],
     "linkedNodes": {}
   },
-  "SuggestionsLabel0": {
+  "SuggestionsSectionLabel0": {
     "type": {
       "resolvedName": "Label"
     },
     "isCanvas": false,
     "props": {
-      "text": "Suggestions",
-      "textAlign": "left",
-      "fontSize": 20,
-      "fontColor": "darkslategrey",
+      "text": "Do you have suggestions on what we can do to provide you with a better service?",
+      "fontSize": 18,
+      "fontFamily": "IBM Plex Sans",
+      "fontColor": "#ffffff",
       "userEditable": true,
+      "textAlign": "left",
       "icon": "none",
       "hyperlink": "",
-      "bold": true,
+      "bold": false,
       "italic": false,
       "underline": false
     },
     "displayName": "Label",
     "custom": {},
-    "parent": "SuggestionsContainer",
+    "parent": "SuggestionsSectionContainer",
     "hidden": false,
     "nodes": [],
-    "linkedNodes": {
-      "label_icon": "WmMAenVuWJ"
-    }
+    "linkedNodes": {}
+  },
+  "SuggestionsSectionInput1": {
+    "type": {
+      "resolvedName": "Input"
+    },
+    "isCanvas": false,
+    "props": {
+      "fontSize": 14,
+      "fontFamily": "IBM Plex Sans",
+      "fontColor": "#31383E",
+      "backgroundColor": "var(--colorBrandForeground2Pressed)",
+      "borderColor": "var(--colorBrandForeground2Pressed)",
+      "placeholder": "Type here...",
+      "borderRadius": 4
+    },
+    "displayName": "Single Line Input",
+    "custom": {},
+    "parent": "SuggestionsSectionContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
   },
   "SubmitButtonGridCell": {
     "type": {
@@ -431,7 +490,9 @@
     },
     "parent": "ROOT",
     "hidden": false,
-    "nodes": ["SubmitButtonContainer"],
+    "nodes": [
+      "SubmitButtonContainer"
+    ],
     "linkedNodes": {}
   },
   "SubmitButtonContainer": {
@@ -442,24 +503,26 @@
     "props": {
       "height": 100,
       "width": 100,
-      "backgroundColor": "#ffffff",
-      "borderRadius": 5,
-      "borderColor": "#ffffff",
-      "padding": 0,
-      "flexDirection": "row",
+      "flexDirection": "column",
       "justifyContent": "space-around",
       "alignItems": "center",
       "gap": 10,
-      "shadowColor": "black",
-      "shadowOffsetX": 0,
-      "shadowOffsetY": 0,
-      "shadowBlur": 0
+      "backgroundColor": "#282b30",
+      "borderRadius": 5,
+      "borderColor": "#7289da",
+      "padding": 5,
+      "shadowColor": "Black",
+      "shadowOffsetX": 1,
+      "shadowOffsetY": 1,
+      "shadowBlur": 1
     },
     "displayName": "Container",
     "custom": {},
     "parent": "SubmitButtonGridCell",
     "hidden": false,
-    "nodes": ["SubmitButtonButton0"],
+    "nodes": [
+      "SubmitButtonButton0"
+    ],
     "linkedNodes": {}
   },
   "SubmitButtonButton0": {
@@ -468,214 +531,27 @@
     },
     "isCanvas": false,
     "props": {
-      "backgroundColor": "#2f4f4f",
+      "backgroundColor": "#7289da",
+      "fontSize": 18,
+      "fontFamily": "IBM Plex Sans",
       "fontColor": "#ffffff",
-      "displayName": "Button",
-      "fontSize": 16,
-      "borderRadius": 5,
-      "text": "Submit",
+      "borderRadius": 4,
       "width": 40,
-      "height": 60,
-      "alignment": "center",
-      "icon": "right",
-      "bordercolor": "#2f4f4f",
-      "shadowColor": "black",
+      "height": 10,
+      "alignment": "left",
+      "displayName": "Button",
+      "iconPosition": "none",
+      "vscIcon": "VscHubot",
+      "bordercolor": "transparent",
+      "shadowColor": "Black",
       "shadowOffsetX": 1,
       "shadowOffsetY": 1,
-      "shadowBlur": 3
+      "shadowBlur": 1,
+      "text": "Submit"
     },
     "displayName": "Button",
     "custom": {},
     "parent": "SubmitButtonContainer",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {
-      "button_icon": "R25EEn9RUL"
-    }
-  },
-  "ei1spcSRO8": {
-    "type": {
-      "resolvedName": "GridCell"
-    },
-    "isCanvas": true,
-    "props": {
-      "justifyContent": "center",
-      "flexDirection": "column",
-      "alignItems": "center",
-      "gap": 10
-    },
-    "displayName": "Grid Cell",
-    "custom": {
-      "id": "5"
-    },
-    "parent": "ROOT",
-    "hidden": false,
-    "nodes": ["b8eJnrdkGQ"],
-    "linkedNodes": {}
-  },
-  "b8eJnrdkGQ": {
-    "type": {
-      "resolvedName": "Container"
-    },
-    "isCanvas": true,
-    "props": {
-      "height": 100,
-      "width": 100,
-      "backgroundColor": "#ffffff",
-      "borderRadius": 5,
-      "borderColor": "#ffffff",
-      "padding": 0,
-      "flexDirection": "column",
-      "justifyContent": "space-around",
-      "alignItems": "flex-start",
-      "gap": 0,
-      "shadowColor": "black",
-      "shadowOffsetX": 0,
-      "shadowOffsetY": 0,
-      "shadowBlur": 0
-    },
-    "displayName": "Container",
-    "custom": {},
-    "parent": "ei1spcSRO8",
-    "hidden": false,
-    "nodes": ["pvu9-YtpOl", "FHq--ij9YR"],
-    "linkedNodes": {}
-  },
-  "pvu9-YtpOl": {
-    "type": {
-      "resolvedName": "Label"
-    },
-    "isCanvas": false,
-    "props": {
-      "text": "Last Name",
-      "textAlign": "left",
-      "fontSize": 20,
-      "fontColor": "#2f4f4f",
-      "userEditable": true,
-      "icon": "none",
-      "hyperlink": "",
-      "bold": true,
-      "italic": false,
-      "underline": false
-    },
-    "displayName": "Label",
-    "custom": {},
-    "parent": "b8eJnrdkGQ",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "FHq--ij9YR": {
-    "type": {
-      "resolvedName": "Input"
-    },
-    "isCanvas": false,
-    "props": {
-      "fontSize": 20,
-      "fontColor": "darkslategrey",
-      "backgroundColor": "white",
-      "borderColor": "#000000",
-      "placeholder": "Enter...",
-      "borderRadius": 4
-    },
-    "displayName": "Single Line Input",
-    "custom": {},
-    "parent": "b8eJnrdkGQ",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "R25EEn9RUL": {
-    "type": {
-      "resolvedName": "Icon"
-    },
-    "isCanvas": false,
-    "props": {
-      "vscIcon": "VscSend",
-      "iconSize": 16,
-      "iconColor": "#lightslategray",
-      "hyperlink": ""
-    },
-    "displayName": "Icon",
-    "custom": {},
-    "parent": "SubmitButtonButton0",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "K-2HEgueoV": {
-    "type": {
-      "resolvedName": "TextBox"
-    },
-    "isCanvas": false,
-    "props": {
-      "text": "",
-      "fontSize": 16,
-      "fontColor": "black",
-      "backgroundColor": "#FFFFFF",
-      "placeholder": "Enter your suggestions here...",
-      "height": 100,
-      "width": 200,
-      "borderRadius": 5,
-      "borderColor": "black"
-    },
-    "displayName": "Multi-line Input",
-    "custom": {},
-    "parent": "SuggestionsContainer",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "SlrBjvNO0d": {
-    "type": {
-      "resolvedName": "Icon"
-    },
-    "isCanvas": false,
-    "props": {
-      "vscIcon": "VscStarEmpty",
-      "iconSize": 24,
-      "iconColor": "#2f4f4f",
-      "hyperlink": ""
-    },
-    "displayName": "Icon",
-    "custom": {},
-    "parent": "ServiceQualityLabel0",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "WmMAenVuWJ": {
-    "type": {
-      "resolvedName": "Icon"
-    },
-    "isCanvas": false,
-    "props": {
-      "vscIcon": "VscHome",
-      "iconSize": 24,
-      "iconColor": "#lightslategray",
-      "hyperlink": ""
-    },
-    "displayName": "Icon",
-    "custom": {},
-    "parent": "SuggestionsLabel0",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "HeaderIcon1": {
-    "type": {
-      "resolvedName": "Icon"
-    },
-    "isCanvas": false,
-    "props": {
-      "vscIcon": "VscComment",
-      "iconSize": 24,
-      "iconColor": "lightslategrey",
-      "hyperlink": ""
-    },
-    "displayName": "Icon",
-    "custom": {},
-    "parent": "HeaderContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
