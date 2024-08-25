@@ -291,7 +291,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
             />)}
           </Button>
           </Tooltip>
-          <RestartDialog isOpen={isRestartDialogOpen} onClose={() => setIsRestartDialogOpen(false)} openStartProjectDialog={openStartProjectDialog} />
+          <RestartDialog isOpen={isRestartDialogOpen} onClose={() => setIsRestartDialogOpen(false)} openStartProjectDialog={openStartProjectDialog} setPages={setPages} />
         </div>
       </div>
       <div className={localClasses.contentContainer}>{renderContent()}</div>
