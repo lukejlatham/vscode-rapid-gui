@@ -1,3 +1,5 @@
+import { RGBA_REGEX } from "@fluentui/react";
+
 export type ColorScheme = {
   backgroundColor: string;
   shadows: boolean;
@@ -387,6 +389,48 @@ export const discordpurple: ColorScheme = {
   },
 };
 
+// --malachite: #1BD760;
+// --white: #FFFFFF;
+// --jet: #2A2929;
+// --black: #000000;
+// --federal-blue: #22125E;
+
+// const colors = {
+//   darkGray1: '#0F0F0F',
+//   darkGray2: '#242424',
+//   darkGray3: '#323032'
+// };
+
+export const spotifyBlackGreen: ColorScheme = {
+  shadows: false,
+  backgroundColor: "#000000",
+  sectionColors: {
+    main: "#2A2929",
+    lightaccent: "#1DB954",
+    darkaccent: "#323032",
+  },
+  sectionBorderColors: {
+    main: "#2A2929",
+    lightaccent: "#1DB954",
+    darkaccent: "#323032",
+  },
+  elementColors: {
+    main: "#1BD760",
+    lightaccent: "#ffffff",
+    darkaccent: "#323032",
+  },
+  elementBorderColors: {
+    main: "#1BD760",
+    lightaccent: "#ffffff",
+    darkaccent: "#323032",
+  },
+  fontColors: {
+    main: "#FFFFFF",
+    lightaccent: "#ffffff",
+    darkaccent: "#000000",
+  },
+};
+
 export const themeList = [
   { name: "Red 1", themeGenerationName: "redairbnb", scheme: redairbnb },
   { name: "Orange 1", themeGenerationName: "orangeScheme", scheme: orangeScheme },
@@ -400,6 +444,7 @@ export const themeList = [
   { name: "Pastels", themeGenerationName: "pastels", scheme: pastels },
   { name: "Beige", themeGenerationName: "beige", scheme: beige },
   { name: "Grey 1", themeGenerationName: "slateGreyScheme", scheme: slateGreyScheme },
+  { name: "Black/Green", themeGenerationName: "spotifyBlackGreen", scheme: spotifyBlackGreen },
 ];
 export const themePreviews = themeList.map((theme) => ({
   value: theme.name,
