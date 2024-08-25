@@ -67,7 +67,7 @@ const useStyles = makeStyles({
   contentContainer: {
     padding: "15px",
     flexGrow: 1, // Allow content to grow and take available space
-    flexShrink: 1,
+    flexShrink: 0,
     height: "100%",
     boxSizing: "border-box",
     gap: "10px",
@@ -76,9 +76,10 @@ const useStyles = makeStyles({
     display: "flex",
     justifyContent: "start",
     height: "100%",
+    flexShrink: 0,
   },
   sidebarExtended: {
-    width: "280px",
+    width: "500px",
   },
   tabsBar: {
     padding: "10px",

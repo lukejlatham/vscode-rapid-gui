@@ -21,6 +21,7 @@ const useStyles = makeStyles({
     flexDirection: "column",
     gap: "10px",
     paddingBottom: "15px",
+    width: "90%",
   },
   fontPreview: {
     marginLeft: "10px",
