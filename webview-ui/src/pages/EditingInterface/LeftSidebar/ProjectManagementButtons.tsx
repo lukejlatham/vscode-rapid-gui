@@ -1,4 +1,4 @@
-import React, { useContext }from 'react';
+import React, { useContext } from 'react';
 import { AccessibilityContext } from '../EditingInterface';
 import { Button, Tooltip } from "@fluentui/react-components";
 import { ArrowHookUpLeft24Regular, ArrowHookUpRight24Regular } from '@fluentui/react-icons';
@@ -23,24 +23,28 @@ const ProjectManagement: React.FC<{ classes: any, pages: Page[], setPages: React
 
     return (
         <div className={classes.bottomButtons}>
-            <Tooltip content={<FormattedMessage id="leftSidebar.undo" defaultMessage="Undo" />} relationship="label"positioning="after"appearance="inverted">
-                <Button size={
-                    accessibility.selectedAccessibility === 'yes' ? 'large' : 'medium'
-                } className={classes.button} icon={<ArrowHookUpLeft24Regular />} onClick={handleUndo}>
-                { accessibility.selectedAccessibility === 'yes' && (<FormattedMessage id="leftSidebar.undo" defaultMessage="Undo" />)}
+            <Tooltip content={<FormattedMessage id="leftSidebar.undo" defaultMessage="Undo" />} relationship="label" positioning="after" appearance="inverted">
+                <Button
+                    style={{ width: "100%" }}
+                    size={
+                        accessibility.selectedAccessibility === 'yes' ? 'large' : 'medium'
+                    } className={classes.button} icon={<ArrowHookUpLeft24Regular />} onClick={handleUndo}>
+                    {accessibility.selectedAccessibility === 'yes' && (<FormattedMessage id="leftSidebar.undo" defaultMessage="Undo" />)}
                 </Button>
             </Tooltip>
-            <Tooltip content={<FormattedMessage id="leftSidebar.redo" defaultMessage="Redo" />} relationship="label" positioning="after"appearance="inverted">
-                <Button size={
-                    accessibility.selectedAccessibility === 'yes' ? 'large' : 'medium'
-                } className={classes.button} icon={<ArrowHookUpRight24Regular />} onClick={handleRedo}>
-                { accessibility.selectedAccessibility === 'yes' && (<FormattedMessage id="leftSidebar.redo" defaultMessage="Redo" />)}
+            <Tooltip content={<FormattedMessage id="leftSidebar.redo" defaultMessage="Redo" />} relationship="label" positioning="after" appearance="inverted">
+                <Button
+                    style={{ width: "100%" }}
+                    size={
+                        accessibility.selectedAccessibility === 'yes' ? 'large' : 'medium'
+                    } className={classes.button} icon={<ArrowHookUpRight24Regular />} onClick={handleRedo}>
+                    {accessibility.selectedAccessibility === 'yes' && (<FormattedMessage id="leftSidebar.redo" defaultMessage="Redo" />)}
                 </Button>
             </Tooltip>
-            <SaveButton classes={classes} pages={pages} currentPageIndex={currentPageIndex}/>
-            <LoadButton classes={classes} pages={pages} setPages={setPages}/>
-            <DownloadCodeButton classes={classes} pages={pages} currentPageIndex={currentPageIndex}/>
-            
+            <SaveButton classes={classes} pages={pages} currentPageIndex={currentPageIndex} />
+            <LoadButton classes={classes} pages={pages} setPages={setPages} />
+            <DownloadCodeButton classes={classes} pages={pages} currentPageIndex={currentPageIndex} />
+
         </div>
     );
 };

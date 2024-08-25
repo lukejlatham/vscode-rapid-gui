@@ -283,7 +283,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
           <Tooltip content={<FormattedMessage id="leftSidebar.new" defaultMessage="New" />} relationship="label" positioning="after" appearance="inverted">
           <Button onClick={() => setIsRestartDialogOpen(true)} appearance="primary" icon={<ArrowResetFilled />} size={
                     accessibility.selectedAccessibility === 'yes' ? 'large' : 'medium'
-                }>
+                } style={{width: "100%"}}>
             {accessibility.selectedAccessibility === 'yes' && (<FormattedMessage
               id="leftSidebar.new"
               defaultMessage="New"

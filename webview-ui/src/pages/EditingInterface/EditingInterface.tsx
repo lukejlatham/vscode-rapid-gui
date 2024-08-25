@@ -38,6 +38,7 @@ const useStyles = makeStyles({
   },
   canvas: {
     flexGrow: 1,
+    // flexShrink: 1,
     display: 'flex',
     flexDirection: 'column',
     padding: '5px',
