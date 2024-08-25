@@ -389,18 +389,6 @@ export const discordpurple: ColorScheme = {
   },
 };
 
-// --malachite: #1BD760;
-// --white: #FFFFFF;
-// --jet: #2A2929;
-// --black: #000000;
-// --federal-blue: #22125E;
-
-// const colors = {
-//   darkGray1: '#0F0F0F',
-//   darkGray2: '#242424',
-//   darkGray3: '#323032'
-// };
-
 export const spotifyBlackGreen: ColorScheme = {
   shadows: false,
   backgroundColor: "#000000",
@@ -431,6 +419,216 @@ export const spotifyBlackGreen: ColorScheme = {
   },
 };
 
+export const appleFinderGrey: ColorScheme = {
+  shadows: false,
+  backgroundColor: "#C8C8C8",
+  sectionColors: {
+    main: "#FFFFFF",
+    lightaccent: "#F4F4F4",
+    darkaccent: "#E8E8E8",
+  },
+  sectionBorderColors: {
+    main: "#FFFFFF",
+    lightaccent: "#F4F4F4",
+    darkaccent: "#E8E8E8",
+  },
+  elementColors: {
+    main: "#B4B4B4",
+    lightaccent: "#B4B4B4",
+    darkaccent: "#B4B4B4",
+  },
+  elementBorderColors: {
+    main: "#B4B4B4",
+    lightaccent: "#B4B4B4",
+    darkaccent: "#B4B4B4",
+  },
+  fontColors: {
+    main: "#323232",
+    lightaccent: "#249DB2",
+    darkaccent: "#323232",
+  },
+};
+
+export const unixTerminalClassic: ColorScheme = {
+  shadows: false,
+  backgroundColor: "#000000", // Classic black background
+  sectionColors: {
+    main: "#000000",
+    lightaccent: "#000000",
+    darkaccent: "#000000",
+  },
+  sectionBorderColors: {
+    main: "#00FF00", // Green border for sections
+    lightaccent: "#000000",
+    darkaccent: "#00FF00",
+  },
+  elementColors: {
+    main: "#000000",
+    lightaccent: "#000000",
+    darkaccent: "#000000",
+  },
+  elementBorderColors: {
+    main: "#00FF00",
+    lightaccent: "#00FF00",
+    darkaccent: "#00FF00",
+  },
+  fontColors: {
+    main: "#00FF00",
+    lightaccent: "#00FF00",
+    darkaccent: "#00FF00",
+  },
+};
+
+export const appleGrey: ColorScheme = {
+  shadows: true,
+  backgroundColor: "#F5F5F7", // Light gray background
+  sectionColors: {
+    main: "#FFFFFF", // White
+    lightaccent: "#F0F0F2", // Very light gray
+    darkaccent: "#E8E8ED", // Slightly darker gray
+  },
+  sectionBorderColors: {
+    main: "#D2D2D7", // Light gray border
+    lightaccent: "#E6E6E6", // Very light gray border
+    darkaccent: "#BFBFBF", // Medium gray border
+  },
+  elementColors: {
+    main: "#0071E3", // Apple blue
+    lightaccent: "#42A2FF", // Lighter blue
+    darkaccent: "#0058B0", // Darker blue
+  },
+  elementBorderColors: {
+    main: "#0071E3", // Apple blue
+    lightaccent: "#42A2FF", // Lighter blue
+    darkaccent: "#0058B0", // Darker blue
+  },
+  fontColors: {
+    main: "#1D1D1F", // Almost black
+    lightaccent: "#86868B", // Medium gray
+    darkaccent: "#515154", // Dark gray
+  },
+};
+
+export const whatsappGreen: ColorScheme = {
+  shadows: true,
+  backgroundColor: "#ECE5DD", // Light beige background, similar to WhatsApp chat background
+  sectionColors: {
+    main: "#FFFFFF", // White for main sections
+    lightaccent: "#F0F0F0", // Very light gray for secondary sections
+    darkaccent: "#DCF8C6", // Light green for user's messages
+  },
+  sectionBorderColors: {
+    main: "#E2E2E2", // Light gray border
+    lightaccent: "#F0F0F0", // Very light gray border
+    darkaccent: "#C5E9B6", // Light green border for user's messages
+  },
+  elementColors: {
+    main: "#25D366", // WhatsApp green
+    lightaccent: "#34B7F1", // WhatsApp blue (used for read receipts)
+    darkaccent: "#128C7E", // Darker green for pressed states
+  },
+  elementBorderColors: {
+    main: "#25D366", // WhatsApp green
+    lightaccent: "#34B7F1", // WhatsApp blue
+    darkaccent: "#128C7E", // Darker green
+  },
+  fontColors: {
+    main: "#303030", // Dark gray, almost black for primary text
+    lightaccent: "#667781", // Medium gray for secondary text
+    darkaccent: "#075E54", // WhatsApp teal for accents
+  },
+};
+
+export const amazonOrange: ColorScheme = {
+  shadows: true,
+  backgroundColor: "#E3E6E6", // White background
+  sectionColors: {
+    main: "#FFFFFF", // White for main sections
+    lightaccent: "#232F3E", // Light gray for secondary sections
+    darkaccent: "#131921", // Slightly darker gray for tertiary sections
+  },
+  sectionBorderColors: {
+    main: "#FFFFFF", // Light gray border
+    lightaccent: "#232F3E", // Slightly lighter gray border
+    darkaccent: "#131921", // Darker gray border
+  },
+  elementColors: {
+    main: "#FF9900", // Amazon orange
+    lightaccent: "#FEBD69", // Lighter orange for hover states
+    darkaccent: "#146EB4", // Amazon blue for secondary elements
+  },
+  elementBorderColors: {
+    main: "#FF9900", // Amazon orange
+    lightaccent: "#FEBD69", // Lighter orange
+    darkaccent: "#146EB4", // Amazon blue
+  },
+  fontColors: {
+    main: "#0F1111", // Almost black for primary text
+    lightaccent: "#FF9900", // Dark gray for secondary text
+    darkaccent: "#007185", // Teal for links and some accents
+  },
+};
+
+export const microsoftWordBlue: ColorScheme = {
+  shadows: true,
+  backgroundColor: "#FFFFFF", // White background for document area
+  sectionColors: {
+    main: "#F3F2F1", // Light gray for ribbon and toolbar
+    lightaccent: "#FFFFFF", // White for dropdown menus
+    darkaccent: "#E1DFDD", // Slightly darker gray for sidebar
+  },
+  sectionBorderColors: {
+    main: "#E1DFDD", // Light gray border
+    lightaccent: "#D2D0CE", // Slightly darker gray border
+    darkaccent: "#C8C6C4", // Even darker gray border
+  },
+  elementColors: {
+    main: "#2B579A", // Word blue for primary elements
+    lightaccent: "#41A5EE", // Lighter blue for hover states
+    darkaccent: "#185ABD", // Darker blue for pressed states
+  },
+  elementBorderColors: {
+    main: "#2B579A", // Word blue
+    lightaccent: "#41A5EE", // Lighter blue
+    darkaccent: "#185ABD", // Darker blue
+  },
+  fontColors: {
+    main: "#252423", // Almost black for primary text
+    lightaccent: "#616161", // Dark gray for secondary text
+    darkaccent: "#2B579A", // Word blue for accent text
+  },
+};
+
+export const netflixRedBlack: ColorScheme = {
+  shadows: true,
+  backgroundColor: "#141414", // Very dark gray, almost black
+  sectionColors: {
+    main: "#181818", // Dark gray for content cards
+    lightaccent: "#2F2F2F", // Slightly lighter gray for hover states
+    darkaccent: "#000000", // Pure black for some UI elements
+  },
+  sectionBorderColors: {
+    main: "#404040", // Medium gray for subtle borders
+    lightaccent: "#545454", // Lighter gray for hover state borders
+    darkaccent: "#333333", // Darker gray for some UI element borders
+  },
+  elementColors: {
+    main: "#E50914", // Netflix red
+    lightaccent: "#F40612", // Slightly brighter red for hover states
+    darkaccent: "#B20710", // Darker red for pressed states
+  },
+  elementBorderColors: {
+    main: "#E50914", // Netflix red
+    lightaccent: "#F40612", // Slightly brighter red
+    darkaccent: "#B20710", // Darker red
+  },
+  fontColors: {
+    main: "#FFFFFF", // White for primary text
+    lightaccent: "#B3B3B3", // Light gray for secondary text
+    darkaccent: "#E50914", // Netflix red for accents and some text
+  },
+};
+
 export const themeList = [
   { name: "Red 1", themeGenerationName: "redairbnb", scheme: redairbnb },
   { name: "Orange 1", themeGenerationName: "orangeScheme", scheme: orangeScheme },
@@ -438,14 +636,22 @@ export const themeList = [
   { name: "Nature", themeGenerationName: "natural", scheme: natural },
   { name: "Blue 1", themeGenerationName: "facebookblue", scheme: facebookblue },
   { name: "Blue 2", themeGenerationName: "facebookblueNoShadow", scheme: facebookblueNoShadow },
-  { name: "Instagram", themeGenerationName: "instagramSunset", scheme: instagramSunset },
+  { name: "Sunset", themeGenerationName: "instagramSunset", scheme: instagramSunset },
   { name: "Purple 1", themeGenerationName: "discordpurple", scheme: discordpurple },
   { name: "Nautical", themeGenerationName: "nautical", scheme: nautical },
   { name: "Pastels", themeGenerationName: "pastels", scheme: pastels },
   { name: "Beige", themeGenerationName: "beige", scheme: beige },
   { name: "Grey 1", themeGenerationName: "slateGreyScheme", scheme: slateGreyScheme },
   { name: "Black/Green", themeGenerationName: "spotifyBlackGreen", scheme: spotifyBlackGreen },
+  { name: "Grey 2", themeGenerationName: "appleFinderGrey", scheme: appleFinderGrey },
+  { name: "Classic", themeGenerationName: "unixTerminalClassic", scheme: unixTerminalClassic },
+  { name: "Grey 3", themeGenerationName: "appleGrey", scheme: appleGrey },
+  { name: "Green 1", themeGenerationName: "whatsappGreen", scheme: whatsappGreen },
+  { name: "Orange 2", themeGenerationName: "amazonOrange", scheme: amazonOrange },
+  { name: "Blue 3", themeGenerationName: "microsoftWordBlue", scheme: microsoftWordBlue },
+  { name: "Red/Black", themeGenerationName: "netflixRedBlack", scheme: netflixRedBlack },
 ];
+
 export const themePreviews = themeList.map((theme) => ({
   value: theme.name,
   color: theme.scheme.sectionColors.darkaccent,
