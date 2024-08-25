@@ -9,7 +9,6 @@ import {
   Theme,
   Tooltip,
 } from "@fluentui/react-components";
-import Header from "./Header";
 import ComponentButtons from "./ComponentButtons";
 import ProjectManagement from "./ProjectManagementButtons";
 import LayoutManagement from "./LayoutManagement";
@@ -45,24 +44,6 @@ const useStyles = makeStyles({
     alignContent: "center",
     gap: "10px",
     padding: "5px",
-  },
-    boxShadowAnimation: {
-      outline: `2px solid ${tokens.colorBrandForeground1}`,
-    animationPlayState: "running",
-    animationDelay: "0s",
-    animationTimingFunction: "ease",
-    animationDirection: "alternate",
-    animationDuration: "2s",
-    animationIterationCount: "infinite",
-    userSelect: "none",
-    animationName: {
-      from: {
-        boxShadow: `0 0 0 0 ${tokens.colorBrandForeground1}`,
-      },
-      to: {
-        boxShadow: `0 0  10px ${tokens.colorBrandForeground1} `,
-      },
-    },
   },
   contentContainer: {
     padding: "15px",
