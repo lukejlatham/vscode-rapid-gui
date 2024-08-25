@@ -9,7 +9,7 @@ export async function generateContainerXaml(
 ): Promise<string> {
   const props = node.props;
 
-  let xaml = `${indent}<Grid`;
+  let xaml = `${indent}<Border`;
 
   // Add Grid properties
   if (props.width) {
@@ -18,7 +18,6 @@ export async function generateContainerXaml(
   if (props.height) {
     xaml += ` MinHeight="${props.height}"`;
   }
-  xaml += `>\n`;
 
   if (props.backgroundColor) {
     xaml += ` Background="${props.backgroundColor}"`;
@@ -31,19 +30,24 @@ export async function generateContainerXaml(
     xaml += ` BorderThickness="${props.borderThickness}"`;
   }
   if (props.cornerRadius) {
-    xaml += ` CornerRadius="${props.cornerRadius}"`;
+    xaml += ` CornerRadius="${props.borderRadius}"`;
+  }
+  if (props.padding) {
+    xaml += ` Padding="${props.padding}"`;
   }
 
-  xaml += ` HorizontalAlignment="${mapJustifyContent(props.justifyContent)}"`;
-  xaml += ` VerticalAlignment="${mapAlignItems(props.alignItems)}"`;
+  // xaml += ` HorizontalAlignment="${mapJustifyContent(props.justifyContent)}"`;
+  // xaml += ` VerticalAlignment="${mapAlignItems(props.alignItems)}"`;
   xaml += `>\n`;
 
-  if (props.padding) {
-    xaml += `${indent}  <Border Padding="${props.padding}">\n`;
-    xaml += `${indent}    <StackPanel`;
-  } else {
-    xaml += `${indent}  <StackPanel`;
-  }
+  // if (props.padding) {
+  //   xaml += `${indent}  <Border Padding="${props.padding}">\n`;
+  //   xaml += `${indent}    <StackPanel`;
+  // } else {
+  //   xaml += `${indent}  <StackPanel`;
+  // }
+
+  xaml += `${indent} <StackPangel`;
 
   xaml += ` Orientation="${props.flexDirection === "row" ? "Horizontal" : "Vertical"}"`;
   xaml += ` Spacing="${props.gap || 0}"`;
@@ -65,7 +69,6 @@ export async function generateContainerXaml(
   } else {
     xaml += `${indent}  </StackPanel>\n`;
   }
-  xaml += `${indent}</Grid>\n`;
   return xaml;
 }
 
