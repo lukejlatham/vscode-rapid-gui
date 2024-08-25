@@ -20,18 +20,15 @@ export function adjustLayoutToFitGrid(
   }));
 
   // Sort items by their original position (top to bottom, left to right)
-  adjustedLayout.sort((a, b) => a.original!.y - b.original!.y || a.original!.x - b.original!.x);
+  adjustedLayout.sort((a, b) => a.y - b.y || a.x - b.x);
 
-  const occupiedCells: boolean[][] = Array(gridHeight)
+  const occupiedCells: string[][] = Array(gridHeight)
     .fill(null)
-    .map(() => Array(gridWidth).fill(false));
+    .map(() => Array(gridWidth).fill(""));
 
   for (let item of adjustedLayout) {
-    fitItemInGrid(item, occupiedCells, gridWidth, gridHeight);
+    placeItemAndResolveConflicts(item, adjustedLayout, occupiedCells, gridWidth, gridHeight);
   }
-
-  // Final pass to fill gaps
-  fillGaps(adjustedLayout, occupiedCells, gridWidth, gridHeight);
 
   logLayoutChanges(adjustedLayout);
   console.log("Final adjusted layout:", JSON.stringify(adjustedLayout, null, 2));
@@ -41,105 +38,75 @@ export function adjustLayoutToFitGrid(
   return adjustedLayout;
 }
 
-function fitItemInGrid(
+function placeItemAndResolveConflicts(
   item: LayoutItem,
-  occupiedCells: boolean[][],
+  allItems: LayoutItem[],
+  occupiedCells: string[][],
   gridWidth: number,
   gridHeight: number
 ): void {
-  let bestFit = { x: 0, y: 0, w: 1, h: 1 };
-  let minDistanceFromOriginal = Infinity;
+  // Ensure the item is within grid boundaries
+  item.x = Math.min(item.x, gridWidth - 1);
+  item.y = Math.min(item.y, gridHeight - 1);
+  item.w = Math.min(item.w, gridWidth - item.x);
+  item.h = Math.min(item.h, gridHeight - item.y);
 
-  // Try to fit the item as close to its original position and size as possible
-  for (let y = 0; y < gridHeight; y++) {
-    for (let x = 0; x < gridWidth; x++) {
-      for (let w = Math.min(item.original!.w, gridWidth - x); w >= 1; w--) {
-        for (let h = Math.min(item.original!.h, gridHeight - y); h >= 1; h--) {
-          if (canFitItem({ ...item, x, y, w, h }, occupiedCells, gridWidth, gridHeight)) {
-            const distance = Math.abs(x - item.original!.x) + Math.abs(y - item.original!.y);
-            const sizeDiff = Math.abs(w - item.original!.w) + Math.abs(h - item.original!.h);
-            if (distance + sizeDiff < minDistanceFromOriginal) {
-              minDistanceFromOriginal = distance + sizeDiff;
-              bestFit = { x, y, w, h };
-            }
-          }
-        }
+  for (let y = item.y; y < item.y + item.h; y++) {
+    for (let x = item.x; x < item.x + item.w; x++) {
+      if (occupiedCells[y][x] !== "" && occupiedCells[y][x] !== item.i) {
+        const conflictingItem = allItems.find((i) => i.i === occupiedCells[y][x])!;
+        resolveConflict(item, conflictingItem, occupiedCells, gridWidth, gridHeight);
       }
     }
   }
 
-  // Place the item in its best fit position
-  item.x = bestFit.x;
-  item.y = bestFit.y;
-  item.w = bestFit.w;
-  item.h = bestFit.h;
   placeItem(item, occupiedCells);
-
-  if (minDistanceFromOriginal > 0) {
-    console.log(
-      `Adjusted item ${item.i}: (${item.original!.x},${item.original!.y}) ${item.original!.w}x${
-        item.original!.h
-      } -> (${item.x},${item.y}) ${item.w}x${item.h}`
-    );
-  }
 }
 
-function canFitItem(
-  item: LayoutItem,
-  occupiedCells: boolean[][],
-  gridWidth: number,
-  gridHeight: number
-): boolean {
-  if (item.x + item.w > gridWidth || item.y + item.h > gridHeight) return false;
-
-  for (let dy = 0; dy < item.h; dy++) {
-    for (let dx = 0; dx < item.w; dx++) {
-      if (occupiedCells[item.y + dy][item.x + dx]) return false;
-    }
-  }
-
-  return true;
-}
-
-function placeItem(item: LayoutItem, occupiedCells: boolean[][]): void {
-  for (let dy = 0; dy < item.h; dy++) {
-    for (let dx = 0; dx < item.w; dx++) {
-      occupiedCells[item.y + dy][item.x + dx] = true;
-    }
-  }
-}
-
-function fillGaps(
-  layout: LayoutItem[],
-  occupiedCells: boolean[][],
+function resolveConflict(
+  item1: LayoutItem,
+  item2: LayoutItem,
+  occupiedCells: string[][],
   gridWidth: number,
   gridHeight: number
 ): void {
-  for (let item of layout) {
-    // Try to expand right
-    while (item.x + item.w < gridWidth && canExpandRight(item, occupiedCells)) {
-      item.w++;
+  const item1Area = item1.w * item1.h;
+  const item2Area = item2.w * item2.h;
+  const largerItem = item1Area >= item2Area ? item1 : item2;
+  const smallerItem = item1Area >= item2Area ? item2 : item1;
+
+  // Remove the larger item from the grid
+  for (let y = largerItem.y; y < largerItem.y + largerItem.h; y++) {
+    for (let x = largerItem.x; x < largerItem.x + largerItem.w; x++) {
+      if (occupiedCells[y][x] === largerItem.i) {
+        occupiedCells[y][x] = "";
+      }
     }
-    // Try to expand down
-    while (item.y + item.h < gridHeight && canExpandDown(item, occupiedCells)) {
-      item.h++;
-    }
-    placeItem(item, occupiedCells);
   }
+
+  // Resize the larger item
+  if (largerItem.w > largerItem.h) {
+    largerItem.w = Math.max(1, largerItem.w - 1);
+  } else {
+    largerItem.h = Math.max(1, largerItem.h - 1);
+  }
+
+  // Recursively place the larger item
+  placeItemAndResolveConflicts(
+    largerItem,
+    [smallerItem, largerItem],
+    occupiedCells,
+    gridWidth,
+    gridHeight
+  );
 }
 
-function canExpandRight(item: LayoutItem, occupiedCells: boolean[][]): boolean {
+function placeItem(item: LayoutItem, occupiedCells: string[][]): void {
   for (let y = item.y; y < item.y + item.h; y++) {
-    if (occupiedCells[y][item.x + item.w]) return false;
+    for (let x = item.x; x < item.x + item.w; x++) {
+      occupiedCells[y][x] = item.i;
+    }
   }
-  return true;
-}
-
-function canExpandDown(item: LayoutItem, occupiedCells: boolean[][]): boolean {
-  for (let x = item.x; x < item.x + item.w; x++) {
-    if (occupiedCells[item.y + item.h][x]) return false;
-  }
-  return true;
 }
 
 function logLayoutChanges(adjustedLayout: LayoutItem[]): void {

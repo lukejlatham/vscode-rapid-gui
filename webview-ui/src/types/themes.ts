@@ -416,13 +416,13 @@ export const spotifyBlackGreen: ColorScheme = {
   },
   elementColors: {
     main: "#1BD760",
-    lightaccent: "#ffffff",
-    darkaccent: "#323032",
+    lightaccent: "#1BD760",
+    darkaccent: "#1BD760",
   },
   elementBorderColors: {
     main: "#1BD760",
-    lightaccent: "#ffffff",
-    darkaccent: "#323032",
+    lightaccent: "#1BD760",
+    darkaccent: "#1BD760",
   },
   fontColors: {
     main: "#FFFFFF",
