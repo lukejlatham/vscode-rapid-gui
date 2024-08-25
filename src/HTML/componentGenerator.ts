@@ -108,7 +108,9 @@ function generateSingleComponentCss(
     case "Text":
       return generateTextCss(node);
     case "Label":
-      return generateLabelCss(node);
+      const css = generateLabelCss(node);
+      console.log("Label CSS: ", css);
+      return css;
     case "Icon":
       return generateIconCss(node);
     case "RadioButtons":

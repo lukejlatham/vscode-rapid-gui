@@ -45,7 +45,8 @@
           "w": 10,
           "h": 1
         }
-      ]
+      ],
+      "visibleGrid": true
     },
     "displayName": "Background",
     "custom": {},
@@ -77,7 +78,9 @@
     },
     "parent": "ROOT",
     "hidden": false,
-    "nodes": ["HeaderContainer"],
+    "nodes": [
+      "HeaderContainer"
+    ],
     "linkedNodes": {}
   },
   "HeaderContainer": {
@@ -88,14 +91,14 @@
     "props": {
       "height": 100,
       "width": 100,
-      "backgroundColor": "#FFD4A3",
-      "borderRadius": 5,
-      "borderColor": "#002B5D",
-      "padding": 0,
       "flexDirection": "row",
       "justifyContent": "space-around",
       "alignItems": "center",
       "gap": 10,
+      "backgroundColor": "#FFD4A3",
+      "borderRadius": 5,
+      "borderColor": "#002B5D",
+      "padding": 0,
       "shadowColor": "black",
       "shadowOffsetX": 1,
       "shadowOffsetY": 1,
@@ -105,7 +108,10 @@
     "custom": {},
     "parent": "HeaderGridCell",
     "hidden": false,
-    "nodes": ["HeaderLabel0", "HeaderButton2"],
+    "nodes": [
+      "HeaderLabel0",
+      "HeaderButton2"
+    ],
     "linkedNodes": {}
   },
   "HeaderLabel0": {
@@ -115,10 +121,11 @@
     "isCanvas": false,
     "props": {
       "text": "Settings",
-      "textAlign": "left",
       "fontSize": 22,
+      "fontFamily": "Open Sans",
       "fontColor": "#8B4513",
       "userEditable": true,
+      "textAlign": "left",
       "icon": "none",
       "hyperlink": "",
       "bold": true,
@@ -139,20 +146,23 @@
     "isCanvas": false,
     "props": {
       "backgroundColor": "#ffedd5",
-      "fontColor": "#8b4512",
-      "displayName": "Button",
       "fontSize": 16,
+      "fontFamily": "Open Sans",
+      "fontColor": "#8b4512",
       "borderRadius": 4,
-      "text": "Back",
       "width": 17,
       "height": 60,
       "alignment": "center",
-      "icon": "left",
+      "displayName": "Button",
+      "iconPosition": "left",
+      "vscIcon": "VscArrowLeft",
       "bordercolor": "white",
       "shadowColor": "black",
       "shadowOffsetX": 1,
       "shadowOffsetY": 1,
-      "shadowBlur": 3
+      "shadowBlur": 3,
+      "text": "Back",
+      "icon": "left"
     },
     "displayName": "Button",
     "custom": {},
@@ -180,7 +190,9 @@
     },
     "parent": "ROOT",
     "hidden": false,
-    "nodes": ["AudioSettingsContainer"],
+    "nodes": [
+      "AudioSettingsContainer"
+    ],
     "linkedNodes": {}
   },
   "AudioSettingsContainer": {
@@ -191,14 +203,14 @@
     "props": {
       "height": 100,
       "width": 100,
-      "backgroundColor": "ghostwhite",
-      "borderRadius": 5,
-      "borderColor": "#FFB870",
-      "padding": 0,
       "flexDirection": "column",
       "justifyContent": "space-around",
       "alignItems": "center",
       "gap": 10,
+      "backgroundColor": "ghostwhite",
+      "borderRadius": 5,
+      "borderColor": "#FFB870",
+      "padding": 0,
       "shadowColor": "black",
       "shadowOffsetX": 1,
       "shadowOffsetY": 1,
@@ -224,10 +236,11 @@
     "isCanvas": false,
     "props": {
       "text": "Audio Settings",
-      "textAlign": "left",
       "fontSize": 22,
+      "fontFamily": "Open Sans",
       "fontColor": "#6F4E37",
       "userEditable": true,
+      "textAlign": "left",
       "icon": "none",
       "hyperlink": "",
       "bold": true,
@@ -248,6 +261,7 @@
     "isCanvas": false,
     "props": {
       "header": "Master Volume",
+      "fontFamily": "Open Sans",
       "min": 0,
       "max": 100,
       "step": 1,
@@ -269,6 +283,7 @@
     "isCanvas": false,
     "props": {
       "header": "Sound Effects",
+      "fontFamily": "Open Sans",
       "min": 0,
       "max": 100,
       "step": 1,
@@ -290,6 +305,7 @@
     "isCanvas": false,
     "props": {
       "header": "Music",
+      "fontFamily": "Open Sans",
       "min": 0,
       "max": 100,
       "step": 1,
@@ -311,11 +327,15 @@
     "isCanvas": false,
     "props": {
       "header": "Checkboxes Header",
+      "fontFamily": "Open Sans",
+      "optionLabels": [
+        "Enable 3D Sound",
+        "Enable Surround Sound"
+      ],
       "numberOfBoxes": 2,
-      "optionLabels": ["Enable 3D Sound", "Enable Surround Sound"],
       "fontSize": 14,
       "fontColor": "black",
-      "direction": "column"
+      "direction": "row"
     },
     "displayName": "Checkboxes",
     "custom": {},
@@ -341,7 +361,9 @@
     },
     "parent": "ROOT",
     "hidden": false,
-    "nodes": ["VideoSettingsContainer"],
+    "nodes": [
+      "VideoSettingsContainer"
+    ],
     "linkedNodes": {}
   },
   "VideoSettingsContainer": {
@@ -352,14 +374,14 @@
     "props": {
       "height": 100,
       "width": 100,
-      "backgroundColor": "ghostwhite",
-      "borderRadius": 5,
-      "borderColor": "#FFB870",
-      "padding": 0,
       "flexDirection": "column",
       "justifyContent": "space-around",
       "alignItems": "center",
       "gap": 10,
+      "backgroundColor": "ghostwhite",
+      "borderRadius": 5,
+      "borderColor": "#FFB870",
+      "padding": 0,
       "shadowColor": "black",
       "shadowOffsetX": 1,
       "shadowOffsetY": 1,
@@ -385,10 +407,11 @@
     "isCanvas": false,
     "props": {
       "text": "Video Settings",
-      "textAlign": "left",
       "fontSize": 22,
+      "fontFamily": "Open Sans",
       "fontColor": "#6F4E37",
       "userEditable": true,
+      "textAlign": "left",
       "icon": "none",
       "hyperlink": "",
       "bold": true,
@@ -409,8 +432,12 @@
     "isCanvas": false,
     "props": {
       "header": "Resolution",
+      "fontFamily": "Open Sans",
+      "optionLabels": [
+        "Option 1",
+        "Option 2"
+      ],
       "numberOfOptions": 2,
-      "optionLabels": ["Option 1", "Option 2"],
       "fontSize": 14,
       "fontColor": "darkslategrey",
       "min": 0,
@@ -432,8 +459,11 @@
     "isCanvas": false,
     "props": {
       "header": "Checkboxes Header",
+      "fontFamily": "Open Sans",
+      "optionLabels": [
+        "Enable V-Sync"
+      ],
       "numberOfBoxes": 1,
-      "optionLabels": ["Enable V-Sync"],
       "fontSize": 14,
       "fontColor": "black",
       "direction": "row"
@@ -452,8 +482,11 @@
     "isCanvas": false,
     "props": {
       "header": "Checkboxes Header",
+      "fontFamily": "Open Sans",
+      "optionLabels": [
+        "Enable Fullscreen"
+      ],
       "numberOfBoxes": 1,
-      "optionLabels": ["Enable Fullscreen"],
       "fontSize": 14,
       "fontColor": "black",
       "direction": "row"
@@ -472,6 +505,7 @@
     "isCanvas": false,
     "props": {
       "header": "Brightness",
+      "fontFamily": "Open Sans",
       "min": 0,
       "max": 100,
       "step": 1,
@@ -503,7 +537,9 @@
     },
     "parent": "ROOT",
     "hidden": false,
-    "nodes": ["ControlSettingsContainer"],
+    "nodes": [
+      "ControlSettingsContainer"
+    ],
     "linkedNodes": {}
   },
   "ControlSettingsContainer": {
@@ -514,14 +550,14 @@
     "props": {
       "height": 100,
       "width": 100,
-      "backgroundColor": "ghostwhite",
-      "borderRadius": 5,
-      "borderColor": "#FFB870",
-      "padding": 0,
       "flexDirection": "column",
       "justifyContent": "space-around",
       "alignItems": "center",
       "gap": 0,
+      "backgroundColor": "ghostwhite",
+      "borderRadius": 5,
+      "borderColor": "#FFB870",
+      "padding": 0,
       "shadowColor": "black",
       "shadowOffsetX": 1,
       "shadowOffsetY": 1,
@@ -531,7 +567,10 @@
     "custom": {},
     "parent": "ControlSettingsGridCell",
     "hidden": false,
-    "nodes": ["ControlSettingsLabel0", "q9wBEzERuP"],
+    "nodes": [
+      "ControlSettingsLabel0",
+      "q9wBEzERuP"
+    ],
     "linkedNodes": {}
   },
   "ControlSettingsLabel0": {
@@ -541,10 +580,11 @@
     "isCanvas": false,
     "props": {
       "text": "Control Settings",
-      "textAlign": "left",
       "fontSize": 22,
+      "fontFamily": "Open Sans",
       "fontColor": "#6F4E37",
       "userEditable": true,
+      "textAlign": "left",
       "icon": "none",
       "hyperlink": "",
       "bold": true,
@@ -565,20 +605,23 @@
     "isCanvas": false,
     "props": {
       "backgroundColor": "#FFEDD5",
-      "fontColor": "#6f4e36",
-      "displayName": "Button",
       "fontSize": 16,
+      "fontFamily": "Open Sans",
+      "fontColor": "#6f4e36",
       "borderRadius": 4,
-      "text": "Customize Key Bindings",
       "width": 40,
       "height": 35,
       "alignment": "center",
-      "icon": "left",
+      "displayName": "Button",
+      "iconPosition": "left",
+      "vscIcon": "VscRecordKeys",
       "bordercolor": "white",
       "shadowColor": "black",
       "shadowOffsetX": 1,
       "shadowOffsetY": 1,
-      "shadowBlur": 3
+      "shadowBlur": 3,
+      "text": "Customize Key Bindings",
+      "icon": "left"
     },
     "displayName": "Button",
     "custom": {},
@@ -596,20 +639,23 @@
     "isCanvas": false,
     "props": {
       "backgroundColor": "#FFEDD5",
-      "fontColor": "#6f4e36",
-      "displayName": "Button",
       "fontSize": 16,
+      "fontFamily": "Open Sans",
+      "fontColor": "#6f4e36",
       "borderRadius": 4,
-      "text": "Customize Controller Layout",
       "width": 40,
       "height": 35,
       "alignment": "center",
-      "icon": "right",
+      "displayName": "Button",
+      "iconPosition": "left",
+      "vscIcon": "VscGame",
       "bordercolor": "white",
       "shadowColor": "black",
       "shadowOffsetX": 1,
       "shadowOffsetY": 1,
-      "shadowBlur": 3
+      "shadowBlur": 3,
+      "text": "Customize Controller Layout",
+      "icon": "right"
     },
     "displayName": "Button",
     "custom": {},
@@ -637,7 +683,9 @@
     },
     "parent": "ROOT",
     "hidden": false,
-    "nodes": ["FooterContainer"],
+    "nodes": [
+      "FooterContainer"
+    ],
     "linkedNodes": {}
   },
   "FooterContainer": {
@@ -648,14 +696,14 @@
     "props": {
       "height": 100,
       "width": 100,
-      "backgroundColor": "#FFB870",
-      "borderRadius": 5,
-      "borderColor": "#00438F",
-      "padding": 0,
       "flexDirection": "row",
       "justifyContent": "space-around",
       "alignItems": "center",
       "gap": 10,
+      "backgroundColor": "#FFB870",
+      "borderRadius": 5,
+      "borderColor": "#00438F",
+      "padding": 0,
       "shadowColor": "black",
       "shadowOffsetX": 1,
       "shadowOffsetY": 1,
@@ -665,7 +713,10 @@
     "custom": {},
     "parent": "FooterGridCell",
     "hidden": false,
-    "nodes": ["FooterButton0", "FooterButton1"],
+    "nodes": [
+      "FooterButton0",
+      "FooterButton1"
+    ],
     "linkedNodes": {}
   },
   "FooterButton0": {
@@ -675,20 +726,23 @@
     "isCanvas": false,
     "props": {
       "backgroundColor": "#31383E",
-      "fontColor": "white",
-      "displayName": "Button",
       "fontSize": 16,
+      "fontFamily": "Open Sans",
+      "fontColor": "white",
       "borderRadius": 4,
-      "text": "Save",
       "width": 40,
       "height": 60,
       "alignment": "center",
-      "icon": "left",
+      "displayName": "Button",
+      "iconPosition": "left",
+      "vscIcon": "VscSave",
       "bordercolor": "white",
       "shadowColor": "black",
       "shadowOffsetX": 1,
       "shadowOffsetY": 1,
-      "shadowBlur": 3
+      "shadowBlur": 3,
+      "text": "Save",
+      "icon": "left"
     },
     "displayName": "Button",
     "custom": {},
@@ -706,20 +760,23 @@
     "isCanvas": false,
     "props": {
       "backgroundColor": "#31383E",
-      "fontColor": "white",
-      "displayName": "Button",
       "fontSize": 16,
+      "fontFamily": "Open Sans",
+      "fontColor": "white",
       "borderRadius": 4,
-      "text": "Cancel",
       "width": 40,
       "height": 60,
       "alignment": "center",
-      "icon": "left",
+      "displayName": "Button",
+      "iconPosition": "left",
+      "vscIcon": "VscChromeClose",
       "bordercolor": "white",
       "shadowColor": "black",
       "shadowOffsetX": 1,
       "shadowOffsetY": 1,
-      "shadowBlur": 3
+      "shadowBlur": 3,
+      "text": "Cancel",
+      "icon": "left"
     },
     "displayName": "Button",
     "custom": {},
@@ -828,14 +885,14 @@
     "props": {
       "height": 50,
       "width": 100,
-      "backgroundColor": "#f8f8ff",
-      "borderRadius": 5,
-      "borderColor": "#f8f8ff",
-      "padding": 0,
       "flexDirection": "row",
       "justifyContent": "space-around",
       "alignItems": "center",
       "gap": 10,
+      "backgroundColor": "#f8f8ff",
+      "borderRadius": 5,
+      "borderColor": "#f8f8ff",
+      "padding": 0,
       "shadowColor": "black",
       "shadowOffsetX": 0,
       "shadowOffsetY": 0,
@@ -845,7 +902,10 @@
     "custom": {},
     "parent": "ControlSettingsContainer",
     "hidden": false,
-    "nodes": ["ControlSettingsButton1", "ControlSettingsButton2"],
+    "nodes": [
+      "ControlSettingsButton1",
+      "ControlSettingsButton2"
+    ],
     "linkedNodes": {}
   }
 }

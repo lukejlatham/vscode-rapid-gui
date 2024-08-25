@@ -8,9 +8,10 @@ export function generateLabelHtml(node: Node): string {
   </label>
   `;
 }
-
+// the issue is that generateLabelCss is somehow being called twice for each label, so then the css is applied incorrectly
 export function generateLabelCss(node: Node): string {
   const props = node.props;
+  console.log("Label PROPS: ", props);
   return `
   .custom-label.${node.custom.id} {
     color: ${props.fontColor || "black"};
