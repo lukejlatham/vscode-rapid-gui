@@ -209,7 +209,7 @@ function buildNodeTree(
     h: section.height,
   }));
 
-  const adjustedLayout = adjustLayoutToFitGrid(initialGrid, 10, 10);
+  const adjustedLayout = adjustLayoutToFitGrid(initialGrid);
 
   const updatedGeneratedLayout = generatedLayout.map((section, index) => {
     const adjustedCell = adjustedLayout.find((cell) => cell.i === String(index));

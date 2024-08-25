@@ -4,126 +4,52 @@ type LayoutItem = {
   y: number;
   w: number;
   h: number;
-  original?: { x: number; y: number; w: number; h: number };
 };
 
-export function adjustLayoutToFitGrid(
-  layout: LayoutItem[],
-  gridWidth: number,
-  gridHeight: number
-): LayoutItem[] {
+export function adjustLayoutToFitGrid(layout: LayoutItem[]): LayoutItem[] {
+  const gridSize = 10;
   console.log("Original layout:", JSON.stringify(layout, null, 2));
 
-  const adjustedLayout = layout.map((item) => ({
-    ...item,
-    original: { x: item.x, y: item.y, w: item.w, h: item.h },
-  }));
-
-  // Sort items by their original position (top to bottom, left to right)
-  adjustedLayout.sort((a, b) => a.y - b.y || a.x - b.x);
-
-  const occupiedCells: string[][] = Array(gridHeight)
-    .fill(null)
-    .map(() => Array(gridWidth).fill(""));
-
-  for (let item of adjustedLayout) {
-    placeItemAndResolveConflicts(item, adjustedLayout, occupiedCells, gridWidth, gridHeight);
+  // First, adjust items that go past the edges
+  for (let item of layout) {
+    if (item.x + item.w > gridSize) item.w = gridSize - item.x;
+    if (item.y + item.h > gridSize) item.h = gridSize - item.y;
   }
 
-  logLayoutChanges(adjustedLayout);
-  console.log("Final adjusted layout:", JSON.stringify(adjustedLayout, null, 2));
-
-  adjustedLayout.forEach((item) => delete item.original);
-
-  return adjustedLayout;
-}
-
-function placeItemAndResolveConflicts(
-  item: LayoutItem,
-  allItems: LayoutItem[],
-  occupiedCells: string[][],
-  gridWidth: number,
-  gridHeight: number
-): void {
-  // Ensure the item is within grid boundaries
-  item.x = Math.min(item.x, gridWidth - 1);
-  item.y = Math.min(item.y, gridHeight - 1);
-  item.w = Math.min(item.w, gridWidth - item.x);
-  item.h = Math.min(item.h, gridHeight - item.y);
-
-  for (let y = item.y; y < item.y + item.h; y++) {
-    for (let x = item.x; x < item.x + item.w; x++) {
-      if (occupiedCells[y][x] !== "" && occupiedCells[y][x] !== item.i) {
-        const conflictingItem = allItems.find((i) => i.i === occupiedCells[y][x])!;
-        resolveConflict(item, conflictingItem, occupiedCells, gridWidth, gridHeight);
+  // Then, resolve overlaps
+  for (let i = 0; i < layout.length; i++) {
+    for (let j = i + 1; j < layout.length; j++) {
+      if (itemsOverlap(layout[i], layout[j])) {
+        resolveOverlap(layout[i], layout[j]);
       }
     }
   }
 
-  placeItem(item, occupiedCells);
+  console.log("Adjusted layout:", JSON.stringify(layout, null, 2));
+  return layout;
 }
 
-function resolveConflict(
-  item1: LayoutItem,
-  item2: LayoutItem,
-  occupiedCells: string[][],
-  gridWidth: number,
-  gridHeight: number
-): void {
-  const item1Area = item1.w * item1.h;
-  const item2Area = item2.w * item2.h;
-  const largerItem = item1Area >= item2Area ? item1 : item2;
-  const smallerItem = item1Area >= item2Area ? item2 : item1;
+function itemsOverlap(a: LayoutItem, b: LayoutItem): boolean {
+  return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+}
 
-  // Remove the larger item from the grid
-  for (let y = largerItem.y; y < largerItem.y + largerItem.h; y++) {
-    for (let x = largerItem.x; x < largerItem.x + largerItem.w; x++) {
-      if (occupiedCells[y][x] === largerItem.i) {
-        occupiedCells[y][x] = "";
-      }
+function resolveOverlap(a: LayoutItem, b: LayoutItem): void {
+  const overlapX = Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x);
+  const overlapY = Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y);
+
+  if (overlapX < overlapY) {
+    // Adjust horizontally
+    if (a.x < b.x) {
+      a.w -= overlapX;
+    } else {
+      b.w -= overlapX;
     }
-  }
-
-  // Resize the larger item
-  if (largerItem.w > largerItem.h) {
-    largerItem.w = Math.max(1, largerItem.w - 1);
   } else {
-    largerItem.h = Math.max(1, largerItem.h - 1);
-  }
-
-  // Recursively place the larger item
-  placeItemAndResolveConflicts(
-    largerItem,
-    [smallerItem, largerItem],
-    occupiedCells,
-    gridWidth,
-    gridHeight
-  );
-}
-
-function placeItem(item: LayoutItem, occupiedCells: string[][]): void {
-  for (let y = item.y; y < item.y + item.h; y++) {
-    for (let x = item.x; x < item.x + item.w; x++) {
-      occupiedCells[y][x] = item.i;
+    // Adjust vertically
+    if (a.y < b.y) {
+      a.h -= overlapY;
+    } else {
+      b.h -= overlapY;
     }
   }
-}
-
-function logLayoutChanges(adjustedLayout: LayoutItem[]): void {
-  adjustedLayout.forEach((item) => {
-    if (
-      item.x !== item.original!.x ||
-      item.y !== item.original!.y ||
-      item.w !== item.original!.w ||
-      item.h !== item.original!.h
-    ) {
-      console.log(`Item ${item.i} was adjusted:`);
-      console.log(
-        `  Before: x=${item.original!.x}, y=${item.original!.y}, w=${item.original!.w}, h=${
-          item.original!.h
-        }`
-      );
-      console.log(`  After:  x=${item.x}, y=${item.y}, w=${item.w}, h=${item.h}`);
-    }
-  });
 }
