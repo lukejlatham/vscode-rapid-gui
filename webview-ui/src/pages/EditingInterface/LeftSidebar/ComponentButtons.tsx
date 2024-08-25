@@ -47,6 +47,7 @@ const useStyles = makeStyles({
       display: "flex",
       flexDirection: "column",
       gap: "10px",
+      width: "90%",
     },
     fontPreview: {
       marginLeft: "10px",
@@ -79,8 +80,8 @@ const ComponentButtons: React.FC<{ classes: any }> = ({ classes }) => {
 <Caption1 className={styles.caption}>
         Drag components onto grid cells to add them to the canvas
       </Caption1>
-            <Button 
-            className={classes.componentButtons} icon={<ButtonIcon />} size='medium' appearance='secondary' ref={ref => {
+            <Button className={classes.componentButtons}
+             icon={<ButtonIcon />} size='medium' appearance='secondary' ref={ref => {
                 if (ref !== null) {
                     connectors.create(ref, <UserButton {...ButtonDefaultProps} />);
                 }
