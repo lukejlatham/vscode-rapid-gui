@@ -47,7 +47,7 @@ export async function generateContainerXaml(
   //   xaml += `${indent}  <StackPanel`;
   // }
 
-  xaml += `${indent} <StackPangel`;
+  xaml += `${indent} <StackPanel`;
 
   xaml += ` Orientation="${props.flexDirection === "row" ? "Horizontal" : "Vertical"}"`;
   xaml += ` Spacing="${props.gap || 0}"`;
