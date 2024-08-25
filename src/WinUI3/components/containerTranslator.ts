@@ -11,33 +11,25 @@ export async function generateContainerXaml(
 
   let xaml = `${indent}<Border`;
 
-  // Add Grid properties
-  if (props.width) {
-    xaml += ` MinWidth="${props.width}"`;
-  }
-  if (props.height) {
-    xaml += ` MinHeight="${props.height}"`;
-  }
-
   if (props.backgroundColor) {
     xaml += ` Background="${props.backgroundColor}"`;
   }
 
   if (props.borderColor) {
     xaml += ` BorderBrush="${props.borderColor}"`;
+    xaml += ` BorderThickness="1"`;
   }
   if (props.borderThickness) {
     xaml += ` BorderThickness="${props.borderThickness}"`;
   }
-  if (props.cornerRadius) {
+  if (props.borderRadius) {
     xaml += ` CornerRadius="${props.borderRadius}"`;
   }
   if (props.padding) {
     xaml += ` Padding="${props.padding}"`;
   }
 
-  // xaml += ` HorizontalAlignment="${mapJustifyContent(props.justifyContent)}"`;
-  // xaml += ` VerticalAlignment="${mapAlignItems(props.alignItems)}"`;
+  
   xaml += `>\n`;
 
   // if (props.padding) {
@@ -51,6 +43,8 @@ export async function generateContainerXaml(
 
   xaml += ` Orientation="${props.flexDirection === "row" ? "Horizontal" : "Vertical"}"`;
   xaml += ` Spacing="${props.gap || 0}"`;
+  xaml += ` HorizontalAlignment="${mapJustifyContent(props.justifyContent)}"`;
+  xaml += ` VerticalAlignment="${mapAlignItems(props.alignItems)}"`;
   xaml += `>\n`;
 
   // Generate child components
