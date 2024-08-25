@@ -18,7 +18,6 @@ export async function generateContainerXaml(
   if (props.height) {
     xaml += ` MinHeight="${props.height}"`;
   }
-  xaml += `>\n`;
 
   if (props.backgroundColor) {
     xaml += ` Background="${props.backgroundColor}"`;
