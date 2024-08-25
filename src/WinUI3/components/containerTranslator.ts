@@ -40,11 +40,12 @@ export async function generateContainerXaml(
   // }
 
   xaml += `${indent} <StackPanel`;
-
   xaml += ` Orientation="${props.flexDirection === "row" ? "Horizontal" : "Vertical"}"`;
   xaml += ` Spacing="${props.gap || 0}"`;
   xaml += ` HorizontalAlignment="${mapJustifyContent(props.justifyContent)}"`;
   xaml += ` VerticalAlignment="${mapAlignItems(props.alignItems)}"`;
+  xaml += ` Padding="${props.padding || 10}"`;
+  xaml += ` Margin="${props.margin || 5}"`;
   xaml += `>\n`;
 
   // Generate child components
@@ -57,12 +58,8 @@ export async function generateContainerXaml(
     }
   }
 
-  if (props.padding) {
-    xaml += `${indent}    </StackPanel>\n`;
-    xaml += `${indent}  </Border>\n`;
-  } else {
-    xaml += `${indent}  </StackPanel>\n`;
-  }
+  xaml += `${indent}    </StackPanel>\n`;
+  xaml += `${indent}  </Border>\n`;
   return xaml;
 }
 
@@ -75,11 +72,11 @@ function mapJustifyContent(justifyContent: string): string {
     case "flex-end":
       return "Right";
     case "space-between":
-      return "Stretch";
+      return "Center";
     case "space-around":
-      return "Stretch"; // XAML doesn't have a direct equivalent; Stretch is a close match
+      return "Center"; // XAML doesn't have a direct equivalent; Stretch is a close match
     default:
-      return "Stretch";
+      return "Center";
   }
 }
 
