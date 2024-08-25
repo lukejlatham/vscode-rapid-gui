@@ -406,12 +406,12 @@ export const spotifyBlackGreen: ColorScheme = {
   backgroundColor: "#000000",
   sectionColors: {
     main: "#2A2929",
-    lightaccent: "#1DB954",
+    lightaccent: "#151515",
     darkaccent: "#323032",
   },
   sectionBorderColors: {
     main: "#2A2929",
-    lightaccent: "#1DB954",
+    lightaccent: "#151515",
     darkaccent: "#323032",
   },
   elementColors: {
