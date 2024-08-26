@@ -30,6 +30,9 @@ export function generateSliderHtml(node: Node): string {
 
 export function generateSliderCss(node: Node): string {
   const props = node.props;
+  const backgroundColor = props.backgroundColor || '#FFEDD5';
+  const trackColor = '#ddd'; // Default unfilled track color
+
   return `
   .slider-container.${node.custom.id} {
     display: flex;
@@ -47,10 +50,20 @@ export function generateSliderCss(node: Node): string {
     width: 100%;
     height: 10px;
     border-radius: 5px;
-    background: ${props.backgroundColor}; 
+    background: ${trackColor}; /* Color of the unfilled track */
     outline: none;
     margin: 10px 0;
-    accent-color: ${props.backgroundColor}; 
+    accent-color: ${backgroundColor}; /* Color of the filled portion */
+  }
+  
+  .slider-container.${node.custom.id} input[type="range"]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 10px;
+    cursor: pointer;
+    background: linear-gradient(to right, ${backgroundColor} 0%, ${backgroundColor} var(--value), ${trackColor} var(--value), ${trackColor} 100%);
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
   
   .slider-container.${node.custom.id} input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
@@ -58,7 +71,24 @@ export function generateSliderCss(node: Node): string {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: ${props.backgroundColor};
+    background: ${backgroundColor}; /* Thumb color */
+    cursor: pointer;
+    margin-top: -6px; /* Align thumb with track */
+  }
+  
+  .slider-container.${node.custom.id} input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: ${backgroundColor}; /* Thumb color */
+    cursor: pointer;
+  }
+  
+  .slider-container.${node.custom.id} input[type="range"]::-ms-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: ${backgroundColor}; /* Thumb color */
     cursor: pointer;
   }
   

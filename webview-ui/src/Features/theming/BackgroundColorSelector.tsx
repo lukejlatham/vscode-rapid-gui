@@ -27,7 +27,7 @@ export const BackgroundColorSelector: React.FC = () => {
 
   return (
     <div>
-      <div className={styles.label}>
+      <div className={styles.label} >
         <Label>Background Color</Label>
         <Tooltip
           content="Change the color of the background."
@@ -43,6 +43,7 @@ export const BackgroundColorSelector: React.FC = () => {
         </Tooltip>
       </div>
       <input
+        style={{width: "90%"}}
         className={styles.colorInput}
         type="color"
         defaultValue={props.backgroundColor}

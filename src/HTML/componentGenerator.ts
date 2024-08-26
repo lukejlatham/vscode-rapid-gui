@@ -87,6 +87,7 @@ function generateSingleComponentHtml(
       return `<!-- Unknown component type: ${node.type.resolvedName} -->\n`;
   }
 }
+let processedNodes = new Set<string>();
 
 function generateSingleComponentCss(
   node: Node,
@@ -97,9 +98,19 @@ function generateSingleComponentCss(
     console.error("Invalid node structure:", node);
     return "/* Error: Invalid component structure */";
   }
+
+  // Check if the node has already been processed
+  if (processedNodes.has(node.custom.id)) {
+    return "";
+  }
+
   const componentId = getComponentId(node.type.resolvedName);
   node.custom = node.custom || {};
   node.custom.id = componentId;
+
+  // Mark the node as processed
+  processedNodes.add(node.custom.id);
+
   switch (node.type.resolvedName) {
     case "Button":
       return generateButtonCss(node);
@@ -129,3 +140,4 @@ function generateSingleComponentCss(
       return `/* Unknown component type: ${node.type.resolvedName} */\n`;
   }
 }
+

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Node } from "../JsonParser";
+import { convertColor } from "./colortranslator";
 
 export function generateIconXaml(node: Node, indent: string = ""): string {
   const props = node.props;
@@ -10,11 +11,7 @@ export function generateIconXaml(node: Node, indent: string = ""): string {
   xaml += ` Glyph="${glyph}"`;
   xaml += ` FontSize="${props.iconSize}"`;
 
-  if (props.iconColor) {
-    xaml += ` Foreground="${formatColor(props.iconColor)}"`;
-  } else {
-    xaml += ` Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"`;
-  }
+  xaml += ` Foreground="${convertColor(props.iconColor)}"`;
 
   xaml += "/>";
 

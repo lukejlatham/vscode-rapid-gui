@@ -52,9 +52,9 @@ export const Input: UserComponent<InputProps> = (props) => {
           fontSize,
           fontFamily,
           color: fontColor,
-          backgroundColor,
+          backgroundColor: backgroundColor,
           borderRadius,
-          borderColor,
+          border: `1px solid ${borderColor}`,
         }}
       />
     </div>

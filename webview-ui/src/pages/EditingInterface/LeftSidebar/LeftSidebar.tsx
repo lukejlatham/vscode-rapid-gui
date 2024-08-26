@@ -9,7 +9,6 @@ import {
   Theme,
   Tooltip,
 } from "@fluentui/react-components";
-import Header from "./Header";
 import ComponentButtons from "./ComponentButtons";
 import ProjectManagement from "./ProjectManagementButtons";
 import LayoutManagement from "./LayoutManagement";
@@ -46,28 +45,10 @@ const useStyles = makeStyles({
     gap: "10px",
     padding: "5px",
   },
-    boxShadowAnimation: {
-      outline: `2px solid ${tokens.colorBrandForeground1}`,
-    animationPlayState: "running",
-    animationDelay: "0s",
-    animationTimingFunction: "ease",
-    animationDirection: "alternate",
-    animationDuration: "2s",
-    animationIterationCount: "infinite",
-    userSelect: "none",
-    animationName: {
-      from: {
-        boxShadow: `0 0 0 0 ${tokens.colorBrandForeground1}`,
-      },
-      to: {
-        boxShadow: `0 0  10px ${tokens.colorBrandForeground1} `,
-      },
-    },
-  },
   contentContainer: {
     padding: "15px",
     flexGrow: 1, // Allow content to grow and take available space
-    flexShrink: 1,
+    flexShrink: 0,
     height: "100%",
     boxSizing: "border-box",
     gap: "10px",
@@ -76,9 +57,10 @@ const useStyles = makeStyles({
     display: "flex",
     justifyContent: "start",
     height: "100%",
+    flexShrink: 0,
   },
   sidebarExtended: {
-    width: "280px",
+    width: "500px",
   },
   tabsBar: {
     padding: "10px",
@@ -283,14 +265,14 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
           <Tooltip content={<FormattedMessage id="leftSidebar.new" defaultMessage="New" />} relationship="label" positioning="after" appearance="inverted">
           <Button onClick={() => setIsRestartDialogOpen(true)} appearance="primary" icon={<ArrowResetFilled />} size={
                     accessibility.selectedAccessibility === 'yes' ? 'large' : 'medium'
-                }>
+                } style={{width: "100%"}}>
             {accessibility.selectedAccessibility === 'yes' && (<FormattedMessage
               id="leftSidebar.new"
               defaultMessage="New"
             />)}
           </Button>
           </Tooltip>
-          <RestartDialog isOpen={isRestartDialogOpen} onClose={() => setIsRestartDialogOpen(false)} openStartProjectDialog={openStartProjectDialog} />
+          <RestartDialog isOpen={isRestartDialogOpen} onClose={() => setIsRestartDialogOpen(false)} openStartProjectDialog={openStartProjectDialog} setPages={setPages} />
         </div>
       </div>
       <div className={localClasses.contentContainer}>{renderContent()}</div>

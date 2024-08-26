@@ -9,47 +9,40 @@ export async function generateContainerXaml(
 ): Promise<string> {
   const props = node.props;
 
-  let xaml = `${indent}<Grid`;
+  let xaml = `${indent}<Border`;
 
-  // Add Grid properties
-  if (props.width) {
-    xaml += ` Width="${props.width}"`;
-  }
-  if (props.height) {
-    xaml += ` Height="${props.height}"`;
-  }
-  xaml += `>\n`;
-
-  // Add Rectangle for background and border
-  xaml += `${indent}  <Rectangle`;
   if (props.backgroundColor) {
-    xaml += ` Fill="${props.backgroundColor}"`;
+    xaml += ` Background="${props.backgroundColor}"`;
   }
+
   if (props.borderColor) {
-    xaml += ` Stroke="${props.borderColor}" StrokeThickness="1"`;
+    xaml += ` BorderBrush="${props.borderColor}"`;
+    xaml += ` BorderThickness="1"`;
+  }
+  if (props.borderThickness) {
+    xaml += ` BorderThickness="${props.borderThickness}"`;
   }
   if (props.borderRadius) {
-    xaml += ` RadiusX="${props.borderRadius}" RadiusY="${props.borderRadius}"`;
+    xaml += ` CornerRadius="${props.borderRadius}"`;
   }
-  xaml += ` />\n`;
-
-  // Choose between StackPanel and VariableSizedWrapGrid based on needs
-  const useVariableSizedWrapGrid = props.flexWrap === "wrap" || props.flexDirection === "row";
-
-  if (useVariableSizedWrapGrid) {
-    xaml += `${indent}  <VariableSizedWrapGrid`;
-    xaml += ` Orientation="${props.flexDirection === "row" ? "Horizontal" : "Vertical"}"`;
-  } else {
-    xaml += `${indent}  <StackPanel`;
-    xaml += ` Orientation="${props.flexDirection === "row" ? "Horizontal" : "Vertical"}"`;
-  }
-
   if (props.padding) {
-    xaml += ` Margin="${props.padding}"`;
+    xaml += ` Padding="${props.padding}"`;
   }
-  if (props.gap) {
-    xaml += ` Spacing="${props.gap}"`;
-  }
+
+  
+  xaml += `>\n`;
+
+  // if (props.padding) {
+  //   xaml += `${indent}  <Border Padding="${props.padding}">\n`;
+  //   xaml += `${indent}    <StackPanel`;
+  // } else {
+  //   xaml += `${indent}  <StackPanel`;
+  // }
+
+  xaml += `${indent} <StackPanel`;
+
+  xaml += ` Orientation="${props.flexDirection === "row" ? "Horizontal" : "Vertical"}"`;
+  xaml += ` Spacing="${props.gap || 0}"`;
   xaml += ` HorizontalAlignment="${mapJustifyContent(props.justifyContent)}"`;
   xaml += ` VerticalAlignment="${mapAlignItems(props.alignItems)}"`;
   xaml += `>\n`;
@@ -64,10 +57,12 @@ export async function generateContainerXaml(
     }
   }
 
-  xaml += useVariableSizedWrapGrid
-    ? `${indent}  </VariableSizedWrapGrid>\n`
-    : `${indent}  </StackPanel>\n`;
-  xaml += `${indent}</Grid>\n`;
+  if (props.padding) {
+    xaml += `${indent}    </StackPanel>\n`;
+    xaml += `${indent}  </Border>\n`;
+  } else {
+    xaml += `${indent}  </StackPanel>\n`;
+  }
   return xaml;
 }
 
@@ -97,6 +92,6 @@ function mapAlignItems(alignItems: string): string {
     case "flex-end":
       return "Bottom";
     default:
-      return "Stretch";
+      return "Center";
   }
 }

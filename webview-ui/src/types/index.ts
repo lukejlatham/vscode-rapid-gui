@@ -148,8 +148,8 @@ export const inputSchema = z.object({
   fontSize: z.number().default(14),
   fontFamily: z.string().default("Open Sans"),
   fontColor: z.string().default(tokens.colorBrandBackground2),
-  backgroundColor: z.string().default("#FFFFFF"),
-  borderColor: z.string().optional(),
+  backgroundColor: z.string().default(tokens.colorBrandForeground2Pressed),
+  borderColor: z.string().default(tokens.colorBrandBackground2),
   placeholder: z.string().default("Enter text"),
   borderRadius: z.number().default(4),
 });

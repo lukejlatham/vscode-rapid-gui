@@ -39,9 +39,11 @@ const SaveButton: React.FC<{ classes: any, pages: Page[], currentPageIndex: numb
     return (
         <>
             <Tooltip content={<FormattedMessage id="leftSidebar.Save" defaultMessage="Save" />} relationship="label" positioning="after" appearance="inverted">
-                <Button size={
-                    accessibility.selectedAccessibility === 'yes' ? 'large' : 'medium'
-                } className={classes.button} icon={<DocumentSave24Regular />}
+                <Button
+                    style={{ width: "100%" }}
+                    size={
+                        accessibility.selectedAccessibility === 'yes' ? 'large' : 'medium'
+                    } className={classes.button} icon={<DocumentSave24Regular />}
                     onClick={handleSave}>
                     {accessibility.selectedAccessibility === 'yes' && (<FormattedMessage id="leftSidebar.Save" defaultMessage="Save" />)}
                 </Button>
