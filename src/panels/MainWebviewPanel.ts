@@ -11,12 +11,12 @@ import {
 import { getUri } from "../utilities/getUri";
 import { getNonce } from "../utilities/getNonce";
 import { getAzureOpenaiApiKeys } from "../utilities/azureUtilities";
-import { handleFileSave, handleFileLoad } from "../utilities/projectSaveUtilities";
+import { handleFileSave, handleFileLoad } from "../projectManagement/projectSaveUtilities";
 import { processSketch, processTextDescription } from "../generateLayout/orchestrator";
 import { processCopilotMessages } from "../copilot";
-import { handleImageUpload } from "../utilities/imageSave";
+import { handleImageUpload } from "../uploadImage/imageSave";
 import { handleImageGenerate } from "../generateImage/handleImageGeneration";
-import { handleGetUploadedImages } from "../utilities/handleGetUploadedImages";
+import { handleGetUploadedImages } from "../uploadImage/handleGetUploadedImages";
 import { convertToXaml } from "../utilities/xamlConverter";
 import { convertToHtml } from "../utilities/convertToHtml";
 
