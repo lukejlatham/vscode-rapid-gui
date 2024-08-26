@@ -13,8 +13,9 @@ export function generateIconXaml(node: Node, indent: string = ""): string {
 
   xaml += ` Glyph="${glyph}"`;
   xaml += ` FontSize="${props.iconSize}"`;
-
   xaml += ` Foreground="${convertColor(props.iconColor)}"`;
+  xaml += ` HorizontalAlignment="Center" VerticalAlignment="Center"`;
+  xaml += ` Margin="5"`;
 
   xaml += "/>";
 
