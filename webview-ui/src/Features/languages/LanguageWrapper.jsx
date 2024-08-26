@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { IntlProvider } from "react-intl";
-import French from "../Features/languages/fr.json";
-import English from "../Features/languages/en.json";
+import French from "./fr.json";
+import English from "./en.json";
 
 export const LanguageContext = React.createContext();
 

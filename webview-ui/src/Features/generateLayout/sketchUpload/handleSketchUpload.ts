@@ -1,4 +1,4 @@
-import { vscode } from "../../utilities/vscode";
+import { vscode } from "../../../utilities/vscode";
 
 function encodeImage(file: File): Promise<string> {
   return new Promise((resolve, reject) => {

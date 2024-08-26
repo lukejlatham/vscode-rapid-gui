@@ -1,4 +1,4 @@
-import { vscode } from "../../utilities/vscode";
+import { vscode } from "../../../utilities/vscode";
 
 async function handleTextUpload(textInput: string): Promise<void> {
   try {

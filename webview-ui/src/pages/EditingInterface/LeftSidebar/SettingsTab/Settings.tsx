@@ -16,7 +16,7 @@ import {
   teamsHighContrastTheme,
   Caption1,
 } from "@fluentui/react-components";
-import { LanguageContext } from "../../../../components/Wrapper";
+import { LanguageContext } from "../../../../Features/languages/LanguageWrapper";
 import { AccessibilityContext } from "../../EditingInterface";
 import { FormattedMessage } from "react-intl";
 

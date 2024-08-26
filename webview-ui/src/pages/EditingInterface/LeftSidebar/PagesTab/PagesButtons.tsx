@@ -12,7 +12,7 @@ import {
   Body2,
   Caption1,
 } from "@fluentui/react-components";
-import { RenamePageDialog } from "../../../../components/RenamePageDialog";
+import { RenamePageDialog } from "./RenamePageDialog";
 import { DocumentAddRegular, DeleteRegular, SquareEraserRegular } from "@fluentui/react-icons";
 import { Page } from "../../../../types";
 import { FormattedMessage } from "react-intl";

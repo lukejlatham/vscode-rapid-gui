@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Dialog,
   DialogSurface,
@@ -9,33 +10,27 @@ import {
   Button,
   Spinner,
   Text,
-  Card,
-  CardHeader,
+  Field,
   tokens,
   makeStyles,
+  Textarea,
 } from "@fluentui/react-components";
 import {
-  Image24Regular,
   ArrowUpload24Regular,
   CheckmarkCircle24Filled,
   CircleHint24Filled,
 } from "@fluentui/react-icons";
-import { handleSketchUpload } from "./handleSketchUpload";
+import { handleTextUpload } from "./handleTextUpload";
 import { v4 as uuidv4 } from "uuid";
-import { Page } from "../../types";
-import { GenerationLoader } from "./generationLoader";
+import { Page } from "../../../types";
+import { GenerationLoader } from "../generationLoader";
 
 const useStyles = makeStyles({
   content: {
     display: "flex",
     flexDirection: "column",
-    gap: tokens.spacingVerticalM,
-  },
-  imagePreview: {
-    width: "100%",
-    height: "200px",
-    objectFit: "cover",
-    borderRadius: tokens.borderRadiusMedium,
+    gap: tokens.spacingVerticalL,
+    marginBottom: tokens.spacingVerticalM,
   },
   spinner: {
     display: "flex",
@@ -44,7 +39,7 @@ const useStyles = makeStyles({
     height: "100px",
     gap: tokens.spacingHorizontalM,
   },
-  noImageText: {
+  noInputText: {
     textAlign: "center",
     padding: tokens.spacingVerticalL,
   },
@@ -75,7 +70,7 @@ interface UploadDialogProps {
 
 const PROCESSING_STAGES = ["Generating layout", "Generating elements", "Refining properties"];
 
-export const UploadDialog: React.FC<UploadDialogProps> = ({
+export const TextDialog: React.FC<UploadDialogProps> = ({
   isOpen,
   onClose,
   closeStartDialog,
@@ -83,11 +78,11 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({
   pages,
   setPages,
 }) => {
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [textInput, setTextInput] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [uiDescription, setUIDescription] = useState<string | null>(null);
   const [currentStage, setCurrentStage] = useState<number>(-1);
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const navigate = useNavigate();
   const styles = useStyles();
 
   useEffect(() => {
@@ -97,23 +92,23 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({
       if (message.command === "processingStage") {
         const stageIndex = PROCESSING_STAGES.indexOf(message.stage);
         setCurrentStage(stageIndex !== -1 ? stageIndex : -1);
-      } else if (message.command === "sketchProcessed") {
+      } else if (message.command === "textDescriptionProcessed") {
         setUIDescription(message.description);
         setLoading(false);
         setCurrentStage(PROCESSING_STAGES.length);
 
         if (mode === "start") {
-          const sketch = { id: uuidv4(), name: `Page 1`, content: JSON.parse(message.content) };
-          setPages([sketch]);
+          const text = { id: uuidv4(), name: `Page 1`, content: JSON.parse(message.content) };
+          setPages([text]);
         } else if (mode === "add") {
-          const sketch = {
+          const text = {
             id: uuidv4(),
             name: `Page ${pages.length + 1}`,
             content: JSON.parse(message.content),
           };
-          setPages([...pages, sketch]);
+          setPages([...pages, text]);
         }
-        setSelectedImage(null);
+        setTextInput("");
         setUIDescription(null);
         setLoading(false);
         setCurrentStage(-1);
@@ -129,21 +124,14 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({
     };
   }, [closeStartDialog, onClose, mode, setPages, pages]);
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setSelectedImage(file);
-    }
-  };
-
-  const handleProcessSketch = async () => {
-    if (selectedImage) {
+  const handleProcessText = async () => {
+    if (textInput) {
       setLoading(true);
       setCurrentStage(0);
       try {
-        await handleSketchUpload(selectedImage);
+        await handleTextUpload(textInput);
       } catch (error) {
-        console.error("Error uploading image:", error);
+        console.error("Error uploading text:", error);
         setLoading(false);
         setCurrentStage(-1);
       }
@@ -151,7 +139,7 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({
   };
 
   const handleClose = () => {
-    setSelectedImage(null);
+    setTextInput("");
     setUIDescription(null);
     setLoading(false);
     setCurrentStage(-1);
@@ -162,52 +150,33 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({
     <Dialog open={isOpen} onOpenChange={(event, data) => !data.open && handleClose()}>
       <DialogSurface>
         <DialogBody>
-          <DialogTitle>Generate From Sketch</DialogTitle>
+          <DialogTitle>Generate From Text</DialogTitle>
           <DialogContent>
             <div className={styles.content}>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                style={{ display: "none" }}
-                ref={fileInputRef}
-              />
-              {!selectedImage ? (
-                <Text className={styles.noImageText}>
-                  No image selected. Click "Select Image" to upload.
-                </Text>
-              ) : (
-                <Card>
-                  <CardHeader
-                    header={<Text weight="semibold">{selectedImage.name}</Text>}
-                    description={<Text>{(selectedImage.size / 1024 / 1024).toFixed(2)} MB</Text>}
-                  />
-                </Card>
-              )}
-              {loading && (
-                <div className={styles.spinner}>
-                  <GenerationLoader />
-                </div>
-              )}
-
+              <Field>
+                <Textarea
+                  placeholder="Enter your project description here"
+                  value={textInput}
+                  onChange={(e) => setTextInput(e.target.value)}
+                  disabled={loading}
+                  rows={5}
+                />
+              </Field>
               {uiDescription && <Text>UI Description generated successfully!</Text>}
             </div>
           </DialogContent>
           <DialogActions fluid>
+            {loading && (
+              <div>
+                <GenerationLoader />
+              </div>
+            )}
             <Button
-              onClick={() => fileInputRef.current?.click()}
-              appearance="secondary"
-              icon={<Image24Regular />}
-              disabled={loading}>
-              {selectedImage ? "Change Image" : "Select Image"}
-            </Button>
-
-            <Button
-              onClick={handleProcessSketch}
+              onClick={handleProcessText}
               appearance="primary"
-              disabled={!selectedImage || loading}
+              disabled={!textInput || loading}
               icon={<ArrowUpload24Regular />}>
-              {loading ? "Generating..." : "Process Sketch"}{" "}
+              {loading ? "Generating..." : "Process Text"}
             </Button>
           </DialogActions>
         </DialogBody>
