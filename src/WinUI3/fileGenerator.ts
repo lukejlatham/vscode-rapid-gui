@@ -261,15 +261,6 @@ export class FileGenerator {
     this.createFile("README.md", content);
   }
 
-  // private createGlobalJson() {
-  //   const content = JSON.stringify({
-  //     sdk: {
-  //       version: "6.0.0" 
-  //     }
-  //   }, null, 2);
-  //   this.createFile("../global.json", content);
-  // }
-
   private createVSCodeFiles() {
     const vscodeDir = path.join(path.dirname(this.outputPath), ".vscode");
     if (!fs.existsSync(vscodeDir)) {
