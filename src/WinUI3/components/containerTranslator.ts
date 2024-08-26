@@ -9,7 +9,9 @@ export async function generateContainerXaml(
 ): Promise<string> {
   const props = node.props;
 
+
   let xaml = `${indent}<Border`;
+
 
   if (props.backgroundColor) {
     xaml += ` Background="${props.backgroundColor}"`;
