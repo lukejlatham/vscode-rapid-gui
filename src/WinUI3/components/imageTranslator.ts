@@ -6,32 +6,28 @@ import axios from "axios";
 export async function generateImageXaml(
   node: Node,
   indent: string = "",
-  projectPath: string
+  projectPath: string,
+  extraImages: string[] = []
 ): Promise<string> {
   const props = node.props;
   let xaml = `${indent}<Image`;
 
-  // Set Stretch property
   xaml += ` Stretch="UniformToFill"`;
 
-  // Set Width and Height
   xaml += ` Width="${props.width || 100}"`;
   xaml += ` Height="${props.height || 100}"`;
 
-  // Handle image source
   if (props.src) {
-    const imageSource = await handleImageSource(props.src, projectPath);
+    const imageSource = await handleImageSource(props.src, projectPath, extraImages);
     xaml += ` Source="${imageSource}"`;
   } else {
     console.warn("Image source is missing");
   }
 
-  // Add alt text if provided
   if (props.alt) {
     xaml += ` AutomationProperties.Name="${props.alt}"`;
   }
 
-  // Add HorizontalAlignment if specified
   if (props.alignment) {
     xaml += ` HorizontalAlignment="${props.alignment}"`;
   }
@@ -41,7 +37,11 @@ export async function generateImageXaml(
   return xaml + "\n";
 }
 
-async function handleImageSource(src: string, projectPath: string): Promise<string> {
+async function handleImageSource(
+  src: string,
+  projectPath: string,
+  extraImages: string[]
+): Promise<string> {
   const assetsPath = path.join(projectPath, "Assets");
   if (!fs.existsSync(assetsPath)) {
     fs.mkdirSync(assetsPath, { recursive: true });
@@ -56,6 +56,7 @@ async function handleImageSource(src: string, projectPath: string): Promise<stri
     copyImageToAssets(src, destPath);
   }
 
+  extraImages.push(destPath);
   return `/Assets/${fileName}`;
 }
 
@@ -89,7 +90,7 @@ export function copyImageToAssets(sourcePath: string, destPath: string): void {
 
 export function findImageNodes(content: any): Node[] {
   const imageNodes: Node[] = [];
-  
+
   function traverse(node: any) {
     if (node.type && node.type.resolvedName === "Image") {
       imageNodes.push(node);
@@ -101,7 +102,7 @@ export function findImageNodes(content: any): Node[] {
       Object.values(node.linkedNodes).forEach(traverse);
     }
   }
-  
+
   traverse(content);
   return imageNodes;
 }
