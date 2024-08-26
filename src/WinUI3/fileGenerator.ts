@@ -26,6 +26,7 @@ export class FileGenerator {
     defaultPublisher?: string
   ) {
     this.projectName = projectName;
+    this.projectPath = outputPath;
     this.outputPath = outputPath;
     this.templateManager = templateManager;
     this.namespace = namespace;
@@ -330,6 +331,7 @@ export class FileGenerator {
   }
 
   private async processAllImages(pages: Page[]) {
+    this.extraImages = [];
     for (const page of pages) {
       const imageNodes = findImageNodes(page.content);
       for (const node of imageNodes) {

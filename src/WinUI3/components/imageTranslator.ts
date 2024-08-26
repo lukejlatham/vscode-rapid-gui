@@ -41,10 +41,16 @@ export async function handleImageSource(src: string, projectPath: string): Promi
     fs.mkdirSync(assetsPath, { recursive: true });
   }
 
-  const fileName = path.basename(src);
+  const fileName = path.basename(decodeURIComponent(src));
   const destPath = path.join(assetsPath, fileName);
 
-  if (isUrl(src)) {
+  if (src.startsWith("https://file+.vscode-resource.vscode-cdn.net/")) {
+    // Handle VSCode resource URLs
+    const localPath = decodeURIComponent(
+      src.replace("https://file+.vscode-resource.vscode-cdn.net/", "")
+    );
+    fs.copyFileSync(localPath, destPath);
+  } else if (isUrl(src)) {
     await downloadImage(src, destPath);
   } else if (src.startsWith("data:image")) {
     // Handle base64 encoded images (uploaded or AI-generated)
