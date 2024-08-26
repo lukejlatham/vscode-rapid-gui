@@ -10,7 +10,7 @@ const useStyles = makeStyles({
     flexDirection: "column",
     gap: "10px",
     paddingBottom: "15px",
-    width: "50%",
+    width: "100%",
   },
   breadcrumb: {
     marginBottom: '2px',
@@ -22,7 +22,7 @@ const useStyles = makeStyles({
   }
 });
 
-const LayoutManagement: React.FC<{ classes: any }> = ({ classes }) => {
+const LayoutManagement: React.FC<{ classes?: any }> = ({ classes }) => {
   const styles = useStyles();
   return (
   <div className={styles.container}>

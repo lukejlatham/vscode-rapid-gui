@@ -6,14 +6,13 @@ import { Delete24Regular, PaintBrush24Regular, PaintBrushArrowDown24Regular, Dis
 
 const useStyles = makeStyles({
   propertyInspector: {
-    margin: '10px',
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
     padding: '10px',
-    border: `1px solid ${tokens.colorNeutralStroke1}`,
-    borderRadius: '3px',
-    maxHeight: "95%",
-    overflow: "auto",
-    flexBasis: "13.75%",
-    flexShrink: 0,
+    boxSizing: 'border-box',
+    borderLeft: `1px solid ${tokens.colorNeutralStroke1}`,
+    backgroundColor: tokens.colorNeutralBackground1,
   },
   header: {
     display: 'flex',
@@ -22,23 +21,24 @@ const useStyles = makeStyles({
     gap: '10px',
     alignItems: 'center',
     justifyContent: 'space-between',
-    color: '#d6d6d6',
-    // fontSize: '0.875rem',
-    // fontWeight: 100,
+    color: tokens.colorNeutralForeground1,
+  },
+  content: {
+    flexGrow: 1,
+    overflowY: 'auto',
+    padding: '10px 0',
   },
   buttonGroup: {
     display: 'flex',
-    flexDirection: 'row',
     justifyContent: 'center',
-    paddingTop: '10px',
-    paddingBottom: '10px',
+    padding: '10px 0',
     gap: '5px',
   },
   button: {
-    width: "30%",
+    flexGrow: 1,
   },
   breadcrumb: {
-    color: '#d6d6d6',
+    color: tokens.colorNeutralForeground1,
     fontSize: '1rem',
     fontWeight: 500,
   },
@@ -48,9 +48,12 @@ const useStyles = makeStyles({
       borderRadius: "5px",
     },
   },
+  divider: {
+    flexGrow: 0,
+  }
 });
 
-export const PropertyInspector: React.FC = () => {
+export const PropertyInspector: React.FC<{ classes: any }> = ({ classes }) => {
   const [copiedSettings, setCopiedSettings] = useState<{ props: Record<string, any>, displayName: string } | null>(null);
 
   const { selected, actions } = useEditor((state, query) => {
@@ -75,7 +78,7 @@ export const PropertyInspector: React.FC = () => {
   console.log(selected);
 
 
-  const classes = useStyles();
+  const localClasses = useStyles();
 
   const handleCopy = () => {
     if (selected && selected.props) {
@@ -98,21 +101,22 @@ export const PropertyInspector: React.FC = () => {
   };
 
   return selected ? (
-    <div className={classes.propertyInspector}>
-      <div className={classes.header}>
-      <Breadcrumb className={classes.breadcrumb}>
-      <BreadcrumbItem>{selected.displayName}</BreadcrumbItem>
-      </Breadcrumb>
-        <Button icon={<Dismiss20Regular className={classes.dismissButton}/>} appearance="transparent" onClick={handleClose} />
+    <div className={`${localClasses.propertyInspector} ${classes.rightSidebar}`}>
+      <div className={localClasses.header}>
+        <Breadcrumb className={localClasses.breadcrumb}>
+          <BreadcrumbItem>{selected.displayName}</BreadcrumbItem>
+        </Breadcrumb>
+        <Button icon={<Dismiss20Regular className={localClasses.dismissButton} />} appearance="transparent" onClick={handleClose} />
       </div>
-      <Divider style={{ flexGrow: "0" }} />
-      {selected.settings && React.createElement(selected.settings)}
-      
-      {selected.displayName !== "Grid Cell" ? ( <div className={classes.buttonGroup}>
+      <Divider className={localClasses.divider}/>
+      <div className={localClasses.content}>
+        {selected.settings && React.createElement(selected.settings)}
+      </div>
+      {selected.displayName !== "Grid Cell" ? (<div className={localClasses.buttonGroup}>
         <Tooltip content="Copy Format" relationship="label">
           <Button
             appearance='secondary'
-            className={classes.button}
+            className={localClasses.button}
             icon={<PaintBrush24Regular />}
             onClick={handleCopy}
             disabled={!selected.props}
@@ -121,15 +125,15 @@ export const PropertyInspector: React.FC = () => {
         <Tooltip content="Paste Format" relationship="label">
           <Button
             appearance='secondary'
-            className={classes.button}
+            className={localClasses.button}
             icon={<PaintBrushArrowDown24Regular />}
             onClick={handlePaste}
             disabled={!copiedSettings || !selected.props || selected.displayName !== copiedSettings.displayName}
           />
         </Tooltip>
-         <Button
+        <Button
           appearance='primary'
-          className={classes.button}
+          className={localClasses.button}
           icon={<Delete24Regular />}
           onClick={() => {
             actions.delete(selected.id);
@@ -138,7 +142,7 @@ export const PropertyInspector: React.FC = () => {
         >
           Delete
         </Button>
-      </div>): null}
+      </div>) : null}
     </div>
   ) : null;
 };

@@ -31,29 +31,22 @@ const useStyles = makeStyles({
     height: '100vh',
     width: '100vw',
   },
+  leftSidebar: {
+    display: 'flex',
+    flexShrink: 0,
+    maxWidth: '250px',
+  },
   mainContent: {
-    flexGrow: 1,
+    padding: '10px',
     display: 'flex',
-    flexDirection: 'column',
+    flex: '1 1 auto',
+    transition: 'all 0.3s ease',
   },
-  canvas: {
-    flexGrow: 1,
-    flexShrink: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    padding: '5px',
-    borderRadius: '3px',
-    overflow: 'hidden',
+  rightSidebar: {
+    flexBasis: '20%',
+    flexShrink: 0,
+    transition: 'all 0.3s ease',
   },
-  // leftSidebar: {
-  //   flexBasis: '30%',
-  //   flexShrink: 0,
-  //   display: 'flex',
-  //   flexDirection: 'column',
-  //   padding: '5px',
-  //   borderRadius: '3px',
-  //   overflow: 'hidden',
-  // }
 });
 
 const createDefaultPage = (): Page => ({

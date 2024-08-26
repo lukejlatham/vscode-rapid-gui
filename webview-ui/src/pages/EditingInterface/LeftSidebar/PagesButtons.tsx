@@ -22,7 +22,7 @@ const useStyles = makeStyles({
         display: 'flex',
         flexDirection: 'column',
         gap: '10px',
-        width: '50%',
+        width: '100%',
     },
     listbox: {
         maxHeight: '200px',
@@ -47,7 +47,7 @@ const useStyles = makeStyles({
 });
 
 const PagesButtons: React.FC<{
-    classes: any,
+    classes?: any,
     pages: Page[],
     setPages: React.Dispatch<React.SetStateAction<Page[]>>,
     currentPageIndex: number,
