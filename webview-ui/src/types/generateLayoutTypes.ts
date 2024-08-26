@@ -1,5 +1,10 @@
 import { z } from "zod";
-import { themeNames, fontNames, fontGenerationNames, themeGenerationNames } from "./themes";
+import {
+  themeNames,
+  fontNames,
+  fontGenerationNames,
+  themeGenerationNames,
+} from "../Features/theming/themes";
 import * as VscIcons from "react-icons/vsc";
 
 function levenshteinDistance(a: string, b: string): number {

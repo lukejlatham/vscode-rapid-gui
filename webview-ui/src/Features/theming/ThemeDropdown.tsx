@@ -1,15 +1,9 @@
 import * as React from "react";
-import {
-  Dropdown,
-  makeStyles,
-  Option,
-  useId,
-  Button,
-} from "@fluentui/react-components";
+import { Dropdown, makeStyles, Option, useId, Button } from "@fluentui/react-components";
 import { WindowFilled } from "@fluentui/react-icons";
 import type { DropdownProps } from "@fluentui/react-components";
 import { useEditor } from "@craftjs/core";
-import { NodeThemeType, themeList, ColorScheme } from "../../types/themes"; // Adjust the import path as necessary
+import { NodeThemeType, themeList, ColorScheme } from "./themes"; // Adjust the import path as necessary
 import { FormattedMessage } from "react-intl";
 import { useState, useMemo } from "react";
 
@@ -47,11 +41,10 @@ const getColor = (color: string | string[]): string => {
   return color;
 };
 
-
 const getNodeType = (node: any): NodeThemeType => {
-  if (node.data.displayName === 'Background') return 'Background';
-  if (node.data.displayName === 'Container') return 'Container';
-  return 'Other';
+  if (node.data.displayName === "Background") return "Background";
+  if (node.data.displayName === "Container") return "Container";
+  return "Other";
 };
 
 const applyThemeToBackground = (actions: any, id: string, theme: ColorScheme) => {
@@ -60,8 +53,13 @@ const applyThemeToBackground = (actions: any, id: string, theme: ColorScheme) =>
   });
 };
 
-const applyThemeToContainer = (actions: any, id: string, theme: ColorScheme, isDarkAccent: boolean) => {
-  const colorType = isDarkAccent ? 'darkaccent' : 'main';
+const applyThemeToContainer = (
+  actions: any,
+  id: string,
+  theme: ColorScheme,
+  isDarkAccent: boolean
+) => {
+  const colorType = isDarkAccent ? "darkaccent" : "main";
   actions.setProp(id, (props: any) => {
     props.backgroundColor = getColor(theme.sectionColors[colorType]);
     props.borderColor = getColor(theme.sectionBorderColors[colorType]);
@@ -104,26 +102,31 @@ export const ThemeDropdown: React.FC<Partial<DropdownProps>> = (props) => {
       const nodeType = getNodeType(node);
 
       switch (nodeType) {
-        case 'Background':
+        case "Background":
           applyThemeToBackground(actions, id, theme);
           break;
-        case 'Container':
+        case "Container":
           if (!darkAccentApplied) {
             applyThemeToContainer(actions, id, theme, true);
             darkAccentApplied = true;
           } else {
             if (node.data.parent) {
-            const parent = query.node(node.data.parent).get();
-            
-            if (parent?.data.displayName === 'Container') {
-              applyThemeToNestedContainer(actions, id, theme);
-            } else {
-              applyThemeToContainer(actions, id, theme, false);
+              const parent = query.node(node.data.parent).get();
+
+              if (parent?.data.displayName === "Container") {
+                applyThemeToNestedContainer(actions, id, theme);
+              } else {
+                applyThemeToContainer(actions, id, theme, false);
+              }
             }
-          }}
+          }
           break;
-        case 'Other':
-          if (node.data.props && !node.data.isCanvas && node.data.displayName !== 'Single Line Input') {
+        case "Other":
+          if (
+            node.data.props &&
+            !node.data.isCanvas &&
+            node.data.displayName !== "Single Line Input"
+          ) {
             applyThemeToOtherNodes(actions, id, theme);
           }
           break;
@@ -142,8 +145,7 @@ export const ThemeDropdown: React.FC<Partial<DropdownProps>> = (props) => {
           }
         }}
         {...props}
-        placeholder="Select a theme"
-      >
+        placeholder="Select a theme">
         {themeList.map((theme) => {
           const sectionColor = getColor(theme.scheme.sectionColors.main);
           const sectionBorderColor = getColor(theme.scheme.sectionBorderColors.main);
@@ -158,15 +160,13 @@ export const ThemeDropdown: React.FC<Partial<DropdownProps>> = (props) => {
                   style={{
                     backgroundColor: sectionColor,
                     borderColor: sectionBorderColor,
-                  }}
-                ></span>
+                  }}></span>
                 <span
                   className={styles.colorBlock}
                   style={{
                     backgroundColor: elementColor,
                     borderColor: elementBorderColor,
-                  }}
-                ></span>
+                  }}></span>
                 {theme.name}
               </div>
             </Option>
@@ -174,12 +174,7 @@ export const ThemeDropdown: React.FC<Partial<DropdownProps>> = (props) => {
         })}
       </Dropdown>
 
-      <Button
-        icon={<WindowFilled />}
-        size="medium"
-        appearance="primary"
-        onClick={handleApplyTheme}
-      >
+      <Button icon={<WindowFilled />} size="medium" appearance="primary" onClick={handleApplyTheme}>
         <FormattedMessage id="theme.applyTheme" defaultMessage="Apply Theme" />
       </Button>
     </div>

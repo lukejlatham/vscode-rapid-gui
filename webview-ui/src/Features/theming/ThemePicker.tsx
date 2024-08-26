@@ -8,7 +8,7 @@ import {
   Button,
 } from "@fluentui/react-components";
 import { useEditor } from "@craftjs/core";
-import { NodeThemeType, themeList, ColorScheme, themePreviews } from "../../types/themes"; // Adjust the import path as necessary
+import { NodeThemeType, themeList, ColorScheme, themePreviews } from "./themes"; // Adjust the import path as necessary
 import type {
   ColorSwatchProps,
   SwatchProps,
