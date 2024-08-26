@@ -40,22 +40,16 @@ export async function generateImageXaml(
 }
 
 export async function handleImageSource(src: string, projectPath: string): Promise<string> {
-  console.log("Source:", src);
-  console.log("Project Path:", projectPath);
-
   const assetsPath = path.join(projectPath, "Assets");
-  console.log("Assets Path:", assetsPath);
   if (!fs.existsSync(assetsPath)) {
     fs.mkdirSync(assetsPath, { recursive: true });
   }
 
-  const fileName = path.basename(decodeURIComponent(src));
-  console.log("File Name:", fileName);
+  let fileName = path.basename(decodeURIComponent(src));
   const destPath = path.join(assetsPath, fileName);
-  console.log("Dest Path:", destPath);
 
   if (src.startsWith("https://file+.vscode-resource.vscode-cdn.net/")) {
-    // Handle VSCode resource URLs
+    // Handle VSCode resource URLs (uploaded images)
     const localPath = decodeURIComponent(
       src.replace("https://file+.vscode-resource.vscode-cdn.net/", "")
     );
@@ -63,15 +57,15 @@ export async function handleImageSource(src: string, projectPath: string): Promi
   } else if (isUrl(src)) {
     await downloadImage(src, destPath);
   } else if (src.startsWith("data:image")) {
-    // Handle base64 encoded images (uploaded or AI-generated)
+    // Handle base64 encoded images (AI-generated)
     const base64Data = src.split(",")[1];
     fs.writeFileSync(destPath, base64Data, "base64");
   } else {
-    // Handle local file paths (including uploaded_images folder)
-    copyImageToAssets(src, destPath);
+    // Handle local file paths
+    fs.copyFileSync(src, destPath);
   }
 
-  return `/Assets/${fileName}`;
+  return `/Assets/${fileName}`; // Return relative path
 }
 
 export async function downloadImage(url: string, destPath: string): Promise<void> {

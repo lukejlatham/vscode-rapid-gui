@@ -54,10 +54,10 @@ export class FileGenerator {
     this.createDirectoryBuildProps();
     this.createPublishProfiles();
     this.createReadme();
-    this.copyAssetImages();
     this.createVSCodeFiles();
-    this.addImagesToProjectFile();
     await this.processAllImages(pages);
+    this.addImagesToProjectFile();
+    this.copyAssetImages();
     console.log("FileGenerator Project Path:", this.projectPath);
     console.log("FileGenerator Output Path:", this.outputPath);
 
@@ -396,6 +396,12 @@ export class FileGenerator {
         imageItemGroup += "    </Content>\n";
       });
       imageItemGroup += "  </ItemGroup>\n";
+
+      // Remove any existing duplicate ItemGroup for Assets
+      projectContent = projectContent.replace(
+        /<ItemGroup>\s*<Content Include="Assets\\.*?<\/ItemGroup>/s,
+        ""
+      );
 
       projectContent = projectContent.replace("</Project>", `${imageItemGroup}</Project>`);
 
