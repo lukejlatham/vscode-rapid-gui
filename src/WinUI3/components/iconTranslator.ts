@@ -5,8 +5,11 @@ import { convertColor } from "./colortranslator";
 export function generateIconXaml(node: Node, indent: string = ""): string {
   const props = node.props;
   let xaml = `${indent}<FontIcon`;
+  console.log("Icon props:", props);
 
-  const glyph = getGlyphFromVscIcon(props.selectedIcon);
+  const glyph = getGlyphFromVscIcon(props.vscIcon);
+  console.log("Selected icon:", props.vscIcon);
+  console.log("Glyph:", glyph);
 
   xaml += ` Glyph="${glyph}"`;
   xaml += ` FontSize="${props.iconSize}"`;

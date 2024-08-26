@@ -58,6 +58,8 @@ export class FileGenerator {
     this.createVSCodeFiles();
     this.addImagesToProjectFile();
     await this.processAllImages(pages);
+    console.log("FileGenerator Project Path:", this.projectPath);
+    console.log("FileGenerator Output Path:", this.outputPath);
 
     pages.forEach((page) => {
       const sanitizedPageName = this.sanitizePageName(page.name);
@@ -331,16 +333,22 @@ export class FileGenerator {
   }
 
   private async processAllImages(pages: Page[]) {
-    this.extraImages = [];
+    this.extraImages = []; // Clear the array before processing
     for (const page of pages) {
       const imageNodes = findImageNodes(page.content);
       for (const node of imageNodes) {
         if (node.props.src) {
-          const imagePath = await handleImageSource(node.props.src, this.projectPath);
-          this.extraImages.push(imagePath);
+          console.log("Processing image:", node.props.src);
+          try {
+            const imagePath = await handleImageSource(node.props.src, this.projectPath);
+            this.extraImages.push(imagePath);
+          } catch (error) {
+            console.error("Error processing image:", error);
+          }
         }
       }
     }
+    console.log("Processed Images:", this.extraImages);
   }
 
   private copyAssetImages() {

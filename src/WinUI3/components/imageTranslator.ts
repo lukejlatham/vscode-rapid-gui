@@ -15,11 +15,15 @@ export async function generateImageXaml(
   xaml += ` Width="${props.width || 100}"`;
   xaml += ` Height="${props.height || 100}"`;
 
-  if (props.src) {
-    const imageSource = await handleImageSource(props.src, projectPath);
-    xaml += ` Source="${imageSource}"`;
+  if (props.src && projectPath) {
+    try {
+      const imageSource = await handleImageSource(props.src, projectPath);
+      xaml += ` Source="${imageSource}"`;
+    } catch (error) {
+      console.error("Error handling image source:", error);
+    }
   } else {
-    console.warn("Image source is missing");
+    console.warn("Image source or project path is missing", { src: props.src, projectPath });
   }
 
   if (props.alt) {
@@ -36,13 +40,19 @@ export async function generateImageXaml(
 }
 
 export async function handleImageSource(src: string, projectPath: string): Promise<string> {
+  console.log("Source:", src);
+  console.log("Project Path:", projectPath);
+
   const assetsPath = path.join(projectPath, "Assets");
+  console.log("Assets Path:", assetsPath);
   if (!fs.existsSync(assetsPath)) {
     fs.mkdirSync(assetsPath, { recursive: true });
   }
 
   const fileName = path.basename(decodeURIComponent(src));
+  console.log("File Name:", fileName);
   const destPath = path.join(assetsPath, fileName);
+  console.log("Dest Path:", destPath);
 
   if (src.startsWith("https://file+.vscode-resource.vscode-cdn.net/")) {
     // Handle VSCode resource URLs
