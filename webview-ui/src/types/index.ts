@@ -365,7 +365,7 @@ export interface Page {
 }
 
 export interface CanvasProps {
-  classes: any;
+  classes?: any;
 }
 
 export type AccessibilityContextType = {

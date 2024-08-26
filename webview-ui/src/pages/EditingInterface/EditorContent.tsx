@@ -71,7 +71,6 @@ export const EditorContent: React.FC<EditorContentProps> = ({
 
   return (
     <div className={classes.mainLayout}>
-      <div className={classes.leftSidebar}>
         <LeftSidebar
           classes={classes}
           pages={pages}
@@ -87,7 +86,6 @@ export const EditorContent: React.FC<EditorContentProps> = ({
           theme={theme}
           setTheme={setTheme}
         />
-      </div>
       <StartProjectDialog
         isOpen={isStartProjectDialogOpen}
         onClose={() => setIsStartProjectDialogOpen(false)}
@@ -101,11 +99,9 @@ export const EditorContent: React.FC<EditorContentProps> = ({
         setPages={setPages}
         />
       <div className={classes.mainContent}>
-        <div className={classes.canvas}>
-          <Canvas classes={classes} />
-        </div>
+          <Canvas/>
       </div>
-      <PropertyInspector />
+      <PropertyInspector classes={classes}/>
     </div>
   );
 };

@@ -1,9 +1,9 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { Select, Dropdown, Option, SelectionEvents, OptionOnSelectData, Input, Label, SpinButton, Radio, Slider, SliderOnChangeData, RadioGroup, SpinButtonChangeEvent, SpinButtonOnChangeData, Tooltip, useId, mergeClasses, Textarea } from "@fluentui/react-components";
+import { Select, Input, Label, SpinButton, Radio, Slider, SliderOnChangeData, RadioGroup, SpinButtonChangeEvent, SpinButtonOnChangeData, Tooltip, useId, mergeClasses, Textarea } from "@fluentui/react-components";
 import { Info16Regular } from "@fluentui/react-icons";
 import { useNode } from "@craftjs/core";
 import { usePropertyInspectorStyles } from "../../../hooks/usePropertyInspectorStyles";
-import { ComponentSettingsProps, CheckboxesProps, RadioButtonProps, DropdownProps, ImageProps } from "../../../types";
+import { ComponentSettingsProps, CheckboxesProps, RadioButtonProps, DropdownProps, ImageProps, TooltipConfigs } from "../../../types";
 import { UserImageUploadButton } from "../../UserImageUploadButton";
 import { GenerateImageButton } from "../../GenerateImageButton";
 import { vscode } from "../../../utilities/vscode";
@@ -202,26 +202,86 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({ componentP
                             </div>
                         ) : tooltip.type === "slider" ? (
                             <div className={propInspector.sliderSection}>
-                                <Label>{propValue}</Label>
                                 <Slider
                                     className={propInspector.slider}
-                                    defaultValue={propValue as number}
+                                    value={propValue as number}
+                                    min={0}
                                     onChange={(e: React.FormEvent<HTMLInputElement>, data: SliderOnChangeData) => {
                                         setProp((props: typeof componentProps) => {
                                             (props[tooltip.propKey as keyof typeof props] as number) = data.value;
                                         }, 1000);
                                     }}
                                 />
+                                <SpinButton
+                                className={propInspector.sliderSpinButton}
+                                value={propValue as number}
+                                min={0}
+                                onChange={(e: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
+                                    try {
+                                        if (data.value === undefined) {
+                                            const parsedValue = parseFloat(data.displayValue as string);
+                                            if (isNaN(parsedValue)) {
+                                                throw new Error("Non-numerical value");
+                                            }
+                                            if (parsedValue < 0 || parsedValue > 100) {
+                                                throw new Error("Value out of bounds");
+                                            }
+                                            setProp((props: typeof componentProps) => {
+                                                (props[tooltip.propKey as keyof typeof props] as number) = parsedValue;
+                                            }, 1000);
+                                        } else if (data.value !== null) {
+                                            setProp((props: typeof componentProps) => {
+                                                (props[tooltip.propKey as keyof typeof props] as number) = data.value as number;
+                                            }, 1000);
+                                        } else {
+                                            setProp((props: typeof componentProps) => {
+                                                (props[tooltip.propKey as keyof typeof props] as number) = 1;
+                                            }, 1000);
+                                        }
+                                    } catch (error) {
+                                        console.error("Error parsing value:", error);
+                                        setProp((props: typeof componentProps) => {
+                                            (props[tooltip.propKey as keyof typeof props] as number) = 1;
+                                        }, 1000);
+                                    }
+                                }}
+                            />
                             </div>
                         ) : tooltip.type === "spinButton" ? (
                             <SpinButton
-                                defaultValue={propValue as number}
+                                value={propValue as number}
+                                displayValue={propValue as string}
                                 min={1}
                                 max={15}
                                 onChange={(e: SpinButtonChangeEvent, data: SpinButtonOnChangeData) => {
-                                    setProp((props: typeof componentProps) => {
-                                        (props[tooltip.propKey as keyof typeof props] as number) = data.value as number;
-                                    }, 1000);
+                                    try {
+                                        if (data.value === undefined) {
+                                            const parsedValue = parseFloat(data.displayValue as string);
+                                            if (isNaN(parsedValue)) {
+                                                throw new Error("Non-numerical value");
+                                            }
+                                            if (parsedValue < 1 || parsedValue > 15) {
+                                                throw new Error("Value out of bounds");
+                                            }
+                                            setProp((props: typeof componentProps) => {
+                                                (props[tooltip.propKey as keyof typeof props] as number) = parsedValue;
+                                            }, 1000);
+                                        } 
+                                        else if (data.value !== null) {
+                                            setProp((props: typeof componentProps) => {
+                                                (props[tooltip.propKey as keyof typeof props] as number) = data.value as number;
+                                            }, 1000);
+                                        } else {
+                                            setProp((props: typeof componentProps) => {
+                                                (props[tooltip.propKey as keyof typeof props] as number) = 1;
+                                            }, 1000);
+                                        }
+                                    } catch (error) {
+                                        console.error("Error parsing value:", error);
+                                        setProp((props: typeof componentProps) => {
+                                            (props[tooltip.propKey as keyof typeof props] as number) = 1;
+                                        }, 1000);
+                                    }
                                 }}
                                 className={propInspector.spinButton}
                             />

@@ -8,7 +8,7 @@ import { CanvasProps } from '../../types';
 
 
 
-const Canvas: React.FC<CanvasProps> = ({ classes }) => {
+const Canvas: React.FC<CanvasProps> = () => {
 
     const { query } = useEditor();
 

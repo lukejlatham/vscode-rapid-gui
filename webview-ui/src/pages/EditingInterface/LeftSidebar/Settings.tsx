@@ -11,7 +11,7 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     gap: '15px',
-    width: '50%',
+    width: '100%',
   },
   settingItem: {
     display: 'flex',

@@ -25,7 +25,6 @@ const useStyles = makeStyles({
     alignContent: "center",
     gap: "10px",
     padding: "10px",
-    width: "50%",
   },
   "@media (forced-colors: active)": {
     forcedColorAdjust: "none",
