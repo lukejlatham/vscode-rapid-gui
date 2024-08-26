@@ -82,10 +82,11 @@ async function generateGridCell(
 ): Promise<string> {
   const gridAttrs = generateGridAttributes(layoutItem);
 
-  const horizontalAlignment = mapFlexToAlignment(node.props.justifyContent, true);
-  const verticalAlignment = mapFlexToAlignment(node.props.alignItems, false);
+  // const horizontalAlignment = mapFlexToAlignment(node.props.justifyContent, true);
+  // const verticalAlignment = mapFlexToAlignment(node.props.alignItems, false);
 
-  let xaml = `${indent}<Grid ${gridAttrs} HorizontalAlignment="${horizontalAlignment}" VerticalAlignment="${verticalAlignment}">\n`;
+  // let xaml = `${indent}<Grid ${gridAttrs} HorizontalAlignment="${horizontalAlignment}" VerticalAlignment="${verticalAlignment}">\n`;
+  let xaml = `${indent}<Grid ${gridAttrs}>\n`;
 
   xaml += await generateComponentXaml(node, content, indent + "  ", processedNodes);
 

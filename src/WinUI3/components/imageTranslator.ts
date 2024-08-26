@@ -37,22 +37,33 @@ export async function generateImageXaml(
 
 async function handleImageSource(src: string, projectPath: string): Promise<string> {
   const assetsPath = path.join(projectPath, "Assets");
-  if (!fs.existsSync(assetsPath)) {
-    fs.mkdirSync(assetsPath, { recursive: true });
-  }
-
+  const fileName = path.basename(src);
+  const destPath = path.join(assetsPath, fileName);
+  
   if (isUrl(src)) {
-    const fileName = path.basename(new URL(src).pathname);
-    const destPath = path.join(assetsPath, fileName);
     await downloadImage(src, destPath);
-    return `ms-appx:///Assets/${fileName}`;
   } else {
-    const fileName = path.basename(src);
-    const destPath = path.join(assetsPath, fileName);
     copyImageToAssets(src, destPath);
-    return `ms-appx:///Assets/${fileName}`;
   }
+  
+  return `ms-appx:///Assets/${fileName}`;
 }
+//   if (!fs.existsSync(assetsPath)) {
+//     fs.mkdirSync(assetsPath, { recursive: true });
+//   }
+
+//   if (isUrl(src)) {
+//     const fileName = path.basename(new URL(src).pathname);
+//     const destPath = path.join(assetsPath, fileName);
+//     await downloadImage(src, destPath);
+//     return `ms-appx:///Assets/${fileName}`;
+//   } else {
+//     const fileName = path.basename(src);
+//     const destPath = path.join(assetsPath, fileName);
+//     copyImageToAssets(src, destPath);
+//     return `ms-appx:///Assets/${fileName}`;
+//   }
+// }
 
 async function downloadImage(url: string, destPath: string): Promise<void> {
   try {

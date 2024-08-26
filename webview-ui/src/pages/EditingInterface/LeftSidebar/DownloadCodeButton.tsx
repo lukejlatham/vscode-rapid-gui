@@ -52,7 +52,6 @@ const DownloadCodeButton: React.FC<{ classes: any; pages: Page[]; currentPageInd
   };
 
   return (
-    <div>
       <Menu>
         <MenuTrigger disableButtonEnhancement>
           <Tooltip
@@ -74,7 +73,6 @@ const DownloadCodeButton: React.FC<{ classes: any; pages: Page[]; currentPageInd
           </MenuList>
         </MenuPopover>
       </Menu>
-    </div>
   );
 };
 

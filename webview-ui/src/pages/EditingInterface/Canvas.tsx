@@ -38,11 +38,9 @@ const Canvas: React.FC<CanvasProps> = ({ classes }) => {
     }, [query]);
 
     return (
-        <div className={classes.canvas}>
             <Frame>
                 <Background {...BackgroundDefaultProps} />
             </Frame>
-        </div>
     );
 };
 

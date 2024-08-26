@@ -9,15 +9,9 @@ export async function generateContainerXaml(
 ): Promise<string> {
   const props = node.props;
 
-  let xaml = `${indent}<Grid`;
 
-  // Add Grid properties
-  if (props.width) {
-    xaml += ` MinWidth="${props.width}"`;
-  }
-  if (props.height) {
-    xaml += ` MinHeight="${props.height}"`;
-  }
+  let xaml = `${indent}<Border`;
+
 
   if (props.backgroundColor) {
     xaml += ` Background="${props.backgroundColor}"`;
@@ -25,27 +19,35 @@ export async function generateContainerXaml(
 
   if (props.borderColor) {
     xaml += ` BorderBrush="${props.borderColor}"`;
+    xaml += ` BorderThickness="1"`;
   }
   if (props.borderThickness) {
     xaml += ` BorderThickness="${props.borderThickness}"`;
   }
-  if (props.cornerRadius) {
-    xaml += ` CornerRadius="${props.cornerRadius}"`;
+  if (props.borderRadius) {
+    xaml += ` CornerRadius="${props.borderRadius}"`;
+  }
+  if (props.padding) {
+    xaml += ` Padding="${props.padding}"`;
   }
 
-  xaml += ` HorizontalAlignment="${mapJustifyContent(props.justifyContent)}"`;
-  xaml += ` VerticalAlignment="${mapAlignItems(props.alignItems)}"`;
+  
   xaml += `>\n`;
 
-  if (props.padding) {
-    xaml += `${indent}  <Border Padding="${props.padding}">\n`;
-    xaml += `${indent}    <StackPanel`;
-  } else {
-    xaml += `${indent}  <StackPanel`;
-  }
+  // if (props.padding) {
+  //   xaml += `${indent}  <Border Padding="${props.padding}">\n`;
+  //   xaml += `${indent}    <StackPanel`;
+  // } else {
+  //   xaml += `${indent}  <StackPanel`;
+  // }
 
+  xaml += `${indent} <StackPanel`;
   xaml += ` Orientation="${props.flexDirection === "row" ? "Horizontal" : "Vertical"}"`;
   xaml += ` Spacing="${props.gap || 0}"`;
+  xaml += ` HorizontalAlignment="${mapJustifyContent(props.justifyContent)}"`;
+  xaml += ` VerticalAlignment="${mapAlignItems(props.alignItems)}"`;
+  xaml += ` Padding="${props.padding || 10}"`;
+  xaml += ` Margin="${props.margin || 5}"`;
   xaml += `>\n`;
 
   // Generate child components
@@ -58,13 +60,8 @@ export async function generateContainerXaml(
     }
   }
 
-  if (props.padding) {
-    xaml += `${indent}    </StackPanel>\n`;
-    xaml += `${indent}  </Border>\n`;
-  } else {
-    xaml += `${indent}  </StackPanel>\n`;
-  }
-  xaml += `${indent}</Grid>\n`;
+  xaml += `${indent}    </StackPanel>\n`;
+  xaml += `${indent}  </Border>\n`;
   return xaml;
 }
 
@@ -77,11 +74,11 @@ function mapJustifyContent(justifyContent: string): string {
     case "flex-end":
       return "Right";
     case "space-between":
-      return "Stretch";
+      return "Center";
     case "space-around":
-      return "Stretch"; // XAML doesn't have a direct equivalent; Stretch is a close match
+      return "Center"; // XAML doesn't have a direct equivalent; Stretch is a close match
     default:
-      return "Stretch";
+      return "Center";
   }
 }
 

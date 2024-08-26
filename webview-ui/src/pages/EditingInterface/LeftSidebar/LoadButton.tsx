@@ -59,14 +59,15 @@ const LoadButton: React.FC<{
       positioning="after"
       appearance="inverted">
       <Button
+        style={{ width: "100%" }}
         size={
           accessibility.selectedAccessibility === 'yes' ? 'large' : 'medium'
-      }
+        }
         className={classes.button}
         icon={<Folder24Regular />}
         onClick={handleLoad}>
-      { accessibility.selectedAccessibility === 'yes' && (<FormattedMessage id="leftSidebar.load" defaultMessage="Load" />)}
-        </Button>
+        {accessibility.selectedAccessibility === 'yes' && (<FormattedMessage id="leftSidebar.load" defaultMessage="Load" />)}
+      </Button>
     </Tooltip>
   );
 };
