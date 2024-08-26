@@ -10,6 +10,7 @@ const useStyles = makeStyles({
     flexDirection: "column",
     gap: "10px",
     paddingBottom: "15px",
+    width: "50%",
   },
   breadcrumb: {
     marginBottom: '2px',

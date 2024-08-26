@@ -22,7 +22,7 @@ const useStyles = makeStyles({
         display: 'flex',
         flexDirection: 'column',
         gap: '10px',
-        width: '90%',
+        width: '50%',
     },
     listbox: {
         maxHeight: '200px',

@@ -60,7 +60,10 @@ const useStyles = makeStyles({
     flexShrink: 0,
   },
   sidebarExtended: {
-    width: "500px",
+    width: "300px",
+  },
+  sidebarAccessible: {
+    width: "400px",
   },
   tabsBar: {
     padding: "10px",
@@ -185,7 +188,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
 
 
     return (
-    <div className={`${localClasses.sidebar} ${selectedTab !== '' ? localClasses.sidebarExtended : '' }`}>
+    <div className={`${localClasses.sidebar} ${selectedTab !== '' ? localClasses.sidebarExtended : '' } ${selectedTab && accessibility.selectedAccessibility === 'yes' ? localClasses.sidebarAccessible : ''}`}>
       <div className={localClasses.tabsBar}>
         <TabList
           selectedValue={selectedTab}
