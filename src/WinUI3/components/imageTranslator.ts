@@ -11,21 +11,27 @@ export async function generateImageXaml(
   const props = node.props;
   let xaml = `${indent}<Image`;
 
+  // Set Stretch property
+  xaml += ` Stretch="UniformToFill"`;
+
+  // Set Width and Height
+  xaml += ` Width="${props.width || 100}"`;
+  xaml += ` Height="${props.height || 100}"`;
+
+  // Handle image source
   if (props.src) {
-    const imageSource = handleImageSource(props.src, projectPath);
+    const imageSource = await handleImageSource(props.src, projectPath);
     xaml += ` Source="${imageSource}"`;
   } else {
     console.warn("Image source is missing");
   }
 
+  // Add alt text if provided
   if (props.alt) {
     xaml += ` AutomationProperties.Name="${props.alt}"`;
   }
 
-  xaml += ` Width="${props.width || "Auto"}"`;
-  xaml += ` Height="Auto"`;
-  xaml += ` Stretch="Uniform"`;
-
+  // Add HorizontalAlignment if specified
   if (props.alignment) {
     xaml += ` HorizontalAlignment="${props.alignment}"`;
   }
@@ -37,35 +43,23 @@ export async function generateImageXaml(
 
 async function handleImageSource(src: string, projectPath: string): Promise<string> {
   const assetsPath = path.join(projectPath, "Assets");
+  if (!fs.existsSync(assetsPath)) {
+    fs.mkdirSync(assetsPath, { recursive: true });
+  }
+
   const fileName = path.basename(src);
   const destPath = path.join(assetsPath, fileName);
-  
+
   if (isUrl(src)) {
     await downloadImage(src, destPath);
   } else {
     copyImageToAssets(src, destPath);
   }
-  
-  return `ms-appx:///Assets/${fileName}`;
+
+  return `/Assets/${fileName}`;
 }
-//   if (!fs.existsSync(assetsPath)) {
-//     fs.mkdirSync(assetsPath, { recursive: true });
-//   }
 
-//   if (isUrl(src)) {
-//     const fileName = path.basename(new URL(src).pathname);
-//     const destPath = path.join(assetsPath, fileName);
-//     await downloadImage(src, destPath);
-//     return `ms-appx:///Assets/${fileName}`;
-//   } else {
-//     const fileName = path.basename(src);
-//     const destPath = path.join(assetsPath, fileName);
-//     copyImageToAssets(src, destPath);
-//     return `ms-appx:///Assets/${fileName}`;
-//   }
-// }
-
-async function downloadImage(url: string, destPath: string): Promise<void> {
+export async function downloadImage(url: string, destPath: string): Promise<void> {
   try {
     const response = await axios.get(url, { responseType: "arraybuffer" });
     fs.writeFileSync(destPath, response.data);
@@ -75,7 +69,7 @@ async function downloadImage(url: string, destPath: string): Promise<void> {
   }
 }
 
-function isUrl(str: string): boolean {
+export function isUrl(str: string): boolean {
   try {
     new URL(str);
     return true;
@@ -84,11 +78,30 @@ function isUrl(str: string): boolean {
   }
 }
 
-function copyImageToAssets(sourcePath: string, destPath: string): void {
+export function copyImageToAssets(sourcePath: string, destPath: string): void {
   try {
     fs.copyFileSync(sourcePath, destPath);
     console.log(`Copied image to: ${destPath}`);
   } catch (error) {
     console.error(`Failed to copy image: ${error}`);
   }
+}
+
+export function findImageNodes(content: any): Node[] {
+  const imageNodes: Node[] = [];
+  
+  function traverse(node: any) {
+    if (node.type && node.type.resolvedName === "Image") {
+      imageNodes.push(node);
+    }
+    if (node.nodes) {
+      node.nodes.forEach(traverse);
+    }
+    if (node.linkedNodes) {
+      Object.values(node.linkedNodes).forEach(traverse);
+    }
+  }
+  
+  traverse(content);
+  return imageNodes;
 }

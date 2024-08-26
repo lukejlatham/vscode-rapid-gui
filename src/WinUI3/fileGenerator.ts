@@ -1,9 +1,17 @@
 import * as fs from "fs";
 import * as path from "path";
+import { Node } from "../WinUI3/JsonParser";
 import { TemplateManager } from "./TemplateManager";
 import { generateGridXaml } from "./gridGenerator";
 import { Page } from "../../webview-ui/src/types";
 import { v4 as uuidv4 } from "uuid";
+import { 
+  findImageNodes, 
+  generateImageXaml, 
+  isUrl, 
+  downloadImage, 
+  copyImageToAssets 
+} from "./components/imageTranslator";
 
 export class FileGenerator {
   private projectName: string;
@@ -12,6 +20,7 @@ export class FileGenerator {
   private namespace: string;
   private appDescription: string;
   private defaultPublisher = "CN=DefaultPublisher";
+  private pages: Page[];
 
   constructor(
     projectName: string,
@@ -32,6 +41,7 @@ export class FileGenerator {
   }
 
   public async generateProjectFiles(pages: Page[]) {
+    this.pages = pages;
     if (pages.length === 0) {
       console.error("No pages to generate");
       return;
@@ -334,48 +344,47 @@ export class FileGenerator {
     fs.writeFileSync(path.join(vscodeDir, "tasks.json"), JSON.stringify(tasksJson, null, 2));
   }
 
-  private copyAssetImages() {
-    const templateAssetsPath = path.join(this.templateManager.getTemplatesPath(), "Assets");
-    const projectAssetsPath = path.join(this.outputPath, "Assets");
-
-    if (fs.existsSync(templateAssetsPath)) {
-      if (!fs.existsSync(projectAssetsPath)) {
-        fs.mkdirSync(projectAssetsPath, { recursive: true });
-      }
-
-      const assetFiles = fs.readdirSync(templateAssetsPath);
-      for (const file of assetFiles) {
-        const srcPath = path.join(templateAssetsPath, file);
-        const destPath = path.join(projectAssetsPath, file);
-        fs.copyFileSync(srcPath, destPath);
+  private async copyAssetImages() {
+    for (const page of this.pages) {
+      const imageNodes = findImageNodes(page.content);
+      for (const node of imageNodes) {
+        await this.handleImageAsset(node);
       }
     }
   }
+  private async handleImageAsset(node: Node) {
+    const src = node.props.src;
+    if (src) {
+      const assetsPath = path.join(this.outputPath, "Assets");
+      const fileName = path.basename(src);
+      const destPath = path.join(assetsPath, fileName);
+
+      if (isUrl(src)) {
+        await downloadImage(src, destPath);
+      } else {
+        copyImageToAssets(src, destPath);
+      }
+    }
+  }
+
   private addImagesToProjectFile() {
     const projectFilePath = path.join(this.outputPath, `${this.projectName}.csproj`);
     let projectContent = fs.readFileSync(projectFilePath, "utf8");
 
     const assetsPath = path.join(this.outputPath, "Assets");
-    if (fs.existsSync(assetsPath)) {
-      const imageFiles = fs
-        .readdirSync(assetsPath)
-        .filter((file) =>
-          [".png", ".jpg", ".jpeg", ".gif", ".bmp"].includes(path.extname(file).toLowerCase())
-        );
+    const imageFiles = fs.readdirSync(assetsPath).filter(file => 
+      [".png", ".jpg", ".jpeg", ".gif"].includes(path.extname(file).toLowerCase())
+    );
 
-      let imageItemGroup = "  <ItemGroup>\n";
-      imageFiles.forEach((file) => {
-        imageItemGroup += `    <Content Include="Assets\\${file}">\n`;
-        imageItemGroup += "      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>\n";
-        imageItemGroup += "    </Content>\n";
-      });
-      imageItemGroup += "  </ItemGroup>\n";
+    let imageItemGroup = "  <ItemGroup>\n";
+    imageFiles.forEach(file => {
+      imageItemGroup += `    <Content Include="Assets\\${file}">\n`;
+      imageItemGroup += "      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>\n";
+      imageItemGroup += "    </Content>\n";
+    });
+    imageItemGroup += "  </ItemGroup>\n";
 
-      // Insert the imageItemGroup before the closing </Project> tag
-      projectContent = projectContent.replace("</Project>", `${imageItemGroup}</Project>`);
-
-      fs.writeFileSync(projectFilePath, projectContent);
-      console.log("Added images to project file");
-    }
+    projectContent = projectContent.replace("</Project>", `${imageItemGroup}</Project>`);
+    fs.writeFileSync(projectFilePath, projectContent);
   }
 }
