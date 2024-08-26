@@ -1,6 +1,7 @@
 import { LayoutItem, Node } from "./JsonParser";
 import { generateComponentXaml } from "./componentGenerator";
 import { Page } from "../../webview-ui/src/types";
+import { convertColor } from "./components/colortranslator";
 
 export async function generateGridXaml(page: Page): Promise<string> {
   console.log("Generating XAML for page:", JSON.stringify(page, null, 2));
@@ -18,9 +19,9 @@ export async function generateGridXaml(page: Page): Promise<string> {
     return "<Grid></Grid>";
   }
 
-  let xaml = `<Grid x:Name="RootGrid" Background="${
+  let xaml = `<Grid x:Name="RootGrid" Background="${convertColor(
     rootNode.props.backgroundColor || "Transparent"
-  }">`;
+  )}">`;
   xaml += generateGridDefinitions(rootNode.props.rows, rootNode.props.columns);
   xaml += await generateGridContent(content, rootNode.props.layout || [], "  ", rootNode);
   xaml += "</Grid>";

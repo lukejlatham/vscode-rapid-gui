@@ -1,4 +1,5 @@
 import { Node } from "../JsonParser";
+import { convertColor } from "./colortranslator";
 
 export function generateInputXaml(node: Node, indent: string = ""): string {
   const props = node.props;
@@ -7,12 +8,12 @@ export function generateInputXaml(node: Node, indent: string = ""): string {
   xaml += ` PlaceholderText="${props.placeholder || ""}"`;
   xaml += ` FontSize="${props.fontSize || 14}"`;
   xaml += ` FontFamily="${props.fontFamily || "Segoe UI, Sans-Serif"}"`;
-  xaml += ` Foreground="${
+  xaml += ` Foreground="${convertColor(
     props.fontColor || "{ThemeResource SystemControlForegroundBaseHighBrush}"
-  }"`;
-  xaml += ` Background="${
+  )}"`;
+  xaml += ` Background="${convertColor(
     props.backgroundColor || "{ThemeResource SystemControlBackgroundAltHighBrush}"
-  }"`;
+  )}"`;
   xaml += ` CornerRadius="${props.borderRadius || 0}"`;
 
   xaml += " />";

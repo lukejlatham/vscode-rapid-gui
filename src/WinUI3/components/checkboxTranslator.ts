@@ -1,4 +1,5 @@
 import { Node } from "../JsonParser";
+import { convertColor } from "./colortranslator";
 
 export function generateCheckboxXaml(node: Node, indent: string = ""): string {
   const props = node.props;
@@ -17,9 +18,9 @@ export function generateCheckboxXaml(node: Node, indent: string = ""): string {
     xaml += ` Margin="0,0,0,8"`;
     xaml += ` FontSize="${props.fontSize || 14}"`;
     xaml += ` FontFamily="${props.fontFamily || "Segoe UI, Sans-Serif"}"`;
-    xaml += ` Foreground="${
+    xaml += ` Foreground="${convertColor(
       props.fontColor || "{ThemeResource SystemControlForegroundBaseHighBrush}"
-    }"`;
+    )}"`;
     xaml += ` Background="${props.backgroundColor || "Transparent"}"`;
 
     xaml += " />\n";

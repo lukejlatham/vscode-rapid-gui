@@ -1,4 +1,5 @@
 import { Node } from "../JsonParser";
+import { convertColor } from "./colortranslator";
 
 export function generateTextXaml(node: Node, indent: string = ""): string {
   const props = node.props;
@@ -6,9 +7,9 @@ export function generateTextXaml(node: Node, indent: string = ""): string {
 
   xaml += ` FontSize="${props.fontSize || 14}"`;
   xaml += ` FontFamily="${props.fontFamily || "Segoe UI, Sans-Serif"}"`;
-  xaml += ` Foreground="${
+  xaml += ` Foreground="${convertColor(
     props.fontColor || "{ThemeResource SystemControlForegroundBaseHighBrush}"
-  }"`;
+  )}"`;
   xaml += ` TextAlignment="${
     (props.textAlign || "left").charAt(0).toUpperCase() + (props.textAlign || "left").slice(1)
   }"`;

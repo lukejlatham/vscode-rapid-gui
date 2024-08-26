@@ -1,4 +1,5 @@
 import { Node } from "../JsonParser";
+import { convertColor } from "./colortranslator";
 
 export function generateRadioButtonXaml(node: Node, indent: string = ""): string {
   const props = node.props;
@@ -19,7 +20,7 @@ export function generateRadioButtonXaml(node: Node, indent: string = ""): string
     xaml += ` GroupName="${props.groupName || "RadioGroup"}"`;
     xaml += ` FontFamily="${props.fontFamily || "Segoe UI, Sans-Serif"}"`;
     xaml += ` FontSize="${props.fontSize}"`;
-    xaml += ` Foreground="${props.fontColor}"`;
+    xaml += ` Foreground="${convertColor(props.fontColor)}"`;
     if (index === 0 && props.defaultSelected) {
       xaml += ` IsChecked="True"`;
     }
