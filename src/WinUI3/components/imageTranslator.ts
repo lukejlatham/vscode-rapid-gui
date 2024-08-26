@@ -6,19 +6,17 @@ import axios from "axios";
 export async function generateImageXaml(
   node: Node,
   indent: string = "",
-  projectPath: string,
-  extraImages: string[] = []
+  projectPath: string
 ): Promise<string> {
   const props = node.props;
   let xaml = `${indent}<Image`;
 
   xaml += ` Stretch="UniformToFill"`;
-
   xaml += ` Width="${props.width || 100}"`;
   xaml += ` Height="${props.height || 100}"`;
 
   if (props.src) {
-    const imageSource = await handleImageSource(props.src, projectPath, extraImages);
+    const imageSource = await handleImageSource(props.src, projectPath);
     xaml += ` Source="${imageSource}"`;
   } else {
     console.warn("Image source is missing");
@@ -37,11 +35,7 @@ export async function generateImageXaml(
   return xaml + "\n";
 }
 
-async function handleImageSource(
-  src: string,
-  projectPath: string,
-  extraImages: string[]
-): Promise<string> {
+export async function handleImageSource(src: string, projectPath: string): Promise<string> {
   const assetsPath = path.join(projectPath, "Assets");
   if (!fs.existsSync(assetsPath)) {
     fs.mkdirSync(assetsPath, { recursive: true });
@@ -52,11 +46,15 @@ async function handleImageSource(
 
   if (isUrl(src)) {
     await downloadImage(src, destPath);
+  } else if (src.startsWith("data:image")) {
+    // Handle base64 encoded images (uploaded or AI-generated)
+    const base64Data = src.split(",")[1];
+    fs.writeFileSync(destPath, base64Data, "base64");
   } else {
+    // Handle local file paths (including uploaded_images folder)
     copyImageToAssets(src, destPath);
   }
 
-  extraImages.push(destPath);
   return `/Assets/${fileName}`;
 }
 

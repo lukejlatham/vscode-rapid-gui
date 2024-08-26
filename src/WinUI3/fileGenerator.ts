@@ -5,22 +5,17 @@ import { TemplateManager } from "./TemplateManager";
 import { generateGridXaml } from "./gridGenerator";
 import { Page } from "../../webview-ui/src/types";
 import { v4 as uuidv4 } from "uuid";
-import {
-  findImageNodes,
-  generateImageXaml,
-  isUrl,
-  downloadImage,
-  copyImageToAssets,
-} from "./components/imageTranslator";
+import { findImageNodes, handleImageSource } from "./components/imageTranslator";
 
 export class FileGenerator {
+  private projectPath: string;
   private projectName: string;
   private outputPath: string;
   private templateManager: TemplateManager;
   private namespace: string;
   private appDescription: string;
   private defaultPublisher = "CN=DefaultPublisher";
-  private pages: Page[];
+  private extraImages: string[] = [];
 
   constructor(
     projectName: string,
@@ -40,8 +35,7 @@ export class FileGenerator {
     }
   }
 
-  public async generateProjectFiles(pages: Page[], extraImages: string[] = []) {
-    this.pages = pages;
+  public async generateProjectFiles(pages: Page[]) {
     if (pages.length === 0) {
       console.error("No pages to generate");
       return;
@@ -59,9 +53,10 @@ export class FileGenerator {
     this.createDirectoryBuildProps();
     this.createPublishProfiles();
     this.createReadme();
-    this.copyAssetImages(extraImages);
+    this.copyAssetImages();
     this.createVSCodeFiles();
-    this.addImagesToProjectFile(extraImages);
+    this.addImagesToProjectFile();
+    await this.processAllImages(pages);
 
     pages.forEach((page) => {
       const sanitizedPageName = this.sanitizePageName(page.name);
@@ -334,7 +329,19 @@ export class FileGenerator {
     fs.writeFileSync(path.join(vscodeDir, "tasks.json"), JSON.stringify(tasksJson, null, 2));
   }
 
-  private copyAssetImages(extraImages: string[] = []) {
+  private async processAllImages(pages: Page[]) {
+    for (const page of pages) {
+      const imageNodes = findImageNodes(page.content);
+      for (const node of imageNodes) {
+        if (node.props.src) {
+          const imagePath = await handleImageSource(node.props.src, this.projectPath);
+          this.extraImages.push(imagePath);
+        }
+      }
+    }
+  }
+
+  private copyAssetImages() {
     const templateAssetsPath = path.join(this.templateManager.getTemplatesPath(), "Assets");
     const projectAssetsPath = path.join(this.outputPath, "Assets");
 
@@ -342,6 +349,7 @@ export class FileGenerator {
       fs.mkdirSync(projectAssetsPath, { recursive: true });
     }
 
+    // Copy template assets
     if (fs.existsSync(templateAssetsPath)) {
       const assetFiles = fs.readdirSync(templateAssetsPath);
       for (const file of assetFiles) {
@@ -351,15 +359,15 @@ export class FileGenerator {
       }
     }
 
-    // Copy additional images
-    for (const imagePath of extraImages) {
+    // Copy extra images (including downloaded, uploaded, and AI-generated)
+    for (const imagePath of this.extraImages) {
       const fileName = path.basename(imagePath);
       const destPath = path.join(projectAssetsPath, fileName);
       fs.copyFileSync(imagePath, destPath);
     }
   }
 
-  private addImagesToProjectFile(extraImages: string[] = []) {
+  private addImagesToProjectFile() {
     const projectFilePath = path.join(this.outputPath, `${this.projectName}.csproj`);
     let projectContent = fs.readFileSync(projectFilePath, "utf8");
 
@@ -369,8 +377,7 @@ export class FileGenerator {
         .readdirSync(assetsPath)
         .filter((file) =>
           [".png", ".jpg", ".jpeg", ".gif", ".bmp"].includes(path.extname(file).toLowerCase())
-        )
-        .concat(extraImages.map((image) => path.basename(image)));
+        );
 
       let imageItemGroup = "  <ItemGroup>\n";
       imageFiles.forEach((file) => {
@@ -380,7 +387,6 @@ export class FileGenerator {
       });
       imageItemGroup += "  </ItemGroup>\n";
 
-      // Insert the imageItemGroup before the closing </Project> tag
       projectContent = projectContent.replace("</Project>", `${imageItemGroup}</Project>`);
 
       fs.writeFileSync(projectFilePath, projectContent);
