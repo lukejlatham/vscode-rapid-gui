@@ -75,7 +75,6 @@ export const PropertyInspector: React.FC<{ classes: any }> = ({ classes }) => {
     return { selected: null, isEnabled: false };
   });
 
-  console.log(selected);
 
 
   const localClasses = useStyles();

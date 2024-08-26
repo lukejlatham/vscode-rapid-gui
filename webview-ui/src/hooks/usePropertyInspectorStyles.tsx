@@ -53,7 +53,10 @@ export const usePropertyInspectorStyles = makeStyles({
         alignItems: "center",
     },
     slider: {
-        flexGrow: 1,
+        flexGrow: 2,
+    },
+    sliderSpinButton: {
+        width: "20%",
     },
     srcDropdown: {
         width: "100%",
@@ -61,7 +64,6 @@ export const usePropertyInspectorStyles = makeStyles({
         flexDirection: "column",
         gap: "10px",
         justifyContent: "center",
-        // alignItems: "center",
     },
     imageUploaded: {
         width: "100%",
