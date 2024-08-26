@@ -17,7 +17,7 @@ export async function generateComponentXaml(
   content: { [key: string]: Node },
   indent: string = "",
   processedNodes: Set<string>,
-  projectPath?: string
+  projectPath: string
 ): Promise<string> {
   const nodeId = node.custom.id || Object.keys(content).find((key) => content[key] === node) || "";
   if (processedNodes.has(nodeId)) {
@@ -25,14 +25,14 @@ export async function generateComponentXaml(
   }
   processedNodes.add(nodeId);
 
-  let xaml = await generateSingleComponentXaml(node, content, indent);
+  let xaml = await generateSingleComponentXaml(node, content, indent, processedNodes, projectPath);
   console.log("Node is: ", node);
   console.log("Node children are: ", node.nodes);
   if (node.nodes) {
     for (const childId of node.nodes) {
       const childNode = content[childId];
       if (childNode && !processedNodes.has(childNode.custom.id || "")) {
-        xaml += await generateSingleComponentXaml(
+        xaml += await generateComponentXaml(
           childNode,
           content,
           indent + "  ",
@@ -47,7 +47,7 @@ export async function generateComponentXaml(
     for (const [key, linkedNodeId] of Object.entries(node.linkedNodes)) {
       const linkedNode = content[linkedNodeId];
       if (linkedNode && !processedNodes.has(linkedNode.custom.id || "")) {
-        xaml += await generateSingleComponentXaml(
+        xaml += await generateComponentXaml(
           linkedNode,
           content,
           indent + "  ",
@@ -66,7 +66,7 @@ export async function generateSingleComponentXaml(
   content: { [key: string]: Node },
   indent: string = "",
   processedNodes: Set<string> = new Set(),
-  projectPath?: string
+  projectPath: string
 ): Promise<string> {
   switch (node.type.resolvedName) {
     case "Button":
