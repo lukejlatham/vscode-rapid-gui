@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { ChatMessage } from "../../pages/EditingInterface/RightSidebar/ChatComponent";
+import { ChatMessage } from "./ChatComponent";
 
 const useChatEventHandlers = (
   setMessages: React.Dispatch<React.SetStateAction<ChatMessage[]>>,

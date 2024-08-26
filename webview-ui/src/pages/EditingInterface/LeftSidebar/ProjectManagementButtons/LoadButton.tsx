@@ -1,9 +1,9 @@
 import React, { useEffect, useContext } from "react";
 import { Button, Tooltip } from "@fluentui/react-components";
 import { Folder24Regular } from "@fluentui/react-icons";
-import { AccessibilityContext } from '../EditingInterface';
-import { vscode } from "../../../utilities/vscode";
-import { Page } from "../../../types";
+import { AccessibilityContext } from "../../EditingInterface";
+import { vscode } from "../../../../utilities/vscode";
+import { Page } from "../../../../types";
 import { v4 as uuidv4 } from "uuid"; // Import uuidv4
 import { FormattedMessage } from "react-intl";
 
@@ -60,13 +60,13 @@ const LoadButton: React.FC<{
       appearance="inverted">
       <Button
         style={{ width: "100%" }}
-        size={
-          accessibility.selectedAccessibility === 'yes' ? 'large' : 'medium'
-        }
+        size={accessibility.selectedAccessibility === "yes" ? "large" : "medium"}
         className={classes.button}
         icon={<Folder24Regular />}
         onClick={handleLoad}>
-        {accessibility.selectedAccessibility === 'yes' && (<FormattedMessage id="leftSidebar.load" defaultMessage="Load" />)}
+        {accessibility.selectedAccessibility === "yes" && (
+          <FormattedMessage id="leftSidebar.load" defaultMessage="Load" />
+        )}
       </Button>
     </Tooltip>
   );

@@ -9,14 +9,14 @@ import {
   Theme,
   Tooltip,
 } from "@fluentui/react-components";
-import ComponentButtons from "./ComponentButtons";
-import ProjectManagement from "./ProjectManagementButtons";
-import LayoutManagement from "./LayoutManagement";
-import PagesButtons from "./PagesButtons";
-import Settings from "./Settings";
+import ComponentButtons from "./ComponentsTab/ComponentButtons";
+import ProjectManagement from "./ProjectManagementButtons/ProjectManagementButtons";
+import LayoutManagement from "./LayoutTab/LayoutTab";
+import PagesButtons from "./PagesTab/PagesButtons";
+import Settings from "./SettingsTab/Settings";
 import ThemingDropdowns from "../../../Features/theming/ThemingDropdowns";
 import { Page } from "../../../types";
-import { RestartDialog } from "./RestartDialog";
+import { RestartDialog } from "./ProjectManagementButtons/RestartDialog";
 import {
   GridFilled,
   GridRegular,

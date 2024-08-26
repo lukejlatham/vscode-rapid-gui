@@ -2,8 +2,8 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useEditor } from "@craftjs/core";
 import { SpinButton, Label, Tooltip, mergeClasses } from "@fluentui/react-components";
 import { Info16Regular } from "@fluentui/react-icons";
-import { usePropertyInspectorStyles } from "../../../hooks/usePropertyInspectorStyles";
-import { BackgroundProps } from "../../../types";
+import { usePropertyInspectorStyles } from "../../../../hooks/usePropertyInspectorStyles";
+import { BackgroundProps } from "../../../../types";
 import { Layout } from "react-grid-layout";
 
 const TooltipContent = ({ children, id }: { children: string; id: string }) => (
@@ -14,23 +14,22 @@ const TooltipContent = ({ children, id }: { children: string; id: string }) => (
     }}
     positioning="above-start"
     withArrow
-    relationship="label"
-  >
+    relationship="label">
     <Info16Regular tabIndex={0} />
   </Tooltip>
 );
 
-const SizeControl = ({ 
-  label, 
-  tooltipContent, 
-  value, 
-  min, 
-  onChange 
-}: { 
-  label: string; 
-  tooltipContent: string; 
-  value: number; 
-  min: number; 
+const SizeControl = ({
+  label,
+  tooltipContent,
+  value,
+  min,
+  onChange,
+}: {
+  label: string;
+  tooltipContent: string;
+  value: number;
+  min: number;
   onChange: (value: number) => void;
 }) => {
   const styles = usePropertyInspectorStyles();
@@ -39,9 +38,7 @@ const SizeControl = ({
     <div>
       <div className={styles.label}>
         <Label>{label}</Label>
-        <TooltipContent id={`${label.toLowerCase()}-tooltip`}>
-          {tooltipContent}
-        </TooltipContent>
+        <TooltipContent id={`${label.toLowerCase()}-tooltip`}>{tooltipContent}</TooltipContent>
       </div>
       <SpinButton
         className={styles.spinButton}
@@ -62,12 +59,18 @@ export const GridSizeSelector: React.FC = () => {
     props: state.nodes["ROOT"].data.props as BackgroundProps,
   }));
 
-  const isValidResize = useCallback((newRows: number, newColumns: number) => {
-    // Add null check for props.layout
-    return props.layout && props.layout.every((item: Layout) => 
-      item.x + item.w <= newColumns && item.y + item.h <= newRows
-    );
-  }, [props.layout]);
+  const isValidResize = useCallback(
+    (newRows: number, newColumns: number) => {
+      // Add null check for props.layout
+      return (
+        props.layout &&
+        props.layout.every(
+          (item: Layout) => item.x + item.w <= newColumns && item.y + item.h <= newRows
+        )
+      );
+    },
+    [props.layout]
+  );
 
   const [rowMin, setRowMin] = useState(1);
   const [columnMin, setColumnMin] = useState(1);
@@ -80,13 +83,16 @@ export const GridSizeSelector: React.FC = () => {
     }
   }, [props.layout, props.columns, props.rows, isValidResize]);
 
-  const handleSizeChange = useCallback((dimension: 'rows' | 'columns') => (newValue: number) => {
-    if (newValue >= (dimension === 'rows' ? rowMin : columnMin)) {
-      setProp("ROOT", (props: BackgroundProps) => {
-        props[dimension] = newValue;
-      });
-    }
-  }, [setProp, rowMin, columnMin]);
+  const handleSizeChange = useCallback(
+    (dimension: "rows" | "columns") => (newValue: number) => {
+      if (newValue >= (dimension === "rows" ? rowMin : columnMin)) {
+        setProp("ROOT", (props: BackgroundProps) => {
+          props[dimension] = newValue;
+        });
+      }
+    },
+    [setProp, rowMin, columnMin]
+  );
 
   // Only render if props.layout is defined
   if (!props.layout) {
@@ -100,14 +106,14 @@ export const GridSizeSelector: React.FC = () => {
         tooltipContent="Change the number of rows in the grid."
         value={props.rows}
         min={rowMin}
-        onChange={handleSizeChange('rows')}
+        onChange={handleSizeChange("rows")}
       />
       <SizeControl
         label="Grid Columns"
         tooltipContent="Change the number of columns in the grid."
         value={props.columns}
         min={columnMin}
-        onChange={handleSizeChange('columns')}
+        onChange={handleSizeChange("columns")}
       />
     </>
   );

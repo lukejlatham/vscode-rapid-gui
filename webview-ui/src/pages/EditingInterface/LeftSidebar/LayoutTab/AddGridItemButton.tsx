@@ -2,8 +2,8 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useEditor } from "@craftjs/core";
 import { Button } from "@fluentui/react-components";
 import { AddSquareRegular } from "@fluentui/react-icons";
-import { usePropertyInspectorStyles } from "../../../hooks/usePropertyInspectorStyles";
-import { BackgroundProps } from "../../../types";
+import { usePropertyInspectorStyles } from "../../../../hooks/usePropertyInspectorStyles";
+import { BackgroundProps } from "../../../../types";
 import { Layout } from "react-grid-layout";
 
 export const AddGridItemButton: React.FC = () => {

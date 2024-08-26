@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useEditor } from "@craftjs/core";
 import { makeStyles, Switch } from "@fluentui/react-components";
-import { BackgroundProps } from "../../../types";
+import { BackgroundProps } from "../../../../types";
 
 const useGridVisibleStyles = makeStyles({
   GridVisible: {

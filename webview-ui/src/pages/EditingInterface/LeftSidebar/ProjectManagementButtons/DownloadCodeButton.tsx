@@ -10,11 +10,10 @@ import {
 } from "@fluentui/react-components";
 import { CodeRegular, ArrowDownloadRegular } from "@fluentui/react-icons";
 import { useEditor } from "@craftjs/core";
-import { vscode } from "../../../utilities/vscode";
-import { Page } from "../../../types";
+import { vscode } from "../../../../utilities/vscode";
+import { Page } from "../../../../types";
 import { FormattedMessage } from "react-intl";
-import { AccessibilityContext } from '../EditingInterface';
-
+import { AccessibilityContext } from "../../EditingInterface";
 
 const DownloadCodeButton: React.FC<{ classes: any; pages: Page[]; currentPageIndex: number }> = ({
   classes,
@@ -52,27 +51,31 @@ const DownloadCodeButton: React.FC<{ classes: any; pages: Page[]; currentPageInd
   };
 
   return (
-      <Menu>
-        <MenuTrigger disableButtonEnhancement>
-          <Tooltip
-            content={<FormattedMessage id="leftSidebar.export" defaultMessage="Export Code" />}
-            relationship="label"
-            positioning="after"
-            appearance="inverted">
-            <Button style={{ width: "100%" }} icon={<ArrowDownloadRegular />} appearance="outline" size={
-                    accessibility.selectedAccessibility === 'yes' ? 'large' : 'medium'
-                }>
-              { accessibility.selectedAccessibility === 'yes' && (<FormattedMessage id="leftSidebar.export" defaultMessage="Export" />)}
-            </Button>
-          </Tooltip>
-        </MenuTrigger>
-        <MenuPopover>
-          <MenuList>
-            <MenuItem onClick={() => handleDownloadCode("winui3")}>WinUI3</MenuItem>
-            <MenuItem onClick={() => handleDownloadCode("html")}>HTML/CSS</MenuItem>
-          </MenuList>
-        </MenuPopover>
-      </Menu>
+    <Menu>
+      <MenuTrigger disableButtonEnhancement>
+        <Tooltip
+          content={<FormattedMessage id="leftSidebar.export" defaultMessage="Export Code" />}
+          relationship="label"
+          positioning="after"
+          appearance="inverted">
+          <Button
+            style={{ width: "100%" }}
+            icon={<ArrowDownloadRegular />}
+            appearance="outline"
+            size={accessibility.selectedAccessibility === "yes" ? "large" : "medium"}>
+            {accessibility.selectedAccessibility === "yes" && (
+              <FormattedMessage id="leftSidebar.export" defaultMessage="Export" />
+            )}
+          </Button>
+        </Tooltip>
+      </MenuTrigger>
+      <MenuPopover>
+        <MenuList>
+          <MenuItem onClick={() => handleDownloadCode("winui3")}>WinUI3</MenuItem>
+          <MenuItem onClick={() => handleDownloadCode("html")}>HTML/CSS</MenuItem>
+        </MenuList>
+      </MenuPopover>
+    </Menu>
   );
 };
 

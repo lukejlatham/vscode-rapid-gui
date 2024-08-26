@@ -1,6 +1,6 @@
 import React from "react";
 import PropertyInspector from "./PropertyInspector";
-import AiChat from "./ChatComponent";
+import AiChat from "../../../Features/copilot/ChatComponent";
 import { Card, makeStyles } from "@fluentui/react-components";
 import { ThemeDropdown } from "../../../Features/theming/ThemeDropdown";
 
