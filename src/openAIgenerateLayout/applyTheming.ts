@@ -14,6 +14,9 @@ const hasBackgroundColor = (
 const hasFontColor = (obj: any): obj is { fontColor: "Main" | "LightAccent" | "DarkAccent" } =>
   "fontColor" in obj && typeof obj.fontColor === "string";
 
+const hasIconColor = (obj: any): obj is { iconColor: "Main" | "LightAccent" | "DarkAccent" } =>
+  "iconColor" in obj && typeof obj.iconColor === "string";
+
 const getRandomValue = (value: string | string[]): string => {
   if (Array.isArray(value)) {
     return value[Math.floor(Math.random() * value.length)];
@@ -66,6 +69,10 @@ const applyThemeToSchema = (
 
       if (hasFontColor(child)) {
         updatedChild.fontColor = mapColor(child.fontColor, "fontColors", selectedColorScheme);
+      }
+
+      if (hasIconColor(child)) {
+        updatedChild.iconColor = mapColor(child.iconColor, "fontColors", selectedColorScheme);
       }
 
       return updatedChild;

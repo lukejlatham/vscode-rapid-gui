@@ -40,7 +40,7 @@ export const buttonSchema = z.object({
     .transform((val) => (val in VscIcons ? val : "VscInfo"))
     .default("VscInfo") as z.ZodType<VscIconKeys>, // matches
   bordercolor: z.string().optional().default("transparent"), // updated from "white" to "transparent"
-  shadowColor: z.string().default(tokens.colorNeutralShadowKeyDarker), // matches
+  shadowColor: z.string().default("rgba(0, 0, 0, 0.6)"), // matches
   shadowOffsetX: z.number().optional().default(1), // matches
   shadowOffsetY: z.number().optional().default(1), // matches
   shadowBlur: z.number().optional().default(1), // updated from 3 to 1
@@ -111,7 +111,7 @@ export const containerSchema = z.object({
   borderRadius: z.number().default(5), // matches
   borderColor: z.string().optional().default("transparent"), // updated from "black" to "transparent"
   padding: z.number().default(5), // matches
-  shadowColor: z.string().default(tokens.colorNeutralShadowKeyDarker), // matches
+  shadowColor: z.string().default("rgba(0, 0, 0, 0.6)"), // matches
   shadowOffsetX: z.number().optional().default(1), // matches
   shadowOffsetY: z.number().optional().default(1), // matches
   shadowBlur: z.number().optional().default(1), // updated from 3 to 1
@@ -205,8 +205,8 @@ export const textBoxSchema = z.object({
   fontSize: z.number().default(14),
   fontFamily: z.string().default("Open Sans"),
   fontColor: z.string().default(tokens.colorBrandBackground2),
-  backgroundColor: z.string().default(tokens.colorBrandForeground2Pressed),
-  borderColor: z.string().default(tokens.colorBrandForeground2Pressed),
+  backgroundColor: z.string().default("#FFFFFF"),
+  borderColor: z.string().optional(),
   placeholder: z.string().default("Enter text..."),
   borderRadius: z.number().default(4),
   height: z.number().default(100),

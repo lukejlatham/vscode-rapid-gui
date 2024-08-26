@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { themeNames, fontNames, fontGenerationNames } from "./themes";
+import { themeNames, fontNames, fontGenerationNames, themeGenerationNames } from "./themes";
 import * as VscIcons from "react-icons/vsc";
 
 function levenshteinDistance(a: string, b: string): number {
@@ -46,7 +46,7 @@ function findClosestIcon(vscIcon: string): keyof typeof VscIcons {
   return closestMatch as keyof typeof VscIcons;
 }
 
-// Use .default to force a value
+// To force a value, remove from the generation json schema and add a default value here
 
 const generateButtonSchema = z
   .object({
@@ -59,6 +59,7 @@ const generateButtonSchema = z
     }),
     backgroundColor: z.enum(["Main", "LightAccent", "DarkAccent"]),
     width: z.number().default(10),
+    height: z.number().default(10),
     fontSize: z.number().default(18),
     shadowColor: z.string().default("transparent"), // matches
     shadowOffsetX: z.number().default(1), // matches
@@ -89,7 +90,7 @@ export const generateCheckboxesSchema = z
   .object({
     element: z.literal("Checkboxes"),
     fontColor: z.enum(["Main", "LightAccent", "DarkAccent"]).default("Main"),
-    optionLabels: z.array(z.string()).default(["Option 1", "Option 2"]),
+    optionLabels: z.array(z.string()),
   })
   .transform((data) => {
     return { ...data, numberOfBoxes: data.optionLabels.length };
@@ -101,13 +102,14 @@ export const generateInputSchema = z.object({
   placeholder: z.string(),
 });
 
-export const TitleType = z.enum(["Title", "Subtitle", "SmallSubtitle", "Link"]);
+export const TitleType = z.enum(["Title", "Subtitle", "SmallSubtitle", "Link", "Label"]);
 
 const FontSizeMap = {
   Title: 32,
   Subtitle: 24,
   SmallSubtitle: 18,
   Link: 14,
+  Label: 14,
 } as const;
 
 export const generateLabelSchema = z
@@ -128,7 +130,7 @@ export const generateRadioButtonSchema = z
   .object({
     element: z.literal("RadioButtons"),
     fontColor: z.enum(["Main", "LightAccent", "DarkAccent"]).default("Main"),
-    optionLabels: z.array(z.string()).default(["Option 1", "Option 2"]),
+    optionLabels: z.array(z.string()),
   })
   .transform((data) => {
     return { ...data, numberOfBoxes: data.optionLabels.length };
@@ -137,7 +139,6 @@ export const generateRadioButtonSchema = z
 export const generateImageSchema = z.object({
   element: z.literal("Image"),
   alt: z.string(),
-  width: z.number(),
 });
 
 export const generateTextBoxSchema = z.object({
@@ -159,8 +160,8 @@ export const generateSliderSchema = z.object({
 
 export const generateDropdownSchema = z.object({
   element: z.literal("Dropdown"),
-  header: z.string(),
   fontColor: z.enum(["Main", "LightAccent", "DarkAccent"]).default("Main"),
+  optionLabels: z.array(z.string()),
 });
 
 export const generateIconSchema = z.object({
@@ -205,7 +206,7 @@ export const sectionsSchema = z.array(sectionSchema);
 
 export const layoutSchema = z.object({
   fontFamily: z.enum(fontGenerationNames as [string, ...string[]]),
-  theme: z.enum(themeNames as [string, ...string[]]),
+  theme: z.enum(themeGenerationNames as [string, ...string[]]),
   sections: sectionsSchema,
 });
 
