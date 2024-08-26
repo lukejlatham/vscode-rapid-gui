@@ -10,12 +10,12 @@ import {
 } from "vscode";
 import { getUri } from "../utilities/getUri";
 import { getNonce } from "../utilities/getNonce";
-import { getAzureOpenaiApiKeys } from "../utilities/azureApiKeyStorage";
+import { getAzureOpenaiApiKeys } from "../utilities/azureUtilities";
 import { handleFileSave, handleFileLoad } from "../utilities/projectSaveUtilities";
-import { processSketch, processTextDescription } from "../openAIgenerateLayout/orchestrator";
+import { processSketch, processTextDescription } from "../generateLayout/orchestrator";
 import { processCopilotMessages } from "../copilot";
 import { handleImageUpload } from "../utilities/imageSave";
-import { handleImageGenerate } from "../utilities/handleImageGeneration";
+import { handleImageGenerate } from "../generateImage/handleImageGeneration";
 import { handleGetUploadedImages } from "../utilities/handleGetUploadedImages";
 import { convertToXaml } from "../utilities/xamlConverter";
 import { convertToHtml } from "../utilities/convertToHtml";

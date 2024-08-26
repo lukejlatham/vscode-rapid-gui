@@ -7,7 +7,10 @@ import {
 } from "@fluentui-copilot/react-copilot-chat";
 import { Send24Regular } from "@fluentui/react-icons";
 import { Button, Input } from "@fluentui/react-components";
-import { UserMessageComponent, CopilotMessageComponent } from "../../../Features/copilot/MessageComponents";
+import {
+  UserMessageComponent,
+  CopilotMessageComponent,
+} from "../../../Features/copilot/MessageComponents";
 import useChatStyles from "./ChatStyles";
 import { useEditor } from "@craftjs/core";
 import useChatMessages, { ChatMessage } from "../../../Features/copilot/useChatMessages";
@@ -15,7 +18,6 @@ import useChatEventHandlers from "../../../Features/copilot/useChatEventHandlers
 import initializeChat from "../../../Features/copilot/initializeChat";
 
 const ChatComponent: React.FC = () => {
-
   const baseSystemMessage = initializeChat();
 
   const {
@@ -27,7 +29,7 @@ const ChatComponent: React.FC = () => {
     setMessages,
     setIsLoading,
   } = useChatMessages(baseSystemMessage);
-  
+
   const [toolCallMessage, setToolCallMessage] = useState<string | null>(null);
 
   useChatEventHandlers(setMessages, setIsLoading, setToolCallMessage);
