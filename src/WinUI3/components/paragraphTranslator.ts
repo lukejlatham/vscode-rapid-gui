@@ -1,5 +1,6 @@
 import { Node } from "../JsonParser";
 import { convertColor } from "./colortranslator";
+import { escapeXml } from "./specialchar";
 
 export function generateTextXaml(node: Node, indent: string = ""): string {
   const props = node.props;
@@ -31,7 +32,7 @@ export function generateTextXaml(node: Node, indent: string = ""): string {
     xaml += "<Underline>";
   }
 
-  xaml += `<Run Text="${props.text || ""}" />`;
+  xaml += `<Run Text="${escapeXml(props.text || "")}" />`;
 
   if (props.underline) {
     xaml += "</Underline>";

@@ -44,8 +44,6 @@ export async function generateContainerXaml(
   xaml += ` Spacing="${props.gap || 0}"`;
   xaml += ` HorizontalAlignment="${mapJustifyContent(props.justifyContent)}"`;
   xaml += ` VerticalAlignment="${mapAlignItems(props.alignItems)}"`;
-  xaml += ` Padding="${props.padding || 10}"`;
-  xaml += ` Margin="${props.margin || 5}"`;
   xaml += `>\n`;
 
   // Generate child components
@@ -74,7 +72,7 @@ function mapJustifyContent(justifyContent: string): string {
     case "space-between":
       return "Center";
     case "space-around":
-      return "Center"; // XAML doesn't have a direct equivalent; Stretch is a close match
+      return "Center";
     default:
       return "Center";
   }
