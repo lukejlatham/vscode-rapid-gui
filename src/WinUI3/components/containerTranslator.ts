@@ -1,5 +1,6 @@
 import { Node } from "../JsonParser";
 import { generateComponentXaml, generateSingleComponentXaml } from "../componentGenerator";
+import { convertColor } from "./colortranslator";
 
 export async function generateContainerXaml(
   node: Node,
@@ -9,12 +10,10 @@ export async function generateContainerXaml(
 ): Promise<string> {
   const props = node.props;
 
-
   let xaml = `${indent}<Border`;
 
-
   if (props.backgroundColor) {
-    xaml += ` Background="${props.backgroundColor}"`;
+    xaml += ` Background="${convertColor(props.backgroundColor)}"`;
   }
 
   if (props.borderColor) {
@@ -31,7 +30,6 @@ export async function generateContainerXaml(
     xaml += ` Padding="${props.padding}"`;
   }
 
-  
   xaml += `>\n`;
 
   // if (props.padding) {

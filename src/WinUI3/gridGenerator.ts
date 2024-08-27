@@ -1,8 +1,9 @@
 import { LayoutItem, Node } from "./JsonParser";
 import { generateComponentXaml } from "./componentGenerator";
 import { Page } from "../../webview-ui/src/types";
+import { convertColor } from "./components/colortranslator";
 
-export async function generateGridXaml(page: Page): Promise<string> {
+export async function generateGridXaml(page: Page, projectPath: string): Promise<string> {
   console.log("Generating XAML for page:", JSON.stringify(page, null, 2));
 
   if (!page || !page.content || !page.content.ROOT) {
@@ -18,11 +19,17 @@ export async function generateGridXaml(page: Page): Promise<string> {
     return "<Grid></Grid>";
   }
 
-  let xaml = `<Grid x:Name="RootGrid" Background="${
+  let xaml = `<Grid x:Name="RootGrid" Background="${convertColor(
     rootNode.props.backgroundColor || "Transparent"
-  }">`;
+  )}">`;
   xaml += generateGridDefinitions(rootNode.props.rows, rootNode.props.columns);
-  xaml += await generateGridContent(content, rootNode.props.layout || [], "  ", rootNode);
+  xaml += await generateGridContent(
+    content,
+    rootNode.props.layout || [],
+    "  ",
+    rootNode,
+    projectPath
+  );
   xaml += "</Grid>";
 
   return xaml;
@@ -54,7 +61,8 @@ async function generateGridContent(
   content: { [key: string]: Node },
   layout: LayoutItem[],
   indent: string,
-  rootNode: Node
+  rootNode: Node,
+  projectPath: string
 ): Promise<string> {
   let xaml = "";
   const processedNodes = new Set<string>();
@@ -64,7 +72,7 @@ async function generateGridContent(
     if (nodeId && !processedNodes.has(nodeId)) {
       const node = content[nodeId];
       if (node) {
-        xaml += await generateGridCell(content, item, node, indent, processedNodes);
+        xaml += await generateGridCell(content, item, node, indent, processedNodes, projectPath);
       }
       processedNodes.add(nodeId);
     }
@@ -78,17 +86,14 @@ async function generateGridCell(
   layoutItem: LayoutItem,
   node: Node,
   indent: string,
-  processedNodes: Set<string>
+  processedNodes: Set<string>,
+  projectPath: string
 ): Promise<string> {
   const gridAttrs = generateGridAttributes(layoutItem);
 
-  // const horizontalAlignment = mapFlexToAlignment(node.props.justifyContent, true);
-  // const verticalAlignment = mapFlexToAlignment(node.props.alignItems, false);
-
-  // let xaml = `${indent}<Grid ${gridAttrs} HorizontalAlignment="${horizontalAlignment}" VerticalAlignment="${verticalAlignment}">\n`;
   let xaml = `${indent}<Grid ${gridAttrs}>\n`;
 
-  xaml += await generateComponentXaml(node, content, indent + "  ", processedNodes);
+  xaml += await generateComponentXaml(node, content, indent + "  ", processedNodes, projectPath);
 
   xaml += `${indent}</Grid>\n`;
   return xaml;

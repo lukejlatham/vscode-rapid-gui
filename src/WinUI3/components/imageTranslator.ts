@@ -11,20 +11,24 @@ export async function generateImageXaml(
   const props = node.props;
   let xaml = `${indent}<Image`;
 
-  if (props.src) {
-    const imageSource = handleImageSource(props.src, projectPath);
-    xaml += ` Source="${imageSource}"`;
+  xaml += ` Stretch="UniformToFill"`;
+  xaml += ` Width="${props.width || 100}"`;
+  xaml += ` Height="${props.height || 100}"`;
+
+  if (props.src && projectPath) {
+    try {
+      const imageSource = await handleImageSource(props.src, projectPath);
+      xaml += ` Source="${imageSource}"`;
+    } catch (error) {
+      console.error("Error handling image source:", error);
+    }
   } else {
-    console.warn("Image source is missing");
+    console.warn("Image source or project path is missing", { src: props.src, projectPath });
   }
 
   if (props.alt) {
     xaml += ` AutomationProperties.Name="${props.alt}"`;
   }
-
-  xaml += ` Width="${props.width || "Auto"}"`;
-  xaml += ` Height="Auto"`;
-  xaml += ` Stretch="Uniform"`;
 
   if (props.alignment) {
     xaml += ` HorizontalAlignment="${props.alignment}"`;
@@ -35,37 +39,36 @@ export async function generateImageXaml(
   return xaml + "\n";
 }
 
-async function handleImageSource(src: string, projectPath: string): Promise<string> {
+export async function handleImageSource(src: string, projectPath: string): Promise<string> {
   const assetsPath = path.join(projectPath, "Assets");
-  const fileName = path.basename(src);
-  const destPath = path.join(assetsPath, fileName);
-  
-  if (isUrl(src)) {
-    await downloadImage(src, destPath);
-  } else {
-    copyImageToAssets(src, destPath);
+  if (!fs.existsSync(assetsPath)) {
+    fs.mkdirSync(assetsPath, { recursive: true });
   }
-  
-  return `ms-appx:///Assets/${fileName}`;
+
+  let fileName = path.basename(decodeURIComponent(src));
+  const destPath = path.join(assetsPath, fileName);
+
+  if (src.startsWith("https://file+.vscode-resource.vscode-cdn.net/")) {
+    // Handle VSCode resource URLs (uploaded images)
+    const localPath = decodeURIComponent(
+      src.replace("https://file+.vscode-resource.vscode-cdn.net/", "")
+    );
+    fs.copyFileSync(localPath, destPath);
+  } else if (isUrl(src)) {
+    await downloadImage(src, destPath);
+  } else if (src.startsWith("data:image")) {
+    // Handle base64 encoded images (AI-generated)
+    const base64Data = src.split(",")[1];
+    fs.writeFileSync(destPath, base64Data, "base64");
+  } else {
+    // Handle local file paths
+    fs.copyFileSync(src, destPath);
+  }
+
+  return `/Assets/${fileName}`; // Return relative path
 }
-//   if (!fs.existsSync(assetsPath)) {
-//     fs.mkdirSync(assetsPath, { recursive: true });
-//   }
 
-//   if (isUrl(src)) {
-//     const fileName = path.basename(new URL(src).pathname);
-//     const destPath = path.join(assetsPath, fileName);
-//     await downloadImage(src, destPath);
-//     return `ms-appx:///Assets/${fileName}`;
-//   } else {
-//     const fileName = path.basename(src);
-//     const destPath = path.join(assetsPath, fileName);
-//     copyImageToAssets(src, destPath);
-//     return `ms-appx:///Assets/${fileName}`;
-//   }
-// }
-
-async function downloadImage(url: string, destPath: string): Promise<void> {
+export async function downloadImage(url: string, destPath: string): Promise<void> {
   try {
     const response = await axios.get(url, { responseType: "arraybuffer" });
     fs.writeFileSync(destPath, response.data);
@@ -75,7 +78,7 @@ async function downloadImage(url: string, destPath: string): Promise<void> {
   }
 }
 
-function isUrl(str: string): boolean {
+export function isUrl(str: string): boolean {
   try {
     new URL(str);
     return true;
@@ -84,11 +87,30 @@ function isUrl(str: string): boolean {
   }
 }
 
-function copyImageToAssets(sourcePath: string, destPath: string): void {
+export function copyImageToAssets(sourcePath: string, destPath: string): void {
   try {
     fs.copyFileSync(sourcePath, destPath);
     console.log(`Copied image to: ${destPath}`);
   } catch (error) {
     console.error(`Failed to copy image: ${error}`);
   }
+}
+
+export function findImageNodes(content: any): Node[] {
+  const imageNodes: Node[] = [];
+
+  function traverse(node: any) {
+    if (node.type && node.type.resolvedName === "Image") {
+      imageNodes.push(node);
+    }
+    if (node.nodes) {
+      node.nodes.forEach(traverse);
+    }
+    if (node.linkedNodes) {
+      Object.values(node.linkedNodes).forEach(traverse);
+    }
+  }
+
+  traverse(content);
+  return imageNodes;
 }

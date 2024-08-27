@@ -6,7 +6,13 @@ export function generateSliderXaml(node: Node, indent: string = ""): string {
   let xaml = `${indent}<StackPanel Orientation="Horizontal" Spacing="10">\n`;
 
   if (props.header) {
-    xaml += `${indent}  <TextBlock Text="${props.header}" VerticalAlignment="Center" Width="120" FontFamily="${props.fontFamily || "Segoe UI"}" FontSize="${props.fontSize || 14}" Foreground="${convertColor(props.fontColor) || "{ThemeResource SystemControlForegroundBaseHighBrush}"}" />\n`;
+    xaml += `${indent}  <TextBlock Text="${
+      props.header
+    }" VerticalAlignment="Center" Width="120" FontFamily="${
+      props.fontFamily || "Segoe UI"
+    }" FontSize="${props.fontSize || 14}" Foreground="${
+      convertColor(props.fontColor) || "{ThemeResource SystemControlForegroundBaseHighBrush}"
+    }" />\n`;
   }
 
   xaml += `${indent}  <Slider`;
@@ -23,8 +29,8 @@ export function generateSliderXaml(node: Node, indent: string = ""): string {
   xaml += `>\n`;
 
   xaml += `<Slider.Resources>
-    <SolidColorBrush x:Key="SliderTrackValueFill" Color="${props.color}"/>
-    <SolidColorBrush x:Key="SliderTrackFill" Color="${props.backgroundColor}"/>
+    <SolidColorBrush x:Key="SliderTrackValueFill" Color="${convertColor(props.color)}"/>
+    <SolidColorBrush x:Key="SliderTrackFill" Color="${convertColor(props.backgroundColor)}"/>
     </Slider.Resources>`;
 
   xaml += `${indent}  </Slider>\n`;
