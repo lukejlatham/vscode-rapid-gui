@@ -1,11 +1,11 @@
 import { Node } from "../JsonParser";
-import { convertColor } from "./colortranslator";
+import { convertColor, escapeXml } from "./colortranslator";
 
 export function generateLabelXaml(node: Node, indent: string = ""): string {
   const props = node.props;
   let xaml = `${indent}<TextBlock`;
 
-  xaml += ` Text="${props.text || ""}"`;
+  xaml += ` Text="${escapeXml(props.text || "")}"`;
   xaml += ` FontSize="${props.fontSize || 14}"`;
   xaml += ` FontFamily="${props.fontFamily || "Segoe UI, Sans-Serif"}"`;
   xaml += ` Foreground="${convertColor(

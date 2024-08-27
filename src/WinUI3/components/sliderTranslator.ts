@@ -1,14 +1,14 @@
 import { Node } from "../JsonParser";
-import { convertColor } from "./colortranslator";
+import { convertColor, escapeXml } from "./colortranslator";
 
 export function generateSliderXaml(node: Node, indent: string = ""): string {
   const props = node.props;
   let xaml = `${indent}<StackPanel Orientation="Horizontal" Spacing="10">\n`;
 
   if (props.header) {
-    xaml += `${indent}  <TextBlock Text="${
+    xaml += `${indent}  <TextBlock Text="${escapeXml(
       props.header
-    }" VerticalAlignment="Center" Width="120" FontFamily="${
+    )}" VerticalAlignment="Center" Width="120" FontFamily="${
       props.fontFamily || "Segoe UI"
     }" FontSize="${props.fontSize || 14}" Foreground="${
       convertColor(props.fontColor) || "{ThemeResource SystemControlForegroundBaseHighBrush}"

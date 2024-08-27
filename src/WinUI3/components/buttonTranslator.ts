@@ -1,5 +1,5 @@
 import { Node } from "../JsonParser";
-import { convertColor } from "./colortranslator";
+import { convertColor, escapeXml } from "./colortranslator";
 //?
 
 export function generateButtonXaml(node: Node, indent: string = ""): string {
@@ -7,7 +7,7 @@ export function generateButtonXaml(node: Node, indent: string = ""): string {
   let xaml = `${indent}<Button`;
 
   // Content
-  xaml += ` Content="${props.text || "button"}"`;
+  xaml += ` Content="${escapeXml(props.text || "button")}"`;
 
   // Style properties
   xaml += ` Foreground="${convertColor(
@@ -27,7 +27,7 @@ export function generateButtonXaml(node: Node, indent: string = ""): string {
   xaml += ` BorderThickness="${props.borderWidth || 1}"`;
   xaml += ` CornerRadius="${props.borderRadius || 0}"`;
 
-  xaml += ` Padding="${props.padding || '10,5'}"`;
+  xaml += ` Padding="${props.padding || "10,5"}"`;
 
   // Width and Height
   if (props.width) {

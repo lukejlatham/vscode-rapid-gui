@@ -1,5 +1,5 @@
 import { Node } from "../JsonParser";
-import { convertColor } from "./colortranslator";
+import { convertColor, escapeXml } from "./colortranslator";
 
 export function generateRadioButtonXaml(node: Node, indent: string = ""): string {
   const props = node.props;
@@ -16,7 +16,7 @@ export function generateRadioButtonXaml(node: Node, indent: string = ""): string
 
   props.optionLabels.forEach((label: string, index: number) => {
     xaml += `${indent}  <RadioButton`;
-    xaml += ` Content="${label}"`;
+    xaml += ` Content="${escapeXml(label)}"`;
     xaml += ` GroupName="${props.groupName || "RadioGroup"}"`;
     xaml += ` FontFamily="${props.fontFamily || "Segoe UI, Sans-Serif"}"`;
     xaml += ` FontSize="${props.fontSize}"`;

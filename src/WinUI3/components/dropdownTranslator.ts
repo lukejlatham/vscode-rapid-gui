@@ -1,5 +1,5 @@
 import { Node } from "../JsonParser";
-import { convertColor } from "./colortranslator";
+import { convertColor, escapeXml } from "./colortranslator";
 
 export function generateDropdownXaml(node: Node, indent: string = ""): string {
   const props = node.props;
@@ -7,7 +7,7 @@ export function generateDropdownXaml(node: Node, indent: string = ""): string {
 
   // Add header
   if (props.header) {
-    xaml += `${indent}  <TextBlock Text="${props.header}" 
+    xaml += `${indent}  <TextBlock Text="${escapeXml(props.header)}" 
              FontSize="${props.fontSize || 14}" 
              FontFamily="${props.fontFamily || "Segoe UI, Sans-Serif"}" 
              Foreground="${convertColor(
@@ -28,7 +28,7 @@ export function generateDropdownXaml(node: Node, indent: string = ""): string {
   xaml += ` Background="${
     props.backgroundColor || "{ThemeResource ComboBoxBackgroundThemeBrush}"
   }"`;
-  xaml += ` PlaceholderText="${props.placeholder || ""}"`;
+  xaml += ` PlaceholderText="${escapeXml(props.placeholder || "")}"`;
   xaml += ` CornerRadius="${props.borderRadius || 0}"`;
   xaml += ">\n";
 

@@ -1,11 +1,11 @@
 import { Node } from "../JsonParser";
-import { convertColor } from "./colortranslator";
+import { convertColor, escapeXml } from "./colortranslator";
 
 export function generateTextBoxXaml(node: Node, indent: string = ""): string {
   const props = node.props;
   let xaml = `${indent}<TextBox`;
 
-  xaml += ` Text="${props.text}"`;
+  xaml += ` Text="${escapeXml(props.text)}"`;
   xaml += ` PlaceholderText="${props.placeholder}"`;
   xaml += ` FontSize="${props.fontSize}"`;
   xaml += ` Foreground="${convertColor(props.fontColor)}"`;
