@@ -52,6 +52,8 @@ export const AddPageDialog: React.FC<AddPageDialogDialogProps> = ({
   const styles = useStyles();
 
   const handleScratch = () => {
+    console.log("Pages lenth", pages.length);
+    // setPages([...pages, { id: uuidv4(), name: `Page ${pages.length + 1}`, content: {} }]);
     setPages([...pages, { id: uuidv4(), name: `Page ${pages.length + 1}`, content: {} }]);
     onClose();
   };

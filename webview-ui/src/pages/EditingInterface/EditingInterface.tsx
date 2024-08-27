@@ -45,9 +45,9 @@ const useStyles = makeStyles({
   },
 });
 
-const createDefaultPage = (): Page => ({
+const createDefaultPage = (pageName: string = 'Page 1'): Page => ({
   id: uuidv4(),
-  name: 'Page 1',
+  name: pageName,
   content: {
     ROOT: {
       type: { resolvedName: 'Background' },
@@ -107,7 +107,7 @@ const EditingInterface: React.FC<{
       setCurrentPageIndex(0);
     }
     // if any page is empty, create a default page
-    setPages(prevPages => prevPages.map(page => Object.keys(page.content).length === 0 ? createDefaultPage() : page));
+    setPages(prevPages => prevPages.map(page => Object.keys(page.content).length === 0 ? createDefaultPage(`Page ${pages.length}`) : page));
     
     setCurrentPageIndex(pages.length - 1);
     setIsLoading(false);
