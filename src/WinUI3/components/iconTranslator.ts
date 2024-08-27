@@ -45,7 +45,7 @@ function formatColor(color: string): string {
   return "{ThemeResource SystemControlForegroundBaseHighBrush}";
 }
 
-function getGlyphFromVscIcon(iconName: string): string {
+export function getGlyphFromVscIcon(iconName: string): string {
   const iconMap: { [key: string]: string } = {
     VscAdd: "\uE710",
     VscHome: "\uE80F",
