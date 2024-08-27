@@ -6,6 +6,11 @@
   "startProjectDialog.scratch": "Scratch",
   "startProjectDialog.text": "Text",
 
+  "restartDialog.title": "Restart",
+  "restartDialog.content": "Are you sure you want to restart? This will delete all your current progress.",
+  "restartDialog.cancel": "Cancel",
+  "restartDialog.restart": "Restart",
+
   "templatesDialog.title": "Choose a template",
   "templatesDialog.cancel": "Cancel",
   "templatesDialog.website": "Website",
@@ -14,8 +19,16 @@
   "templatesDialog.Login": "Login",
 
   "leftSidebar.layout": "Layout",
+  "leftSidebar.layout.breadcrumb": "Grid Editable",
+  "leftSidebar.layout.caption": "Drag cells to reposition and drag cell corners to resize",
+
   "leftSidebar.components": "Components",
+  "leftSidebar.components.caption": "Drag components onto grid cells to add them to the canvas",
+
+
   "leftSidebar.theme": "Theme",
+  "leftSidebar.theme.caption": "Select a font, theme or background color for your design",
+
   "leftSidebar.pages": "Pages",
   "leftSidebar.settings": "Settings",
   "leftSidebar.new": "Restart",
@@ -31,10 +44,14 @@
   "layout.tooltipUnlocked": "Locking the grid will snap cells to the grid, and prevent them from being moved or resized.",
   "layout.editGrid": "Edit Grid",
 
+  "pages.breadcrumb": "Pages",
+  "pages.caption": "Add, rename, delete, or reset pages in your project",
   "pages.add": "Add",
   "pages.delete": "Delete",
   "pages.rename": "Rename",
   "pages.reset": "Reset",
+  "pages.add.title": "New Page",
+  "pages.add.content": "Choose how you would like to add a new page:",
 
   "renameDialog.title": "Rename Page",
   "renameDialog.cancel": "Cancel",
@@ -42,13 +59,27 @@
 
   "theme.applyTheme": "Apply Theme",
   "theme.applyFont": "Apply Font",
+  "theme.selectFont": "Select Font",
+  "theme.backgroundColor": "Background Color",
+  "theme.backgroundColor.tooltip": "Change the color of the background.",
 
+
+  "settings.breadcrumb": "Settings",
+  "settings.caption": "Change the theme, language, and accessibility settings for the editor",
   "settings.changeTheme": "Change the extension's theme",
   "settings.changeLanguage": "Change the extension's language",
   "settings.accessibility": "Enable accessibility features",
   "settings.dark": "Dark",
   "settings.light": "Light",
   "settings.highContrast": "High Contrast",
+
+  "grid.rows": "Rows",
+  "grid.columns": "Columns",
+  "grid.rows.tooltip": "Change the number of rows in the grid",
+  "grid.columns.tooltip": "Change the number of columns in the grid",
+  "grid.addGridCell": "Add Grid Cell",
+  "grid.toggle": "Grid Visible",
+
 
   "components.button": "Button",
   "components.label": "Label",
@@ -61,5 +92,9 @@
   "components.dropdown": "Dropdown",
   "components.slider": "Slider",
   "components.icon": "Icon",
-  "components.container": "Container"
+  "components.container": "Container",
+
+  "propInspector.delete": "Delete",
+  "propInspector.copy": "Copy Format",
+  "propInspector.paste": "Paste Format"
 }

@@ -5,6 +5,7 @@ import { AddSquareRegular } from "@fluentui/react-icons";
 import { usePropertyInspectorStyles } from "../../../../hooks/usePropertyInspectorStyles";
 import { BackgroundProps } from "../../../../types";
 import { Layout } from "react-grid-layout";
+import { FormattedMessage } from "react-intl";
 
 export const AddGridItemButton: React.FC = () => {
   const [canAddGridCells, setCanAddGridCells] = useState(false);
@@ -91,7 +92,7 @@ export const AddGridItemButton: React.FC = () => {
         size="large"
         onClick={handleAddGridCell}
         disabled={!canAddGridCells}>
-        Add Grid Cell
+        <FormattedMessage id="grid.addGridCell" defaultMessage="Add Grid Cell"/>
       </Button>
     </div>
   );

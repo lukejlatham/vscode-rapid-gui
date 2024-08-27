@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useEditor } from "@craftjs/core";
 import { Divider, Button, Tooltip, makeStyles, tokens, Breadcrumb, BreadcrumbItem } from "@fluentui/react-components";
 import { Delete24Regular, PaintBrush24Regular, PaintBrushArrowDown24Regular, Dismiss20Regular } from "@fluentui/react-icons";
-
+import { FormattedMessage } from "react-intl";
 
 const useStyles = makeStyles({
   propertyInspector: {
@@ -112,7 +112,12 @@ export const PropertyInspector: React.FC<{ classes: any }> = ({ classes }) => {
         {selected.settings && React.createElement(selected.settings)}
       </div>
       {selected.displayName !== "Grid Cell" ? (<div className={localClasses.buttonGroup}>
-        <Tooltip content="Copy Format" relationship="label">
+        <Tooltip
+        content={<FormattedMessage 
+          id="propInspector.copy" 
+          defaultMessage="Copy Format"
+        />} 
+        relationship="label">
           <Button
             appearance='secondary'
             className={localClasses.button}
@@ -121,7 +126,12 @@ export const PropertyInspector: React.FC<{ classes: any }> = ({ classes }) => {
             disabled={!selected.props}
           />
         </Tooltip>
-        <Tooltip content="Paste Format" relationship="label">
+        <Tooltip 
+        content={<FormattedMessage 
+          id="propInspector.paste" 
+          defaultMessage="Paste Format"
+        />} 
+        relationship="label">
           <Button
             appearance='secondary'
             className={localClasses.button}
@@ -139,7 +149,7 @@ export const PropertyInspector: React.FC<{ classes: any }> = ({ classes }) => {
           }}
           disabled={!selected.isDeletable}
         >
-          Delete
+          <FormattedMessage id="propInspector.delete" defaultMessage="Delete" />
         </Button>
       </div>) : null}
     </div>

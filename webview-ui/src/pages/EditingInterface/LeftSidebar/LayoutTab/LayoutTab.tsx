@@ -9,6 +9,7 @@ import {
   BreadcrumbItem,
 } from "@fluentui/react-components";
 import { GridVisibilityToggle } from "./GridVisibilityToggle";
+import { FormattedMessage } from "react-intl";
 
 const useStyles = makeStyles({
   container: {
@@ -34,11 +35,17 @@ const LayoutManagement: React.FC<{ classes?: any }> = ({ classes }) => {
     <div className={styles.container}>
       <Breadcrumb className={styles.breadcrumb}>
         <BreadcrumbItem>
-          <Body2>Grid Editable</Body2>
+          <Body2>
+            {/* Grid Editable */}
+            <FormattedMessage id="leftSidebar.layout.breadcrumb" defaultMessage="Grid Editable" />
+            </Body2>
         </BreadcrumbItem>
       </Breadcrumb>
       <Caption1 className={styles.caption}>
-        Drag cells to reposition and drag cell corners to resize
+        <FormattedMessage
+          id="leftSidebar.layout.caption"
+          defaultMessage="Drag cells to reposition and drag cell corners to resize"
+        />
       </Caption1>
       <GridSizeSelector />
       <AddGridItemButton />

@@ -84,11 +84,13 @@ const PagesButtons: React.FC<{
     <div className={styles.pagesContainer}>
       <Breadcrumb className={styles.breadcrumb}>
         <BreadcrumbItem>
-          <Body2>Pages</Body2>
+          <Body2>
+            <FormattedMessage id="pages.breadcrumb" defaultMessage="Pages" />
+            </Body2>
         </BreadcrumbItem>
       </Breadcrumb>
       <Caption1 className={styles.caption}>
-        Add, rename, delete, or reset pages in your project
+        <FormattedMessage id="pages.caption" defaultMessage="Add, rename, delete, or reset pages in your project" />
       </Caption1>
 
       <Listbox

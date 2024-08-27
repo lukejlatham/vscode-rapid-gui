@@ -21,6 +21,7 @@ import { TextDialog } from "../../../../Features/generateLayout/textUpload/TextU
 import { TemplatesDialog } from "../../TemplatesDialog";
 import { Page } from "../../../../types";
 import { v4 as uuidv4 } from "uuid";
+import { FormattedMessage } from "react-intl";
 
 const useStyles = makeStyles({
   title: {
@@ -51,7 +52,6 @@ export const AddPageDialog: React.FC<AddPageDialogDialogProps> = ({
   const styles = useStyles();
 
   const handleScratch = () => {
-    // setPages([...pages, {id: uuidv4(), name: `Page ${pages.length + 1}`, content: {pages[0]?.content}}]);
     setPages([...pages, { id: uuidv4(), name: `Page ${pages.length + 1}`, content: {} }]);
     onClose();
   };
@@ -62,37 +62,40 @@ export const AddPageDialog: React.FC<AddPageDialogDialogProps> = ({
         <DialogSurface>
           <DialogBody>
             <DialogTitle className={styles.title}>
-              New Page <Button icon={<DismissRegular />} onClick={() => onClose()} />
+              <FormattedMessage id="pages.add.title" defaultMessage="New Page" />
+              <Button icon={<DismissRegular />} onClick={() => onClose()} />
             </DialogTitle>
-            <DialogContent>Choose how you would like to add a new page:</DialogContent>
+            <DialogContent>
+              <FormattedMessage id="pages.add.content" defaultMessage="Choose how you would like to add a new page:" />
+            </DialogContent>
             <DialogActions fluid>
               <Button
                 onClick={handleScratch}
                 size="large"
                 appearance="secondary"
                 icon={<DrawImageRegular />}>
-                Scratch
+                <FormattedMessage id="startProjectDialog.scratch" defaultMessage="Scrath" />
               </Button>
               <Button
                 onClick={() => setIsTemplatesDialogOpen(true)}
                 size="large"
                 appearance="secondary"
                 icon={<GlanceHorizontalSparklesRegular />}>
-                Templates
+                <FormattedMessage id="startProjectDialog.templates" defaultMessage="Templates" />
               </Button>
               <Button
                 onClick={() => setIsTextDialogOpen(true)}
                 size="large"
                 appearance="secondary"
                 icon={<TextEffectsSparkleRegular />}>
-                Text
+                <FormattedMessage id="startProjectDialog.text" defaultMessage="Text" />
               </Button>
               <Button
                 onClick={() => setIsUploadDialogOpen(true)}
                 size="large"
                 appearance="primary"
                 icon={<CameraSparklesRegular />}>
-                Sketch
+                <FormattedMessage id="startProjectDialog.sketch" defaultMessage="Sketch" />
               </Button>
             </DialogActions>
           </DialogBody>

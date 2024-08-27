@@ -6,6 +6,11 @@
   "startProjectDialog.scratch": "Libre",
   "startProjectDialog.text": "Texte",
 
+  "restartDialog.title": "Recommencer",
+  "restartDialog.content": "Êtes-vous sûr de vouloir recommencer? Cela supprimera tout vos progrès actuels.",
+  "restartDialog.cancel": "Annuler",
+  "restartDialog.restart": "Recommencer",
+
   "templatesDialog.title": "Choisissez un modèle",
   "templatesDialog.cancel": "Annuler",
   "templatesDialog.website": "Site Web",
@@ -14,8 +19,15 @@
   "templatesDialog.Login": "Page De Connexion",
 
   "leftSidebar.layout": "Mise en page",
+  "leftSidebar.layout.breadcrumb": "Grille Éditable",
+  "leftSidebar.layout.caption": "Faites glisser les cellules pour les repositionner et faites glisser les coins des cellules pour les redimensionner",
+
   "leftSidebar.components": "Éléments",
+  "leftSidebar.components.caption": "Faites glisser les éléments sur les cellules de la grille pour les ajouter",
+
   "leftSidebar.theme": "Thème",
+  "leftSidebar.theme.caption": "Sélectionnez une police, un thème ou une couleur de fond pour votre design",
+
   "leftSidebar.pages": "Pages",
   "leftSidebar.settings": "Paramètres",
   "leftSidebar.new": "Recommencer",
@@ -30,10 +42,15 @@
   "layout.tooltipUnlocked": "Verrouiller la grille permet de figer les cellules sur la grille et les empêcher d'être déplacées ou redimensionnées.",
   "layout.editGrid": "Modifier La Grille",
 
+  "pages.breadcrumb": "Pages",
+  "pages.caption": "Ajouter, supprimer, renommer ou réinitialiser les pages de votre projet",
   "pages.add": "Ajouter",
   "pages.delete": "Supprimer",
   "pages.rename": "Renommer",
   "pages.reset": "Effacer",
+
+  "pages.add.title": "Nouvelle Page",
+  "pages.add.content": "Choisissez comment vous souhaitez ajouter une nouvelle page:",
 
   "renameDialog.title": "Renommez la page",
   "renameDialog.cancel": "Annuler",
@@ -41,13 +58,25 @@
 
   "theme.applyTheme": "Appliquer thème",
   "theme.applyFont": "Appliquer police",
+  "theme.selectFont": "Sélectionner police",
+  "theme.backgroundColor": "Couleur de fond",
+  "theme.backgroundColor.tooltip": "Changer la couleur de fond",
 
+  "settings.breadcrumb": "Paramètres",
+  "settings.caption": "Changer le thème, la langue et les paramètres d'accessibilité de l'éditeur",
   "settings.changeTheme": "Modifier le thème de l'extension",
   "settings.changeLanguage": "Modifier la langue de l'extension",
   "settings.accessibility": "Activer les fonctionnalités d'accessibilité",
   "settings.dark": "Sombre",
   "settings.light": "Clair",
   "settings.highContrast": "Contraste élevé",
+
+  "grid.rows": "Lignes",
+  "grid.columns": "Colonnes",
+  "grid.rows.tooltip": "Changer le nombre de lignes dans la grille",
+  "grid.columns.tooltip": "Changer le nombre de colonnes dans la grille",
+  "grid.toggle": "Grille Visible",
+  "grid.addGridCell": "Ajouter Grid Cell",
 
   "components.button": "Bouton",
   "components.label": "Étiquette",
@@ -60,5 +89,9 @@
   "components.dropdown": "Liste Déroulante",
   "components.slider": "Curseur",
   "components.icon": "Icône",
-  "components.container": "Conteneur"
+  "components.container": "Conteneur",
+
+  "propInspector.delete": "Supprimer",
+  "propInspector.copy": "Copier Format",
+  "propInspector.paste": "Coller Format"
 }

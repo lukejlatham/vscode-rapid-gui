@@ -88,10 +88,18 @@ const Settings: React.FC<{
     <div className={styles.settingsContainer}>
       <Breadcrumb className={styles.breadcrumb}>
         <BreadcrumbItem>
-          <Body2>Settings</Body2>
+          <Body2>
+            <FormattedMessage id="settings.breadcrumb" defaultMessage="Settings" />
+            </Body2>
         </BreadcrumbItem>
       </Breadcrumb>
-      <Caption1 className={styles.caption}>Select a theme and language for the editor</Caption1>
+      <Caption1 className={styles.caption}>
+        <FormattedMessage
+          id="settings.caption"
+          defaultMessage="Change the theme, language, and accessibility settings
+        for the editor"
+        />
+      </Caption1>
       <div className={styles.settingItem}>
         <Label htmlFor="themeSelect">
           <FormattedMessage id="settings.changeTheme" defaultMessage="Theme:" />

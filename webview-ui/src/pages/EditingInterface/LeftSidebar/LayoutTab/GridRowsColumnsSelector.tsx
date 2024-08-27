@@ -5,8 +5,9 @@ import { Info16Regular } from "@fluentui/react-icons";
 import { usePropertyInspectorStyles } from "../../../../hooks/usePropertyInspectorStyles";
 import { BackgroundProps } from "../../../../types";
 import { Layout } from "react-grid-layout";
+import { FormattedMessage } from "react-intl";
 
-const TooltipContent = ({ children, id }: { children: string; id: string }) => (
+const TooltipContent = ({ children, id }: { children: string | JSX.Element; id: string }) => (
   <Tooltip
     content={{
       children,
@@ -26,8 +27,8 @@ const SizeControl = ({
   min,
   onChange,
 }: {
-  label: string;
-  tooltipContent: string;
+  label: string | JSX.Element;
+  tooltipContent: string | JSX.Element;
   value: number;
   min: number;
   onChange: (value: number) => void;
@@ -38,7 +39,7 @@ const SizeControl = ({
     <div>
       <div className={styles.label}>
         <Label>{label}</Label>
-        <TooltipContent id={`${label.toLowerCase()}-tooltip`}>{tooltipContent}</TooltipContent>
+        <TooltipContent id={`${label}-tooltip`}>{tooltipContent}</TooltipContent>
       </div>
       <SpinButton
         className={styles.spinButton}
@@ -102,15 +103,15 @@ export const GridSizeSelector: React.FC = () => {
   return (
     <>
       <SizeControl
-        label="Grid Rows"
-        tooltipContent="Change the number of rows in the grid."
+        label={<FormattedMessage id="grid.rows" defaultMessage="Grid Rows" />}
+        tooltipContent={<FormattedMessage id="grid.rows.tooltip" defaultMessage="Change the number of rows in the grid." />}
         value={props.rows}
         min={rowMin}
         onChange={handleSizeChange("rows")}
       />
       <SizeControl
-        label="Grid Columns"
-        tooltipContent="Change the number of columns in the grid."
+        label={<FormattedMessage id="grid.columns" defaultMessage="Grid Columns" />}
+        tooltipContent={<FormattedMessage id="grid.columns.tooltip" defaultMessage="Change the number of columns in the grid." />}
         value={props.columns}
         min={columnMin}
         onChange={handleSizeChange("columns")}

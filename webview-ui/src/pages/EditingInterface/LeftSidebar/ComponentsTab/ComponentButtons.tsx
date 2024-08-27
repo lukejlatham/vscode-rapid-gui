@@ -79,11 +79,13 @@ const ComponentButtons: React.FC<{ classes?: any }> = ({ classes }) => {
     <div className={styles.container}>
       <Breadcrumb className={styles.breadcrumb}>
         <BreadcrumbItem>
-          <Body2>Components</Body2>
+          <Body2>
+            <FormattedMessage id="leftSidebar.components" defaultMessage="Components" />
+          </Body2>
         </BreadcrumbItem>
       </Breadcrumb>
       <Caption1 className={styles.caption}>
-        Drag components onto grid cells to add them to the canvas
+        <FormattedMessage id="leftSidebar.components.caption" defaultMessage="Drag components onto grid cells to add them to the canvas" />
       </Caption1>
       <Button
         className={styles.componentButtons}

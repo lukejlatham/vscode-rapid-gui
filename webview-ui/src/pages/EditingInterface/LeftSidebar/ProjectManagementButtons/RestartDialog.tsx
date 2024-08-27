@@ -10,6 +10,8 @@ import {
 } from "@fluentui/react-components";
 import { Page } from "../../../../types";
 import { ArrowLeftFilled, ArrowResetFilled } from "@fluentui/react-icons";
+import { FormattedMessage } from "react-intl";
+
 
 export const RestartDialog: React.FC<{
   isOpen: boolean;
@@ -27,9 +29,15 @@ export const RestartDialog: React.FC<{
     <Dialog modalType="alert" open={isOpen} onOpenChange={(event, data) => onClose()}>
       <DialogSurface>
         <DialogBody>
-          <DialogTitle>Restart</DialogTitle>
+          <DialogTitle>
+            <FormattedMessage id="restartDialog.title"
+              defaultMessage="Restart Project"
+            />
+          </DialogTitle>
           <DialogContent>
-            Are you sure you want to restart? This will delete all your current progress.
+            <FormattedMessage id="restartDialog.content"
+              defaultMessage="Are you sure you want to restart? This will delete all your current progress."
+            />
           </DialogContent>
           <DialogActions fluid>
             <Button
@@ -37,14 +45,14 @@ export const RestartDialog: React.FC<{
               onClick={onClose}
               size="large"
               appearance="secondary">
-              Cancel
+              <FormattedMessage id="restartDialog.cancel" defaultMessage="Cancel" />
             </Button>
             <Button
               onClick={handleClick}
               size="large"
               appearance="primary"
               icon={<ArrowResetFilled />}>
-              Restart
+              <FormattedMessage id="restartDialog.restart" defaultMessage="Restart" />
             </Button>
           </DialogActions>
         </DialogBody>

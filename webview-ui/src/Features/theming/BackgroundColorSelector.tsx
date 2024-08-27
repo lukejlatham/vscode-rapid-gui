@@ -4,6 +4,7 @@ import { Label, Tooltip, mergeClasses } from "@fluentui/react-components";
 import { Info16Regular } from "@fluentui/react-icons";
 import { usePropertyInspectorStyles } from "../../hooks/usePropertyInspectorStyles";
 import { BackgroundProps } from "../../types";
+import { FormattedMessage } from "react-intl";
 
 export const BackgroundColorSelector: React.FC = () => {
   const [visibleTooltip, setVisibleTooltip] = useState(false);
@@ -28,9 +29,14 @@ export const BackgroundColorSelector: React.FC = () => {
   return (
     <div>
       <div className={styles.label} >
-        <Label>Background Color</Label>
+        <Label>
+          <FormattedMessage
+            id="theme.backgroundColor"
+            defaultMessage="Background Color"
+          />
+        </Label>
         <Tooltip
-          content="Change the color of the background."
+          content={<FormattedMessage id="theme.backgroundColor.tooltip" defaultMessage="Change the background color" />}
           positioning="above-start"
           withArrow
           relationship="label"

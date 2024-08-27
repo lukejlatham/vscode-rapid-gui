@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useEditor } from "@craftjs/core";
 import { makeStyles, Switch } from "@fluentui/react-components";
 import { BackgroundProps } from "../../../../types";
+import { FormattedMessage } from "react-intl";
 
 const useGridVisibleStyles = makeStyles({
   GridVisible: {
@@ -32,7 +33,12 @@ export const GridVisibilityToggle: React.FC = () => {
 
   return (
     <div className={styles.GridVisible}>
-      <Switch label="Grid Visible" checked={GridVisible} onChange={handleToggleGridVisibility} />
+      <Switch label={
+        <FormattedMessage
+          id="grid.toggle"
+          defaultMessage="Grid Visible"
+        />
+      } checked={GridVisible} onChange={handleToggleGridVisibility} />
     </div>
   );
 };
