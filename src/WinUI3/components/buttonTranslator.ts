@@ -17,7 +17,7 @@ export function generateButtonXaml(node: Node, indent: string = ""): string {
     props.backgroundColor || "{ThemeResource ButtonBackgroundThemeBrush}"
   )}"`;
   xaml += ` FontSize="${props.fontSize || 12}"`;
-  xaml += ` HorizontalAlignment="Stretch" VerticalAlignment="Stretch"`;
+  xaml += ` HorizontalAlignment="Left" VerticalAlignment="Center"`;
   xaml += ` FontFamily="${props.fontFamily || "Segoe UI, Sans-Serif"}"`;
 
   // Border properties
@@ -31,10 +31,10 @@ export function generateButtonXaml(node: Node, indent: string = ""): string {
 
   // Width and Height
   if (props.width) {
-    xaml += ` Width="${props.width}"`;
+    xaml += ` Width="${props.width || "auto"}"`;
   }
   if (props.height) {
-    xaml += ` Height="${props.height}"`;
+    xaml += ` Height="${props.height || "auto"}"`;
   }
 
   xaml += ">\n";

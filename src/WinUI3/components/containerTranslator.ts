@@ -31,14 +31,21 @@ export async function generateContainerXaml(
   }
 
   xaml += `>\n`;
+  xaml += `${indent} <ScrollViewer>\n`;
 
-  xaml += `${indent} <StackPanel`;
+  xaml += `${indent} <Grid`;
   xaml += ` Orientation="${props.flexDirection === "row" ? "Horizontal" : "Vertical"}"`;
   xaml += ` Spacing="${props.gap || 0}"`;
   xaml += ` HorizontalAlignment="${mapJustifyContent(props.justifyContent)}"`;
   xaml += ` VerticalAlignment="${mapAlignItems(props.alignItems)}"`;
-  xaml += ` Padding="${props.padding || 10}"`;
+  xaml += ` Padding="${props.padding || 0}"`;
   xaml += ` Margin="${props.margin || 5}"`;
+  if (props.width) {
+    xaml += ` Width="${props.width}"`;
+  }
+  if (props.height) {
+    xaml += ` Height="${props.height}"`;
+  }
   xaml += `>\n`;
 
   // Generate child components
@@ -50,8 +57,8 @@ export async function generateContainerXaml(
       }
     }
   }
-
-  xaml += `${indent}    </StackPanel>\n`;
+  xaml += `${indent} </ScrollViewer>\n`;
+  xaml += `${indent}    </Grid>\n`;
   xaml += `${indent}  </Border>\n`;
   return xaml;
 }
