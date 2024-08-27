@@ -16,7 +16,6 @@ export function generateButtonXaml(node: Node, indent: string = ""): string {
   xaml += ` Background="${convertColor(
     props.backgroundColor || "{ThemeResource ButtonBackgroundThemeBrush}"
   )}"`;
-  xaml += ` FontSize="${props.fontSize || 12}"`;
   xaml += ` HorizontalAlignment="Stretch" VerticalAlignment="Stretch"`;
   xaml += ` FontFamily="${props.fontFamily || "Segoe UI, Sans-Serif"}"`;
 
@@ -29,13 +28,9 @@ export function generateButtonXaml(node: Node, indent: string = ""): string {
 
   xaml += ` Padding="${props.padding || "10,5"}"`;
 
-  // Width and Height
-  if (props.width) {
-    xaml += ` Width="${props.width}"`;
-  }
-  if (props.height) {
-    xaml += ` Height="${props.height}"`;
-  }
+  xaml += ` MinWidth="${scaleSize(props.width, "button")}"`;
+  xaml += ` MinHeight="${scaleSize(props.height, "button")}"`;
+  xaml += ` FontSize="${scaleSize(props.fontSize, "text")}"`;
 
   xaml += ">\n";
 
@@ -77,4 +72,21 @@ function generateButtonContent(props: any, indent: string): string {
   content += `${indent}</Button.Content>\n`;
 
   return content;
+}
+
+function scaleSize(size: number, elementType: string = "default"): number {
+  const scales = {
+    button: { min: 32, max: 300, factor: 5 },
+    icon: { min: 16, max: 64, factor: 2 },
+    text: { min: 12, max: 72, factor: 1 },
+    default: { min: 32, max: 300, factor: 5 },
+  };
+
+  const { min, max, factor } = scales[elementType] || scales.default;
+
+  if (size <= 5) {
+    return min + (size - 1) * factor;
+  }
+
+  return Math.min(Math.max(size * factor, min), max);
 }
