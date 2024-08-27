@@ -173,15 +173,20 @@ export const colorTokens: { [key: string]: string } = {
 };
 //must add tokens also for the borderRadiusMedium so border size?
 
-export function convertColor(color: string): string {
+export function convertColor(color: string | undefined): string {
+  if (!color) {
+    return "Transparent";
+  }
+
   if (color.startsWith("${tokens.") && color.endsWith("}")) {
     const tokenName = color.slice(9, -1); // Remove '${tokens.' and '}'
     return colorTokens[tokenName] || color;
   } else if (color.endsWith("Accent")) {
-    return colorTokens[color];
+    return colorTokens[color] || color;
   } else if (color.startsWith("var")) {
     const tokenName = color.slice(6, -1); // Remove 'var(--' and ')'
-    return colorTokens[tokenName];
+    return colorTokens[tokenName] || color;
   }
+
   return color;
 }
