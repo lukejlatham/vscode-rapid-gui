@@ -341,7 +341,9 @@ export class FileGenerator {
           console.log("Processing image:", node.props.src);
           try {
             const imagePath = await handleImageSource(node.props.src, this.projectPath);
-            this.extraImages.push(imagePath);
+            if (imagePath) {
+              this.extraImages.push(imagePath);
+            }
           } catch (error) {
             console.error("Error processing image:", error);
           }
@@ -397,7 +399,6 @@ export class FileGenerator {
       });
       imageItemGroup += "  </ItemGroup>\n";
 
-      // Remove any existing duplicate ItemGroup for Assets
       projectContent = projectContent.replace(
         /<ItemGroup>\s*<Content Include="Assets\\.*?<\/ItemGroup>/s,
         ""

@@ -74,7 +74,7 @@ function mapJustifyContent(justifyContent: string): string {
     case "space-between":
       return "Center";
     case "space-around":
-      return "Center"; // XAML doesn't have a direct equivalent; Stretch is a close match
+      return "Center";
     default:
       return "Center";
   }
