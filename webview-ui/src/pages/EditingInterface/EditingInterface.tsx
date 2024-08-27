@@ -1,4 +1,4 @@
-import { Editor, SerializedNodes } from "@craftjs/core";
+import { Editor } from "@craftjs/core";
 import { Label } from "../../components/user/Label";
 import { Button } from "../../components/user/Button";
 import { makeStyles, Theme } from '@fluentui/react-components';
@@ -20,10 +20,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { EditorContent } from "./EditorContent";
 import { vscode } from '../../utilities/vscode';
 import { useLocation } from "react-router-dom";
-import { add, set } from "lodash";
-import { use } from "i18next";
-
-
 
 const useStyles = makeStyles({
   mainLayout: {
@@ -31,34 +27,27 @@ const useStyles = makeStyles({
     height: '100vh',
     width: '100vw',
   },
+  leftSidebar: {
+    display: 'flex',
+    flexShrink: 0,
+    maxWidth: '250px',
+  },
   mainContent: {
-    flexGrow: 1,
+    padding: '10px',
     display: 'flex',
-    flexDirection: 'column',
+    flex: '1 1 auto',
+    transition: 'all 0.3s ease',
   },
-  canvas: {
-    flexGrow: 1,
-    flexShrink: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    padding: '5px',
-    borderRadius: '3px',
-    overflow: 'hidden',
+  rightSidebar: {
+    flexBasis: '20%',
+    flexShrink: 0,
+    transition: 'all 0.3s ease',
   },
-  // leftSidebar: {
-  //   flexBasis: '30%',
-  //   flexShrink: 0,
-  //   display: 'flex',
-  //   flexDirection: 'column',
-  //   padding: '5px',
-  //   borderRadius: '3px',
-  //   overflow: 'hidden',
-  // }
 });
 
-const createDefaultPage = (): Page => ({
+const createDefaultPage = (pageName: string = 'Page 1'): Page => ({
   id: uuidv4(),
-  name: 'Page 1',
+  name: pageName,
   content: {
     ROOT: {
       type: { resolvedName: 'Background' },
@@ -118,7 +107,7 @@ const EditingInterface: React.FC<{
       setCurrentPageIndex(0);
     }
     // if any page is empty, create a default page
-    setPages(prevPages => prevPages.map(page => Object.keys(page.content).length === 0 ? createDefaultPage() : page));
+    setPages(prevPages => prevPages.map(page => Object.keys(page.content).length === 0 ? createDefaultPage(`Page ${pages.length}`) : page));
     
     setCurrentPageIndex(pages.length - 1);
     setIsLoading(false);

@@ -1,11 +1,10 @@
 import { Page } from "../../types";
-import RightSidebar from "./RightSidebar/RightSidebar";
 import Canvas from "./Canvas";
 import LeftSidebar from "./LeftSidebar/LeftSidebar";
 import { useEffect, useCallback, useState } from "react";
 import { SerializedNodes, useEditor } from "@craftjs/core";
-import { StartProjectDialog } from "../../components/StartProjectDialog";
-import { AddPageDialog } from "../../components/AddPageDialog";
+import { StartProjectDialog } from "./StartProjectDialog";
+import { AddPageDialog } from "./LeftSidebar/PagesTab/AddPageDialog";
 import { Theme } from "@fluentui/react-components";
 import PropertyInspector from "./RightSidebar/PropertyInspector";
 
@@ -34,7 +33,7 @@ export const EditorContent: React.FC<EditorContentProps> = ({
   classes,
   clearPage,
   theme,
-  setTheme
+  setTheme,
 }) => {
   const { actions, query } = useEditor();
   const [isStartProjectDialogOpen, setIsStartProjectDialogOpen] = useState(true);
@@ -71,23 +70,21 @@ export const EditorContent: React.FC<EditorContentProps> = ({
 
   return (
     <div className={classes.mainLayout}>
-      <div className={classes.leftSidebar}>
-        <LeftSidebar
-          classes={classes}
-          pages={pages}
-          setPages={setPages}
-          currentPageIndex={currentPageIndex}
-          setCurrentPageIndex={setCurrentPageIndex}
-          renamePage={renamePage}
-          deletePage={deletePage}
-          clearPage={clearPage}
-          updateCurrentPage={updateCurrentPage}
-          openStartProjectDialog={() => setIsStartProjectDialogOpen(true)}
-          openAddPageDialog={() => setIsAddPageDialogOpen(true)}
-          theme={theme}
-          setTheme={setTheme}
-        />
-      </div>
+      <LeftSidebar
+        classes={classes}
+        pages={pages}
+        setPages={setPages}
+        currentPageIndex={currentPageIndex}
+        setCurrentPageIndex={setCurrentPageIndex}
+        renamePage={renamePage}
+        deletePage={deletePage}
+        clearPage={clearPage}
+        updateCurrentPage={updateCurrentPage}
+        openStartProjectDialog={() => setIsStartProjectDialogOpen(true)}
+        openAddPageDialog={() => setIsAddPageDialogOpen(true)}
+        theme={theme}
+        setTheme={setTheme}
+      />
       <StartProjectDialog
         isOpen={isStartProjectDialogOpen}
         onClose={() => setIsStartProjectDialogOpen(false)}
@@ -99,13 +96,11 @@ export const EditorContent: React.FC<EditorContentProps> = ({
         onClose={() => setIsAddPageDialogOpen(false)}
         pages={pages}
         setPages={setPages}
-        />
+      />
       <div className={classes.mainContent}>
-        <div className={classes.canvas}>
-          <Canvas classes={classes} />
-        </div>
+        <Canvas />
       </div>
-      <PropertyInspector />
+      <PropertyInspector classes={classes} />
     </div>
   );
 };

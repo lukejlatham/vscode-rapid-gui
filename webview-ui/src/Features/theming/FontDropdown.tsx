@@ -21,7 +21,7 @@ const useStyles = makeStyles({
     flexDirection: "column",
     gap: "10px",
     paddingBottom: "15px",
-    width: "50%",
+
   },
   fontPreview: {
     marginLeft: "10px",
@@ -62,15 +62,18 @@ export const FontDropdown: React.FC = () => {
 
   return (
     <div className={styles.container}>
-       <Breadcrumb className={styles.breadcrumb}>
-  <BreadcrumbItem>
-    <Body2>
-      Theme
-    </Body2>
-  </BreadcrumbItem>
-</Breadcrumb>
-<Caption1 className={styles.caption}>
-  Select a font, theme or background color for your design
+      <Breadcrumb className={styles.breadcrumb}>
+        <BreadcrumbItem>
+          <Body2>
+            <FormattedMessage id="leftSidebar.theme" defaultMessage="Theme" />
+          </Body2>
+        </BreadcrumbItem>
+      </Breadcrumb>
+      <Caption1 className={styles.caption}>
+        <FormattedMessage
+          id="leftSidebar.theme.caption"
+          defaultMessage="Select a font, theme or background color for your design"
+        />
       </Caption1>
       <Select
         id={selectId}
@@ -78,7 +81,9 @@ export const FontDropdown: React.FC = () => {
         value={selectedFont}
         onChange={(e) => setSelectedFont(e.target.value)}
       >
-        <option value="" disabled>Select a font</option>
+        <option value="" disabled>
+          <FormattedMessage id="theme.selectFont" defaultMessage="Select Font" />
+        </option>
         {fontList.map((font) => (
           <option key={font} value={font} style={{ fontFamily: font }}>
             {font}
@@ -92,7 +97,7 @@ export const FontDropdown: React.FC = () => {
         appearance="primary"
         onClick={handleApplyFont}
       >
-        <FormattedMessage id="font.applyFont" defaultMessage="Apply Font" />
+        <FormattedMessage id="theme.applyFont" defaultMessage="Apply Font" />
       </Button>
     </div>
   );

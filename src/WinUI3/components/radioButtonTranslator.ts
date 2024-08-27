@@ -1,4 +1,6 @@
 import { Node } from "../JsonParser";
+import { convertColor } from "./colortranslator";
+import { escapeXml } from "./specialchar";
 
 export function generateRadioButtonXaml(node: Node, indent: string = ""): string {
   const props = node.props;
@@ -10,7 +12,9 @@ export function generateRadioButtonXaml(node: Node, indent: string = ""): string
 
   // Add header if present
   if (props.header) {
-    xaml += `${indent}  <TextBlock Text="${props.header}" FontSize="${props.fontSize}" Foreground="${props.fontColor}" />\n`;
+    xaml += `${indent}  <TextBlock Text="${escapeXml(props.header)}" FontSize="${
+      props.fontSize
+    }" Foreground="${props.fontColor}" />\n`;
   }
 
   props.optionLabels.forEach((label: string, index: number) => {
@@ -19,7 +23,7 @@ export function generateRadioButtonXaml(node: Node, indent: string = ""): string
     xaml += ` GroupName="${props.groupName || "RadioGroup"}"`;
     xaml += ` FontFamily="${props.fontFamily || "Segoe UI, Sans-Serif"}"`;
     xaml += ` FontSize="${props.fontSize}"`;
-    xaml += ` Foreground="${props.fontColor}"`;
+    xaml += ` Foreground="${convertColor(props.fontColor)}"`;
     if (index === 0 && props.defaultSelected) {
       xaml += ` IsChecked="True"`;
     }

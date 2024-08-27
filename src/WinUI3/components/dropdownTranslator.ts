@@ -1,4 +1,6 @@
 import { Node } from "../JsonParser";
+import { convertColor } from "./colortranslator";
+import { escapeXml } from "./specialchar";
 
 export function generateDropdownXaml(node: Node, indent: string = ""): string {
   const props = node.props;
@@ -6,10 +8,12 @@ export function generateDropdownXaml(node: Node, indent: string = ""): string {
 
   // Add header
   if (props.header) {
-    xaml += `${indent}  <TextBlock Text="${props.header}" 
+    xaml += `${indent}  <TextBlock Text="${escapeXml(props.header)}" 
              FontSize="${props.fontSize || 14}" 
              FontFamily="${props.fontFamily || "Segoe UI, Sans-Serif"}" 
-             Foreground="${props.fontColor || "{ThemeResource ComboBoxForegroundThemeBrush}"}" 
+             Foreground="${convertColor(
+               props.fontColor || "{ThemeResource ComboBoxForegroundThemeBrush}"
+             )}" 
              Margin="0,0,0,5"/>\n`;
   }
 
@@ -19,16 +23,25 @@ export function generateDropdownXaml(node: Node, indent: string = ""): string {
   xaml += ` Height="${props.height || 32}"`;
   xaml += ` FontSize="${props.fontSize || 14}"`;
   xaml += ` FontFamily="${props.fontFamily || "Segoe UI, Sans-Serif"}"`;
-  xaml += ` Foreground="${props.fontColor || "{ThemeResource ComboBoxForegroundThemeBrush}"}"`;
-  xaml += ` Background="${props.backgroundColor || "{ThemeResource ComboBoxBackgroundThemeBrush}"}"`;
-  xaml += ` PlaceholderText="${props.placeholder || ""}"`;
+  xaml += ` Foreground="${convertColor(
+    props.fontColor || "{ThemeResource ComboBoxForegroundThemeBrush}"
+  )}"`;
+  xaml += ` Background="${
+    props.backgroundColor || "{ThemeResource ComboBoxBackgroundThemeBrush}"
+  }"`;
+
+  const defaultPlaceholder =
+    Array.isArray(props.optionLabels) && props.optionLabels.length > 0
+      ? props.optionLabels[0]
+      : "Select an option";
+  xaml += ` PlaceholderText="${escapeXml(props.placeholder || defaultPlaceholder)}"`;
   xaml += ` CornerRadius="${props.borderRadius || 0}"`;
   xaml += ">\n";
 
   // Add options
   if (Array.isArray(props.optionLabels)) {
     props.optionLabels.forEach((option: string) => {
-      xaml += `${indent}    <ComboBoxItem Content="${option}" />\n`;
+      xaml += `${indent}    <ComboBoxItem Content="${escapeXml(option)}" />\n`;
     });
   }
 

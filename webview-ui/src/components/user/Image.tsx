@@ -3,7 +3,7 @@ import { makeStyles, Spinner, tokens } from "@fluentui/react-components";
 import { ImageProps, imageSchema } from "../../types";
 import { ImageSettings } from "./Settings/ImageSettings";
 import { useSelected } from "../../hooks/useSelected";
-import ImageGenerationLoader from "../SketchUpload/imageGenerationLoader";
+import ImageGenerationLoader from "../../Features/generateImage/imageGenerationLoader";
 
 const useStyles = makeStyles({
   container: {

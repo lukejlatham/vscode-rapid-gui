@@ -10,5 +10,16 @@ body {
   padding: 20px;
 }
 
+.icon {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1;
+}
+
+.icon-link {
+  text-decoration: none;
+  color: inherit;
+}
+
 /* Additional styles can be added below */
 {{dynamicStyles}}

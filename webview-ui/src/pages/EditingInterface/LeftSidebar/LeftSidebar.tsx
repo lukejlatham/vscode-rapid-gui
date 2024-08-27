@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useCallback } from "react";
 import {
   makeStyles,
   Button,
@@ -9,14 +9,14 @@ import {
   Theme,
   Tooltip,
 } from "@fluentui/react-components";
-import ComponentButtons from "./ComponentButtons";
-import ProjectManagement from "./ProjectManagementButtons";
-import LayoutManagement from "./LayoutManagement";
-import PagesButtons from "./PagesButtons";
-import Settings from "./Settings";
+import ComponentButtons from "./ComponentsTab/ComponentButtons";
+import ProjectManagement from "./ProjectManagementButtons/ProjectManagementButtons";
+import LayoutManagement from "./LayoutTab/LayoutTab";
+import PagesButtons from "./PagesTab/PagesButtons";
+import Settings from "./SettingsTab/Settings";
 import ThemingDropdowns from "../../../Features/theming/ThemingDropdowns";
 import { Page } from "../../../types";
-import { RestartDialog } from "./RestartDialog";
+import { RestartDialog } from "./ProjectManagementButtons/RestartDialog";
 import {
   GridFilled,
   GridRegular,
@@ -28,7 +28,7 @@ import {
   LibraryRegular,
   ArrowResetFilled,
   SettingsRegular,
-  SettingsFilled
+  SettingsFilled,
 } from "@fluentui/react-icons";
 import { FormattedMessage } from "react-intl";
 import { useEditor } from "@craftjs/core";
@@ -37,33 +37,15 @@ import { useEffect } from "react";
 import { AccessibilityContext } from "../EditingInterface";
 
 const useStyles = makeStyles({
-  componentRoot: {
-    display: "flex",
-    flexDirection: "column",
-    height: "100%",
-    alignContent: "center",
-    gap: "10px",
-    padding: "5px",
+  accessibleSidebar: {
+    maxWidth: "400px",
   },
   contentContainer: {
-    padding: "15px",
-    flexGrow: 1, // Allow content to grow and take available space
-    flexShrink: 0,
-    height: "100%",
-    boxSizing: "border-box",
-    gap: "10px",
-  },
-  sidebar: {
+    padding: "10px",
+    borderRight: `1px solid ${tokens.colorNeutralStroke1}`,
     display: "flex",
-    justifyContent: "start",
-    height: "100%",
-    flexShrink: 0,
-  },
-  sidebarExtended: {
-    width: "300px",
-  },
-  sidebarAccessible: {
-    width: "400px",
+    flexDirection: "column",
+    alignItems: "center",
   },
   tabsBar: {
     padding: "10px",
@@ -73,31 +55,16 @@ const useStyles = makeStyles({
     alignItems: "start",
     borderRight: `1px solid ${tokens.colorNeutralStroke1}`,
     flexShrink: 0,
+    flexBasis: "auto",
   },
   bottomButtons: {
     display: "flex",
-    width: "100%",
     flexDirection: "column",
+    width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    gap: "10px",
+    gap: "8px",
   },
-  layoutManagement: {
-    width: "100%",
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignItems: 'Left',
-    gap: '10px',
-  },
-  switchContainer: {
-    width: '100%',
-    border: `1px solid ${tokens.colorNeutralStroke1}`,
-    borderRadius: '5px',
-  },
-  componentButtons: {
-    cursor: "move !important",
-  }
 });
 
 interface LeftSidebarProps {
@@ -129,24 +96,27 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
   openStartProjectDialog,
   openAddPageDialog,
   theme,
-  setTheme
+  setTheme,
 }) => {
- const localClasses = useStyles();
-  const { actions: { setProp } } = useEditor();
+  const localClasses = useStyles();
+  const {
+    actions: { setProp },
+  } = useEditor();
   const [selectedTab, setSelectedTab] = useState<string>("");
   const [isRestartDialogOpen, setIsRestartDialogOpen] = useState(false);
 
   const accessibility = useContext(AccessibilityContext);
-  const toggleGridLock = (selectedTab: string) => {
 
+  const toggleGridLock = useCallback((selectedTab: string) => {
     setProp("ROOT", (props: BackgroundProps) => {
       props.lockedGrid = selectedTab !== "Layout";
     });
-  };
+  }
+  , [setProp]);
 
   useEffect(() => {
     toggleGridLock(selectedTab);
-  }, [selectedTab]);
+  }, [selectedTab, toggleGridLock]);
 
   const PagesIcon = selectedTab === "Pages" ? DocumentMultipleFilled : DocumentMultipleRegular;
   const LayoutIcon = selectedTab === "Layout" ? GridFilled : GridRegular;
@@ -154,15 +124,13 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
   const ComponentLibraryIcon = selectedTab === "ComponentLibrary" ? LibraryFilled : LibraryRegular;
   const SettingsIcon = selectedTab === "Settings" ? SettingsFilled : SettingsRegular;
 
-
   const renderContent = () => {
     switch (selectedTab) {
       case "Layout":
-        return <LayoutManagement classes={localClasses} />;
+        return <LayoutManagement />;
       case "Pages":
         return (
           <PagesButtons
-            classes={localClasses}
             pages={pages}
             setPages={setPages}
             renamePage={renamePage}
@@ -177,7 +145,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
       case "Theme":
         return <ThemingDropdowns />;
       case "ComponentLibrary":
-        return <ComponentButtons classes={localClasses} />;
+        return <ComponentButtons />;
       case "Settings":
         return <Settings classes={localClasses} theme={theme} setTheme={setTheme} />;
       default:
@@ -185,79 +153,87 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
     }
   };
 
-
-
-    return (
-    <div className={`${localClasses.sidebar} ${selectedTab !== '' ? localClasses.sidebarExtended : '' } ${selectedTab && accessibility.selectedAccessibility === 'yes' ? localClasses.sidebarAccessible : ''}`}>
+  return (
+    <div
+      className={`
+        ${classes.leftSidebar}
+        ${accessibility.selectedAccessibility === "yes" ? localClasses.accessibleSidebar : ""}
+      `}>
       <div className={localClasses.tabsBar}>
         <TabList
           selectedValue={selectedTab}
           onTabSelect={(event, data) => {
-            if (selectedTab === data.value as string) {
+            if (selectedTab === (data.value as string)) {
               setSelectedTab("");
             } else {
-              setSelectedTab(data.value as string)
+              setSelectedTab(data.value as string);
             }
           }}
           vertical
           appearance="subtle"
-          size="large"
-        >
-          <Tooltip content={<FormattedMessage id="leftSidebar.layout" defaultMessage="Layout"/>}
-          relationship="label" positioning="after" appearance="inverted">
-          <Tab icon={<LayoutIcon />} value="Layout" aria-label="Layout">
-            {accessibility.selectedAccessibility === 'yes' && 
-            (<FormattedMessage
-              id="leftSidebar.layout"
-              defaultMessage="Layout"
-            />)}
-          </Tab>
+          size="large">
+          <Tooltip
+            content={<FormattedMessage id="leftSidebar.layout" defaultMessage="Layout" />}
+            relationship="label"
+            positioning="after"
+            appearance="inverted">
+            <Tab icon={<LayoutIcon />} value="Layout" aria-label="Layout">
+              {accessibility.selectedAccessibility === "yes" && (
+                <FormattedMessage id="leftSidebar.layout" defaultMessage="Layout" />
+              )}
+            </Tab>
           </Tooltip>
 
-          <Tooltip content={<FormattedMessage id="leftSidebar.components" defaultMessage="Components"/>}
-          relationship="label" positioning="after" appearance="inverted">
-          <Tab icon={<ComponentLibraryIcon />} value="ComponentLibrary" aria-label="Components">
-            {accessibility.selectedAccessibility === 'yes' && 
-            (<FormattedMessage
-              id="leftSidebar.components"
-              defaultMessage="Components"
-            />)}
-          </Tab>
+          <Tooltip
+            content={<FormattedMessage id="leftSidebar.components" defaultMessage="Components" />}
+            relationship="label"
+            positioning="after"
+            appearance="inverted">
+            <Tab icon={<ComponentLibraryIcon />} value="ComponentLibrary" aria-label="Components">
+              {accessibility.selectedAccessibility === "yes" && (
+                <FormattedMessage id="leftSidebar.components" defaultMessage="Components" />
+              )}
+            </Tab>
           </Tooltip>
 
-          <Tooltip content={<FormattedMessage id="leftSidebar.pages" defaultMessage="Pages"/>}
-          relationship="label" positioning="after" appearance="inverted">
-          <Tab icon={<PagesIcon />} value="Pages" aria-label="Pages">
-          {accessibility.selectedAccessibility === 'yes' && 
-          (<FormattedMessage
-              id="leftSidebar.pages"
-              defaultMessage="Pages"
-            />)}
-          </Tab>
+          <Tooltip
+            content={<FormattedMessage id="leftSidebar.pages" defaultMessage="Pages" />}
+            relationship="label"
+            positioning="after"
+            appearance="inverted">
+            <Tab icon={<PagesIcon />} value="Pages" aria-label="Pages">
+              {accessibility.selectedAccessibility === "yes" && (
+                <FormattedMessage id="leftSidebar.pages" defaultMessage="Pages" />
+              )}
+            </Tab>
           </Tooltip>
 
-          <Tooltip content={<FormattedMessage id="leftSidebar.theme" defaultMessage="Theme"/>}
-          relationship="label" positioning="after" appearance="inverted">
-          <Tab icon={<ThemeIcon />} value="Theme" aria-label="Theme">
-          {accessibility.selectedAccessibility === 'yes' && (<FormattedMessage
-              id="leftSidebar.theme"
-              defaultMessage="Theme"
-            />)}
-          </Tab>
+          <Tooltip
+            content={<FormattedMessage id="leftSidebar.theme" defaultMessage="Theme" />}
+            relationship="label"
+            positioning="after"
+            appearance="inverted">
+            <Tab icon={<ThemeIcon />} value="Theme" aria-label="Theme">
+              {accessibility.selectedAccessibility === "yes" && (
+                <FormattedMessage id="leftSidebar.theme" defaultMessage="Theme" />
+              )}
+            </Tab>
           </Tooltip>
 
-          <Tooltip content={<FormattedMessage id="leftSidebar.settings" defaultMessage="Settings"/>}
-          relationship="label" positioning="after" appearance="inverted">
-          <Tab icon={<SettingsIcon />} value="Settings" aria-label="Settings">
-            {accessibility.selectedAccessibility === 'yes' && (<FormattedMessage
-              id="leftSidebar.settings"
-              defaultMessage="Settings"
-            />)}
-          </Tab>
+          <Tooltip
+            content={<FormattedMessage id="leftSidebar.settings" defaultMessage="Settings" />}
+            relationship="label"
+            positioning="after"
+            appearance="inverted">
+            <Tab icon={<SettingsIcon />} value="Settings" aria-label="Settings">
+              {accessibility.selectedAccessibility === "yes" && (
+                <FormattedMessage id="leftSidebar.settings" defaultMessage="Settings" />
+              )}
+            </Tab>
           </Tooltip>
         </TabList>
         <div className={localClasses.bottomButtons}>
-                  <Divider />
+          <Divider />
 
           <ProjectManagement
             classes={localClasses}
@@ -265,20 +241,31 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
             setPages={setPages}
             currentPageIndex={currentPageIndex}
           />
-          <Tooltip content={<FormattedMessage id="leftSidebar.new" defaultMessage="New" />} relationship="label" positioning="after" appearance="inverted">
-          <Button onClick={() => setIsRestartDialogOpen(true)} appearance="primary" icon={<ArrowResetFilled />} size={
-                    accessibility.selectedAccessibility === 'yes' ? 'large' : 'medium'
-                } style={{width: "100%"}}>
-            {accessibility.selectedAccessibility === 'yes' && (<FormattedMessage
-              id="leftSidebar.new"
-              defaultMessage="New"
-            />)}
-          </Button>
+          <Tooltip
+            content={<FormattedMessage id="leftSidebar.new" defaultMessage="New" />}
+            relationship="label"
+            positioning="after"
+            appearance="inverted">
+            <Button
+              onClick={() => setIsRestartDialogOpen(true)}
+              appearance="primary"
+              icon={<ArrowResetFilled />}
+              size={accessibility.selectedAccessibility === "yes" ? "large" : "medium"}
+              style={{ width: "100%" }}>
+              {accessibility.selectedAccessibility === "yes" && (
+                <FormattedMessage id="leftSidebar.new" defaultMessage="New" />
+              )}
+            </Button>
           </Tooltip>
-          <RestartDialog isOpen={isRestartDialogOpen} onClose={() => setIsRestartDialogOpen(false)} openStartProjectDialog={openStartProjectDialog} setPages={setPages} />
+          <RestartDialog
+            isOpen={isRestartDialogOpen}
+            onClose={() => setIsRestartDialogOpen(false)}
+            openStartProjectDialog={openStartProjectDialog}
+            setPages={setPages}
+          />
         </div>
       </div>
-      <div className={localClasses.contentContainer}>{renderContent()}</div>
+      {selectedTab && <div className={localClasses.contentContainer}>{renderContent()}</div>}
     </div>
   );
 };

@@ -1,17 +1,21 @@
 import * as fs from "fs";
 import * as path from "path";
+import { Node } from "../WinUI3/JsonParser";
 import { TemplateManager } from "./TemplateManager";
 import { generateGridXaml } from "./gridGenerator";
 import { Page } from "../../webview-ui/src/types";
 import { v4 as uuidv4 } from "uuid";
+import { findImageNodes, handleImageSource } from "./components/imageTranslator";
 
 export class FileGenerator {
+  private projectPath: string;
   private projectName: string;
   private outputPath: string;
   private templateManager: TemplateManager;
   private namespace: string;
   private appDescription: string;
   private defaultPublisher = "CN=DefaultPublisher";
+  private extraImages: string[] = [];
 
   constructor(
     projectName: string,
@@ -22,6 +26,7 @@ export class FileGenerator {
     defaultPublisher?: string
   ) {
     this.projectName = projectName;
+    this.projectPath = outputPath;
     this.outputPath = outputPath;
     this.templateManager = templateManager;
     this.namespace = namespace;
@@ -49,10 +54,12 @@ export class FileGenerator {
     this.createDirectoryBuildProps();
     this.createPublishProfiles();
     this.createReadme();
-    this.copyAssetImages();
     this.createVSCodeFiles();
+    await this.processAllImages(pages);
     this.addImagesToProjectFile();
-    // this.createGlobalJson();
+    this.copyAssetImages();
+    console.log("FileGenerator Project Path:", this.projectPath);
+    console.log("FileGenerator Output Path:", this.outputPath);
 
     pages.forEach((page) => {
       const sanitizedPageName = this.sanitizePageName(page.name);
@@ -187,7 +194,7 @@ export class FileGenerator {
   }
 
   async createPageXaml(page: Page, sanitizedPageName: string) {
-    const gridXaml = await generateGridXaml(page);
+    const gridXaml = await generateGridXaml(page, this.projectPath);
     let content = this.templateManager.getTemplate("Page.xaml");
     content = content.replace(/\{\{namespace\}\}/g, this.namespace);
     content = content.replace(/\{\{pageName\}\}/g, sanitizedPageName);
@@ -251,21 +258,12 @@ export class FileGenerator {
     this.createFile("README.md", content);
   }
 
-  // private createGlobalJson() {
-  //   const content = JSON.stringify({
-  //     sdk: {
-  //       version: "6.0.0" 
-  //     }
-  //   }, null, 2);
-  //   this.createFile("../global.json", content);
-  // }
-
   private createVSCodeFiles() {
     const vscodeDir = path.join(path.dirname(this.outputPath), ".vscode");
     if (!fs.existsSync(vscodeDir)) {
       fs.mkdirSync(vscodeDir, { recursive: true });
     }
-  
+
     const launchJson = {
       version: "0.2.0",
       configurations: [
@@ -278,16 +276,16 @@ export class FileGenerator {
           args: [],
           cwd: `\${workspaceFolder}/${this.projectName}`,
           console: "internalConsole",
-          stopAtEntry: false
+          stopAtEntry: false,
         },
         {
           name: ".NET Core Attach",
           type: "coreclr",
-          request: "attach"
-        }
-      ]
+          request: "attach",
+        },
+      ],
     };
-  
+
     const tasksJson = {
       version: "2.0.0",
       tasks: [
@@ -299,9 +297,9 @@ export class FileGenerator {
             "build",
             `\${workspaceFolder}/${this.projectName}/${this.projectName}.csproj`,
             "/property:GenerateFullPaths=true",
-            "/consoleloggerparameters:NoSummary"
+            "/consoleloggerparameters:NoSummary",
           ],
-          problemMatcher: "$msCompile"
+          problemMatcher: "$msCompile",
         },
         {
           label: "publish",
@@ -311,9 +309,9 @@ export class FileGenerator {
             "publish",
             `\${workspaceFolder}/${this.projectName}/${this.projectName}.csproj`,
             "/property:GenerateFullPaths=true",
-            "/consoleloggerparameters:NoSummary"
+            "/consoleloggerparameters:NoSummary",
           ],
-          problemMatcher: "$msCompile"
+          problemMatcher: "$msCompile",
         },
         {
           label: "watch",
@@ -323,26 +321,46 @@ export class FileGenerator {
             "watch",
             "run",
             "--project",
-            `\${workspaceFolder}/${this.projectName}/${this.projectName}.csproj`
+            `\${workspaceFolder}/${this.projectName}/${this.projectName}.csproj`,
           ],
-          problemMatcher: "$msCompile"
-        }
-      ]
+          problemMatcher: "$msCompile",
+        },
+      ],
     };
-  
+
     fs.writeFileSync(path.join(vscodeDir, "launch.json"), JSON.stringify(launchJson, null, 2));
     fs.writeFileSync(path.join(vscodeDir, "tasks.json"), JSON.stringify(tasksJson, null, 2));
+  }
+
+  private async processAllImages(pages: Page[]) {
+    this.extraImages = []; // Clear the array before processing
+    for (const page of pages) {
+      const imageNodes = findImageNodes(page.content);
+      for (const node of imageNodes) {
+        if (node.props.src) {
+          console.log("Processing image:", node.props.src);
+          try {
+            const imagePath = await handleImageSource(node.props.src, this.projectPath);
+            this.extraImages.push(imagePath);
+          } catch (error) {
+            console.error("Error processing image:", error);
+          }
+        }
+      }
+    }
+    console.log("Processed Images:", this.extraImages);
   }
 
   private copyAssetImages() {
     const templateAssetsPath = path.join(this.templateManager.getTemplatesPath(), "Assets");
     const projectAssetsPath = path.join(this.outputPath, "Assets");
 
-    if (fs.existsSync(templateAssetsPath)) {
-      if (!fs.existsSync(projectAssetsPath)) {
-        fs.mkdirSync(projectAssetsPath, { recursive: true });
-      }
+    if (!fs.existsSync(projectAssetsPath)) {
+      fs.mkdirSync(projectAssetsPath, { recursive: true });
+    }
 
+    // Copy template assets
+    if (fs.existsSync(templateAssetsPath)) {
       const assetFiles = fs.readdirSync(templateAssetsPath);
       for (const file of assetFiles) {
         const srcPath = path.join(templateAssetsPath, file);
@@ -350,7 +368,15 @@ export class FileGenerator {
         fs.copyFileSync(srcPath, destPath);
       }
     }
+
+    // Copy extra images (including downloaded, uploaded, and AI-generated)
+    for (const imagePath of this.extraImages) {
+      const fileName = path.basename(imagePath);
+      const destPath = path.join(projectAssetsPath, fileName);
+      fs.copyFileSync(imagePath, destPath);
+    }
   }
+
   private addImagesToProjectFile() {
     const projectFilePath = path.join(this.outputPath, `${this.projectName}.csproj`);
     let projectContent = fs.readFileSync(projectFilePath, "utf8");
@@ -371,7 +397,12 @@ export class FileGenerator {
       });
       imageItemGroup += "  </ItemGroup>\n";
 
-      // Insert the imageItemGroup before the closing </Project> tag
+      // Remove any existing duplicate ItemGroup for Assets
+      projectContent = projectContent.replace(
+        /<ItemGroup>\s*<Content Include="Assets\\.*?<\/ItemGroup>/s,
+        ""
+      );
+
       projectContent = projectContent.replace("</Project>", `${imageItemGroup}</Project>`);
 
       fs.writeFileSync(projectFilePath, projectContent);

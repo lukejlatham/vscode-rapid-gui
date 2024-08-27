@@ -1,5 +1,6 @@
 import { Node } from "../JsonParser";
 import { generateComponentXaml, generateSingleComponentXaml } from "../componentGenerator";
+import { convertColor } from "./colortranslator";
 
 export async function generateContainerXaml(
   node: Node,
@@ -9,12 +10,10 @@ export async function generateContainerXaml(
 ): Promise<string> {
   const props = node.props;
 
-
   let xaml = `${indent}<Border`;
 
-
   if (props.backgroundColor) {
-    xaml += ` Background="${props.backgroundColor}"`;
+    xaml += ` Background="${convertColor(props.backgroundColor)}"`;
   }
 
   if (props.borderColor) {
@@ -31,7 +30,6 @@ export async function generateContainerXaml(
     xaml += ` Padding="${props.padding}"`;
   }
 
-  
   xaml += `>\n`;
 
   // if (props.padding) {
@@ -46,8 +44,6 @@ export async function generateContainerXaml(
   xaml += ` Spacing="${props.gap || 0}"`;
   xaml += ` HorizontalAlignment="${mapJustifyContent(props.justifyContent)}"`;
   xaml += ` VerticalAlignment="${mapAlignItems(props.alignItems)}"`;
-  xaml += ` Padding="${props.padding || 10}"`;
-  xaml += ` Margin="${props.margin || 5}"`;
   xaml += `>\n`;
 
   // Generate child components
@@ -76,7 +72,7 @@ function mapJustifyContent(justifyContent: string): string {
     case "space-between":
       return "Center";
     case "space-around":
-      return "Center"; // XAML doesn't have a direct equivalent; Stretch is a close match
+      return "Center";
     default:
       return "Center";
   }
