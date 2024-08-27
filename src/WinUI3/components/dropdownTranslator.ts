@@ -29,14 +29,19 @@ export function generateDropdownXaml(node: Node, indent: string = ""): string {
   xaml += ` Background="${
     props.backgroundColor || "{ThemeResource ComboBoxBackgroundThemeBrush}"
   }"`;
-  xaml += ` PlaceholderText="${escapeXml(props.placeholder || "")}"`;
+
+  const defaultPlaceholder =
+    Array.isArray(props.optionLabels) && props.optionLabels.length > 0
+      ? props.optionLabels[0]
+      : "Select an option";
+  xaml += ` PlaceholderText="${escapeXml(props.placeholder || defaultPlaceholder)}"`;
   xaml += ` CornerRadius="${props.borderRadius || 0}"`;
   xaml += ">\n";
 
   // Add options
   if (Array.isArray(props.optionLabels)) {
     props.optionLabels.forEach((option: string) => {
-      xaml += `${indent}    <ComboBoxItem Content="${option}" />\n`;
+      xaml += `${indent}    <ComboBoxItem Content="${escapeXml(option)}" />\n`;
     });
   }
 
