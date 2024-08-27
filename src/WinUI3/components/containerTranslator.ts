@@ -17,11 +17,12 @@ export async function generateContainerXaml(
   }
 
   if (props.borderColor) {
-    xaml += ` BorderBrush="${props.borderColor}"`;
-    xaml += ` BorderThickness="1"`;
+    xaml += ` BorderBrush="${convertColor(props.borderColor)}"`;
   }
   if (props.borderThickness) {
     xaml += ` BorderThickness="${props.borderThickness}"`;
+  } else if (props.borderColor) {
+    xaml += ` BorderThickness="1"`;
   }
   if (props.borderRadius) {
     xaml += ` CornerRadius="${props.borderRadius}"`;
@@ -29,22 +30,21 @@ export async function generateContainerXaml(
   if (props.padding) {
     xaml += ` Padding="${props.padding}"`;
   }
-
-  xaml += `>\n`;
-  xaml += `${indent} <ScrollViewer>\n`;
-
-  xaml += `${indent} <Grid`;
-  xaml += ` Orientation="${props.flexDirection === "row" ? "Horizontal" : "Vertical"}"`;
-  xaml += ` Spacing="${props.gap || 0}"`;
-  xaml += ` HorizontalAlignment="${mapJustifyContent(props.justifyContent)}"`;
-  xaml += ` VerticalAlignment="${mapAlignItems(props.alignItems)}"`;
-  xaml += ` Padding="${props.padding || 0}"`;
-  xaml += ` Margin="${props.margin || 5}"`;
   if (props.width) {
-    xaml += ` Width="${props.width}"`;
+    xaml += ` Width="${props.width}"`; // need to convert this to a percentage or other XAML-friendly format
   }
   if (props.height) {
-    xaml += ` Height="${props.height}"`;
+    xaml += ` Height="${props.height}"`; // Same note as above
+  }
+
+  xaml += `>\n`;
+
+  xaml += `${indent}  <StackPanel`;
+  xaml += ` Orientation="${props.flexDirection === "row" ? "Horizontal" : "Vertical"}"`;
+  xaml += ` HorizontalAlignment="${mapJustifyContent(props.justifyContent)}"`;
+  xaml += ` VerticalAlignment="${mapAlignItems(props.alignItems)}"`;
+  if (props.gap) {
+    xaml += ` Spacing="${props.gap}"`;
   }
   xaml += `>\n`;
 
@@ -57,9 +57,9 @@ export async function generateContainerXaml(
       }
     }
   }
-  xaml += `${indent} </ScrollViewer>\n`;
-  xaml += `${indent}    </Grid>\n`;
-  xaml += `${indent}  </Border>\n`;
+
+  xaml += `${indent}  </StackPanel>\n`;
+  xaml += `${indent}</Border>\n`;
   return xaml;
 }
 
@@ -72,11 +72,10 @@ function mapJustifyContent(justifyContent: string): string {
     case "flex-end":
       return "Right";
     case "space-between":
-      return "Center";
     case "space-around":
-      return "Center";
+      return "Stretch";
     default:
-      return "Center";
+      return "Left";
   }
 }
 
@@ -88,7 +87,9 @@ function mapAlignItems(alignItems: string): string {
       return "Center";
     case "flex-end":
       return "Bottom";
+    case "stretch":
+      return "Stretch";
     default:
-      return "Center";
+      return "Stretch";
   }
 }
