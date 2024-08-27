@@ -45,9 +45,10 @@ Once the sample is open inside VS Code you can run the extension by doing the fo
 - >Developer : Open Webview Developer Tools
 ```
 
-Test Backend: Run
-npm run test:backend
-Test WebView UI:
-Run npm run test:webview
-Test All: Run
-npm run test:all
+```bash
+# Test 
+- npm run test:backend
+- npm run test:webview
+- npm run test:all
+
+```
