@@ -107,14 +107,16 @@ export const Background: FC<BackgroundProps> = (props) => {
     actions: { setProp },
   } = useNode();
 
-  setProp((props: BackgroundProps) => {
-    props.rows = initialRows;
-    props.columns = initialColumns;
-    props.lockedGrid = initialGridLocked;
-    props.layout = initialLayout;
-    props.visibleGrid = initialVisibleGrid;
-    props.backgroundColor = initialBackgroundColor;
-  });
+  useEffect(() => {
+    setProp((props: BackgroundProps) => {
+      props.rows = initialRows;
+      props.columns = initialColumns;
+      props.lockedGrid = initialGridLocked;
+      props.layout = initialLayout;
+      props.visibleGrid = initialVisibleGrid;
+      props.backgroundColor = initialBackgroundColor;
+    });
+  }, [initialRows, initialColumns, initialGridLocked, initialLayout, initialVisibleGrid, initialBackgroundColor, setProp]);
 
   useEffect(() => {
     const updateContainerHeight = () => {

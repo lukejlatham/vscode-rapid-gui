@@ -48,10 +48,10 @@ const useStyles = makeStyles({
 });
 
 const templates = [
-  { name: 'Website Homepage', icon: <DesktopRegular />, data: { id: uuidv4(), name: 'Website', content: Website } },
-  { name: 'Login Page', icon: <PersonPasskeyRegular />, data: { id: uuidv4(), name: 'Login Page', content: Login } },
-  { name: 'Video Game Settings', icon: <GamesRegular />, data: { id: uuidv4(), name: 'Video Game Settings', content: VideoGameSettings } },
-  { name: 'Feedback Form', icon: <FormRegular />, data: { id: uuidv4(), name: 'Feedback Form', content: FeedbackForm } },
+  { key: 1, name: 'Website Homepage', icon: <DesktopRegular />, data: { id: uuidv4(), name: 'Website', content: Website } },
+  { key: 2, name: 'Login Page', icon: <PersonPasskeyRegular />, data: { id: uuidv4(), name: 'Login Page', content: Login } },
+  { key: 3, name: 'Video Game Settings', icon: <GamesRegular />, data: { id: uuidv4(), name: 'Video Game Settings', content: VideoGameSettings } },
+  { key: 4, name: 'Feedback Form', icon: <FormRegular />, data: { id: uuidv4(), name: 'Feedback Form', content: FeedbackForm } },
 ];
 
 interface TemplatesDialogProps {
@@ -86,7 +86,7 @@ export const TemplatesDialog: React.FC<TemplatesDialogProps> = ({ isOpen, onClos
           <DialogContent>
             <div className={styles.templateContainer}>
               {templates.map((template) => (
-                <Card appearance='filled' className={styles.card} onClick={() => handleTemplateClick(template)}>
+                <Card key={template.key} appearance='filled' className={styles.card} onClick={() => handleTemplateClick(template)}>
                   <CardHeader title={template.name} image={template.icon} className={styles.icon} />
                   <Body2 className={styles.name}>{template.name}</Body2>
                 </Card>
