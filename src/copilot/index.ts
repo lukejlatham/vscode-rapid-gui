@@ -1,4 +1,4 @@
-import { getAzureOpenaiApiKeys } from "../utilities/azureApiKeyStorage";
+import { getAzureOpenaiApiKeys } from "../utilities/azureUtilities";
 import * as vscode from "vscode";
 import { formatMessages } from "./messageFormatting";
 import { postMessagesToAzure } from "./sendMessageToAzure";
