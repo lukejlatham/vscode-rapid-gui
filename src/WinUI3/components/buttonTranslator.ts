@@ -27,7 +27,7 @@ export function generateButtonXaml(node: Node, indent: string = ""): string {
   xaml += ` BorderThickness="${props.borderWidth || 1}"`;
   xaml += ` CornerRadius="${props.borderRadius || 0}"`;
 
-  xaml += ` Padding="${props.padding || "10,5"}"`;
+  xaml += ` Padding="${props.padding || "11"}"`;
 
   // Width and Height
   if (props.width) {
