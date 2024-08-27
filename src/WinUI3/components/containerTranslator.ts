@@ -30,12 +30,6 @@ export async function generateContainerXaml(
   if (props.padding) {
     xaml += ` Padding="${props.padding}"`;
   }
-  if (props.width) {
-    xaml += ` Width="${props.width}"`; // need to convert this to a percentage or other XAML-friendly format
-  }
-  if (props.height) {
-    xaml += ` Height="${props.height}"`; // Same note as above
-  }
 
   xaml += `>\n`;
 
@@ -46,6 +40,12 @@ export async function generateContainerXaml(
   if (props.gap) {
     xaml += ` Spacing="${props.gap}"`;
   }
+  // if (props.width) {
+  //   xaml += ` Width="${props.width}"`;
+  // }
+  // if (props.height) {
+  //   xaml += ` Height="${props.height}"`;
+  // }
   xaml += `>\n`;
 
   // Generate child components
