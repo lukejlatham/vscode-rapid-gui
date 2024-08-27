@@ -63,13 +63,7 @@ export async function generateContainerXaml(
     for (const childId of node.nodes) {
       const childNode = content[childId];
       if (childNode && !processedNodes.has(childNode.custom.id || childId || "")) {
-        processedNodes.add(childNode.custom.id || childId || "");
-        xaml += await generateComponentXaml(
-          childNode,
-          content,
-          indent + "        ",
-          processedNodes
-        );
+        xaml += await generateComponentXaml(childNode, content, indent + "    ", processedNodes);
       }
     }
   }
@@ -92,7 +86,7 @@ function mapJustifyContent(justifyContent: string): string {
     case "space-between":
       return "Center";
     case "space-around":
-      return "Center"; 
+      return "Center";
     default:
       return "Center";
   }
