@@ -36,7 +36,9 @@ export async function generateImageXaml(
 }
 
 export async function handleImageSource(src: string, projectPath: string): Promise<string> {
+  const uploadedImagesPath = path.join(projectPath, "..", "uploaded_images");
   const assetsPath = path.join(projectPath, "Assets");
+
   if (!fs.existsSync(assetsPath)) {
     fs.mkdirSync(assetsPath, { recursive: true });
   }
@@ -44,45 +46,29 @@ export async function handleImageSource(src: string, projectPath: string): Promi
   let fileName = path.basename(decodeURIComponent(src));
   const destPath = path.join(assetsPath, fileName);
 
-  try {
-    if (src.startsWith("https://file+.vscode-resource.vscode-cdn.net/")) {
-      // Handle VSCode resource URLs (uploaded images)
-      const localPath = decodeURIComponent(
-        src.replace("https://file+.vscode-resource.vscode-cdn.net/", "")
-      );
-      fs.copyFileSync(localPath, destPath);
-    } else if (src.startsWith("data:image")) {
-      // Handle base64 encoded images (AI-generated)
-      const base64Data = src.split(",")[1];
-      fs.writeFileSync(destPath, Buffer.from(base64Data, "base64"));
-    } else if (isUrl(src)) {
-      // Handle external URLs
-      await downloadImage(src, destPath);
+  if (isUrl(src)) {
+    await downloadImage(src, destPath);
+  } else {
+    const sourcePath = path.join(uploadedImagesPath, fileName);
+    if (fs.existsSync(sourcePath)) {
+      fs.copyFileSync(sourcePath, destPath);
+      console.log(`Image copied from ${sourcePath} to ${destPath}`);
     } else {
-      // Handle local file paths
-      const sourcePath = path.resolve(projectPath, "uploaded_images", fileName);
-      if (fs.existsSync(sourcePath)) {
-        fs.copyFileSync(sourcePath, destPath);
-      } else {
-        console.error(`Source file not found: ${sourcePath}`);
-        return "";
-      }
+      console.error(`Source file not found: ${sourcePath}`);
+      return "";
     }
-    console.log(`Image processed: ${destPath}`);
-    return `/Assets/${fileName}`; // Return relative path
-  } catch (error) {
-    console.error(`Failed to process image: ${src}`, error);
-    return "";
   }
+
+  return `/Assets/${fileName}`;
 }
 
-export async function downloadImage(url: string, destPath: string): Promise<void> {
+async function downloadImage(url: string, destPath: string): Promise<void> {
   try {
     const response = await axios.get(url, { responseType: "arraybuffer" });
     fs.writeFileSync(destPath, Buffer.from(response.data));
-    console.log(`Downloaded image to: ${destPath}`);
+    console.log(`Downloaded image from ${url} to ${destPath}`);
   } catch (error) {
-    console.error(`Failed to download image: ${error}`);
+    console.error(`Failed to download image from ${url}:`, error);
     throw error;
   }
 }

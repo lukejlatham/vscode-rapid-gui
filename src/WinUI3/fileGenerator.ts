@@ -41,6 +41,7 @@ export class FileGenerator {
       console.error("No pages to generate");
       return;
     }
+    await this.processAllImages(pages);
     this.createAppManifest();
     this.createAppXaml();
     this.createAppXamlCs();
@@ -55,11 +56,8 @@ export class FileGenerator {
     this.createPublishProfiles();
     this.createReadme();
     this.createVSCodeFiles();
-    await this.processAllImages(pages);
     this.addImagesToProjectFile();
     this.copyAssetImages();
-    console.log("FileGenerator Project Path:", this.projectPath);
-    console.log("FileGenerator Output Path:", this.outputPath);
 
     pages.forEach((page) => {
       const sanitizedPageName = this.sanitizePageName(page.name);
@@ -359,7 +357,7 @@ export class FileGenerator {
   }
 
   private async processAllImages(pages: Page[]) {
-    this.extraImages = []; // Clear the array before processing
+    this.extraImages = [];
     for (const page of pages) {
       const imageNodes = findImageNodes(page.content);
       for (const node of imageNodes) {
