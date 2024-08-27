@@ -499,6 +499,7 @@ const iconMapping: { [key: string]: string } = {
   VscJsonOutline: "fa-code",
   VscKebabHorizontalOutline: "fa-ellipsis-h",
   VscKebabVerticalOutline: "fa-ellipsis-v",
+  VscChip: "fa-microchip",
 };
 
 export function generateIconHtml(node: Node): string {
