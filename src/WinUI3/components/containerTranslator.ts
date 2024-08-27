@@ -17,48 +17,31 @@ export async function generateContainerXaml(
   }
 
   if (props.borderColor) {
-    xaml += ` BorderBrush="${convertColor(props.borderColor)}"`;
-    xaml += ` BorderThickness="${props.borderThickness || 1}"`;
+    xaml += ` BorderBrush="${props.borderColor}"`;
+    xaml += ` BorderThickness="1"`;
   }
-
+  if (props.borderThickness) {
+    xaml += ` BorderThickness="${props.borderThickness}"`;
+  }
   if (props.borderRadius) {
     xaml += ` CornerRadius="${props.borderRadius}"`;
   }
-
-  if (props.margin) {
-    xaml += ` Margin="${props.margin}"`;
-  }
-
-  xaml += `>\n`;
-
-  // StackPanel inside the Border
-  xaml += `${indent}  <StackPanel`;
-  xaml += ` Orientation="${props.flexDirection === "row" ? "Horizontal" : "Vertical"}"`;
-  xaml += ` HorizontalAlignment="${mapJustifyContent(props.justifyContent)}"`;
-  xaml += ` VerticalAlignment="${mapAlignItems(props.alignItems)}"`;
-
   if (props.padding) {
     xaml += ` Padding="${props.padding}"`;
   }
 
   xaml += `>\n`;
 
-  // Add a single Grid inside the StackPanel
-  xaml += `${indent}    <Grid`;
-
-  if (props.gap) {
-    xaml += ` Margin="${props.gap}"`;
-  }
-
+  xaml += `${indent} <StackPanel`;
+  xaml += ` Orientation="${props.flexDirection === "row" ? "Horizontal" : "Vertical"}"`;
+  xaml += ` Spacing="${props.gap || 0}"`;
+  xaml += ` HorizontalAlignment="${mapJustifyContent(props.justifyContent)}"`;
+  xaml += ` VerticalAlignment="${mapAlignItems(props.alignItems)}"`;
+  xaml += ` Padding="${props.padding || 10}"`;
+  xaml += ` Margin="${props.margin || 5}"`;
   xaml += `>\n`;
 
-  xaml += `${indent}      <Grid.RowDefinitions>\n`;
-  xaml += `${indent}        <RowDefinition Height="Auto"/>\n`;
-  xaml += `${indent}      </Grid.RowDefinitions>\n`;
-  xaml += `${indent}      <Grid.ColumnDefinitions>\n`;
-  xaml += `${indent}        <ColumnDefinition Width="Auto"/>\n`;
-  xaml += `${indent}      </Grid.ColumnDefinitions>\n`;
-
+  // Generate child components
   if (node.nodes) {
     for (const childId of node.nodes) {
       const childNode = content[childId];
@@ -68,10 +51,8 @@ export async function generateContainerXaml(
     }
   }
 
-  xaml += `${indent}    </Grid>\n`;
-
-  xaml += `${indent}  </StackPanel>\n`;
-  xaml += `${indent}</Border>\n`;
+  xaml += `${indent}    </StackPanel>\n`;
+  xaml += `${indent}  </Border>\n`;
   return xaml;
 }
 
