@@ -341,7 +341,9 @@ export class FileGenerator {
           console.log("Processing image:", node.props.src);
           try {
             const imagePath = await handleImageSource(node.props.src, this.projectPath);
-            this.extraImages.push(imagePath);
+            if (imagePath) {
+              this.extraImages.push(imagePath);
+            }
           } catch (error) {
             console.error("Error processing image:", error);
           }
@@ -349,32 +351,6 @@ export class FileGenerator {
       }
     }
     console.log("Processed Images:", this.extraImages);
-  }
-
-  private copyAssetImages() {
-    const templateAssetsPath = path.join(this.templateManager.getTemplatesPath(), "Assets");
-    const projectAssetsPath = path.join(this.outputPath, "Assets");
-
-    if (!fs.existsSync(projectAssetsPath)) {
-      fs.mkdirSync(projectAssetsPath, { recursive: true });
-    }
-
-    // Copy template assets
-    if (fs.existsSync(templateAssetsPath)) {
-      const assetFiles = fs.readdirSync(templateAssetsPath);
-      for (const file of assetFiles) {
-        const srcPath = path.join(templateAssetsPath, file);
-        const destPath = path.join(projectAssetsPath, file);
-        fs.copyFileSync(srcPath, destPath);
-      }
-    }
-
-    // Copy extra images (including downloaded, uploaded, and AI-generated)
-    for (const imagePath of this.extraImages) {
-      const fileName = path.basename(imagePath);
-      const destPath = path.join(projectAssetsPath, fileName);
-      fs.copyFileSync(imagePath, destPath);
-    }
   }
 
   private addImagesToProjectFile() {
@@ -397,7 +373,7 @@ export class FileGenerator {
       });
       imageItemGroup += "  </ItemGroup>\n";
 
-      // Remove any existing duplicate ItemGroup for Assets
+      // Remove existing image ItemGroup if it exists
       projectContent = projectContent.replace(
         /<ItemGroup>\s*<Content Include="Assets\\.*?<\/ItemGroup>/s,
         ""
