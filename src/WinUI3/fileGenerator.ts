@@ -332,6 +332,32 @@ export class FileGenerator {
     fs.writeFileSync(path.join(vscodeDir, "tasks.json"), JSON.stringify(tasksJson, null, 2));
   }
 
+  private copyAssetImages() {
+    const templateAssetsPath = path.join(this.templateManager.getTemplatesPath(), "Assets");
+    const projectAssetsPath = path.join(this.outputPath, "Assets");
+
+    if (!fs.existsSync(projectAssetsPath)) {
+      fs.mkdirSync(projectAssetsPath, { recursive: true });
+    }
+
+    // Copy template assets
+    if (fs.existsSync(templateAssetsPath)) {
+      const assetFiles = fs.readdirSync(templateAssetsPath);
+      for (const file of assetFiles) {
+        const srcPath = path.join(templateAssetsPath, file);
+        const destPath = path.join(projectAssetsPath, file);
+        fs.copyFileSync(srcPath, destPath);
+      }
+    }
+
+    // Copy extra images (including downloaded, uploaded, and AI-generated)
+    for (const imagePath of this.extraImages) {
+      const fileName = path.basename(imagePath);
+      const destPath = path.join(projectAssetsPath, fileName);
+      fs.copyFileSync(imagePath, destPath);
+    }
+  }
+
   private async processAllImages(pages: Page[]) {
     this.extraImages = []; // Clear the array before processing
     for (const page of pages) {
