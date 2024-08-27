@@ -500,6 +500,18 @@ const iconMapping: { [key: string]: string } = {
   VscKebabHorizontalOutline: "fa-ellipsis-h",
   VscKebabVerticalOutline: "fa-ellipsis-v",
   VscChip: "fa-microchip",
+  VscHeartFill: "fa-heart",
+  VscHeartFillOutline: "fa-heart",
+  VscKeyFill: "fa-key",
+  VscLawFill: "fa-gavel",
+  VscLibraryFill: "fa-book",
+  VscLightbulbFill: "fa-lightbulb",
+  VscLinkExternalOutline: "fa-external-link-alt",
+  VscListFilter: "fa-list-ul",
+  VscListFlatOutline: "fa-list-ul",
+  VscListTreeOutline: "fa-tree",
+  VscLoadingOutline: "fa-spinner",
+  VscLocationOutline: "fa-map-marker-alt",
 };
 
 export function generateIconHtml(node: Node): string {
