@@ -1,15 +1,23 @@
 import { Node } from "../JSONParser";
+import { generateIconHtml, generateIconCss } from "./Icon";
 
 export function generateButtonHtml(node: Node): string {
   const props = node.props;
-  const iconHtml =
-    props.icon !== "none"
-      ? `<i class="icon ${props.icon === "left" ? "icon-left" : "icon-right"}"></i>`
-      : "";
 
-  const content = `${props.icon === "left" ? iconHtml : ""}${props.text}${
-    props.icon === "right" ? iconHtml : ""
-  }`;
+  let content = "";
+
+  if (props.vscIcon && props.text) {
+    // Button with icon and text
+    const iconHtml = generateIconHtml({ ...node, props: { ...props, iconSize: props.fontSize } });
+    content =
+      props.iconPosition === "left" ? `${iconHtml}${props.text}` : `${props.text}${iconHtml}`;
+  } else if (props.vscIcon) {
+    // Button with only icon
+    content = generateIconHtml({ ...node, props: { ...props, iconSize: props.fontSize } });
+  } else {
+    // Button with only text
+    content = props.text || "";
+  }
 
   const button = `<button id="${node.custom.id}" class="custom-button ${node.custom.id}">
       ${content}
@@ -28,13 +36,10 @@ export function generateButtonCss(node: Node): string {
   // Helper function to convert width/height to appropriate units
   const convertSize = (size: number, type: "width" | "height") => {
     if (size <= 1) {
-      // Assume it's a fraction and convert to percentage
       return `${size * 100}%`;
     } else if (size <= 100) {
-      // Assume it's already a percentage
       return `${size}%`;
     } else {
-      // Assume it's pixels
       return `${size}px`;
     }
   };
@@ -42,7 +47,7 @@ export function generateButtonCss(node: Node): string {
   const width = convertSize(props.width, "width");
   const height = convertSize(props.height, "height");
 
-  return `
+  let buttonCss = `
   .custom-button.${node.custom.id} {
     color: ${props.fontColor};
     background-color: ${props.backgroundColor};
@@ -50,7 +55,7 @@ export function generateButtonCss(node: Node): string {
     width: ${width};
     height: ${height};
     border-radius: ${props.borderRadius}%;
-    
+    border-color: ${props.bordercolor || "transparent"};
     cursor: pointer;
     display: flex;
     text-align: center;
@@ -66,13 +71,15 @@ export function generateButtonCss(node: Node): string {
     }
   }
   
-  .custom-button.${node.custom.id} .icon {
-    ${props.icon === "left" ? "margin-right: 5px;" : ""}
-    ${props.icon === "right" ? "margin-left: 5px;" : ""}
-  }
-  
   .button-link {
     text-decoration: none;
   }
   `;
+
+  // If the button has an icon, include the icon CSS
+  if (props.vscIcon) {
+    buttonCss += generateIconCss({ ...node, props: { ...props, iconSize: props.fontSize } });
+  }
+
+  return buttonCss;
 }
