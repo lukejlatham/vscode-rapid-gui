@@ -10,7 +10,6 @@ import {
 } from "@fluentui/react-components";
 import { Page } from "../../../../types";
 import { ArrowLeftFilled, ArrowResetFilled } from "@fluentui/react-icons";
-import { set } from "lodash";
 
 export const RestartDialog: React.FC<{
   isOpen: boolean;

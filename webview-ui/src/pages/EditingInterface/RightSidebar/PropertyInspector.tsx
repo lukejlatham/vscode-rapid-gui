@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useEditor } from "@craftjs/core";
-import { Subtitle1, Divider, Button, Tooltip, makeStyles, tokens, Breadcrumb, BreadcrumbItem } from "@fluentui/react-components";
+import { Divider, Button, Tooltip, makeStyles, tokens, Breadcrumb, BreadcrumbItem } from "@fluentui/react-components";
 import { Delete24Regular, PaintBrush24Regular, PaintBrushArrowDown24Regular, Dismiss20Regular } from "@fluentui/react-icons";
 
 

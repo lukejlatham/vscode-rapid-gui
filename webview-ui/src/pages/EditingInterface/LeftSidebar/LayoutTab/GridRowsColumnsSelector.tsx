@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useEditor } from "@craftjs/core";
-import { SpinButton, Label, Tooltip, mergeClasses } from "@fluentui/react-components";
+import { SpinButton, Label, Tooltip } from "@fluentui/react-components";
 import { Info16Regular } from "@fluentui/react-icons";
 import { usePropertyInspectorStyles } from "../../../../hooks/usePropertyInspectorStyles";
 import { BackgroundProps } from "../../../../types";

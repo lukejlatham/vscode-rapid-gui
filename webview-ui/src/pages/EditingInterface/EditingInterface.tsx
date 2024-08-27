@@ -1,4 +1,4 @@
-import { Editor, SerializedNodes } from "@craftjs/core";
+import { Editor } from "@craftjs/core";
 import { Label } from "../../components/user/Label";
 import { Button } from "../../components/user/Button";
 import { makeStyles, Theme } from '@fluentui/react-components';
@@ -20,10 +20,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { EditorContent } from "./EditorContent";
 import { vscode } from '../../utilities/vscode';
 import { useLocation } from "react-router-dom";
-import { add, set } from "lodash";
-import { use } from "i18next";
-
-
 
 const useStyles = makeStyles({
   mainLayout: {

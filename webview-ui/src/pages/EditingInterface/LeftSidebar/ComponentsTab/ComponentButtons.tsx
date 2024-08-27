@@ -28,12 +28,10 @@ import {
   Button20Filled,
   TextT24Regular,
   PasswordRegular,
-  Password24Filled,
   RadioButtonFilled,
   CheckboxCheckedFilled,
   CheckboxCheckedRegular,
   EmojiRegular,
-  SlideTextRegular,
   TextAlignLeftFilled,
   CardUiRegular,
   TextBulletListCheckmarkFilled,
@@ -45,7 +43,6 @@ const ButtonIcon = bundleIcon(Button20Filled, Button20Regular);
 const LabelIcon = bundleIcon(TextT24Regular, TextT24Regular);
 const ImageIcon = bundleIcon(Image24Regular, Image24Regular);
 const TextBoxIcon = bundleIcon(TextboxRegular, TextboxRegular);
-const InputIcon = bundleIcon(PasswordRegular, Password24Filled);
 const CheckboxesIcon = bundleIcon(CheckboxCheckedFilled, CheckboxCheckedRegular);
 // const TextIcon = bundleIcon(SlideTextRegular, SlideTextRegular);
 

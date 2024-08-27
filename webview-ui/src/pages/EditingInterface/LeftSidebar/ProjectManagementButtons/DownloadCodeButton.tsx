@@ -8,7 +8,7 @@ import {
   MenuPopover,
   Tooltip,
 } from "@fluentui/react-components";
-import { CodeRegular, ArrowDownloadRegular } from "@fluentui/react-icons";
+import { ArrowDownloadRegular } from "@fluentui/react-icons";
 import { useEditor } from "@craftjs/core";
 import { vscode } from "../../../../utilities/vscode";
 import { Page } from "../../../../types";
@@ -27,7 +27,6 @@ const DownloadCodeButton: React.FC<{ classes: any; pages: Page[]; currentPageInd
 
   const handleDownloadCode = async (type: "winui3" | "html") => {
     setOutputType(type);
-    console.log("Output type:", type);
 
     // Move handleDownloadCode logic inside the setState callback
     const serializedData = query.serialize();

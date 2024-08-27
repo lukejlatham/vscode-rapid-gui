@@ -2,10 +2,7 @@ import React from "react";
 import { GridSizeSelector } from "./GridRowsColumnsSelector"; // Adjust the import path as necessary
 import { AddGridItemButton } from "./AddGridItemButton"; // Adjust the import path as necessary
 import {
-  Subtitle2Stronger,
   Body2,
-  Divider,
-  Card,
   Caption1,
   makeStyles,
   Breadcrumb,

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useCallback } from "react";
 import {
   makeStyles,
   Button,
@@ -106,15 +106,17 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
   const [isRestartDialogOpen, setIsRestartDialogOpen] = useState(false);
 
   const accessibility = useContext(AccessibilityContext);
-  const toggleGridLock = (selectedTab: string) => {
+
+  const toggleGridLock = useCallback((selectedTab: string) => {
     setProp("ROOT", (props: BackgroundProps) => {
       props.lockedGrid = selectedTab !== "Layout";
     });
-  };
+  }
+  , [setProp]);
 
   useEffect(() => {
     toggleGridLock(selectedTab);
-  }, [selectedTab]);
+  }, [selectedTab, toggleGridLock]);
 
   const PagesIcon = selectedTab === "Pages" ? DocumentMultipleFilled : DocumentMultipleRegular;
   const LayoutIcon = selectedTab === "Layout" ? GridFilled : GridRegular;
