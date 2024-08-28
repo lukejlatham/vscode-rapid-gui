@@ -77,6 +77,7 @@ export const PropertyInspector: React.FC<{ classes: any }> = ({ classes }) => {
 
 
 
+
   const localClasses = useStyles();
 
   const handleCopy = () => {
@@ -100,12 +101,12 @@ export const PropertyInspector: React.FC<{ classes: any }> = ({ classes }) => {
   };
 
   return selected ? (
-    <div className={`${localClasses.propertyInspector} ${classes.rightSidebar}`}>
+    <div className={`${localClasses.propertyInspector} ${classes.rightSidebar}`} data-testid='property-inspector'>
       <div className={localClasses.header}>
         <Breadcrumb className={localClasses.breadcrumb}>
-          <BreadcrumbItem>{selected.displayName}</BreadcrumbItem>
+          <BreadcrumbItem >{selected.displayName}</BreadcrumbItem>
         </Breadcrumb>
-        <Button icon={<Dismiss20Regular className={localClasses.dismissButton} />} appearance="transparent" onClick={handleClose} />
+        <Button icon={<Dismiss20Regular className={localClasses.dismissButton} />} appearance="transparent" onClick={handleClose} data-testid="close-button"/>
       </div>
       <Divider className={localClasses.divider}/>
       <div className={localClasses.content}>
