@@ -48,6 +48,10 @@ describe('StartProjectDialog', () => {
     expect(screen.getByTestId('from-sketch-button')).toBeInTheDocument();
   });
 
+  it('does not render when isOpen is false', () => {
+    renderComponent({ isOpen: false });
+    expect(screen.queryByTestId('startProjectDialog-title')).not.toBeInTheDocument();
+  });
 
   it('calls setPages and onClose when clicking "Start from Scratch"', () => {
     renderComponent();
