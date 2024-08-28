@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Node } from "../JSONParser";
+import { convertColor } from "../../utilities/colortranslator";
 
 // Mapping of VSCode icons to Font Awesome icons
 const iconMapping: { [key: string]: string } = {
@@ -530,7 +531,7 @@ export function generateIconCss(node: Node): string {
   const props = node.props;
   return `
   .${node.custom.id} {
-    color: ${props.iconColor || "inherit"};
+    color: ${convertColor(props.iconColor || "inherit")};
     font-size: ${props.iconSize || 16}px;
   }
   `;
