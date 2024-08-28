@@ -1,5 +1,6 @@
 import { Node } from "../JSONParser";
-import { generateIconHtml, generateIconCss } from "./Icon"; // Import the icon functions
+import { generateIconHtml, generateIconCss } from "./Icon";
+import { convertColor } from "../../utilities/colortranslator";
 
 export function generateLabelHtml(node: Node): string {
   const props = node.props;
@@ -33,7 +34,7 @@ export function generateLabelCss(node: Node): string {
 
   let labelCss = `
   .custom-label.${node.custom.id} {
-    color: ${props.fontColor || "black"};
+    color: ${convertColor(props.fontColor || "black")};
     font-size: ${props.fontSize || 16}px;
     text-align: ${props.textAlign};
     display: inline-flex;

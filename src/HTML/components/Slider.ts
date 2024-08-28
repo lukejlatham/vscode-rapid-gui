@@ -1,4 +1,5 @@
 import { Node } from "../JSONParser";
+import { convertColor } from "../../utilities/colortranslator";
 
 export function generateSliderHtml(node: Node): string {
   const props = node.props || {};
@@ -30,8 +31,8 @@ export function generateSliderHtml(node: Node): string {
 
 export function generateSliderCss(node: Node): string {
   const props = node.props;
-  const backgroundColor = props.backgroundColor || '#FFEDD5';
-  const trackColor = '#ddd'; // Default unfilled track color
+  const backgroundColor = convertColor(props.backgroundColor || "#FFEDD5");
+  const trackColor = convertColor(props.backgroundColor || "#FFD700");
 
   return `
   .slider-container.${node.custom.id} {
@@ -40,7 +41,7 @@ export function generateSliderCss(node: Node): string {
   }
   
   .slider-container.${node.custom.id} label {
-    color: ${props.fontColor};
+    color: ${convertColor(props.fontColor)};
     font-size: ${props.fontSize}px;
     margin-bottom: 5px;
   }
@@ -93,7 +94,7 @@ export function generateSliderCss(node: Node): string {
   }
   
   .slider-container.${node.custom.id} output {
-    color: ${props.fontColor};
+    color: ${convertColor(props.fontColor)};
     font-size: ${props.fontSize}px;
     margin-top: 5px;
   }

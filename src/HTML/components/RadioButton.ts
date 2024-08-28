@@ -1,4 +1,5 @@
 import { Node } from "../JSONParser";
+import { convertColor } from "../../utilities/colortranslator";
 
 export function generateRadioButtonHtml(node: Node): string {
   const props = node.props || {};
@@ -29,7 +30,7 @@ export function generateRadioButtonHtml(node: Node): string {
 
 export function generateRadioButtonCss(node: Node): string {
   const props = node.props || {};
-  const fontColor = props.fontColor || "#000000";
+  const fontColor = convertColor(props.fontColor || "#000000");
   const fontSize = props.fontSize || 16;
   const direction = props.direction || "column";
 
