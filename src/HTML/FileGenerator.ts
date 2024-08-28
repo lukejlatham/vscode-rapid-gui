@@ -74,6 +74,7 @@ export class FileGenerator {
   private createPageFiles(pages: Page[]) {
     pages.forEach((page) => {
       resetComponentCounters();
+      console.log("Generating page content with outputPath:", this.outputPath);
       const pageContent = this.generatePageHtmlContent(page);
       resetComponentCounters();
       const gridCss = generateBackgroundCss(

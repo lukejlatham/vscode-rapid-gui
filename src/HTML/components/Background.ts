@@ -7,6 +7,7 @@ export function generateBackgroundHtml(
   content: { [key: string]: Node },
   projectPath: string
 ): string {
+  console.log("Generating background HTML with projectPath:", projectPath);
   let html = `<div class="grid-container">`;
 
   node.props.layout.forEach((item: any, index: number) => {
