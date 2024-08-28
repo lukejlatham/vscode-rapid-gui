@@ -1,4 +1,5 @@
 import { Node } from "../JSONParser";
+import { convertColor } from "../../utilities/colortranslator";
 
 export function generateTextBoxHtml(node: Node): string {
   const props = node.props || {};
@@ -21,16 +22,16 @@ export function generateTextBoxCss(node: Node): string {
   }
   
   .textbox-container.${node.custom.id} label {
-    color: ${props.fontColor};
+    color: ${convertColor(props.fontColor)};
     font-size: ${props.fontSize}px;
     margin-bottom: 5px;
   }
   
   .textbox-container.${node.custom.id} textarea {
-    color: ${props.fontColor};
+    color: ${convertColor(props.fontColor)};
     font-size: ${props.fontSize}px;
-    background-color: ${props.backgroundColor};
-    border: 1px solid ${props.borderColor};
+    background-color: ${convertColor(props.backgroundColor)};
+    border: 1px solid ${convertColor(props.borderColor)};
     border-radius: ${props.borderRadius}px;
     width: ${props.width}px;
     height: ${props.height}px;

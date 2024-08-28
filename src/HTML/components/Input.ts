@@ -16,8 +16,8 @@ export function generateInputCss(node: Node): string {
   .custom-input.${node.custom.id} {
     color: ${convertColor(props.fontColor || "black")};
     font-size: ${props.fontSize || 16}px;
-    background-color: ${props.backgroundColor || "white"};
-    border: 1px solid ${props.borderColor || "black"};
+    background-color: ${convertColor(props.backgroundColor || "white")};
+    border: 1px solid ${convertColor(props.borderColor || "black")};
     border-radius: ${props.borderRadius || 0}px;
   }
   `;

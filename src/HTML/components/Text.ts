@@ -1,4 +1,5 @@
 import { Node } from "../JSONParser";
+import { convertColor } from "../../utilities/colortranslator";
 
 export function generateTextHtml(node: Node): string {
   const props = node.props;
@@ -13,7 +14,7 @@ export function generateTextCss(node: Node): string {
   const props = node.props;
   return `
   .custom-text.${node.custom.id} {
-    color: ${props.fontColor};
+    color: ${convertColor(props.fontColor)};
     font-size: ${props.fontSize}px;
     font-weight: ${props.bold ? "bold" : "normal"};
     text-align: ${props.textAlign};
