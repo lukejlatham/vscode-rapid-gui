@@ -29,8 +29,9 @@ export function resetComponentCounters() {
 export function generateComponentHtml(
   parsedJSON: ParsedJSON,
   pageName: string,
-  projectPath?: string
+  projectPath: string
 ): string {
+  console.log("Generating component HTML with projectPath:", projectPath);
   const page = parsedJSON.pages[pageName];
   const node = page.root;
 
@@ -49,6 +50,7 @@ function generateSingleComponentHtml(
   content: { [key: string]: Node },
   projectPath?: string
 ): string {
+  console.log("Generating single component HTML with projectPath:", projectPath);
   if (!node || !node.type || !node.type.resolvedName) {
     console.error("Invalid node structure:", node);
     return "<!-- Error: Invalid component structure -->";
@@ -72,7 +74,7 @@ function generateSingleComponentHtml(
     case "RadioButtons":
       return generateRadioButtonHtml(node);
     case "Container":
-      return generateContainerHtml(node, content);
+      return generateContainerHtml(node, content, projectPath);
     case "Checkboxes":
       return generateCheckboxHtml(node);
     case "Slider":
@@ -80,6 +82,7 @@ function generateSingleComponentHtml(
     case "TextBox":
       return generateTextBoxHtml(node);
     case "Image":
+      console.log("Generating Image HTML with projectPath:", projectPath);
       return generateImageHtml(node, projectPath);
     case "Dropdown":
       return generateDropdownHtml(node);
@@ -140,4 +143,3 @@ function generateSingleComponentCss(
       return `/* Unknown component type: ${node.type.resolvedName} */\n`;
   }
 }
-
