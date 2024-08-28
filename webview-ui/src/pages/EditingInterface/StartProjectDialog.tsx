@@ -21,7 +21,7 @@ import { TemplatesDialog } from "./TemplatesDialog";
 import { Page } from "../../types";
 import { FormattedMessage } from "react-intl";
 
-interface StartProjectDialogProps {
+export interface StartProjectDialogProps {
   isOpen: boolean;
   onClose: () => void;
   pages: Page[];
@@ -49,15 +49,16 @@ export const StartProjectDialog: React.FC<StartProjectDialogProps> = ({
       <Dialog modalType="alert" open={isOpen} onOpenChange={(event, data) => onClose()}>
         <DialogSurface>
           <DialogBody>
-            <DialogTitle>
+            <DialogTitle data-testid="startProjectDialog-title">
               <FormattedMessage id="startProjectDialog.title" />
               <SparkleFilled />
             </DialogTitle>
-            <DialogContent>
+            <DialogContent data-testid="startProjectDialog-content">
               <FormattedMessage id="startProjectDialog.content" />
             </DialogContent>
             <DialogActions fluid>
               <Button
+                data-testid="from-scratch-button"
                 onClick={handleScratch}
                 size="large"
                 appearance="secondary"
@@ -65,6 +66,7 @@ export const StartProjectDialog: React.FC<StartProjectDialogProps> = ({
                 <FormattedMessage id="startProjectDialog.scratch" />
               </Button>
               <Button
+                data-testid="from-templates-button"
                 onClick={() => setIsTemplatesDialogOpen(true)}
                 size="large"
                 appearance="secondary"
@@ -72,6 +74,7 @@ export const StartProjectDialog: React.FC<StartProjectDialogProps> = ({
                 <FormattedMessage id="startProjectDialog.templates" />
               </Button>
               <Button
+                data-testid="from-text-button"
                 onClick={() => setIsTextDialogOpen(true)}
                 size="large"
                 appearance="secondary"
@@ -79,6 +82,7 @@ export const StartProjectDialog: React.FC<StartProjectDialogProps> = ({
                 <FormattedMessage id="startProjectDialog.text" />
               </Button>
               <Button
+                data-testid="from-sketch-button"
                 onClick={() => setIsUploadDialogOpen(true)}
                 size="large"
                 appearance="primary"
