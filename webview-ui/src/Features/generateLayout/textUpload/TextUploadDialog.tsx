@@ -8,7 +8,6 @@ import {
   DialogContent,
   DialogActions,
   Button,
-  Spinner,
   Text,
   Field,
   tokens,
@@ -17,8 +16,6 @@ import {
 } from "@fluentui/react-components";
 import {
   ArrowUpload24Regular,
-  CheckmarkCircle24Filled,
-  CircleHint24Filled,
 } from "@fluentui/react-icons";
 import { handleTextUpload } from "./handleTextUpload";
 import { v4 as uuidv4 } from "uuid";
@@ -150,11 +147,12 @@ export const TextDialog: React.FC<UploadDialogProps> = ({
     <Dialog open={isOpen} onOpenChange={(event, data) => !data.open && handleClose()}>
       <DialogSurface>
         <DialogBody>
-          <DialogTitle>Generate From Text</DialogTitle>
-          <DialogContent>
+          <DialogTitle data-testid="textDialog-title">Generate From Text</DialogTitle>
+          <DialogContent data-testid="textDialog-content">
             <div className={styles.content}>
               <Field>
                 <Textarea
+                  data-testid="textDialog-textarea"
                   placeholder="Enter your project description here"
                   value={textInput}
                   onChange={(e) => setTextInput(e.target.value)}
@@ -167,11 +165,12 @@ export const TextDialog: React.FC<UploadDialogProps> = ({
           </DialogContent>
           <DialogActions fluid>
             {loading && (
-              <div>
+              <div data-testid="loading">
                 <GenerationLoader />
               </div>
             )}
             <Button
+              data-testid="process-text-button"
               onClick={handleProcessText}
               appearance="primary"
               disabled={!textInput || loading}
