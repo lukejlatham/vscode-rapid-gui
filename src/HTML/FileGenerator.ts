@@ -109,9 +109,6 @@ export class FileGenerator {
 
   private generatePageHtmlContent(page: Page): string {
     try {
-      console.log("Generating content for page:", page.name);
-      console.log("Raw page content:", JSON.stringify(page.content, null, 2));
-
       if (typeof page.content === "string") {
         page.content = JSON.parse(page.content);
       }

@@ -29,7 +29,7 @@ export function resetComponentCounters() {
 export function generateComponentHtml(
   parsedJSON: ParsedJSON,
   pageName: string,
-  projectPath?: string
+  projectPath: string
 ): string {
   const page = parsedJSON.pages[pageName];
   const node = page.root;
@@ -140,4 +140,3 @@ function generateSingleComponentCss(
       return `/* Unknown component type: ${node.type.resolvedName} */\n`;
   }
 }
-

@@ -2,7 +2,8 @@ import * as fs from "fs";
 import * as path from "path";
 import { Node } from "../JSONParser";
 
-export function generateImageHtml(node: Node, projectPath?: string): string {
+export function generateImageHtml(node: Node, projectPath: string): string {
+  console.log("generateImageHtml called with projectPath:", projectPath);
   const props = node.props;
   const imagePath = getImagePath(props.src, node, projectPath);
   console.log("Original src:", props.src);

@@ -5,7 +5,7 @@ import { convertColor } from "../../utilities/colortranslator";
 export function generateBackgroundHtml(
   node: Node,
   content: { [key: string]: Node },
-  projectPath?: string
+  projectPath: string
 ): string {
   let html = `<div class="grid-container">`;
 
@@ -28,7 +28,7 @@ export function generateBackgroundHtml(
 function generateGridCellContent(
   node: Node,
   content: { [key: string]: Node },
-  projectPath?: string
+  projectPath: string
 ): string {
   let cellContent = "";
 
