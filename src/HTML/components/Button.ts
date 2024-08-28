@@ -1,5 +1,6 @@
 import { Node } from "../JSONParser";
 import { generateIconHtml, generateIconCss } from "./Icon";
+import { convertColor } from "../../utilities/colortranslator";
 
 export function generateButtonHtml(node: Node): string {
   const props = node.props;
@@ -49,13 +50,13 @@ export function generateButtonCss(node: Node): string {
 
   let buttonCss = `
   .custom-button.${node.custom.id} {
-    color: ${props.fontColor};
-    background-color: ${props.backgroundColor};
+    color: ${convertColor(props.fontColor)};
+    background-color: ${convertColor(props.backgroundColor)};
     font-size: ${props.fontSize}px;
     width: ${width};
     height: ${height};
     border-radius: ${props.borderRadius}%;
-    border-color: ${props.bordercolor || "transparent"};
+    border-color: ${convertColor(props.bordercolor || "transparent")};
     cursor: pointer;
     display: flex;
     text-align: center;
@@ -64,11 +65,11 @@ export function generateButtonCss(node: Node): string {
     justify-content: center;
     text-decoration: none;
     padding: 10px;
-    ${
+    ${convertColor(
       props.shadowColor && props.shadowBlur
         ? `box-shadow: ${props.shadowOffsetX}px ${props.shadowOffsetY}px ${props.shadowBlur}px ${props.shadowColor};`
         : ""
-    }
+    )}
   }
   
   .button-link {
