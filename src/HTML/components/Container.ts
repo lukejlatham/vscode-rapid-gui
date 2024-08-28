@@ -1,6 +1,6 @@
 import { Node, LayoutItem } from "../JSONParser";
 import { generateComponentHtml, generateComponentCss } from "../componentGenerator";
-//best version yet
+import { convertColor } from "../../utilities/colortranslator";
 
 export function generateContainerHtml(
   node: Node,
@@ -49,11 +49,13 @@ export function generateContainerHtml(
     padding: ${props.padding || 0}px;
     margin: ${props.margin || 0}px;
     box-sizing: border-box;
-    ${props.shadowColor
-      ? `box-shadow: ${props.shadowOffsetX || 0}px ${props.shadowOffsetY || 0}px ${props.shadowBlur || 0
-      }px ${props.shadowColor};`
-      : ""
-    }
+    ${convertColor(
+      props.shadowColor
+        ? `box-shadow: ${props.shadowOffsetX || 0}px ${props.shadowOffsetY || 0}px ${
+            props.shadowBlur || 0
+          }px ${props.shadowColor};`
+        : ""
+    )}
     ${flexStyles}
   `;
 
@@ -76,19 +78,33 @@ export function generateContainerCss(node: Node, content: { [key: string]: Node 
       gap: ${props.gap || 0}px;
       width: ${props.width ? props.width + "%" : "auto"};
       height: ${props.height ? props.height + "%" : "auto"};
-      background-color: ${props.backgroundColor || "transparent"};
-      border: 2px solid ${props.borderColor};
+      background-color: ${convertColor(props.backgroundColor || "transparent")};
+      border: 2px solid ${convertColor(props.borderColor)};
       border-radius: ${props.borderRadius || 0}%;
       padding: ${props.padding || 0}px;
       margin: ${props.margin || 0}px;
       box-sizing: border-box;
-      ${props.shadowColor ? `box-shadow: ${props.shadowOffsetX || 0}px ${props.shadowOffsetY || 0}px ${props.shadowBlur || 0}px ${props.shadowColor};` : ""}
+      ${convertColor(
+        props.shadowColor
+          ? `box-shadow: ${props.shadowOffsetX || 0}px ${props.shadowOffsetY || 0}px ${
+              props.shadowBlur || 0
+            }px ${props.shadowColor};`
+          : ""
+      )}
       transition: all 0.3s ease;
     }
 
     .container.${node.custom.id}:hover {
-      ${props.hoverBackgroundColor ? `background-color: ${props.hoverBackgroundColor};` : ""}
-      ${props.hoverBorderColor ? `border-color: ${props.hoverBorderColor};` : ""}
+      ${
+        convertColor(props.hoverBackgroundColor)
+          ? `background-color: ${props.hoverBackgroundColor};`
+          : ""
+      }
+      ${
+        convertColor(props.hoverBorderColor)
+          ? `border-color: ${convertColor(props.hoverBorderColor)};`
+          : ""
+      }
     }
   `; // why do we have the hover effect here? it's not in the component
 

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Node } from "../JsonParser";
-import { convertColor } from "./colortranslator";
+import { convertColor } from "../../utilities/colortranslator";
 
 export function generateIconXaml(node: Node, indent: string = ""): string {
   const props = node.props;

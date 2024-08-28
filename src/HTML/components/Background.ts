@@ -1,6 +1,6 @@
 import { generateComponentHtml } from "../componentGenerator";
 import { Node } from "../JSONParser";
-//best version yet
+import { convertColor } from "../../utilities/colortranslator";
 
 export function generateBackgroundHtml(
   node: Node,
@@ -51,7 +51,7 @@ export function generateBackgroundCss(node: Node, content: { [key: string]: Node
   body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: ${node.props.backgroundColor || "#ffffff"};
+    background-color: ${convertColor(node.props.backgroundColor || "#ffffff")};
     height: 100vh;
   }
 

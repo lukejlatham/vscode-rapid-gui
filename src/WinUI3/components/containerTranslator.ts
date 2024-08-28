@@ -1,6 +1,6 @@
 import { Node } from "../JsonParser";
 import { generateComponentXaml, generateSingleComponentXaml } from "../componentGenerator";
-import { convertColor } from "./colortranslator";
+import { convertColor } from "../../utilities/colortranslator";
 
 export async function generateContainerXaml(
   node: Node,

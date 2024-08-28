@@ -1,7 +1,7 @@
 import { LayoutItem, Node } from "./JsonParser";
 import { generateComponentXaml } from "./componentGenerator";
 import { Page } from "../../webview-ui/src/types";
-import { convertColor } from "./components/colortranslator";
+import { convertColor } from "../utilities/colortranslator";
 
 export async function generateGridXaml(page: Page, projectPath: string): Promise<string> {
   console.log("Generating XAML for page:", JSON.stringify(page, null, 2));

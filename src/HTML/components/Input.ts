@@ -1,4 +1,5 @@
 import { Node } from "../JSONParser";
+import { convertColor } from "../../utilities/colortranslator";
 
 export function generateInputHtml(node: Node): string {
   const props = node.props;
@@ -13,7 +14,7 @@ export function generateInputCss(node: Node): string {
   const props = node.props;
   return `
   .custom-input.${node.custom.id} {
-    color: ${props.fontColor || "black"};
+    color: ${convertColor(props.fontColor || "black")};
     font-size: ${props.fontSize || 16}px;
     background-color: ${props.backgroundColor || "white"};
     border: 1px solid ${props.borderColor || "black"};

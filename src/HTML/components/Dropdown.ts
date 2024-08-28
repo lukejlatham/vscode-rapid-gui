@@ -1,4 +1,5 @@
 import { Node } from "../JSONParser";
+import { convertColor } from "../../utilities/colortranslator";
 
 export function generateDropdownHtml(node: Node): string {
   const props = node.props;
@@ -25,16 +26,16 @@ export function generateDropdownCss(node: Node): string {
   }
   
   .dropdown-container.${node.custom.id} label {
-    color: ${props.fontColor};
+    color: ${convertColor(props.fontColor)};
     font-size: ${props.fontSize}px;
     margin-bottom: 5px;
   }
   
   .dropdown-container.${node.custom.id} select {
-    color: ${props.fontColor};
+    color: ${convertColor(props.fontColor)};
     font-size: ${props.fontSize}px;
     background-color: white;
-    border: 1px solid ${props.fontColor};
+    border: 1px solid ${convertColor(props.fontColor)};
     border-radius: 4px;
     padding: 5px;
   }
