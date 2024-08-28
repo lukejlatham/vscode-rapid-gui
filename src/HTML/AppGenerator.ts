@@ -14,13 +14,19 @@ export class AppGenerator {
     pages: Page[],
     outputPath: string,
     projectName: string,
-    context: vscode.ExtensionContext
+    context: vscode.ExtensionContext,
+    workspaceFolder: string
   ) {
     this.pages = pages;
-    this.outputPath = outputPath; // Don't join with projectName here
+    this.outputPath = outputPath;
     this.projectName = projectName;
     const templateManager = new TemplateManager(context);
-    this.fileGenerator = new FileGenerator(this.projectName, this.outputPath, templateManager);
+    this.fileGenerator = new FileGenerator(
+      this.projectName,
+      this.outputPath,
+      templateManager,
+      workspaceFolder
+    );
   }
 
   public async generateApp() {

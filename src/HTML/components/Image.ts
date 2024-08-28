@@ -46,15 +46,6 @@ function getImagePath(src: string, node: Node, projectPath?: string): string {
     return src;
   } else {
     const fileName = path.basename(src);
-    const destination = path.join(imagesFolder, fileName);
-
-    try {
-      fs.copyFileSync(src, destination);
-      console.log(`Copied image to ${destination}`);
-      return `images/${fileName}`;
-    } catch (err) {
-      console.error(`Failed to copy image: ${err}`);
-      return src;
-    }
+    return `images/${fileName}`;
   }
 }

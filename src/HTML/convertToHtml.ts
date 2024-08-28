@@ -70,7 +70,7 @@ export async function convertToHtml(
   }
 
   try {
-    const generator = new AppGenerator(pages, projectFolder, projectName, context);
+    const generator = new AppGenerator(pages, projectFolder, projectName, context, currentFolder);
     await generator.generateApp();
 
     vscode.window.showInformationMessage(
