@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import LeftSidebar from '../../../pages/EditingInterface/LeftSidebar/LeftSidebar';
 import { IntlProvider } from 'react-intl';
 import { AccessibilityContext } from '../../../pages/EditingInterface/EditingInterface';

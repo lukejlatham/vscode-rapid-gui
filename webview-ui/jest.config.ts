@@ -10,6 +10,9 @@ const config: Config.InitialOptions = {
   transform: {
     "^.+\\.(ts|tsx)$": "ts-jest",
   },
+  moduleNameMapper: {
+    '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+  },
   globals: {
     "ts-jest": {
       tsconfig: "tsconfig.json",
