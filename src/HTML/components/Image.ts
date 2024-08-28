@@ -43,9 +43,26 @@ function getImagePath(src: string, node: Node, projectPath?: string): string {
   }
 
   if (src.startsWith("http://") || src.startsWith("https://")) {
+    if (src.includes("vscode-resource.vscode-cdn.net")) {
+      const urlParts = src.split("/uploaded_images/");
+      if (urlParts.length > 1) {
+        const fileName = urlParts[1];
+        const sourcePath = path.join(projectPath, "..", "uploaded_images", fileName);
+        const destPath = path.join(imagesFolder, fileName);
+        if (fs.existsSync(sourcePath)) {
+          fs.copyFileSync(sourcePath, destPath);
+        }
+        return `images/${fileName}`;
+      }
+    }
     return src;
   } else {
     const fileName = path.basename(src);
+    const sourcePath = path.join(projectPath, "..", "uploaded_images", fileName);
+    const destPath = path.join(imagesFolder, fileName);
+    if (fs.existsSync(sourcePath)) {
+      fs.copyFileSync(sourcePath, destPath);
+    }
     return `images/${fileName}`;
   }
 }
