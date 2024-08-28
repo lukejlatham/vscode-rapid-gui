@@ -54,7 +54,7 @@ export function generateButtonCss(node: Node): string {
     font-size: ${props.fontSize}px;
     width: ${width};
     height: ${height};
-    border-radius: ${props.borderRadius}%;
+    border-radius: ${props.borderRadius}px;
     border-color: ${props.bordercolor || "transparent"};
     cursor: pointer;
     display: flex;
