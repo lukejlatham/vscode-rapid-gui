@@ -38,6 +38,7 @@ describe('StartProjectDialog', () => {
     jest.clearAllMocks();
   });
 
+  // unit tests:
   it('renders correctly when open', () => {
     renderComponent();
     expect(screen.getByTestId('startProjectDialog-title')).toBeInTheDocument();
@@ -53,6 +54,7 @@ describe('StartProjectDialog', () => {
     expect(screen.queryByTestId('startProjectDialog-title')).not.toBeInTheDocument();
   });
 
+  // integration tests:
   it('calls setPages and onClose when clicking "Start from Scratch"', () => {
     renderComponent();
     fireEvent.click(screen.getByTestId('from-scratch-button'));

@@ -41,6 +41,7 @@ describe('TextDialog', () => {
     jest.clearAllMocks();
   });
 
+  // unit tests:
   it('renders correctly when open', () => {
     renderComponent();
     expect(screen.getByTestId('textDialog-title')).toHaveTextContent('Generate From Text');
@@ -56,6 +57,7 @@ describe('TextDialog', () => {
     expect(screen.queryByTestId('textDialog-title')).not.toBeInTheDocument();
   });
 
+  // integration tests:
   it('allows text input', () => {
     renderComponent();
     const textarea = screen.getByTestId('textDialog-textarea');

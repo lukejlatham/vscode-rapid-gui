@@ -50,6 +50,8 @@ describe('LeftSidebar', () => {
     );
   };
 
+  // unit tests:
+
   it('renders the LeftSidebar component', () => {
     renderComponent();
     expect(screen.getByTestId('left-sidebar')).toBeInTheDocument();
@@ -69,11 +71,13 @@ describe('LeftSidebar', () => {
     expect(screen.getByTestId('restart-dialog-button')).toBeInTheDocument();
   });
 
+  // integration tests:
+
   it('opens restart dialog when clicking the restart button', async () => {
     renderComponent();
     fireEvent.click(screen.getByTestId('restart-dialog-button'));
 
-      expect(screen.getByTestId('restart-dialog')).toBeInTheDocument();
+    expect(screen.getByTestId('restart-dialog')).toBeInTheDocument();
   
   });
 

@@ -30,10 +30,15 @@ describe('TemplatesDialog', () => {
     jest.clearAllMocks();
   });
 
+  // unit tests:
   it('renders correctly when open', () => {
     renderComponent();
     expect(screen.getByTestId('templatesDialog-title')).toBeInTheDocument();
     expect(screen.getByTestId('templatesDialog-content')).toBeInTheDocument();
+  });
+
+  it('renders all template cards', () => {
+    renderComponent();
     expect(screen.getByTestId('website-card')).toBeInTheDocument();
     expect(screen.getByTestId('login-card')).toBeInTheDocument();
     expect(screen.getByTestId('video-game-card')).toBeInTheDocument();
@@ -45,6 +50,7 @@ describe('TemplatesDialog', () => {
     expect(screen.queryByTestId('templatesDialog-title')).not.toBeInTheDocument();
   });
 
+  // integration tests:
   it('calls onClose when cancel button is clicked', () => {
     renderComponent();
     fireEvent.click(screen.getByTestId('cancel-button'));
@@ -71,13 +77,5 @@ describe('TemplatesDialog', () => {
     ]));
     expect(mockOnClose).toHaveBeenCalled();
     expect(mockCloseStartDialog).toHaveBeenCalled();
-  });
-
-  it('renders all template cards', () => {
-    renderComponent();
-    expect(screen.getByText('Website Homepage')).toBeInTheDocument();
-    expect(screen.getByText('Login Page')).toBeInTheDocument();
-    expect(screen.getByText('Video Game Settings')).toBeInTheDocument();
-    expect(screen.getByText('Feedback Form')).toBeInTheDocument();
   });
 });
