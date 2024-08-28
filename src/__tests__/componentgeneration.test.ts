@@ -30,6 +30,7 @@ describe("Component Generation", () => {
     const generatedHtml = generateComponentHtml(
       { pages: { temp: { components: { button1: buttonNode }, root: buttonNode, layout: [] } } },
       "temp"
+      // projectPath
     ).trim();
 
     expect(generatedHtml).toBe(expectedHtml);

@@ -29,7 +29,7 @@ export function resetComponentCounters() {
 export function generateComponentHtml(
   parsedJSON: ParsedJSON,
   pageName: string,
-  projectPath: string
+  projectPath?: string
 ): string {
   console.log("Generating component HTML with projectPath:", projectPath);
   const page = parsedJSON.pages[pageName];
