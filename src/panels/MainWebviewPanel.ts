@@ -17,8 +17,8 @@ import { processCopilotMessages } from "../copilot";
 import { handleImageUpload } from "../uploadImage/imageSave";
 import { handleImageGenerate } from "../generateImage/handleImageGeneration";
 import { handleGetUploadedImages } from "../uploadImage/handleGetUploadedImages";
-import { convertToXaml } from "../utilities/xamlConverter";
-import { convertToHtml } from "../utilities/convertToHtml";
+import { convertToXaml } from "../WinUI3/xamlConverter";
+import { convertToHtml } from "../HTML/convertToHtml";
 
 export class MainWebviewPanel {
   public static currentPanel: MainWebviewPanel | undefined;

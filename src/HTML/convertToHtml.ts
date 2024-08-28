@@ -1,10 +1,10 @@
 import * as vscode from "vscode";
 import * as path from "path";
+import * as fs from "fs";
 import { Page } from "../../webview-ui/src/types";
-// import { parseJSON, ParsedJSON } from "../WinUI3/JsonParser";
-import { AppGenerator } from "../WinUI3/generateapp";
+import { AppGenerator } from "./AppGenerator";
 
-export async function convertToXaml(
+export async function convertToHtml(
   contents: string[],
   fileNames: string[],
   context: vscode.ExtensionContext
@@ -22,8 +22,8 @@ export async function convertToXaml(
   }
 
   const projectName = await vscode.window.showInputBox({
-    prompt: "Enter a name for your WinUI 3 project",
-    placeHolder: "MyWinUI3Project",
+    prompt: "Enter a name for your HTML/CSS project",
+    placeHolder: "MyHtmlProject",
   });
 
   if (!projectName) {
@@ -32,25 +32,29 @@ export async function convertToXaml(
 
   const projectFolder = path.join(currentFolder, projectName);
 
+  // Ensure the project folder exists
+  if (!fs.existsSync(projectFolder)) {
+    fs.mkdirSync(projectFolder, { recursive: true });
+  }
+
   const pages: Page[] = [];
 
   for (let i = 0; i < contents.length; i++) {
     const fileName = fileNames[i];
-    let jsonContent = contents[i];
+    const jsonContent = contents[i];
 
     console.log(`Processing page: ${fileName}`);
     console.log("JSON Content:", jsonContent);
 
     try {
-      jsonContent = jsonContent.replace(/^\s*"|"\s*$/g, "").replace(/\\"/g, '"');
+      // Unescape the JSON string if necessary
+      const unescapedContent = JSON.parse(jsonContent);
+      console.log("Unescaped content:", JSON.stringify(unescapedContent, null, 2));
 
-      const parsedJSON = JSON.parse(jsonContent);
-      // const pageName = Object.keys(parsedJSON.pages)[0];
-      console.log("Parsed content:", JSON.stringify(parsedJSON, null, 2));
       const page: Page = {
         id: fileName,
         name: fileName,
-        content: parsedJSON,
+        content: unescapedContent,
       };
       console.log("Created Page object:", JSON.stringify(page, null, 2));
       pages.push(page);
@@ -66,14 +70,14 @@ export async function convertToXaml(
   }
 
   try {
-    const appGenerator = new AppGenerator(pages, projectFolder, projectName, context);
-    await appGenerator.generateApp();
+    const generator = new AppGenerator(pages, projectFolder, projectName, context);
+    await generator.generateApp();
 
     vscode.window.showInformationMessage(
-      `WinUI 3 project "${projectName}" generated successfully in ${projectFolder}`
+      `HTML/CSS project "${projectName}" generated successfully in ${projectFolder}`
     );
   } catch (error) {
-    console.error("Error generating WinUI 3 project:", error);
-    vscode.window.showErrorMessage(`Failed to generate WinUI 3 project: ${error.message}`);
+    console.error("Error generating HTML/CSS project:", error);
+    vscode.window.showErrorMessage(`Failed to generate HTML/CSS project: ${error.message}`);
   }
 }
