@@ -51,7 +51,7 @@ export function generateButtonCss(node: Node): string {
   let buttonCss = `
   .custom-button.${node.custom.id} {
     color: ${convertColor(props.fontColor)};
-    background-color: ${convertColor(props.backgroundColor)};
+    background-color: ${convertColor(props.backgroundColor || "transparent")};
     font-size: ${props.fontSize}px;
     width: ${width};
     height: ${height};
@@ -64,7 +64,7 @@ export function generateButtonCss(node: Node): string {
     align-items: center;
     justify-content: center;
     text-decoration: none;
-    padding: 10px;
+    padding: 20px;
     ${convertColor(
       props.shadowColor && props.shadowBlur
         ? `box-shadow: ${props.shadowOffsetX}px ${props.shadowOffsetY}px ${props.shadowBlur}px ${props.shadowColor};`

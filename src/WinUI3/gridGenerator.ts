@@ -4,7 +4,7 @@ import { Page } from "../../webview-ui/src/types";
 import { convertColor } from "../utilities/colortranslator";
 
 export async function generateGridXaml(page: Page, projectPath: string): Promise<string> {
-  console.log("Generating XAML for page:", JSON.stringify(page, null, 2));
+  // console.log("Generating XAML for page:", JSON.stringify(page, null, 2));
 
   if (!page || !page.content || !page.content.ROOT) {
     console.error("Invalid page structure:", page);

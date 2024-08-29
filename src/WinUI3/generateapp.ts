@@ -34,20 +34,20 @@ export class AppGenerator {
     this.projectStructureGenerator = new ProjectStructureGenerator(outputPath);
   }
 
-  public async generateApp() {
+  public async generateApp(projectPath: string) {
     try {
-      console.log(`Starting to generate WinUI 3 project "${this.projectName}"...`);
-      console.log(`Number of pages to generate: ${this.pages.length}`);
+      // console.log(`Starting to generate WinUI 3 project "${this.projectName}"...`);
+      // console.log(`Number of pages to generate: ${this.pages.length}`);
 
       if (this.pages.length === 0) {
         throw new Error("No pages to generate");
       }
 
       this.projectStructureGenerator.createProjectStructure();
-      console.log("Project structure created.");
+      // console.log("Project structure created.");
 
-      await this.fileGenerator.generateProjectFiles(this.pages);
-      console.log("Project files generated.");
+      await this.fileGenerator.generateProjectFiles(this.pages, projectPath);
+      // console.log("Project files generated.");
 
       console.log(
         `WinUI 3 project "${this.projectName}" generated successfully at ${this.outputPath}`

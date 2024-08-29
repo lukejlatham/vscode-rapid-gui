@@ -26,8 +26,6 @@ export async function generateComponentXaml(
   processedNodes.add(nodeId);
 
   let xaml = await generateSingleComponentXaml(node, content, indent, processedNodes, projectPath);
-  console.log("Node is: ", node);
-  console.log("Node children are: ", node.nodes);
   if (node.nodes) {
     for (const childId of node.nodes) {
       const childNode = content[childId];
@@ -82,7 +80,7 @@ export async function generateSingleComponentXaml(
     case "RadioButtons":
       return generateRadioButtonXaml(node, indent);
     case "Container":
-      return generateContainerXaml(node, content, indent, processedNodes);
+      return generateContainerXaml(node, content, indent, processedNodes, projectPath);
     case "Checkboxes":
       return generateCheckboxXaml(node, indent);
     case "Slider":
