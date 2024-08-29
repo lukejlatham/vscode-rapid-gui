@@ -44,7 +44,7 @@ export class FileGenerator {
     this.createAppManifest();
     this.createAppXaml();
     this.createAppXamlCs();
-    this.createMainWindowXaml(pages);
+    this.createMainWindowXaml(pages, projectPath);
     this.createMainWindowXamlCs(pages);
     this.createPackageAppxmanifest();
     this.createProjectFile();
@@ -63,7 +63,7 @@ export class FileGenerator {
 
     pages.forEach((page) => {
       const sanitizedPageName = this.sanitizePageName(page.name);
-      this.createPageXaml(page, sanitizedPageName);
+      this.createPageXaml(page, sanitizedPageName, projectPath);
       this.createPageXamlCs(sanitizedPageName);
     });
   }
@@ -99,7 +99,7 @@ export class FileGenerator {
     this.createFile("App.xaml.cs", content);
   }
 
-  private createMainWindowXaml(pages: Page[]) {
+  private createMainWindowXaml(pages: Page[], projectPath: string) {
     let content = this.templateManager.getTemplate("MainWindow.xaml");
     content = content.replace(/\{\{namespace\}\}/g, this.namespace);
 
@@ -193,8 +193,8 @@ export class FileGenerator {
     this.createFile("Directory.Build.props", content);
   }
 
-  async createPageXaml(page: Page, sanitizedPageName: string) {
-    const gridXaml = await generateGridXaml(page, this.projectPath);
+  async createPageXaml(page: Page, sanitizedPageName: string, projectPath: string) {
+    const gridXaml = await generateGridXaml(page, projectPath);
     let content = this.templateManager.getTemplate("Page.xaml");
     content = content.replace(/\{\{namespace\}\}/g, this.namespace);
     content = content.replace(/\{\{pageName\}\}/g, sanitizedPageName);

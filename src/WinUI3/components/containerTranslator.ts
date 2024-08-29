@@ -6,7 +6,8 @@ export async function generateContainerXaml(
   node: Node,
   content: { [key: string]: Node },
   indent: string = "",
-  processedNodes: Set<string>
+  processedNodes: Set<string>,
+  projectPath: string
 ): Promise<string> {
   const props = node.props;
 
@@ -32,13 +33,6 @@ export async function generateContainerXaml(
 
   xaml += `>\n`;
 
-  // if (props.padding) {
-  //   xaml += `${indent}  <Border Padding="${props.padding}">\n`;
-  //   xaml += `${indent}    <StackPanel`;
-  // } else {
-  //   xaml += `${indent}  <StackPanel`;
-  // }
-
   xaml += `${indent} <StackPanel`;
   xaml += ` Orientation="${props.flexDirection === "row" ? "Horizontal" : "Vertical"}"`;
   xaml += ` Spacing="${props.gap || 0}"`;
@@ -51,7 +45,13 @@ export async function generateContainerXaml(
     for (const childId of node.nodes) {
       const childNode = content[childId];
       if (childNode && !processedNodes.has(childNode.custom.id || childId || "")) {
-        xaml += await generateComponentXaml(childNode, content, indent + "    ", processedNodes);
+        xaml += await generateComponentXaml(
+          childNode,
+          content,
+          indent + "    ",
+          processedNodes,
+          projectPath
+        );
       }
     }
   }

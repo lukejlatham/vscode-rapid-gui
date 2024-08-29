@@ -537,7 +537,7 @@ export function getGlyphFromVscIcon(iconName: string): string {
     VscJsonOutline: "F1FD",
     VscKebabHorizontalOutline: "F1FE",
     VscKebabVerticalOutline: "F1FF",
-    VscHeartFill: "F200",
+    VscHeartFilled: "F200",
     VscLawFill: "F201",
     VscLayersFill: "F202",
     VscLibraryFill: "F203",

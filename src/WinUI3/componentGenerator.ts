@@ -17,7 +17,7 @@ export async function generateComponentXaml(
   content: { [key: string]: Node },
   indent: string = "",
   processedNodes: Set<string>,
-  projectPath: string
+  projectPath?: string
 ): Promise<string> {
   const nodeId = node.custom.id || Object.keys(content).find((key) => content[key] === node) || "";
   if (processedNodes.has(nodeId)) {
@@ -80,7 +80,7 @@ export async function generateSingleComponentXaml(
     case "RadioButtons":
       return generateRadioButtonXaml(node, indent);
     case "Container":
-      return generateContainerXaml(node, content, indent, processedNodes);
+      return generateContainerXaml(node, content, indent, processedNodes, projectPath);
     case "Checkboxes":
       return generateCheckboxXaml(node, indent);
     case "Slider":
