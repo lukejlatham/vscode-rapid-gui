@@ -1,7 +1,7 @@
 {
-  "name": "hello-world-react-cra",
-  "displayName": "hello-world-react-cra",
-  "description": "A hello world sample extension to demonstrate using React + CRA with the Webview UI Toolkit for VS Code.",
+  "name": "ui-copilot",
+  "displayName": "UI Copilot",
+  "description": "Quickly generate, refine, and deploy a functional UI within minutes.",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.75.0"
@@ -11,27 +11,23 @@
     "commands": [
       {
         "command": "mainWebviewPanel.showMainWebviewPanel",
-        "title": "Open UI Studio"
+        "title": "UI Copilot: Open Editor"
       },
       {
-        "command": "extension.getAzureOpenaiApiKey",
-        "title": "Get Azure OpenAI API Key"
+        "command": "mainWebviewPanel.getAzureOpenaiApiKey",
+        "title": "UI Copilot: Save Azure OpenAI API Key"
       },
       {
-        "command": "extension.getAzureOpenaiApiEndpoint",
-        "title": "Get Azure OpenAI API Endpoint"
+        "command": "mainWebviewPanel.getAzureOpenaiApiEndpoint",
+        "title": "UI Copilot: Save Azure OpenAI API Endpoint"
       },
       {
-        "command": "extension.getGpt4oDeploymentName",
-        "title": "Get GPT-4 Deployment Name"
+        "command": "mainWebviewPanel.getGpt4DeploymentName",
+        "title": "UI Copilot: Save Azure OpenAI GPT-4o Deployment Name"
       },
       {
-        "command": "extension.getOpenaiApiEndpoint",
-        "title": "Save OpenAI API Endpoint"
-      },
-      {
-        "command": "extension.getOpenaiApiKey",
-        "title": "Save OpenAI API Key"
+        "command": "mainWebviewPanel.saveOpenaiApiKey",
+        "title": "UI Copilot: Save OpenAI API Key"
       }
     ]
   },
