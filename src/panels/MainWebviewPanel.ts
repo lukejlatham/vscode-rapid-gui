@@ -61,6 +61,11 @@ export class MainWebviewPanel {
         }
       );
 
+      panel.iconPath = {
+        light: Uri.joinPath(extensionUri, "assets", "sparkle_lightmode_icon.svg"),
+        dark: Uri.joinPath(extensionUri, "assets", "sparkle_darkmode_icon.svg"),
+      };
+
       MainWebviewPanel.currentPanel = new MainWebviewPanel(panel, extensionUri, context);
     }
   }

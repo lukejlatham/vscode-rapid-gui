@@ -1,7 +1,7 @@
 {
   "name": "ui-copilot",
   "displayName": "UI Copilot",
-  "description": "Quickly generate, refine, and deploy a functional UI within minutes.",
+  "description": "Generate, refine, and deploy a functional UI within minutes.",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.75.0"
