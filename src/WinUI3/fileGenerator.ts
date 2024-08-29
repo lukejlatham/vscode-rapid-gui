@@ -36,7 +36,7 @@ export class FileGenerator {
     }
   }
 
-  public async generateProjectFiles(pages: Page[]) {
+  public async generateProjectFiles(pages: Page[], projectPath: string) {
     if (pages.length === 0) {
       console.error("No pages to generate");
       return;
@@ -44,7 +44,7 @@ export class FileGenerator {
     this.createAppManifest();
     this.createAppXaml();
     this.createAppXamlCs();
-    this.createMainWindowXaml(pages);
+    this.createMainWindowXaml(pages, projectPath);
     this.createMainWindowXamlCs(pages);
     this.createPackageAppxmanifest();
     this.createProjectFile();
@@ -55,7 +55,7 @@ export class FileGenerator {
     this.createPublishProfiles();
     this.createReadme();
     this.createVSCodeFiles();
-    await this.processAllImages(pages);
+    await this.processAllImages(pages, projectPath);
     this.addImagesToProjectFile();
     this.copyAssetImages();
     console.log("FileGenerator Project Path:", this.projectPath);
@@ -63,7 +63,7 @@ export class FileGenerator {
 
     pages.forEach((page) => {
       const sanitizedPageName = this.sanitizePageName(page.name);
-      this.createPageXaml(page, sanitizedPageName);
+      this.createPageXaml(page, sanitizedPageName, projectPath);
       this.createPageXamlCs(sanitizedPageName);
     });
   }
@@ -99,7 +99,7 @@ export class FileGenerator {
     this.createFile("App.xaml.cs", content);
   }
 
-  private createMainWindowXaml(pages: Page[]) {
+  private createMainWindowXaml(pages: Page[], projectPath: string) {
     let content = this.templateManager.getTemplate("MainWindow.xaml");
     content = content.replace(/\{\{namespace\}\}/g, this.namespace);
 
@@ -193,8 +193,8 @@ export class FileGenerator {
     this.createFile("Directory.Build.props", content);
   }
 
-  async createPageXaml(page: Page, sanitizedPageName: string) {
-    const gridXaml = await generateGridXaml(page, this.projectPath);
+  async createPageXaml(page: Page, sanitizedPageName: string, projectPath: string) {
+    const gridXaml = await generateGridXaml(page, projectPath);
     let content = this.templateManager.getTemplate("Page.xaml");
     content = content.replace(/\{\{namespace\}\}/g, this.namespace);
     content = content.replace(/\{\{pageName\}\}/g, sanitizedPageName);
@@ -332,15 +332,15 @@ export class FileGenerator {
     fs.writeFileSync(path.join(vscodeDir, "tasks.json"), JSON.stringify(tasksJson, null, 2));
   }
 
-  private async processAllImages(pages: Page[]) {
-    this.extraImages = []; // Clear the array before processing
+  private async processAllImages(pages: Page[], projectPath: string) {
+    this.extraImages = [];
     for (const page of pages) {
       const imageNodes = findImageNodes(page.content);
       for (const node of imageNodes) {
         if (node.props.src) {
           console.log("Processing image:", node.props.src);
           try {
-            const imagePath = await handleImageSource(node.props.src, this.projectPath);
+            const imagePath = await handleImageSource(node.props.src, projectPath);
             this.extraImages.push(imagePath);
           } catch (error) {
             console.error("Error processing image:", error);
@@ -381,32 +381,23 @@ export class FileGenerator {
     const projectFilePath = path.join(this.outputPath, `${this.projectName}.csproj`);
     let projectContent = fs.readFileSync(projectFilePath, "utf8");
 
-    const assetsPath = path.join(this.outputPath, "Assets");
-    if (fs.existsSync(assetsPath)) {
-      const imageFiles = fs
-        .readdirSync(assetsPath)
-        .filter((file) =>
-          [".png", ".jpg", ".jpeg", ".gif", ".bmp"].includes(path.extname(file).toLowerCase())
-        );
+    let imageItemGroup = "  <ItemGroup>\n";
+    this.extraImages.forEach((imagePath) => {
+      const relativePath = path.relative(this.outputPath, imagePath).replace(/\\/g, "/");
+      imageItemGroup += `    <Content Include="${relativePath}">\n`;
+      imageItemGroup += "      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>\n";
+      imageItemGroup += "    </Content>\n";
+    });
+    imageItemGroup += "  </ItemGroup>\n";
 
-      let imageItemGroup = "  <ItemGroup>\n";
-      imageFiles.forEach((file) => {
-        imageItemGroup += `    <Content Include="Assets\\${file}">\n`;
-        imageItemGroup += "      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>\n";
-        imageItemGroup += "    </Content>\n";
-      });
-      imageItemGroup += "  </ItemGroup>\n";
+    projectContent = projectContent.replace(
+      /<ItemGroup>\s*<Content Include="Assets\\.*?<\/ItemGroup>/s,
+      ""
+    );
 
-      // Remove any existing duplicate ItemGroup for Assets
-      projectContent = projectContent.replace(
-        /<ItemGroup>\s*<Content Include="Assets\\.*?<\/ItemGroup>/s,
-        ""
-      );
+    projectContent = projectContent.replace("</Project>", `${imageItemGroup}</Project>`);
 
-      projectContent = projectContent.replace("</Project>", `${imageItemGroup}</Project>`);
-
-      fs.writeFileSync(projectFilePath, projectContent);
-      console.log("Added images to project file");
-    }
+    fs.writeFileSync(projectFilePath, projectContent);
+    console.log("Added images to project file");
   }
 }

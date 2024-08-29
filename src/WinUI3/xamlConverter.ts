@@ -9,9 +9,6 @@ export async function convertToXaml(
   fileNames: string[],
   context: vscode.ExtensionContext
 ): Promise<void> {
-  console.log("Contents:", contents);
-  console.log("FileNames:", fileNames);
-
   if (!contents || !fileNames || contents.length !== fileNames.length) {
     throw new Error("Invalid contents or fileNames");
   }
@@ -37,29 +34,23 @@ export async function convertToXaml(
   for (let i = 0; i < contents.length; i++) {
     const fileName = fileNames[i];
     let jsonContent = contents[i];
-
-    console.log(`Processing page: ${fileName}`);
-    console.log("JSON Content:", jsonContent);
-
     try {
       jsonContent = jsonContent.replace(/^\s*"|"\s*$/g, "").replace(/\\"/g, '"');
 
       const parsedJSON = JSON.parse(jsonContent);
       // const pageName = Object.keys(parsedJSON.pages)[0];
-      console.log("Parsed content:", JSON.stringify(parsedJSON, null, 2));
+      // console.log("Parsed content:", JSON.stringify(parsedJSON, null, 2));
       const page: Page = {
         id: fileName,
         name: fileName,
         content: parsedJSON,
       };
-      console.log("Created Page object:", JSON.stringify(page, null, 2));
+      // console.log("Created Page object:", JSON.stringify(page, null, 2));
       pages.push(page);
     } catch (error) {
       console.error(`Error processing page ${fileName}:`, error);
     }
   }
-
-  console.log("Number of pages created:", pages.length);
 
   if (pages.length === 0) {
     throw new Error("No pages were created. Check the input data.");
@@ -67,7 +58,7 @@ export async function convertToXaml(
 
   try {
     const appGenerator = new AppGenerator(pages, projectFolder, projectName, context);
-    await appGenerator.generateApp();
+    await appGenerator.generateApp(projectFolder);
 
     vscode.window.showInformationMessage(
       `WinUI 3 project "${projectName}" generated successfully in ${projectFolder}`
