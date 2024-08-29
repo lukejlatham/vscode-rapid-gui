@@ -185,7 +185,6 @@ export const colorTokens: { [key: string]: string } = {
   colorPaletteGreenBackground1: "#052505",
   colorPaletteGreenBackground2: "#094509",
   colorPaletteGreenBackground3: "#107c10",
-  colorPaletteGreenForeground1: "#54b054",
   colorPaletteGreenForeground2: "#9fd89f",
   colorPaletteGreenForeground3: "#9fd89f",
   colorPaletteGreenBorderActive: "#54b054",
