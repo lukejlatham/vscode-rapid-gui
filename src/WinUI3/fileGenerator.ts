@@ -36,7 +36,7 @@ export class FileGenerator {
     }
   }
 
-  public async generateProjectFiles(pages: Page[]) {
+  public async generateProjectFiles(pages: Page[], projectPath: string) {
     if (pages.length === 0) {
       console.error("No pages to generate");
       return;
@@ -55,7 +55,7 @@ export class FileGenerator {
     this.createPublishProfiles();
     this.createReadme();
     this.createVSCodeFiles();
-    await this.processAllImages(pages);
+    await this.processAllImages(pages, projectPath);
     this.addImagesToProjectFile();
     this.copyAssetImages();
     console.log("FileGenerator Project Path:", this.projectPath);
@@ -332,15 +332,15 @@ export class FileGenerator {
     fs.writeFileSync(path.join(vscodeDir, "tasks.json"), JSON.stringify(tasksJson, null, 2));
   }
 
-  private async processAllImages(pages: Page[]) {
-    this.extraImages = []; // Clear the array before processing
+  private async processAllImages(pages: Page[], projectPath: string) {
+    this.extraImages = [];
     for (const page of pages) {
       const imageNodes = findImageNodes(page.content);
       for (const node of imageNodes) {
         if (node.props.src) {
           console.log("Processing image:", node.props.src);
           try {
-            const imagePath = await handleImageSource(node.props.src, this.projectPath);
+            const imagePath = await handleImageSource(node.props.src, projectPath);
             this.extraImages.push(imagePath);
           } catch (error) {
             console.error("Error processing image:", error);

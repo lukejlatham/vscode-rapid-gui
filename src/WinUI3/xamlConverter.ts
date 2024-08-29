@@ -67,7 +67,7 @@ export async function convertToXaml(
 
   try {
     const appGenerator = new AppGenerator(pages, projectFolder, projectName, context);
-    await appGenerator.generateApp();
+    await appGenerator.generateApp(projectFolder);
 
     vscode.window.showInformationMessage(
       `WinUI 3 project "${projectName}" generated successfully in ${projectFolder}`

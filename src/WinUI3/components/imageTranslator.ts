@@ -49,7 +49,6 @@ export async function handleImageSource(src: string, projectPath: string): Promi
   const destPath = path.join(assetsPath, fileName);
 
   if (src.startsWith("https://file+.vscode-resource.vscode-cdn.net/")) {
-    // Handle VSCode resource URLs (uploaded images)
     const localPath = decodeURIComponent(
       src.replace("https://file+.vscode-resource.vscode-cdn.net/", "")
     );
@@ -57,15 +56,13 @@ export async function handleImageSource(src: string, projectPath: string): Promi
   } else if (isUrl(src)) {
     await downloadImage(src, destPath);
   } else if (src.startsWith("data:image")) {
-    // Handle base64 encoded images (AI-generated)
     const base64Data = src.split(",")[1];
     fs.writeFileSync(destPath, base64Data, "base64");
   } else {
-    // Handle local file paths
     fs.copyFileSync(src, destPath);
   }
 
-  return `/Assets/${fileName}`; // Return relative path
+  return `/Assets/${fileName}`;
 }
 
 export async function downloadImage(url: string, destPath: string): Promise<void> {
