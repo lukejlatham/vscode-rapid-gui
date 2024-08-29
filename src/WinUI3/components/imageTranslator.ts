@@ -53,24 +53,33 @@ export async function handleImageSource(src: string, projectPath: string): Promi
   const destPath = path.join(assetsPath, fileName);
 
   if (src.startsWith("https://file+.vscode-resource.vscode-cdn.net/")) {
-    const workspacePath = projectPath.split(path.sep).slice(0, -1).join(path.sep);
-    const localPath = path.join(workspacePath, "uploaded_images", fileName);
-
+    // Handle VSCode resource URLs (uploaded and AI-generated images)
+    const localPath = decodeURIComponent(
+      src.replace("https://file+.vscode-resource.vscode-cdn.net", "")
+    );
     if (fs.existsSync(localPath)) {
       fs.copyFileSync(localPath, destPath);
       console.log(`Copied image from ${localPath} to ${destPath}`);
     } else {
       console.error(`Image not found: ${localPath}`);
+      return "";
     }
   } else if (isUrl(src)) {
-    await downloadImage(src, destPath);
-  } else if (src.startsWith("data:image")) {
-    const base64Data = src.split(",")[1];
-    fs.writeFileSync(destPath, base64Data, "base64");
-    console.log(`Saved base64 image to ${destPath}`);
+    try {
+      await downloadImage(src, destPath);
+    } catch (error) {
+      console.error(`Failed to download image: ${error.message}`);
+      return "";
+    }
   } else {
-    fs.copyFileSync(src, destPath);
-    console.log(`Copied image from ${src} to ${destPath}`);
+    // Handle local file paths (this case should not occur with your current setup)
+    if (fs.existsSync(src)) {
+      fs.copyFileSync(src, destPath);
+      console.log(`Copied image from ${src} to ${destPath}`);
+    } else {
+      console.error(`Image not found: ${src}`);
+      return "";
+    }
   }
 
   return `/Assets/${fileName}`;
