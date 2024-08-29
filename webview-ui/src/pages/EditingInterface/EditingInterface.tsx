@@ -39,7 +39,7 @@ const useStyles = makeStyles({
     transition: 'all 0.3s ease',
   },
   rightSidebar: {
-    flexBasis: '20%',
+    flexBasis: '22%',
     flexShrink: 0,
     transition: 'all 0.3s ease',
   },

@@ -77,11 +77,6 @@ const Settings: React.FC<{
   const handleAccessibilityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selected = event.target.checked ? "yes" : "no";
     accessibility.setSelectedAccessibility(selected as "yes" | "no");
-    if (selected === "yes") {
-      setTheme(teamsHighContrastTheme);
-    } else {
-      setTheme(teamsDarkTheme);
-    }
   };
 
   return (

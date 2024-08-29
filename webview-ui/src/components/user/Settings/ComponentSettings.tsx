@@ -208,7 +208,7 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({
                             onChange={(e, data) => {
                               handleImageUpload(data.value as string);
                             }}>
-                            <option value="">Select an uploaded image</option>
+                            <option value="">Select image</option>
                             {uploadedImages.map((image, index) => (
                               <option key={index} value={image.filepath}>
                                 {image.filename}
