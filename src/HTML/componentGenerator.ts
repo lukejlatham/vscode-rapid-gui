@@ -87,7 +87,7 @@ function generateSingleComponentHtml(
     case "Dropdown":
       return generateDropdownHtml(node);
     default:
-      return `<!-- Unknown component type: ${node.type.resolvedName} -->\n`;
+      console.error(`Unknown component type: ${node.type.resolvedName}`);
   }
 }
 let processedNodes = new Set<string>();
