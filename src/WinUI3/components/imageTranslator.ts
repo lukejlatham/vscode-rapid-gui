@@ -1,6 +1,7 @@
 import { Node } from "../JsonParser";
 import * as path from "path";
 import * as fs from "fs";
+import * as https from "https";
 
 export async function generateImageXaml(
   node: Node,
@@ -67,17 +68,12 @@ export async function handleImageSource(src: string, projectPath: string): Promi
       }
     }
   } else if (src.startsWith("http://") || src.startsWith("https://")) {
-    if (!src.includes("vscode-resource.vscode-cdn.net")) {
-      console.log("External URL detected, downloading image");
-      try {
-        await downloadImage(src, destPath);
-        console.log("Image downloaded successfully");
-      } catch (error) {
-        console.error("Failed to download image:", error);
-        return "";
-      }
-    } else {
-      console.log("VSCode resource URL detected, skipping download");
+    console.log("External URL detected, downloading image");
+    try {
+      await downloadImage(src, destPath);
+      console.log("Image downloaded successfully");
+    } catch (error) {
+      console.error("Failed to download image:", error);
       return "";
     }
   } else {
@@ -98,10 +94,20 @@ export async function handleImageSource(src: string, projectPath: string): Promi
 }
 
 async function downloadImage(url: string, destPath: string): Promise<void> {
-  const response = await fetch(url);
-  const arrayBuffer = await response.arrayBuffer();
-  const buffer = Buffer.from(arrayBuffer);
-  fs.writeFileSync(destPath, buffer);
+  return new Promise((resolve, reject) => {
+    const file = fs.createWriteStream(destPath);
+    https
+      .get(url, { rejectUnauthorized: false }, (response) => {
+        response.pipe(file);
+        file.on("finish", () => {
+          file.close();
+          resolve();
+        });
+      })
+      .on("error", (error) => {
+        fs.unlink(destPath, () => reject(error));
+      });
+  });
 }
 
 export function isUrl(str: string): boolean {
