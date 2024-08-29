@@ -2,6 +2,7 @@ import { Node } from "../JsonParser";
 import * as path from "path";
 import * as fs from "fs";
 import axios from "axios";
+import { convertToXaml } from "../xamlConverter";
 
 export async function generateImageXaml(
   node: Node,
@@ -14,6 +15,9 @@ export async function generateImageXaml(
   xaml += ` Stretch="UniformToFill"`;
   xaml += ` Width="${props.width || 100}"`;
   xaml += ` Height="${props.height || 100}"`;
+
+  console.log("Image props:", props);
+  console.log("Project path:", projectPath);
 
   if (props.src && projectPath) {
     try {

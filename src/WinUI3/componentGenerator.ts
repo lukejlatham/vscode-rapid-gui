@@ -26,8 +26,6 @@ export async function generateComponentXaml(
   processedNodes.add(nodeId);
 
   let xaml = await generateSingleComponentXaml(node, content, indent, processedNodes, projectPath);
-  console.log("Node is: ", node);
-  console.log("Node children are: ", node.nodes);
   if (node.nodes) {
     for (const childId of node.nodes) {
       const childNode = content[childId];
