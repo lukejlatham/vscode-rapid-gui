@@ -1,8 +1,6 @@
 import { Node } from "../JsonParser";
 import * as path from "path";
 import * as fs from "fs";
-import axios from "axios";
-import { convertToXaml } from "../xamlConverter";
 
 export async function generateImageXaml(
   node: Node,
@@ -16,26 +14,21 @@ export async function generateImageXaml(
   xaml += ` Width="${props.width || 100}"`;
   xaml += ` Height="${props.height || 100}"`;
 
-  console.log("Image props:", props);
-  console.log("Project path:", projectPath);
-
   if (props.src && projectPath) {
     try {
       const imageSource = await handleImageSource(props.src, projectPath);
-      xaml += ` Source="${imageSource}"`;
+      if (imageSource) {
+        xaml += ` Source="${imageSource}"`;
+      } else {
+        console.warn(`Invalid image source for: ${props.alt || "unnamed image"}`);
+      }
     } catch (error) {
       console.error("Error handling image source:", error);
     }
-  } else {
-    console.warn("Image source or project path is missing", { src: props.src, projectPath });
   }
 
   if (props.alt) {
     xaml += ` AutomationProperties.Name="${props.alt}"`;
-  }
-
-  if (props.alignment) {
-    xaml += ` HorizontalAlignment="${props.alignment}"`;
   }
 
   xaml += " />";
@@ -44,40 +37,59 @@ export async function generateImageXaml(
 }
 
 export async function handleImageSource(src: string, projectPath: string): Promise<string> {
+  console.log("handleImageSource called with src:", src);
+  console.log("projectPath:", projectPath);
+
   const assetsPath = path.join(projectPath, "Assets");
   if (!fs.existsSync(assetsPath)) {
+    console.log("Creating Assets folder:", assetsPath);
     fs.mkdirSync(assetsPath, { recursive: true });
   }
 
   let fileName = path.basename(decodeURIComponent(src));
   const destPath = path.join(assetsPath, fileName);
 
-  if (src.startsWith("https://file+.vscode-resource.vscode-cdn.net/")) {
-    // Handle VSCode resource URLs (uploaded and AI-generated images)
-    const localPath = decodeURIComponent(
-      src.replace("https://file+.vscode-resource.vscode-cdn.net", "")
-    );
-    if (fs.existsSync(localPath)) {
-      fs.copyFileSync(localPath, destPath);
-      console.log(`Copied image from ${localPath} to ${destPath}`);
-    } else {
-      console.error(`Image not found: ${localPath}`);
-      return "";
+  if (src.startsWith("https://file+.vscode-resource.vscode-cdn.net")) {
+    console.log("Processing VSCode resource URL");
+    const decodedSrc = decodeURIComponent(src);
+    const urlParts = decodedSrc.split("/uploaded_images/");
+    if (urlParts.length > 1) {
+      fileName = urlParts[1];
+      const sourcePath = path.join(projectPath, "..", "..", "uploaded_images", fileName);
+      console.log("Copying from:", sourcePath);
+      console.log("Copying to:", destPath);
+      if (fs.existsSync(sourcePath)) {
+        fs.copyFileSync(sourcePath, destPath);
+        console.log("File copied successfully");
+      } else {
+        console.log("Source file not found");
+        return "";
+      }
     }
-  } else if (isUrl(src)) {
-    try {
-      await downloadImage(src, destPath);
-    } catch (error) {
-      console.error(`Failed to download image: ${error.message}`);
+  } else if (src.startsWith("http://") || src.startsWith("https://")) {
+    if (!src.includes("vscode-resource.vscode-cdn.net")) {
+      console.log("External URL detected, downloading image");
+      try {
+        await downloadImage(src, destPath);
+        console.log("Image downloaded successfully");
+      } catch (error) {
+        console.error("Failed to download image:", error);
+        return "";
+      }
+    } else {
+      console.log("VSCode resource URL detected, skipping download");
       return "";
     }
   } else {
-    // Handle local file paths (this case should not occur with your current setup)
-    if (fs.existsSync(src)) {
-      fs.copyFileSync(src, destPath);
-      console.log(`Copied image from ${src} to ${destPath}`);
+    console.log("Processing local file path");
+    const sourcePath = path.join(projectPath, "..", "..", "uploaded_images", fileName);
+    console.log("Copying from:", sourcePath);
+    console.log("Copying to:", destPath);
+    if (fs.existsSync(sourcePath)) {
+      fs.copyFileSync(sourcePath, destPath);
+      console.log("File copied successfully");
     } else {
-      console.error(`Image not found: ${src}`);
+      console.log("Source file not found");
       return "";
     }
   }
@@ -85,14 +97,11 @@ export async function handleImageSource(src: string, projectPath: string): Promi
   return `/Assets/${fileName}`;
 }
 
-export async function downloadImage(url: string, destPath: string): Promise<void> {
-  try {
-    const response = await axios.get(url, { responseType: "arraybuffer" });
-    fs.writeFileSync(destPath, response.data);
-    console.log(`Downloaded image to: ${destPath}`);
-  } catch (error) {
-    console.error(`Failed to download image: ${error}`);
-  }
+async function downloadImage(url: string, destPath: string): Promise<void> {
+  const response = await fetch(url);
+  const arrayBuffer = await response.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
+  fs.writeFileSync(destPath, buffer);
 }
 
 export function isUrl(str: string): boolean {
