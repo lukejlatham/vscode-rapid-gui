@@ -46,15 +46,20 @@ export class MainWebviewPanel {
     if (MainWebviewPanel.currentPanel) {
       MainWebviewPanel.currentPanel._panel.reveal(ViewColumn.One);
     } else {
-      const panel = window.createWebviewPanel("showMainWebviewPanel", "UI Studio", ViewColumn.One, {
-        enableScripts: true,
-        retainContextWhenHidden: true, // This preserves the webview state.
-        localResourceRoots: [
-          Uri.joinPath(extensionUri, "out"),
-          Uri.joinPath(extensionUri, "webview-ui/build"),
-          workspace.workspaceFolders?.[0]?.uri,
-        ],
-      });
+      const panel = window.createWebviewPanel(
+        "showMainWebviewPanel",
+        "UI Copilot",
+        ViewColumn.One,
+        {
+          enableScripts: true,
+          retainContextWhenHidden: true, // This preserves the webview state.
+          localResourceRoots: [
+            Uri.joinPath(extensionUri, "out"),
+            Uri.joinPath(extensionUri, "webview-ui/build"),
+            workspace.workspaceFolders?.[0]?.uri,
+          ],
+        }
+      );
 
       MainWebviewPanel.currentPanel = new MainWebviewPanel(panel, extensionUri, context);
     }
