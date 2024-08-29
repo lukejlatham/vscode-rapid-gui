@@ -1,5 +1,6 @@
 import { Node, LayoutItem } from "../JSONParser";
 import { generateComponentHtml, generateComponentCss } from "../componentGenerator";
+import { convertColor } from "../../utilities/colortranslator";
 //best version yet
 
 export function generateContainerHtml(
@@ -43,7 +44,7 @@ export function generateContainerHtml(
   const containerStyles = `
     width: ${props.width ? props.width + "%" : "auto"};
     height: ${props.height ? props.height + "%" : "auto"};
-    background-color: ${props.backgroundColor || "transparent"};
+    background-color: ${convertColor(props.backgroundColor || "transparent")};
     border: ${props.borderWidth || 1}px solid ${props.borderColor || "transparent"};
     border-radius: ${props.borderRadius || 0}px;
     padding: ${props.padding || 0}px;
@@ -79,7 +80,7 @@ export function generateContainerCss(node: Node, content: { [key: string]: Node 
       width: ${props.width ? props.width + "%" : "auto"};
       height: ${props.height ? props.height + "%" : "auto"};
       background-color: ${props.backgroundColor || "transparent"};
-      border: 2px solid ${props.borderColor};
+      border: 2px solid ${convertColor(props.borderColor)};
       border-radius: ${props.borderRadius || 0}%;
       padding: ${props.padding || 0}px;
       margin: ${props.margin || 0}px;
