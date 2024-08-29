@@ -340,7 +340,7 @@ export class FileGenerator {
         if (node.props.src) {
           console.log("Processing image:", node.props.src);
           try {
-            const imagePath = await handleImageSource(node.props.src, this.projectPath);
+            const imagePath = await handleImageSource(node.props.src, projectPath);
             this.extraImages.push(imagePath);
           } catch (error) {
             console.error("Error processing image:", error);

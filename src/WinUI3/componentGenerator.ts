@@ -17,7 +17,7 @@ export async function generateComponentXaml(
   content: { [key: string]: Node },
   indent: string = "",
   processedNodes: Set<string>,
-  projectPath?: string
+  projectPath: string
 ): Promise<string> {
   const nodeId = node.custom.id || Object.keys(content).find((key) => content[key] === node) || "";
   if (processedNodes.has(nodeId)) {

@@ -9,9 +9,6 @@ export async function convertToXaml(
   fileNames: string[],
   context: vscode.ExtensionContext
 ): Promise<void> {
-  console.log("Contents:", contents);
-  console.log("FileNames:", fileNames);
-
   if (!contents || !fileNames || contents.length !== fileNames.length) {
     throw new Error("Invalid contents or fileNames");
   }
@@ -37,10 +34,6 @@ export async function convertToXaml(
   for (let i = 0; i < contents.length; i++) {
     const fileName = fileNames[i];
     let jsonContent = contents[i];
-
-    console.log(`Processing page: ${fileName}`);
-    console.log("JSON Content:", jsonContent);
-
     try {
       jsonContent = jsonContent.replace(/^\s*"|"\s*$/g, "").replace(/\\"/g, '"');
 
@@ -58,8 +51,6 @@ export async function convertToXaml(
       console.error(`Error processing page ${fileName}:`, error);
     }
   }
-
-  console.log("Number of pages created:", pages.length);
 
   if (pages.length === 0) {
     throw new Error("No pages were created. Check the input data.");
