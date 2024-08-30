@@ -4,6 +4,7 @@ import { convertColor } from "../../utilities/colortranslator";
 
 export function generateButtonHtml(node: Node): string {
   const props = node.props;
+  console.log("Button props:", props);
 
   let content = "";
 
@@ -34,19 +35,43 @@ export function generateButtonHtml(node: Node): string {
 export function generateButtonCss(node: Node): string {
   const props = node.props;
 
-  // Helper function to convert width/height to appropriate units
-  const convertSize = (size: number, type: "width" | "height") => {
+  interface SizeScale {
+    min: number;
+    max: number;
+    factor: number;
+  }
+
+  const sizeScales: { [key: string]: SizeScale } = {
+    button: { min: 32, max: 200, factor: 4 },
+    icon: { min: 16, max: 64, factor: 2 },
+    text: { min: 12, max: 72, factor: 1 },
+    container: { min: 50, max: 800, factor: 8 },
+    default: { min: 32, max: 300, factor: 5 },
+  };
+
+  function convertSize(
+    size: number | string,
+    elementType: string = "default",
+    dimension: "width" | "height"
+  ): string {
+    if (typeof size === "string") {
+      return size;
+    }
+
+    const scale = sizeScales[elementType] || sizeScales.default;
+
     if (size <= 1) {
       return `${size * 100}%`;
     } else if (size <= 100) {
       return `${size}%`;
     } else {
-      return `${size}px`;
+      const clampedSize = Math.min(Math.max(size, scale.min), scale.max);
+      return `${clampedSize}px`;
     }
-  };
+  }
 
-  const width = convertSize(props.width, "width");
-  const height = convertSize(props.height, "height");
+  const width = convertSize(props.width || 100, "button", "width");
+  const height = convertSize(props.height || 40, "button", "height");
 
   let buttonCss = `
   .custom-button.${node.custom.id} {
@@ -64,7 +89,7 @@ export function generateButtonCss(node: Node): string {
     align-items: center;
     justify-content: center;
     text-decoration: none;
-    padding: 20px;
+    padding: 0 ${convertSize(20, "button", "width")};
     ${convertColor(
       props.shadowColor && props.shadowBlur
         ? `box-shadow: ${props.shadowOffsetX}px ${props.shadowOffsetY}px ${props.shadowBlur}px ${props.shadowColor};`

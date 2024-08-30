@@ -92,7 +92,7 @@ export async function generateSingleComponentXaml(
     case "Dropdown":
       return generateDropdownXaml(node, indent);
     default:
-      console.log(`Unknown component type encountered: ${node.type.resolvedName}`);
+      // console.log(`Unknown component type encountered: ${node.type.resolvedName}`);
       return "";
   }
 }

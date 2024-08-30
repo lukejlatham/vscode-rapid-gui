@@ -1,7 +1,7 @@
 import { Node } from "../JsonParser";
 import * as path from "path";
 import * as fs from "fs";
-import * as https from "https";
+import * as vscode from "vscode";
 
 export async function generateImageXaml(
   node: Node,
@@ -50,83 +50,70 @@ export async function handleImageSource(src: string, projectPath: string): Promi
   let fileName = path.basename(decodeURIComponent(src));
   const destPath = path.join(assetsPath, fileName);
 
-  if (src.startsWith("https://file+.vscode-resource.vscode-cdn.net")) {
-    console.log("Processing VSCode resource URL");
-    const decodedSrc = decodeURIComponent(src);
-    const urlParts = decodedSrc.split("/uploaded_images/");
-    if (urlParts.length > 1) {
-      fileName = urlParts[1];
-      const sourcePath = path.join(projectPath, "..", "..", "uploaded_images", fileName);
-      console.log("Copying from:", sourcePath);
-      console.log("Copying to:", destPath);
-      if (fs.existsSync(sourcePath)) {
-        fs.copyFileSync(sourcePath, destPath);
-        console.log("File copied successfully");
+  // Check if the src is a VS Code resource URL or contains 'uploaded_images'
+  if (src.includes("vscode-resource") || src.includes("uploaded_images")) {
+    console.log("Processing VSCode resource or uploaded image URL");
+    let localPath = decodeURIComponent(src);
+
+    // Remove the VS Code resource prefix if it exists
+    if (localPath.startsWith("https://file+.vscode-resource.vscode-cdn.net")) {
+      localPath = localPath.replace("https://file+.vscode-resource.vscode-cdn.net", "");
+    }
+
+    console.log("Local path:", localPath);
+
+    if (fs.existsSync(localPath)) {
+      fs.copyFileSync(localPath, destPath);
+      console.log("File copied successfully to:", destPath);
+    } else {
+      // If the direct path doesn't work, try to construct it from projectPath
+      const altPath = path.join(projectPath, "..", "..", "uploaded_images", fileName);
+      console.log("Trying alternative path:", altPath);
+
+      if (fs.existsSync(altPath)) {
+        fs.copyFileSync(altPath, destPath);
+        console.log("File copied successfully from alternative path to:", destPath);
       } else {
-        console.log("Source file not found");
+        console.log("Source file not found at either path");
         return "";
       }
     }
-  } else if (src.startsWith("http://") || src.startsWith("https://")) {
-    console.log("External URL detected, downloading image");
-    try {
-      await downloadImage(src, destPath);
-      console.log("Image downloaded successfully");
-    } catch (error) {
-      console.error("Failed to download image:", error);
-      return "";
-    }
   } else {
-    console.log("Processing local file path");
-    const sourcePath = path.join(projectPath, "..", "..", "uploaded_images", fileName);
-    console.log("Copying from:", sourcePath);
-    console.log("Copying to:", destPath);
-    if (fs.existsSync(sourcePath)) {
-      fs.copyFileSync(sourcePath, destPath);
-      console.log("File copied successfully");
-    } else {
-      console.log("Source file not found");
-      return "";
-    }
+    console.log("Unsupported image source:", src);
+    return "";
   }
 
   return `/Assets/${fileName}`;
 }
 
-async function downloadImage(url: string, destPath: string): Promise<void> {
-  return new Promise((resolve, reject) => {
-    const file = fs.createWriteStream(destPath);
-    https
-      .get(url, { rejectUnauthorized: false }, (response) => {
-        response.pipe(file);
-        file.on("finish", () => {
-          file.close();
-          resolve();
-        });
-      })
-      .on("error", (error) => {
-        fs.unlink(destPath, () => reject(error));
-      });
-  });
-}
+// async function downloadImage(url: string, destPath: string): Promise<void> {
+//   return new Promise((resolve, reject) => {
+//     const file = fs.createWriteStream(destPath);
+//     https
+//       .get(url, { rejectUnauthorized: false }, (response) => {
+//         console.log(`Response status code: ${response.statusCode}`);
+//         console.log(`Response headers: ${JSON.stringify(response.headers)}`);
 
-export function isUrl(str: string): boolean {
-  try {
-    new URL(str);
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-export function copyImageToAssets(sourcePath: string, destPath: string): void {
-  try {
-    fs.copyFileSync(sourcePath, destPath);
-    console.log(`Copied image to: ${destPath}`);
-  } catch (error) {
-    console.error(`Failed to copy image: ${error}`);
-  }
-}
+//         if (response.statusCode === 200) {
+//           response.pipe(file);
+//           file.on("finish", () => {
+//             file.close();
+//             const stats = fs.statSync(destPath);
+//             console.log(`Downloaded file size: ${stats.size} bytes`);
+//             resolve();
+//           });
+//         } else {
+//           file.close();
+//           fs.unlink(destPath, () => {});
+//           reject(new Error(`Server responded with status code: ${response.statusCode}`));
+//         }
+//       })
+//       .on("error", (error) => {
+//         console.error(`Download error: ${error.message}`);
+//         fs.unlink(destPath, () => reject(error));
+//       });
+//   });
+// }
 
 export function findImageNodes(content: any): Node[] {
   const imageNodes: Node[] = [];

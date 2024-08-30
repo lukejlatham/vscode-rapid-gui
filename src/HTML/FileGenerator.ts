@@ -8,6 +8,7 @@ import { generateGridCss, generateGridHtml } from "./GridGenerator";
 import { ProjectStructureGenerator } from "./ProjectStructureGenerator";
 import { generateBackgroundCss } from "./components/Background";
 import { generateComponentCss, resetComponentCounters } from "./componentGenerator";
+import { generateContainerCss } from "./components/Container";
 
 export class FileGenerator {
   private projectName: string;
@@ -74,7 +75,6 @@ export class FileGenerator {
   private createPageFiles(pages: Page[]) {
     pages.forEach((page) => {
       resetComponentCounters();
-      console.log("Generating page content with outputPath:", this.outputPath);
       const pageContent = this.generatePageHtmlContent(page);
       resetComponentCounters();
       const gridCss = generateBackgroundCss(
@@ -82,6 +82,7 @@ export class FileGenerator {
         page.content as { [key: string]: Node }
       );
       const componentCss = this.generateComponentCss(page.content as { [key: string]: Node });
+      const containerCss = this.generateAllContainersCss(page.content as { [key: string]: Node });
 
       let content = this.templateManager.getTemplate("index.html");
       content = content.replace(/{{projectName}}/g, this.projectName);
@@ -90,8 +91,19 @@ export class FileGenerator {
       content = content.replace('href="css/styles.css"', `href="css/${page.name}.css"`);
 
       this.createFile(`${page.name}.html`, content);
-      this.createFile(`css/${page.name}.css`, gridCss + componentCss);
+      this.createFile(`css/${page.name}.css`, gridCss + componentCss + containerCss);
     });
+  }
+
+  private generateAllContainersCss(content: { [key: string]: Node }): string {
+    let css = "";
+    for (const nodeId in content) {
+      const node = content[nodeId];
+      if (node.type.resolvedName === "Container") {
+        css += generateContainerCss(node, content);
+      }
+    }
+    return css;
   }
 
   private generateComponentCss(content: { [key: string]: Node }): string {

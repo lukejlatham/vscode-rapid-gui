@@ -5,6 +5,7 @@ import { convertColor } from "../../utilities/colortranslator";
 export function generateLabelHtml(node: Node): string {
   const props = node.props;
   let content = props.text;
+  console.log("Label props:", props);
 
   if (props.vscIcon) {
     const iconHtml = generateIconHtml({ ...node, props: { ...props, iconSize: props.fontSize } });
@@ -18,7 +19,6 @@ export function generateLabelHtml(node: Node): string {
   `;
 }
 
-// To prevent duplicate CSS, we'll use a Set to track processed labels
 const processedLabels = new Set();
 
 export function generateLabelCss(node: Node): string {
@@ -49,6 +49,8 @@ export function generateLabelCss(node: Node): string {
     margin: ${props.iconPosition === "left" ? "0 5px 0 0" : "0 0 0 5px"};
   }
   `;
+
+  console.log("Label:", convertColor(props.fontColor), convertColor(props.backgroundColor));
 
   // If the label has an icon, include the icon CSS
   if (props.vscIcon) {

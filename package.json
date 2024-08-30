@@ -14,19 +14,19 @@
         "title": "UI Copilot: Open Editor"
       },
       {
-        "command": "mainWebviewPanel.getAzureOpenaiApiKey",
+        "command": "extension.getAzureOpenaiApiKey",
         "title": "UI Copilot: Save Azure OpenAI API Key"
       },
       {
-        "command": "mainWebviewPanel.getAzureOpenaiApiEndpoint",
+        "command": "extension.getAzureOpenaiApiEndpoint",
         "title": "UI Copilot: Save Azure OpenAI API Endpoint"
       },
       {
-        "command": "mainWebviewPanel.getGpt4DeploymentName",
+        "command": "extension.getGpt4DeploymentName",
         "title": "UI Copilot: Save Azure OpenAI GPT-4o Deployment Name"
       },
       {
-        "command": "mainWebviewPanel.saveOpenaiApiKey",
+        "command": "extension.getOpenaiApiKey",
         "title": "UI Copilot: Save OpenAI API Key"
       }
     ]

@@ -31,8 +31,8 @@ export class AppGenerator {
 
   public async generateApp() {
     try {
-      console.log(`Starting to generate HTML/CSS project "${this.projectName}"...`);
-      console.log(`Number of pages to generate: ${this.pages.length}`);
+      // console.log(`Starting to generate HTML/CSS project "${this.projectName}"...`);
+      // console.log(`Number of pages to generate: ${this.pages.length}`);
 
       if (this.pages.length === 0) {
         throw new Error("No pages to generate");
