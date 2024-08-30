@@ -24,6 +24,7 @@ import { handleSketchUpload } from "./handleSketchUpload";
 import { v4 as uuidv4 } from "uuid";
 import { Page } from "../../../types";
 import { GenerationLoader } from "../generationLoader";
+import { set } from "zod";
 
 const useStyles = makeStyles({
   content: {
@@ -120,6 +121,11 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({
         onClose();
         closeStartDialog();
       }
+      else if (message.command === "ProcessSketchError") {
+        setLoading(false);
+        setCurrentStage(-1);
+        setUIDescription("Error occurred during processing");
+      }
     };
 
     window.addEventListener("message", handleMessage);
@@ -189,8 +195,11 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({
                   <GenerationLoader />
                 </div>
               )}
-
-              {uiDescription && <Text>UI Description generated successfully!</Text>}
+{uiDescription === "Error occurred during processing" ? (
+                <Text>An error occurred during processing, please try again</Text>
+              ) : (
+              uiDescription &&
+              <Text>UI Description generated successfully!</Text>)}
             </div>
           </DialogContent>
           <DialogActions fluid>

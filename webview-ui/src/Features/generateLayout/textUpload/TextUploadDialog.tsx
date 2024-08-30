@@ -115,6 +115,11 @@ export const TextDialog: React.FC<UploadDialogProps> = ({
         onClose();
         closeStartDialog();
       }
+      else if (message.command === "ProcessTextError") {
+        setLoading(false);
+        setCurrentStage(-1);
+        setUIDescription("Error occurred during processing");
+      }
     };
 
     window.addEventListener("message", handleMessage);
@@ -162,7 +167,11 @@ export const TextDialog: React.FC<UploadDialogProps> = ({
                   rows={5}
                 />
               </Field>
-              {uiDescription && <Text>UI Description generated successfully!</Text>}
+              {uiDescription === "Error occurred during processing" ? (
+                <Text>An error occurred during processing, please try again</Text>
+              ) : (
+              uiDescription &&
+              <Text>UI Description generated successfully!</Text>)}
             </div>
           </DialogContent>
           <DialogActions fluid>
