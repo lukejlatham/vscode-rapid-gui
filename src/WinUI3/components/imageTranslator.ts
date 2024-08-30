@@ -1,7 +1,7 @@
 import { Node } from "../JsonParser";
 import * as path from "path";
 import * as fs from "fs";
-import * as vscode from "vscode";
+import fetch from "node-fetch";
 
 export async function generateImageXaml(
   node: Node,
@@ -60,7 +60,6 @@ export async function handleImageSource(src: string, projectPath: string): Promi
     console.log("Processing VSCode resource or uploaded image URL");
     let localPath = decodeURIComponent(src);
 
-    // Remove the VS Code resource prefix if it exists
     if (localPath.startsWith("https://file+.vscode-resource.vscode-cdn.net")) {
       localPath = localPath.replace("https://file+.vscode-resource.vscode-cdn.net", "");
     }
@@ -93,40 +92,30 @@ export async function handleImageSource(src: string, projectPath: string): Promi
 
     console.log("Source file not found at any of the possible paths");
     return "";
+  } else if (src.startsWith("http://") || src.startsWith("https://")) {
+    console.log("Downloading image from URL:", src);
+    try {
+      await downloadImage(src, destPath);
+      console.log("Image downloaded successfully to:", destPath);
+      return `/Assets/${fileName}`;
+    } catch (error) {
+      console.error("Failed to download image:", error);
+      return "";
+    }
   } else {
     console.log("Unsupported image source:", src);
     return "";
   }
 }
 
-// async function downloadImage(url: string, destPath: string): Promise<void> {
-//   return new Promise((resolve, reject) => {
-//     const file = fs.createWriteStream(destPath);
-//     https
-//       .get(url, { rejectUnauthorized: false }, (response) => {
-//         console.log(`Response status code: ${response.statusCode}`);
-//         console.log(`Response headers: ${JSON.stringify(response.headers)}`);
-
-//         if (response.statusCode === 200) {
-//           response.pipe(file);
-//           file.on("finish", () => {
-//             file.close();
-//             const stats = fs.statSync(destPath);
-//             console.log(`Downloaded file size: ${stats.size} bytes`);
-//             resolve();
-//           });
-//         } else {
-//           file.close();
-//           fs.unlink(destPath, () => {});
-//           reject(new Error(`Server responded with status code: ${response.statusCode}`));
-//         }
-//       })
-//       .on("error", (error) => {
-//         console.error(`Download error: ${error.message}`);
-//         fs.unlink(destPath, () => reject(error));
-//       });
-//   });
-// }
+async function downloadImage(url: string, destPath: string): Promise<void> {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`unexpected response ${response.statusText}`);
+  }
+  const buffer = await response.buffer();
+  fs.writeFileSync(destPath, buffer);
+}
 
 export function findImageNodes(content: any): Node[] {
   const imageNodes: Node[] = [];
