@@ -548,6 +548,8 @@ export function getGlyphFromVscIcon(iconName: string): string {
     VscMentionFill: "F208",
     VscMilestoneFill: "F209",
     VscChip: "F20A",
+    VscMirror: "F20B",
+    VscBrowser: "F20C",
   };
 
   const glyph = iconMap[iconName];
