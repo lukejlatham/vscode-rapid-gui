@@ -8,6 +8,7 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   Body2,
+  tokens,
 } from "@fluentui/react-components";
 import {
   teamsDarkTheme,
@@ -39,7 +40,7 @@ const useStyles = makeStyles({
     marginBottom: "2px",
   },
   caption: {
-    color: "#d6d6d6",
+    color: tokens.colorNeutralForeground2,
     marginBottom: "5px",
   },
 });

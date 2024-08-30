@@ -9,6 +9,7 @@ import {
   BreadcrumbItem,
   Body2,
   Caption1,
+  tokens,
 } from "@fluentui/react-components";
 import { TextFont20Filled, ChevronRight16Filled } from "@fluentui/react-icons";
 import { useEditor } from "@craftjs/core";
@@ -33,7 +34,7 @@ const useStyles = makeStyles({
     marginBottom: '2px',
   },
   caption: {
-    color: '#d6d6d6',
+    color: tokens.colorNeutralForeground2,
     marginBottom: '5px'
   }
 });
