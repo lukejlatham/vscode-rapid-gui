@@ -155,7 +155,8 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({
                 relationship="label"
                 onVisibleChange={(e, data) =>
                   handleVisibilityChange(tooltip.propKey, data.visible)
-                }>
+                }
+                >
                 <Info16Regular
                   tabIndex={0}
                   className={mergeClasses(
