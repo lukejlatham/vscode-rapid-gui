@@ -144,7 +144,9 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({
             <div
               aria-owns={visibleTooltip === tooltip.propKey ? contentId : undefined}
               className={propInspector.label}>
-              <Label>{tooltip.label}</Label>
+              <Label
+                htmlFor={tooltip.propKey}
+              >{tooltip.label}</Label>
               <Tooltip
                 content={{
                   children: tooltip.content,
@@ -190,6 +192,7 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({
             ) : tooltip.type === "dropdown" ? (
               <div className={propInspector.srcDropdown}>
                 <Select
+                  id={tooltip.propKey}
                   onChange={(e, data) => {
                     setSrcOption(data.value as string);
                   }}>
