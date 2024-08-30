@@ -22,10 +22,16 @@ export async function generateImageXaml(
         xaml += ` Source="${imageSource}"`;
       } else {
         console.warn(`Invalid image source for: ${props.alt || "unnamed image"}`);
+        // Set a default image
+        xaml += ` Source="/Assets/default_image.png"`;
       }
     } catch (error) {
       console.error("Error handling image source:", error);
+      xaml += ` Source="/Assets/error_image.png"`;
     }
+  } else {
+    // If no source is provided, use a default image
+    xaml += ` Source="/Assets/default_image.png"`;
   }
 
   if (props.alt) {
@@ -50,7 +56,6 @@ export async function handleImageSource(src: string, projectPath: string): Promi
   let fileName = path.basename(decodeURIComponent(src));
   const destPath = path.join(assetsPath, fileName);
 
-  // Check if the src is a VS Code resource URL or contains 'uploaded_images'
   if (src.includes("vscode-resource") || src.includes("uploaded_images")) {
     console.log("Processing VSCode resource or uploaded image URL");
     let localPath = decodeURIComponent(src);
@@ -60,30 +65,38 @@ export async function handleImageSource(src: string, projectPath: string): Promi
       localPath = localPath.replace("https://file+.vscode-resource.vscode-cdn.net", "");
     }
 
-    console.log("Local path:", localPath);
+    // Handle Windows-style paths
+    if (localPath.startsWith("/")) {
+      localPath = localPath.slice(1);
+    }
 
-    if (fs.existsSync(localPath)) {
-      fs.copyFileSync(localPath, destPath);
-      console.log("File copied successfully to:", destPath);
-    } else {
-      // If the direct path doesn't work, try to construct it from projectPath
-      const altPath = path.join(projectPath, "..", "..", "uploaded_images", fileName);
-      console.log("Trying alternative path:", altPath);
+    localPath = localPath.replace(/^[A-Za-z]:/, ""); // Remove drive letter if present
+    localPath = path.normalize(localPath);
 
-      if (fs.existsSync(altPath)) {
-        fs.copyFileSync(altPath, destPath);
-        console.log("File copied successfully from alternative path to:", destPath);
-      } else {
-        console.log("Source file not found at either path");
-        return "";
+    console.log("Normalized local path:", localPath);
+
+    const possiblePaths = [
+      localPath,
+      path.join(projectPath, "..", "..", "uploaded_images", fileName),
+      path.join(projectPath, "..", "uploaded_images", fileName),
+      path.join(projectPath, "uploaded_images", fileName),
+    ];
+
+    for (const pathToTry of possiblePaths) {
+      console.log("Trying path:", pathToTry);
+      if (fs.existsSync(pathToTry)) {
+        fs.copyFileSync(pathToTry, destPath);
+        console.log("File copied successfully to:", destPath);
+        return `/Assets/${fileName}`;
       }
     }
+
+    console.log("Source file not found at any of the possible paths");
+    return "";
   } else {
     console.log("Unsupported image source:", src);
     return "";
   }
-
-  return `/Assets/${fileName}`;
 }
 
 // async function downloadImage(url: string, destPath: string): Promise<void> {
