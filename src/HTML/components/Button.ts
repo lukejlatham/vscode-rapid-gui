@@ -78,8 +78,7 @@ export function generateButtonCss(node: Node): string {
     color: ${convertColor(props.fontColor)};
     background-color: ${convertColor(props.backgroundColor || "transparent")};
     font-size: ${props.fontSize}px;
-    width: ${width};
-    height: ${height};
+    padding: ${height}px ${width}px;
     border-radius: ${props.borderRadius}%;
     border-color: ${convertColor(props.bordercolor || "transparent")};
     cursor: pointer;
@@ -89,7 +88,6 @@ export function generateButtonCss(node: Node): string {
     align-items: center;
     justify-content: center;
     text-decoration: none;
-    padding: 0 ${convertSize(20, "button", "width")};
     ${convertColor(
       props.shadowColor && props.shadowBlur
         ? `box-shadow: ${props.shadowOffsetX}px ${props.shadowOffsetY}px ${props.shadowBlur}px ${props.shadowColor};`
