@@ -513,6 +513,13 @@ const iconMapping: { [key: string]: string } = {
   VscListTreeOutline: "fa-tree",
   VscLoadingOutline: "fa-spinner",
   VscLocationOutline: "fa-map-marker-alt",
+  VscLockFill: "fa-lock",
+  VscMailReadOutline: "fa-envelope-open",
+  VscMailReply: "fa-reply",
+  VscMailReplyAll: "fa-reply-all",
+  VscMirror: "fa-clone",
+  VscMirrorPrivate: "fa-lock",
+  VscBrowser: "fa-globe",
 };
 
 export function generateIconHtml(node: Node): string {
