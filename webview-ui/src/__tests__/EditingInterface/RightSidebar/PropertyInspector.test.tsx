@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import PropertyInspector from "../../../pages/EditingInterface/RightSidebar/PropertyInspector";
 import { useEditor } from "@craftjs/core";
 import { IntlProvider } from "react-intl";
