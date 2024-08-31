@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   Dialog,
   DialogSurface,
@@ -79,7 +78,6 @@ export const TextDialog: React.FC<UploadDialogProps> = ({
   const [loading, setLoading] = useState<boolean>(false);
   const [uiDescription, setUIDescription] = useState<string | null>(null);
   const [currentStage, setCurrentStage] = useState<number>(-1);
-  const navigate = useNavigate();
   const styles = useStyles();
 
   useEffect(() => {
