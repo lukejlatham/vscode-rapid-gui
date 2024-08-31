@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { IntlProvider } from "react-intl";
 import French from "./fr.json";
 import English from "./en.json";
+import Japanese from "./jp.json";
 
 export const LanguageContext = React.createContext();
 
@@ -12,6 +13,8 @@ if (loc === "fr") {
   lang = French;
 } else if (loc === "en") {
   lang = English;
+} else if (loc === "jp") {
+  lang = Japanese;
 }
 
 const Wrapper = (props) => {
@@ -21,10 +24,18 @@ const Wrapper = (props) => {
   const changeLanguage = (e) => {
     const newLocale = e.target.value;
     setLocale(newLocale);
-    if (newLocale === "fr") {
-      setMessages(French);
-    } else if (newLocale === "en") {
-      setMessages(English);
+    switch (newLocale) {
+      case "fr":
+        setMessages(French);
+        break;
+      case "en":
+        setMessages(English);
+        break;
+      case "jp":
+        setMessages(Japanese);
+        break;
+      default:
+        break;
     }
   };
 

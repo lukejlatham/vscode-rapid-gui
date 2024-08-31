@@ -128,6 +128,7 @@ const Settings: React.FC<{
           className={styles.select}>
           <option value="en">English</option>
           <option value="fr">Français</option>
+          <option value="jp">Japanese</option>
         </Select>
       </div>
 

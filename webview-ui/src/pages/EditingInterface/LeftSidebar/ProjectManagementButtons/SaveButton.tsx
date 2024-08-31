@@ -41,7 +41,7 @@ const SaveButton: React.FC<{ classes: any; pages: Page[]; currentPageIndex: numb
   return (
     <>
       <Tooltip
-        content={<FormattedMessage id="leftSidebar.Save" defaultMessage="Save" />}
+        content={<FormattedMessage id="leftSidebar.save" defaultMessage="Save" />}
         relationship="label"
         positioning="after"
         appearance="inverted">
@@ -52,7 +52,7 @@ const SaveButton: React.FC<{ classes: any; pages: Page[]; currentPageIndex: numb
           icon={<DocumentSave24Regular />}
           onClick={handleSave}>
           {accessibility.selectedAccessibility === "yes" && (
-            <FormattedMessage id="leftSidebar.Save" defaultMessage="Save" />
+            <FormattedMessage id="leftSidebar.save" defaultMessage="Save" />
           )}
         </Button>
       </Tooltip>
