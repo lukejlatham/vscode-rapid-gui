@@ -19,12 +19,13 @@ export const usePropertyInspectorStyles = makeStyles({
         width: "100%",
     },
     visible: {
-        color: tokens.colorNeutralForeground2BrandSelected,
+        color: tokens.colorBrandForegroundLinkSelected,
     },
     label: {
         display: "flex",
         flexDirection: "row",
         columnGap: tokens.spacingVerticalS,
+        color: tokens.colorNeutralForeground1,
     },
     numberInput: {
         width: "100%",

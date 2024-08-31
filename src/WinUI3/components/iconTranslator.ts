@@ -7,8 +7,6 @@ export function generateIconXaml(node: Node, indent: string = ""): string {
   let xaml = `${indent}<FontIcon`;
 
   const glyph = getGlyphFromVscIcon(props.vscIcon);
-  console.log("Selected icon:", props.vscIcon);
-  console.log("Glyph:", glyph);
 
   xaml += ` Glyph="${glyph}"`;
   xaml += ` FontSize="${props.iconSize || 16}"`;
@@ -38,9 +36,6 @@ function formatColor(color: string): string {
   } else {
     return color;
   }
-
-  // If we can't parse the color, return a default
-  console.warn(`Unrecognized color format: ${color}. Using default.`);
   return "{ThemeResource SystemControlForegroundBaseHighBrush}";
 }
 
@@ -542,6 +537,19 @@ export function getGlyphFromVscIcon(iconName: string): string {
     VscJsonOutline: "F1FD",
     VscKebabHorizontalOutline: "F1FE",
     VscKebabVerticalOutline: "F1FF",
+    VscHeartFilled: "F200",
+    VscLawFill: "F201",
+    VscLayersFill: "F202",
+    VscLibraryFill: "F203",
+    VscLightbulbFill: "F204",
+    VscLinkExternalFill: "F205",
+    VscListOrderedFill: "F206",
+    VscMailFill: "F207",
+    VscMentionFill: "F208",
+    VscMilestoneFill: "F209",
+    VscChip: "F20A",
+    VscMirror: "F20B",
+    VscBrowser: "F20C",
   };
 
   const glyph = iconMap[iconName];

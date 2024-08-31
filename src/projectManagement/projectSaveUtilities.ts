@@ -2,7 +2,11 @@ import * as vscode from "vscode";
 import * as fs from "fs";
 import * as path from "path";
 
-export async function handleFileSave(contents: object, fileNames: object, context: vscode.ExtensionContext) {
+export async function handleFileSave(
+  contents: object,
+  fileNames: object,
+  context: vscode.ExtensionContext
+) {
   const currentFolder = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
 
   if (!currentFolder) {
@@ -10,7 +14,7 @@ export async function handleFileSave(contents: object, fileNames: object, contex
     return;
   }
 
-  const savedPagesFolder = path.join(currentFolder, 'Saved Pages');
+  const savedPagesFolder = path.join(currentFolder, "Saved Pages");
 
   // Create 'Saved Pages' folder if it doesn't exist
   if (!fs.existsSync(savedPagesFolder)) {
@@ -57,10 +61,12 @@ export async function handleFileLoad(context: vscode.ExtensionContext, webview: 
     return;
   }
 
-  const savedPagesFolder = path.join(currentFolder, 'Saved Pages');
+  const savedPagesFolder = path.join(currentFolder, "Saved Pages");
 
   if (!fs.existsSync(savedPagesFolder)) {
-    vscode.window.showErrorMessage("Cannot find Saved Pages folder. Make sure you have saved a project first, and have not deleted or renamed the 'Saved Pages' folder.");
+    vscode.window.showErrorMessage(
+      "Cannot find Saved Pages folder. Make sure you have saved a project first, and have not deleted or renamed the 'Saved Pages' folder."
+    );
     return;
   }
 
@@ -71,12 +77,12 @@ export async function handleFileLoad(context: vscode.ExtensionContext, webview: 
       return;
     }
 
-    const fileContents: { fileName: string, fileData: any }[] = [];
+    const fileContents: { fileName: string; fileData: any }[] = [];
     let filesRead = 0;
 
     files.forEach((file) => {
       const filePath = path.join(savedPagesFolder, file);
-      const fileName = path.basename(file, '.json');
+      const fileName = path.basename(file, ".json");
 
       fs.readFile(filePath, "utf8", (err, data) => {
         filesRead++;
@@ -84,7 +90,7 @@ export async function handleFileLoad(context: vscode.ExtensionContext, webview: 
           console.error(`Error reading file ${file}`, err);
           vscode.window.showErrorMessage(`Failed to read file: ${file}`);
         } else {
-          console.log(`File ${file} has been read`, data);
+          // console.log(`File ${file} has been read`, data);
           fileContents.push({ fileName, fileData: data });
         }
 

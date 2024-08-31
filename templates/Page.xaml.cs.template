@@ -1,5 +1,7 @@
 using Microsoft.UI.Xaml.Controls;
 
+// Handles the functionality and interactions for this specific page
+
 namespace {{namespace}}
 {
     public sealed partial class pageName: Page

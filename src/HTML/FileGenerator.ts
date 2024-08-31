@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
+import * as vscode from "vscode";
 import { TemplateManager } from "./TemplateManager";
 import { Page } from "../../webview-ui/src/types";
 import { Node } from "./JSONParser";
@@ -7,18 +8,26 @@ import { generateGridCss, generateGridHtml } from "./GridGenerator";
 import { ProjectStructureGenerator } from "./ProjectStructureGenerator";
 import { generateBackgroundCss } from "./components/Background";
 import { generateComponentCss, resetComponentCounters } from "./componentGenerator";
+import { generateContainerCss } from "./components/Container";
 
 export class FileGenerator {
   private projectName: string;
   private outputPath: string;
   private templateManager: TemplateManager;
+  private workspaceFolder: string;
 
-  constructor(projectName: string, outputPath: string, templateManager: TemplateManager) {
+  constructor(
+    projectName: string,
+    outputPath: string,
+    templateManager: TemplateManager,
+    workspaceFolder: string
+  ) {
     const structureGenerator = new ProjectStructureGenerator(outputPath, projectName);
     structureGenerator.generateStructure();
     this.outputPath = structureGenerator.getOutputPath();
     this.projectName = projectName;
     this.templateManager = templateManager;
+    this.workspaceFolder = workspaceFolder;
   }
 
   public generateProjectFiles(pages: Page[]) {
@@ -33,6 +42,7 @@ export class FileGenerator {
     this.createJsFile();
     this.createReadme();
     this.copyAssetImages();
+    this.copyImages();
   }
 
   private createFile(fileName: string, content: string) {
@@ -72,6 +82,7 @@ export class FileGenerator {
         page.content as { [key: string]: Node }
       );
       const componentCss = this.generateComponentCss(page.content as { [key: string]: Node });
+      const containerCss = this.generateAllContainersCss(page.content as { [key: string]: Node });
 
       let content = this.templateManager.getTemplate("index.html");
       content = content.replace(/{{projectName}}/g, this.projectName);
@@ -80,8 +91,19 @@ export class FileGenerator {
       content = content.replace('href="css/styles.css"', `href="css/${page.name}.css"`);
 
       this.createFile(`${page.name}.html`, content);
-      this.createFile(`css/${page.name}.css`, gridCss + componentCss);
+      this.createFile(`css/${page.name}.css`, gridCss + componentCss + containerCss);
     });
+  }
+
+  private generateAllContainersCss(content: { [key: string]: Node }): string {
+    let css = "";
+    for (const nodeId in content) {
+      const node = content[nodeId];
+      if (node.type.resolvedName === "Container") {
+        css += generateContainerCss(node, content);
+      }
+    }
+    return css;
   }
 
   private generateComponentCss(content: { [key: string]: Node }): string {
@@ -100,9 +122,6 @@ export class FileGenerator {
 
   private generatePageHtmlContent(page: Page): string {
     try {
-      console.log("Generating content for page:", page.name);
-      console.log("Raw page content:", JSON.stringify(page.content, null, 2));
-
       if (typeof page.content === "string") {
         page.content = JSON.parse(page.content);
       }
@@ -152,6 +171,23 @@ export class FileGenerator {
       for (const file of assetFiles) {
         const srcPath = path.join(templateAssetsPath, file);
         const destPath = path.join(projectAssetsPath, file);
+        fs.copyFileSync(srcPath, destPath);
+      }
+    }
+  }
+  private copyImages() {
+    const sourceDir = path.join(vscode.workspace.workspaceFolders[0].uri.fsPath, "uploaded_images");
+    const destDir = path.join(this.outputPath, "images");
+
+    if (!fs.existsSync(destDir)) {
+      fs.mkdirSync(destDir, { recursive: true });
+    }
+
+    if (fs.existsSync(sourceDir)) {
+      const files = fs.readdirSync(sourceDir);
+      for (const file of files) {
+        const srcPath = path.join(sourceDir, file);
+        const destPath = path.join(destDir, file);
         fs.copyFileSync(srcPath, destPath);
       }
     }

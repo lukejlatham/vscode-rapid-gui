@@ -106,7 +106,7 @@ export const PropertyInspector: React.FC<{ classes: any }> = ({ classes }) => {
         <Breadcrumb className={localClasses.breadcrumb}>
           <BreadcrumbItem >{selected.displayName}</BreadcrumbItem>
         </Breadcrumb>
-        <Button icon={<Dismiss20Regular className={localClasses.dismissButton} />} appearance="transparent" onClick={handleClose} data-testid="close-button"/>
+        <Button aria-label="Close" icon={<Dismiss20Regular className={localClasses.dismissButton} />} appearance="transparent" onClick={handleClose} data-testid="close-button"/>
       </div>
       <Divider className={localClasses.divider}/>
       <div className={localClasses.content}>

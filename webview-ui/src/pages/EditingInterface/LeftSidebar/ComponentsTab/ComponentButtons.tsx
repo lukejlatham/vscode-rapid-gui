@@ -6,6 +6,7 @@ import {
   Body2,
   makeStyles,
   Caption1,
+  tokens
 } from "@fluentui/react-components";
 import { useEditor, Element } from "@craftjs/core";
 import { Label, LabelDefaultProps } from "../../../../components/user/Label";
@@ -35,7 +36,7 @@ import {
   TextAlignLeftFilled,
   CardUiRegular,
   TextBulletListCheckmarkFilled,
-  OptionsRegular,
+  OptionsRegular
 } from "@fluentui/react-icons";
 import { Container, ContainerDefaultProps } from "../../../../components/user/Container";
 
@@ -63,7 +64,7 @@ const useStyles = makeStyles({
     marginBottom: "2px",
   },
   caption: {
-    color: "#d6d6d6",
+    color: tokens.colorNeutralForeground2,
     marginBottom: "5px",
   },
   componentButtons: {

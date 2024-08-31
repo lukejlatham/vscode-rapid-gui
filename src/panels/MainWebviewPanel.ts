@@ -17,8 +17,8 @@ import { processCopilotMessages } from "../copilot";
 import { handleImageUpload } from "../uploadImage/imageSave";
 import { handleImageGenerate } from "../generateImage/handleImageGeneration";
 import { handleGetUploadedImages } from "../uploadImage/handleGetUploadedImages";
-import { convertToXaml } from "../utilities/xamlConverter";
-import { convertToHtml } from "../utilities/convertToHtml";
+import { convertToXaml } from "../WinUI3/xamlConverter";
+import { convertToHtml } from "../HTML/convertToHtml";
 
 export class MainWebviewPanel {
   public static currentPanel: MainWebviewPanel | undefined;
@@ -46,15 +46,25 @@ export class MainWebviewPanel {
     if (MainWebviewPanel.currentPanel) {
       MainWebviewPanel.currentPanel._panel.reveal(ViewColumn.One);
     } else {
-      const panel = window.createWebviewPanel("showMainWebviewPanel", "UI Studio", ViewColumn.One, {
-        enableScripts: true,
-        retainContextWhenHidden: true, // This preserves the webview state.
-        localResourceRoots: [
-          Uri.joinPath(extensionUri, "out"),
-          Uri.joinPath(extensionUri, "webview-ui/build"),
-          workspace.workspaceFolders?.[0]?.uri,
-        ],
-      });
+      const panel = window.createWebviewPanel(
+        "showMainWebviewPanel",
+        "UI Copilot",
+        ViewColumn.One,
+        {
+          enableScripts: true,
+          retainContextWhenHidden: true, // This preserves the webview state.
+          localResourceRoots: [
+            Uri.joinPath(extensionUri, "out"),
+            Uri.joinPath(extensionUri, "webview-ui/build"),
+            workspace.workspaceFolders?.[0]?.uri,
+          ],
+        }
+      );
+
+      panel.iconPath = {
+        light: Uri.joinPath(extensionUri, "assets", "sparkle_lightmode_icon.svg"),
+        dark: Uri.joinPath(extensionUri, "assets", "sparkle_darkmode_icon.svg"),
+      };
 
       MainWebviewPanel.currentPanel = new MainWebviewPanel(panel, extensionUri, context);
     }
@@ -178,17 +188,33 @@ export class MainWebviewPanel {
             );
             return;
           case "processSketch":
-            const sketchDescription = await processSketch(message.content, this._context, webview);
-            webview.postMessage({ command: "sketchProcessed", content: sketchDescription });
-            return;
+            try {
+              const sketchDescription = await processSketch(message.content, this._context, webview);
+              webview.postMessage({ command: "sketchProcessed", content: sketchDescription });
+              return;
+            }
+            catch (error) {
+              console.error("Error in processSketch:", error);
+              window.showErrorMessage("Error processing sketch:\n" + error.message);
+              webview.postMessage({ command: "ProcessSketchError", error: error.message });
+              return;
+            }
           case "ProcessTextDescription":
-            const textDescription = await processTextDescription(
-              message.content,
-              this._context,
-              webview
-            );
-            webview.postMessage({ command: "textDescriptionProcessed", content: textDescription });
-            return;
+            try {
+              const textDescription = await processTextDescription(
+                message.content,
+                this._context,
+                webview
+              );
+              webview.postMessage({ command: "textDescriptionProcessed", content: textDescription });
+              return;
+            }
+            catch (error) {
+              console.error("Error in processTextDescription:", error);
+              window.showErrorMessage("Error processing text prompt:\n" + error.message);
+              webview.postMessage({ command: "ProcessTextError", error: error.message });
+              return;
+            }
           case "aiUserMessage":
             const updatedMessages = await processCopilotMessages(message.content, this._context);
             webview.postMessage({ command: "aiCopilotMessage", content: updatedMessages });
@@ -206,17 +232,25 @@ export class MainWebviewPanel {
             }
             return;
           case "generateImage":
-            console.log("Generate image command received.");
-            const generatedImageFilePath = await handleImageGenerate(message.alt, this._context);
-            console.log("Generated image file path:", generatedImageFilePath);
-            if (generatedImageFilePath) {
-              const generatedImageUri = webview
-                .asWebviewUri(Uri.file(generatedImageFilePath))
-                .toString();
-              window.showInformationMessage("Image saving command received.");
-              webview.postMessage({ command: "imageGenerated", filePath: generatedImageUri });
+            try {
+              console.log("Generate image command received.");
+              const generatedImageFilePath = await handleImageGenerate(message.alt, this._context);
+              console.log("Generated image file path:", generatedImageFilePath);
+              if (generatedImageFilePath) {
+                const generatedImageUri = webview
+                  .asWebviewUri(Uri.file(generatedImageFilePath))
+                  .toString();
+                window.showInformationMessage("Image saving command received.");
+                webview.postMessage({ command: "imageGenerated", filePath: generatedImageUri });
+              }
+              return;
             }
-            return;
+            catch (error) {
+              console.error("Error in generateImage:", error);
+              window.showErrorMessage("Error generating image:\n" + error.message);
+              webview.postMessage({ command: "imageGenerationError", error: error.message });
+              return;
+            }
           case "deletedPageAlert":
             window.showErrorMessage(message.message);
             return;

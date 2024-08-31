@@ -1,7 +1,7 @@
 {
-  "name": "hello-world-react-cra",
-  "displayName": "hello-world-react-cra",
-  "description": "A hello world sample extension to demonstrate using React + CRA with the Webview UI Toolkit for VS Code.",
+  "name": "ui-copilot",
+  "displayName": "UI Copilot",
+  "description": "Generate, refine, and deploy a functional UI within minutes.",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.75.0"
@@ -11,27 +11,23 @@
     "commands": [
       {
         "command": "mainWebviewPanel.showMainWebviewPanel",
-        "title": "Open UI Studio"
+        "title": "UI Copilot: Open Editor"
       },
       {
         "command": "extension.getAzureOpenaiApiKey",
-        "title": "Get Azure OpenAI API Key"
+        "title": "UI Copilot: Save Azure OpenAI API Key"
       },
       {
         "command": "extension.getAzureOpenaiApiEndpoint",
-        "title": "Get Azure OpenAI API Endpoint"
+        "title": "UI Copilot: Save Azure OpenAI API Endpoint"
       },
       {
-        "command": "extension.getGpt4oDeploymentName",
-        "title": "Get GPT-4 Deployment Name"
-      },
-      {
-        "command": "extension.getOpenaiApiEndpoint",
-        "title": "Save OpenAI API Endpoint"
+        "command": "extension.getGpt4DeploymentName",
+        "title": "UI Copilot: Save Azure OpenAI GPT-4o Deployment Name"
       },
       {
         "command": "extension.getOpenaiApiKey",
-        "title": "Save OpenAI API Key"
+        "title": "UI Copilot: Save OpenAI API Key"
       }
     ]
   },
@@ -59,6 +55,7 @@
     "@types/vscode": "^1.90.0",
     "@typescript-eslint/eslint-plugin": "^4.14.1",
     "@typescript-eslint/parser": "^4.14.1",
+    "cross-env": "^7.0.3",
     "eslint": "^7.19.0",
     "jest": "^29.7.0",
     "prettier": "^2.2.1",
@@ -76,6 +73,7 @@
     "esbuild": "^0.23.0",
     "esbuild-plugin-env": "^1.1.1",
     "form-data": "^4.0.0",
+    "node-fetch": "^2.7.0",
     "openai": "^4.52.7",
     "react": "^18.3.1",
     "react-contenteditable": "^3.3.7",

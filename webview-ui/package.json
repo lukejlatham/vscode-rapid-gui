@@ -4,7 +4,7 @@
   "private": true,
   "homepage": ".",
   "scripts": {
-    "start": "EXTEND_ESLINT=true react-scripts start",
+    "start": "cross-env EXTEND_ESLINT=true react-scripts start",
     "build": "node ./scripts/build-react-no-split.js",
     "test": "jest --config jest.config.ts",
     "eject": "react-scripts eject"

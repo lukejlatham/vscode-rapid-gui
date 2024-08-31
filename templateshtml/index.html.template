@@ -9,7 +9,7 @@
 </head>
 <body>
   <div id="app">
-    <!-- Content dynamically generated here -->
+    <!-- Content dynamically generated here from your UI -->
     {{content}}
   </div>
   <script src="js/main.js"></script>

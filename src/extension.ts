@@ -9,6 +9,10 @@ import {
 import { getOpenaiApiKey, getOpenaiApiEndpoint } from "./utilities/openaiUtilities";
 
 export function activate(context: vscode.ExtensionContext) {
+  if (!vscode.workspace.workspaceFolders || vscode.workspace.workspaceFolders.length === 0) {
+    vscode.window.showErrorMessage("Please open a workspace before using this extension.");
+    return;
+  }
   context.subscriptions.push(
     vscode.commands.registerCommand("mainWebviewPanel.showMainWebviewPanel", () => {
       MainWebviewPanel.render(context.extensionUri, context);
