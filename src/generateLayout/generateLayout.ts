@@ -5,9 +5,15 @@ import {
   fontGenerationNames,
 } from "../../webview-ui/src/types";
 import { z } from "zod";
+import { RegExpMatcher, englishDataset, englishRecommendedTransformers } from "obscenity";
 
 const metaSafetyPrompt =
   "Generate content that is safe, ethical, and appropriate for all audiences.";
+
+const matcher = new RegExpMatcher({
+  ...englishDataset.build(),
+  ...englishRecommendedTransformers,
+});
 
 const outputSchema = {
   type: "object",
@@ -214,6 +220,12 @@ const currentModel = "gpt-4o-2024-08-06";
 
 async function generateFromText(client: OpenAI, textDescription: string): Promise<LayoutType> {
   try {
+    if (matcher.hasMatch(textDescription)) {
+      throw new Error(
+        "Potentially offensive content detected in the text description. Layout generation aborted."
+      );
+    }
+
     const completion = await client.beta.chat.completions.parse({
       model: currentModel,
       messages: [
@@ -237,6 +249,12 @@ async function generateFromText(client: OpenAI, textDescription: string): Promis
     });
 
     const outputtedLayout = completion.choices[0].message.parsed;
+
+    if (matcher.hasMatch(JSON.stringify(outputtedLayout))) {
+      throw new Error(
+        "Potentially offensive content detected in the generated layout. Please try again with a different input."
+      );
+    }
 
     console.log(outputtedLayout);
     console.log(completion.usage.prompt_tokens);
@@ -281,6 +299,12 @@ async function generateFromSketch(client: OpenAI, sketchUrl: string): Promise<La
     });
 
     const outputtedLayout = completion.choices[0].message.parsed;
+
+    if (matcher.hasMatch(JSON.stringify(outputtedLayout))) {
+      throw new Error(
+        "Potentially offensive content detected in the generated layout. Please try again with a different input."
+      );
+    }
 
     console.log(outputtedLayout);
     console.log(completion.usage.prompt_tokens);
