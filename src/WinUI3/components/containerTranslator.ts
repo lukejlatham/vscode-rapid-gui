@@ -1,5 +1,5 @@
 import { Node } from "../JsonParser";
-import { generateComponentXaml, generateSingleComponentXaml } from "../componentGenerator";
+import { generateComponentXaml } from "../componentGenerator";
 import { convertColor } from "../../utilities/colortranslator";
 
 export async function generateContainerXaml(
@@ -11,7 +11,7 @@ export async function generateContainerXaml(
 ): Promise<string> {
   const props = node.props;
 
-  let xaml = `${indent}<Border`;
+  let xaml = `${indent}<Grid`;
 
   if (props.backgroundColor) {
     xaml += ` Background="${convertColor(props.backgroundColor)}"`;
@@ -33,6 +33,12 @@ export async function generateContainerXaml(
 
   xaml += `>\n`;
 
+  if (props.borderColor || props.borderThickness || props.borderRadius) {
+    xaml += `${indent}  <Border CornerRadius="${
+      props.borderRadius || 0
+    }" Grid.ColumnSpan="1000" Grid.RowSpan="1000"/>\n`;
+  }
+
   xaml += `${indent} <StackPanel`;
   xaml += ` Orientation="${props.flexDirection === "row" ? "Horizontal" : "Vertical"}"`;
   xaml += ` Spacing="${props.gap || 0}"`;
@@ -45,6 +51,7 @@ export async function generateContainerXaml(
     for (const childId of node.nodes) {
       const childNode = content[childId];
       if (childNode && !processedNodes.has(childNode.custom.id || childId || "")) {
+        processedNodes.add(childNode.custom.id || childId || "");
         xaml += await generateComponentXaml(
           childNode,
           content,
@@ -52,12 +59,13 @@ export async function generateContainerXaml(
           processedNodes,
           projectPath
         );
+        processedNodes.delete(childNode.custom.id || childId || "");
       }
     }
   }
 
   xaml += `${indent}    </StackPanel>\n`;
-  xaml += `${indent}  </Border>\n`;
+  xaml += `${indent}  </Grid>\n`;
   return xaml;
 }
 
