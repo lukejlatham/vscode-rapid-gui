@@ -11,7 +11,6 @@ export async function generateImage(
   context: vscode.ExtensionContext
 ): Promise<string> {
   try {
-    // Check for obscenities in the alt text
     checkForObscenities(alt);
 
     const { openaiApiKey } = await getOpenaiApiKeys(context);
