@@ -36,7 +36,7 @@ export async function handleImageGenerate(
   try {
     await fs.promises.writeFile(filePath, buffer);
     console.log("Generated image has been saved at", filePath);
-    return filePath; // Return the file path
+    return filePath;
   } catch (err) {
     console.error("Error saving generated image", err);
     vscode.window.showErrorMessage("Failed to save generated image");
