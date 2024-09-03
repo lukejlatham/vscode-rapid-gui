@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import { getOpenaiApiKeys } from "../utilities/openaiUtilities";
 import { OpenAI } from "openai";
-import { RegExpMatcher, englishDataset, englishRecommendedTransformers } from "obscenity";
+import { checkForObscenities } from "../utilities/obscenityChecker";
 
 const metaSafetyPrompt =
   "Generate an image that is safe, ethical, and appropriate for all audiences. Do not create any harmful, offensive, or explicit content.";
@@ -11,16 +11,8 @@ export async function generateImage(
   context: vscode.ExtensionContext
 ): Promise<string> {
   try {
-    const matcher = new RegExpMatcher({
-      ...englishDataset.build(),
-      ...englishRecommendedTransformers,
-    });
-
-    if (matcher.hasMatch(alt)) {
-      throw new Error(
-        "Potentially offensive content detected in the alt text. Image generation aborted."
-      );
-    }
+    // Check for obscenities in the alt text
+    checkForObscenities(alt);
 
     const { openaiApiKey } = await getOpenaiApiKeys(context);
     const client = new OpenAI({
