@@ -6,16 +6,23 @@ import {
   themeList,
 } from "../../webview-ui/src/types";
 
-const hasBackgroundColor = (
-  obj: any
-): obj is { backgroundColor: "Main" | "LightAccent" | "DarkAccent" } =>
-  "backgroundColor" in obj && typeof obj.backgroundColor === "string";
+const validColors = ["Main", "LightAccent", "DarkAccent"] as const;
+type ValidColor = (typeof validColors)[number];
 
-const hasFontColor = (obj: any): obj is { fontColor: "Main" | "LightAccent" | "DarkAccent" } =>
-  "fontColor" in obj && typeof obj.fontColor === "string";
+const hasBackgroundColor = (obj: any): obj is { backgroundColor: ValidColor } =>
+  "backgroundColor" in obj &&
+  typeof obj.backgroundColor === "string" &&
+  validColors.includes(obj.backgroundColor as ValidColor);
 
-const hasIconColor = (obj: any): obj is { iconColor: "Main" | "LightAccent" | "DarkAccent" } =>
-  "iconColor" in obj && typeof obj.iconColor === "string";
+const hasFontColor = (obj: any): obj is { fontColor: ValidColor } =>
+  "fontColor" in obj &&
+  typeof obj.fontColor === "string" &&
+  validColors.includes(obj.fontColor as ValidColor);
+
+const hasIconColor = (obj: any): obj is { iconColor: ValidColor } =>
+  "iconColor" in obj &&
+  typeof obj.iconColor === "string" &&
+  validColors.includes(obj.iconColor as ValidColor);
 
 const getRandomValue = (value: string | string[]): string => {
   if (Array.isArray(value)) {
@@ -85,4 +92,11 @@ const applyThemeToSchema = (
   });
 };
 
-export { applyThemeToSchema };
+export {
+  applyThemeToSchema,
+  hasBackgroundColor,
+  hasFontColor,
+  hasIconColor,
+  getRandomValue,
+  mapColor,
+};
