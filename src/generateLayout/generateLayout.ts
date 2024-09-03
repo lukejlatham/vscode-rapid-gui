@@ -6,22 +6,6 @@ import {
 } from "../../webview-ui/src/types";
 import { z } from "zod";
 
-let filter: any = null;
-
-// Helper function to check for inappropriate content
-async function containsInappropriateContent(text: string): Promise<boolean> {
-  if (!filter) {
-    try {
-      const badWordsModule = await import("bad-words");
-      filter = new badWordsModule.Filter();
-    } catch (error) {
-      console.error("Error loading bad-words package:", error);
-      return false;
-    }
-  }
-  return filter.isProfane(text);
-}
-
 const metaSafetyPrompt =
   "Generate content that is safe, ethical, and appropriate for all audiences.";
 
@@ -230,10 +214,6 @@ const currentModel = "gpt-4o-2024-08-06";
 
 async function generateFromText(client: OpenAI, textDescription: string): Promise<LayoutType> {
   try {
-    if (containsInappropriateContent(textDescription)) {
-      throw new Error("Input contains inappropriate content");
-    }
-
     const completion = await client.beta.chat.completions.parse({
       model: currentModel,
       messages: [
@@ -257,10 +237,6 @@ async function generateFromText(client: OpenAI, textDescription: string): Promis
     });
 
     const outputtedLayout = completion.choices[0].message.parsed;
-
-    if (await containsInappropriateContent(JSON.stringify(outputtedLayout))) {
-      throw new Error("Generated content contains inappropriate material");
-    }
 
     console.log(outputtedLayout);
     console.log(completion.usage.prompt_tokens);
@@ -305,10 +281,6 @@ async function generateFromSketch(client: OpenAI, sketchUrl: string): Promise<La
     });
 
     const outputtedLayout = completion.choices[0].message.parsed;
-
-    if (await containsInappropriateContent(JSON.stringify(outputtedLayout))) {
-      throw new Error("Generated content contains inappropriate material");
-    }
 
     console.log(outputtedLayout);
     console.log(completion.usage.prompt_tokens);

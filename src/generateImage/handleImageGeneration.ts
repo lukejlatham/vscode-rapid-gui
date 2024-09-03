@@ -14,7 +14,6 @@ export async function handleImageGenerate(
     return "";
   }
 
-  // Ensure the directory exists
   const directory = path.join(currentFolder, "uploaded_images");
   if (!fs.existsSync(directory)) {
     fs.mkdirSync(directory, { recursive: true });
@@ -22,15 +21,12 @@ export async function handleImageGenerate(
 
   const base64Image = await generateImage(alt, context);
 
-  // Function to sanitize the alt text
   const sanitizeFilename = (alt: string): string => {
     return alt.replace(/[^a-z0-9]/gi, "_").toLowerCase();
   };
 
-  // Generate the filename using the sanitized alt text
   const filename = `${sanitizeFilename(alt)}.png`;
 
-  // Convert base64 to binary buffer
   vscode.window.showInformationMessage("Saving generated image...");
   const base64Data = base64Image.replace(/^data:image\/\w+;base64,/, "");
   const buffer = Buffer.from(base64Data, "base64");
