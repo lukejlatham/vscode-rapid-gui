@@ -67,6 +67,7 @@
     "@instructor-ai/instructor": "^1.5.0",
     "@vscode/webview-ui-toolkit": "^1.4.0",
     "axios": "^1.7.2",
+    "bad-words": "^4.0.0",
     "esbuild": "^0.23.0",
     "esbuild-plugin-env": "^1.1.1",
     "form-data": "^4.0.0",

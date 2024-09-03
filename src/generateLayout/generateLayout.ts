@@ -6,6 +6,25 @@ import {
 } from "../../webview-ui/src/types";
 import { z } from "zod";
 
+let filter: any = null;
+
+// Helper function to check for inappropriate content
+async function containsInappropriateContent(text: string): Promise<boolean> {
+  if (!filter) {
+    try {
+      const badWordsModule = await import("bad-words");
+      filter = new badWordsModule.Filter();
+    } catch (error) {
+      console.error("Error loading bad-words package:", error);
+      return false;
+    }
+  }
+  return filter.isProfane(text);
+}
+
+const metaSafetyPrompt =
+  "Generate content that is safe, ethical, and appropriate for all audiences.";
+
 const outputSchema = {
   type: "object",
   properties: {
@@ -211,12 +230,16 @@ const currentModel = "gpt-4o-2024-08-06";
 
 async function generateFromText(client: OpenAI, textDescription: string): Promise<LayoutType> {
   try {
+    if (containsInappropriateContent(textDescription)) {
+      throw new Error("Input contains inappropriate content");
+    }
+
     const completion = await client.beta.chat.completions.parse({
       model: currentModel,
       messages: [
         {
           role: "system",
-          content: `You are a UI designer who creates complex app or website designs on a 10x10 grid, starting at 0. You use as many sections as possible (6 or more) and a wide variety of elements.`,
+          content: `You are a UI designer who creates complex app or website designs on a 10x10 grid, starting at 0. You use as many sections as possible (6 or more) and a wide variety of elements. ${metaSafetyPrompt}`,
         },
         {
           role: "user",
@@ -235,6 +258,10 @@ async function generateFromText(client: OpenAI, textDescription: string): Promis
 
     const outputtedLayout = completion.choices[0].message.parsed;
 
+    if (await containsInappropriateContent(JSON.stringify(outputtedLayout))) {
+      throw new Error("Generated content contains inappropriate material");
+    }
+
     console.log(outputtedLayout);
     console.log(completion.usage.prompt_tokens);
     console.log(completion.usage.completion_tokens);
@@ -251,7 +278,7 @@ async function generateFromSketch(client: OpenAI, sketchUrl: string): Promise<La
       messages: [
         {
           role: "system",
-          content: `You are a UI designer who creates perfect app or website designs from a given sketch. The layout is a 10x10 grid, starting at 0.`,
+          content: `You are a UI designer who creates perfect app or website designs from a given sketch. The layout is a 10x10 grid, starting at 0. ${metaSafetyPrompt}`,
         },
         {
           role: "user",
@@ -278,6 +305,10 @@ async function generateFromSketch(client: OpenAI, sketchUrl: string): Promise<La
     });
 
     const outputtedLayout = completion.choices[0].message.parsed;
+
+    if (await containsInappropriateContent(JSON.stringify(outputtedLayout))) {
+      throw new Error("Generated content contains inappropriate material");
+    }
 
     console.log(outputtedLayout);
     console.log(completion.usage.prompt_tokens);
