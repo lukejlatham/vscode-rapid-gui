@@ -286,7 +286,7 @@ describe("Component Generation", () => {
 
     const expectedHtml = `
       <div id="container1" class="container container1">
-        <p id="child1" class="custom-text child1">
+        <p id="text2" class="custom-text text2">
           Child element
         </p>
       </div>
