@@ -18,6 +18,7 @@ const templateManager = new TemplateManager(vscode as any);
 jest.mock("fs");
 jest.mock("path");
 jest.mock("uuid", () => ({ v4: () => "mocked-uuid" }));
+jest.mock("../WinUI3/TemplateManager");
 
 describe("FileGenerator", () => {
   let fileGenerator: FileGenerator;
@@ -33,7 +34,12 @@ describe("FileGenerator", () => {
       getTemplate: jest.fn().mockReturnValue("mocked template content"),
       fillTemplate: jest.fn().mockReturnValue("filled template content"),
       getTemplatesPath: jest.fn().mockReturnValue("/mock/templates/path"),
+      loadTemplates: jest.fn(),
     } as any;
+
+    (TemplateManager as jest.MockedClass<typeof TemplateManager>).mockImplementation(
+      () => mockTemplateManager
+    );
 
     fileGenerator = new FileGenerator(
       mockProjectName,
@@ -225,6 +231,4 @@ describe("FileGenerator", () => {
 
     expect(fs.copyFileSync).toHaveBeenCalled();
   });
-
-  // ... (keep all other tests as they were) ...
 });
