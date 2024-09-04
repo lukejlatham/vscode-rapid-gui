@@ -1,5 +1,16 @@
 import { generateComponentHtml } from "../HTML/componentGenerator";
 import { Node } from "../HTML/JSONParser";
+import * as path from "path";
+
+jest.mock("fs", () => ({
+  existsSync: jest.fn(),
+  mkdirSync: jest.fn(),
+  copyFileSync: jest.fn(),
+}));
+
+function normalizeWhitespace(html: string): string {
+  return html.replace(/>\s+</g, "><").replace(/\s+/g, " ").trim();
+}
 
 describe("Component Generation", () => {
   test("generateButtonHtml creates correct button HTML", () => {
@@ -36,11 +47,9 @@ describe("Component Generation", () => {
     const generatedHtml = generateComponentHtml(
       { pages: { temp: { components: { button1: buttonNode }, root: buttonNode, layout: [] } } },
       "temp"
-    )
-      .trim()
-      .replace(/\s+/g, " ");
+    );
 
-    expect(generatedHtml).toBe(expectedHtml);
+    expect(normalizeWhitespace(generatedHtml)).toBe(normalizeWhitespace(expectedHtml));
   });
 
   test("generateInputHtml creates correct input HTML", () => {
@@ -180,11 +189,9 @@ describe("Component Generation", () => {
     const generatedHtml = generateComponentHtml(
       { pages: { temp: { components: { icon1: iconNode }, root: iconNode, layout: [] } } },
       "temp"
-    )
-      .trim()
-      .replace(/\s+/g, " ");
+    );
 
-    expect(generatedHtml).toBe(expectedHtml);
+    expect(normalizeWhitespace(generatedHtml)).toBe(normalizeWhitespace(expectedHtml));
   });
 
   test("generateRadioButtonHtml creates correct radio button HTML", () => {
@@ -283,9 +290,7 @@ describe("Component Generation", () => {
           Child element
         </p>
       </div>
-    `
-      .trim()
-      .replace(/\s+/g, " ");
+    `;
 
     const generatedHtml = generateComponentHtml(
       {
@@ -298,11 +303,9 @@ describe("Component Generation", () => {
         },
       },
       "temp"
-    )
-      .trim()
-      .replace(/\s+/g, " ");
+    );
 
-    expect(generatedHtml).toBe(expectedHtml);
+    expect(normalizeWhitespace(generatedHtml)).toBe(normalizeWhitespace(expectedHtml));
   });
 });
 test("generateCheckboxHtml creates correct checkbox HTML", () => {
@@ -488,7 +491,7 @@ test("generateDropdownHtml creates correct dropdown HTML", () => {
   expect(generatedHtml).toBe(expectedHtml);
 });
 
-test("generateImageHtml creates correct image HTML", () => {
+test("generateImageHtml creates correct image HTML for external URL", () => {
   const imageNode: Node = {
     type: { resolvedName: "Image" },
     props: {
@@ -506,16 +509,55 @@ test("generateImageHtml creates correct image HTML", () => {
   };
 
   const expectedHtml = `
-    <div id="image1" class="image-container image1">
-      <img src="https://example.com/image.jpg" alt="Example image" class="image image1" />
-    </div>
-    `
+  <div id="image1" class="image-container image1">
+    <img src="https://example.com/image.jpg" alt="Example image" class="image image1" />
+  </div>
+  `
     .trim()
     .replace(/\s+/g, " ");
 
   const generatedHtml = generateComponentHtml(
     { pages: { temp: { components: { image1: imageNode }, root: imageNode, layout: [] } } },
     "temp"
+  )
+    .trim()
+    .replace(/\s+/g, " ");
+
+  expect(generatedHtml).toBe(expectedHtml);
+});
+
+test("generateImageHtml creates correct image HTML for local file", () => {
+  const imageNode: Node = {
+    type: { resolvedName: "Image" },
+    props: {
+      src: "local_image.jpg",
+      alt: "Local image",
+      width: 300,
+    },
+    custom: { id: "image2" },
+    isCanvas: false,
+    parent: null,
+    displayName: "Image",
+    hidden: false,
+    nodes: [],
+    linkedNodes: {},
+  };
+
+  const projectPath = "/path/to/project";
+  const expectedImagePath = path.join("images", "local_image.jpg");
+
+  const expectedHtml = `
+  <div id="image2" class="image-container image2">
+    <img src="${expectedImagePath}" alt="Local image" class="image image2" />
+  </div>
+  `
+    .trim()
+    .replace(/\s+/g, " ");
+
+  const generatedHtml = generateComponentHtml(
+    { pages: { temp: { components: { image2: imageNode }, root: imageNode, layout: [] } } },
+    "temp",
+    projectPath
   )
     .trim()
     .replace(/\s+/g, " ");
