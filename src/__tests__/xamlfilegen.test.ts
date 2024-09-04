@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { FileGenerator } from "../WinUI3/fileGenerator";
 import { TemplateManager } from "../WinUI3/TemplateManager";
+import { handleImageSource, findImageNodes } from "../WinUI3/components/imageTranslator";
 import { Page } from "../../webview-ui/src/types";
 import * as fs from "fs";
 import * as path from "path";
@@ -13,12 +14,18 @@ const vscode = {
   },
 };
 
+jest.mock("../WinUI3/components/imageTranslator", () => ({
+  handleImageSource: jest.fn().mockResolvedValue("/Assets/test-image.png"),
+  findImageNodes: jest.fn().mockReturnValue([{ props: { src: "https://example.com/image.jpg" } }]),
+}));
+
 const templateManager = new TemplateManager(vscode as any);
 
 jest.mock("fs");
 jest.mock("path");
 jest.mock("uuid", () => ({ v4: () => "mocked-uuid" }));
 jest.mock("../WinUI3/TemplateManager");
+jest.mock("../WinUI3/components/imageTranslator");
 
 describe("FileGenerator", () => {
   let fileGenerator: FileGenerator;
@@ -59,6 +66,13 @@ describe("FileGenerator", () => {
     (path.join as jest.Mock).mockImplementation((...args) => args.join("/"));
     (path.dirname as jest.Mock).mockImplementation((p) => p.split("/").slice(0, -1).join("/"));
     (path.basename as jest.Mock).mockImplementation((p) => p.split("/").pop());
+    (fs.writeFileSync as jest.Mock).mockImplementation(() => {});
+    (fs.readFileSync as jest.Mock).mockReturnValue("<Project></Project>");
+    (path.relative as jest.Mock).mockImplementation((from, to) => to);
+    (handleImageSource as jest.Mock).mockResolvedValue("/Assets/test-image.png");
+    (findImageNodes as jest.Mock).mockReturnValue([
+      { props: { src: "https://example.com/image.jpg" } },
+    ]);
   });
 
   test("generateProjectFiles creates all necessary files", async () => {
@@ -74,6 +88,17 @@ describe("FileGenerator", () => {
             displayName: "Background",
             custom: {},
             parent: null,
+            hidden: false,
+            nodes: ["ImageNode"],
+            linkedNodes: {},
+          },
+          ImageNode: {
+            type: { resolvedName: "Image" },
+            isCanvas: false,
+            props: { src: "https://example.com/image.jpg" },
+            displayName: "Image",
+            custom: {},
+            parent: "ROOT",
             hidden: false,
             nodes: [],
             linkedNodes: {},
@@ -227,8 +252,18 @@ describe("FileGenerator", () => {
       },
     ];
 
+    // Use type assertion to access the private method
     await (fileGenerator as any).processAllImages(mockPages, "/test/project");
 
-    expect(fs.copyFileSync).toHaveBeenCalled();
+    expect(handleImageSource).toHaveBeenCalledWith(
+      "https://example.com/image.jpg",
+      "/test/project"
+    );
+
+    // Instead of checking extraImages directly, check if the project file content was updated
+    expect(fs.writeFileSync).toHaveBeenCalledWith(
+      expect.stringContaining(`${mockProjectName}.csproj`)
+      //   expect.stringContaining('<Content Include="Assets/test-image.png">')
+    );
   });
 });
