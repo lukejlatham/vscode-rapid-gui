@@ -1,92 +1,104 @@
 {
+  "theme": "discordpurple",
+  "fontFamily": "IBM",
   "sections": [
     {
-      "section": "NavigationBar",
+      "section": "Header",
       "xPosition": 0,
       "yPosition": 0,
       "width": 10,
       "height": 1,
       "flexDirection": "row",
-      "backgroundColor": "DarkAccent",
-      "children": [
-        {
-          "element": "Label",
-          "text": "Explore Crime",
-          "bold": true,
-          "fontColor": "LightAccent",
-          "fontSize": 16
-        }
-      ]
-    },
-    {
-      "section": "MainContent",
-      "xPosition": 0,
-      "yPosition": 1,
-      "width": 7,
-      "height": 8,
-      "flexDirection": "column",
       "backgroundColor": "Main",
       "children": [
         {
           "element": "Label",
-          "text": "Crime Statistics",
+          "text": "Visual Studio Code",
           "bold": true,
-          "fontColor": "DarkAccent",
-          "fontSize": 14
-        },
-        { "element": "Image", "alt": "Crime Rate Map", "width": 6 },
-        {
-          "element": "Label",
-          "text": "Historical Trends",
-          "bold": false,
-          "fontColor": "DarkAccent",
-          "fontSize": 12
-        },
-        { "element": "Text", "fontColor": "DarkAccent" }
+          "fontColor": "LightAccent",
+          "fontSize": "Title"
+        }
       ]
     },
     {
       "section": "Sidebar",
-      "xPosition": 7,
-      "yPosition": 1,
-      "width": 3,
-      "height": 8,
-      "flexDirection": "column",
-      "backgroundColor": "LightAccent",
-      "children": [
-        {
-          "element": "Label",
-          "text": "Crime Categories",
-          "bold": true,
-          "fontColor": "Main",
-          "fontSize": 12
-        },
-        { "element": "Checkboxes" },
-        { "element": "Slider", "header": "Crime Level Filter", "backgroundColor": "DarkAccent" },
-        { "element": "Dropdown", "header": "City" }
-      ]
-    },
-    {
-      "section": "Footer",
       "xPosition": 0,
-      "yPosition": 9,
-      "width": 10,
-      "height": 1,
-      "flexDirection": "row",
+      "yPosition": 1,
+      "width": 1,
+      "height": 9,
+      "flexDirection": "column",
       "backgroundColor": "DarkAccent",
       "children": [
         {
           "element": "Button",
-          "VscIcon": "VscInfo",
-          "backgroundColor": "LightAccent",
-          "fontColor": "Main"
+          "vscIcon": "home",
+          "backgroundColor": "Main",
+          "width": 10,
+          "height": 5
         },
         {
           "element": "Button",
-          "VscIcon": "VscSearch",
-          "backgroundColor": "LightAccent",
-          "fontColor": "Main"
+          "vscIcon": "settings",
+          "backgroundColor": "Main",
+          "width": 10,
+          "height": 5
+        },
+        {
+          "element": "Button",
+          "vscIcon": "extensions",
+          "backgroundColor": "Main",
+          "width": 10,
+          "height": 5
+        },
+        {
+          "element": "Button",
+          "vscIcon": "source-control",
+          "backgroundColor": "Main",
+          "width": 10,
+          "height": 5
+        },
+        {
+          "element": "Button",
+          "vscIcon": "debug",
+          "backgroundColor": "Main",
+          "width": 10,
+          "height": 5
         }
+      ]
+    },
+    {
+      "section": "Main Editor",
+      "xPosition": 1,
+      "yPosition": 1,
+      "width": 6,
+      "height": 6,
+      "flexDirection": "column",
+      "backgroundColor": "LightAccent",
+      "children": [{ "element": "Input", "placeholder": "Type your code here..." }]
+    },
+    {
+      "section": "Terminal",
+      "xPosition": 1,
+      "yPosition": 7,
+      "width": 6,
+      "height": 3,
+      "flexDirection": "column",
+      "backgroundColor": "DarkAccent",
+      "children": [{ "element": "Text", "fontColor": "LightAccent" }]
+    },
+    {
+      "section": "Right Panel",
+      "xPosition": 7,
+      "yPosition": 1,
+      "width": 3,
+      "height": 9,
+      "flexDirection": "column",
+      "backgroundColor": "DarkAccent",
+      "children": [
+        { "element": "Checkboxes", "optionLabels": ["Auto-save", "Format on save", "Use git"] },
+        { "element": "Slider", "header": "Zoom", "backgroundColor": "Main" },
+        { "element": "Dropdown", "optionLabels": ["JavaScript", "Python", "C++", "HTML", "CSS"] },
+        { "element": "Icon", "vscIcon": "file", "iconSize": 32, "iconColor": "Main" }
       ]
     }
   ]
