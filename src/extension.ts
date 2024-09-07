@@ -46,6 +46,30 @@ export function activate(context: vscode.ExtensionContext) {
       getGpt4oDeploymentName(context)
     )
   );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand("uiCopilot.startFromScratch", () => {
+      MainWebviewPanel.currentPanel?.postMessage({ command: "startFromScratch" });
+    })
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand("uiCopilot.startFromTemplate", () => {
+      MainWebviewPanel.currentPanel?.postMessage({ command: "startFromTemplate" });
+    })
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand("uiCopilot.startFromText", () => {
+      MainWebviewPanel.currentPanel?.postMessage({ command: "startFromText" });
+    })
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand("uiCopilot.startFromSketch", () => {
+      MainWebviewPanel.currentPanel?.postMessage({ command: "startFromSketch" });
+    })
+  );
 }
 
 export function deactivate() {}

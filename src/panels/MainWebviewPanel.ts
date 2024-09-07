@@ -40,11 +40,6 @@ export class MainWebviewPanel {
 
     // Set an event listener to listen for messages passed from the webview context
     this._setWebviewMessageListener(this._panel.webview);
-
-    window.addEventListener("keydown", (event) => {
-      const { key, ctrlKey, metaKey, shiftKey } = event;
-      this._handleKeyboardShortcut(key, ctrlKey, metaKey, shiftKey);
-    });
   }
 
   public static render(extensionUri: Uri, context: ExtensionContext) {
@@ -263,9 +258,18 @@ export class MainWebviewPanel {
           case "deletedPageAlert":
             window.showErrorMessage(message.message);
             return;
-          case "keyboardShortcut":
-            this._handleKeyboardShortcut(message.key, message.ctrlKey, message.shiftKey);
-            return;
+          case "startFromScratch":
+            webview.postMessage({ command: "projectStarted", type: "scratch" });
+            break;
+          case "startFromTemplate":
+            webview.postMessage({ command: "projectStarted", type: "template" });
+            break;
+          case "startFromText":
+            webview.postMessage({ command: "projectStarted", type: "text" });
+            break;
+          case "startFromSketch":
+            webview.postMessage({ command: "projectStarted", type: "sketch" });
+            break;
           case "downloadCode":
             try {
               if (message.outputType === "html") {
@@ -283,9 +287,6 @@ export class MainWebviewPanel {
               });
             }
             return;
-          case "scratch":
-            webview.postMessage({ command: "projectStarted", type: "scratch" });
-            break;
           case "getUploadedImages":
             // const uploadedImages = await handleGetUploadedImages(this._context);
             // get uploaded images as uri
