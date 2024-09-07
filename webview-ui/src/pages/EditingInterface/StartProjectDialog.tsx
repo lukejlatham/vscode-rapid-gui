@@ -50,13 +50,21 @@ export const StartProjectDialog: React.FC<StartProjectDialogProps> = ({
       const message = event.data;
       switch (message.command) {
         case "projectStarted":
-          if (message.type === "scratch") {
-            setPages([]); // Reset the project
-            onClose(); // Close the dialog
+          switch (message.type) {
+            case "scratch":
+              handleScratch();
+              break;
+            case "template":
+              setIsTemplatesDialogOpen(true);
+              break;
+            case "text":
+              setIsTextDialogOpen(true);
+              break;
+            case "sketch":
+              setIsUploadDialogOpen(true);
+              break;
           }
           break;
-        default: 
-          
       }
     };
 

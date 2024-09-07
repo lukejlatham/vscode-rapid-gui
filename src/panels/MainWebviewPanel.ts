@@ -40,6 +40,16 @@ export class MainWebviewPanel {
 
     // Set an event listener to listen for messages passed from the webview context
     this._setWebviewMessageListener(this._panel.webview);
+
+    this._panel.onDidChangeViewState(
+      (e) => {
+        if (e.webviewPanel.active) {
+          this._panel.webview.postMessage({ command: "focusEditor" });
+        }
+      },
+      null,
+      context.subscriptions
+    );
   }
 
   public static render(extensionUri: Uri, context: ExtensionContext) {

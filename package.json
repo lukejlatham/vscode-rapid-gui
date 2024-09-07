@@ -169,7 +169,7 @@
       {
         "command": "uiCopilot.startFromScratch",
         "key": "ctrl+shift+n",
-        "mac": "cmd+shift+n",
+        "mac": "cmd+alt+1",
         "when": "uiCopilotFocused"
       },
       {
