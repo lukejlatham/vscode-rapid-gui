@@ -40,6 +40,11 @@ export class MainWebviewPanel {
 
     // Set an event listener to listen for messages passed from the webview context
     this._setWebviewMessageListener(this._panel.webview);
+
+    window.addEventListener("keydown", (event) => {
+      const { key, ctrlKey, metaKey, shiftKey } = event;
+      this._handleKeyboardShortcut(key, ctrlKey, metaKey, shiftKey);
+    });
   }
 
   public static render(extensionUri: Uri, context: ExtensionContext) {
@@ -281,15 +286,6 @@ export class MainWebviewPanel {
           case "scratch":
             webview.postMessage({ command: "projectStarted", type: "scratch" });
             break;
-          case "templates":
-            webview.postMessage({ command: "projectStarted", type: "templates" });
-            break;
-          case "text":
-            webview.postMessage({ command: "projectStarted", type: "text" });
-            break;
-          case "sketch":
-            webview.postMessage({ command: "projectStarted", type: "sketch" });
-            break;
           case "getUploadedImages":
             // const uploadedImages = await handleGetUploadedImages(this._context);
             // get uploaded images as uri
@@ -306,8 +302,13 @@ export class MainWebviewPanel {
     );
   }
 
-  private _handleKeyboardShortcut(key: string, ctrlKey: boolean, shiftKey: boolean) {
-    if (ctrlKey) {
+  private _handleKeyboardShortcut(
+    key: string,
+    ctrlKey: boolean,
+    metaKey: boolean,
+    shiftKey: boolean
+  ) {
+    if (ctrlKey || metaKey) {
       switch (key) {
         case "1":
         case "2":
@@ -325,10 +326,10 @@ export class MainWebviewPanel {
         case "g":
           this._panel.webview.postMessage({ command: "toggleGrid" });
           break;
-        case "s":
-          this._handleSaveProject();
-          this.postMessage({ command: "save" });
-          break;
+        // case "s":
+        //   this._handleSaveProject();
+        //   this.postMessage({ command: "save" });
+        // break;
         case "o":
           this._handleLoadProject();
           break;

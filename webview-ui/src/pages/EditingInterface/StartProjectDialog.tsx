@@ -50,15 +50,19 @@ export const StartProjectDialog: React.FC<StartProjectDialogProps> = ({
       const message = event.data;
       switch (message.command) {
         case "projectStarted":
-          onClose();
+          if (message.type === "scratch") {
+            setPages([]); // Reset the project
+            onClose(); // Close the dialog
+          }
           break;
-        // Handle other messages...
+        default: 
+          
       }
     };
 
-    window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
-  }, [onClose]);
+    window.addEventListener("message", handleMessage);
+  return () => window.removeEventListener("message", handleMessage);
+}, [onClose, setPages]);
 
   const handleScratchN = () => {
     vscode.postMessage({ command: "scratch" });
