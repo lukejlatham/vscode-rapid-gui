@@ -29,6 +29,143 @@
         "command": "extension.getOpenaiApiKey",
         "title": "UI Copilot: Save OpenAI API Key"
       }
+    ],
+    "keybindings": [
+      {
+        "command": "uiCopilot.navigateTab1",
+        "key": "ctrl+1",
+        "when": "uiCopilotFocused"
+      },
+      {
+        "command": "uiCopilot.navigateTab2",
+        "key": "ctrl+2",
+        "when": "uiCopilotFocused"
+      },
+      {
+        "command": "uiCopilot.navigateTab3",
+        "key": "ctrl+3",
+        "when": "uiCopilotFocused"
+      },
+      {
+        "command": "uiCopilot.navigateTab4",
+        "key": "ctrl+4",
+        "when": "uiCopilotFocused"
+      },
+      {
+        "command": "uiCopilot.navigateTab5",
+        "key": "ctrl+5",
+        "when": "uiCopilotFocused"
+      },
+      {
+        "command": "uiCopilot.addComponent",
+        "key": "ctrl+a",
+        "when": "uiCopilotFocused"
+      },
+      {
+        "command": "uiCopilot.focusPropertyInspector",
+        "key": "ctrl+p",
+        "when": "uiCopilotFocused"
+      },
+      {
+        "command": "uiCopilot.toggleGrid",
+        "key": "ctrl+g",
+        "when": "uiCopilotFocused"
+      },
+      {
+        "command": "uiCopilot.increaseRows",
+        "key": "ctrl+shift+up",
+        "when": "uiCopilotFocused"
+      },
+      {
+        "command": "uiCopilot.decreaseRows",
+        "key": "ctrl+shift+down",
+        "when": "uiCopilotFocused"
+      },
+      {
+        "command": "uiCopilot.increaseColumns",
+        "key": "ctrl+shift+right",
+        "when": "uiCopilotFocused"
+      },
+      {
+        "command": "uiCopilot.decreaseColumns",
+        "key": "ctrl+shift+left",
+        "when": "uiCopilotFocused"
+      },
+      {
+        "command": "uiCopilot.addPage",
+        "key": "ctrl+n",
+        "when": "uiCopilotFocused"
+      },
+      {
+        "command": "uiCopilot.renamePage",
+        "key": "f2",
+        "when": "uiCopilotFocused"
+      },
+      {
+        "command": "uiCopilot.deletePage",
+        "key": "ctrl+shift+delete",
+        "when": "uiCopilotFocused"
+      },
+      {
+        "command": "uiCopilot.resetPage",
+        "key": "ctrl+r",
+        "when": "uiCopilotFocused"
+      },
+      {
+        "command": "uiCopilot.nextPage",
+        "key": "ctrl+tab",
+        "when": "uiCopilotFocused"
+      },
+      {
+        "command": "uiCopilot.previousPage",
+        "key": "ctrl+shift+tab",
+        "when": "uiCopilotFocused"
+      },
+      {
+        "command": "uiCopilot.applyFont",
+        "key": "ctrl+f",
+        "when": "uiCopilotFocused"
+      },
+      {
+        "command": "uiCopilot.applyTheme",
+        "key": "ctrl+t",
+        "when": "uiCopilotFocused"
+      },
+      {
+        "command": "uiCopilot.undo",
+        "key": "ctrl+z",
+        "when": "uiCopilotFocused"
+      },
+      {
+        "command": "uiCopilot.redo",
+        "key": "ctrl+y",
+        "when": "uiCopilotFocused"
+      },
+      {
+        "command": "uiCopilot.saveProject",
+        "key": "ctrl+s",
+        "when": "uiCopilotFocused"
+      },
+      {
+        "command": "uiCopilot.loadProject",
+        "key": "ctrl+o",
+        "when": "uiCopilotFocused"
+      },
+      {
+        "command": "uiCopilot.exportProject",
+        "key": "ctrl+e",
+        "when": "uiCopilotFocused"
+      },
+      {
+        "command": "uiCopilot.restartProject",
+        "key": "ctrl+shift+r",
+        "when": "uiCopilotFocused"
+      },
+      {
+        "command": "uiCopilot.toggleAccessibility",
+        "key": "ctrl+shift+a",
+        "when": "uiCopilotFocused"
+      }
     ]
   },
   "scripts": {
