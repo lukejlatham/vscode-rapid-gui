@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogSurface,
@@ -20,6 +20,7 @@ import { TextDialog } from "../../Features/generateLayout/textUpload/TextUploadD
 import { TemplatesDialog } from "./TemplatesDialog";
 import { Page } from "../../types";
 import { FormattedMessage } from "react-intl";
+import { vscode } from "../../utilities/vscode";
 
 interface StartProjectDialogProps {
   isOpen: boolean;
@@ -42,6 +43,37 @@ export const StartProjectDialog: React.FC<StartProjectDialogProps> = ({
   const handleScratch = () => {
     setPages([]);
     onClose();
+  };
+
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      const message = event.data;
+      switch (message.command) {
+        case "projectStarted":
+          onClose();
+          break;
+        // Handle other messages...
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, [onClose]);
+
+  const handleScratchN = () => {
+    vscode.postMessage({ command: "scratch" });
+  };
+
+  const handleTemplates = () => {
+    vscode.postMessage({ command: "templates" });
+  };
+
+  const handleText = () => {
+    vscode.postMessage({ command: "text" });
+  };
+
+  const handleSketch = () => {
+    vscode.postMessage({ command: "sketch" });
   };
 
   return (

@@ -189,11 +189,14 @@ export class MainWebviewPanel {
             return;
           case "processSketch":
             try {
-              const sketchDescription = await processSketch(message.content, this._context, webview);
+              const sketchDescription = await processSketch(
+                message.content,
+                this._context,
+                webview
+              );
               webview.postMessage({ command: "sketchProcessed", content: sketchDescription });
               return;
-            }
-            catch (error) {
+            } catch (error) {
               console.error("Error in processSketch:", error);
               window.showErrorMessage("Error processing sketch:\n" + error.message);
               webview.postMessage({ command: "ProcessSketchError", error: error.message });
@@ -206,10 +209,12 @@ export class MainWebviewPanel {
                 this._context,
                 webview
               );
-              webview.postMessage({ command: "textDescriptionProcessed", content: textDescription });
+              webview.postMessage({
+                command: "textDescriptionProcessed",
+                content: textDescription,
+              });
               return;
-            }
-            catch (error) {
+            } catch (error) {
               console.error("Error in processTextDescription:", error);
               window.showErrorMessage("Error processing text prompt:\n" + error.message);
               webview.postMessage({ command: "ProcessTextError", error: error.message });
@@ -244,8 +249,7 @@ export class MainWebviewPanel {
                 webview.postMessage({ command: "imageGenerated", filePath: generatedImageUri });
               }
               return;
-            }
-            catch (error) {
+            } catch (error) {
               console.error("Error in generateImage:", error);
               window.showErrorMessage("Error generating image:\n" + error.message);
               webview.postMessage({ command: "imageGenerationError", error: error.message });
@@ -253,6 +257,9 @@ export class MainWebviewPanel {
             }
           case "deletedPageAlert":
             window.showErrorMessage(message.message);
+            return;
+          case "keyboardShortcut":
+            this._handleKeyboardShortcut(message.key, message.ctrlKey, message.shiftKey);
             return;
           case "downloadCode":
             try {
@@ -271,6 +278,18 @@ export class MainWebviewPanel {
               });
             }
             return;
+          case "scratch":
+            webview.postMessage({ command: "projectStarted", type: "scratch" });
+            break;
+          case "templates":
+            webview.postMessage({ command: "projectStarted", type: "templates" });
+            break;
+          case "text":
+            webview.postMessage({ command: "projectStarted", type: "text" });
+            break;
+          case "sketch":
+            webview.postMessage({ command: "projectStarted", type: "sketch" });
+            break;
           case "getUploadedImages":
             // const uploadedImages = await handleGetUploadedImages(this._context);
             // get uploaded images as uri
@@ -285,6 +304,131 @@ export class MainWebviewPanel {
       undefined,
       this._disposables
     );
+  }
+
+  private _handleKeyboardShortcut(key: string, ctrlKey: boolean, shiftKey: boolean) {
+    if (ctrlKey) {
+      switch (key) {
+        case "1":
+        case "2":
+        case "3":
+        case "4":
+        case "5":
+          this._panel.webview.postMessage({ command: "navigateTab", tabNumber: parseInt(key) });
+          break;
+        case "a":
+          this._panel.webview.postMessage({ command: "addComponent" });
+          break;
+        case "p":
+          this._panel.webview.postMessage({ command: "focusPropertyInspector" });
+          break;
+        case "g":
+          this._panel.webview.postMessage({ command: "toggleGrid" });
+          break;
+        case "s":
+          this._handleSaveProject();
+          this.postMessage({ command: "save" });
+          break;
+        case "o":
+          this._handleLoadProject();
+          break;
+        case "e":
+          this._handleExportProject();
+          break;
+        case "z":
+          this._panel.webview.postMessage({ command: "undo" });
+          break;
+        case "y":
+          this._panel.webview.postMessage({ command: "redo" });
+          break;
+        case "r":
+          this._panel.webview.postMessage({ command: "restartProject" });
+          break;
+        case "t":
+          this._panel.webview.postMessage({ command: "toggleAccessibility" });
+          break;
+        case "n":
+          this._panel.webview.postMessage({ command: "addPage" });
+          break;
+        case "x":
+          this._panel.webview.postMessage({ command: "deletePage" });
+          break;
+        case "m":
+          this._panel.webview.postMessage({ command: "renamePage" });
+          break;
+        case "u":
+          this._panel.webview.postMessage({ command: "resetPage" });
+          break;
+        case "f":
+          this._panel.webview.postMessage({ command: "applyFont" });
+          break;
+        case "h":
+          this._panel.webview.postMessage({ command: "applyTheme" });
+          break;
+        case "i":
+          this._panel.webview.postMessage({ command: "increaseRows" });
+          break;
+        case "k":
+          this._panel.webview.postMessage({ command: "decreaseRows" });
+          break;
+        case "j":
+          this._panel.webview.postMessage({ command: "increaseColumns" });
+          break;
+        case "l":
+          this._panel.webview.postMessage({ command: "decreaseColumns" });
+          break;
+        case "s":
+          this._panel.webview.postMessage({ command: "scratch" });
+          break;
+        case "t":
+          this._panel.webview.postMessage({ command: "templates" });
+          break;
+        case "x":
+          this._panel.webview.postMessage({ command: "text" });
+          break;
+        case "k":
+          this._panel.webview.postMessage({ command: "sketch" });
+          break;
+      }
+    }
+    if (key === "Tab") {
+      if (shiftKey) {
+        this._panel.webview.postMessage({ command: "switchPage", direction: "previous" });
+      } else {
+        this._panel.webview.postMessage({ command: "switchPage", direction: "next" });
+      }
+    }
+  }
+
+  private async _handleSaveProject() {
+    // Implement save project logic
+    // You might want to send a message to the webview to get the current state
+    this._panel.webview.postMessage({ command: "requestSaveState" });
+    // Then handle the response in _setWebviewMessageListener
+  }
+
+  private async _handleLoadProject() {
+    // Implement load project logic
+    // You might want to show a file picker dialog here
+    const result = await window.showOpenDialog({
+      canSelectFiles: true,
+      canSelectFolders: false,
+      canSelectMany: false,
+      filters: {
+        "UI Copilot Projects": ["json"],
+      },
+    });
+    if (result && result[0]) {
+      // Read the file and send its contents to the webview
+      const fileContent = await workspace.fs.readFile(result[0]);
+      this._panel.webview.postMessage({ command: "loadProject", content: fileContent.toString() });
+    }
+  }
+
+  private _handleExportProject() {
+    // Implement export project logic
+    this._panel.webview.postMessage({ command: "requestExportState" });
+    // Then handle the response in _setWebviewMessageListener
   }
 
   public postMessage(message: any) {
