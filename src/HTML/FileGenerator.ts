@@ -176,7 +176,7 @@ export class FileGenerator {
     }
   }
   private copyImages() {
-    const sourceDir = path.join(vscode.workspace.workspaceFolders[0].uri.fsPath, "uploaded_images");
+    const sourceDir = path.join(this.workspaceFolder, "uploaded_images");
     const destDir = path.join(this.outputPath, "images");
 
     if (!fs.existsSync(destDir)) {
