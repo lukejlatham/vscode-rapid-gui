@@ -57,7 +57,12 @@ describe("FileGenerator", () => {
     (fs.mkdirSync as jest.Mock).mockImplementation(() => {});
     (fs.readdirSync as jest.Mock).mockReturnValue([]);
     (fs.copyFileSync as jest.Mock).mockImplementation(() => {});
-    (path.join as jest.Mock).mockImplementation((...args) => args.join("/"));
+    (path.join as jest.Mock).mockImplementation((...args) => {
+      if (args[1] === "images") {
+        return `/test/output/${args.slice(1).join("/")}`;
+      }
+      return args.join("/");
+    });
     (path.dirname as jest.Mock).mockImplementation((p) => p.split("/").slice(0, -1).join("/"));
 
     // Mock GridGenerator and Background component
