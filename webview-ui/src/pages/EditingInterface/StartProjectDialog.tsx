@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogSurface,
@@ -44,6 +44,40 @@ export const StartProjectDialog: React.FC<StartProjectDialogProps> = ({
     onClose();
   };
 
+  const handleKeyDown = (event: KeyboardEvent): void => {
+    if (isOpen && event.ctrlKey) {
+    // if (event.code){
+    //   console.log("event.code:", event.code);
+    //   console.log("event.key:", event.key);
+    // }
+    // if (event.key === "s") {
+    //   setIsUploadDialogOpen(true);
+    // }
+    switch (event.key) {
+      case "s":
+        setIsUploadDialogOpen(true);
+        break;
+      case "t":
+        setIsTextDialogOpen(true);
+        break;
+      case "p":
+        setIsTemplatesDialogOpen(true);
+        break;
+      case "c":
+        handleScratch();
+        break;
+      default:
+        break;
+    }
+  }
+  };
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []); 
   return (
     <>
       <Dialog modalType="alert" open={isOpen} onOpenChange={(event, data) => onClose()}>
