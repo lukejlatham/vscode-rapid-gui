@@ -89,6 +89,7 @@ const ComponentButtons: React.FC<{ classes?: any }> = ({ classes }) => {
         <FormattedMessage id="leftSidebar.components.caption" defaultMessage="Drag components onto grid cells to add them to the canvas" />
       </Caption1>
       <Button
+        data-testid="button-button"
         className={styles.componentButtons}
         icon={<ButtonIcon />}
         size="medium"
@@ -101,6 +102,7 @@ const ComponentButtons: React.FC<{ classes?: any }> = ({ classes }) => {
         <FormattedMessage id="components.button" defaultMessage="Button" />
       </Button>
       <Button
+        data-testid="button-label"
         className={styles.componentButtons}
         icon={<LabelIcon />}
         size="medium"
@@ -113,6 +115,7 @@ const ComponentButtons: React.FC<{ classes?: any }> = ({ classes }) => {
         <FormattedMessage id="components.label" defaultMessage="Label" />
       </Button>
       <Button
+        data-testid="button-input"
         className={styles.componentButtons}
         icon={<PasswordRegular />}
         size="medium"
@@ -125,6 +128,7 @@ const ComponentButtons: React.FC<{ classes?: any }> = ({ classes }) => {
         <FormattedMessage id="components.singleLineInput" defaultMessage="Single-Line Input" />
       </Button>
       <Button
+        data-testid="button-textbox"
         className={styles.componentButtons}
         icon={<TextBoxIcon />}
         size="medium"
@@ -137,6 +141,7 @@ const ComponentButtons: React.FC<{ classes?: any }> = ({ classes }) => {
         <FormattedMessage id="components.multiLineInput" defaultMessage="Multi-Line Input" />
       </Button>
       <Button
+        data-testid="button-text"
         className={styles.componentButtons}
         icon={<TextAlignLeftFilled />}
         size="medium"
@@ -149,6 +154,7 @@ const ComponentButtons: React.FC<{ classes?: any }> = ({ classes }) => {
         <FormattedMessage id="components.paragraph" defaultMessage="Paragraph" />
       </Button>
       <Button
+        data-testid="button-image"
         className={styles.componentButtons}
         icon={<ImageIcon />}
         size="medium"
@@ -161,6 +167,7 @@ const ComponentButtons: React.FC<{ classes?: any }> = ({ classes }) => {
         <FormattedMessage id="components.image" defaultMessage="Image" />
       </Button>
       <Button
+        data-testid="button-radio"
         className={styles.componentButtons}
         icon={<RadioButtonFilled />}
         size="medium"
@@ -173,6 +180,7 @@ const ComponentButtons: React.FC<{ classes?: any }> = ({ classes }) => {
         <FormattedMessage id="components.radio" defaultMessage="Radio Buttons" />
       </Button>
       <Button
+        data-testid="button-checkbox"
         className={styles.componentButtons}
         icon={<CheckboxesIcon />}
         size="medium"
@@ -185,6 +193,7 @@ const ComponentButtons: React.FC<{ classes?: any }> = ({ classes }) => {
         <FormattedMessage id="components.checkboxes" defaultMessage="Checkboxes" />
       </Button>
       <Button
+        data-testid="button-dropdown"
         className={styles.componentButtons}
         icon={<TextBulletListCheckmarkFilled />}
         size="medium"
@@ -197,6 +206,7 @@ const ComponentButtons: React.FC<{ classes?: any }> = ({ classes }) => {
         <FormattedMessage id="components.dropdown" defaultMessage="Dropdown" />
       </Button>
       <Button
+        data-testid="button-slider"
         className={styles.componentButtons}
         icon={<OptionsRegular />}
         size="medium"
@@ -209,6 +219,7 @@ const ComponentButtons: React.FC<{ classes?: any }> = ({ classes }) => {
         <FormattedMessage id="components.slider" defaultMessage="Slider" />
       </Button>
       <Button
+        data-testid="button-icon"
         className={styles.componentButtons}
         icon={<EmojiRegular />}
         size="medium"
@@ -221,6 +232,7 @@ const ComponentButtons: React.FC<{ classes?: any }> = ({ classes }) => {
         <FormattedMessage id="components.icon" defaultMessage="Icon" />
       </Button>
       <Button
+        data-testid="button-container"
         className={styles.componentButtons}
         icon={<CardUiRegular />}
         size="medium"

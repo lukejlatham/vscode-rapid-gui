@@ -168,10 +168,11 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({
     <Dialog open={isOpen} onOpenChange={(event, data) => !data.open && handleClose()}>
       <DialogSurface>
         <DialogBody>
-          <DialogTitle>Generate From Sketch</DialogTitle>
-          <DialogContent>
+          <DialogTitle data-testid="uploadDialog-title">Generate From Sketch</DialogTitle>
+          <DialogContent data-testid="uploadDialog-content">
             <div className={styles.content}>
               <input
+                data-testid="image-input"
                 type="file"
                 accept="image/*"
                 onChange={handleImageUpload}
@@ -179,19 +180,19 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({
                 ref={fileInputRef}
               />
               {!selectedImage ? (
-                <Text className={styles.noImageText}>
+                <Text className={styles.noImageText} data-testid="no-image-text">
                   No image selected. Click "Select Image" to upload.
                 </Text>
               ) : (
                 <Card>
                   <CardHeader
-                    header={<Text weight="semibold">{selectedImage.name}</Text>}
-                    description={<Text>{(selectedImage.size / 1024 / 1024).toFixed(2)} MB</Text>}
+                    header={<Text weight="semibold" data-testid="image-uploaded-text">{selectedImage.name}</Text>}
+                    description={<Text data-testid="image-uploaded-weight">{(selectedImage.size / 1024 / 1024).toFixed(2)} MB</Text>}
                   />
                 </Card>
               )}
               {loading && (
-                <div className={styles.spinner}>
+                <div className={styles.spinner} data-testid="loading">
                   <GenerationLoader />
                 </div>
               )}
@@ -204,6 +205,7 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({
           </DialogContent>
           <DialogActions fluid>
             <Button
+              data-testid="upload-image-button"
               onClick={() => fileInputRef.current?.click()}
               appearance="secondary"
               icon={<Image24Regular />}
@@ -212,6 +214,7 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({
             </Button>
 
             <Button
+              data-testid="process-sketch-button"
               onClick={handleProcessSketch}
               appearance="primary"
               disabled={!selectedImage || loading}
