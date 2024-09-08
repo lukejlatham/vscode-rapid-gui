@@ -39,6 +39,7 @@ export function generateLabelCss(node: Node): string {
     text-align: ${props.textAlign};
     display: inline-flex;
     align-items: center;
+    font-family: ${props.fontFamily || "Arial"};
     font-weight: ${props.bold ? "bold" : "normal"};
     ${props.italic ? "font-style: italic;" : ""}
     ${props.underline ? "text-decoration: underline;" : ""}

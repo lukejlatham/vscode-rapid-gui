@@ -44,9 +44,9 @@ export function generateContainerCss(node: Node, content: { [key: string]: Node 
   let css = `
     .container.${node.custom.id} {
       display: flex;
-      flex-direction: ${props.flexDirection || "row"};
-      justify-content: ${props.justifyContent || "flex-start"};
-      align-items: ${props.alignItems || "stretch"};
+      flex-direction: ${props.flexDirection || "column"};
+      justify-content: ${props.justifyContent || "space-around"};
+      align-items: ${props.alignItems || "center"};
       flex-wrap: ${props.flexWrap || "nowrap"};
       gap: ${props.gap || 0}px;
       width: ${props.width ? props.width + "%" : "auto"};

@@ -85,9 +85,9 @@ export function generateButtonCss(node: Node): string {
     display: flex;
     text-align: center;
     gap: 5px;
-    align-items: center;
+    font-family: ${props.fontFamily || "Arial"};
+    align-items: ${props.alignment || "center"};
     justify-content: center;
-    text-decoration: none;
     ${convertColor(
       props.shadowColor && props.shadowBlur
         ? `box-shadow: ${props.shadowOffsetX}px ${props.shadowOffsetY}px ${props.shadowBlur}px ${props.shadowColor};`
