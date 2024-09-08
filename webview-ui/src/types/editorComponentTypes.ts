@@ -2,6 +2,7 @@
 import * as VscIcons from "react-icons/vsc";
 import { z } from "zod";
 import { tokens } from "@fluentui/react-theme";
+import React from "react";
 
 type VscIconKeys = keyof typeof VscIcons;
 

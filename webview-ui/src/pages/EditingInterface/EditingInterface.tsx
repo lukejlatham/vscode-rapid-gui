@@ -1,4 +1,4 @@
-import { Editor } from "@craftjs/core";
+import { Editor, Node } from "@craftjs/core";
 import { Label } from "../../components/user/Label";
 import { Button } from "../../components/user/Button";
 import { makeStyles, Theme } from '@fluentui/react-components';
@@ -14,7 +14,7 @@ import { Container } from "../../components/user/Container";
 import { Text } from "../../components/user/Text";
 import { Dropdown } from "../../components/user/Dropdown";
 import { Slider } from "../../components/user/Slider";
-import { Page, AccessibilityContextType } from "../../types";
+import { Page, AccessibilityContextType, DraggingComponentContextType } from "../../types";
 import { useState, useEffect, useCallback, createContext } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import { EditorContent } from "./EditorContent";
@@ -69,6 +69,11 @@ export const AccessibilityContext = createContext<AccessibilityContextType >({
   setSelectedAccessibility: () => {}
 });
 
+export const DraggingComponentContext = createContext<DraggingComponentContextType>({
+  seletectedDraggingComponent: null,
+  setDraggingComponent: () => {}
+});
+
 const EditingInterface: React.FC<{
   theme: Theme;
   setTheme: React.Dispatch<React.SetStateAction<Theme>>
@@ -83,6 +88,7 @@ const EditingInterface: React.FC<{
   const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
   const [accessibility, setSelectedAccessibility] = useState<'yes'|'no'>('no');
+  const [draggingComponent, setDraggingComponent] = useState<string | null>(null);
 
   // setting template if state has template
   const template = location.state?.template;
@@ -147,6 +153,10 @@ const EditingInterface: React.FC<{
       selectedAccessibility: accessibility,
       setSelectedAccessibility: setSelectedAccessibility
     }}>
+      <DraggingComponentContext.Provider value={{
+        seletectedDraggingComponent: draggingComponent,
+        setDraggingComponent: setDraggingComponent
+      }}>
     <Editor resolver={{ Background, Text, Label, Button, TextBox, Image, Input, RadioButtons, Checkboxes, GridCell, Icon, Container, Dropdown, Slider }}>
       <EditorContent
         pages={pages}
@@ -162,6 +172,7 @@ const EditingInterface: React.FC<{
         setTheme={setTheme}
       />
     </Editor>
+    </DraggingComponentContext.Provider>
     </AccessibilityContext.Provider>
   );
 };

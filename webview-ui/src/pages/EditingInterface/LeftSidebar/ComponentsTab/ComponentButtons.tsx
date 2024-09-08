@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState, useCallback, useContext} from "react";
 import {
   Button,
   Breadcrumb,
@@ -8,7 +8,8 @@ import {
   Caption1,
   tokens
 } from "@fluentui/react-components";
-import { useEditor, Element } from "@craftjs/core";
+import { v4 as uuidv4 } from 'uuid';
+import { useEditor, Element, Node, UserComponent } from "@craftjs/core";
 import { Label, LabelDefaultProps } from "../../../../components/user/Label";
 import { Button as UserButton, ButtonDefaultProps } from "../../../../components/user/Button";
 import { TextBox, TextBoxDefaultProps } from "../../../../components/user/TextBox";
@@ -39,6 +40,7 @@ import {
   OptionsRegular
 } from "@fluentui/react-icons";
 import { Container, ContainerDefaultProps } from "../../../../components/user/Container";
+import { DraggingComponentContext } from "../../EditingInterface";
 
 const ButtonIcon = bundleIcon(Button20Filled, Button20Regular);
 const LabelIcon = bundleIcon(TextT24Regular, TextT24Regular);
@@ -73,8 +75,51 @@ const useStyles = makeStyles({
 });
 
 const ComponentButtons: React.FC<{ classes?: any }> = ({ classes }) => {
-  const { connectors } = useEditor();
+  const { connectors, actions, query } = useEditor();
   const styles = useStyles();
+  // const [draggingComponent, setDraggingComponent] = useState<JSX.Element | Node | null>(null);
+
+  const { seletectedDraggingComponent, setDraggingComponent } = useContext(DraggingComponentContext);
+ 
+
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent, component: string) => {
+      if (event.key === "Enter") {
+        setDraggingComponent(component);
+
+        console.log(`Dragging started for: ${component}`);
+      }
+    },
+    [setDraggingComponent]
+  );
+
+  const handleDrop = useCallback(
+    (event: React.KeyboardEvent, parentId: string) => {
+          // Perform the drop action in the focused container/grid cell
+          if (seletectedDraggingComponent){
+            // actions.add(seletectedDraggingComponent.type?.craft, parentId);
+            switch (seletectedDraggingComponent) {
+              case "Button":
+                const node = query.parseReactElement(<UserButton {...ButtonDefaultProps} />).toNodeTree();
+                actions.addNodeTree(node, parentId);
+                break;
+            }
+  
+            // setDraggingComponent(null);
+            console.log("Component dropped into container/grid cell: ", seletectedDraggingComponent);
+            console.log("Parent ID: ", parentId);
+          }
+        
+        // console.log("Drop target is not a valid container or grid cell");
+    },
+    [seletectedDraggingComponent, actions, query]
+  );
+
+  useEffect(() => {
+    console.log("dragging component set to:", seletectedDraggingComponent);
+  }
+  , [seletectedDraggingComponent]);
+
 
   return (
     <div className={styles.container}>
@@ -93,6 +138,7 @@ const ComponentButtons: React.FC<{ classes?: any }> = ({ classes }) => {
         icon={<ButtonIcon />}
         size="medium"
         appearance="secondary"
+        onKeyDown={(e) => handleKeyDown(e, "button")}
         ref={(ref) => {
           if (ref !== null) {
             connectors.create(ref, <UserButton {...ButtonDefaultProps} />);
@@ -227,7 +273,7 @@ const ComponentButtons: React.FC<{ classes?: any }> = ({ classes }) => {
         appearance="secondary"
         ref={(ref) => {
           if (ref !== null) {
-            connectors.create(ref, <Element is={Container} {...ContainerDefaultProps} canvas />);
+            connectors.create(ref, <Element is={Container} {...ContainerDefaultProps} custom={{handleDrop}} canvas />);
           }
         }}>
         <FormattedMessage id="components.container" defaultMessage="Container" />

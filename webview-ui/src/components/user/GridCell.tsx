@@ -64,6 +64,7 @@ export const GridCell: UserComponent<GridCellProps> = (props) => {
 
   return (
     <div
+      tabIndex={0}
       ref={(ref: HTMLDivElement | null) => ref && connect(drag(ref))}
       className={`${styles.container} ${selected ? select.selectedGrid : ""}
     ${

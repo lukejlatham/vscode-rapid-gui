@@ -1,10 +1,10 @@
+import React, { useState, useCallback, useContext } from "react";
 import { UserComponent, useNode } from "@craftjs/core";
 import { ContainerProps, containerSchema } from "../../types";
 import { makeStyles } from "@fluentui/react-components";
 import { ContainerSettings } from "./Settings/ContainerSettings";
-import { tokens } from "@fluentui/react-components";
-// import { ContainerSettings } from "./Settings/ContainerSettings";
 import { useSelected } from "../../hooks/useSelected";
+import { DraggingComponentContext } from "../../pages/EditingInterface/EditingInterface";
 
 const useStyles = makeStyles({
   container: {
@@ -76,8 +76,15 @@ export const Container: UserComponent<ContainerProps> = (props) => {
   } = useNode((state) => ({
     selected: state.events.selected,
   }));
+
+  const { handleDrop, id } = useNode((node) => ({
+    handleDrop: node.data.custom?.handleDrop,
+    id: node.id,
+  }));
+
   const styles = useStyles();
   const select = useSelected();
+  const [isFocused, setIsFocused] = useState(false); // State for focus tracking
   const divStyle = {
     backgroundColor: `${backgroundColor}`,
     borderRadius: `${borderRadius}px`,
@@ -88,12 +95,34 @@ export const Container: UserComponent<ContainerProps> = (props) => {
     gap: `${gap}px`,
     boxShadow: `${shadowOffsetX}px ${shadowOffsetY}px ${shadowBlur}px ${shadowColor}`,
   };
+  const { seletectedDraggingComponent } = useContext(DraggingComponentContext);
+
+
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent) => {
+      if (event.key === 'Control' && handleDrop) {
+        console.log("Dropping component: ", seletectedDraggingComponent);
+        try{
+          handleDrop(event, id);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    },
+    [handleDrop, seletectedDraggingComponent, id]
+  );
+
+
 
   return (
     <div
+      tabIndex={0}
       ref={(ref: HTMLDivElement | null) => ref && connect(drag(ref))}
       style={divStyle}
-      className={`${styles.container} ${selected ? select.select : ""}
+      onFocus={() => setIsFocused(true)} // Set focus
+      onBlur={() => setIsFocused(false)} // Remove focus
+      onKeyDown={handleKeyDown} // Add keydown event listener
+      className={`${styles.container} ${(selected || isFocused) ? select.selectedGrid : ""}
         ${
           justifyContent === "flex-start"
             ? styles.justifyLeft

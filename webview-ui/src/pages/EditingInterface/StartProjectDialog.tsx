@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   Dialog,
   DialogSurface,
@@ -39,45 +39,39 @@ export const StartProjectDialog: React.FC<StartProjectDialogProps> = ({
   const [isTemplatesDialogOpen, setIsTemplatesDialogOpen] = useState(false);
   const mode = "start";
 
-  const handleScratch = () => {
+  const handleScratch = useCallback(() => {
     setPages([]);
     onClose();
-  };
+  }, [setPages, onClose]);
 
-  const handleKeyDown = (event: KeyboardEvent): void => {
+
+  const handleKeyDown = useCallback((event: KeyboardEvent): void => {
     if (isOpen && event.ctrlKey) {
-    // if (event.code){
-    //   console.log("event.code:", event.code);
-    //   console.log("event.key:", event.key);
-    // }
-    // if (event.key === "s") {
-    //   setIsUploadDialogOpen(true);
-    // }
-    switch (event.key) {
-      case "s":
-        setIsUploadDialogOpen(true);
-        break;
-      case "t":
-        setIsTextDialogOpen(true);
-        break;
-      case "p":
-        setIsTemplatesDialogOpen(true);
-        break;
-      case "c":
-        handleScratch();
-        break;
-      default:
-        break;
+      switch (event.key) {
+        case "s":
+          setIsUploadDialogOpen(true);
+          break;
+        case "t":
+          setIsTextDialogOpen(true);
+          break;
+        case "p":
+          setIsTemplatesDialogOpen(true);
+          break;
+        case "c":
+          handleScratch();
+          break;
+        default:
+          break;
+      }
     }
-  }
-  };
+  }, [isOpen, handleScratch]);
 
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, []); 
+  }, [handleKeyDown]); 
   return (
     <>
       <Dialog modalType="alert" open={isOpen} onOpenChange={(event, data) => onClose()}>

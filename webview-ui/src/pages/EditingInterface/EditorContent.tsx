@@ -2,7 +2,7 @@ import { Page } from "../../types";
 import Canvas from "./Canvas";
 import LeftSidebar from "./LeftSidebar/LeftSidebar";
 import { useEffect, useCallback, useState } from "react";
-import { SerializedNodes, useEditor } from "@craftjs/core";
+import { SerializedNodes, useEditor, Node, UserComponent } from "@craftjs/core";
 import { StartProjectDialog } from "./StartProjectDialog";
 import { AddPageDialog } from "./LeftSidebar/PagesTab/AddPageDialog";
 import { Theme } from "@fluentui/react-components";
@@ -38,6 +38,7 @@ export const EditorContent: React.FC<EditorContentProps> = ({
   const { actions, query } = useEditor();
   const [isStartProjectDialogOpen, setIsStartProjectDialogOpen] = useState(true);
   const [isAddPageDialogOpen, setIsAddPageDialogOpen] = useState(false);
+
 
   useEffect(() => {
     if (pages[currentPageIndex]) {

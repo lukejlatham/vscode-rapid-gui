@@ -1,4 +1,4 @@
-import { SerializedNodes } from "@craftjs/core";
+import { SerializedNodes, Node } from "@craftjs/core";
 
 export interface Page {
   id: string;
@@ -13,6 +13,11 @@ export interface CanvasProps {
 export type AccessibilityContextType = {
   selectedAccessibility: "yes" | "no";
   setSelectedAccessibility: (selected: "yes" | "no") => void;
+};
+
+export type DraggingComponentContextType = {
+  seletectedDraggingComponent: string | null;
+  setDraggingComponent: (component: string | null) => void;
 };
 
 export * from "./generateLayoutTypes";
