@@ -53,7 +53,7 @@ export function generateContainerCss(node: Node, content: { [key: string]: Node 
       height: ${props.height ? props.height + "%" : "auto"};
       background-color: ${props.backgroundColor || "transparent"};
       border: 2px solid ${convertColor(props.borderColor)};
-      border-radius: ${props.borderRadius || 0}%;
+      border-radius: ${props.borderRadius || 0} px;
       padding: ${props.padding || 0}px;
       margin: ${props.margin || 0}px;
       box-sizing: border-box;
