@@ -12,8 +12,9 @@ export async function generateImageXaml(
   let xaml = `${indent}<Image`;
 
   xaml += ` Stretch="Uniform"`;
-  xaml += ` Width="${props.width || 120}"`;
-  xaml += ` Height="${props.height || 120}"`;
+  xaml += ` MinWidth="100"`;
+  xaml += ` Width="${props.width || 100}*"`;
+  xaml += ` Height="${props.height || 200}"`;
 
   if (props.src && projectPath) {
     try {
