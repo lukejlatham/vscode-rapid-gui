@@ -28,14 +28,14 @@ export async function generateContainerXaml(
     xaml += ` CornerRadius="${props.borderRadius}"`;
   }
   if (props.padding) {
-    xaml += ` Padding="${props.padding}"`;
+    xaml += ` Padding="${props.padding || 10}"`;
   }
 
   xaml += `>\n`;
 
   xaml += `${indent} <StackPanel`;
   xaml += ` Orientation="${props.flexDirection === "row" ? "Horizontal" : "Vertical"}"`;
-  xaml += ` Spacing="${props.gap || 0}"`;
+  xaml += ` Spacing="${props.gap || 5}"`;
   xaml += ` HorizontalAlignment="${mapJustifyContent(props.justifyContent)}"`;
   xaml += ` VerticalAlignment="${mapAlignItems(props.alignItems)}"`;
   xaml += `>\n`;
