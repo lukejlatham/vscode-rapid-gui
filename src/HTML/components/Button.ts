@@ -2,7 +2,7 @@ import { Node } from "../JSONParser";
 import { generateIconHtml, generateIconCss } from "./Icon";
 import { convertColor } from "../../utilities/colortranslator";
 
-export function generateButtonHtml(node: Node, pageName: string): string {
+export function generateButtonHtml(node: Node): string {
   const props = node.props;
   console.log("Button props:", props);
 
@@ -10,21 +10,12 @@ export function generateButtonHtml(node: Node, pageName: string): string {
 
   if (props.vscIcon && props.text) {
     // Button with icon and text
-    const iconHtml = generateIconHtml(
-      {
-        ...node,
-        props: { ...props, iconSize: props.fontSize },
-      },
-      pageName
-    );
+    const iconHtml = generateIconHtml({ ...node, props: { ...props, iconSize: props.fontSize } });
     content =
       props.iconPosition === "left" ? `${iconHtml}${props.text}` : `${props.text}${iconHtml}`;
   } else if (props.vscIcon) {
     // Button with only icon
-    content = generateIconHtml(
-      { ...node, props: { ...props, iconSize: props.fontSize } },
-      pageName
-    );
+    content = generateIconHtml({ ...node, props: { ...props, iconSize: props.fontSize } });
   } else {
     // Button with only text
     content = props.text || "";
@@ -41,7 +32,7 @@ export function generateButtonHtml(node: Node, pageName: string): string {
   return button;
 }
 
-export function generateButtonCss(node: Node, pageName: string): string {
+export function generateButtonCss(node: Node): string {
   const props = node.props;
 
   interface SizeScale {
@@ -111,10 +102,7 @@ export function generateButtonCss(node: Node, pageName: string): string {
 
   // If the button has an icon, include the icon CSS
   if (props.vscIcon) {
-    buttonCss += generateIconCss(
-      { ...node, props: { ...props, iconSize: props.fontSize } },
-      pageName
-    );
+    buttonCss += generateIconCss({ ...node, props: { ...props, iconSize: props.fontSize } });
   }
 
   return buttonCss;

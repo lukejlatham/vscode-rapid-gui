@@ -23,5 +23,5 @@ export function generateGridHtml(page: Page, projectPath: string): string {
 export function generateGridCss(page: Page): string {
   const rootNode = page.content.ROOT as Node;
 
-  return generateBackgroundCss(rootNode, page.content as { [key: string]: Node }, page.name);
+  return generateBackgroundCss(rootNode, page.content as { [key: string]: Node });
 }
