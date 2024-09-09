@@ -47,7 +47,11 @@ function generateGridCellContent(
   return cellContent;
 }
 
-export function generateBackgroundCss(node: Node, content: { [key: string]: Node }): string {
+export function generateBackgroundCss(
+  node: Node,
+  content: { [key: string]: Node },
+  pageName: string
+): string {
   let css = `
   body {
     margin: 0;
@@ -105,7 +109,7 @@ export function generateBackgroundCss(node: Node, content: { [key: string]: Node
 
     // Generate CSS for cell content
     if (cellNode) {
-      css += generateSingleComponentCss(cellNode, content);
+      css += generateSingleComponentCss(cellNode, content, pageName);
     }
   });
 

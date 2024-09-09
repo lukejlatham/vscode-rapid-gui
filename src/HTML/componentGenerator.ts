@@ -12,7 +12,7 @@ import { generateTextBoxHtml, generateTextBoxCss } from "./components/TextBox";
 import { generateImageHtml, generateImageCss } from "./components/Image";
 import { generateDropdownHtml, generateDropdownCss } from "./components/Dropdown";
 
-let componentCounters: { [key: string]: number } = {};
+let componentCounters: { [key: string]: { [key: string]: number } } = {};
 
 let processedNodes = new Set<string>();
 
@@ -20,12 +20,15 @@ export function resetProcessedNodes() {
   processedNodes.clear();
 }
 
-function getComponentId(type: string): string {
-  if (!componentCounters[type]) {
-    componentCounters[type] = 0;
+export function getComponentId(type: string, pageName: string): string {
+  if (!componentCounters[pageName]) {
+    componentCounters[pageName] = {};
   }
-  componentCounters[type]++;
-  return `${type.toLowerCase()}${componentCounters[type]}`;
+  if (!componentCounters[pageName][type]) {
+    componentCounters[pageName][type] = 0;
+  }
+  componentCounters[pageName][type]++;
+  return `${type.toLowerCase()}${pageName}${componentCounters[pageName][type]}`;
 }
 
 export function resetComponentCounters() {
@@ -37,23 +40,23 @@ export function generateComponentHtml(
   pageName: string,
   projectPath?: string
 ): string {
-  // console.log("Generating component HTML with projectPath:", projectPath);
   const page = parsedJSON.pages[pageName];
   const node = page.root;
 
-  return generateSingleComponentHtml(node, page.components, projectPath);
+  return generateSingleComponentHtml(node, page.components, projectPath, pageName);
 }
 
 export function generateComponentCss(parsedJSON: ParsedJSON, pageName: string): string {
   const page = parsedJSON.pages[pageName];
   const node = page.root;
 
-  return generateSingleComponentCss(node, page.components);
+  return generateSingleComponentCss(node, page.components, pageName);
 }
 
 function generateSingleComponentHtml(
   node: Node,
   content: { [key: string]: Node },
+  pageName: string,
   projectPath?: string
 ): string {
   // console.log("Generating single component HTML with projectPath:", projectPath);
@@ -62,21 +65,21 @@ function generateSingleComponentHtml(
     return "<!-- Error: Invalid component structure -->";
   }
 
-  const componentId = getComponentId(node.type.resolvedName);
+  const componentId = getComponentId(node.type.resolvedName, pageName);
   node.custom = node.custom || {};
   node.custom.id = componentId;
 
   switch (node.type.resolvedName) {
     case "Button":
-      return generateButtonHtml(node);
+      return generateButtonHtml(node, pageName);
     case "Input":
       return generateInputHtml(node);
     case "Text":
       return generateTextHtml(node);
     case "Label":
-      return generateLabelHtml(node);
+      return generateLabelHtml(node, pageName);
     case "Icon":
-      return generateIconHtml(node);
+      return generateIconHtml(node, pageName);
     case "RadioButtons":
       return generateRadioButtonHtml(node);
     case "Container":
@@ -100,6 +103,7 @@ function generateSingleComponentHtml(
 export function generateSingleComponentCss(
   node: Node,
   content: { [key: string]: Node },
+  pageName: string,
   projectPath?: string
 ): string {
   if (!node || !node.type || !node.type.resolvedName) {
@@ -110,7 +114,7 @@ export function generateSingleComponentCss(
   let css = "";
 
   if (!processedNodes.has(node.custom.id)) {
-    const componentId = getComponentId(node.type.resolvedName);
+    const componentId = getComponentId(node.type.resolvedName, pageName);
     node.custom = node.custom || {};
     node.custom.id = componentId;
 
@@ -135,25 +139,26 @@ export function generateSingleComponentCss(
 function generateComponentCssSwitch(
   node: Node,
   content: { [key: string]: Node },
+  pageName: string,
   projectPath?: string
 ): string {
   processedNodes.add(node.custom.id);
 
   switch (node.type.resolvedName) {
     case "Button":
-      return generateButtonCss(node);
+      return generateButtonCss(node, pageName);
     case "Input":
       return generateInputCss(node);
     case "Text":
       return generateTextCss(node);
     case "Label":
-      return generateLabelCss(node);
+      return generateLabelCss(node, pageName);
     case "Icon":
-      return generateIconCss(node);
+      return generateIconCss(node, pageName);
     case "RadioButtons":
       return generateRadioButtonCss(node);
     case "Container":
-      return generateContainerCss(node, content);
+      return generateContainerCss(node, pageName, content);
     case "Checkboxes":
       return generateCheckboxCss(node);
     case "Slider":

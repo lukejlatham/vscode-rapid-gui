@@ -1,19 +1,26 @@
 import { Node } from "../JSONParser";
 import { generateIconHtml, generateIconCss } from "./Icon";
 import { convertColor } from "../../utilities/colortranslator";
+import { getComponentId } from "../componentGenerator";
 
-export function generateLabelHtml(node: Node): string {
+export function generateLabelHtml(node: Node, pageName: string): string {
   const props = node.props;
   let content = props.text;
   console.log("Label props:", props);
 
   if (props.vscIcon) {
-    const iconHtml = generateIconHtml({ ...node, props: { ...props, iconSize: props.fontSize } });
+    const iconHtml = generateIconHtml(
+      { ...node, props: { ...props, iconSize: props.fontSize } },
+      pageName
+    );
     content = props.iconPosition === "left" ? `${iconHtml} ${content}` : `${content} ${iconHtml}`;
   }
 
+  const labelId = getComponentId("label", pageName);
+  node.custom.id = labelId;
+
   return `
-  <label id="${node.custom.id}" class="custom-label ${node.custom.id}">
+  <label id="${labelId}" class="custom-label ${labelId}">
     ${content}
   </label>
   `;
@@ -21,8 +28,9 @@ export function generateLabelHtml(node: Node): string {
 
 const processedLabels = new Set();
 
-export function generateLabelCss(node: Node): string {
+export function generateLabelCss(node: Node, pageName: string): string {
   const props = node.props;
+  const labelId = node.custom.id;
 
   // Check if this label has already been processed
   if (processedLabels.has(node.custom.id)) {
@@ -33,7 +41,7 @@ export function generateLabelCss(node: Node): string {
   processedLabels.add(node.custom.id);
 
   let labelCss = `
-  .custom-label.${node.custom.id} {
+  .custom-label.${labelId} {
     color: ${convertColor(props.fontColor || "black")};
     font-size: ${props.fontSize || 16}px;
     text-align: ${props.textAlign};
@@ -45,16 +53,18 @@ export function generateLabelCss(node: Node): string {
     ${props.iconPosition === "left" ? "flex-direction: row;" : "flex-direction: row-reverse;"}
   }
   
-  .custom-label.${node.custom.id} .icon {
+  .custom-label.${labelId} .icon {
     margin: ${props.iconPosition === "left" ? "0 5px 0 0" : "0 0 0 5px"};
   }
   `;
 
   console.log("Label:", convertColor(props.fontColor), convertColor(props.backgroundColor));
 
-  // If the label has an icon, include the icon CSS
   if (props.vscIcon) {
-    labelCss += generateIconCss({ ...node, props: { ...props, iconSize: props.fontSize } });
+    labelCss += generateIconCss(
+      { ...node, props: { ...props, iconSize: props.fontSize } },
+      pageName
+    );
   }
 
   return labelCss;

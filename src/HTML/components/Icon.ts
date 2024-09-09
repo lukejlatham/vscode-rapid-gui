@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Node } from "../JSONParser";
 import { convertColor } from "../../utilities/colortranslator";
+import { getComponentId } from "../componentGenerator";
 
 // Mapping of VSCode icons to Font Awesome icons
 const iconMapping: { [key: string]: string } = {
@@ -522,10 +523,12 @@ const iconMapping: { [key: string]: string } = {
   VscBrowser: "fa-globe",
 };
 
-export function generateIconHtml(node: Node): string {
+export function generateIconHtml(node: Node, pageName: string): string {
   const props = node.props;
+  const iconId = getComponentId("icon", pageName);
+  node.custom.id = iconId;
   const faIconName = iconMapping[props.vscIcon] || "fa-question";
-  const iconHtml = `<i id="${node.custom.id}" class="icon fa-solid ${faIconName} ${node.custom.id}"></i>`;
+  const iconHtml = `<i id="${node.custom.id}" class="icon fa-solid ${faIconName} ${iconId}"></i>`;
 
   if (props.hyperlink) {
     return `<a href="${props.hyperlink}" class="icon-link">${iconHtml}</a>`;
@@ -534,10 +537,12 @@ export function generateIconHtml(node: Node): string {
   return iconHtml;
 }
 
-export function generateIconCss(node: Node): string {
+export function generateIconCss(node: Node, pageName: string): string {
   const props = node.props;
+  const iconId = getComponentId("icon", pageName);
+  node.custom.id = iconId;
   return `
-  .${node.custom.id} {
+  .${iconId} {
     color: ${convertColor(props.iconColor || "inherit")};
     font-size: ${props.iconSize || 16}px;
   }

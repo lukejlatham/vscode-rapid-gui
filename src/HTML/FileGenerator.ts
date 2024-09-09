@@ -82,10 +82,17 @@ export class FileGenerator {
       resetProcessedNodes();
       const gridCss = generateBackgroundCss(
         page.content.ROOT as Node,
-        page.content as { [key: string]: Node }
+        page.content as { [key: string]: Node },
+        page.name
       );
-      const componentCss = this.generateComponentCss(page.content as { [key: string]: Node });
-      const containerCss = this.generateAllContainersCss(page.content as { [key: string]: Node });
+      const componentCss = this.generateComponentCss(
+        page.content as { [key: string]: Node },
+        page.name
+      );
+      const containerCss = this.generateAllContainersCss(
+        page.content as { [key: string]: Node },
+        page.name
+      );
 
       let content = this.templateManager.getTemplate("index.html");
       content = content.replace(/{{projectName}}/g, this.projectName);
@@ -98,25 +105,25 @@ export class FileGenerator {
     });
   }
 
-  private generateAllContainersCss(content: { [key: string]: Node }): string {
+  private generateAllContainersCss(content: { [key: string]: Node }, pageName: string): string {
     let css = "";
     for (const nodeId in content) {
       const node = content[nodeId];
       if (node.type.resolvedName === "Container") {
-        css += generateContainerCss(node, content);
+        css += generateContainerCss(node, pageName, content);
       }
     }
     return css;
   }
 
-  private generateComponentCss(content: { [key: string]: Node }): string {
+  private generateComponentCss(content: { [key: string]: Node }, pageName: string): string {
     let css = "";
     for (const nodeId in content) {
       if (nodeId !== "ROOT") {
         const node = content[nodeId];
         css += generateComponentCss(
-          { pages: { temp: { components: content, root: node, layout: [] } } },
-          "temp"
+          { pages: { [pageName]: { components: content, root: node, layout: [] } } },
+          pageName
         );
       }
     }

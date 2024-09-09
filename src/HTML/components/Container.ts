@@ -7,6 +7,7 @@ import { generateSingleComponentCss } from "../componentGenerator";
 export function generateContainerHtml(
   node: Node,
   content: { [key: string]: Node },
+  pageName: string,
   projectPath?: string
 ): string {
   // extract the props
@@ -27,8 +28,8 @@ export function generateContainerHtml(
             },
           },
         },
-        node.custom.id || "",
-        projectPath
+        projectPath,
+        pageName
       );
     }
   });
@@ -40,7 +41,11 @@ export function generateContainerHtml(
   `;
 }
 
-export function generateContainerCss(node: Node, content: { [key: string]: Node }): string {
+export function generateContainerCss(
+  node: Node,
+  pageName: string,
+  content: { [key: string]: Node }
+): string {
   const props = node.props;
   let css = `
     .container.${node.custom.id} {
@@ -78,7 +83,7 @@ export function generateContainerCss(node: Node, content: { [key: string]: Node 
   node.nodes.forEach((childId) => {
     const childNode = content[childId];
     if (childNode) {
-      css += generateSingleComponentCss(childNode, content);
+      css += generateSingleComponentCss(childNode, content, pageName);
     }
   });
 
