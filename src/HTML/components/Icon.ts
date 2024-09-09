@@ -521,6 +521,18 @@ const iconMapping: { [key: string]: string } = {
   VscMirror: "fa-clone",
   VscMirrorPrivate: "fa-lock",
   VscBrowser: "fa-globe",
+  VscReply: "fa-reply",
+  VscReplyAll: "fa-reply-all",
+  VscRepoCloneOutline: "fa-clone",
+  VscMusic: "fa-music",
+  VscNewFile: "fa-file",
+  VscNewFolder: "fa-folder",
+  VscBold: "fa-bold",
+  VscUnderline: "fa-underline",
+  VscItalicize: "fa-italic",
+  VscFileSubmodule: "fa-file",
+  VscUnverified: "fa-circle",
+  VscVerified: "fa-check-circle",
 };
 
 export function generateIconHtml(node: Node): string {
