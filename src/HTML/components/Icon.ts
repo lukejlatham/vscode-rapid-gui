@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Node } from "../JSONParser";
 import { convertColor } from "../../utilities/colortranslator";
+import { generateCssClassName } from "../componentGenerator";
 
 // Mapping of VSCode icons to Font Awesome icons
 const iconMapping: { [key: string]: string } = {
@@ -525,7 +526,9 @@ const iconMapping: { [key: string]: string } = {
 export function generateIconHtml(node: Node): string {
   const props = node.props;
   const faIconName = iconMapping[props.vscIcon] || "fa-question";
-  const iconHtml = `<i id="${node.custom.id}" class="icon fa-solid ${faIconName} ${node.custom.id}"></i>`;
+  const iconHtml = `<i id="${generateCssClassName(
+    node.custom.id
+  )}" class="icon fa-solid ${faIconName} ${generateCssClassName(node.custom.id)}"></i>`;
 
   if (props.hyperlink) {
     return `<a href="${props.hyperlink}" class="icon-link">${iconHtml}</a>`;
@@ -537,7 +540,7 @@ export function generateIconHtml(node: Node): string {
 export function generateIconCss(node: Node): string {
   const props = node.props;
   return `
-  .${node.custom.id} {
+  .${generateCssClassName(node.custom.id)} {
     color: ${convertColor(props.iconColor || "inherit")};
     font-size: ${props.iconSize || 16}px;
   }

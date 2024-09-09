@@ -10,6 +10,7 @@ import { generateBackgroundCss } from "./components/Background";
 import { generateComponentCss, resetComponentCounters } from "./componentGenerator";
 import { generateContainerCss } from "./components/Container";
 import { resetProcessedNodes } from "./componentGenerator";
+import { generateCssClassName } from "./componentGenerator";
 
 export class FileGenerator {
   private projectName: string;
@@ -75,10 +76,10 @@ export class FileGenerator {
 
   private createPageFiles(pages: Page[]) {
     pages.forEach((page) => {
-      resetComponentCounters();
+      resetComponentCounters(page.name);
       resetProcessedNodes();
       const pageContent = this.generatePageHtmlContent(page);
-      resetComponentCounters();
+      resetComponentCounters(page.name);
       resetProcessedNodes();
       const gridCss = generateBackgroundCss(
         page.content.ROOT as Node,

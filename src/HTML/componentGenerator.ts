@@ -13,7 +13,7 @@ import { generateImageHtml, generateImageCss } from "./components/Image";
 import { generateDropdownHtml, generateDropdownCss } from "./components/Dropdown";
 
 let componentCounters: { [key: string]: number } = {};
-
+let currentPageName: string = "";
 let processedNodes = new Set<string>();
 
 export function resetProcessedNodes() {
@@ -25,11 +25,16 @@ function getComponentId(type: string): string {
     componentCounters[type] = 0;
   }
   componentCounters[type]++;
-  return `${type.toLowerCase()}${componentCounters[type]}`;
+  return `${currentPageName.replace(/\s+/g, "-")}-${type.toLowerCase()}${componentCounters[type]}`;
 }
 
-export function resetComponentCounters() {
+export function generateCssClassName(componentId: string): string {
+  return componentId.replace(/\s+/g, "-");
+}
+
+export function resetComponentCounters(pageName: string) {
   componentCounters = {};
+  currentPageName = pageName;
 }
 
 export function generateComponentHtml(

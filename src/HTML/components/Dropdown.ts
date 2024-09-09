@@ -1,5 +1,6 @@
 import { Node } from "../JSONParser";
 import { convertColor } from "../../utilities/colortranslator";
+import { generateCssClassName } from "../componentGenerator";
 
 export function generateDropdownHtml(node: Node): string {
   const props = node.props;
@@ -8,9 +9,9 @@ export function generateDropdownHtml(node: Node): string {
     .join("\n");
 
   return `
-  <div class="dropdown-container ${node.custom.id}">
-    <label for="${node.custom.id}">${props.header}</label>
-    <select id="${node.custom.id}">
+  <div class="dropdown-container ${generateCssClassName(node.custom.id)}">
+    <label for="${generateCssClassName(node.custom.id)}">${props.header}</label>
+    <select id="${generateCssClassName(node.custom.id)}">
       ${options}
     </select>
   </div>
@@ -20,18 +21,18 @@ export function generateDropdownHtml(node: Node): string {
 export function generateDropdownCss(node: Node): string {
   const props = node.props;
   return `
-  .dropdown-container.${node.custom.id} {
+  .dropdown-container.${generateCssClassName(node.custom.id)} {
     display: flex;
     flex-direction: column;
   }
   
-  .dropdown-container.${node.custom.id} label {
+  .dropdown-container.${generateCssClassName(node.custom.id)} label {
     color: ${convertColor(props.fontColor)};
     font-size: ${props.fontSize}px;
     margin-bottom: 5px;
   }
   
-  .dropdown-container.${node.custom.id} select {
+  .dropdown-container.${generateCssClassName(node.custom.id)} select {
     color: ${convertColor(props.fontColor)};
     font-size: ${props.fontSize}px;
     background-color: white;
