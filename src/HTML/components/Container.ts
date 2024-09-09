@@ -1,6 +1,7 @@
 import { Node, LayoutItem } from "../JSONParser";
 import { generateComponentHtml, generateComponentCss } from "../componentGenerator";
 import { convertColor } from "../../utilities/colortranslator";
+import { generateSingleComponentCss } from "../componentGenerator";
 //best version yet
 
 export function generateContainerHtml(
@@ -77,18 +78,7 @@ export function generateContainerCss(node: Node, content: { [key: string]: Node 
   node.nodes.forEach((childId) => {
     const childNode = content[childId];
     if (childNode) {
-      css += generateComponentCss(
-        {
-          pages: {
-            [node.custom.id || ""]: {
-              root: content[childId],
-              components: content,
-              layout: [] as LayoutItem[],
-            },
-          },
-        },
-        node.custom.id || ""
-      );
+      css += generateSingleComponentCss(childNode, content);
     }
   });
 

@@ -14,6 +14,12 @@ import { generateDropdownHtml, generateDropdownCss } from "./components/Dropdown
 
 let componentCounters: { [key: string]: number } = {};
 
+let processedNodes = new Set<string>();
+
+export function resetProcessedNodes() {
+  processedNodes.clear();
+}
+
 function getComponentId(type: string): string {
   if (!componentCounters[type]) {
     componentCounters[type] = 0;
@@ -90,9 +96,8 @@ function generateSingleComponentHtml(
       console.error(`Unknown component type: ${node.type.resolvedName}`);
   }
 }
-let processedNodes = new Set<string>();
 
-function generateSingleComponentCss(
+export function generateSingleComponentCss(
   node: Node,
   content: { [key: string]: Node },
   projectPath?: string
@@ -102,16 +107,36 @@ function generateSingleComponentCss(
     return "/* Error: Invalid component structure */";
   }
 
-  // Check if the node has already been processed
-  if (processedNodes.has(node.custom.id)) {
-    return "";
+  let css = "";
+
+  if (!processedNodes.has(node.custom.id)) {
+    const componentId = getComponentId(node.type.resolvedName);
+    node.custom = node.custom || {};
+    node.custom.id = componentId;
+
+    processedNodes.add(node.custom.id);
+
+    css += generateComponentCssSwitch(node, content, projectPath);
   }
 
-  const componentId = getComponentId(node.type.resolvedName);
-  node.custom = node.custom || {};
-  node.custom.id = componentId;
+  // Process child nodes
+  if (node.nodes) {
+    for (const childId of node.nodes) {
+      const childNode = content[childId];
+      if (childNode) {
+        css += generateSingleComponentCss(childNode, content, projectPath);
+      }
+    }
+  }
 
-  // Mark the node as processed
+  return css;
+}
+
+function generateComponentCssSwitch(
+  node: Node,
+  content: { [key: string]: Node },
+  projectPath?: string
+): string {
   processedNodes.add(node.custom.id);
 
   switch (node.type.resolvedName) {

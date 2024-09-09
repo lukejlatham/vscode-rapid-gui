@@ -9,6 +9,7 @@ import { ProjectStructureGenerator } from "./ProjectStructureGenerator";
 import { generateBackgroundCss } from "./components/Background";
 import { generateComponentCss, resetComponentCounters } from "./componentGenerator";
 import { generateContainerCss } from "./components/Container";
+import { resetProcessedNodes } from "./componentGenerator";
 
 export class FileGenerator {
   private projectName: string;
@@ -75,8 +76,10 @@ export class FileGenerator {
   private createPageFiles(pages: Page[]) {
     pages.forEach((page) => {
       resetComponentCounters();
+      resetProcessedNodes();
       const pageContent = this.generatePageHtmlContent(page);
       resetComponentCounters();
+      resetProcessedNodes();
       const gridCss = generateBackgroundCss(
         page.content.ROOT as Node,
         page.content as { [key: string]: Node }
