@@ -1,6 +1,7 @@
 import { Node } from "../JSONParser";
 import { generateIconHtml, generateIconCss } from "./Icon";
 import { convertColor } from "../../utilities/colortranslator";
+import { generateCssClassName } from "../componentGenerator";
 
 export function generateButtonHtml(node: Node): string {
   const props = node.props;
@@ -21,7 +22,9 @@ export function generateButtonHtml(node: Node): string {
     content = props.text || "";
   }
 
-  const button = `<button id="${node.custom.id}" class="custom-button ${node.custom.id}">
+  const button = `<button id="${generateCssClassName(
+    node.custom.id
+  )}" class="custom-button ${generateCssClassName(node.custom.id)}">
       ${content}
     </button>`;
 
@@ -74,7 +77,7 @@ export function generateButtonCss(node: Node): string {
   const height = convertSize(props.height || 40, "button", "height");
 
   let buttonCss = `
-  .custom-button.${node.custom.id} {
+  .custom-button.${generateCssClassName(node.custom.id)} {
     color: ${convertColor(props.fontColor)};
     background-color: ${convertColor(props.backgroundColor || "transparent")};
     font-size: ${props.fontSize}px;

@@ -1,4 +1,4 @@
-import { generateComponentHtml } from "../componentGenerator";
+import { generateComponentHtml, generateSingleComponentCss } from "../componentGenerator";
 import { Node } from "../JSONParser";
 import { convertColor } from "../../utilities/colortranslator";
 
@@ -102,6 +102,11 @@ export function generateBackgroundCss(node: Node, content: { [key: string]: Node
       flex-direction: ${flexDirection};
     }
     `;
+
+    // Generate CSS for cell content
+    if (cellNode) {
+      css += generateSingleComponentCss(cellNode, content);
+    }
   });
 
   return css;

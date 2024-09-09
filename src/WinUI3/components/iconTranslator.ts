@@ -550,6 +550,19 @@ export function getGlyphFromVscIcon(iconName: string): string {
     VscChip: "F20A",
     VscMirror: "F20B",
     VscBrowser: "F20C",
+    VscReply: "F20D",
+    VscOrganizationFill: "F20E",
+    VscOrganizationOutlineFill: "F20F",
+    VscMusic: "F210",
+    VscBold: "F211",
+    VscItalicFill: "F212",
+    VscUnderline: "F213",
+    VscStrikeThrough: "F214",
+    VscCheckbox: "F215",
+    VscCheckboxChecked: "F216",
+    VscCheckboxUnchecked: "F217",
+    VscTextSizeFill: "F218",
+    VscZoomInFill: "F219",
   };
 
   const glyph = iconMap[iconName];

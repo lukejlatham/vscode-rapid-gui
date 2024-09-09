@@ -1,5 +1,6 @@
 import { Node } from "../JSONParser";
 import { convertColor } from "../../utilities/colortranslator";
+import { generateCssClassName } from "../componentGenerator";
 
 export function generateSliderHtml(node: Node): string {
   const props = node.props || {};
@@ -13,18 +14,22 @@ export function generateSliderHtml(node: Node): string {
     .map(
       (option, index) => `
       <div class="radio-option">
-        <input type="radio" id="${node.custom.id}-${index}" name="${header}" value="${option}">
-        <label for="${node.custom.id}-${index}">${option}</label>
+        <input type="radio" id="${generateCssClassName(
+          node.custom.id
+        )}-${index}" name="${header}" value="${option}">
+        <label for="${generateCssClassName(node.custom.id)}-${index}">${option}</label>
       </div>
     `
     )
     .join("\n");
 
   return `
-  <div class="slider-container ${node.custom.id}">
+  <div class="slider-container ${generateCssClassName(node.custom.id)}">
     <label>${header}</label>
-    <input type="range" id="${node.custom.id}" min="${min}" max="${max}" step="${step}">
-    <output for="${node.custom.id}"></output>
+    <input type="range" id="${generateCssClassName(
+      node.custom.id
+    )}" min="${min}" max="${max}" step="${step}">
+    <output for="${generateCssClassName(node.custom.id)}"></output>
   </div>
   `;
 }
@@ -35,18 +40,18 @@ export function generateSliderCss(node: Node): string {
   const trackColor = convertColor(props.backgroundColor || "#FFD700");
 
   return `
-  .slider-container.${node.custom.id} {
+  .slider-container.${generateCssClassName(node.custom.id)} {
     display: flex;
     flex-direction: column;
   }
   
-  .slider-container.${node.custom.id} label {
+  .slider-container.${generateCssClassName(node.custom.id)} label {
     color: ${convertColor(props.fontColor)};
     font-size: ${props.fontSize}px;
     margin-bottom: 5px;
   }
   
-  .slider-container.${node.custom.id} input[type="range"] {
+  .slider-container.${generateCssClassName(node.custom.id)} input[type="range"] {
     -webkit-appearance: none;
     width: 100%;
     height: 10px;
@@ -57,7 +62,9 @@ export function generateSliderCss(node: Node): string {
     accent-color: ${backgroundColor}; /* Color of the filled portion */
   }
   
-  .slider-container.${node.custom.id} input[type="range"]::-webkit-slider-runnable-track {
+  .slider-container.${generateCssClassName(
+    node.custom.id
+  )} input[type="range"]::-webkit-slider-runnable-track {
     width: 100%;
     height: 10px;
     cursor: pointer;
@@ -66,7 +73,9 @@ export function generateSliderCss(node: Node): string {
     border: 1px solid #ccc;
   }
   
-  .slider-container.${node.custom.id} input[type="range"]::-webkit-slider-thumb {
+  .slider-container.${generateCssClassName(
+    node.custom.id
+  )} input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     width: 20px;
@@ -77,7 +86,7 @@ export function generateSliderCss(node: Node): string {
     margin-top: -6px; /* Align thumb with track */
   }
   
-  .slider-container.${node.custom.id} input[type="range"]::-moz-range-thumb {
+  .slider-container.${generateCssClassName(node.custom.id)} input[type="range"]::-moz-range-thumb {
     width: 20px;
     height: 20px;
     border-radius: 50%;
@@ -85,7 +94,7 @@ export function generateSliderCss(node: Node): string {
     cursor: pointer;
   }
   
-  .slider-container.${node.custom.id} input[type="range"]::-ms-thumb {
+  .slider-container.${generateCssClassName(node.custom.id)} input[type="range"]::-ms-thumb {
     width: 20px;
     height: 20px;
     border-radius: 50%;
@@ -93,7 +102,7 @@ export function generateSliderCss(node: Node): string {
     cursor: pointer;
   }
   
-  .slider-container.${node.custom.id} output {
+  .slider-container.${generateCssClassName(node.custom.id)} output {
     color: ${convertColor(props.fontColor)};
     font-size: ${props.fontSize}px;
     margin-top: 5px;
