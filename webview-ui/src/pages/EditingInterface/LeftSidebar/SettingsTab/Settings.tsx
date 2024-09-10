@@ -129,6 +129,7 @@ const Settings: React.FC<{
           <option value="en">English</option>
           <option value="fr">Français</option>
           <option value="jp">Japanese</option>
+          <option value="ru">Russian</option>
         </Select>
       </div>
 

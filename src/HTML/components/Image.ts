@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import { Node } from "../JSONParser";
+import { generateCssClassName } from "../componentGenerator";
 
 export function generateImageHtml(node: Node, projectPath: string): string {
   console.log("generateImageHtml called with projectPath:", projectPath);
@@ -10,8 +11,12 @@ export function generateImageHtml(node: Node, projectPath: string): string {
   console.log("Processed imagePath:", imagePath);
 
   return `
-<div id="${node.custom.id}" class="image-container ${node.custom.id}">
-  <img src="${imagePath}" alt="${props.alt}" class="image ${node.custom.id}" />
+<div id="${generateCssClassName(node.custom.id)}" class="image-container ${generateCssClassName(
+    node.custom.id
+  )}">
+  <img src="${imagePath}" alt="${props.alt}" class="image ${generateCssClassName(
+    node.custom.id
+  )}" />
 </div>
 `;
 }
@@ -19,14 +24,14 @@ export function generateImageHtml(node: Node, projectPath: string): string {
 export function generateImageCss(node: Node): string {
   const props = node.props;
   return `
-.image-container.${node.custom.id} {
+.image-container.${generateCssClassName(node.custom.id)} {
   display: flex;
   justify-content: center;
   align-items: center;
   width: ${props.width}%;
 }
 
-.image.${node.custom.id} {
+.image.${generateCssClassName(node.custom.id)} {
   width: 100%;
   height: auto;
   max-width: 100%;

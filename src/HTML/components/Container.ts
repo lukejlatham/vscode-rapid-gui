@@ -1,6 +1,8 @@
 import { Node, LayoutItem } from "../JSONParser";
 import { generateComponentHtml, generateComponentCss } from "../componentGenerator";
 import { convertColor } from "../../utilities/colortranslator";
+import { generateSingleComponentCss } from "../componentGenerator";
+import { generateCssClassName } from "../componentGenerator";
 //best version yet
 
 export function generateContainerHtml(
@@ -33,7 +35,9 @@ export function generateContainerHtml(
   });
 
   return `
-    <div id="${node.custom.id}" class="container ${node.custom.id}">
+    <div id="${generateCssClassName(node.custom.id)}" class="container ${generateCssClassName(
+    node.custom.id
+  )}">
       ${childrenHtml}
     </div>
   `;
@@ -42,7 +46,7 @@ export function generateContainerHtml(
 export function generateContainerCss(node: Node, content: { [key: string]: Node }): string {
   const props = node.props;
   let css = `
-    .container.${node.custom.id} {
+    .container.${generateCssClassName(node.custom.id)} {
       display: flex;
       flex-direction: ${props.flexDirection || "row"};
       justify-content: ${props.justifyContent || "flex-start"};
@@ -67,7 +71,7 @@ export function generateContainerCss(node: Node, content: { [key: string]: Node 
       transition: all 0.3s ease;
     }
 
-    .container.${node.custom.id}:hover {
+    .container.${generateCssClassName(node.custom.id)}:hover {
       ${props.hoverBackgroundColor ? `background-color: ${props.hoverBackgroundColor};` : ""}
       ${props.hoverBorderColor ? `border-color: ${props.hoverBorderColor};` : ""}
     }
@@ -77,18 +81,7 @@ export function generateContainerCss(node: Node, content: { [key: string]: Node 
   node.nodes.forEach((childId) => {
     const childNode = content[childId];
     if (childNode) {
-      css += generateComponentCss(
-        {
-          pages: {
-            [node.custom.id || ""]: {
-              root: content[childId],
-              components: content,
-              layout: [] as LayoutItem[],
-            },
-          },
-        },
-        node.custom.id || ""
-      );
+      css += generateSingleComponentCss(childNode, content);
     }
   });
 

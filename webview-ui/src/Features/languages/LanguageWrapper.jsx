@@ -3,6 +3,7 @@ import { IntlProvider } from "react-intl";
 import French from "./fr.json";
 import English from "./en.json";
 import Japanese from "./jp.json";
+import Russian from "./ru.json";
 
 export const LanguageContext = React.createContext();
 
@@ -15,6 +16,8 @@ if (loc === "fr") {
   lang = English;
 } else if (loc === "jp") {
   lang = Japanese;
+} else if (loc === "ru") {
+  lang = Russian;
 }
 
 const Wrapper = (props) => {
@@ -33,6 +36,9 @@ const Wrapper = (props) => {
         break;
       case "jp":
         setMessages(Japanese);
+        break;
+      case "ru":
+        setMessages(Russian);
         break;
       default:
         break;
