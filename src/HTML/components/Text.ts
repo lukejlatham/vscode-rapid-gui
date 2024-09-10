@@ -1,9 +1,13 @@
 import { Node } from "../JSONParser";
+import { convertColor } from "../../utilities/colortranslator";
+import { generateCssClassName } from "../componentGenerator";
 
 export function generateTextHtml(node: Node): string {
   const props = node.props;
   return `
-  <p id="${node.custom.id}" class="custom-text ${node.custom.id}">
+  <p id="${generateCssClassName(node.custom.id)}" class="custom-text ${generateCssClassName(
+    node.custom.id
+  )}">
     ${props.text}
   </p>
   `;
@@ -12,8 +16,8 @@ export function generateTextHtml(node: Node): string {
 export function generateTextCss(node: Node): string {
   const props = node.props;
   return `
-  .custom-text.${node.custom.id} {
-    color: ${props.fontColor};
+  .custom-text.${generateCssClassName(node.custom.id)} {
+    color: ${convertColor(props.fontColor)};
     font-size: ${props.fontSize}px;
     font-weight: ${props.bold ? "bold" : "normal"};
     text-align: ${props.textAlign};

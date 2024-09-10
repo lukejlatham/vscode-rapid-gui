@@ -8,7 +8,7 @@ import { AddPageDialog } from "./LeftSidebar/PagesTab/AddPageDialog";
 import { Theme } from "@fluentui/react-components";
 import PropertyInspector from "./RightSidebar/PropertyInspector";
 
-interface EditorContentProps {
+export interface EditorContentProps {
   pages: Page[];
   currentPageIndex: number;
   setCurrentPageIndex: (index: number) => void;
@@ -69,7 +69,7 @@ export const EditorContent: React.FC<EditorContentProps> = ({
   }, [currentPageIndex, query, setPages]);
 
   return (
-    <div className={classes.mainLayout}>
+    <div className={classes.mainLayout} data-testid="editor-content">
       <LeftSidebar
         classes={classes}
         pages={pages}

@@ -144,7 +144,9 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({
             <div
               aria-owns={visibleTooltip === tooltip.propKey ? contentId : undefined}
               className={propInspector.label}>
-              <Label>{tooltip.label}</Label>
+              <Label
+                htmlFor={tooltip.propKey}
+              >{tooltip.label}</Label>
               <Tooltip
                 content={{
                   children: tooltip.content,
@@ -155,7 +157,8 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({
                 relationship="label"
                 onVisibleChange={(e, data) =>
                   handleVisibilityChange(tooltip.propKey, data.visible)
-                }>
+                }
+                >
                 <Info16Regular
                   tabIndex={0}
                   className={mergeClasses(
@@ -189,6 +192,7 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({
             ) : tooltip.type === "dropdown" ? (
               <div className={propInspector.srcDropdown}>
                 <Select
+                  id={tooltip.propKey}
                   onChange={(e, data) => {
                     setSrcOption(data.value as string);
                   }}>
@@ -208,7 +212,7 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({
                             onChange={(e, data) => {
                               handleImageUpload(data.value as string);
                             }}>
-                            <option value="">Select an uploaded image</option>
+                            <option value="">Select image</option>
                             {uploadedImages.map((image, index) => (
                               <option key={index} value={image.filepath}>
                                 {image.filename}

@@ -36,7 +36,7 @@ export class FileGenerator {
     }
   }
 
-  public async generateProjectFiles(pages: Page[]) {
+  public async generateProjectFiles(pages: Page[], projectPath: string) {
     if (pages.length === 0) {
       console.error("No pages to generate");
       return;
@@ -44,7 +44,7 @@ export class FileGenerator {
     this.createAppManifest();
     this.createAppXaml();
     this.createAppXamlCs();
-    this.createMainWindowXaml(pages);
+    this.createMainWindowXaml(pages, projectPath);
     this.createMainWindowXamlCs(pages);
     this.createPackageAppxmanifest();
     this.createProjectFile();
@@ -55,7 +55,7 @@ export class FileGenerator {
     this.createPublishProfiles();
     this.createReadme();
     this.createVSCodeFiles();
-    await this.processAllImages(pages);
+    await this.processAllImages(pages, projectPath);
     this.addImagesToProjectFile();
     this.copyAssetImages();
     console.log("FileGenerator Project Path:", this.projectPath);
@@ -63,7 +63,7 @@ export class FileGenerator {
 
     pages.forEach((page) => {
       const sanitizedPageName = this.sanitizePageName(page.name);
-      this.createPageXaml(page, sanitizedPageName);
+      this.createPageXaml(page, sanitizedPageName, projectPath);
       this.createPageXamlCs(sanitizedPageName);
     });
   }
@@ -99,7 +99,7 @@ export class FileGenerator {
     this.createFile("App.xaml.cs", content);
   }
 
-  private createMainWindowXaml(pages: Page[]) {
+  private createMainWindowXaml(pages: Page[], projectPath: string) {
     let content = this.templateManager.getTemplate("MainWindow.xaml");
     content = content.replace(/\{\{namespace\}\}/g, this.namespace);
 
@@ -193,8 +193,8 @@ export class FileGenerator {
     this.createFile("Directory.Build.props", content);
   }
 
-  async createPageXaml(page: Page, sanitizedPageName: string) {
-    const gridXaml = await generateGridXaml(page, this.projectPath);
+  async createPageXaml(page: Page, sanitizedPageName: string, projectPath: string) {
+    const gridXaml = await generateGridXaml(page, projectPath);
     let content = this.templateManager.getTemplate("Page.xaml");
     content = content.replace(/\{\{namespace\}\}/g, this.namespace);
     content = content.replace(/\{\{pageName\}\}/g, sanitizedPageName);
@@ -234,23 +234,33 @@ export class FileGenerator {
     const content = `
     # ${this.projectName}
     
-    This is a WinUI 3 project generated automatically from your design!
-    
-    ## Getting Started
-    
-    1. Open the solution in Visual Studio 2019 or later.
-    2. Ensure you have the Windows App SDK installed.
+    This is a WinUI 3 project generated from your design!
+
+    ## What is WinUI 3?
+    - WinUI 3 is the latest UI framework from Microsoft for building Windows desktop applications.
+    - It provides a way to build modern, fluent, and adaptive user interfaces that are both visually appealing and responsive.
+    - With XAML as its markup language and C# for code-behind
+
+    ## Getting Started in Visual Studio Code
+    1. Open the project folder in Visual Studio Code.
+    2. Run the 'build' task to build the project.
+    3. Run the 'watch' task to build and run the project.
+
+    ## Getting Started in Visual Studio
+    1. Open the solution in Visual Studio 2019 or later by double-clicking the solution file (.sln).
+    2. Ensure you have the Windows App SDK installed. You can install it via the Visual Studio Installer or through the NuGet package manager within Visual Studio.
     3. Build and run the project.
     
-    ## Project Structure
-    
-    - \`App.xaml\` and \`App.xaml.cs\`: Application entry point
-    - \`MainWindow.xaml\` and \`MainWindow.xaml.cs\`: Main window of the application
-    - \`Pages/\`: Contains individual pages of the application as XAML files that you created!
-    - \`Assets/\`: Contains application assets like icons and images!
+    ## Learn the Project Structure
+    - \`App.xaml\` and \`App.xaml.cs\`: Application entry point. App.xaml file defines global resources and the App.xaml.cs file contains the code that initializes the application and sets up the main window.
+    - \`MainWindow.xaml\` and \`MainWindow.xaml.cs\`: This is the main window of the application, where your application's navigation and primary user interface are defined. The XAML file contains the UI layout, while the code-behind in .cs handles the logic and event responses.
+    - \`Views/\`: Contains the individual pages of your design as XAML files! 
+            - \`Views/Page.xaml\`: Contains the layout of the page. This file contains XAML markups of your UI elements (buttons, text boxes, and grids).
+            - \`Views/Page.xaml.cs\`: Contains the code-behind for the corresponding page written in C#. This file contains the logic and event responses for the UI elements defined in the XAML file.
+    - \`Assets/\`: Contains application assets like images!
+
     
     ## Dependencies
-    
     - Microsoft.WindowsAppSDK
     - Microsoft.Windows.SDK.BuildTools
     
@@ -332,15 +342,15 @@ export class FileGenerator {
     fs.writeFileSync(path.join(vscodeDir, "tasks.json"), JSON.stringify(tasksJson, null, 2));
   }
 
-  private async processAllImages(pages: Page[]) {
-    this.extraImages = []; // Clear the array before processing
+  private async processAllImages(pages: Page[], projectPath: string) {
+    this.extraImages = [];
     for (const page of pages) {
       const imageNodes = findImageNodes(page.content);
       for (const node of imageNodes) {
         if (node.props.src) {
           console.log("Processing image:", node.props.src);
           try {
-            const imagePath = await handleImageSource(node.props.src, this.projectPath);
+            const imagePath = await handleImageSource(node.props.src, projectPath);
             this.extraImages.push(imagePath);
           } catch (error) {
             console.error("Error processing image:", error);
@@ -381,32 +391,23 @@ export class FileGenerator {
     const projectFilePath = path.join(this.outputPath, `${this.projectName}.csproj`);
     let projectContent = fs.readFileSync(projectFilePath, "utf8");
 
-    const assetsPath = path.join(this.outputPath, "Assets");
-    if (fs.existsSync(assetsPath)) {
-      const imageFiles = fs
-        .readdirSync(assetsPath)
-        .filter((file) =>
-          [".png", ".jpg", ".jpeg", ".gif", ".bmp"].includes(path.extname(file).toLowerCase())
-        );
+    let imageItemGroup = "  <ItemGroup>\n";
+    this.extraImages.forEach((imagePath) => {
+      const relativePath = path.relative(this.outputPath, imagePath).replace(/\\/g, "/");
+      imageItemGroup += `    <Content Include="${relativePath}">\n`;
+      imageItemGroup += "      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>\n";
+      imageItemGroup += "    </Content>\n";
+    });
+    imageItemGroup += "  </ItemGroup>\n";
 
-      let imageItemGroup = "  <ItemGroup>\n";
-      imageFiles.forEach((file) => {
-        imageItemGroup += `    <Content Include="Assets\\${file}">\n`;
-        imageItemGroup += "      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>\n";
-        imageItemGroup += "    </Content>\n";
-      });
-      imageItemGroup += "  </ItemGroup>\n";
+    projectContent = projectContent.replace(
+      /<ItemGroup>\s*<Content Include="Assets\\.*?<\/ItemGroup>/s,
+      ""
+    );
 
-      // Remove any existing duplicate ItemGroup for Assets
-      projectContent = projectContent.replace(
-        /<ItemGroup>\s*<Content Include="Assets\\.*?<\/ItemGroup>/s,
-        ""
-      );
+    projectContent = projectContent.replace("</Project>", `${imageItemGroup}</Project>`);
 
-      projectContent = projectContent.replace("</Project>", `${imageItemGroup}</Project>`);
-
-      fs.writeFileSync(projectFilePath, projectContent);
-      console.log("Added images to project file");
-    }
+    fs.writeFileSync(projectFilePath, projectContent);
+    console.log("Added images to project file");
   }
 }

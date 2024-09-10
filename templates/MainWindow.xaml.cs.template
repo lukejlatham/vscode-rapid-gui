@@ -2,6 +2,8 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 
+// Handles the logic and events for the main application window
+
 namespace {{namespace}}
 {
     public sealed partial class MainWindow : Window

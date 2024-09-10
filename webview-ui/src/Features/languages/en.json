@@ -25,7 +25,6 @@
   "leftSidebar.components": "Components",
   "leftSidebar.components.caption": "Drag components onto grid cells to add them to the canvas",
 
-
   "leftSidebar.theme": "Theme",
   "leftSidebar.theme.caption": "Select a font, theme or background color for your design",
 
@@ -63,7 +62,6 @@
   "theme.backgroundColor": "Background Color",
   "theme.backgroundColor.tooltip": "Change the color of the background.",
 
-
   "settings.breadcrumb": "Settings",
   "settings.caption": "Change the theme, language, and accessibility settings for the editor",
   "settings.changeTheme": "Change the extension's theme",
@@ -79,7 +77,6 @@
   "grid.columns.tooltip": "Change the number of columns in the grid",
   "grid.addGridCell": "Add Grid Cell",
   "grid.toggle": "Grid Visible",
-
 
   "components.button": "Button",
   "components.label": "Label",

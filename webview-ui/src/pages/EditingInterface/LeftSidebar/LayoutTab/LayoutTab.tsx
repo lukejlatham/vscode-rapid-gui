@@ -7,6 +7,7 @@ import {
   makeStyles,
   Breadcrumb,
   BreadcrumbItem,
+  tokens,
 } from "@fluentui/react-components";
 import { GridVisibilityToggle } from "./GridVisibilityToggle";
 import { FormattedMessage } from "react-intl";
@@ -24,7 +25,7 @@ const useStyles = makeStyles({
     color: "#d6d6d6",
   },
   caption: {
-    color: "#d6d6d6",
+    color: tokens.colorNeutralForeground2,
     marginBottom: "5px",
   },
 });

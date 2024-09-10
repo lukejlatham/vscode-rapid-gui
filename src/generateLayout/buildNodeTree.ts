@@ -20,7 +20,6 @@ import {
   sliderSchema,
   fontList,
   themeList,
-  fontGenerationNames,
 } from "../../webview-ui/src/types";
 import { adjustLayoutToFitGrid } from "./gridLayoutCorrection";
 import { applyThemeToSchema } from "./applyTheming";
@@ -279,4 +278,4 @@ function buildNodeTree(
   return stringifiedNodes;
 }
 
-export { buildNodeTree };
+export { buildNodeTree, calculateLayoutDimensions, generateSectionNodes, createBackgroundNode };

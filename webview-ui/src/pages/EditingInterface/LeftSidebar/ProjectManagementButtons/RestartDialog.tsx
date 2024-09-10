@@ -13,7 +13,7 @@ import { ArrowLeftFilled, ArrowResetFilled } from "@fluentui/react-icons";
 import { FormattedMessage } from "react-intl";
 
 
-export const RestartDialog: React.FC<{
+const RestartDialog: React.FC<{
   isOpen: boolean;
   onClose: () => void;
   openStartProjectDialog: () => void;
@@ -60,3 +60,4 @@ export const RestartDialog: React.FC<{
     </Dialog>
   );
 };
+export default RestartDialog;

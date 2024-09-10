@@ -12,7 +12,7 @@ export class ProjectStructureGenerator {
     this.createDirectory("");
     this.createDirectory("Assets");
     this.createDirectory("Views");
-    this.createDirectory("Styles");
+    // this.createDirectory("Styles");
     this.createDirectory("Properties/PublishProfiles");
     this.createDirectory("Strings/en-us");
   }

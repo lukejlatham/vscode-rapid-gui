@@ -16,6 +16,8 @@ using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
+// Initializes the application and sets up the main window
+
 namespace {{namespace}}
 {
     public partial class App : Application

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   Dialog,
   DialogSurface,
@@ -8,7 +7,6 @@ import {
   DialogContent,
   DialogActions,
   Button,
-  Spinner,
   Text,
   Field,
   tokens,
@@ -17,8 +15,6 @@ import {
 } from "@fluentui/react-components";
 import {
   ArrowUpload24Regular,
-  CheckmarkCircle24Filled,
-  CircleHint24Filled,
 } from "@fluentui/react-icons";
 import { handleTextUpload } from "./handleTextUpload";
 import { v4 as uuidv4 } from "uuid";
@@ -82,7 +78,6 @@ export const TextDialog: React.FC<UploadDialogProps> = ({
   const [loading, setLoading] = useState<boolean>(false);
   const [uiDescription, setUIDescription] = useState<string | null>(null);
   const [currentStage, setCurrentStage] = useState<number>(-1);
-  const navigate = useNavigate();
   const styles = useStyles();
 
   useEffect(() => {
@@ -114,6 +109,11 @@ export const TextDialog: React.FC<UploadDialogProps> = ({
         setCurrentStage(-1);
         onClose();
         closeStartDialog();
+      }
+      else if (message.command === "ProcessTextError") {
+        setLoading(false);
+        setCurrentStage(-1);
+        setUIDescription("Error occurred during processing");
       }
     };
 
@@ -150,11 +150,12 @@ export const TextDialog: React.FC<UploadDialogProps> = ({
     <Dialog open={isOpen} onOpenChange={(event, data) => !data.open && handleClose()}>
       <DialogSurface>
         <DialogBody>
-          <DialogTitle>Generate From Text</DialogTitle>
-          <DialogContent>
+          <DialogTitle data-testid="textDialog-title">Generate From Text</DialogTitle>
+          <DialogContent data-testid="textDialog-content">
             <div className={styles.content}>
               <Field>
                 <Textarea
+                  data-testid="textDialog-textarea"
                   placeholder="Enter your project description here"
                   value={textInput}
                   onChange={(e) => setTextInput(e.target.value)}
@@ -162,16 +163,21 @@ export const TextDialog: React.FC<UploadDialogProps> = ({
                   rows={5}
                 />
               </Field>
-              {uiDescription && <Text>UI Description generated successfully!</Text>}
+              {uiDescription === "Error occurred during processing" ? (
+                <Text>An error occurred during processing, please try again</Text>
+              ) : (
+              uiDescription &&
+              <Text>UI Description generated successfully!</Text>)}
             </div>
           </DialogContent>
           <DialogActions fluid>
             {loading && (
-              <div>
+              <div data-testid="loading">
                 <GenerationLoader />
               </div>
             )}
             <Button
+              data-testid="process-text-button"
               onClick={handleProcessText}
               appearance="primary"
               disabled={!textInput || loading}

@@ -1,18 +1,22 @@
 # {{projectName}}
 
-This is the {{projectName}} project.
+Welcome to the {{projectName}} project. This is your web application that outputs your design into HTML, CSS, and JavaScript. 
+
+##What is HTML and CSS?
+- HTML (HyperText Markup Language) is the standard markup language used to create the structure of web pages. It defines elements like headings, paragraphs, links, images, and more, which form the content of the page.
+- CSS (Cascading Style Sheets) is the language used to style an HTML document. CSS describes how HTML elements should be displayed by controlling aspects such as colours, fonts, spacing, and layout.
 
 ## Project Structure
-- **index.html:** Main entry point of the web application.
-- **css/styles.css:** Stylesheet for the web application.
-- **js/main.js:** Main JavaScript file for the web application.
+- **index.html:** Main entry point of the web application. You can navigate through all your pages here.
+- **css/styles.css:** The styles.css file is linked to your HTML pages to apply consistent design and layout across the site. Modify this file to change the appearance of your web pages.
+- **js/main.js:** Main JavaScript file for the web application. You can modify main.js to enhance the functionality of your website.
 
-## Instructions
-
-1. Open `index.html` in your browser to view the application.
-2. Modify `styles.css` to change the styling.
-3. Modify `main.js` to change the JavaScript functionality.
+## Instructions to run HTML/CSS Project
+1. Open index.html in your web browser or if you are in Visual Studio Code, right-click on index.html and select "Open with Live Server" for automatic reloading of the page as you make changes.
+2. To change the styling of your website, edit the css/styles.css file. Here, you can adjust colours, fonts, layout, and other visual elements.
+3. Modify `main.js` to change the JavaScript functionality. This is where you can add or modify interactive features of your web application.
 
 ## Additional Notes
-
-Feel free to customize and extend this project as needed.
+Feel free to customize and extend this project as needed. Each file is interconnected to form the complete application:
+- The index.html file links to the styles.css file using a <link> element in the <head> section, ensuring that all styles are applied to the HTML elements.
+- Index.html file also includes the main.js script at the bottom of the page, just before the closing </body> tag, so that the script can manipulate the content after the page loads.

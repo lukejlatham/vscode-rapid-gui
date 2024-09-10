@@ -13,6 +13,7 @@ async function processInput(
   webview: vscode.Webview
 ) {
   try {
+    // When Structured Ouput is released on Azure, the line below can be used to get the Azure endpoint, apiKey, and deploymentName.
     // const { apiKey, apiEndpoint, deploymentName } = await getAzureOpenaiApiKeys(context);
 
     const { openaiApiKey } = await getOpenaiApiKeys(context);

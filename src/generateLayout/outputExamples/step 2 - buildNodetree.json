@@ -6,13 +6,14 @@
       "rows": 10,
       "columns": 10,
       "lockedGrid": true,
-      "backgroundColor": "#292929",
+      "backgroundColor": "#FFFFFF",
       "layout": [
         { "i": "0", "x": 0, "y": 0, "w": 10, "h": 1 },
-        { "i": "1", "x": 0, "y": 1, "w": 2, "h": 9 },
-        { "i": "2", "x": 2, "y": 1, "w": 8, "h": 6 },
-        { "i": "3", "x": 2, "y": 7, "w": 8, "h": 2 },
-        { "i": "4", "x": 0, "y": 9, "w": 10, "h": 1 }
+        { "i": "1", "x": 0, "y": 1, "w": 1, "h": 9 },
+        { "i": "2", "x": 1, "y": 1, "w": 7, "h": 7 },
+        { "i": "3", "x": 8, "y": 1, "w": 2, "h": 3 },
+        { "i": "4", "x": 8, "y": 4, "w": 2, "h": 2 },
+        { "i": "5", "x": 1, "y": 8, "w": 9, "h": 2 }
       ]
     },
     "displayName": "Background",
@@ -22,10 +23,11 @@
     "nodes": [],
     "linkedNodes": {
       "0": "HeaderGridCell",
-      "1": "NavigationGridCell",
-      "2": "MainContentGridCell",
-      "3": "FiltersGridCell",
-      "4": "FooterGridCell"
+      "1": "SidebarGridCell",
+      "2": "MainDocumentAreaGridCell",
+      "3": "PageLayoutGridCell",
+      "4": "FontSettingsGridCell",
+      "5": "FooterGridCell"
     }
   },
   "HeaderGridCell": {
@@ -54,33 +56,46 @@
       "justifyContent": "space-around",
       "alignItems": "center",
       "gap": 10,
-      "backgroundColor": "#FFB870",
+      "backgroundColor": "#E1DFDD",
       "borderRadius": 5,
-      "borderColor": "#00438F",
+      "borderColor": "#C8C6C4",
       "padding": 5,
-      "shadowColor": "black",
-      "shadowOffsetX": 1,
-      "shadowOffsetY": 1,
-      "shadowBlur": 3
+      "shadowColor": "rgba(0, 0, 0, 0.6)",
+      "shadowOffsetX": 2,
+      "shadowOffsetY": 2,
+      "shadowBlur": 2
     },
     "displayName": "Container",
     "custom": {},
     "parent": "HeaderGridCell",
     "hidden": false,
-    "nodes": ["Headerundefined0"],
+    "nodes": ["HeaderLabel0"],
     "linkedNodes": {}
   },
-  "Headerundefined0": {
-    "type": {},
+  "HeaderLabel0": {
+    "type": { "resolvedName": "Label" },
     "isCanvas": false,
-    "props": {},
+    "props": {
+      "text": "Microsoft Word",
+      "fontSize": 32,
+      "fontFamily": "IBM Plex Sans",
+      "fontColor": "#252423",
+      "userEditable": true,
+      "textAlign": "left",
+      "icon": "none",
+      "hyperlink": "",
+      "bold": true,
+      "italic": false,
+      "underline": false
+    },
+    "displayName": "Label",
     "custom": {},
     "parent": "HeaderContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "NavigationGridCell": {
+  "SidebarGridCell": {
     "type": { "resolvedName": "GridCell" },
     "isCanvas": true,
     "props": {
@@ -93,10 +108,10 @@
     "custom": { "id": "1" },
     "parent": "ROOT",
     "hidden": false,
-    "nodes": ["NavigationContainer"],
+    "nodes": ["SidebarContainer"],
     "linkedNodes": {}
   },
-  "NavigationContainer": {
+  "SidebarContainer": {
     "type": { "resolvedName": "Container" },
     "isCanvas": true,
     "props": {
@@ -106,53 +121,56 @@
       "justifyContent": "space-around",
       "alignItems": "center",
       "gap": 10,
-      "backgroundColor": "ghostwhite",
+      "backgroundColor": "#F3F2F1",
       "borderRadius": 5,
-      "borderColor": "#FFB870",
+      "borderColor": "#E1DFDD",
       "padding": 5,
-      "shadowColor": "black",
-      "shadowOffsetX": 1,
-      "shadowOffsetY": 1,
-      "shadowBlur": 3
+      "shadowColor": "rgba(0, 0, 0, 0.6)",
+      "shadowOffsetX": 2,
+      "shadowOffsetY": 2,
+      "shadowBlur": 2
     },
     "displayName": "Container",
     "custom": {},
-    "parent": "NavigationGridCell",
+    "parent": "SidebarGridCell",
     "hidden": false,
-    "nodes": ["Navigationundefined0", "Navigationundefined1", "Navigationundefined2"],
+    "nodes": ["SidebarIcon0", "SidebarIcon1", "SidebarIcon2"],
     "linkedNodes": {}
   },
-  "Navigationundefined0": {
-    "type": {},
+  "SidebarIcon0": {
+    "type": { "resolvedName": "Icon" },
     "isCanvas": false,
-    "props": {},
+    "props": { "vscIcon": "VscComment", "iconSize": 32, "iconColor": "#2B579A", "hyperlink": "" },
+    "displayName": "Icon",
     "custom": {},
-    "parent": "NavigationContainer",
+    "parent": "SidebarContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "Navigationundefined1": {
-    "type": {},
+  "SidebarIcon1": {
+    "type": { "resolvedName": "Icon" },
     "isCanvas": false,
-    "props": {},
+    "props": { "vscIcon": "VscFolder", "iconSize": 32, "iconColor": "#2B579A", "hyperlink": "" },
+    "displayName": "Icon",
     "custom": {},
-    "parent": "NavigationContainer",
+    "parent": "SidebarContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "Navigationundefined2": {
-    "type": {},
+  "SidebarIcon2": {
+    "type": { "resolvedName": "Icon" },
     "isCanvas": false,
-    "props": {},
+    "props": { "vscIcon": "VscSettings", "iconSize": 32, "iconColor": "#2B579A", "hyperlink": "" },
+    "displayName": "Icon",
     "custom": {},
-    "parent": "NavigationContainer",
+    "parent": "SidebarContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "MainContentGridCell": {
+  "MainDocumentAreaGridCell": {
     "type": { "resolvedName": "GridCell" },
     "isCanvas": true,
     "props": {
@@ -165,10 +183,10 @@
     "custom": { "id": "2" },
     "parent": "ROOT",
     "hidden": false,
-    "nodes": ["MainContentContainer"],
+    "nodes": ["MainDocumentAreaContainer"],
     "linkedNodes": {}
   },
-  "MainContentContainer": {
+  "MainDocumentAreaContainer": {
     "type": { "resolvedName": "Container" },
     "isCanvas": true,
     "props": {
@@ -178,53 +196,64 @@
       "justifyContent": "space-around",
       "alignItems": "center",
       "gap": 10,
-      "backgroundColor": "#FFD4A3",
+      "backgroundColor": "#FFFFFF",
       "borderRadius": 5,
-      "borderColor": "#002B5D",
+      "borderColor": "#D2D0CE",
       "padding": 5,
-      "shadowColor": "black",
-      "shadowOffsetX": 1,
-      "shadowOffsetY": 1,
-      "shadowBlur": 3
+      "shadowColor": "rgba(0, 0, 0, 0.6)",
+      "shadowOffsetX": 2,
+      "shadowOffsetY": 2,
+      "shadowBlur": 2
     },
     "displayName": "Container",
     "custom": {},
-    "parent": "MainContentGridCell",
+    "parent": "MainDocumentAreaGridCell",
     "hidden": false,
-    "nodes": ["MainContentundefined0", "MainContentundefined1", "MainContentundefined2"],
+    "nodes": ["MainDocumentAreaText0", "MainDocumentAreaInput1"],
     "linkedNodes": {}
   },
-  "MainContentundefined0": {
-    "type": {},
+  "MainDocumentAreaText0": {
+    "type": { "resolvedName": "Text" },
     "isCanvas": false,
-    "props": {},
+    "props": {
+      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      "fontSize": 14,
+      "fontFamily": "IBM Plex Sans",
+      "fontColor": "#2B579A",
+      "textAlign": "left",
+      "bold": false,
+      "italic": false,
+      "underline": false,
+      "hyperlink": "",
+      "userEditable": true
+    },
+    "displayName": "Text",
     "custom": {},
-    "parent": "MainContentContainer",
+    "parent": "MainDocumentAreaContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "MainContentundefined1": {
-    "type": {},
+  "MainDocumentAreaInput1": {
+    "type": { "resolvedName": "Input" },
     "isCanvas": false,
-    "props": {},
+    "props": {
+      "fontSize": 14,
+      "fontFamily": "IBM Plex Sans",
+      "fontColor": "#252423",
+      "backgroundColor": "var(--colorBrandForeground2Pressed)",
+      "borderColor": "var(--colorBrandBackground2)",
+      "placeholder": "Type your document here...",
+      "borderRadius": 4
+    },
+    "displayName": "Input",
     "custom": {},
-    "parent": "MainContentContainer",
+    "parent": "MainDocumentAreaContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "MainContentundefined2": {
-    "type": {},
-    "isCanvas": false,
-    "props": {},
-    "custom": {},
-    "parent": "MainContentContainer",
-    "hidden": false,
-    "nodes": [],
-    "linkedNodes": {}
-  },
-  "FiltersGridCell": {
+  "PageLayoutGridCell": {
     "type": { "resolvedName": "GridCell" },
     "isCanvas": true,
     "props": {
@@ -237,51 +266,130 @@
     "custom": { "id": "3" },
     "parent": "ROOT",
     "hidden": false,
-    "nodes": ["FiltersContainer"],
+    "nodes": ["PageLayoutContainer"],
     "linkedNodes": {}
   },
-  "FiltersContainer": {
+  "PageLayoutContainer": {
     "type": { "resolvedName": "Container" },
     "isCanvas": true,
     "props": {
       "height": 100,
       "width": 100,
-      "flexDirection": "row",
+      "flexDirection": "column",
       "justifyContent": "space-around",
       "alignItems": "center",
       "gap": 10,
-      "backgroundColor": "ghostwhite",
+      "backgroundColor": "#F3F2F1",
       "borderRadius": 5,
-      "borderColor": "#FFB870",
+      "borderColor": "#E1DFDD",
       "padding": 5,
-      "shadowColor": "black",
-      "shadowOffsetX": 1,
-      "shadowOffsetY": 1,
-      "shadowBlur": 3
+      "shadowColor": "rgba(0, 0, 0, 0.6)",
+      "shadowOffsetX": 2,
+      "shadowOffsetY": 2,
+      "shadowBlur": 2
     },
     "displayName": "Container",
     "custom": {},
-    "parent": "FiltersGridCell",
+    "parent": "PageLayoutGridCell",
     "hidden": false,
-    "nodes": ["Filtersundefined0", "Filtersundefined1"],
+    "nodes": ["PageLayoutRadioButtons0"],
     "linkedNodes": {}
   },
-  "Filtersundefined0": {
-    "type": {},
+  "PageLayoutRadioButtons0": {
+    "type": { "resolvedName": "RadioButtons" },
     "isCanvas": false,
-    "props": {},
+    "props": {
+      "header": "",
+      "fontFamily": "IBM Plex Sans",
+      "numberOfButtons": 2,
+      "optionLabels": ["Portrait", "Landscape"],
+      "fontSize": 14,
+      "fontColor": "#252423",
+      "direction": "column"
+    },
+    "displayName": "RadioButtons",
     "custom": {},
-    "parent": "FiltersContainer",
+    "parent": "PageLayoutContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
   },
-  "Filtersundefined1": {
-    "type": {},
-    "isCanvas": false,
-    "props": {},
+  "FontSettingsGridCell": {
+    "type": { "resolvedName": "GridCell" },
+    "isCanvas": true,
+    "props": {
+      "flexDirection": "row",
+      "justifyContent": "center",
+      "alignItems": "center",
+      "gap": 10
+    },
+    "displayName": "GridCell",
+    "custom": { "id": "4" },
+    "parent": "ROOT",
+    "hidden": false,
+    "nodes": ["FontSettingsContainer"],
+    "linkedNodes": {}
+  },
+  "FontSettingsContainer": {
+    "type": { "resolvedName": "Container" },
+    "isCanvas": true,
+    "props": {
+      "height": 100,
+      "width": 100,
+      "flexDirection": "column",
+      "justifyContent": "space-around",
+      "alignItems": "center",
+      "gap": 10,
+      "backgroundColor": "#F3F2F1",
+      "borderRadius": 5,
+      "borderColor": "#E1DFDD",
+      "padding": 5,
+      "shadowColor": "rgba(0, 0, 0, 0.6)",
+      "shadowOffsetX": 2,
+      "shadowOffsetY": 2,
+      "shadowBlur": 2
+    },
+    "displayName": "Container",
     "custom": {},
-    "parent": "FiltersContainer",
+    "parent": "FontSettingsGridCell",
+    "hidden": false,
+    "nodes": ["FontSettingsDropdown0", "FontSettingsSlider1"],
+    "linkedNodes": {}
+  },
+  "FontSettingsDropdown0": {
+    "type": { "resolvedName": "Dropdown" },
+    "isCanvas": false,
+    "props": {
+      "header": "",
+      "fontFamily": "IBM Plex Sans",
+      "optionLabels": ["Arial", "Times New Roman", "Calibri"],
+      "numberOfOptions": 2,
+      "fontSize": 14,
+      "fontColor": "#252423"
+    },
+    "displayName": "Dropdown",
+    "custom": {},
+    "parent": "FontSettingsContainer",
+    "hidden": false,
+    "nodes": [],
+    "linkedNodes": {}
+  },
+  "FontSettingsSlider1": {
+    "type": { "resolvedName": "Slider" },
+    "isCanvas": false,
+    "props": {
+      "header": "Font Size",
+      "fontFamily": "IBM Plex Sans",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "fontSize": 14,
+      "fontColor": "#252423",
+      "backgroundColor": "#41A5EE"
+    },
+    "displayName": "Slider",
+    "custom": {},
+    "parent": "FontSettingsContainer",
     "hidden": false,
     "nodes": [],
     "linkedNodes": {}
@@ -296,7 +404,7 @@
       "gap": 10
     },
     "displayName": "GridCell",
-    "custom": { "id": "4" },
+    "custom": { "id": "5" },
     "parent": "ROOT",
     "hidden": false,
     "nodes": ["FooterContainer"],
@@ -312,26 +420,39 @@
       "justifyContent": "space-around",
       "alignItems": "center",
       "gap": 10,
-      "backgroundColor": "#FFB870",
+      "backgroundColor": "#E1DFDD",
       "borderRadius": 5,
-      "borderColor": "#00438F",
+      "borderColor": "#C8C6C4",
       "padding": 5,
-      "shadowColor": "black",
-      "shadowOffsetX": 1,
-      "shadowOffsetY": 1,
-      "shadowBlur": 3
+      "shadowColor": "rgba(0, 0, 0, 0.6)",
+      "shadowOffsetX": 2,
+      "shadowOffsetY": 2,
+      "shadowBlur": 2
     },
     "displayName": "Container",
     "custom": {},
     "parent": "FooterGridCell",
     "hidden": false,
-    "nodes": ["Footerundefined0"],
+    "nodes": ["FooterLabel0"],
     "linkedNodes": {}
   },
-  "Footerundefined0": {
-    "type": {},
+  "FooterLabel0": {
+    "type": { "resolvedName": "Label" },
     "isCanvas": false,
-    "props": {},
+    "props": {
+      "text": "Status: Ready",
+      "fontSize": 14,
+      "fontFamily": "IBM Plex Sans",
+      "fontColor": "#252423",
+      "userEditable": true,
+      "textAlign": "left",
+      "icon": "none",
+      "hyperlink": "",
+      "bold": false,
+      "italic": false,
+      "underline": false
+    },
+    "displayName": "Label",
     "custom": {},
     "parent": "FooterContainer",
     "hidden": false,

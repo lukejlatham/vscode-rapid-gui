@@ -34,6 +34,7 @@ const ProjectManagement: React.FC<{
         positioning="after"
         appearance="inverted">
         <Button
+          data-testid="undo-button"
           style={{ width: "100%" }}
           size={accessibility.selectedAccessibility === "yes" ? "large" : "medium"}
           className={classes.button}
@@ -50,6 +51,7 @@ const ProjectManagement: React.FC<{
         positioning="after"
         appearance="inverted">
         <Button
+          data-testid="redo-button"
           style={{ width: "100%" }}
           size={accessibility.selectedAccessibility === "yes" ? "large" : "medium"}
           className={classes.button}

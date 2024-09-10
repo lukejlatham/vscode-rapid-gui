@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Node } from "../JSONParser";
+import { convertColor } from "../../utilities/colortranslator";
+import { generateCssClassName } from "../componentGenerator";
 
 // Mapping of VSCode icons to Font Awesome icons
 const iconMapping: { [key: string]: string } = {
@@ -512,12 +514,33 @@ const iconMapping: { [key: string]: string } = {
   VscListTreeOutline: "fa-tree",
   VscLoadingOutline: "fa-spinner",
   VscLocationOutline: "fa-map-marker-alt",
+  VscLockFill: "fa-lock",
+  VscMailReadOutline: "fa-envelope-open",
+  VscMailReply: "fa-reply",
+  VscMailReplyAll: "fa-reply-all",
+  VscMirror: "fa-clone",
+  VscMirrorPrivate: "fa-lock",
+  VscBrowser: "fa-globe",
+  VscReply: "fa-reply",
+  VscReplyAll: "fa-reply-all",
+  VscRepoCloneOutline: "fa-clone",
+  VscMusic: "fa-music",
+  VscNewFile: "fa-file",
+  VscNewFolder: "fa-folder",
+  VscBold: "fa-bold",
+  VscUnderline: "fa-underline",
+  VscItalicize: "fa-italic",
+  VscFileSubmodule: "fa-file",
+  VscUnverified: "fa-circle",
+  VscVerified: "fa-check-circle",
 };
 
 export function generateIconHtml(node: Node): string {
   const props = node.props;
   const faIconName = iconMapping[props.vscIcon] || "fa-question";
-  const iconHtml = `<i id="${node.custom.id}" class="icon fa-solid ${faIconName} ${node.custom.id}"></i>`;
+  const iconHtml = `<i id="${generateCssClassName(
+    node.custom.id
+  )}" class="icon fa-solid ${faIconName} ${generateCssClassName(node.custom.id)}"></i>`;
 
   if (props.hyperlink) {
     return `<a href="${props.hyperlink}" class="icon-link">${iconHtml}</a>`;
@@ -529,8 +552,8 @@ export function generateIconHtml(node: Node): string {
 export function generateIconCss(node: Node): string {
   const props = node.props;
   return `
-  .${node.custom.id} {
-    color: ${props.iconColor || "inherit"};
+  .${generateCssClassName(node.custom.id)} {
+    color: ${convertColor(props.iconColor || "inherit")};
     font-size: ${props.iconSize || 16}px;
   }
   `;

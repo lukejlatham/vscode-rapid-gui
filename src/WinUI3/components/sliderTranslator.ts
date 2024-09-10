@@ -1,5 +1,5 @@
 import { Node } from "../JsonParser";
-import { convertColor } from "./colortranslator";
+import { convertColor } from "../../utilities/colortranslator";
 import { escapeXml } from "./specialchar";
 
 export function generateSliderXaml(node: Node, indent: string = ""): string {

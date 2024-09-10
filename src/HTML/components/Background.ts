@@ -1,12 +1,13 @@
-import { generateComponentHtml } from "../componentGenerator";
+import { generateComponentHtml, generateSingleComponentCss } from "../componentGenerator";
 import { Node } from "../JSONParser";
-//best version yet
+import { convertColor } from "../../utilities/colortranslator";
 
 export function generateBackgroundHtml(
   node: Node,
   content: { [key: string]: Node },
-  projectPath?: string
+  projectPath: string
 ): string {
+  // console.log("Generating background HTML with projectPath:", projectPath);
   let html = `<div class="grid-container">`;
 
   node.props.layout.forEach((item: any, index: number) => {
@@ -28,7 +29,7 @@ export function generateBackgroundHtml(
 function generateGridCellContent(
   node: Node,
   content: { [key: string]: Node },
-  projectPath?: string
+  projectPath: string
 ): string {
   let cellContent = "";
 
@@ -51,7 +52,7 @@ export function generateBackgroundCss(node: Node, content: { [key: string]: Node
   body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: ${node.props.backgroundColor || "#ffffff"};
+    background-color: ${convertColor(node.props.backgroundColor || "#ffffff")};
     height: 100vh;
   }
 
@@ -101,6 +102,11 @@ export function generateBackgroundCss(node: Node, content: { [key: string]: Node
       flex-direction: ${flexDirection};
     }
     `;
+
+    // Generate CSS for cell content
+    if (cellNode) {
+      css += generateSingleComponentCss(cellNode, content);
+    }
   });
 
   return css;

@@ -8,6 +8,7 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   Body2,
+  tokens,
 } from "@fluentui/react-components";
 import {
   teamsDarkTheme,
@@ -39,7 +40,7 @@ const useStyles = makeStyles({
     marginBottom: "2px",
   },
   caption: {
-    color: "#d6d6d6",
+    color: tokens.colorNeutralForeground2,
     marginBottom: "5px",
   },
 });
@@ -77,11 +78,6 @@ const Settings: React.FC<{
   const handleAccessibilityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selected = event.target.checked ? "yes" : "no";
     accessibility.setSelectedAccessibility(selected as "yes" | "no");
-    if (selected === "yes") {
-      setTheme(teamsHighContrastTheme);
-    } else {
-      setTheme(teamsDarkTheme);
-    }
   };
 
   return (
@@ -132,6 +128,8 @@ const Settings: React.FC<{
           className={styles.select}>
           <option value="en">English</option>
           <option value="fr">Français</option>
+          <option value="jp">Japanese</option>
+          <option value="ru">Russian</option>
         </Select>
       </div>
 
