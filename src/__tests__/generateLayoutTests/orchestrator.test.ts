@@ -11,17 +11,14 @@ describe("Layout Generation Orchestrator Integration Test", () => {
   let mockOpenAIClient: jest.Mocked<OpenAI>;
 
   beforeEach(() => {
-    // Mock OpenAI client
     mockOpenAIClient = {
       beta: { chat: { completions: { parse: jest.fn() } as any } },
     } as any;
 
-    // Mock obscenity checker
     (checkForObscenities as jest.Mock).mockImplementation(() => true);
   });
 
   it("should generate a layout, transform it into a node tree, and validate it", async () => {
-    // Mock layout returned by OpenAI API (with fontSize as string before transformation)
     const mockGeneratedLayout = {
       theme: "microsoftWordBlue",
       fontFamily: "IBM",
@@ -120,19 +117,16 @@ describe("Layout Generation Orchestrator Integration Test", () => {
       usage: { prompt_tokens: 100, completion_tokens: 200 },
     });
 
-    // Step 1: Generate the layout using the mocked OpenAI API
     const layout = await generateFromText(mockOpenAIClient, "Create a layout for VS Code");
 
-    // Ensure layout is parsed via Zod schema before passing to buildNodeTree
-    const parsedLayout = layoutSchema.parse(layout); // This will apply transformations
+    const parsedLayout = layoutSchema.parse(layout);
 
-    // Step 2: Pass the parsed layout through buildNodeTree
     const nodeTree = buildNodeTree(
       parsedLayout.sections,
       parsedLayout.theme,
       parsedLayout.fontFamily
     );
 
-    expect(nodeTree).toMatchSnapshot(); // Snapshot to validate the structure
+    expect(nodeTree).toMatchSnapshot();
   });
 });
