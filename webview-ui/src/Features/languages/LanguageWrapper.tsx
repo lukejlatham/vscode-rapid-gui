@@ -4,14 +4,9 @@ import French from "./fr.json";
 import English from "./en.json";
 import Japanese from "./jp.json";
 import Russian from "./ru.json";
+import { Locale, Messages, LanguageContextType, LanguageWrapperProps } from "../../types";
 
-type Locale = "fr" | "en" | "jp" | "ru";
-type Messages = typeof French | typeof English | typeof Japanese | typeof Russian;
 
-interface LanguageContextType {
-  locale: Locale;
-  changeLanguage: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-}
 
 export const LanguageContext = React.createContext<LanguageContextType | undefined>(undefined);
 
@@ -24,9 +19,6 @@ const locales: Record<Locale, Messages> = {
 
 const defaultLocale: Locale = "en";
 
-interface LanguageWrapperProps {
-  children: ReactNode;
-}
 
 const LanguageWrapper: React.FC<LanguageWrapperProps> = ({ children }) => {
   const [locale, setLocale] = useState<Locale>(defaultLocale);
