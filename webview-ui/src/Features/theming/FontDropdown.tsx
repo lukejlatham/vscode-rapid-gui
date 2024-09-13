@@ -22,7 +22,6 @@ const useStyles = makeStyles({
     flexDirection: "column",
     gap: "10px",
     paddingBottom: "15px",
-
   },
   fontPreview: {
     marginLeft: "10px",
@@ -62,8 +61,8 @@ export const FontDropdown: React.FC = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <Breadcrumb className={styles.breadcrumb}>
+    <div className={styles.container} role="region" aria-label="Font Selection">
+      <Breadcrumb className={styles.breadcrumb} aria-label="Navigation">
         <BreadcrumbItem>
           <Body2>
             <FormattedMessage id="leftSidebar.theme" defaultMessage="Theme" />
@@ -76,11 +75,15 @@ export const FontDropdown: React.FC = () => {
           defaultMessage="Select a font, theme or background color for your design"
         />
       </Caption1>
+      <Label htmlFor={selectId}>
+        <FormattedMessage id="theme.selectFont" defaultMessage="Select Font" />
+      </Label>
       <Select
         id={selectId}
         className={styles.select}
         value={selectedFont}
-        onChange={(e) => setSelectedFont(e.target.value)}
+        onChange={(e, data) => setSelectedFont(data.value)}
+        aria-label="Select a font"
       >
         <option value="" disabled>
           <FormattedMessage id="theme.selectFont" defaultMessage="Select Font" />
@@ -97,6 +100,7 @@ export const FontDropdown: React.FC = () => {
         size="medium"
         appearance="primary"
         onClick={handleApplyFont}
+        aria-label="Apply selected font"
       >
         <FormattedMessage id="theme.applyFont" defaultMessage="Apply Font" />
       </Button>

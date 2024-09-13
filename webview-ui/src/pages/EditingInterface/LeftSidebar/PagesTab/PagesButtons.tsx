@@ -97,7 +97,8 @@ const PagesButtons: React.FC<{
       <Listbox
         className={styles.listbox}
         selectedOptions={[currentPageIndex.toString()]}
-        onOptionSelect={handlePageSelect}>
+        onOptionSelect={handlePageSelect}
+        aria-label="Select a page">
         {pages.map((page, index) => (
           <Option key={page.id} value={index.toString()}>
             {page.name}
