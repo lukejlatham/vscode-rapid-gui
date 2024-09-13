@@ -70,6 +70,7 @@
   "settings.dark": "Sombre",
   "settings.light": "Clair",
   "settings.highContrast": "Contraste élevé",
+  "settings.tooltip": "Pour faire glisser et déposer des éléments en utilisant le clavier, allez dans les paramètres d'accessibilité de votre ordinateur et activez l'utilisation du pavé numérique comme souris.",
 
   "grid.rows": "Lignes",
   "grid.columns": "Colonnes",

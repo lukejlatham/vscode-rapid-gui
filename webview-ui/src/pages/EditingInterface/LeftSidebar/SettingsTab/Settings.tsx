@@ -8,6 +8,7 @@ import {
   BreadcrumbItem,
   Body2,
   tokens,
+  Tooltip,
 } from "@fluentui/react-components";
 import {
   Caption1,
@@ -137,8 +138,19 @@ const Settings: React.FC<{
           <option value="ru">Russian</option>
         </Select>
       </div>
-
+      
       <div className={styles.settingItem}>
+        <Tooltip
+          content={
+            <FormattedMessage
+              id="settings.tooltip"
+              defaultMessage="To drag-and-drop components using the keyboard, go to your computer's accessibility settings and enable the keypad to be used as a mouse."
+            />
+          }
+          relationship="description"
+          positioning="below-end"
+          appearance="normal"
+        >
         <Switch
           label={
             <FormattedMessage
@@ -150,7 +162,9 @@ const Settings: React.FC<{
           onChange={(e) => handleAccessibilityChange(e.target.checked)}
           onKeyDown={handleAccessibilityKeyDown}
         />
+        </Tooltip>
       </div>
+  
     </div>
   );
 };
