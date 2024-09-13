@@ -6,8 +6,6 @@ import Japanese from "./jp.json";
 import Russian from "./ru.json";
 import { Locale, Messages, LanguageContextType, LanguageWrapperProps } from "../../types";
 
-
-
 export const LanguageContext = React.createContext<LanguageContextType | undefined>(undefined);
 
 const locales: Record<Locale, Messages> = {
@@ -18,7 +16,6 @@ const locales: Record<Locale, Messages> = {
 };
 
 const defaultLocale: Locale = "en";
-
 
 const LanguageWrapper: React.FC<LanguageWrapperProps> = ({ children }) => {
   const [locale, setLocale] = useState<Locale>(defaultLocale);
