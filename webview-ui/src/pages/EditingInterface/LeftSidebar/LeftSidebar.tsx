@@ -6,7 +6,6 @@ import {
   Tab,
   Divider,
   tokens,
-  Theme,
   Tooltip,
 } from "@fluentui/react-components";
 import ComponentButtons from "./ComponentsTab/ComponentButtons";

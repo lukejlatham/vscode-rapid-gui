@@ -1,7 +1,7 @@
 import { Editor } from "@craftjs/core";
 import { Label } from "../../components/user/Label";
 import { Button } from "../../components/user/Button";
-import { makeStyles, Theme } from '@fluentui/react-components';
+import { makeStyles } from '@fluentui/react-components';
 import { TextBox } from '../../components/user/TextBox';
 import { Image } from '../../components/user/Image';
 import { Background } from '../../components/user/Background';

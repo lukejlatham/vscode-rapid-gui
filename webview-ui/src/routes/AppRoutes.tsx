@@ -6,7 +6,6 @@ import MainLayout from '../layouts/MainLayout';
 // import Projects from '../pages/Projects/Projects';
 // import Deleted from '../pages/Deleted/Deleted';
 import EditingInterface from '../pages/EditingInterface/EditingInterface';
-import { Theme } from '@fluentui/react-components';
 
 const AppRoutes: React.FC<{
 }> = () => {

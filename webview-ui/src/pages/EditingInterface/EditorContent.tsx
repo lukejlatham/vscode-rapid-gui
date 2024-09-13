@@ -5,7 +5,6 @@ import { useEffect, useCallback, useState } from "react";
 import { SerializedNodes, useEditor } from "@craftjs/core";
 import { StartProjectDialog } from "./StartProjectDialog";
 import { AddPageDialog } from "./LeftSidebar/PagesTab/AddPageDialog";
-import { Theme } from "@fluentui/react-components";
 import PropertyInspector from "./RightSidebar/PropertyInspector";
 
 export interface EditorContentProps {
