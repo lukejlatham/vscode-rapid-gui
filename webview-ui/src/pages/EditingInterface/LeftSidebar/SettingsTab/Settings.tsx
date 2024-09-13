@@ -72,10 +72,18 @@ const Settings: React.FC<{
     }
   };
 
-  const handleAccessibilityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selected = event.target.checked ? "yes" : "no";
+  
+  const handleAccessibilityChange = (checked: boolean) => {
+    const selected = checked ? "yes" : "no";
     accessibility.setSelectedAccessibility(selected as "yes" | "no");
   };
+
+  const handleAccessibilityKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
+    if (event.key === 'Enter') {
+      handleAccessibilityChange(accessibility.selectedAccessibility !== "yes");
+    }
+  };
+
 
   return (
     <div className={styles.settingsContainer}>
@@ -139,7 +147,8 @@ const Settings: React.FC<{
             />
           }
           checked={accessibility.selectedAccessibility === "yes"}
-          onChange={handleAccessibilityChange}
+          onChange={(e) => handleAccessibilityChange(e.target.checked)}
+          onKeyDown={handleAccessibilityKeyDown}
         />
       </div>
     </div>

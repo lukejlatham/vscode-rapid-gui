@@ -6,7 +6,8 @@ import {
   Body2,
   makeStyles,
   Caption1,
-  tokens
+  tokens,
+  useArrowNavigationGroup,
 } from "@fluentui/react-components";
 import { useEditor, Element } from "@craftjs/core";
 import { Label, LabelDefaultProps } from "../../../../components/user/Label";
@@ -75,9 +76,11 @@ const useStyles = makeStyles({
 const ComponentButtons: React.FC<{ classes?: any }> = ({ classes }) => {
   const { connectors } = useEditor();
   const styles = useStyles();
+  const attributes = useArrowNavigationGroup({ axis: "vertical" })
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} {...attributes}
+    >
       <Breadcrumb className={styles.breadcrumb}>
         <BreadcrumbItem>
           <Body2>

@@ -31,6 +31,12 @@ export const GridVisibilityToggle: React.FC = () => {
     setGridVisible(!GridVisible);
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === "Enter") {
+      handleToggleGridVisibility();
+    }
+  }
+
   return (
     <div className={styles.GridVisible}>
       <Switch label={
@@ -38,7 +44,11 @@ export const GridVisibilityToggle: React.FC = () => {
           id="grid.toggle"
           defaultMessage="Grid Visible"
         />
-      } checked={GridVisible} onChange={handleToggleGridVisibility} />
+      }
+      checked={GridVisible} 
+      onChange={handleToggleGridVisibility} 
+      onKeyDown={handleKeyDown}
+      />
     </div>
   );
 };
