@@ -104,10 +104,10 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({
         setCurrentStage(PROCESSING_STAGES.length);
 
         if (mode === "start") {
-          const sketch = { id: uuidv4(), name: `Page 1`, content: JSON.parse(message.content) };
+          const sketch: Page = { id: uuidv4(), name: `Page 1`, content: JSON.parse(message.content) };
           setPages([sketch]);
         } else if (mode === "add") {
-          const sketch = {
+          const sketch: Page = {
             id: uuidv4(),
             name: `Page ${pages.length + 1}`,
             content: JSON.parse(message.content),
