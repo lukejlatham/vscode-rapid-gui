@@ -93,10 +93,10 @@ export const TextDialog: React.FC<UploadDialogProps> = ({
         setCurrentStage(PROCESSING_STAGES.length);
 
         if (mode === "start") {
-          const text = { id: uuidv4(), name: `Page 1`, content: JSON.parse(message.content) };
+          const text: Page = { id: uuidv4(), name: `Page 1`, content: JSON.parse(message.content) };
           setPages([text]);
         } else if (mode === "add") {
-          const text = {
+          const text: Page = {
             id: uuidv4(),
             name: `Page ${pages.length + 1}`,
             content: JSON.parse(message.content),
