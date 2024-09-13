@@ -16,7 +16,6 @@ import type {
 } from "@fluentui/react-components";
 import { FormattedMessage } from "react-intl";
 import { WindowFilled } from "@fluentui/react-icons";
-import { use } from "i18next";
 
 const useStyles = makeStyles({
   "swatchContainer": {
@@ -167,7 +166,7 @@ export const ThemeSwatchPicker: React.FC = () => {
         onSelectionChange={handleSelect}>
         {renderSwatchPickerGrid({
           items: themePreviews,
-          columnCount: 3,
+          columnCount: 4,
           renderSwatch: (item: SwatchProps) => {
             return <ColorSwatchWithTooltip key={item.value} color={item.color ?? ""} {...item} />;
           },

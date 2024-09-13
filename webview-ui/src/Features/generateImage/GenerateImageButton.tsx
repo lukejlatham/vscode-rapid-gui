@@ -41,9 +41,11 @@ export const GenerateImageButton: React.FC<GenerateImageButtonProps> = ({
   useEffect(() => {
     const messageHandler = (event: MessageEvent) => {
       const message = event.data;
-      if (message.command === "imageGenerated") {
+      if (message.command === "imageGenerated" && message.filePath) {
         setIsLoading(false);
         onUpload(message.filePath);
+      } else if (message.command === "imageGenerationError") {
+        setIsLoading(false);
       }
     };
 

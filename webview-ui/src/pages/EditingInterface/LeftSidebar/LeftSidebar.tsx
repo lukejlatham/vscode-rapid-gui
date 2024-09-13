@@ -6,7 +6,6 @@ import {
   Tab,
   Divider,
   tokens,
-  Theme,
   Tooltip,
 } from "@fluentui/react-components";
 import ComponentButtons from "./ComponentsTab/ComponentButtons";
@@ -16,7 +15,7 @@ import PagesButtons from "./PagesTab/PagesButtons";
 import Settings from "./SettingsTab/Settings";
 import ThemingDropdowns from "../../../Features/theming/ThemingDropdowns";
 import { Page } from "../../../types";
-import { RestartDialog } from "./ProjectManagementButtons/RestartDialog";
+import RestartDialog from "./ProjectManagementButtons/RestartDialog";
 import {
   GridFilled,
   GridRegular,
@@ -79,8 +78,6 @@ interface LeftSidebarProps {
   updateCurrentPage: () => void;
   openStartProjectDialog: () => void;
   openAddPageDialog: () => void;
-  theme: Theme;
-  setTheme: React.Dispatch<React.SetStateAction<Theme>>;
 }
 
 const LeftSidebar: React.FC<LeftSidebarProps> = ({
@@ -95,8 +92,6 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
   updateCurrentPage,
   openStartProjectDialog,
   openAddPageDialog,
-  theme,
-  setTheme,
 }) => {
   const localClasses = useStyles();
   const {
@@ -112,7 +107,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
       props.lockedGrid = selectedTab !== "Layout";
     });
   }
-  , [setProp]);
+    , [setProp]);
 
   useEffect(() => {
     toggleGridLock(selectedTab);
@@ -127,7 +122,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
   const renderContent = () => {
     switch (selectedTab) {
       case "Layout":
-        return <LayoutManagement />;
+        return <LayoutManagement data-testid="layout-content" />;
       case "Pages":
         return (
           <PagesButtons
@@ -140,14 +135,15 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
             currentPageIndex={currentPageIndex}
             setCurrentPageIndex={setCurrentPageIndex}
             openAddPageDialog={openAddPageDialog}
+            data-testid="pages-content"
           />
         );
       case "Theme":
-        return <ThemingDropdowns />;
+        return <ThemingDropdowns data-testid="theme-content" />;
       case "ComponentLibrary":
-        return <ComponentButtons />;
+        return <ComponentButtons data-testid="components-content" />;
       case "Settings":
-        return <Settings classes={localClasses} theme={theme} setTheme={setTheme} />;
+        return <Settings classes={localClasses} data-testid="settings-content" />;
       default:
         return null;
     }
@@ -158,7 +154,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
       className={`
         ${classes.leftSidebar}
         ${accessibility.selectedAccessibility === "yes" ? localClasses.accessibleSidebar : ""}
-      `}>
+      `} data-testid="left-sidebar">
       <div className={localClasses.tabsBar}>
         <TabList
           selectedValue={selectedTab}
@@ -171,13 +167,15 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
           }}
           vertical
           appearance="subtle"
-          size="large">
+          size="large"
+          data-testid="left-sidebar-tablist"
+        >
           <Tooltip
             content={<FormattedMessage id="leftSidebar.layout" defaultMessage="Layout" />}
             relationship="label"
             positioning="after"
             appearance="inverted">
-            <Tab icon={<LayoutIcon />} value="Layout" aria-label="Layout">
+            <Tab icon={<LayoutIcon />} value="Layout" aria-label="Layout" data-testid="layout-tab">
               {accessibility.selectedAccessibility === "yes" && (
                 <FormattedMessage id="leftSidebar.layout" defaultMessage="Layout" />
               )}
@@ -189,7 +187,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
             relationship="label"
             positioning="after"
             appearance="inverted">
-            <Tab icon={<ComponentLibraryIcon />} value="ComponentLibrary" aria-label="Components">
+            <Tab icon={<ComponentLibraryIcon />} value="ComponentLibrary" aria-label="Components" data-testid="components-tab">
               {accessibility.selectedAccessibility === "yes" && (
                 <FormattedMessage id="leftSidebar.components" defaultMessage="Components" />
               )}
@@ -201,7 +199,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
             relationship="label"
             positioning="after"
             appearance="inverted">
-            <Tab icon={<PagesIcon />} value="Pages" aria-label="Pages">
+            <Tab icon={<PagesIcon />} value="Pages" aria-label="Pages" data-testid="pages-tab">
               {accessibility.selectedAccessibility === "yes" && (
                 <FormattedMessage id="leftSidebar.pages" defaultMessage="Pages" />
               )}
@@ -213,7 +211,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
             relationship="label"
             positioning="after"
             appearance="inverted">
-            <Tab icon={<ThemeIcon />} value="Theme" aria-label="Theme">
+            <Tab icon={<ThemeIcon />} value="Theme" aria-label="Theme" data-testid="theme-tab">
               {accessibility.selectedAccessibility === "yes" && (
                 <FormattedMessage id="leftSidebar.theme" defaultMessage="Theme" />
               )}
@@ -225,14 +223,14 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
             relationship="label"
             positioning="after"
             appearance="inverted">
-            <Tab icon={<SettingsIcon />} value="Settings" aria-label="Settings">
+            <Tab icon={<SettingsIcon />} value="Settings" aria-label="Settings" data-testid="settings-tab">
               {accessibility.selectedAccessibility === "yes" && (
                 <FormattedMessage id="leftSidebar.settings" defaultMessage="Settings" />
               )}
             </Tab>
           </Tooltip>
         </TabList>
-        <div className={localClasses.bottomButtons}>
+        <div className={localClasses.bottomButtons} data-testid="utility-buttons">
           <Divider />
 
           <ProjectManagement
@@ -247,6 +245,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
             positioning="after"
             appearance="inverted">
             <Button
+              data-testid="restart-dialog-button"
               onClick={() => setIsRestartDialogOpen(true)}
               appearance="primary"
               icon={<ArrowResetFilled />}
@@ -258,6 +257,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
             </Button>
           </Tooltip>
           <RestartDialog
+            data-testid="restart-dialog"
             isOpen={isRestartDialogOpen}
             onClose={() => setIsRestartDialogOpen(false)}
             openStartProjectDialog={openStartProjectDialog}

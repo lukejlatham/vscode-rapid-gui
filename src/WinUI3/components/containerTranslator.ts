@@ -1,12 +1,13 @@
 import { Node } from "../JsonParser";
 import { generateComponentXaml, generateSingleComponentXaml } from "../componentGenerator";
-import { convertColor } from "./colortranslator";
+import { convertColor } from "../../utilities/colortranslator";
 
 export async function generateContainerXaml(
   node: Node,
   content: { [key: string]: Node },
   indent: string = "",
-  processedNodes: Set<string>
+  processedNodes: Set<string>,
+  projectPath: string
 ): Promise<string> {
   const props = node.props;
 
@@ -27,21 +28,14 @@ export async function generateContainerXaml(
     xaml += ` CornerRadius="${props.borderRadius}"`;
   }
   if (props.padding) {
-    xaml += ` Padding="${props.padding}"`;
+    xaml += ` Padding="${props.padding || 10}"`;
   }
 
   xaml += `>\n`;
 
-  // if (props.padding) {
-  //   xaml += `${indent}  <Border Padding="${props.padding}">\n`;
-  //   xaml += `${indent}    <StackPanel`;
-  // } else {
-  //   xaml += `${indent}  <StackPanel`;
-  // }
-
   xaml += `${indent} <StackPanel`;
   xaml += ` Orientation="${props.flexDirection === "row" ? "Horizontal" : "Vertical"}"`;
-  xaml += ` Spacing="${props.gap || 0}"`;
+  xaml += ` Spacing="${props.gap || 5}"`;
   xaml += ` HorizontalAlignment="${mapJustifyContent(props.justifyContent)}"`;
   xaml += ` VerticalAlignment="${mapAlignItems(props.alignItems)}"`;
   xaml += `>\n`;
@@ -51,7 +45,13 @@ export async function generateContainerXaml(
     for (const childId of node.nodes) {
       const childNode = content[childId];
       if (childNode && !processedNodes.has(childNode.custom.id || childId || "")) {
-        xaml += await generateComponentXaml(childNode, content, indent + "    ", processedNodes);
+        xaml += await generateComponentXaml(
+          childNode,
+          content,
+          indent + "    ",
+          processedNodes,
+          projectPath
+        );
       }
     }
   }

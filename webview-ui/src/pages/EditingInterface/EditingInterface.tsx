@@ -1,7 +1,7 @@
 import { Editor } from "@craftjs/core";
 import { Label } from "../../components/user/Label";
 import { Button } from "../../components/user/Button";
-import { makeStyles, Theme } from '@fluentui/react-components';
+import { makeStyles } from '@fluentui/react-components';
 import { TextBox } from '../../components/user/TextBox';
 import { Image } from '../../components/user/Image';
 import { Background } from '../../components/user/Background';
@@ -19,7 +19,6 @@ import { useState, useEffect, useCallback, createContext } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import { EditorContent } from "./EditorContent";
 import { vscode } from '../../utilities/vscode';
-import { useLocation } from "react-router-dom";
 
 const useStyles = makeStyles({
   mainLayout: {
@@ -39,7 +38,7 @@ const useStyles = makeStyles({
     transition: 'all 0.3s ease',
   },
   rightSidebar: {
-    flexBasis: '20%',
+    flexBasis: '22%',
     flexShrink: 0,
     transition: 'all 0.3s ease',
   },
@@ -70,29 +69,14 @@ export const AccessibilityContext = createContext<AccessibilityContextType >({
 });
 
 const EditingInterface: React.FC<{
-  theme: Theme;
-  setTheme: React.Dispatch<React.SetStateAction<Theme>>
-}> = ({
-  theme,
-  setTheme
-}) => {
+}> = () => {
   const classes = useStyles();
 
   const [pages, setPages] = useState<Page[]>([createDefaultPage()]);
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const location = useLocation();
   const [accessibility, setSelectedAccessibility] = useState<'yes'|'no'>('no');
 
-  // setting template if state has template
-  const template = location.state?.template;
-  console.log('Template: ', template);
-
-  const sketch = location.state?.sketch;
-  console.log('Sketch sent: ', sketch);
-
-  const text = location.state?.text;
-  console.log('Text sent: ', text);
 
   const addPage = useCallback(() => {
     const newPage = createDefaultPage();
@@ -129,8 +113,6 @@ const EditingInterface: React.FC<{
     }
   };
 
-
-
   const clearPage = (index: number) => {
     setPages(prevPages => prevPages.map((page, i) =>
       i === index ? { ...page, content: { ROOT: createDefaultPage().content.ROOT } } : page
@@ -158,8 +140,7 @@ const EditingInterface: React.FC<{
         setPages={setPages}
         clearPage={clearPage}
         classes={classes}
-        theme={theme}
-        setTheme={setTheme}
+        
       />
     </Editor>
     </AccessibilityContext.Provider>

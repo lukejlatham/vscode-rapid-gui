@@ -48,10 +48,10 @@ const useStyles = makeStyles({
 });
 
 const templates = [
-  { key: 1, name: 'Website Homepage', icon: <DesktopRegular />, data: { id: uuidv4(), name: 'Website', content: Website } },
-  { key: 2, name: 'Login Page', icon: <PersonPasskeyRegular />, data: { id: uuidv4(), name: 'Login Page', content: Login } },
-  { key: 3, name: 'Video Game Settings', icon: <GamesRegular />, data: { id: uuidv4(), name: 'Video Game Settings', content: VideoGameSettings } },
-  { key: 4, name: 'Feedback Form', icon: <FormRegular />, data: { id: uuidv4(), name: 'Feedback Form', content: FeedbackForm } },
+  { key: 1, name: 'Website Homepage', icon: <DesktopRegular />, data: { id: uuidv4(), name: 'Website', content: Website } as Page, testId: 'website-card' },
+  { key: 2, name: 'Login Page', icon: <PersonPasskeyRegular />, data: { id: uuidv4(), name: 'Login Page', content: Login } as Page, testId: 'login-card' },
+  { key: 3, name: 'Video Game Settings', icon: <GamesRegular />, data: { id: uuidv4(), name: 'Video Game Settings', content: VideoGameSettings } as Page, testId: 'video-game-card' },
+  { key: 4, name: 'Feedback Form', icon: <FormRegular />, data: { id: uuidv4(), name: 'Feedback Form', content: FeedbackForm } as Page, testId: 'feedback-card' },
 ];
 
 interface TemplatesDialogProps {
@@ -82,21 +82,23 @@ export const TemplatesDialog: React.FC<TemplatesDialogProps> = ({ isOpen, onClos
     <Dialog open={isOpen} onOpenChange={(event, data) => onClose()}>
       <DialogSurface>
         <DialogBody>
-          <DialogTitle><FormattedMessage id="templatesDialog.title" defaultMessage={"Choose a Template"} /></DialogTitle>
-          <DialogContent>
+          <DialogTitle data-testid="templatesDialog-title">
+            <FormattedMessage id="templatesDialog.title" defaultMessage={"Choose a Template"} />
+            </DialogTitle>
+          <DialogContent data-testid="templatesDialog-content">
             <div className={styles.templateContainer}>
               {templates.map((template) => (
-                <Card key={template.key} appearance='filled' className={styles.card} onClick={() => handleTemplateClick(template)}>
+                <Card key={template.key} appearance='filled' className={styles.card} onClick={() => handleTemplateClick(template)} data-testid={template.testId}>
                   <CardHeader title={template.name} image={template.icon} className={styles.icon} />
                   <Body2 className={styles.name}>{template.name}</Body2>
                 </Card>
-
               ))}
             </div>
           </DialogContent>
         </DialogBody>
         <DialogActions>
           <Button 
+            data-testid="cancel-button"
             size="large"
             icon={<ArrowLeftFilled />}
             onClick={onClose}>

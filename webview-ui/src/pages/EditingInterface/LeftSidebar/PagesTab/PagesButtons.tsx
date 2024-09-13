@@ -11,6 +11,7 @@ import {
   shorthands,
   Body2,
   Caption1,
+  tokens,
 } from "@fluentui/react-components";
 import { RenamePageDialog } from "./RenamePageDialog";
 import { DocumentAddRegular, DeleteRegular, SquareEraserRegular } from "@fluentui/react-icons";
@@ -41,7 +42,7 @@ const useStyles = makeStyles({
     marginBottom: "2px",
   },
   caption: {
-    color: "#d6d6d6",
+    color: tokens.colorNeutralForeground2,
     marginBottom: "5px",
   },
 });

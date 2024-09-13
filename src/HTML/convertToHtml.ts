@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import * as path from "path";
 import * as fs from "fs";
 import { Page } from "../../webview-ui/src/types";
-import { AppGenerator } from "../HTML/AppGenerator";
+import { AppGenerator } from "./AppGenerator";
 
 export async function convertToHtml(
   contents: string[],
@@ -70,7 +70,7 @@ export async function convertToHtml(
   }
 
   try {
-    const generator = new AppGenerator(pages, projectFolder, projectName, context);
+    const generator = new AppGenerator(pages, projectFolder, projectName, context, currentFolder);
     await generator.generateApp();
 
     vscode.window.showInformationMessage(

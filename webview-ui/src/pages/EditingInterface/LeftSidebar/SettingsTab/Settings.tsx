@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import {
-  Theme,
   Label,
   Select,
   Switch,
@@ -8,16 +7,16 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   Body2,
+  tokens,
 } from "@fluentui/react-components";
 import {
-  teamsDarkTheme,
-  teamsLightTheme,
-  teamsHighContrastTheme,
   Caption1,
 } from "@fluentui/react-components";
 import { LanguageContext } from "../../../../Features/languages/LanguageWrapper";
 import { AccessibilityContext } from "../../EditingInterface";
 import { FormattedMessage } from "react-intl";
+import { useTheme, teamsDarkTheme, teamsLightTheme, teamsHighContrastTheme } from "../../../../hooks/useTheme";
+
 
 const useStyles = makeStyles({
   settingsContainer: {
@@ -39,19 +38,18 @@ const useStyles = makeStyles({
     marginBottom: "2px",
   },
   caption: {
-    color: "#d6d6d6",
+    color: tokens.colorNeutralForeground2,
     marginBottom: "5px",
   },
 });
 
 const Settings: React.FC<{
   classes: any;
-  theme: Theme;
-  setTheme: React.Dispatch<React.SetStateAction<Theme>>;
-}> = ({ classes, setTheme, theme }) => {
+}> = ({ classes}) => {
   const styles = useStyles();
   const language = useContext(LanguageContext);
   const accessibility = useContext(AccessibilityContext);
+  const { theme, setTheme } = useTheme();
   const [selectedTheme, setSelectedTheme] = useState<"dark" | "light" | "highContrast">(
     theme === teamsLightTheme ? "light" : theme === teamsDarkTheme ? "dark" : "highContrast"
   );
@@ -77,11 +75,6 @@ const Settings: React.FC<{
   const handleAccessibilityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selected = event.target.checked ? "yes" : "no";
     accessibility.setSelectedAccessibility(selected as "yes" | "no");
-    if (selected === "yes") {
-      setTheme(teamsHighContrastTheme);
-    } else {
-      setTheme(teamsDarkTheme);
-    }
   };
 
   return (
@@ -127,11 +120,13 @@ const Settings: React.FC<{
         </Label>
         <Select
           id="languageSelect"
-          value={language.locale}
-          onChange={language.changeLanguage}
+          value={language?.locale}
+          onChange={language?.changeLanguage}
           className={styles.select}>
           <option value="en">English</option>
           <option value="fr">Français</option>
+          <option value="jp">Japanese</option>
+          <option value="ru">Russian</option>
         </Select>
       </div>
 

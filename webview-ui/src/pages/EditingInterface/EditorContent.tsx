@@ -5,10 +5,9 @@ import { useEffect, useCallback, useState } from "react";
 import { SerializedNodes, useEditor } from "@craftjs/core";
 import { StartProjectDialog } from "./StartProjectDialog";
 import { AddPageDialog } from "./LeftSidebar/PagesTab/AddPageDialog";
-import { Theme } from "@fluentui/react-components";
 import PropertyInspector from "./RightSidebar/PropertyInspector";
 
-interface EditorContentProps {
+export interface EditorContentProps {
   pages: Page[];
   currentPageIndex: number;
   setCurrentPageIndex: (index: number) => void;
@@ -18,8 +17,6 @@ interface EditorContentProps {
   setPages: React.Dispatch<React.SetStateAction<Page[]>>;
   clearPage: (index: number) => void;
   classes: any;
-  theme: Theme;
-  setTheme: React.Dispatch<React.SetStateAction<Theme>>;
 }
 
 export const EditorContent: React.FC<EditorContentProps> = ({
@@ -32,8 +29,6 @@ export const EditorContent: React.FC<EditorContentProps> = ({
   setPages,
   classes,
   clearPage,
-  theme,
-  setTheme,
 }) => {
   const { actions, query } = useEditor();
   const [isStartProjectDialogOpen, setIsStartProjectDialogOpen] = useState(true);
@@ -69,7 +64,7 @@ export const EditorContent: React.FC<EditorContentProps> = ({
   }, [currentPageIndex, query, setPages]);
 
   return (
-    <div className={classes.mainLayout}>
+    <div className={classes.mainLayout} data-testid="editor-content">
       <LeftSidebar
         classes={classes}
         pages={pages}
@@ -82,8 +77,6 @@ export const EditorContent: React.FC<EditorContentProps> = ({
         updateCurrentPage={updateCurrentPage}
         openStartProjectDialog={() => setIsStartProjectDialogOpen(true)}
         openAddPageDialog={() => setIsAddPageDialogOpen(true)}
-        theme={theme}
-        setTheme={setTheme}
       />
       <StartProjectDialog
         isOpen={isStartProjectDialogOpen}

@@ -1,9 +1,12 @@
 import { Node } from "../JSONParser";
-import { generateIconHtml, generateIconCss } from "./Icon"; // Import the icon functions
+import { generateIconHtml, generateIconCss } from "./Icon";
+import { convertColor } from "../../utilities/colortranslator";
+import { generateCssClassName } from "../componentGenerator";
 
 export function generateLabelHtml(node: Node): string {
   const props = node.props;
   let content = props.text;
+  console.log("Label props:", props);
 
   if (props.vscIcon) {
     const iconHtml = generateIconHtml({ ...node, props: { ...props, iconSize: props.fontSize } });
@@ -11,29 +14,20 @@ export function generateLabelHtml(node: Node): string {
   }
 
   return `
-  <label id="${node.custom.id}" class="custom-label ${node.custom.id}">
+  <label id="${generateCssClassName(node.custom.id)}" class="custom-label ${generateCssClassName(
+    node.custom.id
+  )}">
     ${content}
   </label>
   `;
 }
 
-// To prevent duplicate CSS, we'll use a Set to track processed labels
-const processedLabels = new Set();
-
 export function generateLabelCss(node: Node): string {
   const props = node.props;
 
-  // Check if this label has already been processed
-  if (processedLabels.has(node.custom.id)) {
-    return ""; // Return empty string if already processed
-  }
-
-  // Mark this label as processed
-  processedLabels.add(node.custom.id);
-
   let labelCss = `
-  .custom-label.${node.custom.id} {
-    color: ${props.fontColor || "black"};
+  .custom-label.${generateCssClassName(node.custom.id)} {
+    color: ${convertColor(props.fontColor || "black")};
     font-size: ${props.fontSize || 16}px;
     text-align: ${props.textAlign};
     display: inline-flex;
@@ -44,10 +38,12 @@ export function generateLabelCss(node: Node): string {
     ${props.iconPosition === "left" ? "flex-direction: row;" : "flex-direction: row-reverse;"}
   }
   
-  .custom-label.${node.custom.id} .icon {
+  .custom-label.${generateCssClassName(node.custom.id)} .icon {
     margin: ${props.iconPosition === "left" ? "0 5px 0 0" : "0 0 0 5px"};
   }
   `;
+
+  console.log("Label:", convertColor(props.fontColor), convertColor(props.backgroundColor));
 
   // If the label has an icon, include the icon CSS
   if (props.vscIcon) {

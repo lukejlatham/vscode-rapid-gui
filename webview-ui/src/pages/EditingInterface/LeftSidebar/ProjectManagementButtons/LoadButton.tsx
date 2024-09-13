@@ -25,22 +25,21 @@ const LoadButton: React.FC<{
       const message = event.data;
 
       if (message.command === "loadFiles") {
-        const loadedPages = message.data
+        const loadedPages: Page[] = message.data
           .map((file: { fileName: string; fileData: string }) => {
             try {
-              // const content = JSON.parse(file.fileData);
               const content = JSON.parse(file.fileData);
               return {
                 id: uuidv4(), // Generate a new random ID
                 name: file.fileName,
                 content: content,
-              };
+              } as Page;
             } catch (error) {
               console.error("Error deserializing page content:", error);
               return null;
             }
           })
-          .filter((page: any) => page !== null);
+          .filter((page: Page | null): page is Page => page !== null);
         setPages(loadedPages);
       }
     };
