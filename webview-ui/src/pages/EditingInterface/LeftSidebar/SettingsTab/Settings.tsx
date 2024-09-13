@@ -123,8 +123,8 @@ const Settings: React.FC<{
         </Label>
         <Select
           id="languageSelect"
-          value={language.locale}
-          onChange={language.changeLanguage}
+          value={language?.locale}
+          onChange={language?.changeLanguage}
           className={styles.select}>
           <option value="en">English</option>
           <option value="fr">Français</option>
