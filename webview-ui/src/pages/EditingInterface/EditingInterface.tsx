@@ -19,7 +19,6 @@ import { useState, useEffect, useCallback, createContext } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import { EditorContent } from "./EditorContent";
 import { vscode } from '../../utilities/vscode';
-import { useLocation } from "react-router-dom";
 
 const useStyles = makeStyles({
   mainLayout: {
@@ -81,18 +80,8 @@ const EditingInterface: React.FC<{
   const [pages, setPages] = useState<Page[]>([createDefaultPage()]);
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const location = useLocation();
   const [accessibility, setSelectedAccessibility] = useState<'yes'|'no'>('no');
 
-  // setting template if state has template
-  const template = location.state?.template;
-  console.log('Template: ', template);
-
-  const sketch = location.state?.sketch;
-  console.log('Sketch sent: ', sketch);
-
-  const text = location.state?.text;
-  console.log('Text sent: ', text);
 
   const addPage = useCallback(() => {
     const newPage = createDefaultPage();
@@ -128,8 +117,6 @@ const EditingInterface: React.FC<{
       vscode.postMessage({ command: 'deletedPageAlert', message: "You can't delete the last page." });
     }
   };
-
-
 
   const clearPage = (index: number) => {
     setPages(prevPages => prevPages.map((page, i) =>
