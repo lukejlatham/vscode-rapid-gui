@@ -48,10 +48,10 @@ const useStyles = makeStyles({
 });
 
 const templates = [
-  { key: 1, name: 'Website Homepage', icon: <DesktopRegular />, data: { id: uuidv4(), name: 'Website', content: Website }, testId: 'website-card' },
-  { key: 2, name: 'Login Page', icon: <PersonPasskeyRegular />, data: { id: uuidv4(), name: 'Login Page', content: Login }, testId: 'login-card' },
-  { key: 3, name: 'Video Game Settings', icon: <GamesRegular />, data: { id: uuidv4(), name: 'Video Game Settings', content: VideoGameSettings }, testId: 'video-game-card' },
-  { key: 4, name: 'Feedback Form', icon: <FormRegular />, data: { id: uuidv4(), name: 'Feedback Form', content: FeedbackForm }, testId: 'feedback-card' },
+  { key: 1, name: 'Website Homepage', icon: <DesktopRegular />, data: { id: uuidv4(), name: 'Website', content: Website } as Page, testId: 'website-card' },
+  { key: 2, name: 'Login Page', icon: <PersonPasskeyRegular />, data: { id: uuidv4(), name: 'Login Page', content: Login } as Page, testId: 'login-card' },
+  { key: 3, name: 'Video Game Settings', icon: <GamesRegular />, data: { id: uuidv4(), name: 'Video Game Settings', content: VideoGameSettings } as Page, testId: 'video-game-card' },
+  { key: 4, name: 'Feedback Form', icon: <FormRegular />, data: { id: uuidv4(), name: 'Feedback Form', content: FeedbackForm } as Page, testId: 'feedback-card' },
 ];
 
 interface TemplatesDialogProps {
