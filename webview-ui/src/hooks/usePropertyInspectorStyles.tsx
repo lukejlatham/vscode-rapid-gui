@@ -14,6 +14,7 @@ export const usePropertyInspectorStyles = makeStyles({
     },
     spinButton: {
         width: "95%",
+        margin: "5px 0",
     },
     textInput: {
         width: "100%",

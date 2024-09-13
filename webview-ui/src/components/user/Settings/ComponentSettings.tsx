@@ -135,9 +135,10 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({
   };
 
   return (
-    <div className={propInspector.settingsContainer}>
+    <div className={propInspector.settingsContainer} role="form" aria-label="Component Settings">
       {tooltips.map((tooltip, index) => {
         const propValue = props[tooltip.propKey as keyof typeof props];
+        const inputId = `${tooltip.propKey}-input`;
 
         return (
           <div key={index}>
@@ -145,7 +146,7 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({
               aria-owns={visibleTooltip === tooltip.propKey ? contentId : undefined}
               className={propInspector.label}>
               <Label
-                htmlFor={tooltip.propKey}
+                htmlFor={inputId}
               >{tooltip.label}</Label>
               <Tooltip
                 content={{
@@ -158,9 +159,10 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({
                 onVisibleChange={(e, data) =>
                   handleVisibilityChange(tooltip.propKey, data.visible)
                 }
-                >
+              >
                 <Info16Regular
                   tabIndex={0}
+                  aria-label={`Info for ${tooltip.label}`}
                   className={mergeClasses(
                     visibleTooltip === tooltip.propKey && propInspector.visible
                   )}
@@ -169,17 +171,21 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({
             </div>
             {tooltip.type === "color" ? (
               <input
+                id={inputId}
                 className={propInspector.colorInput}
                 type="color"
+                value={propValue as string}
                 defaultValue={propValue as string}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setProp((props: typeof componentProps) => {
                     (props[tooltip.propKey as keyof typeof props] as string) = e.target.value;
                   })
                 }
+                aria-label={`Color picker for ${tooltip.label}`}
               />
             ) : tooltip.type === "textarea" ? (
               <Textarea
+                id={inputId}
                 className={propInspector.textarea}
                 placeholder="Text here..."
                 defaultValue={propValue as string}
@@ -188,30 +194,31 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({
                     (props[tooltip.propKey as keyof typeof props] as string) = e.target.value;
                   }, 1000);
                 }}
+                aria-label={`${tooltip.label} text area`}
               />
             ) : tooltip.type === "dropdown" ? (
               <div className={propInspector.srcDropdown}>
                 <Select
-                  id={tooltip.propKey}
+                  id={inputId}
                   onChange={(e, data) => {
                     setSrcOption(data.value as string);
-                  }}>
+                  }}
+                  aria-label="Select image source">
                   <option value="">Select image source</option>
                   <option value="url">URL</option>
                   <option value="upload">Upload</option>
                 </Select>
                 {
-                  // Display image upload button if the component has an 'src' prop
                   srcOption === "upload" ? (
                     <div className={propInspector.imageUploaded}>
                       <UserImageUploadButton onUpload={handleImageUpload} />
                       {
-                        // display dropdown selection of uploaded images if it exists
                         uploadedImages.length > 0 && (
                           <Select
                             onChange={(e, data) => {
                               handleImageUpload(data.value as string);
-                            }}>
+                            }}
+                            aria-label="Select uploaded image">
                             <option value="">Select image</option>
                             {uploadedImages.map((image, index) => (
                               <option key={index} value={image.filepath}>
@@ -225,10 +232,10 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({
                   ) : (
                     srcOption === "url" && (
                       <Input
+                        id={inputId}
                         className={propInspector.textInput}
                         type="text"
                         defaultValue={propValue as string}
-                        // disable if isLoading true and propKey is 'alt'
                         disabled={isLoading && tooltip.propKey === "alt"}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                           setProp((props: typeof componentProps) => {
@@ -236,6 +243,7 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({
                               e.target.value;
                           }, 1000);
                         }}
+                        aria-label="Image URL"
                       />
                     )
                   )
@@ -244,6 +252,7 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({
             ) : tooltip.type === "slider" ? (
               <div className={propInspector.sliderSection}>
                 <Slider
+                  id={inputId}
                   className={propInspector.slider}
                   value={propValue as number}
                   min={0}
@@ -252,6 +261,7 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({
                       (props[tooltip.propKey as keyof typeof props] as number) = data.value;
                     }, 1000);
                   }}
+                  aria-label={`${tooltip.label} slider`}
                 />
                 <SpinButton
                   className={propInspector.sliderSpinButton}
@@ -287,6 +297,7 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({
                       }, 1000);
                     }
                   }}
+                  aria-label={`${tooltip.label} value`}
                 />
               </div>
             ) : tooltip.type === "spinButton" ? (
@@ -325,21 +336,23 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({
                     }, 1000);
                   }
                 }}
+                aria-label={`${tooltip.label} value`}
                 className={propInspector.spinButton}
               />
             ) : tooltip.type === "text" ? (
               <div className={propInspector.srcDropdown}>
                 <Input
+                  id={inputId}
                   className={propInspector.textInput}
                   type="text"
                   defaultValue={propValue as string}
-                  // disable if isLoading true and propKey is 'alt'
                   disabled={isLoading && tooltip.propKey === "alt"}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     setProp((props: typeof componentProps) => {
                       (props[tooltip.propKey as keyof typeof props] as string) = e.target.value;
                     }, 1000);
                   }}
+                  aria-label={tooltip.label}
                 />
                 {"alt" in props && props.alt !== "" && setIsLoading && (
                   <GenerateImageButton
@@ -352,6 +365,7 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({
               </div>
             ) : tooltip.type === "icon" ? (
               <RadioGroup
+                id={inputId}
                 defaultValue={propValue as string}
                 layout="horizontal-stacked"
                 onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
@@ -359,13 +373,15 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({
                     (props[tooltip.propKey as keyof typeof props] as "none" | "left" | "right") =
                       data.value as "none" | "left" | "right";
                   }, 1000);
-                }}>
+                }}
+                aria-label={`${tooltip.label} position`}>
                 <Radio key="none" label="None" value="none" />
                 <Radio key="left" label="Left" value="left" />
                 <Radio key="right" label="Right" value="right" />
               </RadioGroup>
             ) : tooltip.type === "textAlign" ? (
               <RadioGroup
+                id={inputId}
                 defaultValue={propValue as string}
                 layout="vertical"
                 onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
@@ -376,7 +392,8 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({
                       | "right"
                       | "justify") = data.value as "left" | "center" | "right" | "justify";
                   }, 1000);
-                }}>
+                }}
+                aria-label={`${tooltip.label} alignment`}>
                 <Radio key="left" label="Left" value="left" />
                 <Radio key="center" label="Center" value="center" />
                 <Radio key="right" label="Right" value="right" />
@@ -384,6 +401,7 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({
               </RadioGroup>
             ) : tooltip.type === "direction" ? (
               <RadioGroup
+                id={inputId}
                 defaultValue={props[tooltip.propKey as keyof typeof props]}
                 layout="horizontal-stacked"
                 onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
@@ -391,7 +409,8 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({
                     (props[tooltip.propKey as keyof typeof props] as "row" | "column") =
                       data.value as "row" | "column";
                   }, 1000);
-                }}>
+                }}
+                aria-label={`${tooltip.label} direction`}>
                 <Radio key="row" label="Row" value="row" />
                 <Radio key="column" label="Column" value="column" />
               </RadioGroup>
@@ -400,6 +419,7 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({
                 {propsWithOptions.optionLabels.map((label, index) => (
                   <div key={index}>
                     <Input
+                      id={`${inputId}-${index}`}
                       className={propInspector.textInput}
                       type="text"
                       defaultValue={label}
@@ -408,12 +428,14 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({
                           props.optionLabels[index] = e.target.value;
                         });
                       }}
+                      aria-label={`Option ${index + 1} label`}
                     />
                   </div>
                 ))}
               </div>
             ) : tooltip.type === "justifyContent" ? (
               <RadioGroup
+                id={inputId}
                 defaultValue={props[tooltip.propKey as keyof typeof props]}
                 layout="vertical"
                 onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
@@ -430,7 +452,8 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({
                       | "space-between"
                       | "space-around";
                   }, 1000);
-                }}>
+                }}
+                aria-label={`${tooltip.label} justification`}>
                 <Radio key="start" label="Start" value="flex-start" />
                 <Radio key="center" label="Center" value="center" />
                 <Radio key="end" label="End" value="flex-end" />
@@ -439,6 +462,7 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({
               </RadioGroup>
             ) : tooltip.type === "alignItems" ? (
               <RadioGroup
+                id={inputId}
                 defaultValue={props[tooltip.propKey as keyof typeof props]}
                 layout="vertical"
                 onChange={(e: React.FormEvent<HTMLDivElement>, data: { value: string }) => {
@@ -448,7 +472,8 @@ export const ComponentSettings: React.FC<ComponentSettingsProps> = ({
                       | "center"
                       | "flex-end") = data.value as "flex-start" | "center" | "flex-end";
                   }, 1000);
-                }}>
+                }}
+                aria-label={`${tooltip.label} alignment`}>
                 <Radio key="start" label="Start" value="flex-start" />
                 <Radio key="center" label="Center" value="center" />
                 <Radio key="end" label="End" value="flex-end" />

@@ -8,8 +8,6 @@ export const TextBoxSettings: React.FC = () => {
         props: node.data.props as TextBoxProps
     }));
 
- 
-
     const tooltips: TooltipConfig[] = [
         { label: "Placeholder", content: "Edit the text that appears before a user inputs text.", propKey: "placeholder", type: "text" },
         { label: "Font Size", content: "Adjust the size of the text.", propKey: "fontSize", type: "slider" },
