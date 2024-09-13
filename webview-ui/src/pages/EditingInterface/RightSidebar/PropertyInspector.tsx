@@ -69,10 +69,9 @@ export const PropertyInspector: React.FC<{ classes: any }> = ({ classes }) => {
           displayName: state.nodes[currentNodeId].data.displayName,
           isDeletable: query.node(currentNodeId).isDeletable(),
         },
-        isEnabled: state.options.enabled,
       };
     }
-    return { selected: null, isEnabled: false };
+    return { selected: null };
   });
 
 
@@ -100,25 +99,31 @@ export const PropertyInspector: React.FC<{ classes: any }> = ({ classes }) => {
     actions.clearEvents();
   };
 
-  return selected ? (
+  return selected && (
     <div className={`${localClasses.propertyInspector} ${classes.rightSidebar}`} data-testid='property-inspector'>
       <div className={localClasses.header}>
         <Breadcrumb className={localClasses.breadcrumb}>
           <BreadcrumbItem >{selected.displayName}</BreadcrumbItem>
         </Breadcrumb>
-        <Button aria-label="Close" icon={<Dismiss20Regular className={localClasses.dismissButton} />} appearance="transparent" onClick={handleClose} data-testid="close-button"/>
+        <Button
+          aria-label="Close"
+          icon={<Dismiss20Regular className={localClasses.dismissButton}/>}
+          appearance="transparent"
+          onClick={handleClose}
+          data-testid="close-button"
+        />
       </div>
-      <Divider className={localClasses.divider}/>
+      <Divider className={localClasses.divider} />
       <div className={localClasses.content}>
         {selected.settings && React.createElement(selected.settings)}
       </div>
       {selected.displayName !== "Grid Cell" ? (<div className={localClasses.buttonGroup}>
         <Tooltip
-        content={<FormattedMessage 
-          id="propInspector.copy" 
-          defaultMessage="Copy Format"
-        />} 
-        relationship="label">
+          content={<FormattedMessage
+            id="propInspector.copy"
+            defaultMessage="Copy Format"
+          />}
+          relationship="label">
           <Button
             appearance='secondary'
             className={localClasses.button}
@@ -127,12 +132,12 @@ export const PropertyInspector: React.FC<{ classes: any }> = ({ classes }) => {
             disabled={!selected.props}
           />
         </Tooltip>
-        <Tooltip 
-        content={<FormattedMessage 
-          id="propInspector.paste" 
-          defaultMessage="Paste Format"
-        />} 
-        relationship="label">
+        <Tooltip
+          content={<FormattedMessage
+            id="propInspector.paste"
+            defaultMessage="Paste Format"
+          />}
+          relationship="label">
           <Button
             appearance='secondary'
             className={localClasses.button}
@@ -154,7 +159,7 @@ export const PropertyInspector: React.FC<{ classes: any }> = ({ classes }) => {
         </Button>
       </div>) : null}
     </div>
-  ) : null;
+  );
 };
 
 export default PropertyInspector;

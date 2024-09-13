@@ -7,7 +7,7 @@ import { BackgroundProps } from "../../../../types";
 import { Layout } from "react-grid-layout";
 import { FormattedMessage } from "react-intl";
 
-const TooltipContent = ({ children, id }: { children: string | JSX.Element; id: string }) => (
+const TooltipContent = ({ children, id, label }: { children: string | JSX.Element; id: string; label: string }) => (
   <Tooltip
     content={{
       children,
@@ -16,7 +16,7 @@ const TooltipContent = ({ children, id }: { children: string | JSX.Element; id: 
     positioning="above-start"
     withArrow
     relationship="label">
-    <Info16Regular tabIndex={0} />
+    <Info16Regular tabIndex={0} aria-label={`Info for ${label}`} />
   </Tooltip>
 );
 
@@ -34,19 +34,26 @@ const SizeControl = ({
   onChange: (value: number) => void;
 }) => {
   const styles = usePropertyInspectorStyles();
+  const inputId = `${typeof label === 'string' ? label : 'size-control'}-input`;
+  const tooltipId = `${typeof label === 'string' ? label : 'size-control'}-tooltip`;
 
   return (
-    <div>
+    <div role="group" aria-labelledby={inputId}>
       <div className={styles.label}>
-        <Label>{label}</Label>
-        <TooltipContent id={`${label}-tooltip`}>{tooltipContent}</TooltipContent>
+        <Label id={inputId} htmlFor={inputId}>{label}</Label>
+        <TooltipContent id={tooltipId} label={typeof label === 'string' ? label : 'Size Control'}>{tooltipContent}</TooltipContent>
       </div>
       <SpinButton
+        id={inputId}
         className={styles.spinButton}
         min={min}
         max={100}
         value={value}
         onChange={(_, data) => onChange(data.value || 0)}
+        aria-describedby={tooltipId}
+        aria-valuemin={min}
+        aria-valuemax={100}
+        aria-valuenow={value}
       />
     </div>
   );
@@ -62,7 +69,6 @@ export const GridSizeSelector: React.FC = () => {
 
   const isValidResize = useCallback(
     (newRows: number, newColumns: number) => {
-      // Add null check for props.layout
       return (
         props.layout &&
         props.layout.every(
@@ -77,7 +83,6 @@ export const GridSizeSelector: React.FC = () => {
   const [columnMin, setColumnMin] = useState(1);
 
   useEffect(() => {
-    // Only update if props.layout is defined
     if (props.layout) {
       setRowMin(isValidResize(props.rows - 1, props.columns) ? 1 : props.rows);
       setColumnMin(isValidResize(props.rows, props.columns - 1) ? 1 : props.columns);
@@ -95,13 +100,12 @@ export const GridSizeSelector: React.FC = () => {
     [setProp, rowMin, columnMin]
   );
 
-  // Only render if props.layout is defined
   if (!props.layout) {
-    return null; // Or return a loading indicator
+    return null;
   }
 
   return (
-    <>
+    <div role="form" aria-label="Grid Size Controls">
       <SizeControl
         label={<FormattedMessage id="grid.rows" defaultMessage="Grid Rows" />}
         tooltipContent={<FormattedMessage id="grid.rows.tooltip" defaultMessage="Change the number of rows in the grid." />}
@@ -116,6 +120,6 @@ export const GridSizeSelector: React.FC = () => {
         min={columnMin}
         onChange={handleSizeChange("columns")}
       />
-    </>
+    </div>
   );
 };

@@ -70,6 +70,8 @@
 "settings.dark":"ダーク",
 "settings.light":"ライト",
 "settings.highContrast":"コントラスト高め",
+"settings.tooltip":"キーボードを使ってコンポーネントをドラッグ＆ドロップをするには、コンピューターのアクセシビリティ設定でキーボードをマウスとして使用できるようにしてください。",
+
 
 "grid.rows":"行",
 "grid.columns":"列",

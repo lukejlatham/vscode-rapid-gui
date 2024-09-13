@@ -8,6 +8,7 @@ import {
   BreadcrumbItem,
   Body2,
   tokens,
+  Tooltip,
 } from "@fluentui/react-components";
 import {
   Caption1,
@@ -72,10 +73,18 @@ const Settings: React.FC<{
     }
   };
 
-  const handleAccessibilityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selected = event.target.checked ? "yes" : "no";
+  
+  const handleAccessibilityChange = (checked: boolean) => {
+    const selected = checked ? "yes" : "no";
     accessibility.setSelectedAccessibility(selected as "yes" | "no");
   };
+
+  const handleAccessibilityKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
+    if (event.key === 'Enter') {
+      handleAccessibilityChange(accessibility.selectedAccessibility !== "yes");
+    }
+  };
+
 
   return (
     <div className={styles.settingsContainer}>
@@ -129,8 +138,19 @@ const Settings: React.FC<{
           <option value="ru">Russian</option>
         </Select>
       </div>
-
+      
       <div className={styles.settingItem}>
+        <Tooltip
+          content={
+            <FormattedMessage
+              id="settings.tooltip"
+              defaultMessage="To drag-and-drop components using the keyboard, go to your computer's accessibility settings and enable the keypad to be used as a mouse."
+            />
+          }
+          relationship="description"
+          positioning="below-end"
+          appearance="normal"
+        >
         <Switch
           label={
             <FormattedMessage
@@ -139,9 +159,12 @@ const Settings: React.FC<{
             />
           }
           checked={accessibility.selectedAccessibility === "yes"}
-          onChange={handleAccessibilityChange}
+          onChange={(e) => handleAccessibilityChange(e.target.checked)}
+          onKeyDown={handleAccessibilityKeyDown}
         />
+        </Tooltip>
       </div>
+  
     </div>
   );
 };

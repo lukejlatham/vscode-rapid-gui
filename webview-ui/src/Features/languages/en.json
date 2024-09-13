@@ -70,6 +70,7 @@
   "settings.dark": "Dark",
   "settings.light": "Light",
   "settings.highContrast": "High Contrast",
+  "settings.tooltip": "To drag-and-drop components using the keyboard, go to your computer's accessibility settings and enable the keypad to be used as a mouse.",
 
   "grid.rows": "Rows",
   "grid.columns": "Columns",
