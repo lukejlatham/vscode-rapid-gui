@@ -18,8 +18,6 @@ export interface EditorContentProps {
   setPages: React.Dispatch<React.SetStateAction<Page[]>>;
   clearPage: (index: number) => void;
   classes: any;
-  theme: Theme;
-  setTheme: React.Dispatch<React.SetStateAction<Theme>>;
 }
 
 export const EditorContent: React.FC<EditorContentProps> = ({
@@ -32,8 +30,6 @@ export const EditorContent: React.FC<EditorContentProps> = ({
   setPages,
   classes,
   clearPage,
-  theme,
-  setTheme,
 }) => {
   const { actions, query } = useEditor();
   const [isStartProjectDialogOpen, setIsStartProjectDialogOpen] = useState(true);
@@ -82,8 +78,6 @@ export const EditorContent: React.FC<EditorContentProps> = ({
         updateCurrentPage={updateCurrentPage}
         openStartProjectDialog={() => setIsStartProjectDialogOpen(true)}
         openAddPageDialog={() => setIsAddPageDialogOpen(true)}
-        theme={theme}
-        setTheme={setTheme}
       />
       <StartProjectDialog
         isOpen={isStartProjectDialogOpen}

@@ -9,16 +9,11 @@ import EditingInterface from '../pages/EditingInterface/EditingInterface';
 import { Theme } from '@fluentui/react-components';
 
 const AppRoutes: React.FC<{
-  theme: Theme;
-  setTheme: React.Dispatch<React.SetStateAction<Theme>>
-}> = ({
-  theme,
-  setTheme,
-}) => {
+}> = () => {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
-        <Route index element={<EditingInterface theme={theme} setTheme={setTheme}/>} />
+        <Route index element={<EditingInterface/>} />
       </Route>
     </Routes>
   );

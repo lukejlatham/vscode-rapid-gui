@@ -11,14 +11,13 @@ import {
   tokens,
 } from "@fluentui/react-components";
 import {
-  teamsDarkTheme,
-  teamsLightTheme,
-  teamsHighContrastTheme,
   Caption1,
 } from "@fluentui/react-components";
 import { LanguageContext } from "../../../../Features/languages/LanguageWrapper";
 import { AccessibilityContext } from "../../EditingInterface";
 import { FormattedMessage } from "react-intl";
+import { useTheme, teamsDarkTheme, teamsLightTheme, teamsHighContrastTheme } from "../../../../hooks/useTheme";
+
 
 const useStyles = makeStyles({
   settingsContainer: {
@@ -47,12 +46,11 @@ const useStyles = makeStyles({
 
 const Settings: React.FC<{
   classes: any;
-  theme: Theme;
-  setTheme: React.Dispatch<React.SetStateAction<Theme>>;
-}> = ({ classes, setTheme, theme }) => {
+}> = ({ classes}) => {
   const styles = useStyles();
   const language = useContext(LanguageContext);
   const accessibility = useContext(AccessibilityContext);
+  const { theme, setTheme } = useTheme();
   const [selectedTheme, setSelectedTheme] = useState<"dark" | "light" | "highContrast">(
     theme === teamsLightTheme ? "light" : theme === teamsDarkTheme ? "dark" : "highContrast"
   );

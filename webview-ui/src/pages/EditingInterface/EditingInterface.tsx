@@ -69,12 +69,7 @@ export const AccessibilityContext = createContext<AccessibilityContextType >({
 });
 
 const EditingInterface: React.FC<{
-  theme: Theme;
-  setTheme: React.Dispatch<React.SetStateAction<Theme>>
-}> = ({
-  theme,
-  setTheme
-}) => {
+}> = () => {
   const classes = useStyles();
 
   const [pages, setPages] = useState<Page[]>([createDefaultPage()]);
@@ -145,8 +140,7 @@ const EditingInterface: React.FC<{
         setPages={setPages}
         clearPage={clearPage}
         classes={classes}
-        theme={theme}
-        setTheme={setTheme}
+        
       />
     </Editor>
     </AccessibilityContext.Provider>

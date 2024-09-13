@@ -79,8 +79,6 @@ interface LeftSidebarProps {
   updateCurrentPage: () => void;
   openStartProjectDialog: () => void;
   openAddPageDialog: () => void;
-  theme: Theme;
-  setTheme: React.Dispatch<React.SetStateAction<Theme>>;
 }
 
 const LeftSidebar: React.FC<LeftSidebarProps> = ({
@@ -95,8 +93,6 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
   updateCurrentPage,
   openStartProjectDialog,
   openAddPageDialog,
-  theme,
-  setTheme,
 }) => {
   const localClasses = useStyles();
   const {
@@ -148,7 +144,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
       case "ComponentLibrary":
         return <ComponentButtons data-testid="components-content" />;
       case "Settings":
-        return <Settings classes={localClasses} theme={theme} setTheme={setTheme} data-testid="settings-content" />;
+        return <Settings classes={localClasses} data-testid="settings-content" />;
       default:
         return null;
     }
