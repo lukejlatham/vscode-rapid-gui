@@ -1,54 +1,41 @@
-# Hello World (React + Create React App)
 
-This is an implementation of the default [Hello World](https://github.com/microsoft/vscode-webview-ui-toolkit-samples/tree/main/default/hello-world) sample extension that demonstrates how to set up and use a [React](https://reactjs.org/) + [Create React App](https://create-react-app.dev/) + [Webview UI Toolkit](https://github.com/microsoft/vscode-webview-ui-toolkit) webview extension.
+# UI Copilot
 
-![A screenshot of the sample extension.](./assets/hello-world.png)
+UI Copilot is a AI-powered flexible UI editor available as a Visual Studio Code extension.
 
-## Documentation
+## Installation
 
-For a deeper dive into how this sample works, read the guides below.
 
-- [Extension structure](./docs/extension-structure.md)
-- [Extension commands](./docs/extension-commands.md)
-- [Extension development cycle](./docs/extension-development-cycle.md)
-
-## Run The Sample
-
-```bash
-# Copy sample extension locally
-npx degit microsoft/vscode-webview-ui-toolkit-samples/frameworks/hello-world-react-cra hello-world
-
-# Navigate into sample directory
-cd hello-world
-
-# Install dependencies for both the extension and webview UI source code
+1. Clone the github repository: https://github.com/lukejlatham/vscode-rapid-gui
+2. CD into your cloned repository
+```
+cd my-project
+```
+3. Install all the necessary dependencies
+```
 npm run install:all
-
-# Build webview UI source code
+```
+4. Compile the extension wrapper
+```
+npm run compile
+```
+5. Compile the React frontend
+```
 npm run build:webview
-
-# Open sample in VS Code
-code .
 ```
+6. Press F5 key to run the extension in an Extension Development Host window
+7. In the Command Palette (CTRL+SHIFT+P / CMD+SHIFT+P), run the command "UI Copilot: Open Editor"
+8. To enter an API Key, in the Command Palette run the command ’UI Copilot: Save OpenAI
+API Key’
 
-Once the sample is open inside VS Code you can run the extension by doing the following:
 
-1. Press `F5` to open a new Extension Development Host window
-2. Inside the host window, open the command palette (`Ctrl+Shift+P` or `Cmd+Shift+P` on Mac) and type `Hello World (React + CRA): Show`
+    
+    
+## Demo
 
-```bash
-# If webview does not render when running extension:
-- npm run build:webview
-- npm run compile
+Insert gif or link to demo
 
-# To see dev tools:
-- >Developer : Open Webview Developer Tools
-```
 
-```bash
-# Test 
-- npm run test:backend
-- npm run test:webview
-- npm run test:all
+## System Architecture
+![System Architecture Diagram](https://github.com/user-attachments/assets/cb5d5182-6d76-422e-a957-9b47768ef808)
 
-```
