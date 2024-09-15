@@ -113,7 +113,7 @@ const EditingInterface: React.FC<{
     }
   };
 
-  const clearPage = (index: number) => {
+  const resetPage = (index: number) => {
     setPages(prevPages => prevPages.map((page, i) =>
       i === index ? { ...page, content: { ROOT: createDefaultPage().content.ROOT } } : page
     ));
@@ -138,7 +138,7 @@ const EditingInterface: React.FC<{
         renamePage={renamePage}
         deletePage={deletePage}
         setPages={setPages}
-        clearPage={clearPage}
+        resetPage={resetPage}
         classes={classes}
         
       />

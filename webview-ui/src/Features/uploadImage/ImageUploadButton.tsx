@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "@fluentui/react-components";
 import { Camera24Filled, Camera24Regular, bundleIcon } from "@fluentui/react-icons";
-import { UploadDialog } from "../generateLayout/sketchUpload/UploadDialog";
+import { ImageUploadDialog } from "../generateLayout/sketchUpload/ImageUploadDialog";
 
 const CameraIcon = bundleIcon(Camera24Filled, Camera24Regular);
 
@@ -17,7 +17,7 @@ const ImageUploadButton: React.FC = () => {
       <Button size="large" onClick={handleButtonClick} appearance="primary" icon={<CameraIcon />}>
         Upload Sketch
       </Button>
-      {/* <UploadDialog isOpen={isDialogOpen} onClose={() => setIsDialogOpen(false)} /> */}
+      {/* <ImageUploadDialog isOpen={isDialogOpen} onClose={() => setIsDialogOpen(false)} /> */}
     </>
   );
 };

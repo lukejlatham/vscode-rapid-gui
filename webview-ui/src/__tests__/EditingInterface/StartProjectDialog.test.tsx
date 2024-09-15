@@ -5,8 +5,8 @@ import { IntlProvider } from 'react-intl';
 import English from '../../Features/languages/en.json';
 
 // Mock the child components
-jest.mock('../../Features/generateLayout/sketchUpload/UploadDialog', () => ({
-  UploadDialog: () => <div data-testid="upload-dialog" />,
+jest.mock('../../Features/generateLayout/sketchUpload/ImageUploadDialog', () => ({
+  ImageUploadDialog: () => <div data-testid="upload-dialog" />,
 }));
 jest.mock('../../Features/generateLayout/textUpload/TextUploadDialog', () => ({
   TextDialog: () => <div data-testid="text-dialog" />,
@@ -74,7 +74,7 @@ describe('StartProjectDialog', () => {
     expect(screen.getByTestId('text-dialog')).toBeInTheDocument();
   });
 
-  it('opens UploadDialog when clicking "Upload a Sketch"', () => {
+  it('opens ImageUploadDialog when clicking "Upload a Sketch"', () => {
     renderComponent();
     fireEvent.click(screen.getByTestId('from-sketch-button'));
     expect(screen.getByTestId('upload-dialog')).toBeInTheDocument();

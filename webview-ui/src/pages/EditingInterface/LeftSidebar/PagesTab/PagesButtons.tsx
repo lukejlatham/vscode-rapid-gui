@@ -55,7 +55,7 @@ const PagesButtons: React.FC<{
   setCurrentPageIndex: (index: number) => void;
   renamePage: (index: number, newName: string) => void;
   deletePage: (index: number) => void;
-  clearPage: (index: number) => void;
+  resetPage: (index: number) => void;
   updateCurrentPage: () => void;
   openAddPageDialog: () => void;
 }> = ({
@@ -64,7 +64,7 @@ const PagesButtons: React.FC<{
   setPages,
   renamePage,
   deletePage,
-  clearPage,
+  resetPage,
   updateCurrentPage,
   currentPageIndex,
   setCurrentPageIndex,
@@ -135,7 +135,7 @@ const PagesButtons: React.FC<{
             <Button
               icon={<SquareEraserRegular />}
               onClick={() => {
-                clearPage(currentPageIndex);
+                resetPage(currentPageIndex);
               }}>
               <FormattedMessage id="pages.reset" defaultMessage="Reset" />
             </Button>

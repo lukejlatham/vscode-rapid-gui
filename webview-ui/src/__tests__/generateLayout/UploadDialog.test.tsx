@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
-import { UploadDialog } from '../../Features/generateLayout/sketchUpload/UploadDialog';
+import { ImageImageUploadDialog } from '../../Features/generateLayout/sketchUpload/ImageImageUploadDialog';
 import { IntlProvider } from 'react-intl';
 import English from '../../Features/languages/en.json';
 
@@ -9,7 +9,7 @@ jest.mock('../../Features/generateLayout/sketchUpload/handleSketchUpload', () =>
   handleSketchUpload: jest.fn(),
 }));
 
-describe('UploadDialog', () => {
+describe('ImageImageUploadDialog', () => {
   const mockOnClose = jest.fn();
   const mockCloseStartDialog = jest.fn();
   const mockSetPages = jest.fn();
@@ -26,7 +26,7 @@ describe('UploadDialog', () => {
   const renderComponent = (props = {}) => {
     return render(
       <IntlProvider messages={English} locale="en">
-        <UploadDialog {...defaultProps} {...props} />
+        <ImageImageUploadDialog {...defaultProps} {...props} />
       </IntlProvider>
     );
   };
@@ -37,9 +37,9 @@ describe('UploadDialog', () => {
 
   it('renders correctly when open', () => {
     renderComponent();
-    expect(screen.getByTestId('uploadDialog-title')).toBeInTheDocument();
+    expect(screen.getByTestId('ImageUploadDialog-title')).toBeInTheDocument();
     expect(screen.getByTestId('no-image-text')).toBeInTheDocument();
-    expect(screen.getByTestId('uploadDialog-content')).toBeInTheDocument();
+    expect(screen.getByTestId('ImageUploadDialog-content')).toBeInTheDocument();
     expect(screen.getByTestId('upload-image-button')).toBeInTheDocument();
 
     expect(screen.getByTestId('process-sketch-button')).toBeInTheDocument();
@@ -53,7 +53,7 @@ describe('UploadDialog', () => {
 
   it('does not render when isOpen is false', () => {
     renderComponent({ isOpen: false });
-    expect(screen.queryByTestId('uploadDialog-title')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('ImageUploadDialog-title')).not.toBeInTheDocument();
   });
 
   it('allows image upload', () => {

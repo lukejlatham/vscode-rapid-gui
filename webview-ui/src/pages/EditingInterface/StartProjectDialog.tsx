@@ -15,7 +15,7 @@ import {
   TextEffectsSparkleRegular,
   GlanceHorizontalSparklesRegular,
 } from "@fluentui/react-icons";
-import { UploadDialog } from "../../Features/generateLayout/sketchUpload/UploadDialog";
+import { ImageUploadDialog } from "../../Features/generateLayout/sketchUpload/ImageUploadDialog";
 import { TextDialog } from "../../Features/generateLayout/textUpload/TextUploadDialog";
 import { TemplatesDialog } from "./TemplatesDialog";
 import { Page } from "../../types";
@@ -34,7 +34,7 @@ export const StartProjectDialog: React.FC<StartProjectDialogProps> = ({
   pages,
   setPages,
 }) => {
-  const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false);
+  const [isImageUploadDialogOpen, setIsImageUploadDialogOpen] = useState(false);
   const [isTextDialogOpen, setIsTextDialogOpen] = useState(false);
   const [isTemplatesDialogOpen, setIsTemplatesDialogOpen] = useState(false);
   const mode = "start";
@@ -83,7 +83,7 @@ export const StartProjectDialog: React.FC<StartProjectDialogProps> = ({
               </Button>
               <Button
                 data-testid="from-sketch-button"
-                onClick={() => setIsUploadDialogOpen(true)}
+                onClick={() => setIsImageUploadDialogOpen(true)}
                 size="large"
                 appearance="primary"
                 icon={<CameraSparklesRegular />}>
@@ -93,9 +93,9 @@ export const StartProjectDialog: React.FC<StartProjectDialogProps> = ({
           </DialogBody>
         </DialogSurface>
       </Dialog>
-      <UploadDialog
-        isOpen={isUploadDialogOpen}
-        onClose={() => setIsUploadDialogOpen(false)}
+      <ImageUploadDialog
+        isOpen={isImageUploadDialogOpen}
+        onClose={() => setIsImageUploadDialogOpen(false)}
         pages={pages}
         setPages={setPages}
         closeStartDialog={onClose}

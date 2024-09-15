@@ -32,7 +32,7 @@ describe('LeftSidebar', () => {
     setCurrentPageIndex: jest.fn(),
     renamePage: jest.fn(),
     deletePage: jest.fn(),
-    clearPage: jest.fn(),
+    resetPage: jest.fn(),
     updateCurrentPage: jest.fn(),
     openStartProjectDialog: jest.fn(),
     openAddPageDialog: jest.fn(),

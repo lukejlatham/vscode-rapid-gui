@@ -15,7 +15,7 @@ export interface EditorContentProps {
   renamePage: (index: number, newName: string) => void;
   deletePage: (index: number) => void;
   setPages: React.Dispatch<React.SetStateAction<Page[]>>;
-  clearPage: (index: number) => void;
+  resetPage: (index: number) => void;
   classes: any;
 }
 
@@ -28,7 +28,7 @@ export const EditorContent: React.FC<EditorContentProps> = ({
   deletePage,
   setPages,
   classes,
-  clearPage,
+  resetPage,
 }) => {
   const { actions, query } = useEditor();
   const [isStartProjectDialogOpen, setIsStartProjectDialogOpen] = useState(true);
@@ -73,7 +73,7 @@ export const EditorContent: React.FC<EditorContentProps> = ({
         setCurrentPageIndex={setCurrentPageIndex}
         renamePage={renamePage}
         deletePage={deletePage}
-        clearPage={clearPage}
+        resetPage={resetPage}
         updateCurrentPage={updateCurrentPage}
         openStartProjectDialog={() => setIsStartProjectDialogOpen(true)}
         openAddPageDialog={() => setIsAddPageDialogOpen(true)}

@@ -74,7 +74,7 @@ interface LeftSidebarProps {
   setCurrentPageIndex: (index: number) => void;
   renamePage: (index: number, newName: string) => void;
   deletePage: (index: number) => void;
-  clearPage: (index: number) => void;
+  resetPage: (index: number) => void;
   updateCurrentPage: () => void;
   openStartProjectDialog: () => void;
   openAddPageDialog: () => void;
@@ -88,7 +88,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
   setCurrentPageIndex,
   renamePage,
   deletePage,
-  clearPage,
+  resetPage,
   updateCurrentPage,
   openStartProjectDialog,
   openAddPageDialog,
@@ -130,7 +130,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
             setPages={setPages}
             renamePage={renamePage}
             deletePage={deletePage}
-            clearPage={clearPage}
+            resetPage={resetPage}
             updateCurrentPage={updateCurrentPage}
             currentPageIndex={currentPageIndex}
             setCurrentPageIndex={setCurrentPageIndex}

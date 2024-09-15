@@ -65,7 +65,7 @@ const useStyles = makeStyles({
   },
 });
 
-interface UploadDialogProps {
+interface ImageUploadDialogProps {
   isOpen: boolean;
   onClose: () => void;
   closeStartDialog: () => void;
@@ -76,7 +76,7 @@ interface UploadDialogProps {
 
 const PROCESSING_STAGES = ["Generating layout", "Generating elements", "Refining properties"];
 
-export const UploadDialog: React.FC<UploadDialogProps> = ({
+export const ImageUploadDialog: React.FC<ImageUploadDialogProps> = ({
   isOpen,
   onClose,
   closeStartDialog,
@@ -168,8 +168,8 @@ export const UploadDialog: React.FC<UploadDialogProps> = ({
     <Dialog open={isOpen} onOpenChange={(event, data) => !data.open && handleClose()}>
       <DialogSurface>
         <DialogBody>
-          <DialogTitle data-testid="uploadDialog-title">Generate From Sketch</DialogTitle>
-          <DialogContent data-testid="uploadDialog-content">
+          <DialogTitle data-testid="ImageUploadDialog-title">Generate From Sketch</DialogTitle>
+          <DialogContent data-testid="ImageUploadDialog-content">
             <div className={styles.content}>
               <input
                 data-testid="image-input"

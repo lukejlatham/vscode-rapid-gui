@@ -16,7 +16,7 @@ import {
   GlanceHorizontalSparklesRegular,
   DismissRegular,
 } from "@fluentui/react-icons";
-import { UploadDialog } from "../../../../Features/generateLayout/sketchUpload/UploadDialog";
+import { ImageUploadDialog } from "../../../../Features/generateLayout/sketchUpload/ImageUploadDialog";
 import { TextDialog } from "../../../../Features/generateLayout/textUpload/TextUploadDialog";
 import { TemplatesDialog } from "../../TemplatesDialog";
 import { Page } from "../../../../types";
@@ -44,7 +44,7 @@ export const AddPageDialog: React.FC<AddPageDialogDialogProps> = ({
   pages,
   setPages,
 }) => {
-  const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false);
+  const [isImageUploadDialogOpen, setIsImageUploadDialogOpen] = useState(false);
   const [isTextDialogOpen, setIsTextDialogOpen] = useState(false);
   const [isTemplatesDialogOpen, setIsTemplatesDialogOpen] = useState(false);
   const mode = "add";
@@ -93,7 +93,7 @@ export const AddPageDialog: React.FC<AddPageDialogDialogProps> = ({
                 <FormattedMessage id="startProjectDialog.text" defaultMessage="Text" />
               </Button>
               <Button
-                onClick={() => setIsUploadDialogOpen(true)}
+                onClick={() => setIsImageUploadDialogOpen(true)}
                 size="large"
                 appearance="primary"
                 icon={<CameraSparklesRegular />}>
@@ -103,9 +103,9 @@ export const AddPageDialog: React.FC<AddPageDialogDialogProps> = ({
           </DialogBody>
         </DialogSurface>
       </Dialog>
-      <UploadDialog
-        isOpen={isUploadDialogOpen}
-        onClose={() => setIsUploadDialogOpen(false)}
+      <ImageUploadDialog
+        isOpen={isImageUploadDialogOpen}
+        onClose={() => setIsImageUploadDialogOpen(false)}
         pages={pages}
         setPages={setPages}
         closeStartDialog={onClose}

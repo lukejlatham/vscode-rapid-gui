@@ -77,7 +77,7 @@ const mockProps: EditorContentProps = {
     renamePage: jest.fn(),
     deletePage: jest.fn(),
     setPages: jest.fn(),
-    clearPage: jest.fn(),
+    resetPage: jest.fn(),
     classes: {
         mainLayout: 'main-layout-class',
         mainContent: 'main-content-class',
