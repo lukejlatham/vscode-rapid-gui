@@ -1,6 +1,6 @@
 import { FileGenerator } from "../HTML/FileGenerator";
 import { TemplateManager } from "../HTML/TemplateManager";
-import { Page } from "..";
+import { Page } from "../../webview-ui/src/types";
 import * as fs from "fs";
 import * as path from "path";
 

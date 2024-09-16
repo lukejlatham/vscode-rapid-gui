@@ -36,7 +36,7 @@ describe("Component Generation", () => {
 
     const expectedHtml = `
       <a href="https://example.com" class="button-link">
-        <button id="button1" class="custom-button button1">
+        <button id="-button1" class="custom-button -button1">
           Click me
         </button>
       </a>
@@ -73,7 +73,7 @@ describe("Component Generation", () => {
     };
 
     const expectedHtml = `
-    <input id="input1" class="custom-input input1" placeholder="Enter text">
+    <input id="-input1" class="custom-input -input1" placeholder="Enter text">
     `.trim();
 
     const generatedHtml = generateComponentHtml(
@@ -106,7 +106,7 @@ describe("Component Generation", () => {
     };
 
     const expectedHtml = `
-      <p id="text1" class="custom-text text1">
+      <p id="-text1" class="custom-text -text1">
         Hello, world!
       </p>
     `
@@ -143,7 +143,7 @@ describe("Component Generation", () => {
     };
 
     const expectedHtml = `
-      <label id="label1" class="custom-label label1">
+      <label id="-label1" class="custom-label -label1">
         Username:
       </label>
     `
@@ -180,7 +180,7 @@ describe("Component Generation", () => {
 
     const expectedHtml = `
       <a href="https://example.com" class="icon-link">
-        <i id="icon1" class="icon fa-solid fa-question icon1"></i>
+        <i id="-icon1" class="icon fa-solid fa-question -icon1"></i>
       </a>
     `
       .trim()
@@ -214,20 +214,20 @@ describe("Component Generation", () => {
     };
 
     const expectedHtml = `
-    <div class="radio-group-container radiobuttons1">
+    <div class="radio-group-container -radiobuttons1">
       <label class="radio-group-label">Choose an option:</label>
       <div class="radio-options column">
         <div class="radio-option">
-          <input type="radio" id="radiobuttons1-0" name="Choose an option:" value="Option 1">
-          <label for="radiobuttons1-0">Option 1</label>
+          <input type="radio" id="-radiobuttons1-0" name="Choose an option:" value="Option 1">
+          <label for="-radiobuttons1-0">Option 1</label>
         </div>
         <div class="radio-option">
-          <input type="radio" id="radiobuttons1-1" name="Choose an option:" value="Option 2">
-          <label for="radiobuttons1-1">Option 2</label>
+          <input type="radio" id="-radiobuttons1-1" name="Choose an option:" value="Option 2">
+          <label for="-radiobuttons1-1">Option 2</label>
         </div>
         <div class="radio-option">
-          <input type="radio" id="radiobuttons1-2" name="Choose an option:" value="Option 3">
-          <label for="radiobuttons1-2">Option 3</label>
+          <input type="radio" id="-radiobuttons1-2" name="Choose an option:" value="Option 3">
+          <label for="-radiobuttons1-2">Option 3</label>
         </div>
       </div>
     </div>
@@ -285,8 +285,8 @@ describe("Component Generation", () => {
     };
 
     const expectedHtml = `
-      <div id="container1" class="container container1">
-        <p id="text2" class="custom-text text2">
+      <div id="-container1" class="container -container1">
+        <p id="-text2" class="custom-text -text2">
           Child element
         </p>
       </div>
@@ -328,20 +328,20 @@ test("generateCheckboxHtml creates correct checkbox HTML", () => {
   };
 
   const expectedHtml = `
-    <div class="checkbox-group-container checkboxes1">
+    <div class="checkbox-group-container -checkboxes1">
       <label class="checkbox-group-label">Select options:</label>
       <div class="checkbox-options row">
         <div class="checkbox-option">
-          <input type="checkbox" id="checkboxes1-0" name="Select options:" value="Option A">
-          <label for="checkboxes1-0">Option A</label>
+          <input type="checkbox" id="-checkboxes1-0" name="Select options:" value="Option A">
+          <label for="-checkboxes1-0">Option A</label>
         </div>
         <div class="checkbox-option">
-          <input type="checkbox" id="checkboxes1-1" name="Select options:" value="Option B">
-          <label for="checkboxes1-1">Option B</label>
+          <input type="checkbox" id="-checkboxes1-1" name="Select options:" value="Option B">
+          <label for="-checkboxes1-1">Option B</label>
         </div>
         <div class="checkbox-option">
-          <input type="checkbox" id="checkboxes1-2" name="Select options:" value="Option C">
-          <label for="checkboxes1-2">Option C</label>
+          <input type="checkbox" id="-checkboxes1-2" name="Select options:" value="Option C">
+          <label for="-checkboxes1-2">Option C</label>
         </div>
       </div>
     </div>
@@ -385,10 +385,10 @@ test("generateSliderHtml creates correct slider HTML", () => {
   };
 
   const expectedHtml = `
-    <div class="slider-container slider1">
+    <div class="slider-container -slider1">
       <label>Select value:</label>
-      <input type="range" id="slider1" min="1" max="100" step="5">
-      <output for="slider1"></output>
+      <input type="range" id="-slider1" min="1" max="100" step="5">
+      <output for="-slider1"></output>
     </div>
     `
     .trim()
@@ -428,9 +428,9 @@ test("generateTextBoxHtml creates correct text box HTML", () => {
   };
 
   const expectedHtml = `
-    <div class="textbox-container textbox1">
-      <label for="textbox1">Your message:</label>
-      <textarea id="textbox1" placeholder="Type your message here"></textarea>
+    <div class="textbox-container -textbox1">
+      <label for="-textbox1">Your message:</label>
+      <textarea id="-textbox1" placeholder="Type your message here"></textarea>
     </div>
     `
     .trim()
@@ -465,9 +465,9 @@ test("generateDropdownHtml creates correct dropdown HTML", () => {
   };
 
   const expectedHtml = `
-    <div class="dropdown-container dropdown1">
-      <label for="dropdown1">Select an option:</label>
-      <select id="dropdown1">
+    <div class="dropdown-container -dropdown1">
+      <label for="-dropdown1">Select an option:</label>
+      <select id="-dropdown1">
         <option value="Option 1">Option 1</option>
         <option value="Option 2">Option 2</option>
         <option value="Option 3">Option 3</option>
@@ -509,8 +509,8 @@ test("generateImageHtml creates correct image HTML for external URL", () => {
   };
 
   const expectedHtml = `
-  <div id="image1" class="image-container image1">
-    <img src="https://example.com/image.jpg" alt="Example image" class="image image1" />
+  <div id="-image1" class="image-container -image1">
+    <img src="https://example.com/image.jpg" alt="Example image" class="image -image1" />
   </div>
   `
     .trim()
@@ -547,8 +547,8 @@ test("generateImageHtml creates correct image HTML for local file", () => {
   const expectedImagePath = path.join("images", "local_image.jpg");
 
   const expectedHtml = `
-  <div id="image2" class="image-container image2">
-    <img src="${expectedImagePath}" alt="Local image" class="image image2" />
+  <div id="-image2" class="image-container -image2">
+    <img src="${expectedImagePath}" alt="Local image" class="image -image2" />
   </div>
   `
     .trim()
