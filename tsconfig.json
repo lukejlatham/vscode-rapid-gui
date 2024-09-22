@@ -4,6 +4,7 @@
     "target": "ES2022",
     "outDir": "out",
     "esModuleInterop": true,
+    "resolveJsonModule": true,
     "lib": [
       "es6",
       "dom"
